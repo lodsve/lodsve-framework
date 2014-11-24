@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <!-- oscache start -->
+    <bean id="osCachecacheManager" class="message.cache.oscache.OsCacheManagerImpl">
+        <property name="configuration" th:value="${configuration}"/>
+        <property name="defaultTimeout" value="60"/>
+        <property name="blocking" value="false"/>
+        <property name="memoryCaching" value="true"/>
+        <property name="unlimitedDiskCache" value="false"/>
+    </bean>
+    <!-- oscache end -->
+
+    <bean id="abstractCache" class="message.cache.utils.CacheFactoryBean" lazy-init="true">
+        <property name="cacheManager" ref="osCachecacheManager"/>
+    </bean>
+</beans>

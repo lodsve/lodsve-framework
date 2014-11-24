@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <!-- i18n -->
+    <bean id="messageSource" class="message.config.i18n.DefaultResourceBundleMessageSource">
+        <property name="alwaysUseMessageFormat" value="true"/>
+        <property name="resourceBundleHolder" ref="resourceBundleHolder"/>
+    </bean>
+
+    <bean id="resourceBundleHolder" class="message.config.i18n.ResourceBundleHolder">
+        <property name="fileEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean id="messageSourceLoader" class="message.config.i18n.MessageSourceLoader">
+        <property name="order" value="1"/>
+        <property name="resourceBundleHolder" ref="resourceBundleHolder"/>
+    </bean>
+</beans>

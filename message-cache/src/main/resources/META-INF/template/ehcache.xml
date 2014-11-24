@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <!-- ehcache start -->
+    <bean id="ehCacheManager" class="message.cache.ehcache.EHCacheManagerImpl">
+        <property name="maxElementsInMemory" value="2000"/>
+        <property name="overflowToDisk" value="false"/>
+        <property name="eternal" value="false"/>
+        <property name="timeToLiveSeconds" value="60"/>
+        <property name="timeToIdleSeconds" value="60"/>
+        <property name="diskPersistent" value="false"/>
+        <property name="diskExpiryThreadIntervalSeconds" value="0"/>
+        <property name="configuration" th:value="${configuration}"/>
+    </bean>
+    <!-- ehcache end -->
+
+    <bean id="abstractCache" class="message.cache.utils.CacheFactoryBean" lazy-init="true">
+        <property name="cacheManager" ref="ehCacheManager"/>
+    </bean>
+</beans>
