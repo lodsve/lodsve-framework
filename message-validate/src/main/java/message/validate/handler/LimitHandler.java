@@ -43,7 +43,7 @@ public class LimitHandler extends ValidateHandler {
         int min = limit.min();
         int max = limit.max();
         if(min < max){
-            return min <= length && length >= max;
+            return min <= length && length <= max;
         }
 
         return true;

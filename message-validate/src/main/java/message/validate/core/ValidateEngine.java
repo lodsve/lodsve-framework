@@ -6,9 +6,8 @@ import message.validate.annotations.ValidateEntity;
 import message.validate.constants.ValidateConstants;
 import message.validate.exception.DefaultExceptionHandler;
 import message.validate.exception.ExceptionHandler;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -34,7 +33,7 @@ import java.util.Map;
 @Aspect
 @Component
 public class ValidateEngine implements InitializingBean {
-    private static final Logger logger = LoggerFactory.getLogger(ValidateEngine1.class);
+    private static final Logger logger = LoggerFactory.getLogger(ValidateEngine.class);
 
     //是否开启验证引擎?默认是开启
     private boolean openValidate = true;
@@ -162,38 +161,21 @@ public class ValidateEngine implements InitializingBean {
     /**
      * 基于spring AOP的"环绕"验证开始
      *
-     * @param proceedingJoinPoint 切面
+     * @param object 待校验对象
      * @throws Exception
      */
-    @Around(value = "@annotation(message.validate.core.NeedValidate) && args(object,..)", argNames = "proceedingJoinPoint")
-    public void validate(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    @Before(value = "@annotation(message.validate.core.NeedValidate) && args(object,..)", argNames = "object")
+    public void validate(Object object) throws Throwable {
         if (!this.openValidate) {
             logger.debug("this web project is no open validate engine!");
-            proceedingJoinPoint.proceed();
+            //proceedingJoinPoint.proceed();
         }
         if (logger.isDebugEnabled())
-            logger.debug("start validate..., ProceedingJoinPoint is '{}'!", proceedingJoinPoint);
+            logger.debug("start validate..., validate object is '{}'!", object);
 
-        //获取所有参数
-        Object[] args = proceedingJoinPoint.getArgs();
-        boolean result = true;
-        if (logger.isDebugEnabled())
-            logger.debug("get args is '{}'!", args);
-
-        for (Object arg : args) {
-            if (arg == null) continue;
-            Class clazz = arg.getClass();
-            if (clazz.isAnnotationPresent(ValidateEntity.class)) {
-                result = validateEntityFields(arg);
-                if (!result) {
-                    logger.debug("validate class '{}' is error!", clazz);
-                    break;
-                }
-            }
-        }
-
-        if (result) {
-            proceedingJoinPoint.proceed();
+        Class clazz = object.getClass();
+        if (clazz.isAnnotationPresent(ValidateEntity.class)) {
+            validateEntityFields(object);
         }
     }
 
@@ -302,7 +284,9 @@ public class ValidateEngine implements InitializingBean {
         return fieldList;
     }
 
-    /****************************************************验证引擎开始工作--结束**********************************************************/
+    /**
+     * *************************************************验证引擎开始工作--结束*********************************************************
+     */
 
     public void setBeanHandlers(List<BeanHandler> beanHandlers) {
         this.beanHandlers = beanHandlers;
