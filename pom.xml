@@ -44,6 +44,8 @@
 		<module>message-amqp</module>
 		<!-- web -->
 		<module>message-web</module>
+        <!-- validate -->
+		<module>message-validate</module>
     </modules>
 
     <!-- 发布仓库 -->
