@@ -1,4 +1,4 @@
-package com.message.base.test;
+package message.test.base;
 
 import message.base.utils.ApplicationHelper;
 import org.junit.Before;
