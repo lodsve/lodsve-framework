@@ -168,7 +168,6 @@ public class ValidateEngine implements InitializingBean {
     public void validate(Object object) throws Throwable {
         if (!this.openValidate) {
             logger.debug("this web project is no open validate engine!");
-            //proceedingJoinPoint.proceed();
         }
         if (logger.isDebugEnabled())
             logger.debug("start validate..., validate object is '{}'!", object);
