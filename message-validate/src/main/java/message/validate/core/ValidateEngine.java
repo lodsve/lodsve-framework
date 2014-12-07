@@ -6,8 +6,9 @@ import message.validate.annotations.ValidateEntity;
 import message.validate.constants.ValidateConstants;
 import message.validate.exception.DefaultExceptionHandler;
 import message.validate.exception.ExceptionHandler;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -161,20 +162,38 @@ public class ValidateEngine implements InitializingBean {
     /**
      * 基于spring AOP的"环绕"验证开始
      *
-     * @param object 待校验对象
+     * @param proceedingJoinPoint 切面
      * @throws Exception
      */
-    @Before(value = "@annotation(message.validate.core.NeedValidate) && args(object,..)", argNames = "object")
-    public void validate(Object object) throws Throwable {
+    @Around("@annotation(message.validate.core.NeedValidate)")
+    public void validate(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+
         if (!this.openValidate) {
             logger.debug("this web project is no open validate engine!");
         }
         if (logger.isDebugEnabled())
-            logger.debug("start validate..., validate object is '{}'!", object);
+            logger.debug("start validate..., proceedingJoinPoint is '{}'!", proceedingJoinPoint);
 
-        Class clazz = object.getClass();
-        if (clazz.isAnnotationPresent(ValidateEntity.class)) {
-            validateEntityFields(object);
+        //获取所有参数
+        Object[] args = proceedingJoinPoint.getArgs();
+        boolean result = true;
+        if (logger.isDebugEnabled())
+            logger.debug("get args is '{}'!", args);
+
+        for (Object arg : args) {
+            if (arg == null) continue;
+            Class clazz = arg.getClass();
+            if (clazz.isAnnotationPresent(ValidateEntity.class)) {
+                result = validateEntityFields(arg);
+                if (!result) {
+                    logger.debug("validate class '{}' is error!", clazz);
+                    break;
+                }
+            }
+        }
+
+        if (result) {
+            proceedingJoinPoint.proceed();
         }
     }
 
