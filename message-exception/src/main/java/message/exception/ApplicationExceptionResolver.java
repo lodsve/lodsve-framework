@@ -4,6 +4,7 @@ import message.base.Constants;
 import message.base.exception.ApplicationRuntimeException;
 import message.config.SystemConfig;
 import message.utils.JsonUtils;
+import message.utils.ReplaceStringUtils;
 import message.utils.RequestUtils;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
@@ -181,11 +182,7 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
             return message;
         }
 
-        for (String arg : args) {
-            message = StringUtils.replaceOnce(message, "{}", arg);
-        }
-
-        return message;
+        return ReplaceStringUtils.replace(message, args, message);
     }
 
     private void printHTML(HttpServletResponse response, String html) {
