@@ -28,12 +28,12 @@ public class SecurityConstants {
     /**
      * 用户名正则表达式
      */
-    public static final String REGEX_LOGINNAME = "";
+    public static final String REGEX_LOGINNAME = "^[a-zA-Z0-9_-]{3,16}$";
 
     /**
      * 密码正则表达式
      */
-    public static final String REGEX_PASSWORD = "";
+    public static final String REGEX_PASSWORD = "^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$";
 
     /**
      * 账号在session中的key

@@ -32,7 +32,7 @@ public class Account {
      * 登录名
      */
     @Column
-    @Limit(min = 6, max = 16)
+    @Limit(min = 3, max = 16)
     @Regex(regex = SecurityConstants.REGEX_LOGINNAME)
     private String loginName;
     /**
