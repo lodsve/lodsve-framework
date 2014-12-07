@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:datasource="http://www.message.com/schema/message-datasource"
+       xmlns:jdbc="http://www.message.com/schema/message-jdbc"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/beans   
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.message.com/schema/message-datasource
+	http://www.message.com/schema/message-datasource/message-datasource-1.0.xsd
+    http://www.message.com/schema/message-jdbc
+    http://www.message.com/schema/message-jdbc/message-jdbc-1.0.xsd">
+
+    <context:component-scan base-package="message.security"/>
+    <context:annotation-config/>
+
+    <datasource:rdbms dataSource="security"/>
+    <jdbc:jdbc dataSource="security" basePackage="message.security.service" useFlyway="true"/>
+
+    <!-- 拦截器配置 -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <bean class="message.security.core.LoginInterceptor"/>
+                <bean class="message.security.core.AuthzInterceptor"/>
+            </list>
+        </property>
+    </bean>
+</beans>
