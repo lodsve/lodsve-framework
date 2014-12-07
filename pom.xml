@@ -46,6 +46,8 @@
 		<module>message-web</module>
         <!-- validate -->
 		<module>message-validate</module>
+        <!-- 安全 -->
+        <module>message-security</module>
     </modules>
 
     <!-- 发布仓库 -->
@@ -664,38 +666,13 @@
             </dependency>
             <!-- spring framework end -->
 
+            <!-- aop start -->
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjweaver</artifactId>
                 <version>1.6.8</version>
             </dependency>
-
-            <!-- hibernate start -->
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>3.6.5.Final</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.hibernate</groupId>
-                        <artifactId>hibernate-commons-annotations</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.hibernate.javax.persistence</groupId>
-                        <artifactId>hibernate-jpa-2.0-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>javax.transaction</groupId>
-                        <artifactId>jta</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-commons-annotations</artifactId>
-                <version>3.2.0.Final</version>
-            </dependency>
-            <!-- hibernate start -->
+            <!-- aop end -->
 
             <!-- 操作excel start -->
             <dependency>
@@ -773,6 +750,14 @@
                 <version>2.3.20</version>
             </dependency>
             <!-- 模板引擎 end -->
+
+            <!-- flyway start -->
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>3.0</version>
+            </dependency>
+            <!--flyway end -->
         </dependencies>
     </dependencyManagement>
 

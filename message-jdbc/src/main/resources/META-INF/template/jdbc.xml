@@ -28,7 +28,20 @@
         <property name="cacheSize" value="5"/>
     </bean>
 
-    <bean th:id="${dataSource} + 'GenericJdbcDAO'" lazy-init="true" class="message.jdbc.GenericJdbcDAO">
+    <!-- flyway -->
+    <bean th:id="${dataSource} + 'Flyway'" class="org.flywaydb.core.Flyway" init-method="migrate" th:if="${useFlyway}">
+        <property name="dataSource" th:attr="ref=${dataSource}"/>
+    </bean>
+
+    <bean th:id="${dataSource} + 'GenericJdbcDAO'" lazy-init="true" class="message.jdbc.GenericJdbcDAO"
+          th:if="${useFlyway}" th:attr="depends-on=${dataSource} + 'Flyway'">
+        <property name="dataSource" th:attr="ref=${dataSource}"/>
+        <property name="sqlHelper" th:attr="ref=${dataSource} + 'SqlHelper'"/>
+        <property name="idGenerator" th:attr="ref=${dataSource} + 'MaxValueIncrementer'"/>
+    </bean>
+
+    <bean th:id="${dataSource} + 'GenericJdbcDAO'" lazy-init="true" class="message.jdbc.GenericJdbcDAO"
+          th:if="${!useFlyway}">
         <property name="dataSource" th:attr="ref=${dataSource}"/>
         <property name="sqlHelper" th:attr="ref=${dataSource} + 'SqlHelper'"/>
         <property name="idGenerator" th:attr="ref=${dataSource} + 'MaxValueIncrementer'"/>

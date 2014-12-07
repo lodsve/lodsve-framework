@@ -12,6 +12,6 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 public class DatasourceNamespaceHandler extends NamespaceHandlerSupport {
     @Override
     public void init() {
-        registerBeanDefinitionParser("rdbms", new RdbmsDatasourceParser());
+        registerBeanDefinitionParser("jdbc", new RdbmsDatasourceParser());
     }
 }

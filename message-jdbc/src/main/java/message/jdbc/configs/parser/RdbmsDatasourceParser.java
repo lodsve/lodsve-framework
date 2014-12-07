@@ -41,6 +41,7 @@ public class RdbmsDatasourceParser implements BeanDefinitionParser {
         Map<String, String> context = new HashMap<String, String>();
         context.put("dataSource", getDataSourceName(element));
         context.put("basePackage", element.getAttribute("basePackage"));
+        context.put("useFlyway", element.getAttribute("useFlyway"));
 
         BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(registry);
         beanDefinitionReader.loadBeanDefinitions(new ThymeleafTemplateResource(RDBMS_TEMPLATE_LOCATION, context, "xml"));
