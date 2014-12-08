@@ -11,6 +11,7 @@
             <xsd:attribute name="dataSource" type="xsd:string" use="required" />
             <xsd:attribute name="basePackage" type="xsd:string" use="required" />
             <xsd:attribute name="useFlyway" type="xsd:boolean" use="optional" default="false"/>
+            <xsd:attribute name="migration" type="xsd:string" use="optional" default="db/migration"/>
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>

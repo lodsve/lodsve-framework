@@ -31,6 +31,7 @@
     <!-- flyway -->
     <bean th:id="${dataSource} + 'Flyway'" class="org.flywaydb.core.Flyway" init-method="migrate" th:if="${useFlyway}">
         <property name="dataSource" th:attr="ref=${dataSource}"/>
+        <property name="locations" th:attr="value=${migration}"/>
     </bean>
 
     <bean th:id="${dataSource} + 'GenericJdbcDAO'" lazy-init="true" class="message.jdbc.GenericJdbcDAO"

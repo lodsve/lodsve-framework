@@ -18,7 +18,7 @@
     <context:annotation-config/>
 
     <datasource:rdbms dataSource="security"/>
-    <jdbc:jdbc dataSource="security" basePackage="message.security.service" useFlyway="true"/>
+    <jdbc:jdbc dataSource="security" basePackage="message.security.service" useFlyway="true" migration="db/security"/>
 
     <!-- 拦截器配置 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
