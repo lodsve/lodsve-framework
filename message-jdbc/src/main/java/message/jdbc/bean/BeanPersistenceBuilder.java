@@ -17,7 +17,12 @@ import javax.persistence.Table;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 对bean的(字段,类名)(数据库列名,表名)的映射关系构建类.
@@ -228,7 +233,7 @@ public class BeanPersistenceBuilder {
         sql.append(this.beanPersistenceDef.getName());
         sql.append(" where ");
         sql.append(this.idField.getColumnName());
-        sql.append("=? ");
+        sql.append("= :").append(this.idField.getFieldName());
 
         if (logger.isDebugEnabled()) {
             logger.debug("select one sql '{}'", sql.toString());

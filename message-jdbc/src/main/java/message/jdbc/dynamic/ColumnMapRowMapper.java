@@ -20,6 +20,15 @@ import java.util.Map;
 public class ColumnMapRowMapper implements RowMapper {
 	
 	private SqlHelper sqlHelper;
+	private Class<?> clazz;
+
+	public ColumnMapRowMapper() {
+	}
+
+	public ColumnMapRowMapper(SqlHelper sqlHelper, Class<?> clazz) {
+		this.sqlHelper = sqlHelper;
+		this.clazz = clazz;
+	}
 
 	public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
 		/**
@@ -68,25 +77,17 @@ public class ColumnMapRowMapper implements RowMapper {
 	protected String getStringValue(ResultSet rs, int column) throws SQLException{
 		return rs.getString(column);
 	}
-	
+
 	protected String getLongStringValue(ResultSet rs, int column) throws SQLException{
 		return sqlHelper.getLongStringValue(rs, column);
 	}
-	
+
 	protected String getClobStringValue(ResultSet rs, int column) throws SQLException{
 		return sqlHelper.getClobStringValue(rs, column);
 	}
 	
 	protected Object getColumnValue(ResultSet rs, int column) throws SQLException{
 		return JdbcUtils.getResultSetValue(rs, column);
-	}
-
-	public void setSqlHelper(SqlHelper sqlHelper) {
-		this.sqlHelper = sqlHelper;
-	}
-
-	public SqlHelper getSqlHelper() {
-		return sqlHelper;
 	}
 
 }

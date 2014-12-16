@@ -7,7 +7,6 @@ import message.cache.Cache;
 import message.cache.CacheManager;
 import message.jdbc.bean.BeanPersistenceDef;
 import message.jdbc.bean.BeanPersistenceHelper;
-import message.jdbc.dynamic.ColumnMapRowMapper;
 import message.jdbc.dynamic.DynamicBeanRowMapper;
 import message.jdbc.ext.ExtBeanPropertySqlParameterSource;
 import message.jdbc.ext.ExtMapSqlParameterSource;
@@ -20,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.io.Serializable;
@@ -38,9 +36,8 @@ import java.util.Map;
  * @version V1.0, 2012-4-10 上午12:32:41
  */
 public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
-	private static final Logger logger = LoggerFactory.getLogger(GenericJdbcDAO.class);
+    private static final Logger logger = LoggerFactory.getLogger(GenericJdbcDAO.class);
 
-    private RowMapper rowMapper;
     private SqlHelper sqlHelper;
     private IDGenerator idGenerator;
     private CacheManager cacheManager;
@@ -111,19 +108,6 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
     }
 
     /**
-     * 按给定参数objs查询返回一个class对象
-     *
-     * @param <T>
-     * @param sql			sql
-     * @param clazz			class
-     * @param objs			对象
-     * @return
-     */
-    public <T> T queryForBean(String sql, Class<T> clazz, Object[] objs){
-        return (T) this.queryForObject(sql, DynamicBeanRowMapper.getInstance(clazz, getSqlHelper(), sql), objs);
-    }
-
-    /**
      * query, return will be make as the class bean what you given
      *
      * @param sql
@@ -133,42 +117,7 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
      * @throws org.springframework.dao.DataAccessException
      */
     public <T> T queryForBean(String sql, Map params, Class<T> clazz) throws DataAccessException {
-        return (T) this.queryForObject(sql, params, DynamicBeanRowMapper.getInstance(clazz, this.getSqlHelper(), sql));
-    }
-
-    /**
-     * query for object
-     *
-     * @param sql
-     * @param params
-     * @param rowMapper
-     * @return
-     * @throws org.springframework.dao.DataAccessException
-     */
-    public Object queryForObject(String sql, Map params, RowMapper rowMapper) {
-        try{
-            return this.getNamedParameterJdbcTemplate().queryForObject(sql, params, rowMapper);
-        } catch (EmptyResultDataAccessException e){
-            return null;
-        }
-    }
-
-    /**
-     * 按给定参数objs查询返回一个class对象
-     *
-     * @param <T>
-     * @param sql			sql
-     * @param mapper		RowMapper
-     * @param objs			参数
-     * @return
-     */
-    private <T> T queryForObject(String sql, RowMapper<T> mapper, Object[] objs) {
-        try {
-            return getJdbcTemplate().queryForObject(sql, mapper, objs);
-        } catch (EmptyResultDataAccessException e) {
-            logger.error(e.getMessage(), e);
-            return null;
-        }
+        return (T) this.getNamedParameterJdbcTemplate().queryForObject(sql, params, DynamicBeanRowMapper.getInstance(clazz, this.getSqlHelper(), sql));
     }
 
     /**
@@ -204,13 +153,14 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
     /**
      * query for list
      *
-     * @param sql
-     * @param params
+     * @param sql		query sql
+     * @param params	need parameter
      * @return
      * @throws org.springframework.dao.DataAccessException
      */
-    public List queryForList(String sql, Map params) throws DataAccessException {
-        return this.queryForList(sql, params, getRowMapper());
+    public <T> List<T> queryForList(String sql, Map params, Class<T> clazz) throws DataAccessException {
+        ExtMapSqlParameterSource parameterSource = new ExtMapSqlParameterSource(params, this.sqlHelper);
+        return this.getNamedParameterJdbcTemplate().queryForList(sql, parameterSource, clazz);
     }
 
     /**
@@ -339,7 +289,7 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
 
     /**
      * 彻底删除(默认主键为pk_id)
-     * 
+     *
      * @param tableName     表名
      * @param pkId          主键值
      * @throws Exception
@@ -371,7 +321,7 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
 
     /**
      * 安全软删除
-     * 
+     *
      * @param tableName         表名
      * @param keyColumn         主键名
      * @param pkId              主键值
@@ -429,42 +379,42 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
     public int commSafeDelete(String tableName, Long pkId) throws Exception {
         return this.commSafeDelete(tableName, pkId, DEFAULT_DELETE_FLAG);
     }
-    
+
     /**
      * 直接插入一个对象
-     * 
+     *
      * @param entity			要插入的对象
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     public <T> T genericInsert(T entity) throws Exception{
-    	if(ObjectUtils.isEmpty(entity)){
-    		logger.debug("given entity is null!return null!");
-    		return null;
-    	}
-    	BeanPersistenceDef beanPersistenceDef = BeanPersistenceHelper.getBeanPersistenceDef(entity.getClass());
-    	String insertSql = beanPersistenceDef.getInsertSql();
-    	Object id = null;
-    	if(StringUtils.isNotEmpty(beanPersistenceDef.getIdFieldName())){
-    		BeanWrapperImpl bw = new BeanWrapperImpl(entity);
-    		id = bw.getPropertyValue(beanPersistenceDef.getIdFieldName());
-    		if(id == null){
-    			logger.debug("id is null, build it!");
+        if(ObjectUtils.isEmpty(entity)){
+            logger.debug("given entity is null!return null!");
+            return null;
+        }
+        BeanPersistenceDef beanPersistenceDef = BeanPersistenceHelper.getBeanPersistenceDef(entity.getClass());
+        String insertSql = beanPersistenceDef.getInsertSql();
+        Object id = null;
+        if(StringUtils.isNotEmpty(beanPersistenceDef.getIdFieldName())){
+            BeanWrapperImpl bw = new BeanWrapperImpl(entity);
+            id = bw.getPropertyValue(beanPersistenceDef.getIdFieldName());
+            if(id == null){
+                logger.debug("id is null, build it!");
                 id = this.idGenerator.nextObjectValue(beanPersistenceDef.getIdClass(), beanPersistenceDef.getGenerator());
-    			bw.setPropertyValue(beanPersistenceDef.getIdFieldName(), id);
-    		}
-    	}
-    	logger.debug("insert sql is '{}' for entity '{}'", insertSql, entity);
-    	
-    	updateByBean(insertSql, entity);
+                bw.setPropertyValue(beanPersistenceDef.getIdFieldName(), id);
+            }
+        }
+        logger.debug("insert sql is '{}' for entity '{}'", insertSql, entity);
+
+        updateByBean(insertSql, entity);
         insertObjectIntoCache(entity, beanPersistenceDef);
 
-    	return entity;
+        return entity;
     }
-    
+
     /**
      * 获取一个对象根据主键
-     * 
+     *
      * @param <T>				对象类型
      * @param clazz				对象的class
      * @param key				主键
@@ -472,98 +422,98 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
      * @throws Exception
      */
     public <T> T genericLoad(Class<T> clazz, Serializable key) throws Exception {
-    	if(clazz == null || key == null){
-    		logger.debug("given clazz or key is null!return null!");
-    		return null;
-    	}
-    	BeanPersistenceDef beanPersistenceDef = BeanPersistenceHelper.getBeanPersistenceDef(clazz);
-    	if(beanPersistenceDef == null || StringUtils.isEmpty(beanPersistenceDef.getIdFieldName())){
-    		logger.debug("bean is not exist or bean id is not found!");
-    		return null;
-    	}
+        if(clazz == null || key == null){
+            logger.debug("given clazz or key is null!return null!");
+            return null;
+        }
+        BeanPersistenceDef beanPersistenceDef = BeanPersistenceHelper.getBeanPersistenceDef(clazz);
+        if(beanPersistenceDef == null || StringUtils.isEmpty(beanPersistenceDef.getIdFieldName())){
+            logger.debug("bean is not exist or bean id is not found!");
+            return null;
+        }
 
         T object = this.loadObjectFromCache(key, beanPersistenceDef);
         if(object == null){
             String queryOneSql = beanPersistenceDef.getSelectOneSql();
             if(logger.isDebugEnabled())
                 logger.debug("get query sql is '{}' for bean '{}' what key is '{}'", new Object[]{queryOneSql, clazz, key});
-            object = this.queryForBean(queryOneSql, clazz, new Object[]{key});
+            object = this.queryForBean(queryOneSql, Collections.singletonMap(beanPersistenceDef.getIdFieldName(), key), clazz);
 
             //加入缓存中
             this.insertObjectIntoCache(object, beanPersistenceDef);
         }
 
-    	return object;
+        return object;
     }
-    
+
     /**
      * 直接更新一个对象
-     * 
+     *
      * @param obj
      * @throws Exception
      */
     public void genericUpdate(Object obj) throws Exception {
-    	if(ObjectUtils.isEmpty(obj)){
-    		logger.debug("given object is null!");
-    		return;
-    	}
-    	BeanPersistenceDef beanPersistenceDef = BeanPersistenceHelper.getBeanPersistenceDef(obj.getClass());
-    	String updateSql = beanPersistenceDef.getUpdateSql();
-    	if(logger.isDebugEnabled())
-    		logger.debug("get update sql for bean '{}' is '{}'", new Object[]{obj.getClass(), updateSql});
-    	
-    	updateByBean(updateSql, obj);
+        if(ObjectUtils.isEmpty(obj)){
+            logger.debug("given object is null!");
+            return;
+        }
+        BeanPersistenceDef beanPersistenceDef = BeanPersistenceHelper.getBeanPersistenceDef(obj.getClass());
+        String updateSql = beanPersistenceDef.getUpdateSql();
+        if(logger.isDebugEnabled())
+            logger.debug("get update sql for bean '{}' is '{}'", new Object[]{obj.getClass(), updateSql});
+
+        updateByBean(updateSql, obj);
 
         //1.先删除缓存中的对象
         this.removeObjectFromCache(obj, beanPersistenceDef);
         //2.向缓存中添加这个新的对象
         this.insertObjectIntoCache(obj, beanPersistenceDef);
     }
-    
+
     /**
      * 删除一个对象
-     * 
+     *
      * @param obj
      * @throws Exception
      */
     public void genericDelete(Object obj) throws Exception {
-    	if(ObjectUtils.isEmpty(obj)){
-    		logger.debug("given object is null!");
-    		return;
-    	}
-    	BeanPersistenceDef beanPersistenceDef = BeanPersistenceHelper.getBeanPersistenceDef(obj.getClass());
-    	String deleteSql = beanPersistenceDef.getDeleteSql();
-    	if(logger.isDebugEnabled())
-    		logger.debug("get delete sql for bean '{}' is '{}'", new Object[]{obj.getClass(), deleteSql});
-    	updateByBean(deleteSql, obj);
+        if(ObjectUtils.isEmpty(obj)){
+            logger.debug("given object is null!");
+            return;
+        }
+        BeanPersistenceDef beanPersistenceDef = BeanPersistenceHelper.getBeanPersistenceDef(obj.getClass());
+        String deleteSql = beanPersistenceDef.getDeleteSql();
+        if(logger.isDebugEnabled())
+            logger.debug("get delete sql for bean '{}' is '{}'", new Object[]{obj.getClass(), deleteSql});
+        updateByBean(deleteSql, obj);
         //1.删除缓存中的对象
         this.removeObjectFromCache(obj, beanPersistenceDef);
     }
-    
+
     /**
      * 根据主键删除一个对象
-     * 
+     *
      * @param clazz
      * @param key
      * @throws Exception
      */
     public void genericDelete(Class<?> clazz, Serializable key) throws Exception {
-    	if(clazz == null || key == null){
-    		logger.debug("given clazz or key is null!return null!");
-    		return;
-    	}
-    	BeanPersistenceDef beanPersistenceDef = BeanPersistenceHelper.getBeanPersistenceDef(clazz);
-    	if(beanPersistenceDef == null || StringUtils.isEmpty(beanPersistenceDef.getIdFieldName())){
-    		logger.debug("bean is not exist or bean id is not found!");
-    		return;
-    	}
-    	
-    	String deleteSql = beanPersistenceDef.getDeleteSql();
+        if(clazz == null || key == null){
+            logger.debug("given clazz or key is null!return null!");
+            return;
+        }
+        BeanPersistenceDef beanPersistenceDef = BeanPersistenceHelper.getBeanPersistenceDef(clazz);
+        if(beanPersistenceDef == null || StringUtils.isEmpty(beanPersistenceDef.getIdFieldName())){
+            logger.debug("bean is not exist or bean id is not found!");
+            return;
+        }
+
+        String deleteSql = beanPersistenceDef.getDeleteSql();
 //        String idKey = ":" + beanPersistenceDef.getIdFieldName();
 //        deleteSql = StringUtils.replace(deleteSql, idKey, "?");
-    	if(logger.isDebugEnabled())
-    		logger.debug("get query sql is '{}' for bean '{}' what key is '{}'", new Object[]{deleteSql, clazz, key});
-    	update(deleteSql, Collections.singletonMap(beanPersistenceDef.getIdFieldName(), key));
+        if(logger.isDebugEnabled())
+            logger.debug("get query sql is '{}' for bean '{}' what key is '{}'", new Object[]{deleteSql, clazz, key});
+        update(deleteSql, Collections.singletonMap(beanPersistenceDef.getIdFieldName(), key));
         //1.删除缓存中的对象
         this.removeObjectFromCache(key, beanPersistenceDef);
     }
@@ -702,18 +652,6 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
 
     protected void initDao() throws Exception {
         super.initDao();
-
-        ColumnMapRowMapper rm = new ColumnMapRowMapper();
-        rm.setSqlHelper(sqlHelper);
-        this.setRowMapper(rm);
-    }
-
-    public RowMapper getRowMapper() {
-        return rowMapper;
-    }
-
-    public void setRowMapper(RowMapper rowMapper) {
-        this.rowMapper = rowMapper;
     }
 
     public SqlHelper getSqlHelper() {

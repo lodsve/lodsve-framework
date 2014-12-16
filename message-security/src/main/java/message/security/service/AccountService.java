@@ -131,6 +131,6 @@ public class AccountService {
     protected List<String> loadRoleByAccount(String loginName) {
         String sql = "select t.role_code from " + SecurityConstants.T_ACCOUNT_ROLE + " t where t.account = :loginName";
 
-        return this.genericJdbcDAO.queryForList(sql, Collections.singletonMap("loginName", loginName));
+        return this.genericJdbcDAO.queryForList(sql, Collections.singletonMap("loginName", loginName), String.class);
     }
 }
