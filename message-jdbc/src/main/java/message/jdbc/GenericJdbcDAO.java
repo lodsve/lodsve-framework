@@ -7,6 +7,7 @@ import message.cache.Cache;
 import message.cache.CacheManager;
 import message.jdbc.bean.BeanPersistenceDef;
 import message.jdbc.bean.BeanPersistenceHelper;
+import message.jdbc.dynamic.ColumnMapRowMapper;
 import message.jdbc.dynamic.DynamicBeanRowMapper;
 import message.jdbc.ext.ExtBeanPropertySqlParameterSource;
 import message.jdbc.ext.ExtMapSqlParameterSource;
@@ -39,6 +40,7 @@ import java.util.Map;
 public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
 	private static final Logger logger = LoggerFactory.getLogger(GenericJdbcDAO.class);
 
+    private RowMapper rowMapper;
     private SqlHelper sqlHelper;
     private IDGenerator idGenerator;
     private CacheManager cacheManager;
@@ -122,6 +124,36 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
     }
 
     /**
+     * query, return will be make as the class bean what you given
+     *
+     * @param sql
+     * @param params
+     * @param clazz
+     * @return
+     * @throws org.springframework.dao.DataAccessException
+     */
+    public <T> T queryForBean(String sql, Map params, Class<T> clazz) throws DataAccessException {
+        return (T) this.queryForObject(sql, params, DynamicBeanRowMapper.getInstance(clazz, this.getSqlHelper(), sql));
+    }
+
+    /**
+     * query for object
+     *
+     * @param sql
+     * @param params
+     * @param rowMapper
+     * @return
+     * @throws org.springframework.dao.DataAccessException
+     */
+    public Object queryForObject(String sql, Map params, RowMapper rowMapper) {
+        try{
+            return this.getNamedParameterJdbcTemplate().queryForObject(sql, params, rowMapper);
+        } catch (EmptyResultDataAccessException e){
+            return null;
+        }
+    }
+
+    /**
      * 按给定参数objs查询返回一个class对象
      *
      * @param <T>
@@ -167,6 +199,18 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
      */
     private List queryForList(String sql, Map params, RowMapper rowMapper) throws DataAccessException {
         return this.getNamedParameterJdbcTemplate().query(sql, params, rowMapper);
+    }
+
+    /**
+     * query for list
+     *
+     * @param sql
+     * @param params
+     * @return
+     * @throws org.springframework.dao.DataAccessException
+     */
+    public List queryForList(String sql, Map params) throws DataAccessException {
+        return this.queryForList(sql, params, getRowMapper());
     }
 
     /**
@@ -658,6 +702,18 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
 
     protected void initDao() throws Exception {
         super.initDao();
+
+        ColumnMapRowMapper rm = new ColumnMapRowMapper();
+        rm.setSqlHelper(sqlHelper);
+        this.setRowMapper(rm);
+    }
+
+    public RowMapper getRowMapper() {
+        return rowMapper;
+    }
+
+    public void setRowMapper(RowMapper rowMapper) {
+        this.rowMapper = rowMapper;
     }
 
     public SqlHelper getSqlHelper() {
