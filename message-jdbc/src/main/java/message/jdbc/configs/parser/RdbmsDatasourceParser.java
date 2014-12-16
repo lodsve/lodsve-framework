@@ -9,12 +9,9 @@ import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.Resource;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,12 +59,6 @@ public class RdbmsDatasourceParser implements BeanDefinitionParser {
         context.put("converts", converts);
         BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(registry);
         Resource resource = new ThymeleafTemplateResource(RDBMS_TEMPLATE_LOCATION, context, "xml");
-
-        try {
-            FileCopyUtils.copy(resource.getInputStream(), new FileOutputStream(new File("D:\\2.xml")));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         beanDefinitionReader.loadBeanDefinitions(resource);
     }
 }
