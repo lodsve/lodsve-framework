@@ -8,10 +8,25 @@
 
     <xsd:element name="jdbc">
         <xsd:complexType>
-            <xsd:attribute name="dataSource" type="xsd:string" use="required" />
-            <xsd:attribute name="basePackage" type="xsd:string" use="required" />
-            <xsd:attribute name="useFlyway" type="xsd:boolean" use="optional" default="false"/>
-            <xsd:attribute name="migration" type="xsd:string" use="optional" default="db/migration"/>
+            <xsd:complexContent>
+                <xsd:extension base="baseType">
+                    <xsd:sequence>
+                        <xsd:element name="convert" type="converts" minOccurs="0" maxOccurs="unbounded" />
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
         </xsd:complexType>
     </xsd:element>
+
+    <xsd:complexType name="baseType">
+        <xsd:attribute name="dataSource" type="xsd:string" use="required" />
+        <xsd:attribute name="basePackage" type="xsd:string" use="required" />
+        <xsd:attribute name="useFlyway" type="xsd:boolean" use="optional" default="false"/>
+        <xsd:attribute name="migration" type="xsd:string" use="optional" default="db/migration"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="converts">
+        <xsd:attribute name="key" type="xsd:string" use="required" />
+        <xsd:attribute name="value" type="xsd:string" use="required" />
+    </xsd:complexType>
 </xsd:schema>

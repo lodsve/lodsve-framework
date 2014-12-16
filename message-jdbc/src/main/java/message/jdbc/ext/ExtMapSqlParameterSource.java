@@ -1,5 +1,7 @@
 package message.jdbc.ext;
 
+import message.jdbc.convert.Convert;
+import message.jdbc.convert.ConvertGetter;
 import message.jdbc.utils.ClobStringSqlTypeValue;
 import message.jdbc.utils.LongStringSqlTypeValue;
 import message.jdbc.utils.ParamType;
@@ -31,12 +33,18 @@ public class ExtMapSqlParameterSource extends AbstractSqlParameterSource {
     }
 
     public ExtMapSqlParameterSource addValues(Map values) {
-        if(values != null){
+        if (values != null) {
             Map newVlaues = new HashMap();
-            for(Iterator it = values.keySet().iterator(); it.hasNext(); ) {
+            for (Iterator it = values.keySet().iterator(); it.hasNext(); ) {
                 Object key = it.next();
                 Object value = values.get(key);
-                if(key instanceof String){
+
+                Convert convert = this.sqlHelper.getConvert(key.getClass());
+                if(convert != null) {
+                    value = value != null ? convert.getDbValue((ConvertGetter) value) : convert.getDbNullValue((ConvertGetter) value);
+                }
+
+                if (key instanceof String) {
                     ParamType paramType = ParamType.getParamType((String) key);
                     newVlaues.put(paramType.getRealParamName(), value);
                 } else {
@@ -44,11 +52,11 @@ public class ExtMapSqlParameterSource extends AbstractSqlParameterSource {
                 }
             }
             this.values.putAll(newVlaues);
-            for(Iterator it = values.keySet().iterator(); it.hasNext(); ){
+            for (Iterator it = values.keySet().iterator(); it.hasNext(); ) {
                 Object key = it.next();
                 Object value = values.get(key);
-                if(value != null && key instanceof String && value instanceof SqlParameterValue){
-                    super.registerSqlType((String)key, ((SqlParameterValue)value).getSqlType());
+                if (value != null && key instanceof String && value instanceof SqlParameterValue) {
+                    super.registerSqlType((String) key, ((SqlParameterValue) value).getSqlType());
                 }
             }
         }
@@ -62,14 +70,14 @@ public class ExtMapSqlParameterSource extends AbstractSqlParameterSource {
 
     public Object getValue(String paramName) throws IllegalArgumentException {
         ParamType paramType = ParamType.getParamType(paramName);
-        if(!this.values.containsKey(paramType.getRealParamName())){
+        if (!this.values.containsKey(paramType.getRealParamName())) {
             throw new IllegalArgumentException("No value registered for key '" + paramName + "'");
         }
 
         Object obj = this.values.get(paramType.getRealParamName());
-        if(paramType.getValueType() == ParamType.CLOB){
+        if (paramType.getValueType() == ParamType.CLOB) {
             return new ClobStringSqlTypeValue(this.sqlHelper, (String) obj);
-        } else if(paramType.getValueType() == ParamType.LONGSTRING){
+        } else if (paramType.getValueType() == ParamType.LONGSTRING) {
             return new LongStringSqlTypeValue(this.sqlHelper, (String) obj);
         }
 

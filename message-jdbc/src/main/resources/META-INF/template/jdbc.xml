@@ -20,6 +20,14 @@
     </bean>
 
     <bean th:id="${dataSource} + 'SqlHelper'" class="message.jdbc.utils.helper.MySQLSqlHelper">
+        <property name="convertBeans" th:if="${converts != null and #lists.size(converts) > 0}">
+            <list>
+                <bean class="message.jdbc.convert.ConvertBean" th:each="convert : ${converts}">
+                    <property name="clazz" th:attr="value=${convert.clazz}"/>
+                    <property name="convert" th:attr="value=${convert.convert}"/>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean th:id="${dataSource} + 'MaxValueIncrementer'" class="message.jdbc.key.impl.generic.MySQLMaxValueIncrementer">

@@ -62,7 +62,6 @@ public class ColumnMapRowMapper implements RowMapper {
 	}
 	
 	protected Map createColumnMap(int columnCount){
-		//TODO what is LinkedCaseInsensitiveMap?
 		return new LinkedCaseInsensitiveMap(columnCount);
 	}
 	
