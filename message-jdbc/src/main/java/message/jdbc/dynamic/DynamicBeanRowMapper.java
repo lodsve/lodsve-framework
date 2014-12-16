@@ -45,6 +45,7 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
     private Map mappedFields;
     private String sql;
     private String mapperKey;
+    private SqlHelper sqlHelper;
     private final static Map mappers = new HashMap();
 
     public DynamicBeanRowMapper() {
@@ -399,5 +400,13 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
 
     public Map getMappers() {
         return mappers;
+    }
+
+    public SqlHelper getSqlHelper() {
+        return sqlHelper;
+    }
+
+    public void setSqlHelper(SqlHelper sqlHelper) {
+        this.sqlHelper = sqlHelper;
     }
 }
