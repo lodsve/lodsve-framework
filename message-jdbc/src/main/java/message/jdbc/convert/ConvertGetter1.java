@@ -7,11 +7,11 @@ package message.jdbc.convert;
  * @version V1.0
  * @createTime 2014-12-15 22:05
  */
-public interface ConvertGetter<T> {
+public interface ConvertGetter1 {
     /**
      * 获取在数据库中存储的值
      *
      * @return
      */
-    public T getValue();
+    public String getValue();
 }

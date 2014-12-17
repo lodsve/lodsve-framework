@@ -1,5 +1,6 @@
 package message.jdbc.dynamic;
 
+import message.base.convert.ConvertGetter;
 import message.jdbc.utils.PersistentField;
 import message.jdbc.utils.helper.SqlHelper;
 import message.utils.StringUtils;
@@ -233,22 +234,21 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
                 addFieldContent(script, field, "new Boolean($1.getBoolean(", i, "))");
                 value = (rs.getBoolean(i)) ? Boolean.TRUE : Boolean.FALSE;
             } else if (contantInConvert(fieldType)) {
-                Object val = rs.getObject(i);
+                String val = rs.getString(i);
 
                 script.append("bean.");
                 script.append(field.getWriteName());
                 script.append("(");
                 String methodName = ((val == null) ? "getPoJoNullValue" : "getPoJoValue");
                 script.append("sqlHelper.getConvert(Class.forName(\"").append(fieldType.getName())
-                        .append("\")).").append(methodName).append("($1.getObject(");
+                        .append("\")).").append(methodName).append("($1.getString(");
                 script.append(i);
-                script.append(")))");
-                script.append(");\n");
+                script.append(")));\n");
 
-                if (val == null) {
-                    value = this.getSqlHelper().getConvert(fieldType).getPoJoNullValue(rs.getObject(i));
+                if (StringUtils.isEmpty(val)) {
+                    value = this.getSqlHelper().getConvert(fieldType).getPoJoNullValue(val);
                 } else {
-                    value = this.getSqlHelper().getConvert(fieldType).getPoJoValue(rs.getObject(i));
+                    value = this.getSqlHelper().getConvert(fieldType).getPoJoValue(val);
                 }
             } else {
                 addFieldContent(script, field, "(" + field.getJavaType().getName()
@@ -355,7 +355,7 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
     }
 
     private boolean contantInConvert(Class fieldType) {
-        return this.getSqlHelper().getConvert(fieldType) != null;
+        return ConvertGetter.class.isAssignableFrom(fieldType) && this.getSqlHelper().getConvert(fieldType) != null;
     }
 
     public Class getClazz() {

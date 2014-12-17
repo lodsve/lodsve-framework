@@ -1,8 +1,8 @@
 package message.jdbc.utils.helper;
 
+import message.base.convert.ConvertGetter;
 import message.jdbc.convert.ConvertBean;
 import message.jdbc.convert.Convert;
-import message.jdbc.convert.ConvertGetter;
 import message.jdbc.key.IDGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.ClassUtils;
@@ -133,7 +133,7 @@ public abstract class SqlHelper {
         }
     }
 
-    public <T extends ConvertGetter> Convert<T> getConvert(Class<?> clazz) {
+    public <T extends ConvertGetter> Convert<T> getConvert(Class<? extends ConvertGetter> clazz) {
         return this.realConverts.get(clazz);
     }
 }

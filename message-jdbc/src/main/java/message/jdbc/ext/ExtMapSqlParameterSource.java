@@ -1,7 +1,7 @@
 package message.jdbc.ext;
 
 import message.jdbc.convert.Convert;
-import message.jdbc.convert.ConvertGetter;
+import message.base.convert.ConvertGetter;
 import message.jdbc.utils.ClobStringSqlTypeValue;
 import message.jdbc.utils.LongStringSqlTypeValue;
 import message.jdbc.utils.ParamType;
@@ -39,9 +39,11 @@ public class ExtMapSqlParameterSource extends AbstractSqlParameterSource {
                 Object key = it.next();
                 Object value = values.get(key);
 
-                Convert convert = this.sqlHelper.getConvert(key.getClass());
-                if(convert != null) {
-                    value = value != null ? convert.getDbValue((ConvertGetter) value) : convert.getDbNullValue((ConvertGetter) value);
+                if(ConvertGetter.class.isAssignableFrom(key.getClass())) {
+                    Convert convert = this.sqlHelper.getConvert((Class<? extends ConvertGetter>) key.getClass());
+                    if(convert != null) {
+                        value = value != null ? convert.getDbValue((ConvertGetter) value) : convert.getDbNullValue((ConvertGetter) value);
+                    }
                 }
 
                 if (key instanceof String) {

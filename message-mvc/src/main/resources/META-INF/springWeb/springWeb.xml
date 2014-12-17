@@ -8,11 +8,19 @@
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
-	<mvc:annotation-driven content-negotiation-manager="contentManager">
+	<mvc:annotation-driven content-negotiation-manager="contentManager" conversion-service="conversionService">
 		<mvc:argument-resolvers>
 			<bean class="message.security.annotation.resolver.CurrentAccountResolver" />
 		</mvc:argument-resolvers >
 	</mvc:annotation-driven>
+
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="message.mvc.convert.EnumConverterFactory"/>
+			</set>
+		</property>
+	</bean>
 
 	<bean id="contentManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 		<property name="favorPathExtension" value="true"/>

@@ -1,5 +1,7 @@
 package message.jdbc.convert;
 
+import message.base.convert.ConvertGetter;
+
 /**
  * 类型转换.
  *
@@ -14,7 +16,7 @@ public interface Convert<T extends ConvertGetter> {
      * @param t
      * @return
      */
-    public Object getDbValue(T t);
+    public String getDbValue(T t);
 
     /**
      * 根据pojo中的属性值获取在数据库中的值[为空的情况]
@@ -22,7 +24,7 @@ public interface Convert<T extends ConvertGetter> {
      * @param t
      * @return
      */
-    public Object getDbNullValue(T t);
+    public String getDbNullValue(T t);
 
     /**
      * 根据在数据库中的值包装pojo中的属性值
@@ -30,7 +32,7 @@ public interface Convert<T extends ConvertGetter> {
      * @param value
      * @return
      */
-    public T getPoJoValue(Object value);
+    public T getPoJoValue(String value);
 
     /**
      * 根据在数据库中的值包装pojo中的属性值[为空的情况]
@@ -38,5 +40,5 @@ public interface Convert<T extends ConvertGetter> {
      * @param value
      * @return
      */
-    public T getPoJoNullValue(Object value);
+    public T getPoJoNullValue(String value);
 }

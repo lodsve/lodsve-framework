@@ -1,7 +1,7 @@
 package message.jdbc.ext;
 
+import message.base.convert.ConvertGetter;
 import message.jdbc.convert.Convert;
-import message.jdbc.convert.ConvertGetter;
 import message.jdbc.utils.ClobStringSqlTypeValue;
 import message.jdbc.utils.LongStringSqlTypeValue;
 import message.jdbc.utils.ParamType;
@@ -63,7 +63,12 @@ public class ExtBeanPropertySqlParameterSource extends AbstractSqlParameterSourc
     private Convert getConvert(String paramName) {
         try {
             Field f = this.beanWrapper.getWrappedClass().getDeclaredField(paramName);
-            return this.getSqlHelper().getConvert(f.getType());
+            Class<?> clazz = f.getType();
+            if (ConvertGetter.class.isAssignableFrom(clazz)) {
+                return this.getSqlHelper().getConvert((Class<? extends ConvertGetter>) f.getType());
+            } else {
+                return null;
+            }
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
