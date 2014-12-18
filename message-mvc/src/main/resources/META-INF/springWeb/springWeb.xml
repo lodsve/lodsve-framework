@@ -18,6 +18,7 @@
 		<property name="converters">
 			<set>
 				<bean class="message.mvc.convert.EnumConverterFactory"/>
+				<bean class="message.mvc.convert.StringDateConvertFactory"/>
 			</set>
 		</property>
 	</bean>

@@ -22,7 +22,7 @@ public class EnumConverterFactory implements ConverterFactory<String, Enum<?>>, 
 
     @Override
     public <T extends Enum<?>> Converter<String, T> getConverter(Class<T> targetType) {
-        if(!Enum.class.isAssignableFrom(targetType) || !ConvertGetter.class.isAssignableFrom(targetType)){
+        if(!ConvertGetter.class.isAssignableFrom(targetType)){
             return null;
         }
 
