@@ -1,6 +1,5 @@
-package message.mvc.core;
+package message.base.utils;
 
-import message.base.utils.ApplicationHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEvent;

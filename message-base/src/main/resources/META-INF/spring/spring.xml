@@ -11,5 +11,8 @@
     <!-- 创建一个可以在项目类中获取applicationContext的bean -->
     <bean class="message.base.utils.ApplicationContextUtil"/>
 
+    <!-- 初始化ApplicationHelper -->
+    <bean class="message.base.utils.ApplicationContextListener"/>
+
     <context:annotation-config/>
 </beans>
