@@ -43,7 +43,7 @@ public abstract class InitConfigPath {
         }
 
         if (StringUtils.isEmpty(paramsPath)) {
-            throw new ConfigException(10008, "读取配置文件错误！需要设置启动参数[params.home]或者环境变量[PARAMS_HOME]，并且启动参数>环境变量");
+            throw new ConfigException(10008, "读取配置文件错误！需要设置启动参数[params.home]或者环境变量[PARAMS_HOME]，并且启动参数优先级大于环境变量");
         }
 
         Resource paramsResource = new FileSystemResource(paramsPath + File.separator + "root.properties");
