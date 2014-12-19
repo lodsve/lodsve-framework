@@ -1,10 +1,10 @@
-package message.web.commons;
+package message.mvc.commons;
 
 import message.base.Constants;
+import message.utils.CustomDateEditor;
 import message.utils.DateFormat;
 import message.utils.RequestUtils;
 import message.utils.StringUtils;
-import message.web.expand.CustomDateEditor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;

@@ -1,4 +1,4 @@
-package message.web.commons;
+package message.mvc.commons;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;

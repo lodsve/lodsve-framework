@@ -11,6 +11,8 @@
 	<mvc:annotation-driven content-negotiation-manager="contentManager" conversion-service="conversionService">
 		<mvc:argument-resolvers>
 			<bean class="message.security.annotation.resolver.CurrentAccountResolver" />
+			<bean class="message.mvc.resolver.WebInputResolver"/>
+			<bean class="message.mvc.resolver.WebOutputResolver"/>
 		</mvc:argument-resolvers >
 	</mvc:annotation-driven>
 
@@ -35,5 +37,12 @@
 				<entry key="xml" value="application/xml" />
 			</map>
 		</property>
+	</bean>
+
+	<!-- 文件上传的必须配置 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 最大上传文件大小:1024M 单位：字节 1024*1024*1024 -->
+		<property name="maxUploadSize" value="1073741824"/>
+		<property name="defaultEncoding" value="UTF-8"/>
 	</bean>
 </beans>

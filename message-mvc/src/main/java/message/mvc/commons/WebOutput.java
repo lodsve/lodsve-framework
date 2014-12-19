@@ -1,4 +1,4 @@
-package message.web.commons;
+package message.mvc.commons;
 
 import com.alibaba.fastjson.JSON;
 import message.utils.JsonUtils;
