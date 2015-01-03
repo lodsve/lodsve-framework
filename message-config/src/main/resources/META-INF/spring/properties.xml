@@ -9,7 +9,7 @@
         http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
     <!-- 配置 -->
-    <bean id="getConfigProperties" class="message.config.properties.ConfigurationLoader" factory-method="getConfigProperties"/>
+    <bean id="configurationLoader" class="message.config.properties.ConfigurationLoader"/>
 
-    <context:property-placeholder properties-ref="getConfigProperties"/>
+    <context:property-placeholder properties-ref="configurationLoader"/>
 </beans>

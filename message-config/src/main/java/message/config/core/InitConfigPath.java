@@ -18,12 +18,13 @@ import java.util.Properties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 14-9-2 下午11:53
  */
-public abstract class InitConfigPath {
+public class InitConfigPath {
     private static final Logger logger = LoggerFactory.getLogger(InitConfigPath.class);
 
     private static final String SYSTEM_PARAM_PATH = "params.home";
     private static final String ENV_PARAM_PATH = "PARAMS_HOME";
     private static final String ROOT_PARAM_KEY = "config.root";
+    private static final String ROOT_PARAM_FILE_NAME = "root.properties";
     public static String PARAMS_ROOT;
 
     static {
@@ -46,9 +47,9 @@ public abstract class InitConfigPath {
             throw new ConfigException(10008, "读取配置文件错误！需要设置启动参数[params.home]或者环境变量[PARAMS_HOME]，并且启动参数优先级大于环境变量");
         }
 
-        Resource paramsResource = new FileSystemResource(paramsPath + File.separator + "root.properties");
+        Resource paramsResource = new FileSystemResource(paramsPath + File.separator + ROOT_PARAM_FILE_NAME);
         if (!paramsResource.exists()) {
-            throw new ConfigException(10008, "参数配置文件[" + (paramsPath + File.separator + "root.properties") + "]不存在");
+            throw new ConfigException(10008, "参数配置文件[" + (paramsPath + File.separator + ROOT_PARAM_FILE_NAME) + "]不存在");
         }
 
         Properties properties;

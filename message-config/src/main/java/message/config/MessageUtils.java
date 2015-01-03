@@ -4,8 +4,6 @@ import message.base.utils.ApplicationContextUtil;
 import message.base.utils.ApplicationHelper;
 import message.config.exception.ConfigException;
 import message.config.i18n.DefaultResourceBundleMessageSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.DelegatingMessageSource;
 
@@ -23,7 +21,6 @@ public class MessageUtils {
     //国际化资源文件处理类在spring上下文中的key
     private static final String DEFAULT_MESSAGE_SOURCE = "messageSource";
 
-    private static final Logger logger = LoggerFactory.getLogger(MessageUtils.class);
     private static DefaultResourceBundleMessageSource bundleMessageSource = null;
     private static final Object lockObject = new Object();
     private static Map<Locale, Map<String, String>> allMessagesMap = new HashMap<Locale, Map<String, String>>();

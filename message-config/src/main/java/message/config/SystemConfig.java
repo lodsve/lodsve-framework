@@ -27,12 +27,7 @@ public class SystemConfig {
     }
 
     private static void init() {
-        try {
-            properties = ConfigurationLoader.getConfigProperties();
-        } catch (IOException e) {
-            throw new ConfigException(10008, "加载配置文件发生IO异常");
-        }
-
+        properties = ConfigurationLoader.getConfigProperties();
         configuration = new PropertiesConfiguration(properties);
     }
 

@@ -564,4 +564,63 @@ public class FileUtils {
             IOUtils.closeQuietly(in);
         }
     }
+
+	/**
+	 * Reads the contents of a file line by line to a List of Strings.
+	 * The file is always closed.
+	 *
+	 * @param file  the file to read, must not be <code>null</code>
+	 * @param encoding  the encoding to use, <code>null</code> means platform default
+	 * @return the list of Strings representing each line in the file, never <code>null</code>
+	 * @throws Exception in case of an I/O error
+	 * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM
+	 * @since Commons IO 1.1
+	 */
+	public static List readLines(File file, String encoding) throws Exception {
+		return readLines(openInputStream(file), encoding);
+	}
+
+	/**
+	 * Reads the contents of a file line by line to a List of Strings using the default encoding for the VM.
+	 * The file is always closed.
+	 *
+	 * @param file  the file to read, must not be <code>null</code>
+	 * @return the list of Strings representing each line in the file, never <code>null</code>
+	 * @throws Exception in case of an I/O error
+	 * @since Commons IO 1.3
+	 */
+	public static List readLines(File file) throws Exception {
+		return readLines(file, null);
+	}
+
+	/**
+	 * Reads the contents of a file line by line to a List of Strings.
+	 * The file is always closed.
+	 *
+	 * @param in  the <code>InputStream</code> to read, must not be <code>null</code>
+	 * @param encoding  the encoding to use, <code>null</code> means platform default
+	 * @return the list of Strings representing each line in the file, never <code>null</code>
+	 * @throws Exception in case of an I/O error
+	 * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM
+	 * @since Commons IO 1.1
+	 */
+	public static List readLines(InputStream in, String encoding) throws Exception {
+		if(in == null)
+			return Collections.EMPTY_LIST;
+
+		return IOUtils.readLines(in, encoding);
+	}
+
+	/**
+	 * Reads the contents of a file line by line to a List of Strings using the default encoding for the VM.
+	 * The file is always closed.
+	 *
+	 * @param in  the <code>InputStream</code> to read, must not be <code>null</code>
+	 * @return the list of Strings representing each line in the file, never <code>null</code>
+	 * @throws Exception in case of an I/O error
+	 * @since Commons IO 1.3
+	 */
+	public static List readLines(InputStream in) throws Exception {
+		return readLines(in, null);
+	}
 }

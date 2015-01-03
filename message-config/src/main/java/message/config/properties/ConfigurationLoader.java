@@ -3,6 +3,8 @@ package message.config.properties;
 import static message.config.core.InitConfigPath.PARAMS_ROOT;
 
 import message.config.exception.ConfigException;
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -20,7 +22,9 @@ import java.util.Properties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 14-8-17 下午9:44
  */
-public class ConfigurationLoader {
+public class ConfigurationLoader implements InitializingBean, FactoryBean<Properties> {
+    private static Properties prop = new Properties();
+
     public static Properties getConfigFileProperties(Resource... resources) throws IOException {
         Properties prop = new Properties();
 
@@ -30,15 +34,7 @@ public class ConfigurationLoader {
         return prop;
     }
 
-    public static Properties getConfigProperties() throws IOException {
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resolver.getResources("file:" + PARAMS_ROOT + "/*.properties");
-
-        Properties prop = new Properties();
-
-        loadProperties(prop, resources);
-
-        prop.put("params.root", PARAMS_ROOT);
+    public static Properties getConfigProperties() {
         return prop;
     }
 
@@ -56,5 +52,29 @@ public class ConfigurationLoader {
         ResourceLoader loader = new DefaultResourceLoader();
 
         return loader.getResource("file:" + PARAMS_ROOT + File.separator + "files" + File.separator + fileName);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        Resource[] resources = resolver.getResources("file:" + PARAMS_ROOT + "/*.properties");
+
+        loadProperties(prop, resources);
+        prop.put("params.root", PARAMS_ROOT);
+    }
+
+    @Override
+    public Properties getObject() throws Exception {
+        return prop;
+    }
+
+    @Override
+    public Class<?> getObjectType() {
+        return Properties.class;
+    }
+
+    @Override
+    public boolean isSingleton() {
+        return false;
     }
 }
