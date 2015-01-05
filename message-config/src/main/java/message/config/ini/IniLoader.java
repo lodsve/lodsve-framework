@@ -1,6 +1,6 @@
 package message.config.ini;
 
-import static message.config.core.InitConfigPath.PARAMS_ROOT;
+import message.config.core.InitConfigPath;
 
 import message.utils.FileUtils;
 import message.utils.StringUtils;
@@ -112,7 +112,7 @@ public class IniLoader implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resolver.getResources("file:" + PARAMS_ROOT + "/*.ini");
+        Resource[] resources = resolver.getResources("file:" + InitConfigPath.getParamsRoot() + "/*.ini");
 
         for (Resource res : resources) {
             load(values, res);

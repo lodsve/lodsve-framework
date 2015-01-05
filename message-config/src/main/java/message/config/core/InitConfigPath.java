@@ -13,10 +13,45 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * 初始化配置文件的路径.
+ * 初始化配置文件的路径.<br/>
+ * 配置文件加载顺序：<br/>
+ * web.xml中配置 &gt; 启动参数 &gt; 环境变量<br/>
+ * <ol>
+ * <li>
+ * web.xml中配置
+ * <ul>
+ * <li>
+ * 配置context-param
+ * <pre>
+ *  &lt;context-param&gt;
+ *     &lt;param-name&gt;paramsHome&lt;/param-name&gt;
+ *     &lt;param-value&gt;your params home&lt;/param-value&gt;
+ *  &lt;/context-param&gt;
+ * </pre>
+ * </li>
+ * <li>
+ * 配置listener[应该配置在web.xml中的所有listener之前，优先加载]
+ * <pre>
+ *  &lt;listener&gt;
+ *      &lt;listener-class&gt;message.config.core.ParamsHomeListener&lt;/listener-class&gt;
+ *  &lt;/listener&gt;
+ * </pre>
+ * </li>
+ * </ul>
+ * </li>
+ * <li>
+ * 启动参数<br/>
+ * {@code -params.home=your params home }
+ * </li>
+ * <li>
+ * 环境变量<br/>
+ * 系统环境变量设置{@code PARAMS_HOME=you params home }
+ * </li>
+ * </ol>
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 14-9-2 下午11:53
+ * @see message.config.core.ParamsHomeListener
  */
 public class InitConfigPath {
     private static final Logger logger = LoggerFactory.getLogger(InitConfigPath.class);
@@ -25,21 +60,31 @@ public class InitConfigPath {
     private static final String ENV_PARAM_PATH = "PARAMS_HOME";
     private static final String ROOT_PARAM_KEY = "config.root";
     private static final String ROOT_PARAM_FILE_NAME = "root.properties";
-    public static String PARAMS_ROOT;
+    private static String defaultParamsHome;
+    private static String paramsRoot = "";
 
-    static {
-        init();
+    public static String getParamsRoot(){
+        if(StringUtils.isEmpty(paramsRoot)) {
+            init();
+        }
+
+        return paramsRoot;
     }
 
     private InitConfigPath() {
     }
 
     private static void init() {
-        String paramsPath;
-        //1.启动参数获取
-        paramsPath = System.getProperty(SYSTEM_PARAM_PATH);
+        //1.默认是在web.xml中配置
+        String paramsPath = defaultParamsHome;
+
+        //2.启动参数获取
         if (StringUtils.isEmpty(paramsPath)) {
-            //2.环境变量获取
+            paramsPath = System.getProperty(SYSTEM_PARAM_PATH);
+        }
+
+        //3.环境变量获取
+        if (StringUtils.isEmpty(paramsPath)) {
             paramsPath = System.getenv(ENV_PARAM_PATH);
         }
 
@@ -64,7 +109,11 @@ public class InitConfigPath {
             throw new ConfigException(10008, "配置文件中没有rootKey:[" + ROOT_PARAM_KEY + "]");
         }
 
-        PARAMS_ROOT = paramsPath + File.separator + root;
-        logger.debug("获取到的配置文件路径为:'{}'", PARAMS_ROOT);
+        paramsRoot = paramsPath + File.separator + root;
+        logger.debug("获取到的配置文件路径为:'{}'", paramsRoot);
+    }
+
+    protected static void setDefaultParamsHome(String paramsHome) {
+        defaultParamsHome = paramsHome;
     }
 }

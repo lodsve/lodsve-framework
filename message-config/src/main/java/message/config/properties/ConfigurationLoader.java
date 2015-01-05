@@ -1,6 +1,6 @@
 package message.config.properties;
 
-import static message.config.core.InitConfigPath.PARAMS_ROOT;
+import message.config.core.InitConfigPath;
 
 import message.config.exception.ConfigException;
 import org.springframework.beans.factory.FactoryBean;
@@ -30,7 +30,7 @@ public class ConfigurationLoader implements InitializingBean, FactoryBean<Proper
 
         loadProperties(prop, resources);
 
-        prop.put("params.root", PARAMS_ROOT);
+        prop.put("params.root", InitConfigPath.getParamsRoot());
         return prop;
     }
 
@@ -51,16 +51,16 @@ public class ConfigurationLoader implements InitializingBean, FactoryBean<Proper
     public static Resource getConfigFile(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
-        return loader.getResource("file:" + PARAMS_ROOT + File.separator + "files" + File.separator + fileName);
+        return loader.getResource("file:" + InitConfigPath.getParamsRoot() + File.separator + "files" + File.separator + fileName);
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resolver.getResources("file:" + PARAMS_ROOT + "/*.properties");
+        Resource[] resources = resolver.getResources("file:" + InitConfigPath.getParamsRoot() + "/*.properties");
 
         loadProperties(prop, resources);
-        prop.put("params.root", PARAMS_ROOT);
+        prop.put("params.root", InitConfigPath.getParamsRoot());
     }
 
     @Override

@@ -1,6 +1,6 @@
 package message.config.i18n;
 
-import static message.config.core.InitConfigPath.PARAMS_ROOT;
+import message.config.core.InitConfigPath;
 
 import message.utils.StringUtils;
 import org.slf4j.Logger;
@@ -45,10 +45,12 @@ public class MessageSourceLoader implements InitializingBean {
     }
 
     private Resource[] getResources() throws IOException {
+        String paramsRoot = InitConfigPath.getParamsRoot();
+
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] propertiesResources = resolver.getResources("file:" + PARAMS_ROOT + "/i18n/**/*.properties");
-        Resource[] htmlResources = resolver.getResources("file:" + PARAMS_ROOT + "/i18n/**/*.html");
-        Resource[] txtResources = resolver.getResources("file:" + PARAMS_ROOT + "/i18n/**/*.txt");
+        Resource[] propertiesResources = resolver.getResources("file:" + paramsRoot + "/i18n/**/*.properties");
+        Resource[] htmlResources = resolver.getResources("file:" + paramsRoot + "/i18n/**/*.html");
+        Resource[] txtResources = resolver.getResources("file:" + paramsRoot + "/i18n/**/*.txt");
 
         List<Resource> resources = new ArrayList<Resource>();
         resources.addAll(Arrays.asList(propertiesResources));
