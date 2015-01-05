@@ -9,9 +9,15 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * 解析ini文件.
@@ -40,6 +46,7 @@ public class IniLoader implements InitializingBean {
         List<String> lines = FileUtils.readLines(resource.getInputStream());
 
         String section = "";
+        List<String> lineArrays = new ArrayList<String>();
         for(String line : lines){
             if(isBlankLine(line)) {
                 continue;
@@ -50,25 +57,18 @@ public class IniLoader implements InitializingBean {
             }
 
             if(isSectionLine(line)) {
+                putInValues(values, section, convertLinesToProperties(StringUtils.join(lineArrays, "\r\n")));
+                lineArrays.clear();
+
                 section = line.substring(1, line.length() - 1);
                 continue;
             }
 
-            Map<String, String> sectionValue = values.get(section);
-            if(sectionValue == null) {
-                sectionValue = new HashMap<String, String>();
-            }
-
-            String[] temp = StringUtils.split(line, "=");
-            if(temp == null || temp.length != 2) {
-                continue;
-            }
-            String key = temp[0];
-            String value = temp[1];
-
-            sectionValue.put(key, value);
-            values.put(section, sectionValue);
+            lineArrays.add(line);
         }
+
+        //最后一个section
+        putInValues(values, section, convertLinesToProperties(StringUtils.join(lineArrays, "\r\n")));
     }
 
     /**
@@ -92,7 +92,7 @@ public class IniLoader implements InitializingBean {
      * @param line The line to check.
      * @return true if the line contains a section
      */
-    protected static boolean isSectionLine(String line) {
+    private static boolean isSectionLine(String line) {
         if (line == null) {
             return false;
         }
@@ -105,8 +105,48 @@ public class IniLoader implements InitializingBean {
      * @param line The line to check.
      * @return true if the line is blank line.
      */
-    protected static boolean isBlankLine(String line) {
+    private static boolean isBlankLine(String line) {
         return StringUtils.isEmpty(line);
+    }
+
+    /**
+     * 将多行类似Properties文件格式的字符串转换成Properties对象
+     *
+     * @param lines 多行，以回车换行隔开(\r\n)
+     * @return
+     */
+    private static Properties convertLinesToProperties(String lines){
+        Properties prop = new Properties();
+        if(StringUtils.isEmpty(lines)) {
+            return prop;
+        }
+
+        try {
+            InputStream is = new ByteArrayInputStream(lines.getBytes());
+            prop.load(is);
+        } catch (IOException e) {
+            return prop;
+        }
+
+        return prop;
+    }
+
+    private static void putInValues(Map<String, Map<String, String>> values, String section, Properties prop){
+        if(StringUtils.isEmpty(section)) {
+            return;
+        }
+
+        Map<String, String> sectionValues = values.get(section);
+
+        if(sectionValues == null)
+            sectionValues = new HashMap<String, String>();
+
+        Set<?> keys = prop.keySet();
+        for(Object key : keys){
+            sectionValues.put(key.toString(), prop.getProperty(key.toString()));
+        }
+
+        values.put(section, sectionValues);
     }
 
     @Override
@@ -118,4 +158,5 @@ public class IniLoader implements InitializingBean {
             load(values, res);
         }
     }
+
 }
