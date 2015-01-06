@@ -5,7 +5,8 @@
 			http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
         version="2.0">
     <tlib-version>1.0</tlib-version>
-    <short-name>cosmos-fn</short-name>
+    <short-name>cosmos_fn</short-name>
+    <uri>http://sunhao-java.vicp.cc/cosmos/functions</uri>
     <function>
         <description>custom jstl fn function, to handle collection</description>
         <name>contains</name>
