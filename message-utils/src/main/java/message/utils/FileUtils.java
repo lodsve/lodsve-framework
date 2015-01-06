@@ -576,7 +576,7 @@ public class FileUtils {
 	 * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM
 	 * @since Commons IO 1.1
 	 */
-	public static List readLines(File file, String encoding) throws Exception {
+	public static List<String> readLines(File file, String encoding) throws Exception {
 		return readLines(openInputStream(file), encoding);
 	}
 
@@ -589,7 +589,7 @@ public class FileUtils {
 	 * @throws Exception in case of an I/O error
 	 * @since Commons IO 1.3
 	 */
-	public static List readLines(File file) throws Exception {
+	public static List<String> readLines(File file) throws Exception {
 		return readLines(file, null);
 	}
 
@@ -604,7 +604,7 @@ public class FileUtils {
 	 * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM
 	 * @since Commons IO 1.1
 	 */
-	public static List readLines(InputStream in, String encoding) throws Exception {
+	public static List<String> readLines(InputStream in, String encoding) throws Exception {
 		if(in == null)
 			return Collections.EMPTY_LIST;
 
@@ -620,7 +620,7 @@ public class FileUtils {
 	 * @throws Exception in case of an I/O error
 	 * @since Commons IO 1.3
 	 */
-	public static List readLines(InputStream in) throws Exception {
+	public static List<String> readLines(InputStream in) throws Exception {
 		return readLines(in, null);
 	}
 }
