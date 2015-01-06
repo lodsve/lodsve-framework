@@ -5,7 +5,7 @@ import message.security.SecurityConstants;
 import message.security.pojo.Account;
 import message.security.pojo.AccountRole;
 import message.security.pojo.Role;
-import message.utils.MD5Utils;
+import message.utils.EncryptUtils;
 import message.validate.core.NeedValidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public class AccountService {
      */
     @NeedValidate
     protected Account save(Account account) throws Exception {
-        account.setPassword(MD5Utils.MD5Encode(account.getPassword()));
+        account.setPassword(EncryptUtils.encodeMD5(account.getPassword()));
         account.setCreateDate(new Date());
 
         return this.genericJdbcDAO.genericInsert(account);
@@ -66,7 +66,7 @@ public class AccountService {
     protected boolean chgPwd(String loginName, String password) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("loginName", loginName);
-        params.put("password", password);
+        params.put("password", EncryptUtils.encodeMD5(password));
 
         String sql = "update " + SecurityConstants.T_ACCOUNT + " t set t.password = :password where t.login_name = :loginName";
 

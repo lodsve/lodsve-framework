@@ -4,6 +4,7 @@ import message.security.SecurityConstants;
 import message.security.exception.SecurityException;
 import message.security.pojo.Account;
 import message.security.pojo.Role;
+import message.utils.EncryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -70,7 +71,7 @@ public class Authc {
             return false;
         }
 
-        if (password.equals(account.getPassword())) {
+        if (EncryptUtils.encodeMD5(password).equals(account.getPassword())) {
             this.putInSession(request, account);
             return true;
         }
@@ -100,7 +101,7 @@ public class Authc {
             return false;
         }
 
-        if (!password.equals(account.getPassword())) {
+        if (!EncryptUtils.encodeMD5(password).equals(account.getPassword())) {
             return false;
         }
 
