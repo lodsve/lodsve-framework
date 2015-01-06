@@ -48,7 +48,7 @@ public class CutTextTag extends TagSupport{
 	}
 	
 	private void print(String out) throws JspTagException{
-		String printOut = StringUtils.EMPTY;
+		String printOut;
 		if(out.length() <= length) {
 			printOut = out;
 		} else {
@@ -62,44 +62,23 @@ public class CutTextTag extends TagSupport{
 		}
 	}
 
-	public String getText() {
-		return text;
-	}
-
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public int getLength() {
-		return length;
 	}
 
 	public void setLength(int length) {
 		this.length = length;
 	}
 
-	public String getEndText() {
-		return endText;
-	}
-
 	public void setEndText(String endText) {
 		this.endText = endText;
-	}
-
-	public boolean isEscapeHtml() {
-		return escapeHtml;
 	}
 
 	public void setEscapeHtml(boolean escapeHtml) {
 		this.escapeHtml = escapeHtml;
 	}
 
-	public String getDefault() {
-		return defaultStr;
-	}
-
-	public void setDefault(String defaultStr) {
+	public void setDefaultStr(String defaultStr) {
 		this.defaultStr = defaultStr;
 	}
-
 }
