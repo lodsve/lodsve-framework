@@ -366,7 +366,13 @@ public class ImageUtils {
         }
         return true;
     }
-    
+
+    /**
+     * 将颜色转换成RGB值
+     *
+     * @param color 必须是#123456这样的格式
+     * @return
+     */
     public static int[] converColorToRGB(String color){
     	if(StringUtils.isEmpty(color)){
     		return null;
