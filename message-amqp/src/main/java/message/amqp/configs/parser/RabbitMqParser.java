@@ -60,10 +60,10 @@ public class RabbitMqParser implements BeanDefinitionParser {
 
         Map<String, String> params = new HashMap<String, String>();
 
-        params.put("addresses", PropertyPlaceholderHelper.processProperties(address, false, SystemConfig.getAllConfigs()));
-        params.put("username", PropertyPlaceholderHelper.processProperties(username, false, SystemConfig.getAllConfigs()));
-        params.put("password", PropertyPlaceholderHelper.processProperties(password, false, SystemConfig.getAllConfigs()));
-        params.put("exchange", PropertyPlaceholderHelper.processProperties(exchange, false, SystemConfig.getAllConfigs()));
+        params.put("addresses", PropertyPlaceholderHelper.replacePlaceholder(address, false, SystemConfig.getAllConfigs()));
+        params.put("username", PropertyPlaceholderHelper.replacePlaceholder(username, false, SystemConfig.getAllConfigs()));
+        params.put("password", PropertyPlaceholderHelper.replacePlaceholder(password, false, SystemConfig.getAllConfigs()));
+        params.put("exchange", PropertyPlaceholderHelper.replacePlaceholder(exchange, false, SystemConfig.getAllConfigs()));
         return params;
     }
 }

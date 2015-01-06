@@ -19,7 +19,7 @@ public class OsCacheConfigParser extends AbstractCacheConfigParser {
     @Override
     protected Map<String, String> getConfigs(Element element) {
         String configuration = element.getAttribute("configuration");
-        String path = PropertyPlaceholderHelper.processProperties(configuration, false, SystemConfig.getAllConfigs());
+        String path = PropertyPlaceholderHelper.replacePlaceholder(configuration, false, SystemConfig.getAllConfigs());
 
         return Collections.singletonMap("configuration", path);
     }

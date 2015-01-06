@@ -1,5 +1,6 @@
 package message.validate.exception;
 
+import message.utils.PropertyPlaceholderHelper;
 import message.utils.ReplaceStringUtils;
 import message.validate.constants.ValidateConstants;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class DefaultExceptionHandler implements ExceptionHandler {
         Exception ex = new DataValidateException(10011, ValidateConstants.VALIDATE_NO, validateClass.getName(),
                 validateField.getName(), value.toString(), annotation.annotationType().getSimpleName());
         if (logger.isErrorEnabled())
-            logger.error(ReplaceStringUtils.replace(ValidateConstants.VALIDATE_NO, new Object[]{
+            logger.error(PropertyPlaceholderHelper.replacePlaceholder(ValidateConstants.VALIDATE_NO, new Object[]{
                     validateClass.getName(), validateField.getName(), value, annotation.annotationType().getSimpleName()
             }), ex);
 

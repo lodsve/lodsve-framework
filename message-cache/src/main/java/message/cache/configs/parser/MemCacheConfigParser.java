@@ -19,7 +19,7 @@ public class MemCacheConfigParser extends AbstractCacheConfigParser {
     @Override
     protected Map<String, String> getConfigs(Element element) {
         String servers = element.getAttribute("servers");
-        String servers_ = PropertyPlaceholderHelper.processProperties(servers, false, SystemConfig.getAllConfigs());
+        String servers_ = PropertyPlaceholderHelper.replacePlaceholder(servers, false, SystemConfig.getAllConfigs());
 
         return Collections.singletonMap("servers", servers_);
     }

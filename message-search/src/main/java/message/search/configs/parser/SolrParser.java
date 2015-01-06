@@ -19,7 +19,7 @@ public class SolrParser extends AbstractSearchEngineParser {
     @Override
     protected Map<String, String> getConfigs(Element element) {
         String server_ = element.getAttribute("server");
-        String server = PropertyPlaceholderHelper.processProperties(server_, false, SystemConfig.getAllConfigs());
+        String server = PropertyPlaceholderHelper.replacePlaceholder(server_, false, SystemConfig.getAllConfigs());
 
         return Collections.singletonMap("server", server);
     }

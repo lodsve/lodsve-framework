@@ -58,11 +58,11 @@ public class QueueDefParser implements BeanDefinitionParser {
         List<Queue> queues = new ArrayList<Queue>();
         for(Element ele : childElements){
             Queue queue = new Queue();
-            queue.setName(PropertyPlaceholderHelper.processProperties(ele.getAttribute("queue-name"), false, configs));
-            queue.setExchange(PropertyPlaceholderHelper.processProperties(ele.getAttribute("exchange"), false, configs));
-            queue.setRoutingKey(PropertyPlaceholderHelper.processProperties(ele.getAttribute("routing-key"), false, configs));
-            queue.setRef(PropertyPlaceholderHelper.processProperties(ele.getAttribute("ref"), false, configs));
-            queue.setMethod(PropertyPlaceholderHelper.processProperties(ele.getAttribute("method"), false, configs));
+            queue.setName(PropertyPlaceholderHelper.replacePlaceholder(ele.getAttribute("queue-name"), false, configs));
+            queue.setExchange(PropertyPlaceholderHelper.replacePlaceholder(ele.getAttribute("exchange"), false, configs));
+            queue.setRoutingKey(PropertyPlaceholderHelper.replacePlaceholder(ele.getAttribute("routing-key"), false, configs));
+            queue.setRef(PropertyPlaceholderHelper.replacePlaceholder(ele.getAttribute("ref"), false, configs));
+            queue.setMethod(PropertyPlaceholderHelper.replacePlaceholder(ele.getAttribute("method"), false, configs));
 
             queues.add(queue);
         }
@@ -71,9 +71,9 @@ public class QueueDefParser implements BeanDefinitionParser {
 
         params.put("queues", queues);
 
-        String rejected = PropertyPlaceholderHelper.processProperties(element.getAttribute("requeue-rejected"), false, configs);
-        String converter = PropertyPlaceholderHelper.processProperties(element.getAttribute("message-converter"), false, configs);
-        String handler = PropertyPlaceholderHelper.processProperties(element.getAttribute("error-handler"), false, configs);
+        String rejected = PropertyPlaceholderHelper.replacePlaceholder(element.getAttribute("requeue-rejected"), false, configs);
+        String converter = PropertyPlaceholderHelper.replacePlaceholder(element.getAttribute("message-converter"), false, configs);
+        String handler = PropertyPlaceholderHelper.replacePlaceholder(element.getAttribute("error-handler"), false, configs);
         params.put("rejected", rejected);
         params.put("converter", converter);
         params.put("handler", handler);

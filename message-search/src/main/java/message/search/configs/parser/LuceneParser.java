@@ -19,7 +19,7 @@ public class LuceneParser extends AbstractSearchEngineParser {
     @Override
     protected Map<String, String> getConfigs(Element element) {
         String index_ = element.getAttribute("index");
-        String index = PropertyPlaceholderHelper.processProperties(index_, false, SystemConfig.getAllConfigs());
+        String index = PropertyPlaceholderHelper.replacePlaceholder(index_, false, SystemConfig.getAllConfigs());
 
         return Collections.singletonMap("index", index);
     }

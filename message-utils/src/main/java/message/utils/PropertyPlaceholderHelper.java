@@ -1,10 +1,13 @@
 package message.utils;
 
 import org.apache.commons.lang.exception.NestableRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 处理字符串中的占位符.
@@ -13,8 +16,24 @@ import java.util.regex.Pattern;
  * @version V1.0, 14-9-3 下午10:37
  */
 public class PropertyPlaceholderHelper {
+    private static final Logger logger = LoggerFactory.getLogger(PropertyPlaceholderHelper.class);
+
+    /**
+     * 占位符前缀
+     */
     private static final String PLACEHOLDER_PREFIX = "${";
+    /**
+     * 占位符后缀
+     */
     private static final String PLACEHOLDER_SUFFIX = "}";
+    /**
+     * 左括号
+     */
+    private final static String LEFT_BRACE = "{";
+    /**
+     * 右括号
+     */
+    private final static String RIGTH_BRACE = "}";
 
     /**
      * 私有化构造器，外部不可以实例化
@@ -43,7 +62,7 @@ public class PropertyPlaceholderHelper {
      * @param values                    值的map集合
      * @return
      */
-    public static String processProperties(String text, boolean placeholderAsDefaultValue, Map<String, String> values) {
+    public static String replacePlaceholder(String text, boolean placeholderAsDefaultValue, Map<String, String> values) {
         Assert.hasText(text, "source text can't be null!");
         if (!needReplace(text)) {
             return text;
@@ -66,8 +85,9 @@ public class PropertyPlaceholderHelper {
             if (i < length) {
                 String t = groups[i];
                 //3.将所有的占位符取出
-                if (StringUtils.contains(t, PLACEHOLDER_SUFFIX))
+                if (StringUtils.contains(t, PLACEHOLDER_SUFFIX)) {
                     placeholders.add(StringUtils.substring(t, 0, StringUtils.indexOf(t, PLACEHOLDER_SUFFIX)));
+                }
             }
         }
 
@@ -97,5 +117,84 @@ public class PropertyPlaceholderHelper {
      */
     private static boolean needReplace(String text) {
         return StringUtils.hasExcerpt(text, "\\$\\{.*?\\}") > 0;
+    }
+
+    /**
+     * 格式化字符串，替换{0}{1}...，如果不成功，则默认返回原字符串
+     *
+     * @param formatString	需要格式化的字符串
+     * @param args			参数
+     * @return
+     */
+    public static String replacePlaceholder(String formatString, Object... args){
+        String result = replacePlaceholder(formatString, StringUtils.EMPTY, args);
+
+        return StringUtils.isEmpty(result) ? formatString : result;
+    }
+
+    /**
+     * 格式化字符串，替换{0}{1}...，如果不成功，则返回defaultVlaue
+     *
+     * @param formatString	需要格式化的字符串
+     * @param defaultValue	如果不成功，返回的字符串
+     * @param args			参数
+     * @return
+     */
+    public static String replacePlaceholder(String formatString, String defaultValue, Object... args){
+        if(StringUtils.isEmpty(formatString) || formatString.indexOf(LEFT_BRACE) == -1 || formatString.indexOf(RIGTH_BRACE) == -1
+                || args == null || args.length < 1){
+            logger.error("the formatString, args, defaultValue is required! please check given paramters are all right!");
+            return StringUtils.EMPTY;
+        }
+
+        /**
+         * 第一个'{'的位置
+         */
+        int firstLeftBrace = formatString.indexOf(LEFT_BRACE);
+        /**
+         * 最后一个'}'的位置
+         */
+        int lastRightBrace = formatString.lastIndexOf(RIGTH_BRACE);
+        /**
+         * 第一个'{'后面的那个数字
+         */
+        String first = formatString.substring(firstLeftBrace + 1, firstLeftBrace + 2);
+        /**
+         * 最后一个'}'后面的那个数字
+         */
+        String last = formatString.substring(lastRightBrace - 1, lastRightBrace);
+
+        /**
+         * 第一个序号和最后一个序号
+         */
+        int firstSequence = Integer.parseInt(first);
+        int lastSequence = Integer.parseInt(last);
+
+        /**
+         * {0}{1}...的个数与给定的值个数不一致，或者{0}{1}...不是按照这样递增的，那么返回错误,
+         * 否则进行替换
+         */
+        if(!((lastSequence - firstSequence + 1) < 0 || (lastSequence - firstSequence + 1) != args.length)){
+            /**
+             * 替换规则：
+             * 给定值的第一个值替换{0}，以此类推
+             */
+            for(int j = 0; j < args.length; j++){
+                formatString = formatString.replace("{" + j + "}", args[j] + "");
+            }
+        } else {
+            if(logger.isWarnEnabled()){
+                logger.warn("foramtString has '{}' barces, but you given '{}' paramters!",
+                        lastSequence - firstSequence + 1, args.length);
+            }
+
+            return defaultValue;
+        }
+
+        if(logger.isDebugEnabled()){
+            logger.debug("format successed! the result is '{}'", formatString);
+        }
+
+        return formatString;
     }
 }

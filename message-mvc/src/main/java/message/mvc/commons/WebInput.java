@@ -1,8 +1,6 @@
 package message.mvc.commons;
 
 import message.base.Constants;
-import message.utils.CustomDateEditor;
-import message.utils.DateFormat;
 import message.utils.RequestUtils;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
@@ -13,7 +11,9 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -145,7 +145,7 @@ public class WebInput {
     }
 
     public Date getDate(String name, String pattern, Date defaultValue) {
-        DateFormat format = new DateFormat(pattern);
+        DateFormat format = new SimpleDateFormat(pattern);
         Date result = defaultValue;
         try {
             String value = this.request.getParameter(name);
@@ -161,7 +161,7 @@ public class WebInput {
     }
 
     public Date getDate(String name) {
-        DateFormat format = new DateFormat(TIME_PATTERN);
+        DateFormat format = new SimpleDateFormat(TIME_PATTERN);
         String value = this.request.getParameter(name);
         try {
             return StringUtils.isEmpty(value) ? null : format.parse(value);
@@ -323,7 +323,7 @@ public class WebInput {
         List<String> params = RequestUtils.getRequestParam(request);
         ServletRequestDataBinder binder = new ServletRequestDataBinder(command, DEFAULT_COMMAND_NAME);
 
-        DateFormat dateFormat1 = new DateFormat(getDateFormatPattern(params));
+        DateFormat dateFormat1 = new SimpleDateFormat(getDateFormatPattern(params));
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat1, true));
 
         return binder;

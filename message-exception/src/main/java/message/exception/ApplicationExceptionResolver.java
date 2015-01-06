@@ -4,7 +4,7 @@ import message.base.Constants;
 import message.base.exception.ApplicationRuntimeException;
 import message.config.SystemConfig;
 import message.utils.JsonUtils;
-import message.utils.ReplaceStringUtils;
+import message.utils.PropertyPlaceholderHelper;
 import message.utils.RequestUtils;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
@@ -170,7 +170,7 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
         String message = formatErrorMessage(are.getMessage(), are.getArgs());
 
         Throwable throwable = are.getException();
-        if(throwable != null) {
+        if (throwable != null) {
             throwable.printStackTrace();
         }
 
@@ -182,7 +182,7 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
             return message;
         }
 
-        return ReplaceStringUtils.replace(message, args, message);
+        return PropertyPlaceholderHelper.replacePlaceholder(message, message, args);
     }
 
     private void printHTML(HttpServletResponse response, String html) {

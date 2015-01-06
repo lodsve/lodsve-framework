@@ -1,6 +1,6 @@
 package message.tags;
 
-import message.utils.ReplaceStringUtils;
+import message.utils.PropertyPlaceholderHelper;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,9 +98,8 @@ public class FormatDateTag extends org.apache.taglibs.standard.tag.rt.fmt.Format
                 time = getProperty("DATEFORMAT_NIGHT");
                 hours = 0;
             }
-            out = ReplaceStringUtils.replace(getProperty("DATEFORMAT_DATE_FORMAT"), new Object[]{time, hours, minutes},
-                    getProperty("DATEFORMAT_DATE_FORMAT"));
-            ;
+            out = PropertyPlaceholderHelper.replacePlaceholder(getProperty("DATEFORMAT_DATE_FORMAT"),
+                    new Object[]{time, hours, minutes}, getProperty("DATEFORMAT_DATE_FORMAT"));
             print(out);
             return EVAL_PAGE;
         }
