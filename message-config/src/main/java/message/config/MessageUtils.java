@@ -4,10 +4,16 @@ import message.base.utils.ApplicationContextUtil;
 import message.base.utils.ApplicationHelper;
 import message.config.exception.ConfigException;
 import message.config.i18n.DefaultResourceBundleMessageSource;
+import message.utils.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.DelegatingMessageSource;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 
 /**
@@ -45,6 +51,21 @@ public class MessageUtils {
     /**
      * get message by locale, and format with args
      *
+     * @param code           键
+     * @param locale         语言
+     * @param defaultMessage String to return if the lookup fails
+     * @param args           参数
+     * @return
+     */
+    public static String getMessage(String code, Locale locale, String defaultMessage, String... args) {
+        ApplicationContext conetnt = ApplicationContextUtil.getContext();
+
+        return conetnt.getMessage(code, args, defaultMessage, locale);
+    }
+
+    /**
+     * get message by locale, and format with args
+     *
      * @param code   键
      * @param locale 语言
      * @param args   参数
@@ -53,7 +74,32 @@ public class MessageUtils {
     public static String getMessage(String code, Locale locale, String... args) {
         ApplicationContext conetnt = ApplicationContextUtil.getContext();
 
-        return conetnt.getMessage(code, args, locale);
+        return conetnt.getMessage(code, args, StringUtils.EMPTY, locale);
+    }
+
+    /**
+     * get message by locale, and format with args
+     *
+     * @param code 键
+     * @param args 参数
+     * @return
+     */
+    public static String getMessage(String code, String... args) {
+        ApplicationContext conetnt = ApplicationContextUtil.getContext();
+
+        return conetnt.getMessage(code, args, StringUtils.EMPTY, Locale.getDefault());
+    }
+
+    /**
+     * get message by locale, and format with args
+     *
+     * @param code 键
+     * @return
+     */
+    public static String getMessage(String code) {
+        ApplicationContext conetnt = ApplicationContextUtil.getContext();
+
+        return conetnt.getMessage(code, Collections.emptyList().toArray(new String[0]), StringUtils.EMPTY, Locale.getDefault());
     }
 
     /**
