@@ -257,6 +257,16 @@
                 <artifactId>fastjson</artifactId>
                 <version>1.1.33</version>
             </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.4.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>2.4.0</version>
+            </dependency>
             <!-- json end -->
 
             <dependency>

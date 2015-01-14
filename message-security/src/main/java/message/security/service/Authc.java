@@ -36,7 +36,7 @@ public class Authc {
         Assert.hasText(password, "密码必填！");
 
         Account account = this.accountService.loadAccount(loginName);
-        if (account == null) {
+        if (account != null) {
             throw new SecurityException(SecurityConstants.SECUTIRY_EXCEPTION_CODE, "用户名为'{0}'的用户已存在！", loginName);
         }
 

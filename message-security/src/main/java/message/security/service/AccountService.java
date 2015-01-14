@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -51,9 +52,13 @@ public class AccountService {
 
 
     protected Account loadAccount(String loginName) {
-        String sql = "select " + SecurityConstants.T_ACCOUNT + " t where t.login_name = :loginName";
+        String sql = "select t.* from " + SecurityConstants.T_ACCOUNT + " t where t.login_name = :loginName";
 
-        return this.genericJdbcDAO.queryForBean(sql, Collections.singletonMap("loginName", loginName), Account.class);
+        try {
+            return this.genericJdbcDAO.queryForBean(sql, Collections.singletonMap("loginName", loginName), Account.class);
+        } catch (DataAccessException e) {
+            return null;
+        }
     }
 
     /**

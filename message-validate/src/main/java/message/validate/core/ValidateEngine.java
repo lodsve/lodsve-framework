@@ -166,7 +166,7 @@ public class ValidateEngine implements InitializingBean {
      * @throws Exception
      */
     @Around("@annotation(message.validate.core.NeedValidate)")
-    public void validate(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    public Object validate(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         if (!this.openValidate) {
             logger.debug("this web project is no open validate engine!");
@@ -193,8 +193,10 @@ public class ValidateEngine implements InitializingBean {
         }
 
         if (result) {
-            proceedingJoinPoint.proceed();
+            return proceedingJoinPoint.proceed();
         }
+
+        return null;
     }
 
     /**

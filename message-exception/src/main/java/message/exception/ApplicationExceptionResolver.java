@@ -43,7 +43,7 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
 
     @PostConstruct
     public void init() {
-        String folderPath = "files" + File.separator + "error";
+        String folderPath = "error";
         Resource resource = SystemConfig.getConfigFile(folderPath);
 
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -188,6 +188,8 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
     private void printHTML(HttpServletResponse response, String html) {
         PrintWriter printWriter;
         try {
+            response.setContentType("application/x-json");
+            response.setCharacterEncoding("utf-8");
             printWriter = response.getWriter();
             printWriter.print(html);
             printWriter.close();
