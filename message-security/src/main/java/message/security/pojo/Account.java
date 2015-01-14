@@ -50,9 +50,9 @@ public class Account {
     public Account() {
     }
 
-    public Account(String password, String loginName) {
-        this.password = password;
+    public Account(String loginName, String password) {
         this.loginName = loginName;
+        this.password = password;
     }
 
     public Long getPkId() {

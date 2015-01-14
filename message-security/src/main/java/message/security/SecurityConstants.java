@@ -43,5 +43,5 @@ public class SecurityConstants {
     /**
      * 安全模块异常code
      */
-    public static final Integer SECUTIRY_EXCEPTION_CODE = Integer.valueOf(11012);
+    public static final Integer SECUTIRY_EXCEPTION_CODE = Integer.valueOf(10012);
 }
