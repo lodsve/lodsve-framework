@@ -32,7 +32,7 @@ public class Authz {
      * @return
      */
     public boolean isLogin(HttpServletRequest request) {
-        Assert.isNull(request, "HttpServletRequest不能为空！");
+        Assert.notNull(request, "HttpServletRequest不能为空！");
 
         return getLoginAccount(request) != null;
     }
@@ -44,7 +44,7 @@ public class Authz {
      * @return
      */
     public Account getLoginAccount(HttpServletRequest request) {
-        Assert.isNull(request, "HttpServletRequest不能为空！");
+        Assert.notNull(request, "HttpServletRequest不能为空！");
 
         Object obj = request.getSession().getAttribute(SecurityConstants.ACCOUNT_KEY_IN_SESSION);
         if (obj == null) {

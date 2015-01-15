@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 public class Authc {
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private Authz authz;
 
     /**
      * 注册用户
@@ -35,11 +37,11 @@ public class Authc {
         Assert.hasText(loginName, "用户名必填！");
         Assert.hasText(password, "密码必填！");
 
-        Account account = this.accountService.loadAccount(loginName);
-        if (account != null) {
+        if (isExist(loginName)) {
             throw new SecurityException(SecurityConstants.SECUTIRY_EXCEPTION_CODE, "用户名为'{0}'的用户已存在！", loginName);
         }
 
+        Account account = null;
         try {
             account = this.accountService.save(new Account(loginName, password));
         } catch (Exception e) {
@@ -55,6 +57,17 @@ public class Authc {
     }
 
     /**
+     * 判断用户名是否存在
+     *
+     * @param loginName 用户名
+     * @return true 存在 false 不存在
+     */
+    public boolean isExist(String loginName) {
+        Account account = this.accountService.loadAccount(loginName);
+        return account != null;
+    }
+
+    /**
      * 登录校验
      *
      * @param request
@@ -62,17 +75,29 @@ public class Authc {
      * @param password  密码(明文)
      * @return
      */
-    public boolean login(HttpServletRequest request, String loginName, String password) {
+    public Account login(HttpServletRequest request, String loginName, String password) {
         Assert.hasText(loginName, "用户名必填！");
         Assert.hasText(password, "密码必填！");
 
         Account account = this.accountService.loadAccount(loginName);
-        if (account == null) {
-            return false;
+
+        if (account != null && EncryptUtils.encodeMD5(password).equals(account.getPassword())) {
+            this.putInSession(request, account);
+            return account;
         }
 
-        if (EncryptUtils.encodeMD5(password).equals(account.getPassword())) {
-            this.putInSession(request, account);
+        return null;
+    }
+
+    /**
+     * 登出
+     *
+     * @param request
+     * @return
+     */
+    public boolean logout(HttpServletRequest request) {
+        if(this.authz.isLogin(request)) {
+            request.getSession().removeAttribute(SecurityConstants.ACCOUNT_KEY_IN_SESSION);
             return true;
         }
 
