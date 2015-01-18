@@ -1,4 +1,4 @@
-package message.exception;
+package message.exception.core;
 
 import message.base.Constants;
 import message.base.exception.ApplicationRuntimeException;
@@ -12,14 +12,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -32,8 +29,9 @@ import java.util.Properties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 14-9-11 下午9:04
  */
-@Component
 public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver {
+    private static final String ERROR_MESSAGE_KEY = "exceptionMsg";
+
     private static final String AJAX_TYPE_JSON = "json";
     private static final String AJAX_TYPE_HTML = "html";
     private static final String AJAX_TYPE_JS = "js";
@@ -41,7 +39,6 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
     private static final String AJAX_ERROR_JS = "javascript:alert(\":errorMessage \")";
     private static final Properties ERROR_CODE_MESSAGE_MAPPING = new Properties();
 
-    @PostConstruct
     public void init() {
         String folderPath = "error";
         Resource resource = SystemConfig.getConfigFile(folderPath);
@@ -63,9 +60,6 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
                 e.printStackTrace();
             }
         }
-
-        String defaultErrorView = SystemConfig.getString("default.error.page", "error.page");
-        this.setDefaultErrorView(defaultErrorView);
     }
 
     @Override
@@ -99,7 +93,7 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
 
         String errorMessage = this.getExceptionMessage(ex);
 
-        mv.addObject(DEFAULT_EXCEPTION_ATTRIBUTE, errorMessage);
+        mv.addObject(ERROR_MESSAGE_KEY, errorMessage);
 
         return mv;
     }
