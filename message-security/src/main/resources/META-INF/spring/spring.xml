@@ -19,15 +19,4 @@
 
     <datasource:rdbms dataSource="security"/>
     <jdbc:jdbc dataSource="security" basePackage="message.security.service" useFlyway="true" migration="db/security"/>
-
-    <!-- 拦截器配置 -->
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
-    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
-        <property name="interceptors">
-            <list>
-                <bean class="message.security.core.LoginInterceptor"/>
-                <bean class="message.security.core.AuthzInterceptor"/>
-            </list>
-        </property>
-    </bean>
 </beans>

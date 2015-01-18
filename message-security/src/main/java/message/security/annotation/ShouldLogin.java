@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * @version V1.0
  * @createTime 2014-12-7 14:09
  */
-@Target({ElementType.FIELD})
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ShouldLogin {
