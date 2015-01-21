@@ -1,9 +1,8 @@
 package message.security.core;
 
 import message.security.SecurityConstants;
-import message.security.annotation.NeedAuthz;
-import message.security.annotation.ShouldLogin;
-import message.security.exception.*;
+import message.security.annotation.NeedLogin;
+import message.security.service.Authz;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,7 +21,7 @@ import java.lang.reflect.Method;
  */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Autowired
-    private message.security.service.Authz authz;
+    private Authz authz;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -34,7 +33,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         Method method = handlerMethod.getMethod();
 
         //获取注解
-        ShouldLogin login = method.getAnnotation(ShouldLogin.class);
+        NeedLogin login = method.getAnnotation(NeedLogin.class);
         if(login == null) {
             //不需要
             return super.preHandle(request, response, handler);
