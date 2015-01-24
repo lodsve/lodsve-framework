@@ -1,55 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="  
 	http://www.springframework.org/schema/beans   
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-	http://www.springframework.org/schema/mvc
-	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
 	http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
 	<context:component-scan base-package="message.mvc"/>
-
-	<mvc:annotation-driven content-negotiation-manager="contentManager" conversion-service="conversionService">
-		<mvc:argument-resolvers>
-			<bean class="message.security.annotation.resolver.CurrentAccountResolver" />
-			<bean class="message.mvc.resolver.MessageMVCHandlerMethodArgumentResolver"/>
-		</mvc:argument-resolvers >
-	</mvc:annotation-driven>
-
-	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-		<property name="converters">
-			<set>
-				<bean class="message.mvc.convert.EnumConverterFactory"/>
-				<bean class="message.mvc.convert.StringDateConvertFactory"/>
-			</set>
-		</property>
-	</bean>
-
-	<bean id="contentManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
-		<property name="favorPathExtension" value="true"/>
-		<property name="ignoreAcceptHeader" value="true" />
-		<property name="defaultContentType" value="application/json" />
-		<property name="useJaf" value="false"/>
-		<property name="mediaTypes">
-			<map>
-				<entry key="json" value="application/json" />
-				<entry key="html" value="text/html" />
-				<entry key="xml" value="application/xml" />
-			</map>
-		</property>
-	</bean>
-
-	<!-- 文件上传的必须配置 -->
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!-- 最大上传文件大小:1024M 单位：字节 1024*1024*1024 -->
-		<property name="maxUploadSize" value="1073741824"/>
-		<property name="defaultEncoding" value="UTF-8"/>
-	</bean>
-
-	<!-- 静态资源访问的支持 -->
-	<mvc:default-servlet-handler />
 </beans>
