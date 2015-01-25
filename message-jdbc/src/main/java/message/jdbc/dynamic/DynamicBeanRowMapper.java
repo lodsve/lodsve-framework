@@ -41,12 +41,10 @@ import java.util.Map;
 public class DynamicBeanRowMapper extends ColumnMapRowMapper {
     private static final Logger logger = LoggerFactory.getLogger(DynamicBeanRowMapper.class);
 
-    private Class clazz;
     private Constructor constructor;
     private Map mappedFields;
     private String sql;
     private String mapperKey;
-    private SqlHelper sqlHelper;
     private final static Map mappers = new HashMap();
 
     public DynamicBeanRowMapper() {
@@ -54,7 +52,7 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
     }
 
     public DynamicBeanRowMapper(Class clazz) {
-        this.clazz = clazz;
+        super.setClazz(clazz);
     }
 
     public static RowMapper getInstance(Class clazz, SqlHelper sqlHelper, String sql) {
@@ -76,13 +74,13 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
 
     protected void initialize() {
         try {
-            this.constructor = clazz.getConstructor((Class[]) null);
+            this.constructor = super.getClazz().getConstructor((Class[]) null);
         } catch (Exception e) {
-            throw new DataAccessResourceFailureException("there is no default constructor in class " + clazz.getName());
+            throw new DataAccessResourceFailureException("there is no default constructor in class " + super.getClazz().getName());
         }
 
         this.mappedFields = new HashMap();
-        Class metaClass = this.clazz;
+        Class metaClass = super.getClazz();
 
         if (metaClass != null) {
             PropertyDescriptor[] pds = BeanUtils.getPropertyDescriptors(metaClass);
@@ -115,16 +113,8 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
                 }
 
                 if (f != null) {
-                    //判断该成员变量上是不是存在Column类型的注解
-//					if(f.isAnnotationPresent(Column.class)){
-//						Column column = f.getAnnotation(Column.class);
-//						if(StringUtils.isNotEmpty(column.name())){
-//							underscoredName = column.name();
-//						}
-//					} else {
                     //转成数据库中的字段格式(约定好的)
                     underscoredName = DynamicBeanUtils.underscoreName(fieldName);
-//					}
                 }
 
                 this.mappedFields.put(fieldName.toLowerCase(), field);
@@ -169,13 +159,13 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
 
             if (field == null) continue;
 
-            BeanWrapperImpl wrapper = new BeanWrapperImpl(clazz);
+            BeanWrapperImpl wrapper = new BeanWrapperImpl(getClazz());
             wrapper.setWrappedInstance(result);
 
             int type = metaData.getColumnType(i);
             field.setSqlType(type);
 
-            Object value = null;
+            Object value;
             Class fieldType = field.getJavaType();
             if (fieldType.equals(String.class)) {
                 if (type == Types.LONGVARCHAR) {
@@ -281,9 +271,9 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
 
     private void createDynamicMapper(String string) {
         StringBuffer script = new StringBuffer();
-        script.append(this.clazz.getName());
+        script.append(super.getClazz().getName());
         script.append(" bean = new ");
-        script.append(this.clazz.getName());
+        script.append(this.getClazz().getName());
         script.append("();\n");
         script.append(string);
 
@@ -358,14 +348,6 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
         return ConvertGetter.class.isAssignableFrom(fieldType) && this.getSqlHelper().getConvert(fieldType) != null;
     }
 
-    public Class getClazz() {
-        return clazz;
-    }
-
-    public void setClazz(Class clazz) {
-        this.clazz = clazz;
-    }
-
     public Constructor getConstructor() {
         return constructor;
     }
@@ -400,13 +382,5 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
 
     public Map getMappers() {
         return mappers;
-    }
-
-    public SqlHelper getSqlHelper() {
-        return sqlHelper;
-    }
-
-    public void setSqlHelper(SqlHelper sqlHelper) {
-        this.sqlHelper = sqlHelper;
     }
 }

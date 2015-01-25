@@ -90,4 +90,19 @@ public class ColumnMapRowMapper implements RowMapper {
 		return JdbcUtils.getResultSetValue(rs, column);
 	}
 
+	public SqlHelper getSqlHelper() {
+		return sqlHelper;
+	}
+
+	public void setSqlHelper(SqlHelper sqlHelper) {
+		this.sqlHelper = sqlHelper;
+	}
+
+	public Class<?> getClazz() {
+		return clazz;
+	}
+
+	public void setClazz(Class<?> clazz) {
+		this.clazz = clazz;
+	}
 }

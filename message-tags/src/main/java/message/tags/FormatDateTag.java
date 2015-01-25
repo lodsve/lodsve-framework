@@ -98,8 +98,8 @@ public class FormatDateTag extends org.apache.taglibs.standard.tag.rt.fmt.Format
                 time = getProperty("DATEFORMAT_NIGHT");
                 hours = 0;
             }
-            out = PropertyPlaceholderHelper.replacePlaceholder(getProperty("DATEFORMAT_DATE_FORMAT"),
-                    new Object[]{time, hours, minutes}, getProperty("DATEFORMAT_DATE_FORMAT"));
+            out = PropertyPlaceholderHelper.replacePlaceholder(getProperty("DATEFORMAT_DATE_FORMAT"), getProperty("DATEFORMAT_DATE_FORMAT"),
+                    time, hours, minutes);
             print(out);
             return EVAL_PAGE;
         }
