@@ -15,7 +15,7 @@ import java.io.IOException;
  * @version V1.0
  * @createTime 2012-1-17 上午12:10
  */
-public class CutTextTag extends TagSupport{
+public class TextTag extends TagSupport{
 	private static final long serialVersionUID = -2921502360042121850L;
 	
 	//需要切割的字符串
@@ -30,7 +30,7 @@ public class CutTextTag extends TagSupport{
 	private String defaultStr;
 	
 	public int doEndTag() throws JspException {
-		String out = StringUtils.EMPTY;
+		String out = text;
 		
 		if(StringUtils.isEmpty(text)){
 			out = StringUtils.isEmpty(defaultStr) ? StringUtils.EMPTY : defaultStr;

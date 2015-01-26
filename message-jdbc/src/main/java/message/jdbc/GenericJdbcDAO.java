@@ -147,7 +147,8 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
      * @throws org.springframework.dao.DataAccessException
      */
     private List queryForList(String sql, Map params, RowMapper rowMapper) throws DataAccessException {
-        return this.getNamedParameterJdbcTemplate().query(sql, params, rowMapper);
+        return this.getNamedParameterJdbcTemplate().query(sql, new ExtMapSqlParameterSource(params, this.sqlHelper), rowMapper);
+//        return this.getNamedParameterJdbcTemplate().query(sql, params, rowMapper);
     }
 
     /**

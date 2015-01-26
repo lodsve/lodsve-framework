@@ -83,7 +83,7 @@
     </tag>
     <tag>
         <name>text</name>
-        <tag-class>message.tags.CutTextTag</tag-class>
+        <tag-class>message.tags.TextTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>text</name>

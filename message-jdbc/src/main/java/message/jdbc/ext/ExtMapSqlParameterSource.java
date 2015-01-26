@@ -28,8 +28,8 @@ public class ExtMapSqlParameterSource extends AbstractSqlParameterSource {
     }
 
     public ExtMapSqlParameterSource(Map values, SqlHelper sqlHelper) {
-        addValues(values);
         this.sqlHelper = sqlHelper;
+        addValues(values);
     }
 
     public ExtMapSqlParameterSource addValues(Map values) {
@@ -39,8 +39,8 @@ public class ExtMapSqlParameterSource extends AbstractSqlParameterSource {
                 Object key = it.next();
                 Object value = values.get(key);
 
-                if(ConvertGetter.class.isAssignableFrom(key.getClass())) {
-                    Convert convert = this.sqlHelper.getConvert((Class<? extends ConvertGetter>) key.getClass());
+                if(ConvertGetter.class.isAssignableFrom(value.getClass())) {
+                    Convert convert = this.sqlHelper.getConvert((Class<? extends ConvertGetter>) value.getClass());
                     if(convert != null) {
                         value = value != null ? convert.getDbValue((ConvertGetter) value) : convert.getDbNullValue((ConvertGetter) value);
                     }
