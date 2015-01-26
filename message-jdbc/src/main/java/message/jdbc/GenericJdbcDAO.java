@@ -295,8 +295,8 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
      * @param pkId          主键值
      * @throws Exception
      */
-    public void commDelete(String tableName, Long pkId) throws Exception {
-        this.commDelete(tableName, DEFAULT_PRIMARY_KEY, pkId);
+    public int commDelete(String tableName, Long pkId) throws Exception {
+        return this.commDelete(tableName, DEFAULT_PRIMARY_KEY, pkId);
     }
 
     /**
