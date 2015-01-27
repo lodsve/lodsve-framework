@@ -1,13 +1,13 @@
 package message.jdbc.dynamic;
 
-import message.base.convert.ConvertGetter;
-import message.jdbc.utils.PersistentField;
-import message.jdbc.utils.helper.SqlHelper;
-import message.utils.StringUtils;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtField;
 import javassist.CtMethod;
+import message.base.convert.ConvertGetter;
+import message.jdbc.utils.PersistentField;
+import message.jdbc.utils.helper.SqlHelper;
+import message.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -230,8 +230,9 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
                 script.append(field.getWriteName());
                 script.append("(");
                 String methodName = ((val == null) ? "getPoJoNullValue" : "getPoJoValue");
-                script.append("sqlHelper.getConvert(Class.forName(\"").append(fieldType.getName())
-                        .append("\")).").append(methodName).append("($1.getString(");
+                script.append("(").append(fieldType.getName()).append(")sqlHelper.getConvert(")
+                        .append(fieldType.getName()).append(".class).")
+                        .append(methodName).append("($1.getString(");
                 script.append(i);
                 script.append(")));\n");
 

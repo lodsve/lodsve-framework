@@ -1,6 +1,5 @@
 package message.jdbc.configs.parser;
 
-import message.jdbc.convert.ConvertBean;
 import message.template.resource.ThymeleafTemplateResource;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
@@ -12,7 +11,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,13 +45,9 @@ public class RdbmsDatasourceParser implements BeanDefinitionParser {
         context.put("migration", element.getAttribute("migration"));
 
         List<Element> childElements = DomUtils.getChildElementsByTagName(element, "convert");
-        List<ConvertBean> converts = new ArrayList<ConvertBean>();
+        Map<String, String> converts = new HashMap<String, String>();
         for(Element ele : childElements){
-            ConvertBean bean = new ConvertBean();
-            bean.setClazz(ele.getAttribute("key"));
-            bean.setConvert(ele.getAttribute("value"));
-
-            converts.add(bean);
+            converts.put(ele.getAttribute("key"), ele.getAttribute("value"));
         }
 
         context.put("converts", converts);

@@ -1,18 +1,16 @@
 package message.jdbc.utils.helper;
 
 import message.base.convert.ConvertGetter;
-import message.jdbc.convert.ConvertBean;
 import message.jdbc.convert.Convert;
 import message.jdbc.key.IDGenerator;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.ClassUtils;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,7 +21,8 @@ import java.util.Map;
  */
 public abstract class SqlHelper {
     protected IDGenerator idGenerator;
-    private Map<Class<?>, Convert> realConverts = new HashMap<Class<?>, Convert>();
+    /*private Map<Class<?>, Convert> realConverts = new HashMap<Class<?>, Convert>();*/
+    private Map<Class<?>, Class<?>> convertBeans = new HashMap<Class<?>, Class<?>>();
 
     /**
      * 设置long型值
@@ -120,20 +119,16 @@ public abstract class SqlHelper {
      */
     public abstract String existTableSQL(String tableName, DataSource dataSource) throws Exception;
 
-    public void setConvertBeans(List<ConvertBean> beans) {
-        for (ConvertBean bean : beans) {
-            try {
-                Class<?> clazz = ClassUtils.forName(bean.getClazz(), Thread.currentThread().getContextClassLoader());
-                Convert convert = (Convert) BeanUtils.instantiate(ClassUtils.forName(bean.getConvert(), Thread.currentThread().getContextClassLoader()));
-
-                this.realConverts.put(clazz, convert);
-            } catch (ClassNotFoundException e) {
-                continue;
-            }
-        }
+    public void setConvertBeans(Map<Class<?>, Class<?>> convertBeans) {
+        this.convertBeans = convertBeans;
     }
 
-    public <T extends ConvertGetter> Convert<T> getConvert(Class<? extends ConvertGetter> clazz) {
-        return this.realConverts.get(clazz);
+    public <T extends ConvertGetter> Convert<T> getConvert(Class<T> clazz) {
+        if(MapUtils.isEmpty(this.convertBeans)) {
+            return null;
+        }
+
+        Class<?> convertBeanClazz = this.convertBeans.get(clazz);
+        return (Convert<T>) BeanUtils.instantiate(convertBeanClazz);
     }
 }
