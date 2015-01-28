@@ -22,6 +22,11 @@
 	<!-- 拦截器 -->
 	<mvc:interceptors th:if="${interceptors != null and #lists.size(interceptors) > 0}">
 		<bean th:attr="class=${interceptor}" th:each="interceptor : ${interceptors}"/>
+		<mvc:interceptor th:if="${interceptorMappings != null and #lists.size(interceptorMappings) > 0}" th:each="interceptorMapping : ${interceptorMappings}">
+			<mvc:mapping th:attr="path=${mapping}" th:if="${interceptorMapping.mappings != null and #lists.size(interceptorMapping.mappings) > 0}" th:each="mapping : ${interceptorMapping.mappings}"/>
+			<mvc:exclude-mapping th:attr="path=${excludeMapping}" th:if="${interceptorMapping.excludeMappings != null and #lists.size(interceptorMapping.excludeMappings) > 0}" th:each="excludeMapping : ${interceptorMapping.excludeMappings}"/>
+			<bean th:attr="class=${interceptorMapping.bean}" th:if="${interceptorMapping.bean != null}"/>
+		</mvc:interceptor>
 	</mvc:interceptors>
 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>

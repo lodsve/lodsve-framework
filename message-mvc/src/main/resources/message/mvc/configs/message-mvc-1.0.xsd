@@ -23,6 +23,23 @@
                             <xsd:complexType>
                                 <xsd:sequence>
                                     <xsd:element ref="beans:bean" minOccurs="1" maxOccurs="unbounded"/>
+                                    <xsd:element name="interceptor" minOccurs="0" maxOccurs="unbounded">
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="mapping" maxOccurs="unbounded">
+                                                    <xsd:complexType>
+                                                        <xsd:attribute name="path" type="xsd:string" use="required"/>
+                                                    </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="exclude-mapping" minOccurs="0" maxOccurs="unbounded">
+                                                    <xsd:complexType>
+                                                        <xsd:attribute name="path" type="xsd:string" use="required"/>
+                                                    </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element ref="beans:bean"/>
+                                            </xsd:sequence>
+                                        </xsd:complexType>
+                                    </xsd:element>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>

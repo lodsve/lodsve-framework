@@ -46,7 +46,7 @@ public class MVCConfigParser implements BeanDefinitionParser {
         List<String> argumentResolverList = new ArrayList<String>();
         List<String> interceptorList = new ArrayList<String>();
         List<String> convertersList = new ArrayList<String>();
-
+        List<Map<String, Object>> interceptorMappingList = new ArrayList<Map<String, Object>>();
 
         if (!CollectionUtils.isEmpty(argumentResolvers)) {
             List<Element> argumentResolverBeans = DomUtils.getChildElementsByTagName(argumentResolvers.get(0), "bean");
@@ -60,6 +60,32 @@ public class MVCConfigParser implements BeanDefinitionParser {
             for (Element ele : interceptorBeans) {
                 interceptorList.add(ele.getAttribute("class"));
             }
+
+            List<Element> interceptorMappings = DomUtils.getChildElementsByTagName(interceptors.get(0), "interceptor");
+            if (!CollectionUtils.isEmpty(interceptorMappings)) {
+                Map<String, Object> interceptor = new HashMap<String, Object>();
+                for (Element ele : interceptorMappings) {
+                    //1.mapping
+                    List<Element> mappings = DomUtils.getChildElementsByTagName(ele, "mapping");
+                    List<String> mappingList = new ArrayList<String>();
+                    for (Element el : mappings) {
+                        mappingList.add(el.getAttribute("path"));
+                    }
+                    interceptor.put("mappings", mappingList);
+                    //2.exclude-mapping
+                    List<Element> excludeMappings = DomUtils.getChildElementsByTagName(ele, "exclude-mapping");
+                    List<String> excludeMappingList = new ArrayList<String>();
+                    for (Element el : excludeMappings) {
+                        excludeMappingList.add(el.getAttribute("path"));
+                    }
+                    interceptor.put("excludeMappings", excludeMappingList);
+                    //3.bean class
+                    Element bean = DomUtils.getChildElementByTagName(ele, "bean");
+                    interceptor.put("bean", bean.getAttribute("class"));
+
+                    interceptorMappingList.add(interceptor);
+                }
+            }
         }
 
         if (!CollectionUtils.isEmpty(argumentResolvers)) {
@@ -72,6 +98,7 @@ public class MVCConfigParser implements BeanDefinitionParser {
         context.put("argumentResolvers", argumentResolverList);
         context.put("interceptors", interceptorList);
         context.put("converters", convertersList);
+        context.put("interceptorMappings", interceptorMappingList);
 
         BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(registry);
         Resource resource = new ThymeleafTemplateResource(MVC_TEMPLATE_LOCATION, context, "xml");
