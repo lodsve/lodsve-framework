@@ -1,11 +1,19 @@
 package message.utils;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.MethodInvoker;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * object util class
@@ -373,4 +381,38 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
         }
     }
 
+	/**
+	 * 合并obj2和obj2的值，并返回，以前一个对象为准
+	 *
+	 * @param first
+	 * @param second
+	 */
+	public static Object mergerObject(Object first, Object second) throws Exception {
+		if (first == null || second == null)
+			return null;
+
+		if (!first.getClass().equals(second.getClass()))
+			return null;
+
+		Class<?> clazz = first.getClass();
+		Object result = BeanUtils.instantiate(clazz);
+		Field[] fields = clazz.getDeclaredFields();
+
+		for (Field f : fields) {
+			//设置字段可读
+			f.setAccessible(true);
+
+			Object value1 = f.get(first);
+			Object value2 = f.get(second);
+
+			Object value = value1;
+			if(value == null) {
+				value = value2;
+			}
+
+			f.set(result, value);
+		}
+
+		return result;
+	}
 }

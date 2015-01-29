@@ -1,6 +1,8 @@
 package message.mvc.resolver;
 
 import message.mvc.annotation.Bind;
+import message.mvc.commons.WebInput;
+import message.utils.ObjectUtils;
 import message.utils.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -57,6 +59,10 @@ public class BindDataHandlerMethodArgumentResolver implements HandlerMethodArgum
         //转成json
         String paramsJson = objectMapper.writeValueAsString(paramsMap);
 
-        return objectMapper.readValue(paramsJson, clazz);
+        WebInput in = new WebInput(request);
+        Object normalValue = in.getBean(clazz);
+        Object jacksonValue = objectMapper.readValue(paramsJson, clazz);
+
+        return ObjectUtils.mergerObject(jacksonValue, normalValue);
     }
 }
