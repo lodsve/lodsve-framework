@@ -267,6 +267,16 @@
                 <artifactId>jackson-annotations</artifactId>
                 <version>2.4.0</version>
             </dependency>
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-core-asl</artifactId>
+                <version>1.9.12</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-mapper-asl</artifactId>
+                <version>1.9.12</version>
+            </dependency>
             <!-- json end -->
 
             <dependency>

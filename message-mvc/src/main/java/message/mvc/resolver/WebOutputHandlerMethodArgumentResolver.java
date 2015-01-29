@@ -1,6 +1,7 @@
 package message.mvc.resolver;
 
 import message.mvc.annotation.Inject;
+import message.mvc.commons.WebOutput;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -15,26 +16,26 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
- * @createTime 2014-12-19 13:28
+ * @createTime 2015-1-29 21:37
  */
-public class MessageMVCHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
+public class WebOutputHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         Inject inject = parameter.getParameterAnnotation(Inject.class);
-        return inject != null;
+        Class<?> paramType = parameter.getParameterType();
+
+        return inject != null && WebOutput.class.equals(inject.value()) && WebOutput.class.isAssignableFrom(paramType);
     }
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
-        Class<?> clazz = parameter.getParameterType();
 
-        HandlerResolver resolver = MethodArgumentResolverFactory.getResolver(clazz);
-        if(resolver == null) {
-            return null;
+        if(response != null && request != null) {
+            return new WebOutput(request, response);
         }
 
-        return resolver.resolver(request, response);
+        return null;
     }
 }
