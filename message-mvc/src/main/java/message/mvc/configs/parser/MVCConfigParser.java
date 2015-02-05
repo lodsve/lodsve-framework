@@ -9,13 +9,9 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.Resource;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -108,11 +104,6 @@ public class MVCConfigParser implements BeanDefinitionParser {
 
         BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(registry);
         Resource resource = new ThymeleafTemplateResource(MVC_TEMPLATE_LOCATION, context, "xml");
-        try {
-            FileCopyUtils.copy(resource.getInputStream(), new FileOutputStream(new File("D:/mvc.xml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         beanDefinitionReader.loadBeanDefinitions(resource);
     }
 }
