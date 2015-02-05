@@ -22,7 +22,7 @@
                         <xsd:element name="interceptors" minOccurs="0" maxOccurs="1">
                             <xsd:complexType>
                                 <xsd:sequence>
-                                    <xsd:element ref="beans:bean" minOccurs="1" maxOccurs="unbounded"/>
+                                    <xsd:element ref="beans:bean" minOccurs="0" maxOccurs="unbounded"/>
                                     <xsd:element name="interceptor" minOccurs="0" maxOccurs="unbounded">
                                         <xsd:complexType>
                                             <xsd:sequence>
@@ -48,6 +48,11 @@
                                 <xsd:sequence>
                                     <xsd:element ref="beans:bean" minOccurs="1" maxOccurs="unbounded"/>
                                 </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="swagger" minOccurs="0" maxOccurs="1">
+                            <xsd:complexType>
+                                <xsd:attribute name="swaggerEnable" type="xsd:boolean"/>
                             </xsd:complexType>
                         </xsd:element>
                     </xsd:all>

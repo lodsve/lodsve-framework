@@ -29,8 +29,6 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 
-	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
-
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="converters" th:if="${converters != null and #lists.size(converters) > 0}">
 			<set>
@@ -62,4 +60,7 @@
 
 	<!-- 静态资源访问的支持 -->
 	<mvc:default-servlet-handler />
+
+	<!-- 支持swagger -->
+	<bean class="message.mvc.swagger.CosmosSwaggerConfig" th:if="${swaggerEnable}"/>
 </beans>

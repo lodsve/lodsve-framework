@@ -108,6 +108,15 @@
         </dependency>
 
         <dependency>
+            <groupId>com.mangofactory</groupId>
+            <artifactId>swagger-springmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wordnik</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>cosmos.message</groupId>
             <artifactId>message-logger</artifactId>
             <version>1.0</version>
