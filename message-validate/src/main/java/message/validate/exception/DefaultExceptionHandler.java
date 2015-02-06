@@ -1,11 +1,9 @@
 package message.validate.exception;
 
 import message.utils.PropertyPlaceholderHelper;
-import message.utils.ReplaceStringUtils;
 import message.validate.constants.ValidateConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -17,7 +15,6 @@ import java.lang.reflect.Field;
  * @version V1.0
  * @createTime 12-12-2 上午1:11
  */
-@Component
 public class DefaultExceptionHandler implements ExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(DefaultExceptionHandler.class);
 
