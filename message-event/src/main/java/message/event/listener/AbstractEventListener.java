@@ -6,6 +6,8 @@ import message.event.module.BaseEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.Map;
  * @version V1.0
  * @createTime 13-4-27 上午5:07
  */
+@Component
 public abstract class AbstractEventListener implements InitializingBean {
     /**
      * Logger.
@@ -31,6 +34,7 @@ public abstract class AbstractEventListener implements InitializingBean {
     /**
      * 事件处理类.
      */
+    @Autowired
     private EventExecutor eventExecutor;
 
     /**
@@ -89,10 +93,6 @@ public abstract class AbstractEventListener implements InitializingBean {
 
     public void setSync(boolean sync) {
         this.sync = sync;
-    }
-
-    public void setEventExecutor(EventExecutor eventExecutor) {
-        this.eventExecutor = eventExecutor;
     }
 
     public void setEventType(Class<?> eventType) {

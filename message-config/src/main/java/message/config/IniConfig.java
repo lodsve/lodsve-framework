@@ -3,7 +3,12 @@ package message.config;
 import message.config.exception.ConfigException;
 import message.config.ini.IniLoader;
 import message.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,13 +20,14 @@ import java.util.Set;
  * @createTime 2014-12-31 14:19
  */
 public class IniConfig {
+    private static final Logger logger = LoggerFactory.getLogger(IniConfig.class);
     private static Map<String, Map<String, String>> inis;
 
     static {
         init();
     }
 
-    private static void init(){
+    private static void init() {
         try {
             inis = IniLoader.getIni();
         } catch (Exception e) {
@@ -34,7 +40,7 @@ public class IniConfig {
      *
      * @return
      */
-    public static Set<String> getSections(){
+    public static Set<String> getSections() {
         return inis.keySet();
     }
 
@@ -44,7 +50,7 @@ public class IniConfig {
      * @param section
      * @return
      */
-    public static Map<String, String> getConfigsBySection(String section){
+    public static Map<String, String> getConfigsBySection(String section) {
         return inis.get(section);
     }
 
@@ -55,9 +61,9 @@ public class IniConfig {
      * @param key
      * @return
      */
-    public static String getConfig(String section, String key){
+    public static String getConfig(String section, String key) {
         Map<String, String> sections = inis.get(section);
-        if(sections == null || sections.isEmpty()) {
+        if (sections == null || sections.isEmpty()) {
             return StringUtils.EMPTY;
         }
 
@@ -71,7 +77,7 @@ public class IniConfig {
      * @param key
      * @return
      */
-    public static boolean getBooleanConfig(String section, String key){
+    public static boolean getBooleanConfig(String section, String key) {
         String config = getConfig(section, key);
 
         return "true".equals(config) || "1".equals(config) || "y".equalsIgnoreCase(config) || "yes".equalsIgnoreCase(config);
@@ -82,7 +88,27 @@ public class IniConfig {
      *
      * @return
      */
-    public static Map<String, Map<String, String>> getAllConfigs(){
+    public static Map<String, Map<String, String>> getAllConfigs() {
         return inis;
+    }
+
+    /**
+     * 获取指定ini资源
+     *
+     * @param resource
+     * @return
+     */
+    public static Map<String, Map<String, String>> getFileConfig(Resource resource) {
+        Assert.notNull(resource, "资源不能为空！");
+
+        Map<String, Map<String, String>> maps = new HashMap<String, Map<String, String>>();
+        try {
+            maps.putAll(IniLoader.getIni(resource));
+        } catch (Exception e) {
+            logger.error("加载资源'{}'失败！", resource);
+            logger.error(e.getMessage(), e);
+        }
+
+        return maps;
     }
 }

@@ -39,6 +39,13 @@ public class IniLoader implements InitializingBean {
         return values;
     }
 
+    public static Map<String, Map<String, String>> getIni(Resource resource) throws Exception {
+        Map<String, Map<String, String>> maps = new HashMap<String, Map<String, String>>();
+        load(maps, resource);
+
+        return maps;
+    }
+
     private static void load(Map<String, Map<String, String>> values, Resource resource) throws Exception {
         if (resource == null)
             return;
