@@ -309,19 +309,4 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
 
         return ss.toArray(new String[ss.size()]);
     }
-
-    /**
-     * 类型转换器的接口
-     *
-     * @param <V> 目标数据类型
-     */
-    interface StringParse<V> {
-        /**
-         * 转换
-         *
-         * @param str 待转换的数据
-         * @return
-         */
-        public V parse(String str);
-    }
 }
