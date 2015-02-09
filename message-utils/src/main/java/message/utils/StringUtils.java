@@ -1,9 +1,11 @@
 package message.utils;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -15,6 +17,8 @@ import java.util.regex.Pattern;
  * @author sunhao(sunhao.java@gmail.com)
  */
 public class StringUtils extends org.apache.commons.lang.StringUtils {
+    private static final String DEFAULT_DELIMITERS = ",";
+
 
     /**
      * 私有化构造器
@@ -175,22 +179,6 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
     }
 
     /**
-     * list转成字符串数组
-     *
-     * @param list
-     * @return
-     */
-    public static String[] convert(List list) {
-        if (list == null)
-            return null;
-        String ss[] = new String[list.size()];
-        for (int i = 0; i < list.size(); i++)
-            ss[i] = (String) list.get(i);
-
-        return ss;
-    }
-
-    /**
      * 获取字符串中两个字符中间的那段字符串
      *
      * @param string
@@ -237,27 +225,6 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
     }
 
     /**
-     * 字符串数组转成Integer类型数组
-     *
-     * @param strings
-     * @return
-     */
-    public static Integer[] converToIntegerArr(String[] strings) {
-        if (strings == null || strings.length == 0) {
-            return new Integer[0];
-        }
-        List<Integer> temp = new ArrayList<Integer>();
-        //TODO 需要处理
-        for (String str : strings) {
-            if (NumberUtils.isNumber(str)) {
-                temp.add(Integer.valueOf(str));
-            }
-        }
-
-        return temp.toArray(new Integer[]{});
-    }
-
-    /**
      * 获取给定字符串中符合正则表达式的片段个数
      *
      * @param text    给定字符串
@@ -277,5 +244,84 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
         }
 
         return i;
+    }
+
+    /**
+     * 将给定的字符串按<code>character</code>分割后，转换成指定类型的数据类型的集合
+     *
+     * @param str       给定的字符串
+     * @param character 分割符
+     * @param parse     类型转换器
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> convert(String str, String character, StringParse<T> parse) {
+        if (StringUtils.isEmpty(str) || StringUtils.isEmpty(character) || parse == null) {
+            return Arrays.asList();
+        }
+
+        String[] temps = split(str, character);
+        List<T> result = new ArrayList<T>();
+        for (String t : temps) {
+            result.add(parse.parse(t));
+        }
+
+        return result;
+    }
+
+    /**
+     * 将给定的字符串按{@link #DEFAULT_DELIMITERS}分割后，转换成指定类型的数据类型的集合
+     *
+     * @param str   给定的字符串
+     * @param parse 类型转换器
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> convert(String str, StringParse<T> parse) {
+        return convert(str, DEFAULT_DELIMITERS, parse);
+    }
+
+    /**
+     * list转成字符串数组
+     *
+     * @param list        集合
+     * @param containNull 当为null的时候，是否放入空字符串
+     * @return
+     */
+    public static String[] convert(List<?> list, boolean containNull) {
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        }
+
+        List<String> ss = new ArrayList<String>();
+        for (int i = 0; i < list.size(); i++) {
+            Object obj = list.get(i);
+            if (obj == null && !containNull) {
+                continue;
+            }
+
+            if (obj == null) {
+                ss.add(StringUtils.EMPTY);
+            } else {
+                ss.add(obj.toString());
+            }
+        }
+
+        return ss.toArray(new String[ss.size()]);
+    }
+
+    /**
+     * 类型转换器的接口
+     *
+     * @param <V> 目标数据类型
+     */
+    interface StringParse<V> {
+        /**
+         * 转换
+         *
+         * @param str 待转换的数据
+         * @return
+         */
+        public V parse(String str);
     }
 }
