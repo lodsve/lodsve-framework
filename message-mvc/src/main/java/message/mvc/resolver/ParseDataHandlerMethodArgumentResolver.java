@@ -3,7 +3,7 @@ package message.mvc.resolver;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
-import message.jdbc.dynamic.DynamicBeanUtils;
+import javassist.LoaderClassPath;
 import message.mvc.annotation.Parse;
 import message.mvc.commons.WebInput;
 import message.utils.StringParse;
@@ -36,6 +36,16 @@ import java.util.Map;
 public class ParseDataHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
     private static final Logger logger = LoggerFactory.getLogger(ParseDataHandlerMethodArgumentResolver.class);
     private final static Map<String, StringParse> mappers = new HashMap<String, StringParse>();
+    public final static ClassPool classPool;
+
+    static {
+        ClassPool parent = ClassPool.getDefault();
+        ClassPool child = new ClassPool(parent);
+        child.appendClassPath(new LoaderClassPath(ParseDataHandlerMethodArgumentResolver.class.getClassLoader()));
+        child.appendSystemPath(); // the same class path as the default one.
+        child.childFirstLookup = true; // changes the behavior of the child.
+        classPool = child;
+    }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -98,7 +108,7 @@ public class ParseDataHandlerMethodArgumentResolver implements HandlerMethodArgu
 
     private StringParse generateParseClassBody(Class<?> dest, String parseObjKey) {
         try {
-            ClassPool cp = DynamicBeanUtils.classPool;
+            ClassPool cp = classPool;
             //创建一个类
             CtClass ctClass = cp.makeClass("message.utils.StringParse$" + System.currentTimeMillis());
             //创建一个接口(StringUtils.StringParse)
