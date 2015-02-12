@@ -1,7 +1,6 @@
 package message.jdbc.bean;
 
 import message.jdbc.annontations.Cache;
-import message.jdbc.annontations.Id;
 import message.jdbc.utils.PersistentField;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
@@ -344,7 +344,7 @@ public class BeanPersistenceBuilder {
         logger.debug("field '{}' annotation is '{}'", pf.getFieldName(), ann);
         pf.setAnnotation(true);
         Class type = ann.annotationType();
-        if (Id.class.equals(type) || javax.persistence.Id.class.equals(type)) {
+        if (Id.class.equals(type)) {
             this.beanPersistenceDef.setIdFieldName(pf.getFieldName());
             pf.setIdField(true);
             this.beanPersistenceDef.setIdClass(pf.getJavaType());

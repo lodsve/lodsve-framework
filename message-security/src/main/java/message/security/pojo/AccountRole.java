@@ -1,10 +1,10 @@
 package message.security.pojo;
 
-import message.jdbc.annontations.Id;
 import message.security.SecurityConstants;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**

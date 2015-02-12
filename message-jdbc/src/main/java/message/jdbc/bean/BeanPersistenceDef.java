@@ -52,7 +52,7 @@ public class BeanPersistenceDef {
             Method readMethod = pd.getReadMethod();
             if (writeMethod != null) {
                 if (readMethod == null)
-                    return;
+                    break;
 
                 String fname = pd.getName();
                 PersistentField pf = new PersistentField();
@@ -61,13 +61,13 @@ public class BeanPersistenceDef {
                 pf.setWriteName(writeMethod.getName());
                 pf.setReadName(readMethod.getName());
 
-                this.mappedFields.put(fname.toLowerCase(), pf);
                 String underscoredName = DynamicBeanUtils.underscoreName(fname);
                 if (!(fname.toLowerCase().equals(underscoredName)))
                     pf.setColumnName(underscoredName);
                 else
                     pf.setColumnName(fname.toLowerCase());
 
+                this.mappedFields.put(fname.toLowerCase(), pf);
                 if ("id".equalsIgnoreCase(fname)) {
                     this.idFieldName = fname;
                     this.idClass = readMethod.getReturnType();
