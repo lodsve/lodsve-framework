@@ -1,13 +1,13 @@
 package message.jdbc.bean;
 
 import message.jdbc.annontations.Cache;
-import message.jdbc.annontations.Column;
 import message.jdbc.annontations.Id;
 import message.jdbc.utils.PersistentField;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.IdClass;
@@ -344,14 +344,14 @@ public class BeanPersistenceBuilder {
         logger.debug("field '{}' annotation is '{}'", pf.getFieldName(), ann);
         pf.setAnnotation(true);
         Class type = ann.annotationType();
-        if (type == Id.class) {
+        if (Id.class.equals(type) || javax.persistence.Id.class.equals(type)) {
             this.beanPersistenceDef.setIdFieldName(pf.getFieldName());
             pf.setIdField(true);
             this.beanPersistenceDef.setIdClass(pf.getJavaType());
         } else if (type == GeneratedValue.class) {
             GeneratedValue gv = (GeneratedValue) ann;
             this.beanPersistenceDef.setGenerator(gv.generator());
-        } else if (type == Column.class) {
+        } else if (Column.class.equals(type)) {
             Column col = (Column) ann;
             String columnName = col.name().trim();
             if (StringUtils.isNotEmpty(columnName)) {

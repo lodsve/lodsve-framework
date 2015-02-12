@@ -1,12 +1,12 @@
 package message.security.pojo;
 
-import message.jdbc.annontations.Column;
 import message.jdbc.annontations.Id;
 import message.security.SecurityConstants;
 import message.validate.annotations.English;
 import message.validate.annotations.Limit;
 import message.validate.annotations.ValidateEntity;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Table;
 import java.util.Date;
