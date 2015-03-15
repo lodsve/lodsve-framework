@@ -11,7 +11,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * .
+ * 为controller注入参数WebInput.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0

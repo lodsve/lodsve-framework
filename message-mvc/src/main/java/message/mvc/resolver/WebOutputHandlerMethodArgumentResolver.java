@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * .
+ * 为controller注入参数WebOutput.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
