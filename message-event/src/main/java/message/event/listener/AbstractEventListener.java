@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,11 +27,6 @@ public abstract class AbstractEventListener implements InitializingBean {
      * Logger.
      */
     protected final transient Logger logger = LoggerFactory.getLogger(AbstractEventListener.class);
-
-    /**
-     * 是否是同步执行该事件.
-     */
-    protected boolean sync = false;
     /**
      * 事件处理类.
      */
@@ -38,68 +34,50 @@ public abstract class AbstractEventListener implements InitializingBean {
     private EventExecutor eventExecutor;
 
     /**
-     * 事件类型
+     * 同步事件类型
      */
-    protected Class<?> eventType;
-    protected List<Class<?>> eventTypes;
+    protected List<Class<? extends BaseEvent>> syncEventListeners = new ArrayList<Class<? extends BaseEvent>>();
+    /**
+     * 异步事件类型
+     */
+    protected List<Class<? extends BaseEvent>> asyncEventListeners = new ArrayList<Class<? extends BaseEvent>>();
 
-    protected Map<Class, String> operationEvents;
+    protected Map<Class<? extends BaseEvent>, String> operationEvents = new HashMap<Class<? extends BaseEvent>, String>();
 
     protected AbstractEventListener() {
-    }
-
-    /**
-     * 构造器
-     *
-     * @param eventType
-     */
-    public AbstractEventListener(Class<?> eventType) {
-        this.eventType = eventType;
-    }
-
-    /**
-     * 构造器
-     *
-     * @param eventTypes
-     */
-    public AbstractEventListener(List<Class<?>> eventTypes) {
-        this.eventTypes = eventTypes;
     }
 
     public abstract void handleEvent(BaseEvent baseEvent) throws BaseEventException;
 
     public void afterPropertiesSet() throws Exception {
         //注册事件监听
-        if(eventType != null){
-            eventExecutor.registerListener(eventType, this, sync);
+        if(syncEventListeners != null){
+            eventExecutor.registerListener(syncEventListeners, this, true);
         }
 
-        if(eventTypes != null && !eventTypes.isEmpty()){
-            eventExecutor.registerListener(eventTypes, this, sync);
+        if(asyncEventListeners != null){
+            eventExecutor.registerListener(asyncEventListeners, this, false);
         }
     }
 
-    public void setOperationEvents(Map<Class, String> operationEvents) {
-        List<Class<?>> operations = new ArrayList<Class<?>>();
-        if(operationEvents != null && !operationEvents.isEmpty()){
-            for(Class<?> moduleClass : operationEvents.keySet()){
-                operations.add(moduleClass);
-            }
+    public void setOperationEvents(Map<Class<? extends BaseEvent>, String> operationEvents, boolean isSync) {
+        if(operationEvents == null || operationEvents.isEmpty()) {
+            return;
         }
 
-        this.setEventTypes(operations);
-        this.operationEvents = operationEvents;
-    }
+        List<Class<? extends BaseEvent>> operations = new ArrayList<Class<? extends BaseEvent>>();
+        for(Class<? extends BaseEvent> moduleClass : operationEvents.keySet()){
+            operations.add(moduleClass);
+        }
 
-    public void setSync(boolean sync) {
-        this.sync = sync;
-    }
+        if(isSync) {
+            // 同步
+            this.syncEventListeners.addAll(operations);
+        } else {
+            // 异步
+            this.asyncEventListeners.addAll(operations);
+        }
 
-    public void setEventType(Class<?> eventType) {
-        this.eventType = eventType;
-    }
-
-    public void setEventTypes(List<Class<?>> eventTypes) {
-        this.eventTypes = eventTypes;
+        this.operationEvents.putAll(operationEvents);
     }
 }

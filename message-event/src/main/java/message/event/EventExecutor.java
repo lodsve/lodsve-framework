@@ -25,26 +25,14 @@ public class EventExecutor {
     /**
      * 同步事件Map.
      */
-    private final Map/*<Class, List<AbstractEventListener>>*/ syncEventListeners = new HashMap();
+    private final Map<Class<? extends BaseEvent>, List<AbstractEventListener>> syncEventListeners = new HashMap<Class<? extends BaseEvent>, List<AbstractEventListener>>();
 
     /**
      * 异步事件Map.
      */
-    private final Map/*<Class, List<AbstractEventListener>>*/  asyncEventListeners = new HashMap();
+    private final Map<Class<? extends BaseEvent>, List<AbstractEventListener>>  asyncEventListeners = new HashMap<Class<? extends BaseEvent>, List<AbstractEventListener>>();
 
     private final Object REGISTER_LOCK_OBJECT = new Object();
-    /**
-     * 注册监听服务
-     *
-     * @param eventType         事件类型
-     * @param listener          监听器
-     * @param isSync            是否是同步执行
-     */
-    public void registerListener(Class<?> eventType, AbstractEventListener listener, boolean isSync){
-        synchronized (REGISTER_LOCK_OBJECT) {
-            this.registerListener(Arrays.asList(new Class<?>[]{eventType}), listener, isSync);
-        }
-    }
 
     /**
      * 注册监听服务
@@ -53,7 +41,7 @@ public class EventExecutor {
      * @param listener          监听器
      * @param isSync            是否是同步执行
      */
-    public void registerListener(List<Class<?>> eventTypes, AbstractEventListener listener, boolean isSync){
+    public void registerListener(List<Class<? extends BaseEvent>> eventTypes, AbstractEventListener listener, boolean isSync){
         synchronized (REGISTER_LOCK_OBJECT) {
             if(eventTypes == null || eventTypes.isEmpty()){
                 logger.debug("module types is null!");
@@ -62,15 +50,15 @@ public class EventExecutor {
 
             logger.debug("regist listener '{}' for module type '{}'!", listener, eventTypes);
 
-            Map eventListeners = isSync ? syncEventListeners : asyncEventListeners;
-            for(Iterator<Class<?>> it = eventTypes.iterator(); it.hasNext(); ){
-                Class<?> eventType = it.next();
+            Map<Class<? extends BaseEvent>, List<AbstractEventListener>> eventListeners = isSync ? syncEventListeners : asyncEventListeners;
+            for(Iterator<Class<? extends BaseEvent>> it = eventTypes.iterator(); it.hasNext(); ){
+                Class<? extends BaseEvent> eventType = it.next();
                 if(eventType == null)
                     continue;
 
-                List listeners = (List) eventListeners.get(eventType);
+                List<AbstractEventListener> listeners = eventListeners.get(eventType);
                 if(listeners == null){
-                    listeners = new ArrayList();
+                    listeners = new ArrayList<AbstractEventListener>();
                 }
 
                 listeners.add(listener);
@@ -86,10 +74,10 @@ public class EventExecutor {
      */
     public void executeEvent(BaseEvent event) throws BaseEventException {
         //1.先执行同步事件
-        List syncListeners = (List) syncEventListeners.get(event.getClass());
+        List<AbstractEventListener> syncListeners = syncEventListeners.get(event.getClass());
         if(syncListeners != null && !syncListeners.isEmpty()){
-            for(Iterator it = syncListeners.iterator(); it.hasNext(); ){
-                AbstractEventListener listener = (AbstractEventListener) it.next();
+            for(Iterator<AbstractEventListener> it = syncListeners.iterator(); it.hasNext(); ){
+                AbstractEventListener listener = it.next();
 
                 logger.debug("execute module '{}' use listener '{}'!", event, listener);
                 //执行
@@ -102,7 +90,7 @@ public class EventExecutor {
         }
 
         //2.执行异步事件
-        List asyncListeners = (List) asyncEventListeners.get(event.getClass());
+        List<AbstractEventListener> asyncListeners = asyncEventListeners.get(event.getClass());
         if(asyncListeners != null && !asyncListeners.isEmpty()){
             executeAsyncEvent(asyncListeners, event);
         }
@@ -114,11 +102,11 @@ public class EventExecutor {
      * @param asyncListeners        异步事件监听
      * @param event                 异步事件
      */
-    private void executeAsyncEvent(final List asyncListeners, final BaseEvent event) throws BaseEventException {
+    private void executeAsyncEvent(final List<AbstractEventListener> asyncListeners, final BaseEvent event) throws BaseEventException {
         new Thread(){
             public void run() {
-                for(Iterator it = asyncListeners.iterator(); it.hasNext(); ){
-                    AbstractEventListener listener = (AbstractEventListener) it.next();
+                for(Iterator<AbstractEventListener> it = asyncListeners.iterator(); it.hasNext(); ){
+                    AbstractEventListener listener = it.next();
 
                     logger.debug("execute module '{}' use listener '{}'!", event, listener);
                     //执行
