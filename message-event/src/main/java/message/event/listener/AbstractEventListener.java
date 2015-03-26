@@ -42,6 +42,9 @@ public abstract class AbstractEventListener implements InitializingBean {
      */
     protected List<Class<? extends BaseEvent>> asyncEventListeners = new ArrayList<Class<? extends BaseEvent>>();
 
+    /**
+     * 事件class类型 --> 中文描述
+     */
     protected Map<Class<? extends BaseEvent>, String> operationEvents = new HashMap<Class<? extends BaseEvent>, String>();
 
     protected AbstractEventListener() {
@@ -51,26 +54,32 @@ public abstract class AbstractEventListener implements InitializingBean {
 
     public void afterPropertiesSet() throws Exception {
         //注册事件监听
-        if(syncEventListeners != null){
+        if (syncEventListeners != null) {
             eventExecutor.registerListener(syncEventListeners, this, true);
         }
 
-        if(asyncEventListeners != null){
+        if (asyncEventListeners != null) {
             eventExecutor.registerListener(asyncEventListeners, this, false);
         }
     }
 
+    /**
+     * 设置同步异步事件
+     *
+     * @param operationEvents 事件的map[Class, 中文名]
+     * @param isSync          是否是同步事件
+     */
     public void setOperationEvents(Map<Class<? extends BaseEvent>, String> operationEvents, boolean isSync) {
-        if(operationEvents == null || operationEvents.isEmpty()) {
+        if (operationEvents == null || operationEvents.isEmpty()) {
             return;
         }
 
         List<Class<? extends BaseEvent>> operations = new ArrayList<Class<? extends BaseEvent>>();
-        for(Class<? extends BaseEvent> moduleClass : operationEvents.keySet()){
+        for (Class<? extends BaseEvent> moduleClass : operationEvents.keySet()) {
             operations.add(moduleClass);
         }
 
-        if(isSync) {
+        if (isSync) {
             // 同步
             this.syncEventListeners.addAll(operations);
         } else {
