@@ -165,7 +165,7 @@ public class SolrSearchEngine extends AbstractSearchEngine {
             return PaginationUtils.getNullPagination();
         }
 
-        List<SearchBean> queryResults = new ArrayList<>();
+        List<SearchBean> queryResults = new ArrayList<SearchBean>();
 
         StringBuffer query_ = new StringBuffer();
         for(SearchBean bean : beans){

@@ -126,6 +126,11 @@
             <artifactId>message-json</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>cosmos.message</groupId>
+            <artifactId>message-template</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

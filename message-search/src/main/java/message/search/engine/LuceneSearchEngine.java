@@ -144,7 +144,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             highlighter = new Highlighter(formatter, new QueryScorer(query));
         }
 
-        List<SearchBean> queryResults = new ArrayList<>();
+        List<SearchBean> queryResults = new ArrayList<SearchBean>();
         for (int i = begin; i < end; i++) {
             int docID = scoreDocs[i].doc;
             Document hitDoc = searcher.doc(docID);
