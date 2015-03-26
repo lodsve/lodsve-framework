@@ -48,7 +48,7 @@ public interface SearchEngine {
      * @return
      * @throws Exception
      */
-    public PaginationSupport doSearch(SearchBean bean, boolean isHighlighter, int start, int num) throws Exception;
+    public PaginationSupport<SearchBean> doSearch(SearchBean bean, boolean isHighlighter, int start, int num) throws Exception;
 
     /**
      * 进行多个检索对象的检索
@@ -60,7 +60,7 @@ public interface SearchEngine {
      * @return
      * @throws Exception
      */
-    public PaginationSupport doSearch(List<SearchBean> beans, boolean isHighlighter, int start, int num) throws Exception;
+    public PaginationSupport<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, int start, int num) throws Exception;
 
     /**
      * 删除某个类型的所有索引(考虑线程安全)

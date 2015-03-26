@@ -56,7 +56,7 @@ public abstract class AbstractSearchEngine implements SearchEngine {
         this.htmlSuffix = htmlSuffix;
     }
 
-    public PaginationSupport doSearch(SearchBean bean, boolean isHighlighter, int start, int num) throws Exception {
+    public PaginationSupport<SearchBean> doSearch(SearchBean bean, boolean isHighlighter, int start, int num) throws Exception {
         if (bean == null) {
             logger.debug("given search bean is empty!");
             return PaginationUtils.getNullPagination();

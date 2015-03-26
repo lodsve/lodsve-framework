@@ -82,7 +82,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         }
     }
 
-    public PaginationSupport doSearch(List<SearchBean> beans, boolean isHighlighter, int start, int num) throws Exception {
+    public PaginationSupport<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, int start, int num) throws Exception {
         beans = mergerSearchBean(beans);
         if(beans == null || beans.isEmpty()){
             logger.debug("given search beans is empty!");
@@ -144,7 +144,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             highlighter = new Highlighter(formatter, new QueryScorer(query));
         }
 
-        List queryResults = new ArrayList();
+        List<SearchBean> queryResults = new ArrayList<>();
         for (int i = begin; i < end; i++) {
             int docID = scoreDocs[i].doc;
             Document hitDoc = searcher.doc(docID);
@@ -198,7 +198,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
                 indexSearcher.close();
         }
 
-        PaginationSupport paginationSupport = PaginationUtils.makePagination(queryResults, scoreDocs.length, num, start);
+        PaginationSupport<SearchBean> paginationSupport = PaginationUtils.makePagination(queryResults, scoreDocs.length, num, start);
         return paginationSupport;
     }
 

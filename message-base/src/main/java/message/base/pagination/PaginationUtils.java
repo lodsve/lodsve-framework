@@ -1,5 +1,6 @@
 package message.base.pagination;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,8 +29,8 @@ public class PaginationUtils {
 	 * 
 	 * @return
 	 */
-	public static PaginationSupport getNullPagination(){
-		return new PaginationSupport(Collections.EMPTY_LIST, -1, 0, 0, 0);
+	public static <T> PaginationSupport<T> getNullPagination(){
+		return new PaginationSupport<T>(new ArrayList<T>(), -1, 0, 0, 0);
 	}
 	
 	/**

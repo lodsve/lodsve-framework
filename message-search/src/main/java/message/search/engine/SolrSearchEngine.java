@@ -159,13 +159,13 @@ public class SolrSearchEngine extends AbstractSearchEngine {
         }
     }
 
-    public PaginationSupport doSearch(List<SearchBean> beans, boolean isHighlighter, int start, int num) throws Exception {
+    public PaginationSupport<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, int start, int num) throws Exception {
         if(beans == null || beans.isEmpty()){
             logger.debug("given search beans is empty!");
             return PaginationUtils.getNullPagination();
         }
 
-        List queryResults = new ArrayList();
+        List<SearchBean> queryResults = new ArrayList<>();
 
         StringBuffer query_ = new StringBuffer();
         for(SearchBean bean : beans){
@@ -256,7 +256,7 @@ public class SolrSearchEngine extends AbstractSearchEngine {
             queryResults.add(result);
         }
 
-        PaginationSupport paginationSupport = PaginationUtils.makePagination(queryResults, Long.valueOf(sd.getNumFound()).intValue(), num, start);
+        PaginationSupport<SearchBean> paginationSupport = PaginationUtils.makePagination(queryResults, Long.valueOf(sd.getNumFound()).intValue(), num, start);
         return paginationSupport;
     }
 
