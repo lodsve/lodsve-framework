@@ -43,6 +43,7 @@ public class RdbmsDatasourceParser implements BeanDefinitionParser {
         context.put("basePackage", element.getAttribute("basePackage"));
         context.put("useFlyway", element.getAttribute("useFlyway"));
         context.put("migration", element.getAttribute("migration"));
+        context.put("dbType", element.getAttribute("dbType"));
 
         List<Element> childElements = DomUtils.getChildElementsByTagName(element, "convert");
         Map<String, String> converts = new HashMap<String, String>();

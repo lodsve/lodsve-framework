@@ -18,5 +18,5 @@
     <context:annotation-config/>
 
     <datasource:rdbms dataSource="security"/>
-    <jdbc:jdbc dataSource="security" basePackage="message.security.service" useFlyway="true" migration="db/security"/>
+    <jdbc:jdbc dataSource="security" basePackage="message.security.service" useFlyway="true" migration="db/security" dbType="MySQL"/>
 </beans>

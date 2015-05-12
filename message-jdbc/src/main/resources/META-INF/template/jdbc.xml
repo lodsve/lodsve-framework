@@ -11,15 +11,10 @@
          		http://www.springframework.org/schema/tx
            		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-    <bean th:id="${dataSource} + 'MysqlLobHandler'" class="org.springframework.jdbc.support.lob.DefaultLobHandler" lazy-init="true"/>
+    <!-- MySQL start -->
+    <bean th:if="${dbType == 'MySQL' }" th:id="${dataSource} + 'MysqlLobHandler'" class="org.springframework.jdbc.support.lob.DefaultLobHandler" lazy-init="true"/>
 
-    <!-- under here: all is spring jdbc config -->
-    <bean th:id="${dataSource} + 'JdbcExtractor'" class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor" lazy-init="true"/>
-
-    <bean th:id="${dataSource} + 'LobHandler'" class="org.springframework.jdbc.support.lob.DefaultLobHandler" lazy-init="true">
-    </bean>
-
-    <bean th:id="${dataSource} + 'SqlHelper'" class="message.jdbc.utils.helper.MySQLSqlHelper">
+    <bean th:if="${dbType == 'MySQL' }" th:id="${dataSource} + 'SqlHelper'" class="message.jdbc.utils.helper.MySQLSqlHelper">
         <property name="convertBeans" th:if="${converts != null and #maps.size(converts) > 0}">
             <map>
                 <entry th:attr="key=${convert.key},value=${convert.value}" th:each="convert : ${converts}"/>
@@ -27,11 +22,34 @@
         </property>
     </bean>
 
-    <bean th:id="${dataSource} + 'MaxValueIncrementer'" class="message.jdbc.key.impl.generic.MySQLMaxValueIncrementer">
+    <bean th:if="${dbType == 'MySQL' }" th:id="${dataSource} + 'MaxValueIncrementer'" class="message.jdbc.key.impl.generic.MySQLMaxValueIncrementer">
         <property name="dataSource" th:attr="ref=${dataSource}"/>
         <property name="keyLength" value="5"/>
         <property name="cacheSize" value="5"/>
     </bean>
+    <!-- MySQL end -->
+
+    <!-- Oracle start -->
+    <bean th:if="${dbType == 'Oracle' }" th:id="${dataSource} + 'JdbcExtractor'" class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor" lazy-init="true"/>
+
+    <bean th:if="${dbType == 'Oracle' }" th:id="${dataSource} + 'OracleLobHandler'" class="org.springframework.jdbc.support.lob.OracleLobHandler">
+        <property name="nativeJdbcExtractor" th:attr="ref=${dataSource} + 'JdbcExtractor'"/>
+    </bean>
+
+    <bean th:if="${dbType == 'Oracle' }" th:id="${dataSource} + 'SqlHelper'" class="message.jdbc.utils.helper.OracleSqlHelper">
+        <property name="lobHandler" th:attr="ref=${dataSource} + 'OracleLobHandler'"/>
+        <property name="convertBeans" th:if="${converts != null and #maps.size(converts) > 0}">
+            <map>
+                <entry th:attr="key=${convert.key},value=${convert.value}" th:each="convert : ${converts}"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean th:if="${dbType == 'Oracle' }" th:id="${dataSource} + 'MaxValueIncrementer'" class="message.jdbc.key.impl.sequence.OracleSequenceMaxValueIncrementer">
+        <property name="dataSource" th:attr="ref=${dataSource}"/>
+        <property name="keyLength" value="5"/>
+    </bean>
+    <!-- Oracle end -->
 
     <!-- flyway -->
     <bean th:id="${dataSource} + 'Flyway'" class="org.flywaydb.core.Flyway" init-method="migrate" th:if="${useFlyway}">

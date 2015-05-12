@@ -21,6 +21,7 @@
     <xsd:complexType name="baseType">
         <xsd:attribute name="dataSource" type="xsd:string" use="required" />
         <xsd:attribute name="basePackage" type="xsd:string" use="required" />
+        <xsd:attribute name="dbType" type="dbType" use="required"/>
         <xsd:attribute name="useFlyway" type="xsd:boolean" use="optional" default="false"/>
         <xsd:attribute name="migration" type="xsd:string" use="optional" default="db/migration"/>
     </xsd:complexType>
@@ -29,4 +30,11 @@
         <xsd:attribute name="key" type="xsd:string" use="required" />
         <xsd:attribute name="value" type="xsd:string" use="required" />
     </xsd:complexType>
+
+    <xsd:simpleType name="dbType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="MySQL"/>
+            <xsd:enumeration value="Oracle"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 </xsd:schema>
