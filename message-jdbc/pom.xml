@@ -6,7 +6,7 @@
     <parent>
         <groupId>cosmos.message</groupId>
         <artifactId>message-parent</artifactId>
-        <version>1.0</version>
+        <version>2.0-GA</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -74,22 +74,18 @@
         <dependency>
             <groupId>cosmos.message</groupId>
             <artifactId>message-base</artifactId>
-            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>cosmos.message</groupId>
             <artifactId>message-utils</artifactId>
-            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>cosmos.message</groupId>
             <artifactId>message-cache</artifactId>
-            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>cosmos.message</groupId>
             <artifactId>message-template</artifactId>
-            <version>1.0</version>
         </dependency>
     </dependencies>
 
