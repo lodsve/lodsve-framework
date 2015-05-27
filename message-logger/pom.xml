@@ -15,12 +15,6 @@
     <name>message logger</name>
 
     <dependencies>
-        <dependency>
-            <groupId>cosmos.message</groupId>
-            <artifactId>message-config</artifactId>
-            <version>1.0</version>
-        </dependency>
-
         <!-- spring -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -47,6 +41,11 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cosmos.message</groupId>
+            <artifactId>message-config</artifactId>
         </dependency>
     </dependencies>
 
