@@ -15,7 +15,6 @@ cosmos-message，我的工具类，封装了一系列开源项目，更好方便
     - message-json
     - message-logger
     - message-mvc
-    - message-parent.iml
     - message-search
     - message-security
     - message-tags
