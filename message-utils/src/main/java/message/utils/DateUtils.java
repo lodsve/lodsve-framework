@@ -24,15 +24,6 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
     public static final String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     /**
-     * 获取当前系统日历的辅助变量.
-     */
-    private static Calendar calendar;
-
-    static {
-        calendar = Calendar.getInstance();
-    }
-
-    /**
      * 把字符串转成日期型
      *
      * @param date
@@ -78,6 +69,7 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
     public static Date getEndOfDay(Date day) {
         if (day == null)
             day = new Date();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(day);
         calendar.set(Calendar.HOUR_OF_DAY, calendar.getMaximum(Calendar.HOUR_OF_DAY));
         calendar.set(Calendar.MINUTE, calendar.getMaximum(Calendar.MINUTE));
@@ -96,6 +88,7 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
     public static Date getStartOfDay(Date day) {
         if (day == null)
             day = new Date();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(day);
         calendar.set(Calendar.HOUR_OF_DAY, calendar.getMinimum(Calendar.HOUR_OF_DAY));
         calendar.set(Calendar.MINUTE, calendar.getMinimum(Calendar.MINUTE));
@@ -114,6 +107,8 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
     public static Date getEndOfMonth(Date day) {
         if (day == null)
             day = new Date();
+
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(day);
 
         calendar.set(Calendar.HOUR_OF_DAY, calendar.getMaximum(Calendar.HOUR_OF_DAY));
@@ -139,6 +134,8 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
     public static Date getStartOfMonth(Date day) {
         if (day == null)
             day = new Date();
+
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(day);
 
         calendar.set(Calendar.HOUR_OF_DAY, calendar.getMinimum(Calendar.HOUR_OF_DAY));
@@ -160,6 +157,8 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
     public static Date getNoonOfDay(Date day) {
         if (day == null)
             day = new Date();
+
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(day);
         calendar.set(Calendar.HOUR_OF_DAY, 12);
         calendar.set(Calendar.MINUTE, calendar.getMinimum(Calendar.MINUTE));
@@ -211,6 +210,7 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * @return 当前日历所属的年.
      */
     public static int getCurrentYear() {
+        Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         return calendar.get(Calendar.YEAR);
     }
@@ -221,7 +221,62 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * @return 当前日历所属的月.
      */
     public static int getCurrentMonth() {
+        Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         return calendar.get(Calendar.MONTH) + 1;
+    }
+
+    /**
+     * 获取间隔给定天数的日期 <br>
+     *
+     * @param date 给定的日期(eg:2015-06-02 12:00)
+     * @param days 间隔的天数，正数是给定时间往后，负数是给定时间往前(eg:-1 or 1)
+     * @return 计算出来的日期(eg:2015-06-01 12:00 or 2015-06-03 12:00)<br>
+     */
+    public static Date intervalSomeDays(Date date, int days) {
+        if (date == null)
+            return date;
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + days);
+
+        return cal.getTime();
+    }
+
+    /**
+     * 获取间隔给定月数的日期 <br>
+     *
+     * @param date 给定的日期(eg:2015-06-02 12:00)
+     * @param months 间隔的月数，正数是给定时间往后，负数是给定时间往前(eg:-1 or 1)
+     * @return 计算出来的日期(eg:2015-05-02 12:00 or 2015-07-02 12:00)<br>
+     */
+    public static Date intervalSomeMonths(Date date, int months) {
+        if (date == null)
+            return date;
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + months);
+
+        return cal.getTime();
+    }
+
+    /**
+     * 获取间隔给定月数的日期 <br>
+     *
+     * @param date 给定的日期(eg:2015-06-02 12:00)
+     * @param years 间隔的月数，正数是给定时间往后，负数是给定时间往前(eg:-1 or 1)
+     * @return 计算出来的日期(eg:2014-06-02 12:00 or 2016-06-02 12:00)<br>
+     */
+    public static Date intervalSomeYears(Date date, int years) {
+        if (date == null)
+            return date;
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) + years);
+
+        return cal.getTime();
     }
 }
