@@ -75,11 +75,6 @@
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>
         </dependency>
-        <dependency>
-            <groupId>net.sf.json-lib</groupId>
-            <artifactId>json-lib</artifactId>
-            <classifier>${jdk.version}</classifier>
-        </dependency>
 
         <dependency>
             <groupId>cosmos.message</groupId>

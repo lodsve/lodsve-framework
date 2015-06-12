@@ -24,11 +24,6 @@
             <artifactId>servlet-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.sf.json-lib</groupId>
-            <artifactId>json-lib</artifactId>
-            <classifier>${jdk.version}</classifier>
-        </dependency>
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
@@ -48,6 +43,10 @@
         <dependency>
             <groupId>cosmos.message</groupId>
             <artifactId>message-template</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cosmos.message</groupId>
+            <artifactId>message-json</artifactId>
         </dependency>
     </dependencies>
 
