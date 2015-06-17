@@ -93,7 +93,7 @@
     <scm>
         <connection>scm:git:git@git.sunhao.com:develop/cosmos-message.git</connection>
         <developerConnection>scm:git:git@git.sunhao.com:develop/cosmos-message.git</developerConnection>
-        <url>http://git.sunhao.com:9090/develop/cosmos-message/tree/develop</url>
+        <url>http://git.sunhao.com:82/cosmos/cosmos-message</url>
     </scm>
 
 
