@@ -5,10 +5,10 @@ import message.base.pagination.PaginationSupport;
 import message.base.pagination.PaginationUtils;
 import message.cache.Cache;
 import message.cache.CacheManager;
-import message.jdbc.base.BeanPersistenceHelper;
-import message.jdbc.mapper.DynamicBeanRowMapper;
-import message.jdbc.key.IDGenerator;
+import message.jdbc.sql.BeanPersistenceHelper;
 import message.jdbc.helper.SqlHelper;
+import message.jdbc.key.IDGenerator;
+import message.jdbc.mapper.DynamicBeanRowMapper;
 import message.jdbc.sql.BeanPersistenceDef;
 import message.utils.ObjectUtils;
 import message.utils.StringUtils;
@@ -140,7 +140,6 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
      */
     private List queryForList(String sql, Map params, RowMapper rowMapper) throws DataAccessException {
         return this.getNamedParameterJdbcTemplate().query(sql, new ExtMapSqlParameterSource(params, this.sqlHelper), rowMapper);
-//        return this.getNamedParameterJdbcTemplate().query(sql, params, rowMapper);
     }
 
     /**
@@ -427,7 +426,7 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
 
         T object = this.loadObjectFromCache(key, beanPersistenceDef);
         if(object == null){
-            String queryOneSql = beanPersistenceDef.getSelectOneSql();
+            String queryOneSql = beanPersistenceDef.getSelectSql();
             if(logger.isDebugEnabled())
                 logger.debug("get query sql is '{}' for bean '{}' what key is '{}'", new Object[]{queryOneSql, clazz, key});
             object = this.queryForBean(queryOneSql, Collections.singletonMap(beanPersistenceDef.getIdFieldName(), key), clazz);
@@ -598,7 +597,7 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
         }
 
         StringBuffer sb = new StringBuffer();
-        sb.append(beanPersistenceDef.getBeanClazz().getName().toString());
+        sb.append(beanPersistenceDef.getClazz().getName().toString());
         sb.append("#");
 
         if(key != null){

@@ -1,162 +1,99 @@
 package message.jdbc.sql;
 
 import message.jdbc.annontations.Cache;
-import message.jdbc.type.PersistentField;
+import message.jdbc.base.DynamicBeanUtils;
+import message.utils.ObjectUtils;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 对bean的(字段,类名)(数据库列名,表名)的映射关系构建类.
  *
- * @author Danny(sunhao)(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
  * @createTime 2012-10-8 上午04:25:01
  */
 public class BeanPersistenceBuilder {
     private static final Logger logger = LoggerFactory.getLogger(BeanPersistenceBuilder.class);
-    BeanPersistenceDef beanPersistenceDef;        //beanPersistenceDef
-    PersistentField idField = null;                //field for id
-    PersistentField nameField = null;            //field for name
-    Map<String, PersistentField> mappedFields = new HashMap<String, PersistentField>();
+    private BeanPersistenceDef beanPersistenceDef;        //beanPersistenceDef
 
     public BeanPersistenceBuilder(Class<?> clazz) {
         this.beanPersistenceDef = new BeanPersistenceDef(clazz);
     }
 
-    public BeanPersistenceDef build() {
-        Class clazz = this.beanPersistenceDef.getBeanClazz();
+    public BeanPersistenceDef build() throws Exception {
+        Class clazz = this.beanPersistenceDef.getClazz();
         logger.debug("build class: '{}'", clazz);
 
+        // 类头上的注解
         Annotation[] anns = clazz.getAnnotations();
         for (int i = 0; i < anns.length; i++) {
             Annotation ann = anns[i];
             Class type = ann.annotationType();
-            if (Entity.class == type) {
-                handle((Entity) ann);
-            } else if (NamedNativeQuery.class == type) {
-                handle((NamedNativeQuery) ann);
-            } else if (NamedNativeQueries.class == type) {
-                handle((NamedNativeQueries) ann);
-            } else if (IdClass.class == type) {
-                handle((IdClass) ann);
-            } else if (Table.class == type) {
-                handle((Table) ann);
+            if (Table.class == type) {
+                // 处理Table注解
+                evalTable(clazz, (Table) ann);
             } else if (Cache.class == type) {
-                handle((Cache) ann);
+                // 处理Cache注解
+                evalCache((Cache) ann);
             }
         }
 
+        // 处理字段
         List<Field> fields = new ArrayList<Field>();
+        // 获得类中所有申明的字段
         fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
-        if (clazz.getSuperclass() != null && !Object.class.equals(clazz.getSuperclass())) {
-            List<Field> fields_ = Arrays.asList(clazz.getSuperclass().getDeclaredFields());
-            fields.addAll(fields_);
-        }
+        // 处理父类
+        getSubClassFields(clazz.getSuperclass(), fields);
 
         for (Field f : fields) {
             anns = f.getDeclaredAnnotations();
             for (Annotation ann : anns) {
-                handle(this.beanPersistenceDef.getPersistentFieldByFieldName(f.getName()), ann);
+                evalColumn(f, ann);
             }
         }
 
-        List<Method> ms = new ArrayList<Method>();
-        ms.addAll(Arrays.asList(clazz.getDeclaredMethods()));
-        if (clazz.getSuperclass() != null && !Object.class.equals(clazz.getSuperclass())) {
-            ms.addAll(Arrays.asList(clazz.getSuperclass().getDeclaredMethods()));
-        }
-
-        for (Method m : ms) {
-            anns = m.getDeclaredAnnotations();
-            for (Annotation ann : anns) {
-                handle(this.beanPersistenceDef.getPersistentFieldByFieldName(m.getName()), ann);
-            }
-        }
-
-        buildCRUDSql();
+        buildInsertSql();
+        buildUpdateSql();
+        buildSelectSql();
+        buildDeleteSql();
 
         return this.beanPersistenceDef;
     }
 
-    private void handle(IdClass ann) {
-        if (logger.isDebugEnabled())
-            logger.debug("annotation idClass '{}'", ann);
+    private void getSubClassFields(Class<?> clazz, List<Field> fields) {
+        Class<?> subClass = clazz.getSuperclass();
 
-        this.beanPersistenceDef.setIdClass(ann.value());
-    }
+        if (subClass != null && !Object.class.equals(subClass)) {
+            fields.addAll(Arrays.asList(subClass.getDeclaredFields()));
 
-    private void handle(NamedNativeQueries ann) {
-        if (logger.isDebugEnabled())
-            logger.debug("annotation named native queries '{}'", ann);
-
-        NamedNativeQuery[] nnqs = ann.value();
-        NamedNativeQuery[] arr = nnqs;
-        int len = arr.length;
-        for (int i = 0; i < len; ++i) {
-            NamedNativeQuery nq = arr[i];
-            handle(nq);
+            getSubClassFields(subClass.getSuperclass(), fields);
         }
     }
 
-    private void handle(NamedNativeQuery ann) {
-        if (logger.isDebugEnabled())
-            logger.debug("annotation named native query '{}'", ann);
-
-        String name = StringUtils.trimToNull(ann.name());
-        String query = StringUtils.trimToNull(ann.query());
-        if ((name != null) && (query != null))
-            this.beanPersistenceDef.addNamedNativeQuery(name, query);
-    }
-
-    private void handle(Entity ann) {
-        if (logger.isDebugEnabled())
-            logger.debug("annotation entity '{}'", ann);
-
-        this.beanPersistenceDef.setAnnotation(true);
-        String name = StringUtils.trimToNull(ann.name());
-        if (name != null)
-            this.beanPersistenceDef.setName(name);
-    }
-
-    private void handle(Table ann) {
+    private void evalTable(Class<?> clazz, Table table) {
         if (logger.isDebugEnabled()) {
-            logger.debug("annotation table '{}'", ann);
+            logger.debug("Class is '{}' and it's annotation table '{}'", clazz.getName(), table);
         }
 
-        this.beanPersistenceDef.setAnnotation(true);
-        String catalog = StringUtils.trimToNull(ann.catalog());
-        if (catalog != null)
-            this.beanPersistenceDef.setCatalog(catalog);
-
-        String name = StringUtils.trimToNull(ann.name());
-        if (name != null)
-            this.beanPersistenceDef.setName(name);
-
-        String schema = StringUtils.trimToNull(ann.schema());
-        if (schema != null)
-            this.beanPersistenceDef.setSchema(schema);
+        String name = table.name();
+        if (StringUtils.isEmpty(name)) {
+            name = DynamicBeanUtils.underscoreName(clazz.getSimpleName());
+        }
+        // 设置表名
+        this.beanPersistenceDef.setTableName(name);
     }
 
-    private void handle(Cache ann) {
+    private void evalCache(Cache ann) {
         if (logger.isDebugEnabled()) {
             logger.debug("annotation Cache '{}'", ann);
         }
@@ -165,45 +102,16 @@ public class BeanPersistenceBuilder {
         this.beanPersistenceDef.setCacheRegion(ann.cacheRegion());
     }
 
-    private void buildCRUDSql() {
-        logger.debug("begin build crud sql!");
-        for (Iterator it = this.beanPersistenceDef.getMappedFields().values().iterator(); it.hasNext(); ) {
-            PersistentField pf = (PersistentField) it.next();
-            if (this.beanPersistenceDef.isAnnotation()) {
-                if (pf.isAnnotation()) {
-                    this.mappedFields.put(pf.getFieldName(), pf);
-                    if (pf.isIdField()) {
-                        this.idField = pf;
-                    }
-                    if (pf.isNameField()) {
-                        this.nameField = pf;
-                    }
-                }
-            } else {
-                this.mappedFields.put(pf.getFieldName(), pf);
-                if (StringUtils.trimToEmpty(this.beanPersistenceDef.getIdFieldName()).equalsIgnoreCase(pf.getFieldName())) {
-                    this.idField = pf;
-                }
-            }
-        }
-
-        buildInsertSql();
-        buildUpdateSql();
-        buildSelectSql();
-        buildSelectOneSql();
-        buildDeleteSql();
-    }
-
-    private void buildDeleteSql() {
+    private void buildDeleteSql() throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("delete from ");
-        sql.append(this.beanPersistenceDef.getName());
-        sql.append(" where ");
-
-        if (this.idField != null) {
-            sql.append(this.idField.getColumnName());
-            sql.append("=:");
-            sql.append(this.idField.getFieldName());
+        sql.append(this.beanPersistenceDef.getTableName());
+        sql.append(" where 1 = 1 ");
+        if (ObjectUtils.isNotEmpty(this.beanPersistenceDef.getIdClass())) {
+            sql.append(" and ").append(this.beanPersistenceDef.getIdColumnName()).append(" = :")
+                    .append(this.beanPersistenceDef.getIdFieldName());
+        } else {
+            logger.warn("this delete sql '{}' don't has any condition!That will delete all when this sql execute!", sql.toString());
         }
 
         if (logger.isDebugEnabled()) {
@@ -213,54 +121,26 @@ public class BeanPersistenceBuilder {
         this.beanPersistenceDef.setDeleteSql(sql.toString());
     }
 
-    private void buildSelectOneSql() {
+    private void buildSelectSql() throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("select ");
 
-        int i = 0;
-        for (Iterator it = this.mappedFields.values().iterator(); it.hasNext(); ) {
-            PersistentField pf = (PersistentField) it.next();
-            if (i > 0)
-                sql.append(",");
+        Map<String, String> fieldColumnMapping = this.beanPersistenceDef.getFieldColumnMapping();
+        List<String> columns = new ArrayList<String>();
+        for (Iterator<String> it = fieldColumnMapping.values().iterator(); it.hasNext(); ) {
+            String column = it.next();
 
-            sql.append(" ");
-            sql.append(pf.getColumnName());
-            sql.append(" as ");
-            sql.append(pf.getFieldName());
-            ++i;
-        }
-        sql.append(" from ");
-        sql.append(this.beanPersistenceDef.getName());
-        sql.append(" where ");
-        sql.append(this.idField.getColumnName());
-        sql.append("= :").append(this.idField.getFieldName());
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("select one sql '{}'", sql.toString());
+            columns.add(column);
         }
 
-        this.beanPersistenceDef.setSelectOneSql(sql.toString());
-    }
+        sql.append(StringUtils.join(columns, ", "));
 
-    private void buildSelectSql() {
-        StringBuilder sql = new StringBuilder();
-        sql.append("select ");
+        sql.append(" from ").append(this.beanPersistenceDef.getTableName());
 
-        int i = 0;
-        for (Iterator it = this.mappedFields.values().iterator(); it.hasNext(); ) {
-            PersistentField pf = (PersistentField) it.next();
-            if (i > 0)
-                sql.append(",");
-
-            sql.append(" ");
-            sql.append(pf.getColumnName());
-            sql.append(" as ");
-            sql.append(pf.getFieldName());
-            ++i;
+        if (ObjectUtils.isNotEmpty(this.beanPersistenceDef.getIdClass())) {
+            sql.append(" where ").append(this.beanPersistenceDef.getIdColumnName()).append(" = :")
+                    .append(this.beanPersistenceDef.getIdFieldName());
         }
-        sql.append(" from ");
-        sql.append(this.beanPersistenceDef.getName());
-        sql.append(" ");
 
         if (logger.isDebugEnabled()) {
             logger.debug("select sql '{}'", sql.toString());
@@ -269,30 +149,30 @@ public class BeanPersistenceBuilder {
         this.beanPersistenceDef.setSelectSql(sql.toString());
     }
 
-    private void buildUpdateSql() {
+    private void buildUpdateSql() throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("update ");
-        sql.append(this.beanPersistenceDef.getName());
+        sql.append(this.beanPersistenceDef.getTableName());
         sql.append(" set ");
 
-        int i = 0;
-        for (Iterator it = this.mappedFields.values().iterator(); it.hasNext(); ) {
-            PersistentField pf = (PersistentField) it.next();
-            if (i > 0)
-                sql.append(",");
+        Map<String, String> fieldColumnMapping = this.beanPersistenceDef.getFieldColumnMapping();
+        List<String> columns = new ArrayList<String>();
 
-            sql.append(pf.getColumnName());
-            sql.append("=:");
-            sql.append(pf.getFieldName());
-            ++i;
-        }
-        sql.append(" where ");
+        for (Iterator<Map.Entry<String, String>> it = fieldColumnMapping.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<String, String> entry = it.next();
+            String field = entry.getKey();
+            String column = entry.getValue();
 
-        if (this.idField != null) {
-            sql.append(this.idField.getColumnName());
-            sql.append("=:");
-            sql.append(this.idField.getFieldName());
+            columns.add(column + " = :" + field);
         }
+
+        sql.append(StringUtils.join(columns, ", ")).append(" where 1 = 1 ");
+        if (ObjectUtils.isNotEmpty(this.beanPersistenceDef.getIdClass())) {
+            sql.append(" and ").append(this.beanPersistenceDef.getIdColumnName()).append(" = :")
+                    .append(this.beanPersistenceDef.getIdFieldName());
+        }
+
+        this.beanPersistenceDef.setUpdateSql(sql.toString());
 
         if (logger.isDebugEnabled()) {
             logger.debug("update sql '{}'", sql.toString());
@@ -301,33 +181,30 @@ public class BeanPersistenceBuilder {
         this.beanPersistenceDef.setUpdateSql(sql.toString());
     }
 
-    private void buildInsertSql() {
-        PersistentField pf;
+    private void buildInsertSql() throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("insert into ");
-        sql.append(this.beanPersistenceDef.getName());
-        sql.append(" (");
-        int i = 0;
-        for (Iterator it = this.mappedFields.values().iterator(); it.hasNext(); ) {
-            pf = (PersistentField) it.next();
-            if (i > 0)
-                sql.append(",");
+        sql.append(this.beanPersistenceDef.getTableName());
 
-            sql.append(pf.getColumnName());
-            ++i;
-        }
-        sql.append(" ) values (");
-        i = 0;
-        for (Iterator it = this.mappedFields.values().iterator(); it.hasNext(); ) {
-            pf = (PersistentField) it.next();
-            if (i > 0)
-                sql.append(",");
+        Map<String, String> fieldColumnMapping = this.beanPersistenceDef.getFieldColumnMapping();
+        List<String> columns = new ArrayList<String>();
+        List<String> values = new ArrayList<String>();
 
-            sql.append(":");
-            sql.append(pf.getFieldName());
-            ++i;
+        if (ObjectUtils.isNotEmpty(this.beanPersistenceDef.getIdClass())) {
+            columns.add(this.beanPersistenceDef.getIdColumnName());
+            values.add(":" + this.beanPersistenceDef.getIdFieldName());
         }
-        sql.append(" )");
+        for (Iterator<Map.Entry<String, String>> it = fieldColumnMapping.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<String, String> entry = it.next();
+            String field = entry.getKey();
+            String column = entry.getValue();
+
+            columns.add(column);
+            values.add(":" + field);
+        }
+
+        sql.append(" (").append(StringUtils.join(columns, ", ")).append(") values (")
+                .append(StringUtils.join(values, ", ")).append(")");
 
         if (logger.isDebugEnabled())
             logger.debug("insert sql '{}'", sql.toString());
@@ -335,31 +212,36 @@ public class BeanPersistenceBuilder {
         this.beanPersistenceDef.setInsertSql(sql.toString());
     }
 
-    private void handle(PersistentField pf, Annotation ann) {
-        if (pf == null || ann == null) {
-            logger.debug("persistentField or ann is null!");
+    private void evalColumn(Field field, Annotation ann) {
+        if (field == null || ann == null) {
+            logger.debug("field or ann is null!");
             return;
         }
 
-        logger.debug("field '{}' annotation is '{}'", pf.getFieldName(), ann);
-        pf.setAnnotation(true);
-        Class type = ann.annotationType();
-        if (Id.class.equals(type)) {
-            this.beanPersistenceDef.setIdFieldName(pf.getFieldName());
-            pf.setIdField(true);
-            this.beanPersistenceDef.setIdClass(pf.getJavaType());
-        } else if (type == GeneratedValue.class) {
+        logger.debug("field '{}' annotation is '{}'", field.getName(), ann);
+        Class annType = ann.annotationType();
+        if (Id.class.equals(annType)) {
+            // 主键
+            String idFieldName = field.getName();
+            String idColumnName = DynamicBeanUtils.underscoreName(idFieldName);
+
+            this.beanPersistenceDef.setIdClass(field.getType());
+            this.beanPersistenceDef.setIdFieldName(idFieldName);
+            this.beanPersistenceDef.setIdColumnName(idColumnName);
+        } else if (GeneratedValue.class.equals(annType)) {
             GeneratedValue gv = (GeneratedValue) ann;
             this.beanPersistenceDef.setGenerator(gv.generator());
-        } else if (Column.class.equals(type)) {
-            Column col = (Column) ann;
-            String columnName = col.name().trim();
-            if (StringUtils.isNotEmpty(columnName)) {
-                pf.setColumnName(columnName);
+        } else if (Column.class.equals(annType)) {
+            Column column = (Column) ann;
+            // 普通字段
+            String fieldName = field.getName();
+
+            String columnName = column.name();
+            if (StringUtils.isEmpty(columnName)) {
+                columnName = DynamicBeanUtils.underscoreName(fieldName);
             }
-            pf.setLength(col.length());
-            pf.setNullable(col.nullable());
-            pf.setUnique(col.unique());
+
+            this.beanPersistenceDef.addFieldColumnMapping(fieldName, columnName);
         }
     }
 }

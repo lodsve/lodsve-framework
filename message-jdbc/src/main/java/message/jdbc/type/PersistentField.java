@@ -16,11 +16,11 @@ public class PersistentField implements Serializable {
      */
     private String fieldName;
     /**
-     * Java类型
+     * 该字段Java类型
      */
     private Class javaType;
     /**
-     * sql类型
+     * 该字段对应数据库表的sql类型
      */
     private int sqlType;
     /**
@@ -36,11 +36,11 @@ public class PersistentField implements Serializable {
      */
     private String beanName;
     /**
-     * getter
+     * getter方法名
      */
     private String readName;
     /**
-     * cloumn name in database
+     * column name in database
      */
     private String columnName;
     /**
@@ -48,19 +48,19 @@ public class PersistentField implements Serializable {
      */
     private int length;
     /**
-     * can be null?
+     * can be null
      */
     private boolean nullable;
     /**
-     * only one?
+     * only one
      */
     private boolean unique;
     /**
-     * is annotation?
+     * is annotation
      */
     private boolean annotation;
     /**
-     * id field?
+     * id field
      */
     private boolean idField;
     private boolean nameField;
