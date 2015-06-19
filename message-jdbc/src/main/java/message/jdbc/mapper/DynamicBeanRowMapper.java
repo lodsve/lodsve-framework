@@ -6,8 +6,8 @@ import javassist.CtField;
 import javassist.CtMethod;
 import message.base.convert.ConvertGetter;
 import message.jdbc.base.DynamicBeanUtils;
-import message.jdbc.type.PersistentField;
 import message.jdbc.helper.SqlHelper;
+import message.jdbc.type.PersistentField;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,6 @@ import org.springframework.jdbc.support.JdbcUtils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -43,7 +42,7 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
     private static final Logger logger = LoggerFactory.getLogger(DynamicBeanRowMapper.class);
 
     private Constructor constructor;
-    private Map mappedFields;
+    private Map<String, PersistentField> mappedFields;
     private String sql;
     private String mapperKey;
     private final static Map mappers = new HashMap();
@@ -58,10 +57,6 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
 
     public static RowMapper getInstance(Class clazz, SqlHelper sqlHelper, String sql) {
         String key = DynamicBeanUtils.createMapperKey(clazz, sql);
-        RowMapper rm = (RowMapper) mappers.get(key);
-
-        if (rm != null)
-            return rm;
 
         DynamicBeanRowMapper mapper = new DynamicBeanRowMapper(clazz);
         mapper.setClazz(clazz);
@@ -80,7 +75,7 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
             throw new DataAccessResourceFailureException("there is no default constructor in class " + super.getClazz().getName());
         }
 
-        this.mappedFields = new HashMap();
+        this.mappedFields = new HashMap<String, PersistentField>();
         Class metaClass = super.getClazz();
 
         if (metaClass != null) {
@@ -98,37 +93,21 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
 
                 //字段名
                 String fieldName = pd.getName();
+                String columnName = findColumnNameByFieldName(fieldName);
                 PersistentField field = new PersistentField();
                 field.setFieldName(fieldName);
                 field.setJavaType(readMethod.getReturnType());
                 field.setWriteName(writeMethod.getName());
-
-                String underscoredName = StringUtils.EMPTY;
-                Field f = null;
-                try {
-                    f = metaClass.getDeclaredField(fieldName);
-                } catch (Exception e) {
-                    logger.debug("this field named '{}' has not exist!", fieldName);
-                    //转成数据库中的字段格式(约定好的)
-                    underscoredName = DynamicBeanUtils.underscoreName(fieldName);
-                }
-
-                if (f != null) {
-                    //转成数据库中的字段格式(约定好的)
-                    underscoredName = DynamicBeanUtils.underscoreName(fieldName);
-                }
+                field.setColumnName(columnName);
 
                 this.mappedFields.put(fieldName.toLowerCase(), field);
-
-                if (!fieldName.toLowerCase().equals(underscoredName)) {
-                    this.mappedFields.put(underscoredName, field);
-                }
+                this.mappedFields.put(columnName, field);
             }
         }
     }
 
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-        DynamicRowMapper dynamicRowMapper = (DynamicRowMapper) this.mappers.get(this.mapperKey);
+        DynamicRowMapper dynamicRowMapper = (DynamicRowMapper) mappers.get(this.mapperKey);
 
         if (dynamicRowMapper != null)
             return dynamicRowMapper.mapRow(rs, rowNum);
@@ -156,7 +135,7 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
 
         for (int i = 1; i <= columnCount; i++) {
             String column = JdbcUtils.lookupColumnName(metaData, i).toLowerCase();
-            PersistentField field = (PersistentField) this.mappedFields.get(column);
+            PersistentField field = this.mappedFields.get(column);
 
             if (field == null) continue;
 
@@ -171,7 +150,7 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
             if (fieldType.equals(String.class)) {
                 if (type == Types.LONGVARCHAR) {
                     this.addFieldContent(script, field, "sqlHelper.getLongAsString($1,", i, ")");
-                    value = this.getLongStringValue(rs, i);
+                    value = this.getLongAsString(rs, i);
                 } else if (type == Types.CLOB) {
                     this.addFieldContent(script, field, "sqlHelper.getClobAsString($1,", i, ")");
                     value = this.getClobStringValue(rs, i);
@@ -224,7 +203,7 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
             } else if (fieldType.equals(Boolean.class)) {
                 addFieldContent(script, field, "new Boolean($1.getBoolean(", i, "))");
                 value = (rs.getBoolean(i)) ? Boolean.TRUE : Boolean.FALSE;
-            } else if (contantInConvert(fieldType)) {
+            } else if (containInConvert(fieldType)) {
                 String val = rs.getString(i);
 
                 script.append("bean.");
@@ -346,7 +325,7 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
         script.append(");\n");
     }
 
-    private boolean contantInConvert(Class fieldType) {
+    private boolean containInConvert(Class fieldType) {
         return ConvertGetter.class.isAssignableFrom(fieldType) && this.getSqlHelper().getConvert(fieldType) != null;
     }
 

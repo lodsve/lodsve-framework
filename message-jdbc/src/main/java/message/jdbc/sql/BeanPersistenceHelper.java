@@ -1,10 +1,10 @@
 package message.jdbc.sql;
 
-import message.jdbc.sql.BeanPersistenceBuilder;
-import message.jdbc.sql.BeanPersistenceDef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.Table;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +33,10 @@ public class BeanPersistenceHelper {
      * @return
      */
     public static BeanPersistenceDef getBeanPersistenceDef(Class<?> clazz) throws Exception {
+        if (clazz == null || !clazz.isAnnotationPresent(Table.class)) {
+            throw new SQLException("this clazz '{" + clazz.getName() + "}' is not support generic* method!");
+        }
+
         BeanPersistenceDef beanPersistence = beanPersistenceMaps.get(clazz);
         if (beanPersistence == null) {
             beanPersistence = initialize(clazz);

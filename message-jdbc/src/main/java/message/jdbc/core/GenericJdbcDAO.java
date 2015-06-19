@@ -501,8 +501,6 @@ public class GenericJdbcDAO extends ExtNamedParameterJdbcDaoSupport {
         }
 
         String deleteSql = beanPersistenceDef.getDeleteSql();
-//        String idKey = ":" + beanPersistenceDef.getIdFieldName();
-//        deleteSql = StringUtils.replace(deleteSql, idKey, "?");
         if(logger.isDebugEnabled())
             logger.debug("get query sql is '{}' for bean '{}' what key is '{}'", new Object[]{deleteSql, clazz, key});
         update(deleteSql, Collections.singletonMap(beanPersistenceDef.getIdFieldName(), key));
