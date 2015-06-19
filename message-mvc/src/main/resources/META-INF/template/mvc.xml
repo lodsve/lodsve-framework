@@ -17,6 +17,13 @@
 		<mvc:argument-resolvers th:if="${argumentResolvers != null and #lists.size(argumentResolvers) > 0}">
 			<bean th:attr="class=${resolver}" th:each="resolver : ${argumentResolvers}"/>
 		</mvc:argument-resolvers >
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper">
+					<bean class="message.mvc.convert.CustomObjectMapper" />
+				</property>
+			</bean>
+		</mvc:message-converters>
 	</mvc:annotation-driven>
 
 	<!-- 拦截器 -->
