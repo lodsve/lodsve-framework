@@ -1,6 +1,6 @@
 package message.security.service;
 
-import message.jdbc.GenericJdbcDAO;
+import message.jdbc.core.GenericJdbcDAO;
 import message.security.SecurityConstants;
 import message.security.pojo.Account;
 import message.security.pojo.AccountRole;
