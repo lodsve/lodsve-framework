@@ -26,8 +26,6 @@
         <module>message-json</module>
         <!-- 缓存 -->
         <module>message-cache</module>
-		<!-- 数据源 -->
-        <module>message-datasource</module>
         <!-- jdbc -->
         <module>message-jdbc</module>
         <!-- 搜索 -->
@@ -816,11 +814,6 @@
             <dependency>
                 <groupId>cosmos.message</groupId>
                 <artifactId>message-config</artifactId>
-                <version>${cosmos.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cosmos.message</groupId>
-                <artifactId>message-datasource</artifactId>
                 <version>${cosmos.version}</version>
             </dependency>
             <dependency>

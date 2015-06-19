@@ -44,10 +44,6 @@
         </dependency>
         <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-datasource</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cosmos.message</groupId>
             <artifactId>message-jdbc</artifactId>
         </dependency>
         <dependency>
