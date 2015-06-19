@@ -125,16 +125,18 @@ public class BeanPersistenceBuilder {
         StringBuilder sql = new StringBuilder();
         sql.append("select ");
 
-        Map<String, String> fieldColumnMapping = this.beanPersistenceDef.getFieldColumnMapping();
         List<String> columns = new ArrayList<String>();
+        if (ObjectUtils.isNotEmpty(this.beanPersistenceDef.getIdClass())) {
+            columns.add(this.beanPersistenceDef.getIdColumnName());
+        }
+
+        Map<String, String> fieldColumnMapping = this.beanPersistenceDef.getFieldColumnMapping();
         for (Iterator<String> it = fieldColumnMapping.values().iterator(); it.hasNext(); ) {
             String column = it.next();
-
             columns.add(column);
         }
 
         sql.append(StringUtils.join(columns, ", "));
-
         sql.append(" from ").append(this.beanPersistenceDef.getTableName());
 
         if (ObjectUtils.isNotEmpty(this.beanPersistenceDef.getIdClass())) {
