@@ -2,10 +2,10 @@ package message.jdbc.core;
 
 import message.base.convert.ConvertGetter;
 import message.jdbc.convert.Convert;
+import message.jdbc.helper.SqlHelper;
 import message.jdbc.type.ClobStringSqlTypeValue;
 import message.jdbc.type.LongStringSqlTypeValue;
 import message.jdbc.type.ParamType;
-import message.jdbc.helper.SqlHelper;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.NotReadablePropertyException;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * .
  *
- * @author Danny(sunhao)(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
  * @createTime 2012-10-8 上午05:20:39
  */

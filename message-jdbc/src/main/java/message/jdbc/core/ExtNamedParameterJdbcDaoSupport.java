@@ -10,18 +10,18 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
  * @version V1.0, 2012-4-10 上午12:24:57
  */
 public class ExtNamedParameterJdbcDaoSupport extends NamedParameterJdbcDaoSupport {
-	private ExtNamedParameterJdbcTemplate extNamedParameterJdbcTemplate;
+    private ExtNamedParameterJdbcTemplate extNamedParameterJdbcTemplate;
 
-	protected void initTemplateConfig() {
-		this.extNamedParameterJdbcTemplate = new ExtNamedParameterJdbcTemplate(getJdbcTemplate());
-	}
+    protected void initTemplateConfig() {
+        this.extNamedParameterJdbcTemplate = new ExtNamedParameterJdbcTemplate(getJdbcTemplate());
+    }
 
-	public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate() {
-		return this.extNamedParameterJdbcTemplate;
-	}
+    public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate() {
+        return this.extNamedParameterJdbcTemplate;
+    }
 
-	public ExtNamedParameterJdbcTemplate getExtNamedParameterJdbcTemplate() {
-		return extNamedParameterJdbcTemplate;
-	}
+    public ExtNamedParameterJdbcTemplate getExtNamedParameterJdbcTemplate() {
+        return extNamedParameterJdbcTemplate;
+    }
 
 }

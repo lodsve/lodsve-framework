@@ -1,11 +1,11 @@
 package message.jdbc.core;
 
-import message.jdbc.convert.Convert;
 import message.base.convert.ConvertGetter;
+import message.jdbc.convert.Convert;
+import message.jdbc.helper.SqlHelper;
 import message.jdbc.type.ClobStringSqlTypeValue;
 import message.jdbc.type.LongStringSqlTypeValue;
 import message.jdbc.type.ParamType;
-import message.jdbc.helper.SqlHelper;
 import org.springframework.jdbc.core.SqlParameterValue;
 import org.springframework.jdbc.core.namedparam.AbstractSqlParameterSource;
 
@@ -39,9 +39,9 @@ public class ExtMapSqlParameterSource extends AbstractSqlParameterSource {
                 Object key = it.next();
                 Object value = values.get(key);
 
-                if(ConvertGetter.class.isAssignableFrom(value.getClass())) {
+                if (ConvertGetter.class.isAssignableFrom(value.getClass())) {
                     Convert convert = this.sqlHelper.getConvert((Class<? extends ConvertGetter>) value.getClass());
-                    if(convert != null) {
+                    if (convert != null) {
                         value = value != null ? convert.getDbValue((ConvertGetter) value) : convert.getDbNullValue((ConvertGetter) value);
                     }
                 }
