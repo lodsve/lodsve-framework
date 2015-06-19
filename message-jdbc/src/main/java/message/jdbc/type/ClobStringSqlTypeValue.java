@@ -17,6 +17,6 @@ public class ClobStringSqlTypeValue extends AbstractStringSqlTypeValue {
     }
 
     public void setTypeValue(PreparedStatement ps, int paramIndex, int sqlType, String typeName) throws SQLException {
-        super.sqlHelper.setLongStringValue(ps, paramIndex, value);
+        this.sqlHelper.setClobValue(ps, paramIndex, value);
     }
 }

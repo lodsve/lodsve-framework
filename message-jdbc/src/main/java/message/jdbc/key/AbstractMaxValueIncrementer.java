@@ -80,12 +80,12 @@ public abstract class AbstractMaxValueIncrementer implements IDGenerator {
 	public Object nextObjectValue(Class<?> clazz, String name) throws DataAccessException {
 		long id = getNextKey(name);
 
-	    if (clazz.equals(Integer.class))
+	    if (Integer.class.equals(clazz))
 	      return new Integer(id + "");
-	    if (clazz.equals(String.class))
+	    if (String.class.equals(clazz))
 	      return String.valueOf(id);
 
-	    return new Long(id);
+	    return id;
 	}
 
 }

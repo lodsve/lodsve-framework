@@ -3,14 +3,12 @@ package message.jdbc.helper;
 import message.base.convert.ConvertGetter;
 import message.jdbc.convert.Convert;
 import message.jdbc.key.IDGenerator;
-import org.apache.commons.collections.MapUtils;
-import org.springframework.beans.BeanUtils;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,23 +17,7 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2012-4-10 上午01:23:20
  */
-public abstract class SqlHelper {
-    protected IDGenerator idGenerator;
-    /*private Map<Class<?>, Convert> realConverts = new HashMap<Class<?>, Convert>();*/
-    private Map<Class<?>, Class<?>> convertBeans = new HashMap<Class<?>, Class<?>>();
-
-    /**
-     * 设置long型值
-     *
-     * @param ps
-     * @param index
-     * @param value
-     * @throws java.sql.SQLException
-     */
-    public void setLongStringValue(PreparedStatement ps, int index, String value) throws SQLException {
-        ps.setString(index, value);
-    }
-
+public interface SqlHelper {
     /**
      * 设置clob型值
      *
@@ -44,21 +26,17 @@ public abstract class SqlHelper {
      * @param value
      * @throws java.sql.SQLException
      */
-    public void setClobStringVlaue(PreparedStatement ps, int index, String value) throws SQLException {
-        ps.setString(index, value);
-    }
+    public abstract void setClobValue(PreparedStatement ps, int index, String value) throws SQLException;
 
     /**
-     * 获取long型值
+     * 获取long型值，并返回String
      *
      * @param rs
      * @param index
      * @return
      * @throws java.sql.SQLException
      */
-    public String getLongStringValue(ResultSet rs, int index) throws SQLException {
-        return rs.getString(index);
-    }
+    public String getLongAsString(ResultSet rs, int index) throws SQLException;
 
     /**
      * 获取clob型值
@@ -68,9 +46,7 @@ public abstract class SqlHelper {
      * @return
      * @throws java.sql.SQLException
      */
-    public String getClobStringValue(ResultSet rs, int index) throws SQLException {
-        return rs.getString(index);
-    }
+    public String getClobAsString(ResultSet rs, int index) throws SQLException, IOException;
 
     /**
      * 获得查询所有条数的sql
@@ -78,16 +54,9 @@ public abstract class SqlHelper {
      * @param sql
      * @return
      */
-    public String getCountSql(String sql) {
-        StringBuffer countSql = new StringBuffer("select count(*) from (");
-        countSql.append(sql).append(") total");
+    public String getCountSql(String sql);
 
-        return countSql.toString();
-    }
-
-    public void setIdGenerator(IDGenerator idGenerator) {
-        this.idGenerator = idGenerator;
-    }
+    public void setIdGenerator(IDGenerator idGenerator);
 
     /**
      * 获得分页的sql
@@ -98,17 +67,17 @@ public abstract class SqlHelper {
      * @param num
      * @return
      */
-    public abstract String getPageSql(String sql, int start, int num);
+    public String getPageSql(String sql, int start, int num);
 
     /**
      * 通过sequence获取下一个主键的值<br/>
-     * oracle:sequence《br/》
+     * oracle:sequence<br/>
      * mysql：模拟的sequence表的表名
      *
      * @param sequenceName
      * @return
      */
-    public abstract Object getNextId(String sequenceName);
+    public Long getNextId(String sequenceName);
 
     /**
      * 判断数据库中是否含有给定的表
@@ -117,18 +86,21 @@ public abstract class SqlHelper {
      * @param dataSource 数据源
      * @return
      */
-    public abstract String existTableSQL(String tableName, DataSource dataSource) throws Exception;
+    public String existTableSQL(String tableName, DataSource dataSource) throws Exception;
 
-    public void setConvertBeans(Map<Class<?>, Class<?>> convertBeans) {
-        this.convertBeans = convertBeans;
-    }
+    /**
+     * 设置类型转换
+     *
+     * @param convertBeans
+     */
+    public void setConvertBeans(Map<Class<?>, Class<?>> convertBeans);
 
-    public <T extends ConvertGetter> Convert<T> getConvert(Class<T> clazz) {
-        if(MapUtils.isEmpty(this.convertBeans)) {
-            return null;
-        }
-
-        Class<?> convertBeanClazz = this.convertBeans.get(clazz);
-        return (Convert<T>) BeanUtils.instantiate(convertBeanClazz);
-    }
+    /**
+     * 获取类型转换
+     *
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public <T extends ConvertGetter> Convert<T> getConvert(Class<T> clazz);
 }

@@ -170,10 +170,10 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
             Class fieldType = field.getJavaType();
             if (fieldType.equals(String.class)) {
                 if (type == Types.LONGVARCHAR) {
-                    this.addFieldContent(script, field, "sqlHelper.getLongStringValue($1,", i, ")");
+                    this.addFieldContent(script, field, "sqlHelper.getLongAsString($1,", i, ")");
                     value = this.getLongStringValue(rs, i);
                 } else if (type == Types.CLOB) {
-                    this.addFieldContent(script, field, "sqlHelper.getClobStringValue($1,", i, ")");
+                    this.addFieldContent(script, field, "sqlHelper.getClobAsString($1,", i, ")");
                     value = this.getClobStringValue(rs, i);
                 } else {
                     this.addFieldContent(script, field, "$1.getString(", i, ")");

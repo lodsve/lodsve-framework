@@ -1,6 +1,7 @@
 package message.jdbc.type;
 
 import message.jdbc.helper.SqlHelper;
+import message.utils.NumberUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -18,6 +19,10 @@ public class LongStringSqlTypeValue extends AbstractStringSqlTypeValue {
     }
 
     public void setTypeValue(PreparedStatement ps, int paramIndex, int sqlType, String typeName) throws SQLException {
-        super.sqlHelper.setLongStringValue(ps, paramIndex, value);
+        if(NumberUtils.isNumber(value)) {
+            ps.setLong(paramIndex, Long.valueOf(value));
+        } else {
+            throw new SQLException("value [" + value + "] is not a number!");
+        }
     }
 }

@@ -2,10 +2,12 @@ package message.jdbc.mapper;
 
 import message.jdbc.base.DynamicBeanUtils;
 import message.jdbc.helper.SqlHelper;
+import message.utils.StringUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -80,11 +82,15 @@ public class ColumnMapRowMapper implements RowMapper {
 	}
 
 	protected String getLongStringValue(ResultSet rs, int column) throws SQLException{
-		return sqlHelper.getLongStringValue(rs, column);
+		return sqlHelper.getLongAsString(rs, column);
 	}
 
 	protected String getClobStringValue(ResultSet rs, int column) throws SQLException{
-		return sqlHelper.getClobStringValue(rs, column);
+		try {
+			return sqlHelper.getClobAsString(rs, column);
+		} catch (IOException e) {
+			return StringUtils.EMPTY;
+		}
 	}
 	
 	protected Object getColumnValue(ResultSet rs, int column) throws SQLException{
