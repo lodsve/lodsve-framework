@@ -1,5 +1,6 @@
 package message.jdbc.configs;
 
+import message.jdbc.configs.parser.DataSourceParser;
 import message.jdbc.configs.parser.RdbmsDatasourceParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 public class DatasourceNamespaceHandler extends NamespaceHandlerSupport {
     @Override
     public void init() {
+        registerBeanDefinitionParser("dataSource", new DataSourceParser());
         registerBeanDefinitionParser("jdbc", new RdbmsDatasourceParser());
     }
 }
