@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import message.base.convert.ConvertGetter;
 
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -40,5 +41,11 @@ public class CustomObjectMapper extends ObjectMapper {
         SimpleModule module = new SimpleModule();
         module.addSerializer(ConvertGetter.class, new EnumSerializer());
         registerModule(module);
+
+        //日期的处理
+        //默认是将日期类型转换为yyyy-MM-dd HH:mm
+        //如果需要自定义的，则在pojo对象的Date类型上加上注解
+        //@com.fasterxml.jackson.annotation.JsonFormat(pattern = "时间格式化")
+        setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm"));
     }
 }
