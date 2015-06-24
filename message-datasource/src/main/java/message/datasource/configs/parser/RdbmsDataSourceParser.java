@@ -1,41 +1,33 @@
-package message.jdbc.configs.parser;
+package message.datasource.configs.parser;
 
 import message.config.SystemConfig;
 import message.config.properties.Configuration;
-import message.template.resource.ThymeleafTemplateResource;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.core.io.Resource;
-import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * 关系型数据库数据源的处理.
+ * 关系型数据库的数据源配置.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 14-8-10 上午1:39
+ * @version V1.0, 15/6/21 下午5:28
  */
-public class RdbmsDatasourceParser implements BeanDefinitionParser {
-    private static final String RDBMS_TEMPLATE_LOCATION = "META-INF/template/jdbc.xml";
+public class RdbmsDataSourceParser extends BaseDataSourceParser implements BeanDefinitionParser {
     /**
      * 数据源配置的key
      */
     private static final String DATASOURCE_CLASS = "datasources.rdbms.dataSourceClass";
     private static final String DATASOURCE_PROPERTY_PREFIX = "datasources.rdbms";
     private static final String DEFAULT_PROPERTIES_KEY_PREFIX = DATASOURCE_PROPERTY_PREFIX + ".default";
-    private static Configuration configuration;
-
-    static {
-        configuration = SystemConfig.getFileConfiguration("datasource" + File.separator + "rdbms.properties");
-    }
 
     @Override
     public BeanDefinition parse(Element element, ParserContext parserContext) {
@@ -43,34 +35,8 @@ public class RdbmsDatasourceParser implements BeanDefinitionParser {
         BeanDefinitionRegistry registry = parserContext.getRegistry();
         //注册数据源
         registDataSource(element, registry);
-        //动态注册jdbc的相关配置
-        dynamicLoadConfigBean(element, registry);
 
         return null;
-    }
-
-    private String getDataSourceName(Element element) {
-        return element.getAttribute("dataSource");
-    }
-
-    private void dynamicLoadConfigBean(Element element, BeanDefinitionRegistry registry) {
-        Map<String, Object> context = new HashMap<String, Object>();
-        context.put("dataSource", getDataSourceName(element));
-        context.put("basePackage", element.getAttribute("basePackage"));
-        context.put("useFlyway", element.getAttribute("useFlyway"));
-        context.put("migration", element.getAttribute("migration"));
-        context.put("dbType", element.getAttribute("dbType"));
-
-        List<Element> childElements = DomUtils.getChildElementsByTagName(element, "convert");
-        Map<String, String> converts = new HashMap<String, String>();
-        for (Element ele : childElements) {
-            converts.put(ele.getAttribute("key"), ele.getAttribute("value"));
-        }
-
-        context.put("converts", converts);
-        BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(registry);
-        Resource resource = new ThymeleafTemplateResource(RDBMS_TEMPLATE_LOCATION, context, "xml");
-        beanDefinitionReader.loadBeanDefinitions(resource);
     }
 
     /**
@@ -96,6 +62,10 @@ public class RdbmsDatasourceParser implements BeanDefinitionParser {
 
         this.setCustomProperties(beanDefinitionBuilder, dataSourceClassName);
         registry.registerBeanDefinition(dataSourceName, beanDefinitionBuilder.getBeanDefinition());
+    }
+
+    private String getDataSourceName(Element element) {
+        return element.getAttribute(DATASOURCE_ELE_NAME);
     }
 
     private Map<String, String> getProperties(String dataSourceName) {

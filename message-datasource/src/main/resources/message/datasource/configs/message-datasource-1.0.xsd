@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.message.com/schema/message-datasource"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.message.com/schema/message-datasource"
+            elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.springframework.org/schema/beans" />
+
+    <!-- 关系型数据库 -->
+    <xsd:element name="rdbms">
+        <xsd:complexType>
+            <xsd:attribute name="name" type="xsd:string" use="required" />
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

@@ -26,6 +26,8 @@
         <module>message-json</module>
         <!-- 缓存 -->
         <module>message-cache</module>
+        <!-- 数据源 -->
+        <module>message-datasource</module>
         <!-- jdbc -->
         <module>message-jdbc</module>
         <!-- 搜索 -->
