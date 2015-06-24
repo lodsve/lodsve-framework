@@ -21,19 +21,13 @@ import java.util.Set;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/6/21 下午5:28
  */
-public class RdbmsDataSourceParser implements BeanDefinitionParser {
+public class RdbmsDataSourceParser extends BaseDataSourceParser implements BeanDefinitionParser {
     /**
      * 数据源配置的key
      */
     private static final String DATASOURCE_CLASS = "datasources.rdbms.dataSourceClass";
     private static final String DATASOURCE_PROPERTY_PREFIX = "datasources.rdbms";
     private static final String DEFAULT_PROPERTIES_KEY_PREFIX = DATASOURCE_PROPERTY_PREFIX + ".default";
-    private static final String DATASOURCE_ELE_NAME = "name";
-    private static Configuration configuration;
-
-    static {
-        configuration = SystemConfig.getFileConfiguration("datasource" + File.separator + "rdbms.properties");
-    }
 
     @Override
     public BeanDefinition parse(Element element, ParserContext parserContext) {

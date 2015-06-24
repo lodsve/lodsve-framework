@@ -11,7 +11,7 @@ import org.w3c.dom.Element;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/6/24 上午11:08
  */
-public class MongoDbDataSourceParser implements BeanDefinitionParser {
+public class MongoDbDataSourceParser extends BaseDataSourceParser implements BeanDefinitionParser {
     @Override
     public BeanDefinition parse(Element element, ParserContext parserContext) {
         return null;
