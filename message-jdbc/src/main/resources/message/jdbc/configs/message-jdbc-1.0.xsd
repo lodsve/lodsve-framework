@@ -6,12 +6,6 @@
 
     <xsd:import namespace="http://www.springframework.org/schema/beans" />
 
-    <xsd:element name="dataSource">
-        <xsd:complexType>
-            <xsd:attribute name="name" type="xsd:string" use="required" />
-        </xsd:complexType>
-    </xsd:element>
-
     <xsd:element name="jdbc">
         <xsd:complexType>
             <xsd:complexContent>

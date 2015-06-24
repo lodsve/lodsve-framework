@@ -1,4 +1,4 @@
-package message.jdbc.configs.parser;
+package message.datasource.configs.parser;
 
 import message.config.SystemConfig;
 import message.config.properties.Configuration;
@@ -16,12 +16,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * .
+ * 关系型数据库的数据源配置.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/6/21 下午5:28
  */
-public class DataSourceParser implements BeanDefinitionParser {
+public class RdbmsDataSourceParser implements BeanDefinitionParser {
     /**
      * 数据源配置的key
      */

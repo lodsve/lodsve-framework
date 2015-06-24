@@ -21,7 +21,7 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 14-8-10 上午1:39
  */
-public class RdbmsDatasourceParser implements BeanDefinitionParser {
+public class JdbcConfigParser implements BeanDefinitionParser {
     private static final String RDBMS_TEMPLATE_LOCATION = "META-INF/template/jdbc.xml";
 
     @Override
