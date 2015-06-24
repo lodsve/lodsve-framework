@@ -4,8 +4,11 @@ import com.fasterxml.jackson.core.Base64Variants;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationConfig;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.cfg.BaseSettings;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import message.base.convert.ConvertGetter;
 
 import java.util.Locale;
 import java.util.TimeZone;
@@ -31,5 +34,11 @@ public class CustomObjectMapper extends ObjectMapper {
 
         _serializationConfig = new SerializationConfig(baseSettings, _subtypeResolver, _mixInAnnotations);
         _deserializationConfig = new DeserializationConfig(baseSettings, _subtypeResolver, _mixInAnnotations);
+        configure(SerializationFeature.WRITE_ENUMS_USING_INDEX, true);
+
+        // 序列化枚举时的处理
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(ConvertGetter.class, new EnumSerializer());
+        registerModule(module);
     }
 }

@@ -1,4 +1,4 @@
-package message.mvc.commons;
+package message.mvc.editor;
 
 import org.springframework.util.StringUtils;
 

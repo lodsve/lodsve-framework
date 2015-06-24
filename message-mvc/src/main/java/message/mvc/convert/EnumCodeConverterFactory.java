@@ -13,7 +13,7 @@ import org.springframework.core.convert.converter.ConverterFactory;
  * @version V1.0
  * @createTime 2014-12-17 20:23
  */
-public class EnumConverterFactory implements ConverterFactory<String, Enum<?>>, ConditionalConverter {
+public class EnumCodeConverterFactory implements ConverterFactory<String, Enum<?>>, ConditionalConverter {
     @Override
     public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
         Class<?> clazz = targetType.getType();
