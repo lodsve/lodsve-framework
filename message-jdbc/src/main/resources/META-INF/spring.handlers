@@ -1,1 +1,1 @@
-http\://www.message.com/schema/message-jdbc=message.jdbc.configs.DatasourceNamespaceHandler
+http\://www.message.com/schema/message-jdbc=message.jdbc.configs.JdbcNamespaceHandler
