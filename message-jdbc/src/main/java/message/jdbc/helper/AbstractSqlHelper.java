@@ -7,6 +7,7 @@ import message.utils.StringUtils;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.BeanUtils;
 
 import javax.sql.DataSource;
@@ -98,6 +99,11 @@ public abstract class AbstractSqlHelper implements SqlHelper {
         }
 
         Class<?> convertBeanClazz = this.convertBeans.get(clazz);
-        return (Convert<T>) BeanUtils.instantiate(convertBeanClazz);
+        try {
+            return (Convert<T>) BeanUtils.instantiateClass(convertBeanClazz.getConstructor(Class.class), clazz);
+        } catch (NoSuchMethodException e) {
+            throw new BeanInstantiationException(convertBeanClazz.getDeclaringClass(),
+                    "has no Constructor with arguments '" + Class.class.getSimpleName() + "'!", e);
+        }
     }
 }
