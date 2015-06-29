@@ -1,6 +1,5 @@
-package message.jdbc.key;
+package message.datasource.key;
 
-import message.jdbc.key.IDGenerator;
 import org.springframework.dao.DataAccessException;
 
 import javax.sql.DataSource;

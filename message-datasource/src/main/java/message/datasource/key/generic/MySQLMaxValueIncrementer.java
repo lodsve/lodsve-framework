@@ -1,6 +1,6 @@
-package message.jdbc.key.generic;
+package message.datasource.key.generic;
 
-import message.jdbc.key.AbstractMaxValueIncrementer;
+import message.datasource.key.AbstractMaxValueIncrementer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.jdbc.datasource.DataSourceUtils;

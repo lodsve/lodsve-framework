@@ -1,8 +1,8 @@
-package message.jdbc.helper;
+package message.datasource.helper;
 
 import message.base.convert.ConvertGetter;
-import message.jdbc.convert.Convert;
-import message.jdbc.key.IDGenerator;
+import message.datasource.convert.Convert;
+import message.datasource.key.IDGenerator;
 import message.utils.StringUtils;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;

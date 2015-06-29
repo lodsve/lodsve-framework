@@ -1,7 +1,7 @@
 package message.jdbc.mapper;
 
 import message.jdbc.base.DynamicBeanUtils;
-import message.jdbc.helper.SqlHelper;
+import message.datasource.helper.SqlHelper;
 import message.jdbc.sql.BeanPersistenceDef;
 import message.jdbc.sql.BeanPersistenceHelper;
 import message.utils.StringUtils;

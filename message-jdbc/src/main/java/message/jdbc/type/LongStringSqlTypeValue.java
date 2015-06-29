@@ -1,6 +1,6 @@
 package message.jdbc.type;
 
-import message.jdbc.helper.SqlHelper;
+import message.datasource.helper.SqlHelper;
 import message.utils.NumberUtils;
 
 import java.sql.PreparedStatement;

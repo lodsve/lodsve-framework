@@ -1,8 +1,8 @@
-package message.jdbc.helper;
+package message.datasource.helper;
 
 import message.base.convert.ConvertGetter;
-import message.jdbc.convert.Convert;
-import message.jdbc.key.IDGenerator;
+import message.datasource.convert.Convert;
+import message.datasource.key.IDGenerator;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -24,7 +24,7 @@ public interface SqlHelper {
      * @param ps
      * @param index
      * @param value
-     * @throws java.sql.SQLException
+     * @throws SQLException
      */
     public abstract void setClobValue(PreparedStatement ps, int index, String value) throws SQLException;
 
@@ -34,7 +34,7 @@ public interface SqlHelper {
      * @param rs
      * @param index
      * @return
-     * @throws java.sql.SQLException
+     * @throws SQLException
      */
     public String getLongAsString(ResultSet rs, int index) throws SQLException;
 
@@ -44,7 +44,7 @@ public interface SqlHelper {
      * @param rs
      * @param index
      * @return
-     * @throws java.sql.SQLException
+     * @throws SQLException
      */
     public String getClobAsString(ResultSet rs, int index) throws SQLException, IOException;
 

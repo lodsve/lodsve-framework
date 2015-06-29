@@ -1,4 +1,4 @@
-package message.jdbc.helper;
+package message.datasource.helper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

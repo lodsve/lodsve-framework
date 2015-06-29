@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans
-        xmlns="http://www.springframework.org/schema/beans"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:aop="http://www.springframework.org/schema/aop"
-        xmlns:tx="http://www.springframework.org/schema/tx"
-        xsi:schemaLocation="http://www.springframework.org/schema/beans
-				http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-				http://www.springframework.org/schema/aop
-         		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-         		http://www.springframework.org/schema/tx
-           		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <!-- MySQL start -->
     <bean th:if="${dbType == 'MySQL' }" th:id="${dataSource} + 'MysqlLobHandler'" class="org.springframework.jdbc.support.lob.DefaultLobHandler" lazy-init="true"/>
 
     <bean th:if="${dbType == 'MySQL' }" th:id="${dataSource} + 'SqlHelper'" class="message.datasource.helper.MySQLSqlHelper">
-        <property name="convertBeans" th:if="${converts != null and #maps.size(converts) > 0}">
-            <map>
-                <entry th:attr="key=${convert.key},value=${convert.value}" th:each="convert : ${converts}"/>
-            </map>
-        </property>
         <property name="idGenerator" th:attr="ref=${dataSource} + 'MaxValueIncrementer'"/>
     </bean>
 
@@ -39,11 +34,6 @@
 
     <bean th:if="${dbType == 'Oracle' }" th:id="${dataSource} + 'SqlHelper'" class="message.datasource.helper.OracleSqlHelper">
         <property name="lobHandler" th:attr="ref=${dataSource} + 'OracleLobHandler'"/>
-        <property name="convertBeans" th:if="${converts != null and #maps.size(converts) > 0}">
-            <map>
-                <entry th:attr="key=${convert.key},value=${convert.value}" th:each="convert : ${converts}"/>
-            </map>
-        </property>
         <property name="idGenerator" th:attr="ref=${dataSource} + 'MaxValueIncrementer'"/>
     </bean>
 
@@ -59,36 +49,42 @@
         <property name="locations" th:attr="value=${migration}"/>
     </bean>
 
-    <bean th:id="${dataSource} + 'GenericJdbcDAO'" lazy-init="true" class="message.jdbc.core.GenericJdbcDAO"
+    <bean th:id="${dataSource}+'SqlSessionFactory'" class="org.mybatis.spring.SqlSessionFactoryBean"
           th:if="${useFlyway}" th:attr="depends-on=${dataSource} + 'Flyway'">
         <property name="dataSource" th:attr="ref=${dataSource}"/>
-        <property name="sqlHelper" th:attr="ref=${dataSource} + 'SqlHelper'"/>
-        <property name="idGenerator" th:attr="ref=${dataSource} + 'MaxValueIncrementer'"/>
+        <property name="mapperLocations" value="classpath*:/META-INF/mybatis/**/*Mapper.xml" />
+        <property name="configLocation" value="classpath:/META-INF/mybatis/mybatis.xml"/>
+        <property name="typeHandlers" th:value="'#'+'{'+'typeHandlerScanner'+'.'+'find'+'(\''+${basePackage}+'.dao.types' +'\')'+'}'"/>
     </bean>
 
-    <bean th:id="${dataSource} + 'GenericJdbcDAO'" lazy-init="true" class="message.jdbc.core.GenericJdbcDAO"
+    <bean th:id="${dataSource}+'SqlSessionFactory'" class="org.mybatis.spring.SqlSessionFactoryBean"
           th:if="${!useFlyway}">
         <property name="dataSource" th:attr="ref=${dataSource}"/>
-        <property name="sqlHelper" th:attr="ref=${dataSource} + 'SqlHelper'"/>
-        <property name="idGenerator" th:attr="ref=${dataSource} + 'MaxValueIncrementer'"/>
+        <property name="mapperLocations" value="classpath*:/META-INF/mybatis/**/*Mapper.xml" />
+        <property name="configLocation" value="classpath:/META-INF/mybatis/mybatis.xml"/>
+        <property name="typeHandlers" th:value="'#'+'{'+'typeHandlerScanner'+'.'+'find'+'(\''+${basePackage}+'.dao.types' +'\')'+'}'"/>
     </bean>
 
-    <bean th:id="${dataSource} + 'TransactionManager'" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <bean th:id="${dataSource}+'TransactionManager'" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" th:attr="ref=${dataSource}" />
     </bean>
 
-    <aop:config>
-        <aop:pointcut th:attr="expression='execution(* ' + ${basePackage} + '.*.service.*.*(..)) or execution(* ' + ${basePackage} + '.*.dao.*.*(..))'" th:id="${dataSource}  +  'MyPointcut'"/>
-        <aop:advisor th:attr="advice-ref=${dataSource} + 'Advice',pointcut-ref=${dataSource} + 'MyPointcut'"/>
-    </aop:config>
-
-    <tx:advice th:id="${dataSource} + 'Advice'" th:attr="transaction-manager=${dataSource} + 'TransactionManager'">
+    <tx:advice th:id="${dataSource}+'TxAdvice'" th:attr="transaction-manager=${dataSource}+'TransactionManager'">
         <tx:attributes>
-            <tx:method name="find*" read-only="true"/>
-            <tx:method name="list*" read-only="true"/>
-            <tx:method name="get*" read-only="true"/>
-            <tx:method name="load*" read-only="true"/>
-            <tx:method name="*" propagation="REQUIRED" />
+            <tx:method name="*" propagation="REQUIRED" rollback-for="Throwable" />
         </tx:attributes>
     </tx:advice>
+
+    <aop:config>
+        <aop:pointcut th:id="${dataSource}+'TxMethods'" th:attr="expression='execution(* ' + ${basePackage} + '.service.*.*(..)) or '
+			+ 'execution(* '+ ${basePackage} + '.dao.*.*(..))'" />
+        <aop:advisor th:attr="advice-ref=${dataSource}+'TxAdvice',pointcut-ref=${dataSource}+'TxMethods'"/>
+    </aop:config>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" th:value="${basePackage}+'.dao'" />
+        <property name="annotationClass" value="org.springframework.stereotype.Repository" />
+        <property name="sqlSessionFactoryBeanName" th:value="${dataSource}+'SqlSessionFactory'" />
+    </bean>
+
 </beans>

@@ -1,8 +1,8 @@
 package message.jdbc.core;
 
 import message.base.convert.ConvertGetter;
-import message.jdbc.convert.Convert;
-import message.jdbc.helper.SqlHelper;
+import message.datasource.convert.Convert;
+import message.datasource.helper.SqlHelper;
 import message.jdbc.type.ClobStringSqlTypeValue;
 import message.jdbc.type.LongStringSqlTypeValue;
 import message.jdbc.type.ParamType;

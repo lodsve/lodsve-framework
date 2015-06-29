@@ -30,6 +30,8 @@
         <module>message-datasource</module>
         <!-- jdbc -->
         <module>message-jdbc</module>
+        <!-- mybatis -->
+        <module>message-mybatis</module>
         <!-- 搜索 -->
         <module>message-search</module>
         <!-- 事件 -->
@@ -797,6 +799,19 @@
             </dependency>
             <!--flyway end -->
 
+            <!-- mybatis start -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>3.2.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>1.2.2</version>
+            </dependency>
+            <!-- mybatis end -->
+
             <!-- cosmos message dependencies start -->
             <dependency>
                 <groupId>cosmos.message</groupId>
@@ -816,6 +831,11 @@
             <dependency>
                 <groupId>cosmos.message</groupId>
                 <artifactId>message-config</artifactId>
+                <version>${cosmos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cosmos.message</groupId>
+                <artifactId>message-datasource</artifactId>
                 <version>${cosmos.version}</version>
             </dependency>
             <dependency>

@@ -6,7 +6,7 @@ import javassist.CtField;
 import javassist.CtMethod;
 import message.base.convert.ConvertGetter;
 import message.jdbc.base.DynamicBeanUtils;
-import message.jdbc.helper.SqlHelper;
+import message.datasource.helper.SqlHelper;
 import message.jdbc.type.PersistentField;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
@@ -270,13 +270,13 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
             ctClass.addInterface(ctInterface);
 
             //创建一个字段(SqlHelper)
-            CtField sqlHelperField = CtField.make("private message.jdbc.helper.SqlHelper sqlHelper;", ctClass);
+            CtField sqlHelperField = CtField.make("private message.datasource.helper.SqlHelper sqlHelper;", ctClass);
             //加入这个字段
             ctClass.addField(sqlHelperField);
 
             //创建一个setter方法
             CtMethod setterMethod = CtMethod.make("" +
-                    "public void setSqlHelper(message.jdbc.helper.SqlHelper sh){" +
+                    "public void setSqlHelper(message.datasource.helper.SqlHelper sh){" +
                     "	this.sqlHelper = sh;" +
                     "}", ctClass);
             //加入这个方法
@@ -284,7 +284,7 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
 
             //创建一个getter方法
             CtMethod getterMethod = CtMethod.make("" +
-                    "public message.jdbc.helper.SqlHelper getSqlHelper(){" +
+                    "public message.datasource.helper.SqlHelper getSqlHelper(){" +
                     "	return this.sqlHelper;" +
                     "}", ctClass);
             //加入这个方法

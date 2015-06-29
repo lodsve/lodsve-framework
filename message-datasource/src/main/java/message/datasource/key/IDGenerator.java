@@ -1,4 +1,4 @@
-package message.jdbc.key;
+package message.datasource.key;
 
 import org.springframework.dao.DataAccessException;
 

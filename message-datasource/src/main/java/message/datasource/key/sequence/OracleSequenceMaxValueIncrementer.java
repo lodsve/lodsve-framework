@@ -1,4 +1,4 @@
-package message.jdbc.key.sequence;
+package message.datasource.key.sequence;
 
 
 /**

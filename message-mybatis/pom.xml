@@ -10,32 +10,35 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>message-datasource</artifactId>
+    <artifactId>message-mybatis</artifactId>
     <packaging>jar</packaging>
-    <name>message datasource</name>
+    <name>message mybatis</name>
 
     <dependencies>
-
-        <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-config</artifactId>
+            <artifactId>message-datasource</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cosmos.message</groupId>
+            <artifactId>message-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cosmos.message</groupId>
+            <artifactId>message-template</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
         </dependency>
     </dependencies>
 

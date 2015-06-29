@@ -1,6 +1,6 @@
 package message.jdbc.mapper;
 
-import message.jdbc.helper.SqlHelper;
+import message.datasource.helper.SqlHelper;
 import org.springframework.jdbc.core.RowMapper;
 
 /**
