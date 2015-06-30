@@ -7,9 +7,9 @@
 		<setting name="mapUnderscoreToCamelCase" value="true" />
 	</settings>
 	
-	<!--<plugins>
-		<plugin interceptor="message.mybatis.pagination.PageSortInterceptor">
+	<plugins>
+		<plugin interceptor="message.mybatis.pagination.PaginationInterceptor">
 
 		</plugin>
-	</plugins>-->
+	</plugins>
 </configuration>
