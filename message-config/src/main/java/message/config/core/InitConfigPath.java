@@ -49,6 +49,8 @@ import java.util.Properties;
  * 系统环境变量设置{@code PARAMS_HOME=you params home }
  * </li>
  * </ol>
+ * 如果在classpath下,可以加上前缀classpath:you params home<br/>
+ * 如果在文件系统中,可加前缀system:或者不加也行
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 14-9-2 下午11:53
