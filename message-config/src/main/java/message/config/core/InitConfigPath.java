@@ -4,6 +4,7 @@ import message.config.exception.ConfigException;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -60,11 +61,14 @@ public class InitConfigPath {
     private static final String ENV_PARAM_PATH = "PARAMS_HOME";
     private static final String ROOT_PARAM_KEY = "config.root";
     private static final String ROOT_PARAM_FILE_NAME = "root.properties";
+    private static final String PREFIX_SYSTEM = "system:";
+    private static final String PREFIX_CLASSPATH = "classpath:";
+
     private static String defaultParamsHome;
     private static String paramsRoot = "";
 
-    public static String getParamsRoot(){
-        if(StringUtils.isEmpty(paramsRoot)) {
+    public static String getParamsRoot() {
+        if (StringUtils.isEmpty(paramsRoot)) {
             init();
         }
 
@@ -90,6 +94,24 @@ public class InitConfigPath {
 
         if (StringUtils.isEmpty(paramsPath)) {
             throw new ConfigException(10008, "读取配置文件错误！需要设置web.xml参数或者启动参数[params.home]或者环境变量[PARAMS_HOME]，并且web.xml中配置 > 启动参数 > 环境变量");
+        }
+
+        //判断路径是否含有classpath或者file
+        if (StringUtils.indexOf(paramsPath, PREFIX_CLASSPATH) == 0) {
+            paramsPath = StringUtils.removeStart(paramsPath, PREFIX_CLASSPATH);
+            Resource resource = new ClassPathResource(paramsPath, InitConfigPath.class.getClassLoader());
+            if (resource == null) {
+                throw new ConfigException(10008, "参数配置文件[" + (paramsPath) + "]不存在");
+            }
+
+            try {
+                paramsPath = resource.getURL().getPath();
+            } catch (IOException e) {
+                logger.error(e.getMessage(), e);
+                throw new ConfigException(10008, "解析配置文件路径异常!");
+            }
+        } else if (StringUtils.indexOf(paramsPath, PREFIX_SYSTEM) == 0) {
+            paramsPath = StringUtils.removeStart(paramsPath, PREFIX_SYSTEM);
         }
 
         Resource paramsResource = new FileSystemResource(paramsPath + File.separator + ROOT_PARAM_FILE_NAME);
