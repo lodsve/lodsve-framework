@@ -54,7 +54,7 @@
         <property name="dataSource" th:attr="ref=${dataSource}"/>
         <property name="mapperLocations" value="classpath*:/META-INF/mybatis/**/*Mapper.xml" />
         <property name="configLocation" value="classpath:/META-INF/mybatis/mybatis.xml"/>
-        <property name="typeHandlers" th:value="'#'+'{'+'typeHandlerScanner'+'.'+'find'+'(\''+${basePackage}+'.dao.types' +'\')'+'}'"/>
+        <property name="typeHandlers" th:value="'#'+'{'+'typeHandlerScanner'+'.'+'find'+'(\''+${typeHandlersLocations}+'\')'+'}'"/>
     </bean>
 
     <bean th:id="${dataSource}+'SqlSessionFactory'" class="org.mybatis.spring.SqlSessionFactoryBean"
@@ -62,7 +62,7 @@
         <property name="dataSource" th:attr="ref=${dataSource}"/>
         <property name="mapperLocations" value="classpath*:/META-INF/mybatis/**/*Mapper.xml" />
         <property name="configLocation" value="classpath:/META-INF/mybatis/mybatis.xml"/>
-        <property name="typeHandlers" th:value="'#'+'{'+'typeHandlerScanner'+'.'+'find'+'(\''+${basePackage}+'.dao.types' +'\')'+'}'"/>
+        <property name="typeHandlers" th:value="'#'+'{'+'typeHandlerScanner'+'.'+'find'+'(\''+${typeHandlersLocations}+'\')'+'}'"/>
     </bean>
 
     <bean th:id="${dataSource}+'TransactionManager'" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

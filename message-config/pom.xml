@@ -47,10 +47,6 @@
         </dependency>
         <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-test</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cosmos.message</groupId>
             <artifactId>message-utils</artifactId>
         </dependency>
     </dependencies>

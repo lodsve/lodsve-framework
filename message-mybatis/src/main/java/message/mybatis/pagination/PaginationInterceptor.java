@@ -43,7 +43,7 @@ public class PaginationInterceptor implements Interceptor {
         Pageable pageable = PaginationHelper.findObjectFromParameter(parameter, Pageable.class);
         if (pageable == null) {
             //无需分页
-            invocation.proceed();
+            return invocation.proceed();
         }
 
         final MappedStatement ms = (MappedStatement) queryArgs[MAPPED_STATEMENT_INDEX];
