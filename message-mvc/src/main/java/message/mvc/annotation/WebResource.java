@@ -16,11 +16,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Inject {
-    /**
-     * 需要注入对象的类型
-     *
-     * @return
-     */
-    Class<?> value();
+public @interface WebResource {
+
 }

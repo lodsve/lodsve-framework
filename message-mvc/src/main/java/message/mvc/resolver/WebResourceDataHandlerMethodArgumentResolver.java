@@ -1,6 +1,8 @@
 package message.mvc.resolver;
 
-import message.mvc.annotation.Inject;
+import message.mvc.annotation.WebResource;
+import message.mvc.commons.FileWebInput;
+import message.mvc.commons.WebInput;
 import message.mvc.commons.WebOutput;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -12,19 +14,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 为controller注入参数WebOutput.
+ * 为controller注入参数WebInput/WebOutput/FileWebInput.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 2015-1-29 21:37
+ * @version V1.0, 15/7/7 上午9:20
  */
-public class WebOutputHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
+public class WebResourceDataHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        Inject inject = parameter.getParameterAnnotation(Inject.class);
+        WebResource inject = parameter.getParameterAnnotation(WebResource.class);
         Class<?> paramType = parameter.getParameterType();
 
-        return inject != null && WebOutput.class.equals(inject.value()) && WebOutput.class.isAssignableFrom(paramType);
+        return inject != null && (WebInput.class.equals(paramType) || WebOutput.class.equals(paramType)
+                || FileWebInput.class.equals(paramType));
     }
 
     @Override
@@ -32,8 +35,14 @@ public class WebOutputHandlerMethodArgumentResolver implements HandlerMethodArgu
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
 
-        if(response != null && request != null) {
+        Class<?> paramType = parameter.getParameterType();
+
+        if (paramType.equals(WebInput.class)) {
+            return new WebInput(request);
+        } else if (paramType.equals(WebOutput.class)) {
             return new WebOutput(request, response);
+        } else if (paramType.equals(FileWebInput.class)) {
+            return new FileWebInput(request);
         }
 
         return null;
