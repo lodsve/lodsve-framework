@@ -1,30 +1,24 @@
 package message.config.i18n;
 
 import message.config.core.InitConfigPath;
-
 import message.utils.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * i18n资源文件加载器,<br/>
- * 默认先加载/WEB-INF/i18n/下的文件，再加载注入目录的i18n属性文件，后者覆盖前者.
+ * i18n资源文件加载器
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 13-4-15 下午10:19
  */
 public class MessageSourceLoader implements InitializingBean {
-    /**
-     * for logger
-     */
-    private static final Logger logger = LoggerFactory.getLogger(MessageSourceLoader.class);
     /**
      * 加载了所有的资源文件信息.
      */
