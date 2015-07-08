@@ -3,6 +3,7 @@ package message.exception.core;
 import message.base.Constants;
 import message.base.exception.ApplicationRuntimeException;
 import message.config.SystemConfig;
+import message.config.i18n.ResourceBundleHolder;
 import message.utils.JsonUtils;
 import message.utils.PropertyPlaceholderHelper;
 import message.utils.RequestUtils;
@@ -10,7 +11,6 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
-import java.util.Properties;
+import java.util.Locale;
 
 /**
  * 异常统一处理类.
@@ -37,9 +37,13 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
     private static final String AJAX_TYPE_JS = "js";
     private static final String AJAX_ERROR_HTML = "An error occured when dealing with the ajax request,nested exception is : :errorMessage";
     private static final String AJAX_ERROR_JS = "javascript:alert(\":errorMessage \")";
-    private static final Properties ERROR_CODE_MESSAGE_MAPPING = new Properties();
 
-    public void init() {
+    /**
+     * 加载了所有的资源文件信息.
+     */
+    private ResourceBundleHolder resourceBundleHolder = new ResourceBundleHolder();
+
+    public void init() throws Exception {
         String folderPath = "error";
         Resource resource = SystemConfig.getConfigFile(folderPath);
 
@@ -53,11 +57,9 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
         }
 
         for (Resource r : resources) {
-            try {
-                PropertiesLoaderUtils.fillProperties(ERROR_CODE_MESSAGE_MAPPING, r);
-            } catch (IOException e) {
-                logger.error("fill properties:'{" + r + "}' is error!", e);
-                e.printStackTrace();
+            String filePath = r.getFile().getAbsolutePath();
+            if (message.utils.StringUtils.indexOf(filePath, "_") == -1) {
+                this.resourceBundleHolder.loadMessageResource(filePath, 1);
             }
         }
     }
@@ -80,7 +82,7 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
             ajaxType = ajaxType == null ? AJAX_TYPE_JSON : ajaxType;
 
             if (ajaxType != null) {
-                return resolveAjaxException(ajaxType, response, ex);
+                return resolveAjaxException(ajaxType, response, ex, request);
             }
         }
 
@@ -91,15 +93,15 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
     protected ModelAndView getModelAndView(String viewName, Exception ex, HttpServletRequest request) {
         ModelAndView mv = super.getModelAndView(viewName, ex, request);
 
-        String errorMessage = this.getExceptionMessage(ex);
+        String errorMessage = this.getExceptionMessage(ex, request);
 
         mv.addObject(ERROR_MESSAGE_KEY, errorMessage);
 
         return mv;
     }
 
-    private ModelAndView resolveAjaxException(String ajaxType, HttpServletResponse response, Exception ex) {
-        String exceptionMessage = getExceptionMessage(ex);
+    private ModelAndView resolveAjaxException(String ajaxType, HttpServletResponse response, Exception ex, HttpServletRequest request) {
+        String exceptionMessage = getExceptionMessage(ex, request);
 
         if (StringUtils.equalsIgnoreCase(AJAX_TYPE_JSON, ajaxType)) {
             JSONObject params = new JSONObject();
@@ -115,11 +117,11 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
         return null;
     }
 
-    private String getExceptionMessage(Exception ex) {
+    private String getExceptionMessage(Exception ex, HttpServletRequest request) {
         String exceptionMessage;
         if (ex instanceof ApplicationRuntimeException) {
             //系统自定义的异常
-            exceptionMessage = getApplicationExceptionMessage(ex);
+            exceptionMessage = getApplicationExceptionMessage(ex, request);
         } else {
             //未知异常
             exceptionMessage = getUnknownExceptionMessage(ex);
@@ -150,16 +152,19 @@ public class ApplicationExceptionResolver extends SimpleMappingExceptionResolver
      * 获取系统定义异常的信息
      *
      * @param ex
+     * @param request
      * @return
      */
-    private String getApplicationExceptionMessage(Exception ex) {
+    private String getApplicationExceptionMessage(Exception ex, HttpServletRequest request) {
         if (!(ex instanceof ApplicationRuntimeException)) {
             return "未知异常";
         }
 
         ApplicationRuntimeException are = (ApplicationRuntimeException) ex;
         int errorCode = are.getErrorCode();
-        String messageByCode = ERROR_CODE_MESSAGE_MAPPING.getProperty(errorCode + "");
+        Locale locale = request.getLocale();
+
+        String messageByCode = this.resourceBundleHolder.getResourceBundle(locale).getString(errorCode + "");
 
         String message = formatErrorMessage(are.getMessage(), are.getArgs());
 
