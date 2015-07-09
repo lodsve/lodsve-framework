@@ -50,11 +50,6 @@
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
-                        <xsd:element name="swagger" minOccurs="0" maxOccurs="1">
-                            <xsd:complexType>
-                                <xsd:attribute name="swaggerEnable" type="xsd:boolean"/>
-                            </xsd:complexType>
-                        </xsd:element>
                     </xsd:all>
                 </xsd:extension>
             </xsd:complexContent>
@@ -62,5 +57,6 @@
     </xsd:element>
 
     <xsd:complexType name="baseType">
+        <xsd:attribute name="swaggerEnable" type="xsd:boolean" use="optional" default="false"/>
     </xsd:complexType>
 </xsd:schema>
