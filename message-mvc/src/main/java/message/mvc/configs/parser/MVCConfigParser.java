@@ -42,6 +42,7 @@ public class MVCConfigParser implements BeanDefinitionParser {
         List<Element> argumentResolvers = DomUtils.getChildElementsByTagName(element, "argument-resolvers");
         List<Element> interceptors = DomUtils.getChildElementsByTagName(element, "interceptors");
         List<Element> converters = DomUtils.getChildElementsByTagName(element, "converters");
+        List<Element> swagger = DomUtils.getChildElementsByTagName(element, "swagger");
 
         List<String> argumentResolverList = new ArrayList<String>();
         List<String> interceptorList = new ArrayList<String>();
@@ -99,7 +100,7 @@ public class MVCConfigParser implements BeanDefinitionParser {
         context.put("interceptors", interceptorList);
         context.put("converters", convertersList);
         context.put("interceptorMappings", interceptorMappingList);
-        context.put("swaggerEnable", element.getAttribute("enableSwagger"));
+        context.put("swaggerEnable", swagger.size() > 0 ? swagger.get(0).getAttribute("swaggerEnable") : Boolean.FALSE);
 
         BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(registry);
         Resource resource = new ThymeleafTemplateResource(MVC_TEMPLATE_LOCATION, context, "xml");
