@@ -102,7 +102,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.10</junit.version>
-        <spring.version>4.0.5.RELEASE</spring.version>
+        <spring.version>4.1.7.RELEASE</spring.version>
         <tiles.version>3.0.3</tiles.version>
         <jdk.version>jdk15</jdk.version>
         <tomcat.version>6.0.32</tomcat.version>
