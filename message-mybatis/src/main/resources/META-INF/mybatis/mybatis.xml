@@ -8,8 +8,9 @@
 	</settings>
 	
 	<plugins>
-		<plugin interceptor="message.mybatis.pagination.PaginationInterceptor">
-
+		<plugin interceptor="message.mybatis.pagination.PaginationInterceptor"/>
+		<plugin interceptor="message.mybatis.common.MapperInterceptor">
+			<property name="mappers" value="message.mybatis.common.dao.BaseRepository"/>
 		</plugin>
 	</plugins>
 </configuration>
