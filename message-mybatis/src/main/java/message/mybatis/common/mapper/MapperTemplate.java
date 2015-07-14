@@ -24,23 +24,28 @@
 
 package message.mybatis.common.mapper;
 
-import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
-import org.apache.ibatis.executor.keygen.KeyGenerator;
-import org.apache.ibatis.executor.keygen.NoKeyGenerator;
-import org.apache.ibatis.executor.keygen.SelectKeyGenerator;
-import org.apache.ibatis.mapping.*;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.ParameterMapping;
+import org.apache.ibatis.mapping.ParameterMode;
+import org.apache.ibatis.mapping.ResultMap;
+import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-import org.apache.ibatis.scripting.defaults.RawSqlSource;
-import org.apache.ibatis.scripting.xmltags.*;
-import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.scripting.xmltags.DynamicSqlSource;
+import org.apache.ibatis.scripting.xmltags.IfSqlNode;
+import org.apache.ibatis.scripting.xmltags.SqlNode;
+import org.apache.ibatis.scripting.xmltags.StaticTextSqlNode;
+import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.text.MessageFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 通用Mapper模板类，扩展通用Mapper时需要继承该类.
@@ -73,18 +78,6 @@ public abstract class MapperTemplate {
         methodMap.put(methodName, method);
     }
 
-    public String getUUID() {
-        return mapperHelper.getUUID();
-    }
-
-    public String getIDENTITY() {
-        return mapperHelper.getIDENTITY();
-    }
-
-    public boolean getBEFORE() {
-        return mapperHelper.getBEFORE();
-    }
-
     /**
      * 是否支持该通用方法
      *
@@ -113,7 +106,7 @@ public abstract class MapperTemplate {
     }
 
     /**
-     * 重新设置SqlSource，同时判断如果是Jdbc3KeyGenerator，就设置为MultipleJdbc3KeyGenerator
+     * 重新设置SqlSource
      *
      * @param ms
      * @param sqlSource
@@ -121,11 +114,6 @@ public abstract class MapperTemplate {
     protected void setSqlSource(MappedStatement ms, SqlSource sqlSource) {
         MetaObject msObject = SystemMetaObject.forObject(ms);
         msObject.setValue("sqlSource", sqlSource);
-        //如果是Jdbc3KeyGenerator，就设置为MultipleJdbc3KeyGenerator
-        KeyGenerator keyGenerator = ms.getKeyGenerator();
-        if(keyGenerator instanceof Jdbc3KeyGenerator){
-            msObject.setValue("keyGenerator", new MultipleJdbc3KeyGenerator());
-        }
     }
 
     /**
@@ -136,18 +124,6 @@ public abstract class MapperTemplate {
      * @throws IllegalAccessException
      */
     public void setSqlSource(MappedStatement ms) throws Exception {
-        if (this.mapperClass == getMapperClass(ms.getId())) {
-            if (mapperHelper.isSpring4()) {
-                return;
-            } else if (mapperHelper.isSpring()) {
-                throw new RuntimeException("Spring4.x.x 及以上版本支持泛型注入," +
-                        "您当前的Spring版本为" + mapperHelper.getSpringVersion() + ",不能使用泛型注入," +
-                        "因此在配置MapperScannerConfigurer时,不要扫描通用Mapper接口类," +
-                        "也不要在您Mybatis的xml配置文件中的<mappers>中指定通用Mapper接口类.");
-            } else {
-                throw new RuntimeException("请不要在您Mybatis的xml配置文件中的<mappers>中指定通用Mapper接口类.");
-            }
-        }
         Method method = methodMap.get(getMethodName(ms));
         try {
             if (method.getReturnType() == Void.TYPE) {
@@ -251,16 +227,6 @@ public abstract class MapperTemplate {
     }
 
     /**
-     * 获取序列下个值的表达式
-     *
-     * @param column
-     * @return
-     */
-    protected String getSeqNextVal(EntityHelper.EntityColumn column) {
-        return MessageFormat.format(mapperHelper.getSeqFormat(), column.getSequenceName(), column.getColumn(), column.getProperty());
-    }
-
-    /**
      * 获取实体类的表名
      *
      * @param entityClass
@@ -300,28 +266,6 @@ public abstract class MapperTemplate {
     }
 
     /**
-     * 返回if条件的sqlNode
-     * <p>一般类型：<code>&lt;if test="property==null"&gt;columnNode&lt;/if&gt;</code></p>
-     *
-     * @param column
-     * @return
-     */
-    protected SqlNode getIfIsNull(EntityHelper.EntityColumn column, SqlNode columnNode) {
-        return new IfSqlNode(columnNode, column.getProperty() + " == null ");
-    }
-
-    /**
-     * 返回if条件的sqlNode
-     * <p>一般类型：<code>&lt;if test="property_cache!=null"&gt;columnNode&lt;/if&gt;</code></p>
-     *
-     * @param column
-     * @return
-     */
-    protected SqlNode getIfCacheIsNull(EntityHelper.EntityColumn column, SqlNode columnNode) {
-        return new IfSqlNode(columnNode, column.getProperty() + "_cache == null ");
-    }
-
-    /**
      * 获取 <code>[AND] column = #{property}</code>
      *
      * @param column
@@ -330,108 +274,6 @@ public abstract class MapperTemplate {
      */
     protected SqlNode getColumnEqualsProperty(EntityHelper.EntityColumn column, boolean first) {
         return new StaticTextSqlNode((first ? "" : " AND ") + column.getColumn() + " = #{" + column.getProperty() + "} ");
-    }
-
-    /**
-     * 获取所有列的where节点中的if判断列
-     *
-     * @param entityClass
-     * @return
-     */
-    protected SqlNode getAllIfColumnNode(Class<?> entityClass) {
-        //获取全部列
-        Set<EntityHelper.EntityColumn> columnList = EntityHelper.getColumns(entityClass);
-        List<SqlNode> ifNodes = new LinkedList<SqlNode>();
-        boolean first = true;
-        //对所有列循环，生成<if test="property!=null">column = #{property}</if>
-        for (EntityHelper.EntityColumn column : columnList) {
-            ifNodes.add(getIfNotNull(column, getColumnEqualsProperty(column, first), mapperHelper.isNotEmpty()));
-            first = false;
-        }
-        return new MixedSqlNode(ifNodes);
-    }
-
-    /**
-     * 新建SelectKey节点 - 只对mysql的自动增长有效，Oracle序列直接写到列中
-     *
-     * @param ms
-     * @param column
-     */
-    protected void newSelectKeyMappedStatement(MappedStatement ms, EntityHelper.EntityColumn column) {
-        String keyId = ms.getId() + SelectKeyGenerator.SELECT_KEY_SUFFIX;
-        if (ms.getConfiguration().hasKeyGenerator(keyId)) {
-            return;
-        }
-        Class<?> entityClass = getSelectReturnType(ms);
-        //defaults
-        Configuration configuration = ms.getConfiguration();
-        KeyGenerator keyGenerator;
-        Boolean executeBefore = getBEFORE();
-        String IDENTITY = (column.getGenerator() == null || column.getGenerator().equals("")) ? getIDENTITY() : column.getGenerator();
-        if (IDENTITY.equalsIgnoreCase("JDBC")) {
-            keyGenerator = new Jdbc3KeyGenerator();
-        } else {
-            SqlSource sqlSource = new RawSqlSource(configuration, IDENTITY, entityClass);
-
-            MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, keyId, sqlSource, SqlCommandType.SELECT);
-            statementBuilder.resource(ms.getResource());
-            statementBuilder.fetchSize(null);
-            statementBuilder.statementType(StatementType.STATEMENT);
-            statementBuilder.keyGenerator(new NoKeyGenerator());
-            statementBuilder.keyProperty(column.getProperty());
-            statementBuilder.keyColumn(null);
-            statementBuilder.databaseId(null);
-            statementBuilder.lang(configuration.getDefaultScriptingLanuageInstance());
-            statementBuilder.resultOrdered(false);
-            statementBuilder.resulSets(null);
-            statementBuilder.timeout(configuration.getDefaultStatementTimeout());
-
-            List<ParameterMapping> parameterMappings = new LinkedList<ParameterMapping>();
-            ParameterMap.Builder inlineParameterMapBuilder = new ParameterMap.Builder(
-                    configuration,
-                    statementBuilder.id() + "-Inline",
-                    entityClass,
-                    parameterMappings);
-            statementBuilder.parameterMap(inlineParameterMapBuilder.build());
-
-            List<ResultMap> resultMaps = new LinkedList<ResultMap>();
-            ResultMap.Builder inlineResultMapBuilder = new ResultMap.Builder(
-                    configuration,
-                    statementBuilder.id() + "-Inline",
-                    column.getJavaType(),
-                    new LinkedList<ResultMapping>(),
-                    null);
-            resultMaps.add(inlineResultMapBuilder.build());
-            statementBuilder.resultMaps(resultMaps);
-            statementBuilder.resultSetType(null);
-
-            statementBuilder.flushCacheRequired(false);
-            statementBuilder.useCache(false);
-            statementBuilder.cache(null);
-
-            MappedStatement statement = statementBuilder.build();
-            try {
-                configuration.addMappedStatement(statement);
-            } catch (Exception e) {
-                //ignore
-            }
-            MappedStatement keyStatement = configuration.getMappedStatement(keyId, false);
-            keyGenerator = new SelectKeyGenerator(keyStatement, executeBefore);
-            try {
-                configuration.addKeyGenerator(keyId, keyGenerator);
-            } catch (Exception e) {
-                //ignore
-            }
-        }
-        //keyGenerator
-        try {
-            MetaObject msObject = SystemMetaObject.forObject(ms);
-            msObject.setValue("keyGenerator", keyGenerator);
-            msObject.setValue("keyProperties", column.getTable().getKeyProperties());
-            msObject.setValue("keyColumns", column.getTable().getKeyColumns());
-        } catch (Exception e) {
-            //ignore
-        }
     }
 
     public SqlSource createSqlSource(MappedStatement ms, String xmlSql) {

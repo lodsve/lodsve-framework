@@ -24,14 +24,24 @@
 
 package message.mybatis.common.mapper;
 
+import message.mybatis.exception.MybatisException;
 import message.utils.StringUtils;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 实体类工具类 - 处理实体和数据库表以及字段关键的一个类
@@ -46,9 +56,6 @@ public class EntityHelper {
      */
     public static class EntityTable {
         private String name;
-        private String catalog;
-        private String schema;
-        private String orderByClause;
         //实体类 => 全部列属性
         private Set<EntityColumn> entityClassColumns;
         //实体类 => 主键信息
@@ -61,30 +68,10 @@ public class EntityHelper {
 
         public void setTable(Table table) {
             this.name = table.name();
-            this.catalog = table.catalog();
-            this.schema = table.schema();
         }
 
         public String getName() {
             return name;
-        }
-
-        public String getCatalog() {
-            return catalog;
-        }
-
-        public String getSchema() {
-            return schema;
-        }
-
-        public String getPrefix() {
-            if (catalog != null && catalog.length() > 0) {
-                return catalog;
-            }
-            if (schema != null && schema.length() > 0) {
-                return catalog;
-            }
-            return "";
         }
 
         public Set<EntityColumn> getEntityClassColumns() {
@@ -140,12 +127,8 @@ public class EntityHelper {
         private String property;
         private String column;
         private Class<?> javaType;
-        private String sequenceName;
         private boolean id = false;
-        private boolean uuid = false;
-        private boolean identity = false;
         private String generator;
-        private String orderBy;
 
         public EntityColumn() {
         }
@@ -186,36 +169,12 @@ public class EntityHelper {
             this.javaType = javaType;
         }
 
-        public String getSequenceName() {
-            return sequenceName;
-        }
-
-        public void setSequenceName(String sequenceName) {
-            this.sequenceName = sequenceName;
-        }
-
         public boolean isId() {
             return id;
         }
 
         public void setId(boolean id) {
             this.id = id;
-        }
-
-        public boolean isUuid() {
-            return uuid;
-        }
-
-        public void setUuid(boolean uuid) {
-            this.uuid = uuid;
-        }
-
-        public boolean isIdentity() {
-            return identity;
-        }
-
-        public void setIdentity(boolean identity) {
-            this.identity = identity;
         }
 
         public String getGenerator() {
@@ -226,14 +185,6 @@ public class EntityHelper {
             this.generator = generator;
         }
 
-        public String getOrderBy() {
-            return orderBy;
-        }
-
-        public void setOrderBy(String orderBy) {
-            this.orderBy = orderBy;
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -242,15 +193,10 @@ public class EntityHelper {
             EntityColumn that = (EntityColumn) o;
 
             if (id != that.id) return false;
-            if (identity != that.identity) return false;
-            if (uuid != that.uuid) return false;
             if (column != null ? !column.equals(that.column) : that.column != null) return false;
             if (generator != null ? !generator.equals(that.generator) : that.generator != null) return false;
             if (javaType != null ? !javaType.equals(that.javaType) : that.javaType != null) return false;
-            if (orderBy != null ? !orderBy.equals(that.orderBy) : that.orderBy != null) return false;
             if (property != null ? !property.equals(that.property) : that.property != null) return false;
-            if (sequenceName != null ? !sequenceName.equals(that.sequenceName) : that.sequenceName != null)
-                return false;
 
             return true;
         }
@@ -260,12 +206,8 @@ public class EntityHelper {
             int result = property != null ? property.hashCode() : 0;
             result = 31 * result + (column != null ? column.hashCode() : 0);
             result = 31 * result + (javaType != null ? javaType.hashCode() : 0);
-            result = 31 * result + (sequenceName != null ? sequenceName.hashCode() : 0);
             result = 31 * result + (id ? 1 : 0);
-            result = 31 * result + (uuid ? 1 : 0);
-            result = 31 * result + (identity ? 1 : 0);
             result = 31 * result + (generator != null ? generator.hashCode() : 0);
-            result = 31 * result + (orderBy != null ? orderBy.hashCode() : 0);
             return result;
         }
     }
@@ -294,30 +236,6 @@ public class EntityHelper {
     }
 
     /**
-     * 获取默认的orderby语句
-     *
-     * @param entityClass
-     * @return
-     */
-    public static String getOrderByClause(Class<?> entityClass) {
-        EntityTable table = getEntityTable(entityClass);
-        if (table.orderByClause != null) {
-            return table.orderByClause;
-        }
-        StringBuilder orderBy = new StringBuilder();
-        for (EntityColumn column : table.getEntityClassColumns()) {
-            if (column.getOrderBy() != null) {
-                if (orderBy.length() != 0) {
-                    orderBy.append(",");
-                }
-                orderBy.append(column.getColumn()).append(" ").append(column.getOrderBy());
-            }
-        }
-        table.orderByClause = orderBy.toString();
-        return table.orderByClause;
-    }
-
-    /**
      * 获取全部列
      *
      * @param entityClass
@@ -338,25 +256,6 @@ public class EntityHelper {
     }
 
     /**
-     * 获取字段映射关系
-     *
-     * @param entityClass
-     * @return
-     */
-    public static Map<String, String> getColumnAlias(Class<?> entityClass) {
-        EntityTable entityTable = getEntityTable(entityClass);
-        if (entityTable.aliasMap != null) {
-            return entityTable.aliasMap;
-        }
-        Set<EntityColumn> columnList = entityTable.getEntityClassColumns();
-        entityTable.aliasMap = new HashMap<String, String>(columnList.size());
-        for (EntityColumn column : columnList) {
-            entityTable.aliasMap.put(column.getColumn(), column.getProperty());
-        }
-        return entityTable.aliasMap;
-    }
-
-    /**
      * 获取查询的Select
      *
      * @param entityClass
@@ -373,21 +272,6 @@ public class EntityHelper {
             } else {
                 selectBuilder.append(",");
             }
-        }
-        return selectBuilder.substring(0, selectBuilder.length() - 1);
-    }
-
-    /**
-     * 获取查询的Select
-     *
-     * @param entityClass
-     * @return
-     */
-    public static String getAllColumns(Class<?> entityClass) {
-        Set<EntityColumn> columnList = getColumns(entityClass);
-        StringBuilder selectBuilder = new StringBuilder();
-        for (EntityColumn entityColumn : columnList) {
-            selectBuilder.append(entityColumn.getColumn()).append(",");
         }
         return selectBuilder.substring(0, selectBuilder.length() - 1);
     }
@@ -417,19 +301,18 @@ public class EntityHelper {
             return;
         }
         //表名
-        EntityTable entityTable = null;
+        EntityTable entityTable = new EntityTable();
         if (entityClass.isAnnotationPresent(Table.class)) {
             Table table = entityClass.getAnnotation(Table.class);
             if (StringUtils.isNotEmpty(table.name())) {
-                entityTable = new EntityTable();
                 entityTable.setTable(table);
+            } else {
+                entityTable.name = camelhumpToUnderline(entityClass.getSimpleName());
             }
+        } else {
+            throw new MybatisException(10011, "类[" + entityClass.getName() + "]必须要有@Table注解!");
         }
-        if (entityTable == null) {
-            entityTable = new EntityTable();
-            //对大小写敏感的情况，这里不自动转换大小写，如果有需要，通过@Table注解实现
-            entityTable.name = camelhumpToUnderline(entityClass.getSimpleName());
-        }
+
         //列
         List<Field> fieldList = getAllField(entityClass, null);
         Set<EntityColumn> columnSet = new LinkedHashSet<EntityColumn>();
@@ -443,6 +326,19 @@ public class EntityHelper {
             if (field.isAnnotationPresent(Id.class)) {
                 entityColumn.setId(true);
             }
+
+            //主键策略
+            if (field.isAnnotationPresent(GeneratedValue.class)) {
+                GeneratedValue generatedValue = field.getAnnotation(GeneratedValue.class);
+                String generator = generatedValue.generator();
+                if (StringUtils.isEmpty(generator)) {
+                    throw new MybatisException(10011, "类[" + entityClass.getName() + "]的字段[" + field.getName()
+                            + "]有@GeneratedValue注解,但是没有设置值!");
+                } else {
+                    entityColumn.setGenerator(generator);
+                }
+            }
+
             String columnName = null;
             if (field.isAnnotationPresent(Column.class)) {
                 Column column = field.getAnnotation(Column.class);
@@ -454,6 +350,7 @@ public class EntityHelper {
             entityColumn.setProperty(field.getName());
             entityColumn.setColumn(columnName.toUpperCase());
             entityColumn.setJavaType(field.getType());
+
             columnSet.add(entityColumn);
             if (entityColumn.isId()) {
                 pkColumnSet.add(entityColumn);
@@ -465,6 +362,7 @@ public class EntityHelper {
         } else {
             entityTable.entityClassPKColumns = pkColumnSet;
         }
+
         //缓存
         entityTableMap.put(entityClass, entityTable);
     }
@@ -487,21 +385,6 @@ public class EntityHelper {
             }
         }
         return sb.charAt(0) == '_' ? sb.substring(1) : sb.toString();
-    }
-
-    /**
-     * 将下划线风格替换为驼峰风格
-     */
-    public static String underlineToCamelhump(String str) {
-        Matcher matcher = Pattern.compile("_[a-z]").matcher(str);
-        StringBuilder builder = new StringBuilder(str);
-        for (int i = 0; matcher.find(); i++) {
-            builder.replace(matcher.start() - i, matcher.end() - i, matcher.group().substring(1).toUpperCase());
-        }
-        if (Character.isUpperCase(builder.charAt(0))) {
-            builder.replace(0, 1, String.valueOf(Character.toLowerCase(builder.charAt(0))));
-        }
-        return builder.toString();
     }
 
     public static boolean isUppercaseAlpha(char c) {

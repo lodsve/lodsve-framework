@@ -37,7 +37,6 @@ import org.apache.ibatis.scripting.xmltags.SetSqlNode;
 import org.apache.ibatis.scripting.xmltags.SqlNode;
 import org.apache.ibatis.scripting.xmltags.StaticTextSqlNode;
 import org.apache.ibatis.scripting.xmltags.TrimSqlNode;
-import org.apache.ibatis.scripting.xmltags.VarDeclSqlNode;
 import org.apache.ibatis.scripting.xmltags.WhereSqlNode;
 
 import java.util.LinkedList;
@@ -102,36 +101,9 @@ public class MapperProvider extends MapperTemplate {
         //获取全部列
         Set<EntityHelper.EntityColumn> columnList = EntityHelper.getColumns(entityClass);
         List<SqlNode> ifNodes = new LinkedList<SqlNode>();
-        //Identity列只能有一个
-        Boolean hasIdentityKey = false;
         //当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
         for (EntityHelper.EntityColumn column : columnList) {
-            //当使用序列时
-            if (column.getSequenceName() != null && column.getSequenceName().length() > 0) {
-                //直接将列加进去
-                ifNodes.add(new StaticTextSqlNode(column.getColumn() + ","));
-            } else if (column.isIdentity()) {
-                //这种情况下,如果原先的字段有值,需要先缓存起来,否则就一定会使用自动增长
-                sqlNodes.add(new VarDeclSqlNode(column.getProperty() + "_cache", column.getProperty()));
-                if (hasIdentityKey) {
-                    //jdbc类型只需要添加一次
-                    if (column.getGenerator() != null && column.getGenerator().equals("JDBC")) {
-                        continue;
-                    }
-                    throw new RuntimeException(ms.getId() + "对应的实体类" + entityClass.getCanonicalName() + "中包含多个MySql的自动增长列,最多只能有一个!");
-                }
-                //新增一个selectKey-MS
-                newSelectKeyMappedStatement(ms, column);
-                hasIdentityKey = true;
-                //加入该列
-                ifNodes.add(new StaticTextSqlNode(column.getColumn() + ","));
-            } else if (column.isUuid()) {
-                //将UUID的值加入bind节点
-                sqlNodes.add(new VarDeclSqlNode(column.getProperty() + "_bind", getUUID()));
-                ifNodes.add(new StaticTextSqlNode(column.getColumn() + ","));
-            } else {
-                ifNodes.add(getIfNotNull(column, new StaticTextSqlNode(column.getColumn() + ",")));
-            }
+            ifNodes.add(getIfNotNull(column, new StaticTextSqlNode(column.getColumn() + ",")));
         }
         //将动态的列加入sqlNodes
         sqlNodes.add(new TrimSqlNode(ms.getConfiguration(), new MixedSqlNode(ifNodes), "(", null, ")", ","));
@@ -139,20 +111,7 @@ public class MapperProvider extends MapperTemplate {
         ifNodes = new LinkedList<SqlNode>();
         //处理values(#{property},#{property}...)
         for (EntityHelper.EntityColumn column : columnList) {
-            //当参数中的属性值不为空的时候,使用传入的值
-            //自增的情况下,如果默认有值,就会备份到property_cache中
-            if (column.isIdentity()) {
-                ifNodes.add(new IfSqlNode(new StaticTextSqlNode("#{" + column.getProperty() + "_cache },"), column.getProperty() + "_cache != null "));
-            } else {
-                ifNodes.add(new IfSqlNode(new StaticTextSqlNode("#{" + column.getProperty() + "},"), column.getProperty() + " != null "));
-            }
-            if (column.getSequenceName() != null && column.getSequenceName().length() > 0) {
-                ifNodes.add(getIfIsNull(column, new StaticTextSqlNode(getSeqNextVal(column) + " ,")));
-            } else if (column.isIdentity()) {
-                ifNodes.add(getIfCacheIsNull(column, new StaticTextSqlNode("#{" + column.getProperty() + " },")));
-            } else if (column.isUuid()) {
-                ifNodes.add(getIfIsNull(column, new StaticTextSqlNode("#{" + column.getProperty() + "_bind },")));
-            }
+            ifNodes.add(new IfSqlNode(new StaticTextSqlNode("#{" + column.getProperty() + "},"), column.getProperty() + " != null "));
         }
         //values(#{property},#{property}...)
         sqlNodes.add(new TrimSqlNode(ms.getConfiguration(), new MixedSqlNode(ifNodes), "VALUES (", null, ")", ","));

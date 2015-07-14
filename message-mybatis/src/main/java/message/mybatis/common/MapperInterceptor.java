@@ -26,6 +26,7 @@ import java.util.Properties;
 })
 public class MapperInterceptor implements Interceptor {
     private final MapperHelper mapperHelper = new MapperHelper();
+    private static final Integer PARAMETER_INDEX = 1;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -38,7 +39,13 @@ public class MapperInterceptor implements Interceptor {
             if (ms.getSqlSource() instanceof ProviderSqlSource) {
                 mapperHelper.setSqlSource(ms);
             }
+
+            Class<?> entityClass = mapperHelper.getSelectReturnType(ms);
+            Object parameter = objects[PARAMETER_INDEX];
+            Object param = mapperHelper.findObjectFromParameter(parameter, entityClass);
+            mapperHelper.setPkIdValue(param);
         }
+
         return invocation.proceed();
     }
 
