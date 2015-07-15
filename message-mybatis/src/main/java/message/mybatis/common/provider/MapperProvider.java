@@ -51,7 +51,6 @@ import java.util.Set;
  * @see message.mybatis.common.dao.BaseRepository
  */
 public class MapperProvider extends MapperTemplate {
-
     public MapperProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
         super(mapperClass, mapperHelper);
     }
@@ -88,12 +87,33 @@ public class MapperProvider extends MapperTemplate {
     }
 
     /**
+     * 根据实体中的属性进行查询，只能有一个返回值
+     *
+     * @param ms
+     * @return
+     */
+    public SqlNode selectOne(MappedStatement ms) {
+        Class<?> entityClass = getSelectReturnType(ms);
+        //修改返回值类型为实体类型
+        setResultType(ms, entityClass);
+        List<SqlNode> sqlNodes = new LinkedList<SqlNode>();
+        //静态的sql部分:select column ... from table
+        sqlNodes.add(new StaticTextSqlNode("SELECT "
+                + EntityHelper.getSelectColumns(entityClass)
+                + " FROM "
+                + tableName(entityClass)));
+        //将if添加到<where>
+        sqlNodes.add(new WhereSqlNode(ms.getConfiguration(), getAllIfColumnNode(entityClass)));
+        return new MixedSqlNode(sqlNodes);
+    }
+
+    /**
      * 保存一个实体，null的属性不会保存，会使用数据库默认值。
      *
      * @param ms
      * @return
      */
-    public SqlNode inert(MappedStatement ms) {
+    public SqlNode insert(MappedStatement ms) {
         Class<?> entityClass = getSelectReturnType(ms);
         List<SqlNode> sqlNodes = new LinkedList<SqlNode>();
         //insert into table

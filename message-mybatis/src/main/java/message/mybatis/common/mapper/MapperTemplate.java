@@ -33,6 +33,7 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.scripting.xmltags.DynamicSqlSource;
 import org.apache.ibatis.scripting.xmltags.IfSqlNode;
+import org.apache.ibatis.scripting.xmltags.MixedSqlNode;
 import org.apache.ibatis.scripting.xmltags.SqlNode;
 import org.apache.ibatis.scripting.xmltags.StaticTextSqlNode;
 import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
@@ -278,5 +279,24 @@ public abstract class MapperTemplate {
 
     public SqlSource createSqlSource(MappedStatement ms, String xmlSql) {
         return languageDriver.createSqlSource(ms.getConfiguration(), "<script>\n\t" + xmlSql + "</script>", null);
+    }
+
+    /**
+     * 获取所有列的where节点中的if判断列
+     *
+     * @param entityClass
+     * @return
+     */
+    protected SqlNode getAllIfColumnNode(Class<?> entityClass) {
+        //获取全部列
+        Set<EntityHelper.EntityColumn> columnList = EntityHelper.getColumns(entityClass);
+        List<SqlNode> ifNodes = new LinkedList<SqlNode>();
+        boolean first = true;
+        //对所有列循环，生成<if test="property!=null">column = #{property}</if>
+        for (EntityHelper.EntityColumn column : columnList) {
+            ifNodes.add(getIfNotNull(column, getColumnEqualsProperty(column, first), false));
+            first = false;
+        }
+        return new MixedSqlNode(ifNodes);
     }
 }

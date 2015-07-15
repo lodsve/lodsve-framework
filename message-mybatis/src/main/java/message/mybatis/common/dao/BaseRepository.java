@@ -18,7 +18,6 @@ import java.io.Serializable;
  *  }
  * </pre>
  *
- *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/7/13 下午3:39
  * @see message.mybatis.common.provider.MapperProvider
@@ -27,26 +26,35 @@ public interface BaseRepository<T> {
     /**
      * 根据实体中的id属性进行查询，只能有一个返回值，有多个结果是抛出异常，查询条件使用等号
      *
-     * @param id
-     * @return
+     * @param id 主键值
+     * @return 查询到的值
      */
     @SelectProvider(type = MapperProvider.class, method = "dynamicSQL")
     T select(Serializable id);
 
     /**
+     * 根据实体中的属性进行查询，只能有一个返回值
+     *
+     * @param entity 条件封装成对象
+     * @return 查询到的值
+     */
+    @SelectProvider(type = MapperProvider.class, method = "dynamicSQL")
+    T selectOne(T entity);
+
+    /**
      * 保存一个实体，null的属性不会保存，会使用数据库默认值。
      *
-     * @param t
-     * @return
+     * @param entity 需要保存的对象(主键为空则自动生成主键值,否则使用原主键值)
+     * @return 操作后影响的数据库记录数量(一般情况为1)
      */
     @InsertProvider(type = MapperProvider.class, method = "dynamicSQL")
-    int inert(T t);
+    int insert(T entity);
 
     /**
      * 根据主键更新属性不为null的值。
      *
-     * @param entity
-     * @return
+     * @param entity 需要更新的对象,必须含有主键值
+     * @return 操作后影响的数据库记录数量(一般情况为1)
      */
     @UpdateProvider(type = MapperProvider.class, method = "dynamicSQL")
     int update(T entity);
@@ -54,8 +62,8 @@ public interface BaseRepository<T> {
     /**
      * 根据主键字段进行删除，方法参数必须包含完整的主键属性
      *
-     * @param id
-     * @return
+     * @param id 主键
+     * @return 操作后影响的数据库记录数量(一般情况为1)
      */
     @DeleteProvider(type = MapperProvider.class, method = "dynamicSQL")
     int delete(Serializable id);
