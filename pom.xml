@@ -57,13 +57,13 @@
         <snapshotRepository>
             <id>message-snapshots</id>
             <name>message SNAPSHOTS</name>
-            <url>${repositories-snapshots}</url>
+            <url>http://sunhao-java.vicp.cc/nexus/content/repositories/message-snapshots/</url>
         </snapshotRepository>
 
         <repository>
-            <id>message-releases</id>
-            <name>message releases</name>
-            <url>${repositories-releases}</url>
+            <id>message-release</id>
+            <name>message release</name>
+            <url>http://sunhao-java.vicp.cc/nexus/content/repositories/message-releases/</url>
         </repository>
     </distributionManagement>
 
@@ -72,7 +72,7 @@
         <pluginRepository>
             <id>message-plugins</id>
             <name>message plugins</name>
-            <url>${plugins-repositories}</url>
+            <url>http://sunhao-java.vicp.cc/nexus/content/repositories/message-releases/</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -93,9 +93,9 @@
 
     <!-- 代码库 -->
     <scm>
-        <connection>scm:git:git@github.com:sunhao-java/cosmos-message.git</connection>
-        <developerConnection>scm:git:git@github.com:sunhao-java/cosmos-message.git</developerConnection>
-        <url>https://github.com/sunhao-java/cosmos-message</url>
+        <connection>scm:git:git@git.sunhao.com:develop/cosmos-message.git</connection>
+        <developerConnection>scm:git:git@git.sunhao.com:develop/cosmos-message.git</developerConnection>
+        <url>http://git.sunhao.com:82/cosmos/cosmos-message</url>
     </scm>
 
 
