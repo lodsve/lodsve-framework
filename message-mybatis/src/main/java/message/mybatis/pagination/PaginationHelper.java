@@ -138,10 +138,6 @@ public class PaginationHelper {
         return copyFromMappedStatement(ms, new BoundSqlSqlSource(newBoundSql));
     }
 
-    protected static void setSqlHelper(SqlHelper sqlHelper) {
-        PaginationHelper.sqlHelper = sqlHelper;
-    }
-
     private static BoundSql copyFromBoundSql(MappedStatement ms, BoundSql boundSql, String sql) {
         BoundSql newBoundSql = new BoundSql(ms.getConfiguration(), sql, boundSql.getParameterMappings(), boundSql.getParameterObject());
         for (ParameterMapping mapping : boundSql.getParameterMappings()) {
@@ -169,7 +165,7 @@ public class PaginationHelper {
         builder.statementType(ms.getStatementType());
         builder.keyGenerator(ms.getKeyGenerator());
         if (ms.getKeyProperties() != null && ms.getKeyProperties().length != 0) {
-            StringBuffer keyProperties = new StringBuffer();
+            StringBuilder keyProperties = new StringBuilder();
             for (String keyProperty : ms.getKeyProperties()) {
                 keyProperties.append(keyProperty).append(",");
             }

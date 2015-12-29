@@ -1,4 +1,4 @@
-package message.base.pagination;
+package message.jdbc.pagination;
 
 import java.io.Serializable;
 import java.util.List;

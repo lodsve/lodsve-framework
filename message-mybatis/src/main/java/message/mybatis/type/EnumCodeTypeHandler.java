@@ -1,6 +1,6 @@
 package message.mybatis.type;
 
-import message.base.convert.ConvertGetter;
+import message.base.Codeable;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.slf4j.Logger;
@@ -18,24 +18,24 @@ import java.sql.SQLException;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/6/25 下午7:29
  */
-public abstract class EnumCodeTypeHandler<T extends Enum<?> & ConvertGetter> extends BaseTypeHandler<T> {
+public abstract class EnumCodeTypeHandler<T extends Enum<?> & Codeable> extends BaseTypeHandler<T> {
     private static final Logger logger = LoggerFactory.getLogger(EnumCodeTypeHandler.class);
     private T[] enums;
 
-    public EnumCodeTypeHandler(Class<T> clazz){
-        if(clazz == null) {
+    public EnumCodeTypeHandler(Class<T> clazz) {
+        if (clazz == null) {
             throw new IllegalArgumentException("enum type can't be null!");
         }
 
         this.enums = clazz.getEnumConstants();
-        if(this.enums == null) {
+        if (this.enums == null) {
             logger.warn("This enum '{}' has none enum contents!", clazz.getSimpleName());
         }
     }
 
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, parameter.getValue());
+        ps.setString(i, parameter.getCode());
     }
 
     @Override
@@ -55,7 +55,7 @@ public abstract class EnumCodeTypeHandler<T extends Enum<?> & ConvertGetter> ext
 
     private T convert(String value) {
         for (T em : this.enums) {
-            if (em.getValue().equals(value)) {
+            if (em.getCode().equals(value)) {
                 return em;
             }
         }

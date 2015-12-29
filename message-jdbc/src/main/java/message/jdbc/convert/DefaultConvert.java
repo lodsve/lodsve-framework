@@ -1,6 +1,5 @@
-package message.datasource.convert;
+package message.jdbc.convert;
 
-import message.base.convert.ConvertGetter;
 import message.utils.StringUtils;
 
 /**

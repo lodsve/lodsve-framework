@@ -1,6 +1,6 @@
 package message.mvc.convert;
 
-import message.base.convert.ConvertGetter;
+import message.base.Codeable;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.ConditionalConverter;
 import org.springframework.core.convert.converter.Converter;
@@ -17,19 +17,19 @@ public class EnumCodeConverterFactory implements ConverterFactory<String, Enum<?
     @Override
     public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
         Class<?> clazz = targetType.getType();
-        return Enum.class.isAssignableFrom(clazz) && ConvertGetter.class.isAssignableFrom(clazz);
+        return Enum.class.isAssignableFrom(clazz) && Codeable.class.isAssignableFrom(clazz);
     }
 
     @Override
     public <T extends Enum<?>> Converter<String, T> getConverter(Class<T> targetType) {
-        if(!ConvertGetter.class.isAssignableFrom(targetType)){
+        if(!Codeable.class.isAssignableFrom(targetType)){
             return null;
         }
 
         return new ValueToEnum(targetType);
     }
 
-    private class ValueToEnum<T extends Enum<?> & ConvertGetter> implements Converter<String, T> {
+    private class ValueToEnum<T extends Enum<?> & Codeable> implements Converter<String, T> {
         private T[] enums;
 
         public ValueToEnum(Class<T> enumType) {
@@ -39,7 +39,7 @@ public class EnumCodeConverterFactory implements ConverterFactory<String, Enum<?
         @Override
         public T convert(String source) {
             for (T em : enums) {
-                if (em.getValue().equals(source)) {
+                if (em.getCode().equals(source)) {
                     return em;
                 }
             }

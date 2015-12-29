@@ -1,8 +1,9 @@
 package message.jdbc.core;
 
-import message.base.convert.ConvertGetter;
-import message.datasource.convert.Convert;
 import message.datasource.helper.SqlHelper;
+import message.jdbc.convert.Convert;
+import message.jdbc.convert.ConvertGetter;
+import message.jdbc.convert.ConvertHelper;
 import message.jdbc.type.ClobStringSqlTypeValue;
 import message.jdbc.type.LongStringSqlTypeValue;
 import message.jdbc.type.ParamType;
@@ -65,7 +66,7 @@ public class ExtBeanPropertySqlParameterSource extends AbstractSqlParameterSourc
             Field f = this.beanWrapper.getWrappedClass().getDeclaredField(paramName);
             Class<?> clazz = f.getType();
             if (ConvertGetter.class.isAssignableFrom(clazz)) {
-                return this.getSqlHelper().getConvert((Class<? extends ConvertGetter>) f.getType());
+                return ConvertHelper.getConvert((Class<? extends ConvertGetter>) f.getType());
             } else {
                 return null;
             }

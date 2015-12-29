@@ -4,9 +4,10 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtField;
 import javassist.CtMethod;
-import message.base.convert.ConvertGetter;
-import message.jdbc.base.DynamicBeanUtils;
 import message.datasource.helper.SqlHelper;
+import message.jdbc.base.DynamicBeanUtils;
+import message.jdbc.convert.ConvertGetter;
+import message.jdbc.convert.ConvertHelper;
 import message.jdbc.type.PersistentField;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
@@ -210,16 +211,16 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
                 script.append(field.getWriteName());
                 script.append("(");
                 String methodName = ((val == null) ? "getPoJoNullValue" : "getPoJoValue");
-                script.append("(").append(fieldType.getName()).append(")sqlHelper.getConvert(")
+                script.append("(").append(fieldType.getName()).append(")message.jdbc.convert.ConvertHelper.getConvert(")
                         .append(fieldType.getName()).append(".class).")
                         .append(methodName).append("($1.getString(");
                 script.append(i);
                 script.append(")));\n");
 
                 if (StringUtils.isEmpty(val)) {
-                    value = this.getSqlHelper().getConvert(fieldType).getPoJoNullValue(val);
+                    value = ConvertHelper.getConvert(fieldType).getPoJoNullValue(val);
                 } else {
-                    value = this.getSqlHelper().getConvert(fieldType).getPoJoValue(val);
+                    value = ConvertHelper.getConvert(fieldType).getPoJoValue(val);
                 }
             } else {
                 addFieldContent(script, field, "(" + field.getJavaType().getName()
@@ -326,7 +327,7 @@ public class DynamicBeanRowMapper extends ColumnMapRowMapper {
     }
 
     private boolean containInConvert(Class fieldType) {
-        return ConvertGetter.class.isAssignableFrom(fieldType) && this.getSqlHelper().getConvert(fieldType) != null;
+        return ConvertGetter.class.isAssignableFrom(fieldType) && ConvertHelper.getConvert(fieldType) != null;
     }
 
     public Constructor getConstructor() {

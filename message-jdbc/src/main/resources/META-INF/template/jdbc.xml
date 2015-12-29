@@ -23,7 +23,7 @@
         <property name="idGenerator" th:attr="ref=${dataSource} + 'MaxValueIncrementer'"/>
     </bean>
 
-    <bean th:if="${dbType == 'MySQL' }" th:id="${dataSource} + 'MaxValueIncrementer'" class="message.datasource.key.generic.MySQLMaxValueIncrementer">
+    <bean th:if="${dbType == 'MySQL' }" th:id="${dataSource} + 'MaxValueIncrementer'" class="message.jdbc.key.generic.MySQLMaxValueIncrementer">
         <property name="dataSource" th:attr="ref=${dataSource}"/>
         <property name="keyLength" value="5"/>
         <property name="cacheSize" value="5"/>
@@ -47,7 +47,7 @@
         <property name="idGenerator" th:attr="ref=${dataSource} + 'MaxValueIncrementer'"/>
     </bean>
 
-    <bean th:if="${dbType == 'Oracle' }" th:id="${dataSource} + 'MaxValueIncrementer'" class="message.datasource.key.sequence.OracleSequenceMaxValueIncrementer">
+    <bean th:if="${dbType == 'Oracle' }" th:id="${dataSource} + 'MaxValueIncrementer'" class="message.jdbc.key.sequence.OracleSequenceMaxValueIncrementer">
         <property name="dataSource" th:attr="ref=${dataSource}"/>
         <property name="keyLength" value="5"/>
     </bean>

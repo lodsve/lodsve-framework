@@ -1,4 +1,4 @@
-package message.base.pagination;
+package message.jdbc.pagination;
 
 /**
  * 封装分页的一些参数.

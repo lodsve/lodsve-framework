@@ -1,7 +1,7 @@
 package message.search.engine;
 
-import message.base.pagination.PaginationSupport;
 import message.search.SearchBean;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -17,87 +17,87 @@ public interface SearchEngine {
     /**
      * 创建索引(考虑线程安全)
      *
-     * @param searchBeans       对象
+     * @param searchBeans 对象
      * @throws Exception
      */
-    public void doIndex(List<SearchBean> searchBeans) throws Exception;
+    void doIndex(List<SearchBean> searchBeans) throws Exception;
 
     /**
      * 删除索引
      *
-     * @param bean              对象
+     * @param bean 对象
      * @throws Exception
      */
-    public void deleteIndex(SearchBean bean) throws Exception;
+    void deleteIndex(SearchBean bean) throws Exception;
 
     /**
      * 删除索引(删除多个)
      *
-     * @param beans             对象
+     * @param beans 对象
      * @throws Exception
      */
-    public void deleteIndexs(List<SearchBean> beans) throws Exception;
+    void deleteIndexs(List<SearchBean> beans) throws Exception;
 
     /**
      * 进行检索
      *
-     * @param bean              检索对象(一般只需要放入值keyword,即用来检索的关键字)
-     * @param isHighlighter     是否高亮
-     * @param start             开始值
-     * @param num               偏移量
+     * @param bean          检索对象(一般只需要放入值keyword,即用来检索的关键字)
+     * @param isHighlighter 是否高亮
+     * @param start         开始值
+     * @param num           偏移量
      * @return
      * @throws Exception
      */
-    public PaginationSupport<SearchBean> doSearch(SearchBean bean, boolean isHighlighter, int start, int num) throws Exception;
+    Page<SearchBean> doSearch(SearchBean bean, boolean isHighlighter, int start, int num) throws Exception;
 
     /**
      * 进行多个检索对象的检索
      *
-     * @param beans             多个检索对象(一般只需要放入值keyword,即用来检索的关键字)
-     * @param isHighlighter     是否高亮
-     * @param start             开始值
-     * @param num               偏移量
+     * @param beans         多个检索对象(一般只需要放入值keyword,即用来检索的关键字)
+     * @param isHighlighter 是否高亮
+     * @param start         开始值
+     * @param num           偏移量
      * @return
      * @throws Exception
      */
-    public PaginationSupport<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, int start, int num) throws Exception;
+    Page<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, int start, int num) throws Exception;
 
     /**
      * 删除某个类型的所有索引(考虑线程安全)
      *
-     * @param clazz             索引类型
+     * @param clazz 索引类型
      * @throws Exception
      */
-    public void deleteIndexsByIndexType(Class<? extends SearchBean> clazz) throws Exception;
+    void deleteIndexsByIndexType(Class<? extends SearchBean> clazz) throws Exception;
 
     /**
      * 删除某个类型的所有索引(考虑线程安全)
      *
-     * @param indexType         索引类型
+     * @param indexType 索引类型
      * @throws Exception
      */
-    public void deleteIndexsByIndexType(String indexType) throws Exception;
+    void deleteIndexsByIndexType(String indexType) throws Exception;
 
     /**
      * 删除所有的索引
      *
      * @throws Exception
      */
-    public void deleteAllIndexs() throws Exception;
+    void deleteAllIndexs() throws Exception;
 
     /**
      * 更新索引
      *
-     * @param searchBean        需要更新的bean
+     * @param searchBean 需要更新的bean
      * @throws Exception
      */
-    public void updateIndex(SearchBean searchBean) throws Exception;
+    void updateIndex(SearchBean searchBean) throws Exception;
 
     /**
      * 批量更新索引
      *
-     * @param searchBeans       需要更新的beans
+     * @param searchBeans 需要更新的beans
      * @throws Exception
      */
-    public void updateIndexs(List<SearchBean> searchBeans) throws Exception;
+    void updateIndexs(List<SearchBean> searchBeans) throws Exception;
 }

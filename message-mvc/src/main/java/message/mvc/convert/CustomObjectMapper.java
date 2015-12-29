@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.cfg.BaseSettings;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import message.base.convert.ConvertGetter;
+import message.base.Codeable;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -39,7 +39,7 @@ public class CustomObjectMapper extends ObjectMapper {
 
         // 序列化枚举时的处理
         SimpleModule module = new SimpleModule();
-        module.addSerializer(ConvertGetter.class, new EnumSerializer());
+        module.addSerializer(Codeable.class, new EnumSerializer());
         registerModule(module);
 
         //日期的处理

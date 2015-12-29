@@ -1,15 +1,15 @@
 package message.jdbc.core;
 
 import message.base.Constants;
-import message.base.pagination.PaginationSupport;
-import message.base.pagination.PaginationUtils;
 import message.cache.Cache;
 import message.cache.CacheManager;
-import message.jdbc.sql.BeanPersistenceHelper;
 import message.datasource.helper.SqlHelper;
 import message.datasource.key.IDGenerator;
 import message.jdbc.mapper.DynamicBeanRowMapper;
+import message.jdbc.pagination.PaginationSupport;
+import message.jdbc.pagination.PaginationUtils;
 import message.jdbc.sql.BeanPersistenceDef;
+import message.jdbc.sql.BeanPersistenceHelper;
 import message.utils.ObjectUtils;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
@@ -19,7 +19,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * query for more types

@@ -1,7 +1,6 @@
-package message.base.pagination;
+package message.jdbc.pagination;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**

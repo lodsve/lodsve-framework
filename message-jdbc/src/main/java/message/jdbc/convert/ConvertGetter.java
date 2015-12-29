@@ -1,4 +1,4 @@
-package message.base.convert;
+package message.jdbc.convert;
 
 /**
  * 设计到类型转换的字段类型必须实现此接口.

@@ -7,13 +7,13 @@ import lius.index.pdf.PdfIndexer;
 import lius.index.powerpoint.PPTIndexer;
 import lius.index.txt.TXTIndexer;
 import lius.index.xml.XmlFileIndexer;
-import message.base.pagination.PaginationSupport;
-import message.base.pagination.PaginationUtils;
 import message.search.SearchBean;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,10 +56,10 @@ public abstract class AbstractSearchEngine implements SearchEngine {
         this.htmlSuffix = htmlSuffix;
     }
 
-    public PaginationSupport<SearchBean> doSearch(SearchBean bean, boolean isHighlighter, int start, int num) throws Exception {
+    public Page<SearchBean> doSearch(SearchBean bean, boolean isHighlighter, int start, int num) throws Exception {
         if (bean == null) {
             logger.debug("given search bean is empty!");
-            return PaginationUtils.getNullPagination();
+            return new PageImpl<>(Collections.<SearchBean>emptyList(), null, 0);
         }
 
         return doSearch(Collections.singletonList(bean), isHighlighter, start, num);
@@ -131,8 +131,8 @@ public abstract class AbstractSearchEngine implements SearchEngine {
         return indexer;
     }
 
-    protected String getFileContent(File file){
-        if(file == null || !file.exists())
+    protected String getFileContent(File file) {
+        if (file == null || !file.exists())
             return StringUtils.EMPTY;
 
         FileInputStream is;
@@ -144,7 +144,7 @@ public abstract class AbstractSearchEngine implements SearchEngine {
         }
 
         Indexer indexer = this.getFileIndexer(file.getName());
-        if(indexer == null)
+        if (indexer == null)
             return StringUtils.EMPTY;
 
         indexer.setStreamToIndex(is);

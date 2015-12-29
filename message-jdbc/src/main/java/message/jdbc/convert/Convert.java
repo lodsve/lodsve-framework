@@ -1,6 +1,4 @@
-package message.datasource.convert;
-
-import message.base.convert.ConvertGetter;
+package message.jdbc.convert;
 
 /**
  * 类型转换.

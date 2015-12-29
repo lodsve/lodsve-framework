@@ -1,8 +1,5 @@
 package message.mybatis.pagination;
 
-import message.base.pagination.Pageable;
-import message.base.pagination.PaginationSupport;
-import message.base.pagination.PaginationUtils;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -13,6 +10,9 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,16 +52,16 @@ public class PaginationInterceptor implements Interceptor {
         int total = PaginationHelper.queryForTotal(sql, ms, boundSql);
 
         //分页语句
-        String pageSql = PaginationHelper.getPageSql(sql, pageable.getStart(), pageable.getNum());
+        String pageSql = PaginationHelper.getPageSql(sql, pageable.getPageSize(), pageable.getOffset());
 
         queryArgs[ROWBOUNDS_INDEX] = new RowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
         queryArgs[MAPPED_STATEMENT_INDEX] = PaginationHelper.copyFromNewSql(ms, boundSql, pageSql);
 
         Object ret = invocation.proceed();
-        PaginationSupport<?> ps = PaginationUtils.makePagination((List<?>) ret, total, pageable.getNum(), pageable.getStart());
+        Page<?> pi = new PageImpl<>((List<?>) ret, pageable, total);
 
-        List<PaginationSupport<?>> result = new ArrayList<PaginationSupport<?>>();
-        result.add(ps);
+        List<Page<?>> result = new ArrayList<>(1);
+        result.add(pi);
 
         return result;
     }
@@ -73,7 +73,5 @@ public class PaginationInterceptor implements Interceptor {
 
     @Override
     public void setProperties(Properties properties) {
-//        SqlHelper sqlHelper = ApplicationHelper.getInstance().getBean(SqlHelper.class);
-//        PaginationHelper.setSqlHelper(sqlHelper);
     }
 }

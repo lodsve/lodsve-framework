@@ -1,7 +1,5 @@
 package message.datasource.helper;
 
-import message.base.convert.ConvertGetter;
-import message.datasource.convert.Convert;
 import message.datasource.key.IDGenerator;
 
 import javax.sql.DataSource;
@@ -9,7 +7,6 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 /**
  * 不同数据库处理的辅助类
@@ -26,7 +23,7 @@ public interface SqlHelper {
      * @param value
      * @throws SQLException
      */
-    public abstract void setClobValue(PreparedStatement ps, int index, String value) throws SQLException;
+    void setClobValue(PreparedStatement ps, int index, String value) throws SQLException;
 
     /**
      * 获取long型值，并返回String
@@ -36,7 +33,7 @@ public interface SqlHelper {
      * @return
      * @throws SQLException
      */
-    public String getLongAsString(ResultSet rs, int index) throws SQLException;
+    String getLongAsString(ResultSet rs, int index) throws SQLException;
 
     /**
      * 获取clob型值
@@ -46,7 +43,7 @@ public interface SqlHelper {
      * @return
      * @throws SQLException
      */
-    public String getClobAsString(ResultSet rs, int index) throws SQLException, IOException;
+    String getClobAsString(ResultSet rs, int index) throws SQLException, IOException;
 
     /**
      * 获得查询所有条数的sql
@@ -54,9 +51,9 @@ public interface SqlHelper {
      * @param sql
      * @return
      */
-    public String getCountSql(String sql);
+    String getCountSql(String sql);
 
-    public void setIdGenerator(IDGenerator idGenerator);
+    void setIdGenerator(IDGenerator idGenerator);
 
     /**
      * 获得分页的sql
@@ -67,7 +64,7 @@ public interface SqlHelper {
      * @param num
      * @return
      */
-    public String getPageSql(String sql, int start, int num);
+    String getPageSql(String sql, int start, int num);
 
     /**
      * 通过sequence获取下一个主键的值<br/>
@@ -77,7 +74,7 @@ public interface SqlHelper {
      * @param sequenceName
      * @return
      */
-    public Long getNextId(String sequenceName);
+    Long getNextId(String sequenceName);
 
     /**
      * 判断数据库中是否含有给定的表
@@ -86,21 +83,5 @@ public interface SqlHelper {
      * @param dataSource 数据源
      * @return
      */
-    public String existTableSQL(String tableName, DataSource dataSource) throws Exception;
-
-    /**
-     * 设置类型转换
-     *
-     * @param convertBeans
-     */
-    public void setConvertBeans(Map<Class<?>, Class<?>> convertBeans);
-
-    /**
-     * 获取类型转换
-     *
-     * @param clazz
-     * @param <T>
-     * @return
-     */
-    public <T extends ConvertGetter> Convert<T> getConvert(Class<T> clazz);
+    String existTableSQL(String tableName, DataSource dataSource) throws Exception;
 }

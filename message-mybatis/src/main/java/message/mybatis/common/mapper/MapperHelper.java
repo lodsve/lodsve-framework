@@ -33,16 +33,16 @@ public class MapperHelper {
     /**
      * 注册的通用Mapper接口
      */
-    private Map<Class<?>, MapperTemplate> registerMapper = new ConcurrentHashMap<Class<?>, MapperTemplate>();
+    private Map<Class<?>, MapperTemplate> registerMapper = new ConcurrentHashMap<>();
 
     /**
      * 缓存msid和MapperTemplate
      */
-    private Map<String, MapperTemplate> msIdCache = new HashMap<String, MapperTemplate>();
+    private Map<String, MapperTemplate> msIdCache = new HashMap<>();
     /**
      * 缓存skip结果
      */
-    private final Map<String, Boolean> msIdSkip = new HashMap<String, Boolean>();
+    private final Map<String, Boolean> msIdSkip = new HashMap<>();
     /**
      * sqlHelper
      */

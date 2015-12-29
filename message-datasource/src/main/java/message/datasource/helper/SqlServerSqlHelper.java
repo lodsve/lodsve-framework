@@ -1,8 +1,5 @@
 package message.datasource.helper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.sql.DataSource;
 import java.sql.DatabaseMetaData;
 
@@ -14,8 +11,6 @@ import java.sql.DatabaseMetaData;
  * @createTime 2012-8-3 下午10:05:34
  */
 public class SqlServerSqlHelper extends AbstractSqlHelper {
-    private static final Logger logger = LoggerFactory.getLogger(SqlServerSqlHelper.class);
-
     public String getPageSql(String sql, int start, int num) {
         //TODO 实现sql server的分页查询语句
         return null;

@@ -1,8 +1,5 @@
 package message.datasource.helper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.sql.DataSource;
 
 /**
@@ -12,8 +9,6 @@ import javax.sql.DataSource;
  * @version V1.0, 2012-4-11 上午10:48:58
  */
 public class MySQLSqlHelper extends AbstractSqlHelper {
-    private static final Logger logger = LoggerFactory.getLogger(MySQLSqlHelper.class);
-
     @Override
     public String getPageSql(String sql, int start, int num) {
         if (start < 0 || num < 0)
