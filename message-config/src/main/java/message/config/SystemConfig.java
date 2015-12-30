@@ -180,7 +180,7 @@ public class SystemConfig {
     }
 
     public static Map<String, String> getAllConfigs() {
-        return new HashMap<String, String>((Map) properties);
+        return new HashMap<>((Map) properties);
     }
 
     public static Configuration getFileConfiguration(String fileName) {

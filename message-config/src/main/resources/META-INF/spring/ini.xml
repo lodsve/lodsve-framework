@@ -6,5 +6,5 @@
         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
     <!-- 配置 -->
-    <bean class="message.config.ini.IniLoader"/>
+    <bean id="iniLoader" class="message.config.ini.IniLoader"/>
 </beans>
