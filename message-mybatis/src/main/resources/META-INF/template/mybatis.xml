@@ -14,11 +14,11 @@
     <!-- MySQL start -->
     <bean th:if="${dbType == 'MySQL' }" th:id="${dataSource} + 'MysqlLobHandler'" class="org.springframework.jdbc.support.lob.DefaultLobHandler" lazy-init="true"/>
 
-    <bean th:if="${dbType == 'MySQL' }" th:id="${dataSource} + 'SqlHelper'" class="message.datasource.helper.MySQLSqlHelper">
+    <bean th:if="${dbType == 'MySQL' }" th:id="${dataSource} + 'SqlHelper'" class="message.mybatis.helper.MySQLSqlHelper">
         <property name="idGenerator" th:attr="ref=${dataSource} + 'MaxValueIncrementer'"/>
     </bean>
 
-    <bean th:if="${dbType == 'MySQL' }" th:id="${dataSource} + 'MaxValueIncrementer'" class="message.datasource.key.generic.MySQLMaxValueIncrementer">
+    <bean th:if="${dbType == 'MySQL' }" th:id="${dataSource} + 'MaxValueIncrementer'" class="message.mybatis.key.generic.MySQLMaxValueIncrementer">
         <property name="dataSource" th:attr="ref=${dataSource}"/>
         <property name="keyLength" value="5"/>
         <property name="cacheSize" value="5"/>
@@ -32,12 +32,12 @@
         <property name="nativeJdbcExtractor" th:attr="ref=${dataSource} + 'JdbcExtractor'"/>
     </bean>
 
-    <bean th:if="${dbType == 'Oracle' }" th:id="${dataSource} + 'SqlHelper'" class="message.datasource.helper.OracleSqlHelper">
+    <bean th:if="${dbType == 'Oracle' }" th:id="${dataSource} + 'SqlHelper'" class="message.mybatis.helper.OracleSqlHelper">
         <property name="lobHandler" th:attr="ref=${dataSource} + 'OracleLobHandler'"/>
         <property name="idGenerator" th:attr="ref=${dataSource} + 'MaxValueIncrementer'"/>
     </bean>
 
-    <bean th:if="${dbType == 'Oracle' }" th:id="${dataSource} + 'MaxValueIncrementer'" class="message.datasource.key.sequence.OracleSequenceMaxValueIncrementer">
+    <bean th:if="${dbType == 'Oracle' }" th:id="${dataSource} + 'MaxValueIncrementer'" class="message.mybatis.key.sequence.OracleSequenceMaxValueIncrementer">
         <property name="dataSource" th:attr="ref=${dataSource}"/>
         <property name="keyLength" value="5"/>
     </bean>

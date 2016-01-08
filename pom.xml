@@ -4,7 +4,7 @@
 
     <groupId>cosmos.message</groupId>
     <artifactId>message-parent</artifactId>
-    <version>2.3</version>
+    <version>2.3.1</version>
     <packaging>pom</packaging>
     <name>message parent</name>
     <url>http://maven.apache.org</url>
@@ -28,8 +28,6 @@
         <module>message-cache</module>
         <!-- 数据源 -->
         <module>message-datasource</module>
-        <!-- jdbc -->
-        <module>message-jdbc</module>
         <!-- mybatis -->
         <module>message-mybatis</module>
         <!-- 搜索 -->
@@ -147,7 +145,7 @@
         <tiles.version>3.0.3</tiles.version>
         <jdk.version>jdk15</jdk.version>
         <tomcat.version>6.0.32</tomcat.version>
-        <cosmos.version>2.3</cosmos.version>
+        <cosmos.version>2.3.1</cosmos.version>
     </properties>
 
     <dependencyManagement>
@@ -739,7 +737,20 @@
                 <artifactId>spring-data-commons</artifactId>
                 <version>1.11.2.RELEASE</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>1.6.2.RELEASE</version>
+            </dependency>
             <!-- spring data end -->
+
+            <!-- redis client start -->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>2.7.3</version>
+            </dependency>
+            <!-- redis client end -->
 
             <!-- spring swagger start -->
             <dependency>
@@ -908,11 +919,6 @@
             <dependency>
                 <groupId>cosmos.message</groupId>
                 <artifactId>message-exception</artifactId>
-                <version>${cosmos.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cosmos.message</groupId>
-                <artifactId>message-jdbc</artifactId>
                 <version>${cosmos.version}</version>
             </dependency>
             <dependency>

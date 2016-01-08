@@ -1,7 +1,7 @@
 package message.mybatis.pagination;
 
 import message.base.utils.ApplicationHelper;
-import message.datasource.helper.SqlHelper;
+import message.mybatis.helper.SqlHelper;
 import message.utils.StringUtils;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.parameter.ParameterHandler;

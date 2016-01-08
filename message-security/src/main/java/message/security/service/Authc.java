@@ -96,7 +96,7 @@ public class Authc {
      * @return
      */
     public boolean logout(HttpServletRequest request) {
-        if(this.authz.isLogin(request)) {
+        if (this.authz.isLogin(request)) {
             request.getSession().removeAttribute(SecurityConstants.ACCOUNT_KEY_IN_SESSION);
             return true;
         }
@@ -130,7 +130,8 @@ public class Authc {
             return false;
         }
 
-        return this.accountService.chgPwd(loginName, password);
+        this.accountService.chgPwd(loginName, password);
+        return true;
     }
 
     /**

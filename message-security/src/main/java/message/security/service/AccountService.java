@@ -1,20 +1,18 @@
 package message.security.service;
 
-import message.jdbc.core.GenericJdbcDAO;
-import message.security.SecurityConstants;
 import message.security.pojo.Account;
 import message.security.pojo.AccountRole;
 import message.security.pojo.Role;
+import message.security.repository.AccountRepository;
+import message.security.repository.AccountRoleRepository;
+import message.security.repository.RoleRepository;
 import message.utils.EncryptUtils;
 import message.validate.core.NeedValidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +30,11 @@ public class AccountService {
     private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
     @Autowired
-    @Qualifier("securityGenericJdbcDAO")
-    private GenericJdbcDAO genericJdbcDAO;
+    private AccountRepository accountRepository;
+    @Autowired
+    private AccountRoleRepository accountRoleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     /**
      * 保存用户
@@ -47,18 +48,17 @@ public class AccountService {
         account.setPassword(EncryptUtils.encodeMD5(account.getPassword()));
         account.setCreateDate(new Date());
 
-        return this.genericJdbcDAO.genericInsert(account);
+        int i = this.accountRepository.insert(account);
+        if (i == 1) {
+            return account;
+        } else {
+            return null;
+        }
     }
 
 
     protected Account loadAccount(String loginName) {
-        String sql = "select t.* from " + SecurityConstants.T_ACCOUNT + " t where t.login_name = :loginName";
-
-        try {
-            return this.genericJdbcDAO.queryForBean(sql, Collections.singletonMap("loginName", loginName), Account.class);
-        } catch (DataAccessException e) {
-            return null;
-        }
+        return this.accountRepository.loadAccount(loginName);
     }
 
     /**
@@ -68,14 +68,12 @@ public class AccountService {
      * @param password  新密码(明文)
      * @return
      */
-    protected boolean chgPwd(String loginName, String password) {
+    protected void chgPwd(String loginName, String password) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("loginName", loginName);
         params.put("password", EncryptUtils.encodeMD5(password));
 
-        String sql = "update " + SecurityConstants.T_ACCOUNT + " t set t.password = :password where t.login_name = :loginName";
-
-        return this.genericJdbcDAO.update(sql, params) == 1;
+        this.accountRepository.chgPwd(loginName, EncryptUtils.encodeMD5(password));
     }
 
     /**
@@ -89,7 +87,12 @@ public class AccountService {
     protected Role saveRole(Role role) throws Exception {
         role.setCreateTime(new Date());
 
-        return this.genericJdbcDAO.genericInsert(role);
+        int i = this.roleRepository.insert(role);
+        if (i == 1) {
+            return role;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -99,9 +102,7 @@ public class AccountService {
      * @return
      */
     protected Role loadRole(String roleCode) {
-        String sql = "select " + SecurityConstants.T_ROLE + " t where t.role_code = :roleCode";
-
-        return this.genericJdbcDAO.queryForBean(sql, Collections.singletonMap("roleCode", roleCode), Role.class);
+        return this.roleRepository.loadRole(roleCode);
     }
 
     /**
@@ -113,13 +114,12 @@ public class AccountService {
     protected void saveAccountRole(String[] roleCodes, String account) {
         String sql;
         //1.先删除原来的账户角色关系
-        sql = "delete from " + SecurityConstants.T_ACCOUNT_ROLE + " t where t.account = :account";
-        this.genericJdbcDAO.update(sql, Collections.singletonMap("account", account));
+        accountRoleRepository.deleteAccountRoles(account);
         //2.保存现有的
         for (String code : roleCodes) {
             AccountRole accountRole = new AccountRole(account, code);
             try {
-                this.genericJdbcDAO.genericInsert(accountRole);
+                this.accountRoleRepository.insert(accountRole);
             } catch (Exception e) {
                 logger.error("保存账户角色关系出错，关系：" + accountRole, e);
                 continue;
@@ -134,8 +134,6 @@ public class AccountService {
      * @return
      */
     protected List<String> loadRoleByAccount(String loginName) {
-        String sql = "select t.role_code from " + SecurityConstants.T_ACCOUNT_ROLE + " t where t.account = :loginName";
-
-        return this.genericJdbcDAO.queryForList(sql, Collections.singletonMap("loginName", loginName), String.class);
+        return this.accountRoleRepository.loadRoleByAccount(loginName);
     }
 }

@@ -23,7 +23,7 @@ public class ApplicationHelper {
 
     private String rootPath;
 
-    private Set apps = new HashSet();
+    private Set<ApplicationContext> apps = new HashSet<>();
 
     //构造器私有，不可在外部进行初始化实例
     private ApplicationHelper() {

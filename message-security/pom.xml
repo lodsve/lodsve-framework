@@ -6,7 +6,7 @@
     <parent>
         <groupId>cosmos.message</groupId>
         <artifactId>message-parent</artifactId>
-        <version>2.3</version>
+        <version>2.3.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -44,7 +44,7 @@
         </dependency>
         <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-jdbc</artifactId>
+            <artifactId>message-mybatis</artifactId>
         </dependency>
         <dependency>
             <groupId>cosmos.message</groupId>

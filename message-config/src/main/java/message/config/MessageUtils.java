@@ -29,7 +29,8 @@ public class MessageUtils {
 
     private static DefaultResourceBundleMessageSource bundleMessageSource = null;
     private static final Object lockObject = new Object();
-    private static Map<Locale, Map<String, String>> allMessagesMap = new HashMap<Locale, Map<String, String>>();
+    private static Map<Locale, Map<String, String>> allMessagesMap = new HashMap<>();
+    private static ApplicationContext context;
 
     static {
         synchronized (lockObject) {
@@ -45,6 +46,8 @@ public class MessageUtils {
                 else
                     throw new ConfigException(10007, "can not find any messageSource what is DefaultResourceBundleMessageSource!");
             }
+
+            context = ApplicationContextUtil.getContext();
         }
     }
 
@@ -58,9 +61,7 @@ public class MessageUtils {
      * @return
      */
     public static String getMessage(String code, Locale locale, String defaultMessage, String... args) {
-        ApplicationContext conetnt = ApplicationContextUtil.getContext();
-
-        return conetnt.getMessage(code, args, defaultMessage, locale);
+        return context.getMessage(code, args, defaultMessage, locale);
     }
 
     /**
@@ -72,9 +73,7 @@ public class MessageUtils {
      * @return
      */
     public static String getMessage(String code, Locale locale, String... args) {
-        ApplicationContext conetnt = ApplicationContextUtil.getContext();
-
-        return conetnt.getMessage(code, args, StringUtils.EMPTY, locale);
+        return context.getMessage(code, args, StringUtils.EMPTY, locale);
     }
 
     /**
@@ -85,9 +84,7 @@ public class MessageUtils {
      * @return
      */
     public static String getMessage(String code, String... args) {
-        ApplicationContext conetnt = ApplicationContextUtil.getContext();
-
-        return conetnt.getMessage(code, args, StringUtils.EMPTY, Locale.getDefault());
+        return context.getMessage(code, args, StringUtils.EMPTY, Locale.getDefault());
     }
 
     /**
@@ -97,9 +94,7 @@ public class MessageUtils {
      * @return
      */
     public static String getMessage(String code) {
-        ApplicationContext conetnt = ApplicationContextUtil.getContext();
-
-        return conetnt.getMessage(code, Collections.emptyList().toArray(new String[0]), StringUtils.EMPTY, Locale.getDefault());
+        return context.getMessage(code, Collections.emptyList().toArray(new String[0]), StringUtils.EMPTY, Locale.getDefault());
     }
 
     /**

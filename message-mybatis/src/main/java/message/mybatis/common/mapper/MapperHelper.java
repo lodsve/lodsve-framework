@@ -1,7 +1,7 @@
 package message.mybatis.common.mapper;
 
 import message.base.utils.ApplicationHelper;
-import message.datasource.helper.SqlHelper;
+import message.mybatis.helper.SqlHelper;
 import message.mybatis.common.dao.BaseRepository;
 import message.mybatis.common.provider.EmptyMapperProvider;
 import org.apache.ibatis.annotations.DeleteProvider;

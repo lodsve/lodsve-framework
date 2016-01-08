@@ -1,1 +1,1 @@
-http\://www.message.com/schema/message-datasource/message-datasource-1.0.xsd=message/datasource/configs/message-datasource-1.0.xsd
+http\://www.message.com/schema/message-datasource/message-datasource-1.0.xsd=../message/datasource/message-datasource-1.0.xsd
