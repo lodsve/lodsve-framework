@@ -1,4 +1,4 @@
-package message.config.annotations;
+package message.config.auto.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Configuration {
+public @interface ConfigurationProperties {
     /**
      * The name prefix of the properties that are valid to bind to this object.
      *

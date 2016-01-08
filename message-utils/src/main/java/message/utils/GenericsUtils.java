@@ -26,7 +26,7 @@ public class GenericsUtils {
      * @param index 泛型参数所在索引,从0开始.
      * @return 范型参数的实际类型, 如果没有实现ParameterizedType接口，即不支持泛型，所以直接返回<code>Object.class</code>
      */
-    public static Class<?> getSuperClassGenericType(Class<?> clazz, int index) {
+    public static Class<?> getClassGenericType(Class<?> clazz, int index) {
         //得到泛型父类
         Type genType = clazz.getGenericSuperclass();
         //如果没有实现ParameterizedType接口，即不支持泛型，直接返回Object.class
@@ -52,8 +52,8 @@ public class GenericsUtils {
      * @return 泛型参数的实际类型, 如果没有实现ParameterizedType接口，即不支持泛型，所以直接返回<code>Object.class</code>
      */
     @SuppressWarnings("unchecked")
-    public static Class getSuperClassGenricType0(Class clazz) {
-        return getSuperClassGenericType(clazz, 0);
+    public static Class getClassGenericType0(Class clazz) {
+        return getClassGenericType(clazz, 0);
     }
 
     /**
