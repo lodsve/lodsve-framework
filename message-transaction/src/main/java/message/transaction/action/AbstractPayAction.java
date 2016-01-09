@@ -50,7 +50,7 @@ public abstract class AbstractPayAction implements PayAction {
         if (payment == null) {
             payment = this.prepare(targetId, tradeType, amount, tradeChannel, userId);
         } else {
-            if (TradeResult.YES == payment.getStatus()) {
+            if (TradeResult.YES == payment.getTradeResult()) {
                 throw new PayException(10017, "this order is paid!");
             }
         }

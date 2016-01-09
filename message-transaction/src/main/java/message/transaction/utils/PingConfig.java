@@ -1,6 +1,6 @@
 package message.transaction.utils;
 
-import java.util.Map;
+import message.config.auto.annotations.ConfigurationProperties;
 
 /**
  * 支付的一些配置.
@@ -8,6 +8,7 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/8/26 上午4:01
  */
+@ConfigurationProperties(prefix = "ping.config")
 public class PingConfig {
     /**
      * ping++的apiKey
@@ -21,10 +22,6 @@ public class PingConfig {
      * 支付完成后跳转地址
      */
     private String notifyUrl;
-    /**
-     * 阿里wap支付后回调
-     */
-    private Map<String, AliPayWapNotify> notifySettings;
     /**
      * Ping++ 公钥
      */
@@ -54,31 +51,11 @@ public class PingConfig {
         this.notifyUrl = notifyUrl;
     }
 
-    public Map<String, AliPayWapNotify> getNotifySettings() {
-        return notifySettings;
-    }
-
-    public void setNotifySettings(Map<String, AliPayWapNotify> notifySettings) {
-        this.notifySettings = notifySettings;
-    }
-
     public String getPubKey() {
         return pubKey;
     }
 
     public void setPubKey(String pubKey) {
         this.pubKey = pubKey;
-    }
-
-    public static class AliPayWapNotify {
-        private String from;
-
-        public String getFrom() {
-            return from;
-        }
-
-        public void setFrom(String from) {
-            this.from = from;
-        }
     }
 }

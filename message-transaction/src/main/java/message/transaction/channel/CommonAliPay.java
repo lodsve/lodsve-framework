@@ -19,10 +19,10 @@ public abstract class CommonAliPay extends PingPay {
 
         if ("pending".equals(status)) {
             // 退款中
-            refund.setResult(TradeResult.PROCESSING);
+            refund.setTradeResult(TradeResult.PROCESSING);
             refund.setRefundUrl(refundUrl);
         } else {
-            refund.setResult(TradeResult.ERROR);
+            refund.setTradeResult(TradeResult.ERROR);
         }
     }
 }

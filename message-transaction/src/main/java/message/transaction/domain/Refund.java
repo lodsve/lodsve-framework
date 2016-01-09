@@ -3,8 +3,10 @@ package message.transaction.domain;
 import message.transaction.enums.TradeResult;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * 退款.
@@ -15,6 +17,7 @@ import javax.persistence.Table;
 @Table(name = "t_refund")
 public class Refund {
     @Id
+    @GeneratedValue(generator = "s_refund")
     private Long id;
     @Column
     private String chargeId;
@@ -22,12 +25,12 @@ public class Refund {
     private Long paymentId;
     @Column
     private Long amount;
-    @Column(name = "pay_status")
-    private TradeResult result;
     @Column
-    private Long applyTime;
+    private TradeResult tradeResult;
     @Column
-    private Long completeTime;
+    private Date applyTime;
+    @Column
+    private Date completeTime;
     /**
      * 支付宝退款链接
      */
@@ -66,27 +69,27 @@ public class Refund {
         this.amount = amount;
     }
 
-    public TradeResult getResult() {
-        return result;
+    public TradeResult getTradeResult() {
+        return tradeResult;
     }
 
-    public void setResult(TradeResult result) {
-        this.result = result;
+    public void setTradeResult(TradeResult tradeResult) {
+        this.tradeResult = tradeResult;
     }
 
-    public Long getApplyTime() {
+    public Date getApplyTime() {
         return applyTime;
     }
 
-    public void setApplyTime(Long applyTime) {
+    public void setApplyTime(Date applyTime) {
         this.applyTime = applyTime;
     }
 
-    public Long getCompleteTime() {
+    public Date getCompleteTime() {
         return completeTime;
     }
 
-    public void setCompleteTime(Long completeTime) {
+    public void setCompleteTime(Date completeTime) {
         this.completeTime = completeTime;
     }
 

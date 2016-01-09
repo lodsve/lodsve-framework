@@ -1,6 +1,5 @@
 package message.transaction.channel;
 
-import message.config.SystemConfig;
 import message.transaction.PayException;
 import message.transaction.enums.TradeChannel;
 import message.transaction.enums.TradeType;
@@ -24,24 +23,20 @@ import java.util.Map;
 public class AliPayWap extends CommonAliPay {
     @Autowired
     private PingConfig pingConfig;
-    @Autowired
-    private SystemConfig systemConfig;
 
     @Override
     protected Map<String, String> buildExtraData() {
         Map<String, String> params = new HashMap<>();
 
-        Map<String, PingConfig.AliPayWapNotify> notifyMap = this.pingConfig.getNotifySettings();
         TradeType type = ParamsHolder.get("tradeType");
 
         if (type == null) {
             throw new PayException(10016, "TradeType IS NULL!");
         }
 
-//        TODO
-//        String notifyUrl = systemConfig.getFrontEndUrl() + pingConfig.getNotifyUrl() + "/%s/" + notifyMap.get(type.toString()).getFrom();
-//        params.put("success_url", String.format(notifyUrl, "success"));
-//        params.put("cancel_url", String.format(notifyUrl, "cancel"));
+        String notifyUrl = pingConfig.getNotifyUrl() + "/%s/" + type.toString();
+        params.put("success_url", String.format(notifyUrl, "success"));
+        params.put("cancel_url", String.format(notifyUrl, "cancel"));
 
         return params;
     }

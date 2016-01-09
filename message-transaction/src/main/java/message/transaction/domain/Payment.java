@@ -5,9 +5,11 @@ import message.transaction.enums.TradeResult;
 import message.transaction.enums.TradeType;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * ﻿交易.
@@ -18,13 +20,14 @@ import java.io.Serializable;
 @Table(name = "t_payment")
 public class Payment implements Serializable {
     @Id
+    @GeneratedValue(generator = "s_payment")
     private Long id;
     /**
      * 冗余字段,targetId进行MD5加密后,保证数据唯一
      */
     @Column(unique = true)
     private String unionId;
-    @Column(name = "order_id", length = 3000)
+    @Column
     private String targetId;
     @Column
     private String description;
@@ -37,17 +40,17 @@ public class Payment implements Serializable {
     @Column
     private Long amount;
     @Column
-    private TradeChannel payCode = TradeChannel.WX_PUB;
+    private TradeChannel tradeChannel = TradeChannel.WX_PUB;
     @Column
     private Long userId;
     @Column
     private String userName;
     @Column
-    private Long orderTime;
+    private Date orderTime;
     @Column
-    private Long completeTime;
+    private Date completeTime;
     @Column
-    private TradeResult status = TradeResult.NO;
+    private TradeResult tradeResult = TradeResult.NO;
     @Column
     private String chargeId;
 
@@ -115,12 +118,12 @@ public class Payment implements Serializable {
         this.amount = amount;
     }
 
-    public TradeChannel getPayCode() {
-        return payCode;
+    public TradeChannel getTradeChannel() {
+        return tradeChannel;
     }
 
-    public void setPayCode(TradeChannel payCode) {
-        this.payCode = payCode;
+    public void setTradeChannel(TradeChannel tradeChannel) {
+        this.tradeChannel = tradeChannel;
     }
 
     public Long getUserId() {
@@ -139,28 +142,28 @@ public class Payment implements Serializable {
         this.userName = userName;
     }
 
-    public Long getOrderTime() {
+    public Date getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(Long orderTime) {
+    public void setOrderTime(Date orderTime) {
         this.orderTime = orderTime;
     }
 
-    public Long getCompleteTime() {
+    public Date getCompleteTime() {
         return completeTime;
     }
 
-    public void setCompleteTime(Long completeTime) {
+    public void setCompleteTime(Date completeTime) {
         this.completeTime = completeTime;
     }
 
-    public TradeResult getStatus() {
-        return status;
+    public TradeResult getTradeResult() {
+        return tradeResult;
     }
 
-    public void setStatus(TradeResult status) {
-        this.status = status;
+    public void setTradeResult(TradeResult tradeResult) {
+        this.tradeResult = tradeResult;
     }
 
     public String getChargeId() {

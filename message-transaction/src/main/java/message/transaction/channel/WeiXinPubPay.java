@@ -2,7 +2,9 @@ package message.transaction.channel;
 
 import message.transaction.enums.TradeChannel;
 import message.transaction.utils.Channel;
+import message.utils.ParamsHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.Collections;
 import java.util.Map;
@@ -18,9 +20,9 @@ import java.util.Map;
 public class WeiXinPubPay extends CommonWXPay {
     @Override
     protected Map<String, String> buildExtraData() {
-        // TODO
-//        String openId = SessionUtils.getWeixinOpenid();
+        String openId = ParamsHolder.get("openId");
+        Assert.hasText(openId, "微信OpenID必须指定!");
 
-        return Collections.singletonMap("open_id", "");
+        return Collections.singletonMap("open_id", openId);
     }
 }

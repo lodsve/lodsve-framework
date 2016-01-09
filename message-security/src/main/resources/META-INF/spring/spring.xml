@@ -2,23 +2,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mybatis="http://www.message.com/schema/message-mybatis"
-       xmlns:datasource="http://www.message.com/schema/message-datasource"
        xsi:schemaLocation="
 	http://www.springframework.org/schema/beans   
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 	http://www.springframework.org/schema/context
-	http://www.springframework.org/schema/context/spring-context-4.0.xsd
-    http://www.message.com/schema/message-mybatis
-    http://www.message.com/schema/message-mybatis/message-mybatis-1.0.xsd
-    http://www.message.com/schema/message-datasource
-    http://www.message.com/schema/message-datasource/message-datasource-1.0.xsd">
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
     <context:component-scan base-package="message.security"/>
     <context:annotation-config/>
-
-    <!-- 数据源 -->
-    <datasource:rdbms name="security"/>
-    <!-- mybatis配置 -->
-    <mybatis:mybatis dataSource="security" basePackage="message.security.service" dbType="MySQL" migration="db/security" useFlyway="true"/>
 </beans>

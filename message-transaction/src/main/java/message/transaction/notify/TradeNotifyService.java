@@ -19,6 +19,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Date;
+
 /**
  * 支付后回调.
  *
@@ -58,11 +60,11 @@ public class TradeNotifyService {
             payment = this.paymentRepository.findByTargetId(paymentId);
         }
 
-        if (null == payment || TradeResult.PROCESSING != payment.getStatus()) {
+        if (null == payment || TradeResult.PROCESSING != payment.getTradeResult()) {
             throw new PayException(10010, "支付单不存在。请确认数据完整性,需要查询的支付单号为：" + paymentId, paymentId);
         }
 
-        if (TradeResult.YES.equals(payment.getStatus())) {
+        if (TradeResult.YES.equals(payment.getTradeResult())) {
             logger.info("订单支付状态已经成功,返回信息不需要重复处理,支付单号为:" + paymentId);
             return false;
         }
@@ -81,13 +83,13 @@ public class TradeNotifyService {
         try {
             if (result) {
                 // 修改支付单的支付状态
-                payment.setStatus(TradeResult.YES);
-                payment.setCompleteTime(System.currentTimeMillis());
+                payment.setTradeResult(TradeResult.YES);
+                payment.setCompleteTime(new Date());
                 this.paymentRepository.insert(payment);
 
                 payAction.doPaySuccess(payment);
             } else {
-                payment.setStatus(TradeResult.ERROR);
+                payment.setTradeResult(TradeResult.ERROR);
                 // 修改支付单的支付状态
                 this.paymentRepository.insert(payment);
 
@@ -97,7 +99,7 @@ public class TradeNotifyService {
             return true;
         } catch (Exception e) {
             logger.error("更新订单状态失败", e);
-            payment.setStatus(TradeResult.ERROR);
+            payment.setTradeResult(TradeResult.ERROR);
             // 修改支付单的支付状态
             this.paymentRepository.insert(payment);
 
@@ -123,11 +125,11 @@ public class TradeNotifyService {
 
         Refund refund = refundRepository.findByChargeId(chargeId);
 
-        if (null == refund || TradeResult.PROCESSING != refund.getResult()) {
+        if (null == refund || TradeResult.PROCESSING != refund.getTradeResult()) {
             throw new RefundException(-1, "退款单不存在,请确认!支付单号为:" + chargeId);
         }
 
-        if (TradeResult.YES.equals(refund.getResult())) {
+        if (TradeResult.YES.equals(refund.getTradeResult())) {
             logger.info("退款单已完成,支付单号为:" + chargeId);
             return false;
         }
@@ -144,14 +146,14 @@ public class TradeNotifyService {
         try {
             if (result) {
                 // 修改支付单的支付状态
-                refund.setResult(TradeResult.YES);
-                refund.setCompleteTime(System.currentTimeMillis());
+                refund.setTradeResult(TradeResult.YES);
+                refund.setCompleteTime(new Date());
 
                 this.refundRepository.insert(refund);
 
                 refundAction.doRefundSuccess(refund);
             } else {
-                payment.setStatus(TradeResult.ERROR);
+                payment.setTradeResult(TradeResult.ERROR);
                 // 修改支付单的支付状态
                 this.paymentRepository.insert(payment);
 
@@ -161,7 +163,7 @@ public class TradeNotifyService {
             return true;
         } catch (Exception e) {
             logger.error("更新订单状态失败", e);
-            payment.setStatus(TradeResult.ERROR);
+            payment.setTradeResult(TradeResult.ERROR);
             // 修改支付单的支付状态
             this.paymentRepository.insert(payment);
 

@@ -35,7 +35,7 @@ public abstract class AbstractRefundAction implements RefundAction {
         Assert.notNull(payment);
 
         // 处理各个支付的一些情况
-        Pay pay = tradeRouting.pay(payment.getPayCode());
+        Pay pay = tradeRouting.pay(payment.getTradeChannel());
         Assert.notNull(pay, "支付渠道错误!");
 
         // 判断是否曾经进行退款
@@ -44,7 +44,7 @@ public abstract class AbstractRefundAction implements RefundAction {
         if (refund == null) {
             refund = this.prepare(paymentId);
         } else {
-            if (TradeResult.YES == refund.getResult()) {
+            if (TradeResult.YES == refund.getTradeResult()) {
                 throw new RefundException(-1, "支付单:[" + paymentId + "]已经退款成功!");
             }
         }

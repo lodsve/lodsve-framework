@@ -77,12 +77,12 @@
 
     <aop:config>
         <aop:pointcut th:id="${dataSource}+'TxMethods'" th:attr="expression='execution(* ' + ${basePackage} + '.service.*.*(..)) or '
-			+ 'execution(* '+ ${basePackage} + '.dao.*.*(..))'" />
+			+ 'execution(* '+ ${basePackage} + '.repository.*.*(..))'" />
         <aop:advisor th:attr="advice-ref=${dataSource}+'TxAdvice',pointcut-ref=${dataSource}+'TxMethods'"/>
     </aop:config>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" th:value="${basePackage}+'.dao'" />
+        <property name="basePackage" th:value="${basePackage}+'.repository'" />
         <property name="annotationClass" value="org.springframework.stereotype.Repository" />
         <property name="sqlSessionFactoryBeanName" th:value="${dataSource}+'SqlSessionFactory'" />
     </bean>

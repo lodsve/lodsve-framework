@@ -4,6 +4,7 @@ import message.mybatis.common.dao.BaseRepository;
 import message.transaction.domain.Refund;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,9 +15,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RefundRepository extends BaseRepository<Refund> {
-    Refund findByPaymentId(Long paymentId);
+    Refund findByPaymentId(@Param("paymentId") Long paymentId);
 
-    Refund findByChargeId(String chargeId);
+    Refund findByChargeId(@Param("chargeId") String chargeId);
 
     Page<Refund> findRefunds(Pageable pageable);
 }

@@ -19,9 +19,9 @@ public abstract class CommonWXPay extends PingPay {
 
         if ("pending".equals(status) && !succeed) {
             // 退款中
-            refund.setResult(TradeResult.PROCESSING);
+            refund.setTradeResult(TradeResult.PROCESSING);
         } else {
-            refund.setResult(TradeResult.ERROR);
+            refund.setTradeResult(TradeResult.ERROR);
         }
     }
 }

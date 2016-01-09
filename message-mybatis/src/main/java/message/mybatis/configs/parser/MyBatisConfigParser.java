@@ -44,7 +44,7 @@ public class MyBatisConfigParser implements BeanDefinitionParser {
 
         String typeHandlersLocations = element.getAttribute("typeHandlersLocations");
         if(StringUtils.isEmpty(typeHandlersLocations)) {
-            typeHandlersLocations = basePackage + ".dao.types";
+            typeHandlersLocations = basePackage + ".repository.types";
         }
         context.put("typeHandlersLocations", typeHandlersLocations);
 
