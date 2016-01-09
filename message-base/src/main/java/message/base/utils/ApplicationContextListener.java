@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.stereotype.Component;
 
 /**
  * 系统初始化时运行此类，将上下文注入到ApplicationHelper中，
@@ -14,6 +15,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * @version V1.0
  * @createTime 2012-3-8 下午10:16:10
  */
+@Component
 public class ApplicationContextListener implements ApplicationListener {
 	private static final Logger logger = LoggerFactory.getLogger(ApplicationContextListener.class);
 

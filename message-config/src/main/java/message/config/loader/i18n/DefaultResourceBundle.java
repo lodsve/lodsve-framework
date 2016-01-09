@@ -1,4 +1,4 @@
-package message.config.i18n;
+package message.config.loader.i18n;
 
 import java.util.*;
 

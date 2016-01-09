@@ -3,7 +3,7 @@ package message.exception.core;
 import message.base.Constants;
 import message.base.exception.ApplicationRuntimeException;
 import message.config.SystemConfig;
-import message.config.i18n.ResourceBundleHolder;
+import message.config.loader.i18n.ResourceBundleHolder;
 import message.utils.JsonUtils;
 import message.utils.PropertyPlaceholderHelper;
 import message.utils.RequestUtils;

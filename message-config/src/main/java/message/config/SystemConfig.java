@@ -1,8 +1,8 @@
 package message.config;
 
-import message.config.properties.Configuration;
-import message.config.properties.ConfigurationLoader;
-import message.config.properties.PropertiesConfiguration;
+import message.config.loader.properties.Configuration;
+import message.config.loader.properties.ConfigurationLoader;
+import message.config.loader.properties.PropertiesConfiguration;
 import message.config.exception.ConfigException;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;

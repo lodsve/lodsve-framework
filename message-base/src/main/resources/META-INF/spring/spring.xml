@@ -7,12 +7,7 @@
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 	http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-2.5.xsd">
-
-    <!-- 创建一个可以在项目类中获取applicationContext的bean -->
-    <bean class="message.base.utils.ApplicationContextUtil"/>
-
-    <!-- 初始化ApplicationHelper -->
-    <bean class="message.base.utils.ApplicationContextListener"/>
-
     <context:annotation-config/>
+
+    <context:component-scan base-package="message.base"/>
 </beans>

@@ -28,6 +28,11 @@
             <groupId>cosmos.message</groupId>
             <artifactId>message-exception</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cosmos.message</groupId>
+            <artifactId>message-config</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

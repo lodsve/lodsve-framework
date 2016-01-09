@@ -1,4 +1,4 @@
-package message.config.properties;
+package message.config.loader.properties;
 
 import message.config.core.InitConfigPath;
 

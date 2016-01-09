@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package message.config.properties;
+package message.config.loader.properties;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

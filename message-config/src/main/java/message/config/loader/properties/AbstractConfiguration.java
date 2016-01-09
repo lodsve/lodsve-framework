@@ -1,4 +1,4 @@
-package message.config.properties;
+package message.config.loader.properties;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;

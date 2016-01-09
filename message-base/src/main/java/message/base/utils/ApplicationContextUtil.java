@@ -3,6 +3,7 @@ package message.base.utils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 /**
  * <b>普通Java类获取Spring的ApplicationContext</b><br/>
@@ -16,6 +17,7 @@ import org.springframework.context.ApplicationContextAware;
  *
  * @author sunhao(sunhao.java@gmail.com)
  */
+@Component
 public class ApplicationContextUtil implements ApplicationContextAware {
     private static ApplicationContext applicationContext;//声明一个静态变量保存
 

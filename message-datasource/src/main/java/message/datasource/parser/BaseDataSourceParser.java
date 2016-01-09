@@ -1,7 +1,7 @@
 package message.datasource.parser;
 
 import message.config.SystemConfig;
-import message.config.properties.Configuration;
+import message.config.loader.properties.Configuration;
 
 /**
  * 数据源配置的公共方法.

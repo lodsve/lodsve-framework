@@ -1,7 +1,7 @@
 package message.config;
 
 import message.config.exception.ConfigException;
-import message.config.ini.IniLoader;
+import message.config.loader.ini.IniLoader;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

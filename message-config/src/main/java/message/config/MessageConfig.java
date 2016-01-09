@@ -3,7 +3,7 @@ package message.config;
 import message.base.utils.ApplicationContextUtil;
 import message.base.utils.ApplicationHelper;
 import message.config.exception.ConfigException;
-import message.config.i18n.DefaultResourceBundleMessageSource;
+import message.config.loader.i18n.DefaultResourceBundleMessageSource;
 import message.utils.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.DelegatingMessageSource;
@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
  * @version V1.0
  * @createTime 2012-3-14 下午07:59:37
  */
-public class MessageUtils {
+public class MessageConfig {
     //国际化资源文件处理类在spring上下文中的key
     private static final String DEFAULT_MESSAGE_SOURCE = "messageSource";
 

@@ -1,18 +1,33 @@
 package message.email;
 
-import message.base.utils.ApplicationHelper;
 import message.utils.StringUtils;
 import message.utils.ValidateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * 发送邮件服务器.
@@ -20,13 +35,14 @@ import java.util.*;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 13-3-25 上午6:19
  */
+@Component
 public class EmailServer {
     private static final Logger logger = LoggerFactory.getLogger(EmailServer.class);
-    //spring中配置
     /**
      * 邮箱服务器配置*
      */
-    private static List<EmailConfig> configs = new ArrayList<EmailConfig>();
+    @Autowired
+    private EmailConfig emailConfig;
     /**
      * 是否开启debug调试模式*
      */
@@ -35,42 +51,6 @@ public class EmailServer {
      * 是否启用身份验证*
      */
     private boolean isAuth = true;
-    /**
-     * 验证类型*
-     */
-    private String authType = "auth";
-    /**
-     * 是否初始化
-     */
-    private static boolean isInit = false;
-    private static EmailServer emailServer;
-
-    /**
-     * 私有化默认构造器,使外部不可实例化
-     */
-    private EmailServer(boolean isAuth, boolean isDebug) {
-        this.isAuth = isAuth;
-        this.isDebug = isDebug;
-    }
-
-    /**
-     * 单例,保证上下文中只有一个EmailServer
-     *
-     * @return EmailServer
-     */
-    public static EmailServer getInstance() {
-        if (!isInit) {
-            Map<String, EmailConfig> configsInContext = ApplicationHelper.getInstance().getBeansByType(EmailConfig.class);
-            configs.addAll(configsInContext.values());
-
-            isInit = true;
-        }
-
-        if (emailServer == null)
-            emailServer = new EmailServer(true, false);
-
-        return emailServer;
-    }
 
     /**
      * 发送普通邮件(单个接收人)
@@ -185,7 +165,7 @@ public class EmailServer {
      * @return
      */
     public boolean sendAttachmentMail(String username, String password, String title, List<String> fileNames, String content, List<String> receivers) {
-        List<File> fs = new ArrayList<File>();
+        List<File> fs = new ArrayList<>();
         for (String fn : fileNames) {
             File f = new File(fn);
             if (f.exists() && f.canRead())
@@ -247,15 +227,15 @@ public class EmailServer {
         Properties props = new Properties();
         props.setProperty("mail.smtp.auth", this.isAuth ? "true" : "false");
         props.setProperty("mail.transport.protocol", "auth");
-        EmailConfig config = this.getEmailConfig(username);
-        props.setProperty("mail.smtp.host", config.getSmtp());
-        props.setProperty("mail.smtp.port", config.getPort() + "");
+        EmailBean bean = this.getEmailBean(username);
+        props.setProperty("mail.smtp.host", bean.getSmtp());
+        props.setProperty("mail.smtp.port", bean.getPort() + "");
 
         // 根据邮件会话属性和密码验证器构造一个发送邮件的session
         Session session = Session.getDefaultInstance(props, auth);
         session.setDebug(this.isDebug);
 
-        Message message = null;
+        Message message;
         if (files == null || files.isEmpty()) {
             //非发送附件
             message = this.makeSimpleMail(session, title, content, username, receivers, isHtmlMail);
@@ -280,14 +260,10 @@ public class EmailServer {
      * @param email 邮箱地址
      * @return
      */
-    private EmailConfig getEmailConfig(String email) {
+    private EmailBean getEmailBean(String email) {
         String mailServiceDomainName = this.getMailServiceDomainName(email);
-        for (EmailConfig config : configs) {
-            if (config.getName().equals(mailServiceDomainName)) {
-                return config;
-            }
-        }
-        return null;
+
+        return emailConfig.getBeans().get(mailServiceDomainName);
     }
 
     /**
@@ -418,13 +394,5 @@ public class EmailServer {
 
             return StringUtils.substring(email, firstIndex + 1, secondIndex);
         }
-    }
-
-    public String getAuthType() {
-        return authType;
-    }
-
-    public void setAuthType(String authType) {
-        this.authType = authType;
     }
 }

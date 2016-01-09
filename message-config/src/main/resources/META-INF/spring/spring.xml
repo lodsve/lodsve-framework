@@ -11,25 +11,26 @@
     <context:component-scan base-package="message.config"/>
 
     <!-- 配置 -->
-    <bean id="configurationLoader" class="message.config.properties.ConfigurationLoader"/>
+    <bean id="configurationLoader" class="message.config.loader.properties.ConfigurationLoader"/>
 
     <context:property-placeholder properties-ref="configurationLoader"/>
 
     <!-- i18n -->
-    <bean id="messageSource" class="message.config.i18n.DefaultResourceBundleMessageSource">
+    <bean id="messageSource" class="message.config.loader.i18n.DefaultResourceBundleMessageSource">
         <property name="alwaysUseMessageFormat" value="true"/>
         <property name="resourceBundleHolder" ref="resourceBundleHolder"/>
     </bean>
 
-    <bean id="resourceBundleHolder" class="message.config.i18n.ResourceBundleHolder">
+    <bean id="resourceBundleHolder" class="message.config.loader.i18n.ResourceBundleHolder">
         <property name="fileEncoding" value="UTF-8"/>
     </bean>
 
-    <bean id="messageSourceLoader" class="message.config.i18n.MessageSourceLoader">
+    <bean id="messageSourceLoader" class="message.config.loader.i18n.MessageSourceLoader">
         <property name="order" value="1"/>
         <property name="resourceBundleHolder" ref="resourceBundleHolder"/>
     </bean>
 
     <!-- ini 配置 -->
-    <bean id="iniLoader" class="message.config.ini.IniLoader"/>
+    <bean id="iniLoader" class="message.config.loader.ini.IniLoader"/>
+    <bean class="message.config.loader.ini.IniLoader"/>
 </beans>

@@ -1,4 +1,4 @@
-package message.config.i18n;
+package message.config.loader.i18n;
 
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.context.support.AbstractMessageSource;
