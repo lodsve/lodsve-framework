@@ -2,7 +2,7 @@ package message.transaction.notify;
 
 import com.pingplusplus.model.Event;
 import com.pingplusplus.model.Webhooks;
-import message.transaction.InvalidWeebhooksException;
+import message.transaction.InvalidWebhooksException;
 import message.transaction.utils.PingConfig;
 import message.utils.StringUtils;
 import org.apache.commons.codec.binary.Base64;
@@ -77,7 +77,7 @@ public final class WebhooksUtils implements ResourceLoaderAware {
         // 4. 将获取到的 Webhooks 通知、Ping++ 管理平台提供的 RSA 公钥、和 base64 解码后的签名三者一同放入 RSA 的签名函数中进行非对称的签名运算，来判断签名是否验证通过
         boolean result = verifySignature(eventBody.getBytes(), signatureBytes, getPubKey());
         if (!result) {
-            throw new InvalidWeebhooksException(-1, String.format("invalid webhooks!request body is %s!", eventBody));
+            throw new InvalidWebhooksException(-1, String.format("invalid webhooks!request body is %s!", eventBody));
         }
     }
 
