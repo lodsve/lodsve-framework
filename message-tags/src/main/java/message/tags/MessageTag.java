@@ -1,6 +1,6 @@
 package message.tags;
 
-import message.config.MessageUtils;
+import message.config.MessageConfig;
 import message.utils.HTMLUtils;
 import message.utils.LocaleHolder;
 import message.utils.StringUtils;
@@ -63,7 +63,7 @@ public class MessageTag extends TagSupport {
             locale = request.getLocale();
         }
 
-        String printString = MessageUtils.getMessage(code, locale, defaultValue, argsTemp);
+        String printString = MessageConfig.getMessage(code, locale, defaultValue, argsTemp);
 
         if (this.ignoreHtml) {
             printString = HTMLUtils.getRawText(printString.length(), printString, "");
