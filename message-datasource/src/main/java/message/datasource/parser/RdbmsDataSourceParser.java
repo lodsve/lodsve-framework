@@ -1,5 +1,7 @@
 package message.datasource.parser;
 
+import message.config.SystemConfig;
+import message.config.loader.properties.Configuration;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -18,13 +20,22 @@ import java.util.Set;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/6/21 下午5:28
  */
-public class RdbmsDataSourceParser extends BaseDataSourceParser implements BeanDefinitionParser {
+public class RdbmsDataSourceParser implements BeanDefinitionParser {
+    private static final String DATASOURCE_FILE_NAME = "dataSource.properties";
+
     /**
      * 数据源配置的key
      */
     private static final String DATASOURCE_CLASS = "datasources.rdbms.dataSourceClass";
     private static final String DATASOURCE_PROPERTY_PREFIX = "datasources.rdbms";
     private static final String DEFAULT_PROPERTIES_KEY_PREFIX = DATASOURCE_PROPERTY_PREFIX + ".default";
+    private static final String DATASOURCE_ELE_NAME = "name";
+
+    private static Configuration configuration;
+
+    static {
+        configuration = SystemConfig.getFileConfiguration(DATASOURCE_FILE_NAME);
+    }
 
     @Override
     public BeanDefinition parse(Element element, ParserContext parserContext) {

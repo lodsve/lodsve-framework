@@ -1,8 +1,6 @@
 package message.datasource;
 
-import message.datasource.parser.MongoDbDataSourceParser;
 import message.datasource.parser.RdbmsDataSourceParser;
-import message.datasource.parser.RedisDataSourceParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
@@ -16,9 +14,5 @@ public class DatasourceNamespaceHandler extends NamespaceHandlerSupport {
     public void init() {
         //关系型数据库
         registerBeanDefinitionParser("rdbms", new RdbmsDataSourceParser());
-        //mongo
-        registerBeanDefinitionParser("mongo", new MongoDbDataSourceParser());
-        //redis
-        registerBeanDefinitionParser("redis", new RedisDataSourceParser());
     }
 }

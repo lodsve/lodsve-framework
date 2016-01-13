@@ -12,7 +12,7 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/9/16 下午1:50
  */
-@Component("memoryCounter")
+@Component
 public class MemoryCounter extends AbstractCounter {
     // 内存计数器
     private static final Map<String, Map<String, Integer>> COUNTER = new HashMap<>();
