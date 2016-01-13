@@ -30,6 +30,8 @@
         <module>message-datasource</module>
         <!-- mybatis -->
         <module>message-mybatis</module>
+        <!-- redis -->
+        <module>message-redis</module>
         <!-- 搜索 -->
         <module>message-search</module>
         <!-- 事件 -->
@@ -57,20 +59,20 @@
         <snapshotRepository>
             <id>message-snapshots</id>
             <name>message SNAPSHOTS</name>
-            <url>http://sunhao-java.vicp.cc/nexus/content/repositories/message-snapshots/</url>
+            <url>${nexus.url}/repositories/message-snapshots/</url>
         </snapshotRepository>
 
         <repository>
             <id>message-releases</id>
             <name>message releases</name>
-            <url>http://sunhao-java.vicp.cc/nexus/content/repositories/message-releases/</url>
+            <url>${nexus.url}/repositories/message-releases/</url>
         </repository>
     </distributionManagement>
 
     <repositories>
         <repository>
             <id>message-releases</id>
-            <url>http://sunhao-java.vicp.cc/nexus/content/repositories/message-releases/</url>
+            <url>${nexus.url}/repositories/message-releases/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -80,7 +82,7 @@
         </repository>
         <repository>
             <id>message-snapshots</id>
-            <url>http://sunhao-java.vicp.cc/nexus/content/repositories/message-snapshots/</url>
+            <url>${nexus.url}/repositories/message-snapshots/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -111,7 +113,7 @@
         <pluginRepository>
             <id>message-plugins</id>
             <name>message plugins</name>
-            <url>http://sunhao-java.vicp.cc/nexus/content/repositories/message-releases/</url>
+            <url>${nexus.url}/repositories/message-releases/</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -146,6 +148,7 @@
         <jdk.version>jdk15</jdk.version>
         <tomcat.version>6.0.32</tomcat.version>
         <cosmos.version>2.3.2</cosmos.version>
+        <nexus.url>http://sunhao-java.vicp.cc/nexus/content</nexus.url>
     </properties>
 
     <dependencyManagement>
@@ -980,6 +983,11 @@
             <dependency>
                 <groupId>commons.message</groupId>
                 <artifactId>message-transaction</artifactId>
+                <version>${cosmos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cosmos.message</groupId>
+                <artifactId>message-redis</artifactId>
                 <version>${cosmos.version}</version>
             </dependency>
             <!-- cosmos message dependencies end -->

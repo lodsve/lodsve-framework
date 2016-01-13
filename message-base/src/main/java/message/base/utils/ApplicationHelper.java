@@ -95,7 +95,7 @@ public class ApplicationHelper {
      */
     public <T> Map<String, T> getBeansByType(Class<T> clazz) {
         Iterator it = apps.iterator();
-        Map<String, T> results = new HashMap<String, T>();
+        Map<String, T> results = new HashMap<>();
         while (it.hasNext()) {
             ApplicationContext app = (ApplicationContext) it.next();
             results.putAll(app.getBeansOfType(clazz));

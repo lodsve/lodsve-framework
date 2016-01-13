@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 配置父 -->
+    <parent>
+        <groupId>cosmos.message</groupId>
+        <artifactId>message-parent</artifactId>
+        <version>2.3.2</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>message-redis</artifactId>
+    <packaging>jar</packaging>
+    <name>message redis</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cosmos.message</groupId>
+            <artifactId>message-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cosmos.message</groupId>
+            <artifactId>message-config</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>true</addMavenDescriptor>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
