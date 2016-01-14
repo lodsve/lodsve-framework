@@ -8,6 +8,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -26,9 +27,10 @@ import java.util.Set;
  * @version V1.0
  * @createTime 2014-12-31 14:25
  */
+@Component
 public class IniLoader implements InitializingBean {
 
-    private static Map<String, Map<String, String>> values = new HashMap<String, Map<String, String>>();
+    private static Map<String, Map<String, String>> values = new HashMap<>();
 
     /**
      * The characters that signal the start of a comment line.
@@ -40,7 +42,7 @@ public class IniLoader implements InitializingBean {
     }
 
     public static Map<String, Map<String, String>> getIni(Resource resource) throws Exception {
-        Map<String, Map<String, String>> maps = new HashMap<String, Map<String, String>>();
+        Map<String, Map<String, String>> maps = new HashMap<>();
         load(maps, resource);
 
         return maps;
@@ -53,7 +55,7 @@ public class IniLoader implements InitializingBean {
         List<String> lines = FileUtils.readLines(resource.getInputStream());
 
         String section = "";
-        List<String> lineArrays = new ArrayList<String>();
+        List<String> lineArrays = new ArrayList<>();
         for(String line : lines){
             if(isBlankLine(line)) {
                 continue;
@@ -146,7 +148,7 @@ public class IniLoader implements InitializingBean {
         Map<String, String> sectionValues = values.get(section);
 
         if(sectionValues == null)
-            sectionValues = new HashMap<String, String>();
+            sectionValues = new HashMap<>();
 
         Set<?> keys = prop.keySet();
         for(Object key : keys){

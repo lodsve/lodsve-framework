@@ -3,9 +3,11 @@ package message.config.loader.i18n;
 import message.config.core.InitConfigPath;
 import message.utils.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,15 +20,13 @@ import java.util.List;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 13-4-15 下午10:19
  */
+@Component
 public class MessageSourceLoader implements InitializingBean {
     /**
      * 加载了所有的资源文件信息.
      */
+    @Autowired
     private ResourceBundleHolder resourceBundleHolder;
-    /**
-     * 加载顺序
-     */
-    private int order;
 
     public void afterPropertiesSet() throws Exception {
         Resource[] resources = getResources();
@@ -34,7 +34,7 @@ public class MessageSourceLoader implements InitializingBean {
         for (Resource r : resources) {
             String filePath = r.getFile().getAbsolutePath();
             if (StringUtils.indexOf(filePath, "_") == -1)
-                this.resourceBundleHolder.loadMessageResource(filePath, this.order);
+                this.resourceBundleHolder.loadMessageResource(filePath, 1);
         }
     }
 
@@ -52,13 +52,5 @@ public class MessageSourceLoader implements InitializingBean {
         resources.addAll(Arrays.asList(txtResources));
 
         return resources.toArray(new Resource[]{});
-    }
-
-    public void setResourceBundleHolder(ResourceBundleHolder resourceBundleHolder) {
-        this.resourceBundleHolder = resourceBundleHolder;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
     }
 }

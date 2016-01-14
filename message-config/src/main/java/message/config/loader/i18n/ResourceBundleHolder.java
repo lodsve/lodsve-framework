@@ -10,7 +10,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
 /**
  * 存放消息源的容器.
@@ -230,9 +234,5 @@ public class ResourceBundleHolder implements Serializable {
 
     public ResourceBundle getResourceBundle(Locale locale) {
         return new DefaultResourceBundle(this.defaultBundleMap, this.bundledMap, locale);
-    }
-
-    public void setFileEncoding(String fileEncoding) {
-        this.fileEncoding = fileEncoding;
     }
 }

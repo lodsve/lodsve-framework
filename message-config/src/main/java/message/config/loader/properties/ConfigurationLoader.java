@@ -1,7 +1,6 @@
 package message.config.loader.properties;
 
 import message.config.core.InitConfigPath;
-
 import message.config.exception.ConfigException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
