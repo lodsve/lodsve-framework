@@ -9,19 +9,15 @@ import message.base.exception.ApplicationRuntimeException;
  * @version V1.0, 15/10/27 上午2:15
  */
 public class InvalidWebhooksException extends ApplicationRuntimeException {
-    public InvalidWebhooksException(int errorCode) {
-        super(errorCode);
+    public InvalidWebhooksException(String content) {
+        super(content);
     }
 
-    public InvalidWebhooksException(int errorCode, Throwable exception, String message, String... args) {
-        super(errorCode, exception, message, args);
+    public InvalidWebhooksException(Integer code, String content) {
+        super(code, content);
     }
 
-    public InvalidWebhooksException(int errorCode, Throwable exception) {
-        super(errorCode, exception);
-    }
-
-    public InvalidWebhooksException(int errorCode, String message, String... args) {
-        super(errorCode, message, args);
+    public InvalidWebhooksException(Integer code, String content, String... args) {
+        super(code, content, args);
     }
 }

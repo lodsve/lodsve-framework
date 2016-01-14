@@ -10,19 +10,15 @@ import message.base.exception.ApplicationRuntimeException;
  */
 public class LoggerException extends ApplicationRuntimeException {
 
-    public LoggerException(int errorCode) {
-        super(errorCode);
+    public LoggerException(String content) {
+        super(content);
     }
 
-    public LoggerException(int errorCode, Throwable exception, String message, String... args) {
-        super(errorCode, exception, message, args);
+    public LoggerException(Integer code, String content) {
+        super(code, content);
     }
 
-    public LoggerException(int errorCode, Throwable exception) {
-        super(errorCode, exception);
-    }
-
-    public LoggerException(int errorCode, String message, String... args) {
-        super(errorCode, message, args);
+    public LoggerException(Integer code, String content, String... args) {
+        super(code, content, args);
     }
 }

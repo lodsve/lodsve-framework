@@ -10,19 +10,15 @@ import message.base.exception.ApplicationRuntimeException;
  */
 public class CacheException extends ApplicationRuntimeException {
 
-    public CacheException(int errorCode) {
-        super(errorCode);
+    public CacheException(Integer code, String content) {
+        super(code, content);
     }
 
-    public CacheException(int errorCode, Throwable exception, String message, String... args) {
-        super(errorCode, exception, message, args);
+    public CacheException(Integer code, String content, String... args) {
+        super(code, content, args);
     }
 
-    public CacheException(int errorCode, Throwable exception) {
-        super(errorCode, exception);
-    }
-
-    public CacheException(int errorCode, String message, String... args) {
-        super(errorCode, message, args);
+    public CacheException(String content) {
+        super(content);
     }
 }

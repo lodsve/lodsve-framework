@@ -101,10 +101,6 @@
         </dependency>
         <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cosmos.message</groupId>
             <artifactId>message-template</artifactId>
         </dependency>
     </dependencies>

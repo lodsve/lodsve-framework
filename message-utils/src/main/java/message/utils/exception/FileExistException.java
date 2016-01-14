@@ -10,20 +10,15 @@ import message.base.exception.ApplicationRuntimeException;
  * @createTime 2012-3-16 下午08:30:51
  */
 public class FileExistException extends ApplicationRuntimeException {
-
-    public FileExistException(int errorCode) {
-        super(errorCode);
+    public FileExistException(String content) {
+        super(content);
     }
 
-    public FileExistException(int errorCode, Throwable exception, String message, String... args) {
-        super(errorCode, exception, message, args);
+    public FileExistException(Integer code, String content) {
+        super(code, content);
     }
 
-    public FileExistException(int errorCode, Throwable exception) {
-        super(errorCode, exception);
-    }
-
-    public FileExistException(int errorCode, String message, String... args) {
-        super(errorCode, message, args);
+    public FileExistException(Integer code, String content, String... args) {
+        super(code, content, args);
     }
 }

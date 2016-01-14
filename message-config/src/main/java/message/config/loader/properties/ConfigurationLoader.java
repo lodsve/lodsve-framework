@@ -43,7 +43,7 @@ public class ConfigurationLoader implements InitializingBean, FactoryBean<Proper
             try {
                 PropertiesLoaderUtils.fillProperties(prop, resource);
             } catch (IOException e) {
-                throw new ConfigException(10008, e, "load配置文件发生异常");
+                throw new ConfigException(10008, e.getMessage(), "load配置文件发生异常");
             }
         }
     }

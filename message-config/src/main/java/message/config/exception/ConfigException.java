@@ -10,19 +10,15 @@ import message.base.exception.ApplicationRuntimeException;
  */
 public class ConfigException extends ApplicationRuntimeException {
 
-    public ConfigException(int errorCode) {
-        super(errorCode);
+    public ConfigException(String content) {
+        super(content);
     }
 
-    public ConfigException(int errorCode, Throwable exception, String message, String... args) {
-        super(errorCode, exception, message, args);
+    public ConfigException(Integer code, String content) {
+        super(code, content);
     }
 
-    public ConfigException(int errorCode, Throwable exception) {
-        super(errorCode, exception);
-    }
-
-    public ConfigException(int errorCode, String message, String... args) {
-        super(errorCode, message, args);
+    public ConfigException(Integer code, String content, String... args) {
+        super(code, content, args);
     }
 }

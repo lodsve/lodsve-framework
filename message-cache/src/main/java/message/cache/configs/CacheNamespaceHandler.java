@@ -62,7 +62,7 @@ public class CacheNamespaceHandler extends NamespaceHandlerSupport {
 
             return parsers;
         } catch (Exception e) {
-            throw new CacheException(10009, e, "解析配置错误！");
+            throw new CacheException(10009, e.getMessage(), "解析配置错误！");
         }
     }
 }

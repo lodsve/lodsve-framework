@@ -10,19 +10,15 @@ import message.base.exception.ApplicationRuntimeException;
  * @createTime 13-4-27 上午5:45
  */
 public class BaseEventException extends ApplicationRuntimeException {
-    public BaseEventException(int errorCode) {
-        super(errorCode);
+    public BaseEventException(String content) {
+        super(content);
     }
 
-    public BaseEventException(int errorCode, Throwable exception, String message, String... args) {
-        super(errorCode, exception, message, args);
+    public BaseEventException(Integer code, String content) {
+        super(code, content);
     }
 
-    public BaseEventException(int errorCode, Throwable exception) {
-        super(errorCode, exception);
-    }
-
-    public BaseEventException(int errorCode, String message, String... args) {
-        super(errorCode, message, args);
+    public BaseEventException(Integer code, String content, String... args) {
+        super(code, content, args);
     }
 }

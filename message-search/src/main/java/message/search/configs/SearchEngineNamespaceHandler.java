@@ -63,7 +63,7 @@ public class SearchEngineNamespaceHandler extends NamespaceHandlerSupport {
 
             return parsers;
         } catch (Exception e) {
-            throw new SearchInitException(10004, e, "解析配置错误！");
+            throw new SearchInitException(10004, e.getMessage(), "解析配置错误！");
         }
     }
 }

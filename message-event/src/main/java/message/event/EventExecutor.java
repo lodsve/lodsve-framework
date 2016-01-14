@@ -76,6 +76,7 @@ public class EventExecutor {
         //1.先执行同步事件
         List<AbstractEventListener> syncListeners = syncEventListeners.get(event.getClass());
         if(syncListeners != null && !syncListeners.isEmpty()){
+            // TODO 重复代码
             for(Iterator<AbstractEventListener> it = syncListeners.iterator(); it.hasNext(); ){
                 AbstractEventListener listener = it.next();
 

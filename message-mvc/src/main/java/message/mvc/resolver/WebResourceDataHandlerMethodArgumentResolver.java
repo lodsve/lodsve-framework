@@ -40,7 +40,7 @@ public class WebResourceDataHandlerMethodArgumentResolver implements HandlerMeth
         if (paramType.equals(WebInput.class)) {
             return new WebInput(request);
         } else if (paramType.equals(WebOutput.class)) {
-            return new WebOutput(request, response);
+            return new WebOutput(response);
         } else if (paramType.equals(FileWebInput.class)) {
             return new FileWebInput(request);
         }

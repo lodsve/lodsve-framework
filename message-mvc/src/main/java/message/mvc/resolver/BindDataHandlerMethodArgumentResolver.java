@@ -1,11 +1,11 @@
 package message.mvc.resolver;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import message.mvc.annotation.Bind;
 import message.mvc.commons.WebInput;
 import message.utils.ObjectUtils;
 import message.utils.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -54,7 +54,7 @@ public class BindDataHandlerMethodArgumentResolver implements HandlerMethodArgum
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
         //转成json
         String paramsJson = objectMapper.writeValueAsString(paramsMap);

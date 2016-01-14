@@ -1,95 +1,95 @@
 package message.base.exception;
 
-import org.apache.commons.lang.exception.NestableRuntimeException;
+import org.springframework.core.NestedRuntimeException;
 
 /**
- * 系统异常类，各模块异常类都是继承于此类
+ * 系统中其他所有的异常均需要继承.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 2012-2-24 下午10:30:49
+ * @version V1.0, 15/8/14 下午12:27
  */
-public class ApplicationRuntimeException extends NestableRuntimeException {
-    private static final long serialVersionUID = 1843977652827496719L;
+public class ApplicationRuntimeException extends NestedRuntimeException implements ExceptionInfoGetter {
+    private Integer code;
 
-    /**
-     * 错误代码
-     */
-    private int errorCode;
-    /**
-     * 异常
-     */
-    private Throwable exception;
-    /**
-     * 异常描述
-     */
-    private String message;
-    /**
-     * 参数
-     */
     private String[] args;
 
-    /**
-     * 构造器
-     *
-     * @param errorCode 错误代码
-     */
-    public ApplicationRuntimeException(int errorCode) {
-        this.errorCode = errorCode;
+    private String content;
+
+    public ApplicationRuntimeException(String content) {
+        super(content);
+        this.content = content;
+    }
+
+    public ApplicationRuntimeException(String content, Throwable throwable) {
+        super(content, throwable);
+        this.content = content;
     }
 
     /**
-     * 构造器
-     *
-     * @param errorCode 错误代码
-     * @param exception 异常
-     * @param message   异常描述
-     * @param args      参数
+     * @param code    异常编码，在i18n配置文件中配置的编码，请确保该异常编码已经定义
+     * @param content 后台异常内容，这个内容主要用于输出后台日志，便于异常诊断
      */
-    public ApplicationRuntimeException(int errorCode, Throwable exception, String message, String... args) {
-        this.errorCode = errorCode;
-        this.exception = exception;
-        this.message = message;
+    public ApplicationRuntimeException(Integer code, String content) {
+        super(content);
+        this.code = code;
+        this.content = content;
+    }
+
+    /**
+     * @param code    异常编码，在i18n配置文件中配置的编码，请确保该异常编码已经定义
+     * @param content 后台异常内容，这个内容主要用于输出后台日志，便于异常诊断
+     * @param args    在i18n配置文件中配置的错误描述中的占位符填充信息
+     */
+    public ApplicationRuntimeException(Integer code, String content, String... args) {
+        super(content);
+        this.code = code;
         this.args = args;
+        this.content = content;
     }
 
     /**
-     * 构造器
-     *
-     * @param errorCode 错误代码
-     * @param exception 异常
+     * @param code      异常编码，在i18n配置文件中配置的编码，请确保该异常编码已经定义
+     * @param content   后台异常内容，这个内容主要用于输出后台日志，便于异常诊断
+     * @param throwable
      */
-    public ApplicationRuntimeException(int errorCode, Throwable exception) {
-        this.errorCode = errorCode;
-        this.exception = exception;
+    public ApplicationRuntimeException(Integer code, String content, Throwable throwable) {
+        super(content, throwable);
+        this.code = code;
+        this.content = content;
     }
 
     /**
-     * 构造器
-     *
-     * @param errorCode 错误代码
-     * @param message   异常描述
-     * @param args      参数
+     * @param code      异常编码，在i18n配置文件中配置的编码，请确保该异常编码已经定义
+     * @param content   后台异常内容，这个内容主要用于输出后台日志，便于异常诊断
+     * @param args      在i18n配置文件中配置的错误描述中的占位符填充信息
+     * @param throwable
      */
-    public ApplicationRuntimeException(int errorCode, String message, String... args) {
-        this.errorCode = errorCode;
-        this.message = message;
+    public ApplicationRuntimeException(Integer code, String content, Throwable throwable, String... args) {
+        super(content, throwable);
+        this.code = code;
         this.args = args;
+        this.content = content;
     }
 
-    public int getErrorCode() {
-        return errorCode;
+    public Integer getCode() {
+        return code;
     }
 
-    public String getMessage() {
-        return message;
+    public void setCode(Integer code) {
+        this.code = code;
     }
 
-    public Throwable getException() {
-        return exception;
+    public String getContent() {
+        return content;
     }
 
-    public String[] getArgs() {
-        return args;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    @Override
+    public ExceptionInfo getInfo() {
+        ExceptionInfo exceptionInfo = new ExceptionInfo(this.code, this.args, this.content);
+        return exceptionInfo;
     }
 }

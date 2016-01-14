@@ -1,6 +1,6 @@
 package message.email;
 
-import message.exception.NoAuthExpcetion;
+import message.base.exception.NoAuthException;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public class Authentication extends Authenticator {
     public Authentication(String username, String password) {
         if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
             logger.error("username and password is required!");
-            throw new NoAuthExpcetion(10002, "username and password is required!");
+            throw new NoAuthException(10002, "username and password is required!");
         }
 
         this.username = username;

@@ -10,19 +10,15 @@ import message.base.exception.ApplicationRuntimeException;
  */
 public class PayException extends ApplicationRuntimeException {
 
-    public PayException(int errorCode) {
-        super(errorCode);
+    public PayException(String content) {
+        super(content);
     }
 
-    public PayException(int errorCode, Throwable exception, String message, String... args) {
-        super(errorCode, exception, message, args);
+    public PayException(Integer code, String content) {
+        super(code, content);
     }
 
-    public PayException(int errorCode, Throwable exception) {
-        super(errorCode, exception);
-    }
-
-    public PayException(int errorCode, String message, String... args) {
-        super(errorCode, message, args);
+    public PayException(Integer code, String content, String... args) {
+        super(code, content, args);
     }
 }

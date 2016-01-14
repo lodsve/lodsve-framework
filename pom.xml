@@ -22,8 +22,6 @@
         <module>message-utils</module>
         <!-- 异常 -->
         <module>message-exception</module>
-        <!-- json -->
-        <module>message-json</module>
         <!-- 缓存 -->
         <module>message-cache</module>
         <!-- 数据源 -->
@@ -71,8 +69,8 @@
 
     <repositories>
         <repository>
-            <id>message-releases</id>
-            <url>${nexus.url}/repositories/message-releases/</url>
+            <id>nexus-releases</id>
+            <url>${nexus.url}/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -81,8 +79,18 @@
             </snapshots>
         </repository>
         <repository>
-            <id>message-snapshots</id>
-            <url>${nexus.url}/repositories/message-snapshots/</url>
+            <id>nexus-snapshots</id>
+            <url>${nexus.url}/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>osc-thirdparty</id>
+            <url>http://maven.oschina.net/content/repositories/thirdparty/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -113,7 +121,7 @@
         <pluginRepository>
             <id>message-plugins</id>
             <name>message plugins</name>
-            <url>${nexus.url}/repositories/message-releases/</url>
+            <url>${nexus.url}/groups/public</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -148,7 +156,7 @@
         <jdk.version>jdk15</jdk.version>
         <tomcat.version>6.0.32</tomcat.version>
         <cosmos.version>2.3.2</cosmos.version>
-        <nexus.url>http://sunhao-java.vicp.cc/nexus/content</nexus.url>
+        <nexus.url>http://maven.oschina.net/content</nexus.url>
     </properties>
 
     <dependencyManagement>
@@ -280,49 +288,23 @@
             </dependency>
             <!-- javax end -->
 
-            <!-- json start -->
+            <!-- jackson start -->
             <dependency>
-                <groupId>net.sf.json-lib</groupId>
-                <artifactId>json-lib</artifactId>
-                <version>2.1</version>
-                <classifier>${jdk.version}</classifier>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-beanutils</groupId>
-                        <artifactId>commons-beanutils</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>commons-collections</groupId>
-                        <artifactId>commons-collections</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>1.1.33</version>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>2.7.0</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.4.1.1</version>
+                <version>2.7.0</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>2.4.0</version>
+                <version>2.7.0</version>
             </dependency>
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-core-asl</artifactId>
-                <version>1.9.12</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-mapper-asl</artifactId>
-                <version>1.9.12</version>
-            </dependency>
-            <!-- json end -->
+            <!-- jackson end -->
 
             <dependency>
                 <groupId>javassist</groupId>
@@ -879,7 +861,7 @@
             <dependency>
                 <groupId>Pingplusplus</groupId>
                 <artifactId>pingpp-java</artifactId>
-                <version>2.0.10</version>
+                <version>2.1.1</version>
             </dependency>
             <!-- pay end -->
 
@@ -927,11 +909,6 @@
             <dependency>
                 <groupId>cosmos.message</groupId>
                 <artifactId>message-mybatis</artifactId>
-                <version>${cosmos.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cosmos.message</groupId>
-                <artifactId>message-json</artifactId>
                 <version>${cosmos.version}</version>
             </dependency>
             <dependency>

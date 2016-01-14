@@ -11,19 +11,15 @@ import message.base.exception.ApplicationRuntimeException;
  */
 public class SearchInitException extends ApplicationRuntimeException {
 
-    public SearchInitException(int errorCode) {
-        super(errorCode);
+    public SearchInitException(String content) {
+        super(content);
     }
 
-    public SearchInitException(int errorCode, Throwable exception, String message, String... args) {
-        super(errorCode, exception, message, args);
+    public SearchInitException(Integer code, String content) {
+        super(code, content);
     }
 
-    public SearchInitException(int errorCode, Throwable exception) {
-        super(errorCode, exception);
-    }
-
-    public SearchInitException(int errorCode, String message, String... args) {
-        super(errorCode, message, args);
+    public SearchInitException(Integer code, String content, String... args) {
+        super(code, content, args);
     }
 }

@@ -10,19 +10,15 @@ import message.base.exception.ApplicationRuntimeException;
  * @createTime 2014-12-5 20:43
  */
 public class SecurityException extends ApplicationRuntimeException {
-    public SecurityException(int errorCode) {
-        super(errorCode);
+    public SecurityException(String content) {
+        super(content);
     }
 
-    public SecurityException(int errorCode, Throwable exception, String message, String... args) {
-        super(errorCode, exception, message, args);
+    public SecurityException(Integer code, String content) {
+        super(code, content);
     }
 
-    public SecurityException(int errorCode, Throwable exception) {
-        super(errorCode, exception);
-    }
-
-    public SecurityException(int errorCode, String message, String... args) {
-        super(errorCode, message, args);
+    public SecurityException(Integer code, String content, String... args) {
+        super(code, content, args);
     }
 }

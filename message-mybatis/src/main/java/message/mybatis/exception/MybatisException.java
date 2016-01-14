@@ -9,19 +9,15 @@ import message.base.exception.ApplicationRuntimeException;
  * @version V1.0, 15/7/14 下午2:20
  */
 public class MybatisException extends ApplicationRuntimeException {
-    public MybatisException(int errorCode) {
-        super(errorCode);
+    public MybatisException(Integer code, String content) {
+        super(code, content);
     }
 
-    public MybatisException(int errorCode, Throwable exception, String message, String... args) {
-        super(errorCode, exception, message, args);
+    public MybatisException(Integer code, String content, String... args) {
+        super(code, content, args);
     }
 
-    public MybatisException(int errorCode, Throwable exception) {
-        super(errorCode, exception);
-    }
-
-    public MybatisException(int errorCode, String message, String... args) {
-        super(errorCode, message, args);
+    public MybatisException(String content) {
+        super(content);
     }
 }

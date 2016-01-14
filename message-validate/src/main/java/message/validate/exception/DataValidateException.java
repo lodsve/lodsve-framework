@@ -10,21 +10,15 @@ import message.base.exception.ApplicationRuntimeException;
  * @createTime 12-12-2 上午12:58
  */
 public class DataValidateException extends ApplicationRuntimeException {
-    private static final long serialVersionUID = -6676669806465518670L;
-
-    public DataValidateException(int errorCode) {
-        super(errorCode);
+    public DataValidateException(String content) {
+        super(content);
     }
 
-    public DataValidateException(int errorCode, Throwable exception, String message, String... args) {
-        super(errorCode, exception, message, args);
+    public DataValidateException(Integer code, String content) {
+        super(code, content);
     }
 
-    public DataValidateException(int errorCode, Throwable exception) {
-        super(errorCode, exception);
-    }
-
-    public DataValidateException(int errorCode, String message, String... args) {
-        super(errorCode, message, args);
+    public DataValidateException(Integer code, String content, String... args) {
+        super(code, content, args);
     }
 }
