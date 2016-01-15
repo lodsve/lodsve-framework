@@ -79,7 +79,7 @@ public class PropertyPlaceholderHelper {
         boolean placeholderInFirst = StringUtils.startsWith(text, PLACEHOLDER_PREFIX);
         Assert.isTrue(placeholderInFirst || length > 1, "given text has no placeholder!");
 
-        List<String> placeholders = new ArrayList<String>();
+        List<String> placeholders = new ArrayList<>();
         int start = placeholderInFirst ? 0 : 1;
         for (int i = start; i < length; i++) {
             if (i < length) {

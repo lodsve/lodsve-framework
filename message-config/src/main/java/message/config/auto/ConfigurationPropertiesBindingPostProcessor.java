@@ -1,10 +1,12 @@
 package message.config.auto;
 
+import message.config.SystemConfig;
 import message.config.auto.annotations.ConfigurationProperties;
 import message.config.loader.properties.Configuration;
 import message.config.loader.properties.ConfigurationLoader;
 import message.config.loader.properties.PropertiesConfiguration;
 import message.utils.GenericsUtils;
+import message.utils.PropertyPlaceholderHelper;
 import message.utils.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
@@ -202,6 +204,8 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 
         Properties prop = new Properties();
         for (String location : locations) {
+            location = PropertyPlaceholderHelper.replacePlaceholder(location, location, SystemConfig.getAllConfigs());
+
             Resource resource = this.resourceLoader.getResource(this.environment.resolvePlaceholders(location));
             try {
                 PropertiesLoaderUtils.fillProperties(prop, resource);

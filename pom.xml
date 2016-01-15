@@ -737,6 +737,14 @@
             </dependency>
             <!-- redis client end -->
 
+            <!-- rabbit start -->
+            <dependency>
+                <groupId>org.springframework.amqp</groupId>
+                <artifactId>spring-rabbit</artifactId>
+                <version>1.5.3.RELEASE</version>
+            </dependency>
+            <!-- rabbit end -->
+
             <!-- spring swagger start -->
             <dependency>
                 <groupId>com.mangofactory</groupId>
