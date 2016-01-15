@@ -39,7 +39,7 @@ public class RabbitConfiguration {
         backOffPolicy.setMaxInterval(10000);
         retryTemplate.setBackOffPolicy(backOffPolicy);
         template.setRetryTemplate(retryTemplate);
-        template.setMessageConverter(new Jackson2JsonMessageConverter());
+        template.setMessageConverter(messageConverter());
         return template;
     }
 
@@ -51,5 +51,10 @@ public class RabbitConfiguration {
     @Bean
     public DirectExchange defaultDirectExchange() {
         return new DirectExchange(rabbitProperties.getExchange());
+    }
+
+    @Bean
+    public Jackson2JsonMessageConverter messageConverter(){
+        return new Jackson2JsonMessageConverter();
     }
 }

@@ -1,7 +1,6 @@
 package message.amqp.configs;
 
 import message.amqp.configs.parser.QueueDefParser;
-import message.amqp.configs.parser.RabbitMqParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 public class RabbitMqNamespaceHandler extends NamespaceHandlerSupport {
     @Override
     public void init() {
-        registerBeanDefinitionParser("rabbitMq", new RabbitMqParser());
         registerBeanDefinitionParser("queue-def", new QueueDefParser());
     }
 }

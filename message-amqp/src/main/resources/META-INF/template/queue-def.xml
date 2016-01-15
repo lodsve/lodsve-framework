@@ -17,14 +17,14 @@
         <constructor-arg index="2" th:value="${queue.routingKey}"/>
     </bean>
 
-    <bean th:each="queue : ${queues}" th:id="${queue.name} + 'Listener'" class="message.amqp.core.MessageListenerAdapter4Jackson">
-        <property name="messageConverter" ref="jsonMessageConverter" />
+    <bean th:each="queue : ${queues}" th:id="${queue.name} + 'Listener'" class="message.amqp.core.Message4JacksonListenerAdapter">
+        <property name="messageConverter" ref="messageConverter" />
         <property name="delegate" th:attr="ref=${queue.ref}" />
         <property name="defaultListenerMethod" th:attr="value=${queue.method}" />
     </bean>
 
     <!-- 定义消息监听，注意队列是对象而不是名称 -->
-    <rabbit:listener-container connection-factory="rabbitConnectionFactory"
+    <rabbit:listener-container connection-factory="connectionFactory"
            th:attr="requeue-rejected=${rejected},error-handler=${handler}">
         <rabbit:listener th:each="queue : ${queues}" th:attr="queue-names=${queue.name},ref=${queue.name} + 'Listener'" />
     </rabbit:listener-container>

@@ -67,7 +67,7 @@ public class QueueDefParser implements BeanDefinitionParser {
             queues.add(queue);
         }
 
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
 
         params.put("queues", queues);
 

@@ -4,6 +4,7 @@ import com.rabbitmq.client.Channel;
 import org.springframework.amqp.AmqpIllegalStateException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.converter.AbstractJavaTypeMapper;
@@ -11,6 +12,8 @@ import org.springframework.amqp.support.converter.AbstractJavaTypeMapper;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * 由于原来的amqp在接受json数据转成Java对象时，需要按照原来message中__TypeId__来转换，这里重写类是为了替换这里的__TypeId__为消费者的<br/>
@@ -19,7 +22,7 @@ import java.lang.reflect.Type;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2014-11-3 19:09
  */
-public class MessageListenerAdapter4Jackson extends MessageListenerAdapter {
+public class Message4JacksonListenerAdapter extends MessageListenerAdapter {
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
         // Check whether the delegate is a MessageListener impl itself.
@@ -31,8 +34,9 @@ public class MessageListenerAdapter4Jackson extends MessageListenerAdapter {
                     ((ChannelAwareMessageListener) delegate).onMessage(message, channel);
                     return;
                 } else if (!(delegate instanceof MessageListener)) {
-                    throw new AmqpIllegalStateException("MessageListenerAdapter cannot handle a "
-                            + "ChannelAwareMessageListener delegate if it hasn't been invoked with a Channel itself");
+                    throw new AmqpIllegalStateException(
+                            "MessageListenerAdapter cannot handle a "
+                                    + "ChannelAwareMessageListener delegate if it hasn't been invoked with a Channel itself");
                 }
             }
             if (delegate instanceof MessageListener) {
@@ -51,18 +55,25 @@ public class MessageListenerAdapter4Jackson extends MessageListenerAdapter {
         Method[] methods = delegate.getClass().getMethods();
         for (Method method : methods) {
             if (method.getName().equals(methodName) && method.getParameterTypes().length == 1) {
-                String className = method.getParameterTypes()[0].getName();
-                message.getMessageProperties().getHeaders().put(AbstractJavaTypeMapper.DEFAULT_CLASSID_FIELD_NAME, className);
+                Class<?> clazz = method.getParameterTypes()[0];
+                String className = clazz.getName();
+                setMessageHeader(message.getMessageProperties(),
+                        AbstractJavaTypeMapper.DEFAULT_CLASSID_FIELD_NAME, className);
 
-                //泛型的参数类型(如果只有一个参数，那么就取第一个)
+                // 泛型的参数类型
                 Type[] types = method.getGenericParameterTypes();
+                // 存在泛型
                 if (types.length >= 0 && types[0] instanceof ParameterizedType) {
-                    //存在泛型
                     ParameterizedType pType = (ParameterizedType) types[0];
-                    Type t = pType.getActualTypeArguments()[0];
-                    if (t instanceof Class) {
-                        //泛型类型
-                        message.getMessageProperties().getHeaders().put(AbstractJavaTypeMapper.DEFAULT_CONTENT_CLASSID_FIELD_NAME, ((Class) t).getName());
+                    // 泛型
+                    Type[] actualTypeArguments = pType.getActualTypeArguments();
+
+                    if (Collection.class.isAssignableFrom(clazz) && actualTypeArguments.length == 1) {
+                        // collection
+                        setListMessageHeader(message.getMessageProperties(), actualTypeArguments[0]);
+                    } else if (Map.class.isAssignableFrom(clazz) && actualTypeArguments.length == 2) {
+                        // map
+                        setMapMessageHeader(message.getMessageProperties(), actualTypeArguments);
                     }
                 }
 
@@ -74,5 +85,26 @@ public class MessageListenerAdapter4Jackson extends MessageListenerAdapter {
                 return;
             }
         }
+    }
+
+    private void setListMessageHeader(MessageProperties properties, Type t) {
+        if (!(t instanceof Class))
+            return;
+
+        setMessageHeader(properties, AbstractJavaTypeMapper.DEFAULT_CONTENT_CLASSID_FIELD_NAME, ((Class<?>) t).getName());
+    }
+
+    private void setMapMessageHeader(MessageProperties properties, Type[] ts) {
+        if (ts.length != 2)
+            return;
+
+        // key
+        setMessageHeader(properties, AbstractJavaTypeMapper.DEFAULT_KEY_CLASSID_FIELD_NAME, ((Class<?>) ts[0]).getName());
+        // content
+        setMessageHeader(properties, AbstractJavaTypeMapper.DEFAULT_CONTENT_CLASSID_FIELD_NAME, ((Class<?>) ts[1]).getName());
+    }
+
+    private void setMessageHeader(MessageProperties properties, String key, Object value) {
+        properties.getHeaders().put(key, value);
     }
 }

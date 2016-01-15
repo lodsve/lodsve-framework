@@ -7,15 +7,6 @@
 
     <xsd:import namespace="http://www.springframework.org/schema/beans" />
 
-    <xsd:element name="rabbitMq">
-        <xsd:complexType>
-            <xsd:attribute name="addresses" type="xsd:string" use="required" />
-            <xsd:attribute name="username" type="xsd:string" use="required" />
-            <xsd:attribute name="password" type="xsd:string" use="required" />
-            <xsd:attribute name="exchange" type="xsd:string" use="required" />
-        </xsd:complexType>
-    </xsd:element>
-
     <xsd:element name="queue-def">
         <xsd:complexType>
             <xsd:complexContent>
