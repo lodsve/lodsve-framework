@@ -1,5 +1,6 @@
 package message.amqp.configs;
 
+import message.amqp.core.CosmosJackson2JsonMessageConverter;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -57,7 +58,8 @@ public class RabbitConfiguration {
     }
 
     @Bean
-    public Jackson2JsonMessageConverter messageConverter(){
-        return new Jackson2JsonMessageConverter();
+    public Jackson2JsonMessageConverter messageConverter() {
+        // 原生的Jackson2JsonMessageConverter对泛型处理有些问题,所以我继承了这个类重写了反序列化生成泛型JavaType的方法,如果以后这段代码可以,将原生的Jackson2JsonMessageConverter返回即可
+        return new CosmosJackson2JsonMessageConverter();
     }
 }
