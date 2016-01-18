@@ -3,7 +3,10 @@ package message.amqp.configs;
 import message.config.auto.annotations.ConfigurationProperties;
 
 /**
- * Created by sunhao on 2016/1/15.
+ * rabbit mq base properties.
+ *
+ * @author sunhao(sunhao.java@gmail.com)
+ * @version V1.0, 2016-01-15 12:00
  */
 @ConfigurationProperties(prefix = "cosmos.rabbit")
 public class RabbitProperties {
