@@ -12,7 +12,10 @@ import org.springframework.retry.backoff.ExponentialBackOffPolicy;
 import org.springframework.retry.support.RetryTemplate;
 
 /**
- * Created by sunhao on 2016/1/15.
+ * rabbit mq base configuration.
+ *
+ * @author sunhao(sunhao.java@gmail.com)
+ * @version V1.0, 2016-01-15 12:00
  */
 @Configuration
 public class RabbitConfiguration {
