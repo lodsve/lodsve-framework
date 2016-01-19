@@ -1,6 +1,6 @@
-package message.datasource;
+package message.datasource.config;
 
-import message.datasource.parser.RdbmsDataSourceParser;
+import message.datasource.config.parser.RdbmsDataSourceParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**

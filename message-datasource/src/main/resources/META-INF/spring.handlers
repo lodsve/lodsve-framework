@@ -1,1 +1,1 @@
-http\://www.message.com/schema/message-datasource=message.datasource.DatasourceNamespaceHandler
+http\://www.message.com/schema/message-datasource=message.datasource.config.DatasourceNamespaceHandler
