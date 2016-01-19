@@ -79,8 +79,8 @@ public class TypeHandlerScanner {
         return typeHandlers;
     }
 
-    public TypeHandler<?> getInstance(String typeHandlerClass) {
-        Class<TypeHandler<?>> dialectClass = null;
+    private TypeHandler<?> getInstance(String typeHandlerClass) {
+        Class<TypeHandler<?>> dialectClass;
         try {
             dialectClass = (Class<TypeHandler<?>>) Class.forName(typeHandlerClass);
         } catch (ClassNotFoundException e) {

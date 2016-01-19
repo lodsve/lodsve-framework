@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.UndeclaredThrowableException;
 
 /**
@@ -30,7 +29,6 @@ public class ExceptionAdvice {
     @ResponseBody
     public ExceptionData handleException(Exception ex, NativeWebRequest webRequest) throws Exception {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
 
         ExceptionData exceptionData;
         Throwable exception = getHasInfoException(ex);
