@@ -24,6 +24,10 @@ public class CosmosJackson2JavaTypeMapper extends DefaultJackson2JavaTypeMapper 
         String contentTypeId = retrieveHeader(properties, getContentClassIdFieldName());
         String keyTypeId = retrieveHeader(properties, getKeyClassIdFieldName());
 
+        if(StringUtils.isEmpty(contentTypeId)) {
+            return jsonObjectMapper.getTypeFactory().constructType(forName(classTypeId));
+        }
+
         if (StringUtils.isEmpty(keyTypeId)) {
             return jsonObjectMapper.getTypeFactory().constructParametricType(forName(classTypeId), forName(contentTypeId));
         } else {
