@@ -8,6 +8,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.backoff.ExponentialBackOffPolicy;
 import org.springframework.retry.support.RetryTemplate;
@@ -19,6 +20,7 @@ import org.springframework.retry.support.RetryTemplate;
  * @version V1.0, 2016-01-15 12:00
  */
 @Configuration
+@ComponentScan(basePackages = {"message.amqp"})
 public class RabbitConfiguration {
     @Autowired
     private RabbitProperties rabbitProperties;
