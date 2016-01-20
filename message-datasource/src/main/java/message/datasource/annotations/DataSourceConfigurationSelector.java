@@ -1,6 +1,6 @@
 package message.datasource.annotations;
 
-import message.datasource.core.DataSourceTransactionManagementConfiguration;
+import message.datasource.config.DataSourceTransactionManagementConfiguration;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
