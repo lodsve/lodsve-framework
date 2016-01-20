@@ -105,7 +105,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         for (int i = 0; i < beans.size(); i++) {
             SearchBean bean = beans.get(i);
             String indexType = getIndexType(bean);
-            IndexReader reader = null;
+            IndexReader reader;
             try {
                 reader = IndexReader.open(this.getIndexDir(indexType));
             } catch (Exception e) {
@@ -118,9 +118,9 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
 
         //使用MultiSearcher进行多域搜索
         MultiSearcher searcher = new MultiSearcher(searchers);
-        List<String> fieldNames = new ArrayList<String>();             //查询的字段名
-        List<String> queryValue = new ArrayList<String>();             //待查询字段的值
-        List<BooleanClause.Occur> flags = new ArrayList<BooleanClause.Occur>();
+        List<String> fieldNames = new ArrayList<>();             //查询的字段名
+        List<String> queryValue = new ArrayList<>();             //待查询字段的值
+        List<BooleanClause.Occur> flags = new ArrayList<>();
         for (SearchBean bean : beans) {
             //要进行检索的字段
             String[] doSearchFields = bean.getDoSearchFields();
@@ -156,7 +156,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             highlighter = new Highlighter(formatter, new QueryScorer(query));
         }
 
-        List<SearchBean> queryResults = new ArrayList<SearchBean>();
+        List<SearchBean> queryResults = new ArrayList<>();
         for (int i = begin; i < end; i++) {
             int docID = scoreDocs[i].doc;
             Document hitDoc = searcher.doc(docID);
@@ -186,7 +186,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             if (doSearchFields == null || doSearchFields.length == 0)
                 continue;
 
-            Map<String, String> extendValues = new HashMap<String, String>();
+            Map<String, String> extendValues = new HashMap<>();
             for (String field : doSearchFields) {
                 String value = hitDoc.get(field);
                 if (isHighlighter && highlighter != null)
@@ -382,10 +382,6 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
 
     private Directory getIndexDir(String suffix) throws Exception {
         File indexDir = new File(indexPath + File.separator + suffix);
-//        if(indexDir == null || !indexDir.exists()){
-//            logger.warn("index directory '{}' is not exist!", indexDir.getAbsolutePath());
-//            return null;
-//        }
         try {
             return FSDirectory.open(indexDir);
         } catch (IOException e) {
@@ -395,7 +391,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     }
 
     private List<SearchBean> mergerSearchBean(List<SearchBean> beans) {
-        List<SearchBean> beans_ = new ArrayList<SearchBean>();
+        List<SearchBean> beans_ = new ArrayList<>();
         if (beans == null || beans.isEmpty()) {
             return beans_;
         }
