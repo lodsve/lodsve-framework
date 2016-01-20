@@ -30,6 +30,8 @@
         <module>message-mybatis</module>
         <!-- redis -->
         <module>message-redis</module>
+        <!-- mongodb -->
+        <module>message-mongodb</module>
         <!-- 搜索 -->
         <module>message-search</module>
         <!-- 事件 -->
@@ -152,6 +154,7 @@
         <junit.version>4.10</junit.version>
         <spring.version>4.1.7.RELEASE</spring.version>
         <tomcat.version>6.0.44</tomcat.version>
+        <mongodb.version>2.14.1</mongodb.version>
         <cosmos.version>2.3.3</cosmos.version>
     </properties>
 
@@ -641,6 +644,11 @@
                 <artifactId>spring-data-redis</artifactId>
                 <version>1.6.2.RELEASE</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-mongodb</artifactId>
+                <version>1.8.2.RELEASE</version>
+            </dependency>
             <!-- spring data end -->
 
             <!-- redis client start -->
@@ -650,6 +658,14 @@
                 <version>2.7.3</version>
             </dependency>
             <!-- redis client end -->
+
+            <!-- mongodb start -->
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongo-java-driver</artifactId>
+                <version>${mongodb.version}</version>
+            </dependency>
+            <!-- mongodb end -->
 
             <!-- rabbit start -->
             <dependency>
@@ -851,6 +867,11 @@
             <dependency>
                 <groupId>cosmos.message</groupId>
                 <artifactId>message-security</artifactId>
+                <version>${cosmos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cosmos.message</groupId>
+                <artifactId>message-mongodb</artifactId>
                 <version>${cosmos.version}</version>
             </dependency>
             <dependency>
