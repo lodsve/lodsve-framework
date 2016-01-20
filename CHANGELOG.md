@@ -1,5 +1,19 @@
 # 更新日志
 ---
+## V2.3.3
+1. 大量使用JavaConfig，抛弃原有的xml配置
+
+## V2.3.2
+1. 实现配置即对象
+
+## V2.3.1
+1. 删除message-jdbc
+2. 修改message-security为mybatis实现
+3. 将key和helper移到mybatis中
+
+## V2.3
+1. message-mybatis通用DAO完善
+
 ## V2.2.1
 1. message-mybatis添加通用DAO
 
