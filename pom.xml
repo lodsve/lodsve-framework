@@ -57,13 +57,13 @@
         <snapshotRepository>
             <id>message-snapshots</id>
             <name>message SNAPSHOTS</name>
-            <url>${nexus.url}/repositories/message-snapshots/</url>
+            <url>${deploy.url.snapshot}</url>
         </snapshotRepository>
 
         <repository>
             <id>message-releases</id>
             <name>message releases</name>
-            <url>${nexus.url}/repositories/message-releases/</url>
+            <url>${deploy.url.releases}</url>
         </repository>
     </distributionManagement>
 
@@ -119,8 +119,8 @@
     <!-- 插件仓库 -->
     <pluginRepositories>
         <pluginRepository>
-            <id>message-plugins</id>
-            <name>message plugins</name>
+            <id>nexus-plugins</id>
+            <name>nexus plugins</name>
             <url>${nexus.url}/groups/public</url>
         </pluginRepository>
     </pluginRepositories>
@@ -142,21 +142,17 @@
 
     <!-- 代码库 -->
     <scm>
-        <connection>scm:git:git@git.sunhao.com:develop/cosmos-message.git</connection>
-        <developerConnection>scm:git:git@git.sunhao.com:develop/cosmos-message.git</developerConnection>
-        <url>http://git.sunhao.com:82/cosmos/cosmos-message</url>
+        <connection>scm:git:git@github.com:sunhao-java/cosmos-message.git</connection>
+        <developerConnection>scm:git:git@github.com:sunhao-java/cosmos-message.git</developerConnection>
+        <url>https://github.com/sunhao-java/cosmos-message</url>
     </scm>
-
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.10</junit.version>
         <spring.version>4.1.7.RELEASE</spring.version>
-        <tiles.version>3.0.3</tiles.version>
-        <jdk.version>jdk15</jdk.version>
-        <tomcat.version>6.0.32</tomcat.version>
+        <tomcat.version>6.0.44</tomcat.version>
         <cosmos.version>2.3.3</cosmos.version>
-        <nexus.url>http://maven.oschina.net/content</nexus.url>
     </properties>
 
     <dependencyManagement>
@@ -426,88 +422,6 @@
                 <version>2.0.5</version>
             </dependency>
             <!-- 搜索引擎的 end -->
-
-            <!-- apache tiles start -->
-            <dependency>
-                <groupId>org.apache.tiles</groupId>
-                <artifactId>tiles-api</artifactId>
-                <version>${tiles.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tiles</groupId>
-                <artifactId>tiles-core</artifactId>
-                <version>${tiles.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>jcl-over-slf4j</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>commons-digester</groupId>
-                        <artifactId>commons-digester</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tiles</groupId>
-                <artifactId>tiles-el</artifactId>
-                <version>${tiles.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tiles</groupId>
-                <artifactId>tiles-extras</artifactId>
-                <version>${tiles.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>jcl-over-slf4j</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.tiles</groupId>
-                        <artifactId>tiles-servlet-wildcard</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.tiles</groupId>
-                        <artifactId>tiles-freemarker</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.tiles</groupId>
-                        <artifactId>tiles-velocity</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.tiles</groupId>
-                        <artifactId>tiles-mvel</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.tiles</groupId>
-                        <artifactId>tiles-ognl</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.tiles</groupId>
-                        <artifactId>tiles-compat</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.google.guava</groupId>
-                        <artifactId>guava</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tiles</groupId>
-                <artifactId>tiles-jsp</artifactId>
-                <version>${tiles.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tiles</groupId>
-                <artifactId>tiles-servlet</artifactId>
-                <version>${tiles.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tiles</groupId>
-                <artifactId>tiles-template</artifactId>
-                <version>${tiles.version}</version>
-            </dependency>
-            <!-- apache tiles end -->
 
             <!-- Java文本处理工具包 start -->
             <dependency>
