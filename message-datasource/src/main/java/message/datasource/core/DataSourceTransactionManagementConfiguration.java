@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 /**
- * .
+ * 配置事务.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016/1/20 11:54

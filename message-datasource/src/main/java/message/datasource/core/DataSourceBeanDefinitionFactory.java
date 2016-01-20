@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * .
+ * 注册数据源.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/1/19 下午7:24

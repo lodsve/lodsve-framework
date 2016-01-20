@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * .
+ * 判断是否启用事务，并加载.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016/1/20 11:31
