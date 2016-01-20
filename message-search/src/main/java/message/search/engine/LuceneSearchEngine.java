@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.io.File;
@@ -94,7 +93,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         }
     }
 
-    public Page<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, int start, int num) throws Exception {
+    public Page<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, Pageable pageable) throws Exception {
         beans = mergerSearchBean(beans);
         if (beans == null || beans.isEmpty()) {
             logger.debug("given search beans is empty!");
@@ -145,9 +144,9 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         ScoreDoc[] scoreDocs = searcher.search(query, 1000000).scoreDocs;
 
         //查询起始记录位置
-        int begin = (start == -1 && num == -1) ? 0 : start;
+        int begin = pageable.getPageNumber() * (pageable.getPageSize());
         //查询终止记录位置
-        int end = (start == -1 && num == -1) ? scoreDocs.length : Math.min(begin + num, scoreDocs.length);
+        int end = Math.min((pageable.getPageNumber() + 1) * pageable.getPageSize(), scoreDocs.length);
 
         //高亮处理
         Highlighter highlighter = null;
@@ -210,7 +209,6 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
                 indexSearcher.close();
         }
 
-        Pageable pageable = new PageRequest(start, num);
         return new PageImpl<>(queryResults, pageable, scoreDocs.length);
     }
 

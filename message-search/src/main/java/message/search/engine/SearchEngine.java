@@ -2,6 +2,7 @@ package message.search.engine;
 
 import message.search.SearchBean;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -43,24 +44,22 @@ public interface SearchEngine {
      *
      * @param bean          检索对象(一般只需要放入值keyword,即用来检索的关键字)
      * @param isHighlighter 是否高亮
-     * @param start         开始值
-     * @param num           偏移量
+     * @param pageable      分页信息
      * @return
      * @throws Exception
      */
-    Page<SearchBean> doSearch(SearchBean bean, boolean isHighlighter, int start, int num) throws Exception;
+    Page<SearchBean> doSearch(SearchBean bean, boolean isHighlighter, Pageable pageable) throws Exception;
 
     /**
      * 进行多个检索对象的检索
      *
      * @param beans         多个检索对象(一般只需要放入值keyword,即用来检索的关键字)
      * @param isHighlighter 是否高亮
-     * @param start         开始值
-     * @param num           偏移量
+     * @param pageable      分页信息
      * @return
      * @throws Exception
      */
-    Page<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, int start, int num) throws Exception;
+    Page<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, Pageable pageable) throws Exception;
 
     /**
      * 删除某个类型的所有索引(考虑线程安全)

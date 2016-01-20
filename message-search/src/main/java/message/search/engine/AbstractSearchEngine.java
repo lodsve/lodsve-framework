@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,13 +57,13 @@ public abstract class AbstractSearchEngine implements SearchEngine {
         this.htmlSuffix = htmlSuffix;
     }
 
-    public Page<SearchBean> doSearch(SearchBean bean, boolean isHighlighter, int start, int num) throws Exception {
+    public Page<SearchBean> doSearch(SearchBean bean, boolean isHighlighter, Pageable pageable) throws Exception {
         if (bean == null) {
             logger.debug("given search bean is empty!");
             return new PageImpl<>(Collections.<SearchBean>emptyList(), null, 0);
         }
 
-        return doSearch(Collections.singletonList(bean), isHighlighter, start, num);
+        return doSearch(Collections.singletonList(bean), isHighlighter, pageable);
     }
 
     /**

@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.io.File;
@@ -167,7 +166,7 @@ public class SolrSearchEngine extends AbstractSearchEngine {
         }
     }
 
-    public Page<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, int start, int num) throws Exception {
+    public Page<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, Pageable pageable) throws Exception {
         if (beans == null || beans.isEmpty()) {
             logger.debug("given search beans is empty!");
             return new PageImpl<>(Collections.<SearchBean>emptyList(), null, 0);
@@ -198,8 +197,8 @@ public class SolrSearchEngine extends AbstractSearchEngine {
 
         SolrQuery query = new SolrQuery();
         query.setQuery(query_.toString());
-        query.setStart(start == -1 ? 0 : start);
-        query.setRows(num == -1 ? 100000000 : num);
+        query.setStart(pageable.getPageNumber() * pageable.getPageSize());
+        query.setRows(pageable.getPageSize());
         query.setFields("*", "score");
 
         if (isHighlighter) {
@@ -264,7 +263,6 @@ public class SolrSearchEngine extends AbstractSearchEngine {
             queryResults.add(result);
         }
 
-        Pageable pageable = new PageRequest(start, num);
         return new PageImpl<>(queryResults, pageable, sd.getNumFound());
     }
 
@@ -309,15 +307,16 @@ public class SolrSearchEngine extends AbstractSearchEngine {
 
     /**
      * 计算共有多少页
-     * @param num				每页显示的条数
-     * @param totalSize			数据库中共有多少条
+     *
+     * @param num       每页显示的条数
+     * @param totalSize 数据库中共有多少条
      * @return
      */
-    private int getPageSize(int num, int totalSize){
-        if((totalSize%num) == 0) {
-            return (totalSize/num);
+    private int getPageSize(int num, int totalSize) {
+        if ((totalSize % num) == 0) {
+            return (totalSize / num);
         } else {
-            return (totalSize/num + 1);
+            return (totalSize / num + 1);
         }
     }
 }
