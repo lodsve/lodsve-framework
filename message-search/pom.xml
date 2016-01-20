@@ -63,10 +63,6 @@
         </dependency>
         <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-template</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cosmos.message</groupId>
             <artifactId>message-config</artifactId>
         </dependency>
     </dependencies>

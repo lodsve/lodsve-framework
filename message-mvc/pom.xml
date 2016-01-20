@@ -104,10 +104,6 @@
             <groupId>cosmos.message</groupId>
             <artifactId>message-logger</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cosmos.message</groupId>
-            <artifactId>message-template</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
