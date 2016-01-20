@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(DataSourceImportBeanDefinitionRegistrar.class)
+@Import(DataSourceConfigurationSelector.class)
 public @interface DataSource {
     /**
      * 数据源名称,required
@@ -25,4 +25,11 @@ public @interface DataSource {
      * @return
      */
     String name();
+
+    /**
+     * 是否支持事务
+     *
+     * @return
+     */
+    boolean supportTransaction() default false;
 }
