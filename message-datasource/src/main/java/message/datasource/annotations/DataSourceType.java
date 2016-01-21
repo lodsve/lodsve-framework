@@ -18,9 +18,5 @@ public enum DataSourceType {
     /**
      * mongodb
      */
-    MONGO,
-    /**
-     * rabbit mq
-     */
-    RABBIT
+    MONGO
 }

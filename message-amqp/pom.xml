@@ -27,9 +27,10 @@
             <groupId>cosmos.message</groupId>
             <artifactId>message-config</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>cosmos.message</groupId>
-            <artifactId>message-datasource</artifactId>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
         </dependency>
     </dependencies>
 

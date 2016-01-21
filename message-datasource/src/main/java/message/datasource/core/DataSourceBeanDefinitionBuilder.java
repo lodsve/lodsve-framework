@@ -2,7 +2,6 @@ package message.datasource.core;
 
 import message.datasource.annotations.DataSourceType;
 import message.datasource.core.factory.MongoDataSourceBeanDefinitionFactory;
-import message.datasource.core.factory.RabbitDataSourceBeanDefinitionFactory;
 import message.datasource.core.factory.RdbmsDataSourceBeanDefinitionFactory;
 import message.datasource.core.factory.RedisDataSourceBeanDefinitionFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -33,9 +32,6 @@ public class DataSourceBeanDefinitionBuilder {
                 break;
             case MONGO:
                 beanDefinition = new MongoDataSourceBeanDefinitionFactory(dataSourceName).build();
-                break;
-            case RABBIT:
-                beanDefinition = new RabbitDataSourceBeanDefinitionFactory(dataSourceName).build();
                 break;
             default:
                 beanDefinition = new RdbmsDataSourceBeanDefinitionFactory(dataSourceName).build();
