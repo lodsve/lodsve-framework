@@ -1,4 +1,4 @@
-package message.datasource.core;
+package message.datasource.core.factory;
 
 import message.config.SystemConfig;
 import message.config.loader.properties.Configuration;
@@ -11,27 +11,26 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 注册数据源.
+ * 关系型数据库数据源.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/1/19 下午7:24
+ * @version V1.0, 16/1/21 下午4:00
  */
-public class DataSourceBeanDefinitionFactory {
-    private static final String DATASOURCE_FILE_NAME = "dataSource.properties";
-
+public class RdbmsDataSourceBeanDefinitionFactory {
     /**
      * 数据源配置的key
      */
     private static final String DATASOURCE_CLASS = "datasources.rdbms.dataSourceClass";
     private static final String DATASOURCE_PROPERTY_PREFIX = "datasources.rdbms";
     private static final String DEFAULT_PROPERTIES_KEY_PREFIX = DATASOURCE_PROPERTY_PREFIX + ".default";
+    private static final String DATASOURCE_FILE_NAME = "rdbms.properties";
 
     private Configuration configuration;
     private String dataSourceName;
 
-    public DataSourceBeanDefinitionFactory(String dataSourceName) {
+    public RdbmsDataSourceBeanDefinitionFactory(String dataSourceName) {
+        this.configuration = SystemConfig.getFileConfiguration(DATASOURCE_FILE_NAME);
         this.dataSourceName = dataSourceName;
-        configuration = SystemConfig.getFileConfiguration(DATASOURCE_FILE_NAME);
     }
 
     public BeanDefinition build() {

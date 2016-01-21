@@ -16,11 +16,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>cosmos.message</groupId>
             <artifactId>message-template</artifactId>
         </dependency>
@@ -31,6 +26,10 @@
         <dependency>
             <groupId>cosmos.message</groupId>
             <artifactId>message-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cosmos.message</groupId>
+            <artifactId>message-datasource</artifactId>
         </dependency>
     </dependencies>
 

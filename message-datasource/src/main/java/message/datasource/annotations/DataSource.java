@@ -27,6 +27,13 @@ public @interface DataSource {
     String name();
 
     /**
+     * 数据源类型,必填
+     *
+     * @return
+     */
+    DataSourceType type();
+
+    /**
      * 是否支持事务
      *
      * @return

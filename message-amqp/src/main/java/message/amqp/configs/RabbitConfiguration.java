@@ -1,12 +1,16 @@
 package message.amqp.configs;
 
 import message.amqp.core.CosmosJackson2JsonMessageConverter;
+import message.datasource.annotations.DataSource;
+import message.datasource.annotations.DataSourceType;
+import message.datasource.config.RabbitProperties;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -20,24 +24,18 @@ import org.springframework.retry.support.RetryTemplate;
  * @version V1.0, 2016-01-15 12:00
  */
 @Configuration
+@DataSource(name = "rabbit", type = DataSourceType.RABBIT)
 @ComponentScan(basePackages = {"message.amqp"})
 public class RabbitConfiguration {
     @Autowired
     private RabbitProperties rabbitProperties;
-
-    @Bean
-    public CachingConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setUsername(rabbitProperties.getUsername());
-        connectionFactory.setPassword(rabbitProperties.getPassword());
-        connectionFactory.setAddresses(rabbitProperties.getAddress());
-
-        return connectionFactory;
-    }
+    @Autowired
+    @Qualifier("rabbit")
+    private CachingConnectionFactory connectionFactory;
 
     @Bean
     public RabbitTemplate rabbitTemplate() {
-        RabbitTemplate template = new RabbitTemplate(connectionFactory());
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
         RetryTemplate retryTemplate = new RetryTemplate();
         ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();
         backOffPolicy.setInitialInterval(500);
@@ -51,7 +49,7 @@ public class RabbitConfiguration {
 
     @Bean
     public RabbitAdmin rabbitAdmin() {
-        return new RabbitAdmin(connectionFactory());
+        return new RabbitAdmin(connectionFactory);
     }
 
     @Bean

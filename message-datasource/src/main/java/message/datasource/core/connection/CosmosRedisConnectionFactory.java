@@ -1,5 +1,6 @@
-package message.redis;
+package message.datasource.core.connection;
 
+import message.datasource.config.RedisProperties;
 import message.utils.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

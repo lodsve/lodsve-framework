@@ -32,6 +32,10 @@
             <groupId>cosmos.message</groupId>
             <artifactId>message-config</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cosmos.message</groupId>
+            <artifactId>message-datasource</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -1,6 +1,6 @@
 package message.datasource.annotations;
 
-import message.datasource.core.DataSourceBeanDefinitionFactory;
+import message.datasource.core.DataSourceBeanDefinitionBuilder;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
@@ -16,6 +16,7 @@ import org.springframework.util.Assert;
  */
 public class DataSourceImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
     public static final String DATASOURCE_NAME_ATTRIBUTE_NAME = "name";
+    public static final String DATASOURCE_TYPE_ATTRIBUTE_NAME = "type";
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
@@ -25,11 +26,13 @@ public class DataSourceImportBeanDefinitionRegistrar implements ImportBeanDefini
         String name = attributes.getString(DATASOURCE_NAME_ATTRIBUTE_NAME);
         Assert.hasText(name, String.format("@%s don't provide any datasource name!", DataSource.class.getName()));
 
+        DataSourceType type = attributes.getEnum(DATASOURCE_TYPE_ATTRIBUTE_NAME);
+
         if (registry.containsBeanDefinition(name)) {
             return;
         }
 
-        BeanDefinition beanDefinition = new DataSourceBeanDefinitionFactory(name).build();
+        BeanDefinition beanDefinition = new DataSourceBeanDefinitionBuilder(name, type).build();
         registry.registerBeanDefinition(name, beanDefinition);
     }
 }

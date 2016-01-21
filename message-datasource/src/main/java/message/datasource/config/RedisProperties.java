@@ -1,4 +1,4 @@
-package message.redis;
+package message.datasource.config;
 
 import message.config.auto.annotations.ConfigurationProperties;
 

@@ -17,16 +17,19 @@ import java.util.List;
  */
 public class DataSourceConfigurationSelector implements ImportSelector {
     private static final String SUPPORT_TRANSACTION_ATTRIBUTE_NAME = "supportTransaction";
+    public static final String DATASOURCE_TYPE_ATTRIBUTE_NAME = "type";
 
     @Override
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(DataSource.class.getName(), false));
         Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", DataSource.class.getName(), importingClassMetadata.getClassName()));
 
+        DataSourceType type = attributes.getEnum(DATASOURCE_TYPE_ATTRIBUTE_NAME);
+
         List<String> imports = new ArrayList<>();
         imports.add(DataSourceImportBeanDefinitionRegistrar.class.getName());
         boolean supportTransaction = attributes.getBoolean(SUPPORT_TRANSACTION_ATTRIBUTE_NAME);
-        if (supportTransaction) {
+        if (DataSourceType.RDBMS.equals(type) && supportTransaction) {
             imports.add(DataSourceTransactionManagementConfiguration.class.getName());
         }
 
