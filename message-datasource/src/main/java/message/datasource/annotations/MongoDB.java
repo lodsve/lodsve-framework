@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 注解方式配置数据源.
+ * 注解方式配置MongoDB数据源.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/1/19 下午7:18
