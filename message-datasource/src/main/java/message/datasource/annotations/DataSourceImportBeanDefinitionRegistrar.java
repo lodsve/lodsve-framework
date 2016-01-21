@@ -1,12 +1,12 @@
 package message.datasource.annotations;
 
-import message.datasource.core.DataSourceBeanDefinitionBuilder;
-import org.springframework.beans.factory.config.BeanDefinition;
+import message.datasource.core.factory.MongoDataSourceBeanDefinitionFactory;
+import message.datasource.core.factory.RdbmsDataSourceBeanDefinitionFactory;
+import message.datasource.core.factory.RedisDataSourceBeanDefinitionFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.util.Assert;
 
 /**
  * 通过注解的方式加载数据源.
@@ -16,23 +16,32 @@ import org.springframework.util.Assert;
  */
 public class DataSourceImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
     public static final String DATASOURCE_NAME_ATTRIBUTE_NAME = "name";
-    public static final String DATASOURCE_TYPE_ATTRIBUTE_NAME = "type";
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-        AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(DataSource.class.getName(), false));
-        Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", DataSource.class.getName(), importingClassMetadata.getClassName()));
+        boolean isRdbms = importingClassMetadata.hasAnnotation(Rdbms.class.getName());
+        boolean isRedis = importingClassMetadata.hasAnnotation(Redis.class.getName());
+        boolean isMongoDB = importingClassMetadata.hasAnnotation(MongoDB.class.getName());
 
-        String name = attributes.getString(DATASOURCE_NAME_ATTRIBUTE_NAME);
-        Assert.hasText(name, String.format("@%s don't provide any datasource name!", DataSource.class.getName()));
+        if (isRdbms) {
+            AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(Rdbms.class.getName(), false));
+            String name = attributes.getString(DATASOURCE_NAME_ATTRIBUTE_NAME);
 
-        DataSourceType type = attributes.getEnum(DATASOURCE_TYPE_ATTRIBUTE_NAME);
-
-        if (registry.containsBeanDefinition(name)) {
-            return;
+            registry.registerBeanDefinition(name, new RdbmsDataSourceBeanDefinitionFactory(name).build());
         }
 
-        BeanDefinition beanDefinition = new DataSourceBeanDefinitionBuilder(name, type).build();
-        registry.registerBeanDefinition(name, beanDefinition);
+        if (isRedis) {
+            AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(Redis.class.getName(), false));
+            String name = attributes.getString(DATASOURCE_NAME_ATTRIBUTE_NAME);
+
+            registry.registerBeanDefinition(name, new RedisDataSourceBeanDefinitionFactory(name).build());
+        }
+
+        if (isMongoDB) {
+            AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(MongoDB.class.getName(), false));
+            String name = attributes.getString(DATASOURCE_NAME_ATTRIBUTE_NAME);
+
+            registry.registerBeanDefinition(name, new MongoDataSourceBeanDefinitionFactory(name).build());
+        }
     }
 }

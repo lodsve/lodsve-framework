@@ -1,7 +1,6 @@
 package message.redis.timer;
 
-import message.datasource.annotations.DataSource;
-import message.datasource.annotations.DataSourceType;
+import message.datasource.annotations.Redis;
 import message.datasource.core.connection.CosmosRedisConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +18,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @version V1.0, 16/1/12 下午9:23
  */
 @Configuration
-@DataSource(name = "redisTimer", type = DataSourceType.REDIS)
+@Redis(name = "redisTimer")
 public class RedisTimerConfiguration {
     @Autowired
     private RedisTimerListener listener;

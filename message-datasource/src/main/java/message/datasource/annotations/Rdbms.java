@@ -18,20 +18,13 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import(DataSourceConfigurationSelector.class)
-public @interface DataSource {
+public @interface Rdbms {
     /**
      * 数据源名称,required
      *
      * @return
      */
     String name();
-
-    /**
-     * 数据源类型,必填
-     *
-     * @return
-     */
-    DataSourceType type();
 
     /**
      * 是否支持事务
