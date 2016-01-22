@@ -29,7 +29,7 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
         Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableMongo.class.getName(), importingClassMetadata.getClassName()));
 
         String dataSource = attributes.getString(DATA_SOURCE_ATTRIBUTE_NAME);
-        Assert.isTrue(registry.containsBeanDefinition(dataSource), "Can not find any DataSource Bean in context!");
+        Assert.isTrue(registry.containsBeanDefinition(dataSource), String.format("Can not find any DataSource Bean named '%s' in context!", dataSource));
         String basePackage = attributes.getString(BASE_PACKAGE_ATTRIBUTE_NAME);
 
         BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(registry);

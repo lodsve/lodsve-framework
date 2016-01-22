@@ -22,4 +22,8 @@
     <mongo:repositories
             th:attr="mongo-template-ref=${dataSource}+'MongoTemplate',
             base-package=${basePackage}+'.repository'"/>
+
+    <bean id="mongoRepositoryFactory" class="org.springframework.data.mongodb.repository.support.MongoRepositoryFactory">
+        <constructor-arg th:attr="ref=${dataSource}+'MongoTemplate'"/>
+    </bean>
 </beans>
