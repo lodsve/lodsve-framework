@@ -46,6 +46,8 @@
         <module>message-amqp</module>
         <!-- mvc -->
         <module>message-mvc</module>
+        <!-- swagger -->
+        <module>message-swagger</module>
         <!-- validate -->
         <module>message-validate</module>
         <!-- 安全 -->
@@ -679,7 +681,7 @@
             <dependency>
                 <groupId>com.mangofactory</groupId>
                 <artifactId>swagger-springmvc</artifactId>
-                <version>1.0.2</version>
+                <version>0.8.4</version>
             </dependency>
             <dependency>
                 <groupId>com.wordnik</groupId>
@@ -908,6 +910,11 @@
             <dependency>
                 <groupId>cosmos.message</groupId>
                 <artifactId>message-redis</artifactId>
+                <version>${cosmos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cosmos.message</groupId>
+                <artifactId>message-swagger</artifactId>
                 <version>${cosmos.version}</version>
             </dependency>
             <!-- cosmos message dependencies end -->

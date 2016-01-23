@@ -1,7 +1,6 @@
 package message.mybatis.configs.annotations;
 
-import message.mybatis.configs.MyBatisBeanDefinitionRegistrar;
-import message.mybatis.configs.MyBatisConfiguration;
+import message.mybatis.configs.MyBatisConfigurationSelector;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;
@@ -19,7 +18,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({MyBatisConfiguration.class, MyBatisBeanDefinitionRegistrar.class})
+@Import(MyBatisConfigurationSelector.class)
 public @interface EnableMyBatis {
     /**
      * 数据源名
@@ -27,6 +26,13 @@ public @interface EnableMyBatis {
      * @return
      */
     String dataSource();
+
+    /**
+     * 是否支持事务
+     *
+     * @return
+     */
+    boolean supportTransaction() default false;
 
     /**
      * 含有{@link org.springframework.stereotype.Repository }注解的dao类所在的包路径,可以多个

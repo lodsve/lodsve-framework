@@ -1,5 +1,6 @@
 package message.mybatis.configs;
 
+import message.datasource.core.factory.RdbmsDataSourceBeanDefinitionFactory;
 import message.mybatis.configs.annotations.EnableMyBatis;
 import message.mybatis.helper.MySQLSqlHelper;
 import message.mybatis.helper.OracleSqlHelper;
@@ -50,16 +51,16 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableMyBatis.class.getName(), false));
         Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableMyBatis.class.getName(), importingClassMetadata.getClassName()));
+        Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
 
         dataSource = attributes.getString(DATA_SOURCE_ATTRIBUTE_NAME);
-        Assert.isTrue(registry.containsBeanDefinition(dataSource), "Can not find any DataSource Bean in context!");
+        beanDefinitions.putAll(generateDataSource(dataSource));
 
         String[] typeHandlersLocations = attributes.getStringArray(TYPE_HANDLERS_LOCATIONS_ATTRIBUTE_NAME);
         String[] basePackages = attributes.getStringArray(BASE_PACKAGES_ATTRIBUTE_NAME);
         boolean useFlyway = attributes.getBoolean(USE_FLYWAY_ATTRIBUTE_NAME);
         String migration = attributes.getString(MIGRATION_ATTRIBUTE_NAME);
 
-        Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
         if (IS_MYSQL) {
             beanDefinitions.putAll(findMySQLBeanDefinitions());
         } else if (IS_ORACLE) {
@@ -75,6 +76,10 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         beanDefinitions.putAll(findMyBatisBeanDefinitions(useFlyway, basePackages, typeHandlersLocations));
 
         registerBeanDefinitions(beanDefinitions, registry);
+    }
+
+    private Map<String, BeanDefinition> generateDataSource(String dataSource) {
+        return Collections.singletonMap(dataSource, new RdbmsDataSourceBeanDefinitionFactory(dataSource).build());
     }
 
     private Map<String, BeanDefinition> findMySQLBeanDefinitions() {

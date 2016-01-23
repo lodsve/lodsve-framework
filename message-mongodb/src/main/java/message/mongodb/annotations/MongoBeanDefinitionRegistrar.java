@@ -1,5 +1,6 @@
 package message.mongodb.annotations;
 
+import message.datasource.core.factory.MongoDataSourceBeanDefinitionFactory;
 import message.template.resource.ThymeleafTemplateResource;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -20,6 +21,7 @@ import java.util.Map;
  * @version V1.0, 16/1/21 下午10:15
  */
 public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
+    public static final String DATASOURCE_NAME_ATTRIBUTE_NAME = "name";
     private static final String DATA_SOURCE_ATTRIBUTE_NAME = "dataSource";
     private static final String BASE_PACKAGE_ATTRIBUTE_NAME = "basePackage";
 
@@ -29,7 +31,11 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
         Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableMongo.class.getName(), importingClassMetadata.getClassName()));
 
         String dataSource = attributes.getString(DATA_SOURCE_ATTRIBUTE_NAME);
-        Assert.isTrue(registry.containsBeanDefinition(dataSource), String.format("Can not find any DataSource Bean named '%s' in context!", dataSource));
+
+        // 注册数据源
+        String name = attributes.getString(DATASOURCE_NAME_ATTRIBUTE_NAME);
+        registry.registerBeanDefinition(name, new MongoDataSourceBeanDefinitionFactory(name).build());
+
         String basePackage = attributes.getString(BASE_PACKAGE_ATTRIBUTE_NAME);
 
         BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(registry);

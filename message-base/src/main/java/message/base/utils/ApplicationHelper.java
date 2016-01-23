@@ -48,8 +48,7 @@ public class ApplicationHelper {
                 if (result != null)
                     return result;
             } catch (BeansException e) {
-                logger.error("there is no bean named '{}'", clazz.getName());
-                throw new NoSuchBeanDefinitionException("can not find any bean named '" + clazz.getName() + "'!");
+                continue;
             }
         }
 
@@ -69,17 +68,16 @@ public class ApplicationHelper {
         Object result = null;
         Iterator it = apps.iterator();
 
-        while (it.hasNext()) {
+        do {
             ApplicationContext app = (ApplicationContext) it.next();
             try {
                 result = app.getBean(name);
                 if (result != null)
                     return result;
             } catch (BeansException e) {
-                logger.error("there is no bean named '{}'", name);
-                throw new NoSuchBeanDefinitionException("can not find any bean named '" + name + "'!");
+                continue;
             }
-        }
+        } while (!it.hasNext());
 
         if (result == null)
             throw new NoSuchBeanDefinitionException("there is no bean named '" + name + "'");
