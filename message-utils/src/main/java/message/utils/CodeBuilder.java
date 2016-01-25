@@ -1,12 +1,9 @@
 package message.utils;
 
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Random;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 验证码生成器.
@@ -38,7 +35,7 @@ public class CodeBuilder {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         //获取图像上下文
-        Graphics graphics = image.getGraphics();
+        java.awt.Graphics graphics = image.getGraphics();
 
         //随机类
         Random random = new Random();
@@ -48,7 +45,7 @@ public class CodeBuilder {
         graphics.fillRect(0, 0, width, height);
 
         //设置字体
-        graphics.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        graphics.setFont(new Font("Times New Roman", java.awt.Font.PLAIN, 18));
 
         //随机产生干扰线
         graphics.setColor(getRandomColor(160, 200));
