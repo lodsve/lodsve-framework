@@ -40,6 +40,8 @@
         <module>message-security</module>
         <!-- 支付相关 -->
         <module>message-transaction</module>
+        <!-- 日志 -->
+        <module>message-logger</module>
     </modules>
 
     <!-- 发布仓库 -->

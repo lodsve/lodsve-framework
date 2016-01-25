@@ -1,4 +1,4 @@
-package message.base.logger;
+package message.logger;
 
 import message.config.SystemConfig;
 import org.apache.log4j.PropertyConfigurator;
@@ -27,7 +27,7 @@ public class Log4JConfiguration implements InitializingBean {
             resource = new ClassPathResource("/META-INF/log4j.properties", Thread.currentThread().getContextClassLoader());
         }
         if (resource == null || !resource.exists()) {
-            throw new LoggerException(10005, "配置文件'log4j.properties'找不到！");
+            throw new RuntimeException("配置文件'log4j.properties'找不到！");
         }
 
         Properties prop = PropertiesLoaderUtils.loadProperties(resource);
