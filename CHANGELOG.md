@@ -8,11 +8,6 @@
 	```
 	<!-- spring配置 start -->
 	...
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:/META-INF/spring/*.xml</param-value>
-    </context-param>
-
     <servlet>
         <servlet-name>spring</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -22,11 +17,20 @@
         </init-param>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>test.cosmos.config.CosmosWebMVCConfig,classpath*:/META-INF/springWeb/*.xml</param-value>
+            <param-value>...ApplicationConfiguration</param-value>
         </init-param>
     </servlet>
     ...
     <!-- spring配置 start -->
+
+    ApplicationConfiguration.java
+    @Configuration
+    // ...
+    @ComponentScan("your base packages")
+    @ImportResource({"classpath*:/META-INF/springWeb/*.xml", "classpath*:/META-INF/spring/*.xml"})
+    public class ApplicationConfiguration {
+        // ...
+    }
 	```
 
 ## V2.3.4
