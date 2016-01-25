@@ -34,17 +34,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-utils</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cosmos.message</groupId>
-            <artifactId>message-logger</artifactId>
+            <artifactId>message-base</artifactId>
         </dependency>
     </dependencies>
 

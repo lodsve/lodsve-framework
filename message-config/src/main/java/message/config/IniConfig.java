@@ -1,6 +1,5 @@
 package message.config;
 
-import message.config.exception.ConfigException;
 import message.config.loader.ini.IniLoader;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
@@ -31,7 +30,7 @@ public class IniConfig {
         try {
             inis = IniLoader.getIni();
         } catch (Exception e) {
-            throw new ConfigException(10008, "加载配置文件发生IO异常");
+            throw new RuntimeException("加载配置文件发生IO异常");
         }
     }
 

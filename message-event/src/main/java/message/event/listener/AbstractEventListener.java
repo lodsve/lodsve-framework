@@ -1,6 +1,5 @@
 package message.event.listener;
 
-import message.event.BaseEventException;
 import message.event.EventExecutor;
 import message.event.module.BaseEvent;
 import org.slf4j.Logger;
@@ -50,7 +49,7 @@ public abstract class AbstractEventListener implements InitializingBean {
     protected AbstractEventListener() {
     }
 
-    public abstract void handleEvent(BaseEvent baseEvent) throws BaseEventException;
+    public abstract void handleEvent(BaseEvent baseEvent) throws RuntimeException;
 
     public void afterPropertiesSet() throws Exception {
         //注册事件监听

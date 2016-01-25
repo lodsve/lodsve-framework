@@ -1,6 +1,6 @@
 package message.test.base;
 
-import message.base.utils.ApplicationHelper;
+import message.base.context.ApplicationHelper;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

@@ -1,7 +1,7 @@
 package message.mongodb.annotations;
 
-import message.datasource.core.factory.MongoDataSourceBeanDefinitionFactory;
-import message.template.resource.ThymeleafTemplateResource;
+import message.mongodb.core.MongoDataSourceBeanDefinitionFactory;
+import message.base.template.ThymeleafTemplateResource;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;

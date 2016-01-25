@@ -1,9 +1,9 @@
 package message.mybatis.common.mapper;
 
-import message.base.utils.ApplicationHelper;
-import message.mybatis.helper.SqlHelper;
+import message.base.context.ApplicationHelper;
 import message.mybatis.common.dao.BaseRepository;
 import message.mybatis.common.provider.EmptyMapperProvider;
+import message.mybatis.helper.SqlHelper;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.SelectProvider;

@@ -10,7 +10,7 @@ package message.validate.constants;
 public class ValidateConstants {
 
     //有异常的时候抛出的异常信息
-    public static final String VALIDATE_NO = "类:[{0}]中的字段:[{1}]未验证通过,其值为:[{2}],验证规则为:[{3}],请检查无误后重新保存!";
+    public static final String VALIDATE_NO = "类:[%s]中的字段:[%s]未验证通过,其值为:[%s],验证规则为:[%s],请检查无误后重新保存!";
 
     //框架中定义的注解
     public static final String[] VALIDATE_ANNOTATIONS = new String[]{

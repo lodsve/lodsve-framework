@@ -3,7 +3,6 @@ package message.transaction.channel;
 import com.pingplusplus.Pingpp;
 import com.pingplusplus.model.Charge;
 import com.pingplusplus.model.Refund;
-import message.transaction.RefundException;
 import message.transaction.domain.Payment;
 import message.transaction.utils.PingConfig;
 import message.transaction.utils.data.PayData;
@@ -70,13 +69,13 @@ public abstract class PingPay implements Pay<Charge, Refund> {
         Assert.notNull(payment);
 
         if (StringUtils.isEmpty(payment.getChargeId())) {
-            throw new RefundException(-1, "退款失败!");
+            throw new RuntimeException("退款失败!");
         }
 
         Charge ch = Charge.retrieve(payment.getChargeId());
 
         if (ch == null) {
-            throw new RefundException(-1, "退款失败!");
+            throw new RuntimeException("退款失败!");
         }
 
         Map<String, Object> refundMap = new HashMap<>();

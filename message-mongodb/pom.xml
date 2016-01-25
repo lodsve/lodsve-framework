@@ -17,11 +17,11 @@
     <dependencies>
         <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-template</artifactId>
+            <artifactId>message-base</artifactId>
         </dependency>
         <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-datasource</artifactId>
+            <artifactId>message-config</artifactId>
         </dependency>
 
         <dependency>

@@ -1,16 +1,22 @@
 package message.cache.oscache;
 
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
+import message.base.utils.StringUtils;
 import message.cache.Cache;
 import message.cache.CacheManager;
-import message.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * oscache cache manager impl.

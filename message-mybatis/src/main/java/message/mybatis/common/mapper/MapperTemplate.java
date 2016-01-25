@@ -32,7 +32,7 @@ import java.util.Set;
  */
 public abstract class MapperTemplate {
     private XMLLanguageDriver languageDriver = new XMLLanguageDriver();
-    private Map<String, Method> methodMap = new HashMap<String, Method>();
+    private Map<String, Method> methodMap = new HashMap<>();
     private Class<?> mapperClass;
     private MapperHelper mapperHelper;
 

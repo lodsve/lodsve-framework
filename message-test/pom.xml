@@ -27,7 +27,7 @@
         <!-- message -->
         <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-utils</artifactId>
+            <artifactId>message-base</artifactId>
         </dependency>
     </dependencies>
 

@@ -5,6 +5,7 @@ import message.search.engine.SolrSearchEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * solr配置.
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Bean;
  * @version V1.0, 2016/1/20 12:33
  */
 @Configurable
+@ComponentScan("message.search")
 public class SolrConfiguration {
     @Autowired
     private SearchProperties properties;

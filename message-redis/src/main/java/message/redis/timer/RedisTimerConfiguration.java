@@ -1,10 +1,11 @@
 package message.redis.timer;
 
-import message.datasource.core.connection.CosmosRedisConnectionFactory;
-import message.redis.annotations.EnableRedis;
+import message.redis.core.connection.CosmosRedisConnectionFactory;
+import message.redis.core.annotations.EnableRedis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.PatternTopic;
@@ -18,6 +19,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @version V1.0, 16/1/12 下午9:23
  */
 @Configuration
+@ComponentScan("message.redis.timer")
 @EnableRedis(name = "redisTimer")
 public class RedisTimerConfiguration {
     @Autowired

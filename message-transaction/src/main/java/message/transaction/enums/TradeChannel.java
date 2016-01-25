@@ -1,6 +1,6 @@
 package message.transaction.enums;
 
-import message.base.Codeable;
+import message.base.bean.Codeable;
 
 /**
  * 交易渠道.

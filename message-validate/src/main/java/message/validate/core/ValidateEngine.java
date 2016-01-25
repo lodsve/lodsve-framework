@@ -1,7 +1,7 @@
 package message.validate.core;
 
-import message.utils.ObjectUtils;
-import message.utils.StringUtils;
+import message.base.utils.ObjectUtils;
+import message.base.utils.StringUtils;
 import message.validate.annotations.ValidateEntity;
 import message.validate.constants.ValidateConstants;
 import message.validate.exception.DefaultExceptionHandler;

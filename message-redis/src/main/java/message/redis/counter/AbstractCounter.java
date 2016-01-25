@@ -1,11 +1,14 @@
 package message.redis.counter;
 
+import org.springframework.stereotype.Component;
+
 /**
  * .
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/9/28 下午1:05
  */
+@Component
 public abstract class AbstractCounter implements Counter {
     @Override
     public void increment(String catalog, String key, int step) {

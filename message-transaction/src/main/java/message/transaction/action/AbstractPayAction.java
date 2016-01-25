@@ -1,7 +1,6 @@
 package message.transaction.action;
 
 import com.pingplusplus.model.Charge;
-import message.transaction.PayException;
 import message.transaction.channel.Pay;
 import message.transaction.domain.Payment;
 import message.transaction.enums.TradeChannel;
@@ -51,7 +50,7 @@ public abstract class AbstractPayAction implements PayAction {
             payment = this.prepare(targetId, tradeType, amount, tradeChannel, userId);
         } else {
             if (TradeResult.YES == payment.getTradeResult()) {
-                throw new PayException(10017, "this order is paid!");
+                throw new RuntimeException("this order is paid!");
             }
         }
 

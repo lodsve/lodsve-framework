@@ -1,6 +1,6 @@
 package message.transaction.enums;
 
-import message.base.Codeable;
+import message.base.bean.Codeable;
 
 /**
  * 支付状态.

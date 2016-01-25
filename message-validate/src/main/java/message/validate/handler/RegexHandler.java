@@ -1,9 +1,8 @@
 package message.validate.handler;
 
-import message.utils.StringUtils;
+import message.base.utils.StringUtils;
 import message.validate.annotations.Regex;
 import message.validate.core.ValidateHandler;
-import message.validate.exception.EmptyRegexPattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +29,7 @@ public class RegexHandler extends ValidateHandler {
         String regexPattern = regex.regex();
         if(StringUtils.isEmpty(regexPattern)){
             logger.error("given empty regex string!");
-            throw new EmptyRegexPattern(10011, "regex pattern string is null!");
+            throw new RuntimeException("regex pattern string is null!");
         }
 
         if(logger.isDebugEnabled())

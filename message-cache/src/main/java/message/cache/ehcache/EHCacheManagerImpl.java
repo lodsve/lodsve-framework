@@ -1,8 +1,8 @@
 package message.cache.ehcache;
 
+import message.base.utils.StringUtils;
 import message.cache.Cache;
 import message.cache.CacheManager;
-import message.utils.StringUtils;
 import net.sf.ehcache.management.ManagementService;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 import org.slf4j.Logger;

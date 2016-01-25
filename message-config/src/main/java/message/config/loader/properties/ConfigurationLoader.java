@@ -1,7 +1,6 @@
 package message.config.loader.properties;
 
 import message.config.core.InitConfigPath;
-import message.config.exception.ConfigException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -42,7 +41,7 @@ public class ConfigurationLoader implements InitializingBean, FactoryBean<Proper
             try {
                 PropertiesLoaderUtils.fillProperties(prop, resource);
             } catch (IOException e) {
-                throw new ConfigException(10008, e.getMessage(), "load配置文件发生异常");
+                throw new RuntimeException("load配置文件发生异常");
             }
         }
     }

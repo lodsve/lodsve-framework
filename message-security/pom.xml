@@ -23,24 +23,20 @@
 
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
 
         <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-utils</artifactId>
+            <artifactId>message-base</artifactId>
         </dependency>
         <dependency>
             <groupId>cosmos.message</groupId>
@@ -49,10 +45,6 @@
         <dependency>
             <groupId>cosmos.message</groupId>
             <artifactId>message-validate</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cosmos.message</groupId>
-            <artifactId>message-logger</artifactId>
         </dependency>
     </dependencies>
 

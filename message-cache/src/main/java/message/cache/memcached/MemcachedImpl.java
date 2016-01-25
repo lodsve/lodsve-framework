@@ -1,7 +1,7 @@
 package message.cache.memcached;
 
+import message.base.utils.StringUtils;
 import message.cache.Cache;
-import message.utils.StringUtils;
 import net.spy.memcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

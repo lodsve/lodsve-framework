@@ -1,6 +1,6 @@
 package message.validate.handler;
 
-import message.utils.StringUtils;
+import message.base.utils.StringUtils;
 import message.validate.annotations.Password;
 import message.validate.core.ValidateHandler;
 import org.slf4j.Logger;

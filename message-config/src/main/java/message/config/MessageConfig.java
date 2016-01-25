@@ -1,11 +1,11 @@
 package message.config;
 
-import message.base.utils.ApplicationContextUtil;
-import message.base.utils.ApplicationHelper;
-import message.config.exception.ConfigException;
+import message.base.context.ApplicationHelper;
 import message.config.loader.i18n.DefaultResourceBundleMessageSource;
 import message.utils.StringUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.DelegatingMessageSource;
 
 import java.util.Collections;
@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
  * @version V1.0
  * @createTime 2012-3-14 下午07:59:37
  */
-public class MessageConfig {
+public class MessageConfig implements ApplicationContextAware {
     //国际化资源文件处理类在spring上下文中的key
     private static final String DEFAULT_MESSAGE_SOURCE = "messageSource";
 
@@ -44,10 +44,8 @@ public class MessageConfig {
                 if (obj2 instanceof DefaultResourceBundleMessageSource)
                     bundleMessageSource = (DefaultResourceBundleMessageSource) obj2;
                 else
-                    throw new ConfigException(10007, "can not find any messageSource what is DefaultResourceBundleMessageSource!");
+                    throw new RuntimeException("can not find any messageSource what is DefaultResourceBundleMessageSource!");
             }
-
-            context = ApplicationContextUtil.getContext();
         }
     }
 
@@ -114,7 +112,7 @@ public class MessageConfig {
         ResourceBundle bundle = bundleMessageSource.getResourceBundle(locale);
         Enumeration<String> keys = bundle.getKeys();
 
-        Map<String, String> messages = new HashMap<String, String>();
+        Map<String, String> messages = new HashMap<>();
         for (; keys.hasMoreElements(); ) {
             String key = keys.nextElement();
             String message = bundle.getString(key);
@@ -125,5 +123,10 @@ public class MessageConfig {
         allMessagesMap.put(locale, messages);
 
         return messages;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        context = applicationContext;
     }
 }

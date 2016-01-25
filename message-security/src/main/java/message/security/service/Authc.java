@@ -1,10 +1,9 @@
 package message.security.service;
 
 import message.security.SecurityConstants;
-import message.security.exception.SecurityException;
 import message.security.pojo.Account;
 import message.security.pojo.Role;
-import message.utils.EncryptUtils;
+import message.base.utils.EncryptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -38,7 +37,7 @@ public class Authc {
         Assert.hasText(password, "密码必填！");
 
         if (isExist(loginName)) {
-            throw new SecurityException(SecurityConstants.SECUTIRY_EXCEPTION_CODE, "用户名为'{0}'的用户已存在！", loginName);
+            throw new RuntimeException(String.format("用户名为'%s'的用户已存在！", loginName));
         }
 
         Account account = null;
@@ -160,7 +159,7 @@ public class Authc {
 
         Role role = this.accountService.loadRole(roleCode);
         if (role == null) {
-            throw new SecurityException(SecurityConstants.SECUTIRY_EXCEPTION_CODE, "code为'{0}'的角色已存在！", roleCode);
+            throw new RuntimeException(String.format("code为'%s'的角色已存在！", roleCode));
         }
 
         try {

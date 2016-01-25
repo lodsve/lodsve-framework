@@ -35,7 +35,7 @@
         </dependency>
         <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-utils</artifactId>
+            <artifactId>message-config</artifactId>
         </dependency>
     </dependencies>
 

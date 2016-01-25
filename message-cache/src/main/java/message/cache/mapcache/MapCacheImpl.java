@@ -1,10 +1,14 @@
 package message.cache.mapcache;
 
+import message.base.utils.StringUtils;
 import message.cache.Cache;
 import message.cache.Constants;
-import message.utils.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * use map for cache

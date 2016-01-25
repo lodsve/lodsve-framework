@@ -1,7 +1,6 @@
 package message.search.engine;
 
 import message.search.SearchBean;
-import message.search.SearchInitException;
 import message.utils.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.SimpleAnalyzer;
@@ -297,35 +296,35 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
 
             String owerId = sb.getOwerId();
             if (StringUtils.isEmpty(owerId)) {
-                throw new SearchInitException(10003, "you must give a owerId");
+                throw new RuntimeException("you must give a owerId");
             }
             Field owerId_ = new Field("owerId", owerId, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
             doc.add(owerId_);
 
             String owerName = sb.getOwerName();
             if (StringUtils.isEmpty(owerName)) {
-                throw new SearchInitException(10003, "you must give a owerName");
+                throw new RuntimeException("you must give a owerName");
             }
             Field owerName_ = new Field("owerName", owerName, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
             doc.add(owerName_);
 
             String link = sb.getLink();
             if (StringUtils.isEmpty(link)) {
-                throw new SearchInitException(10003, "you must give a link");
+                throw new RuntimeException("you must give a link");
             }
             Field link_ = new Field("link", link, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
             doc.add(link_);
 
             String keyword = sb.getKeyword();
             if (StringUtils.isEmpty(keyword)) {
-                throw new SearchInitException(10003, "you must give a keyword");
+                throw new RuntimeException("you must give a keyword");
             }
             Field keyword_ = new Field("keyword", keyword, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
             doc.add(keyword_);
 
             String createDate = sb.getCreateDate();
             if (StringUtils.isEmpty(createDate)) {
-                throw new SearchInitException(10003, "you must give a createDate");
+                throw new RuntimeException("you must give a createDate");
             }
             Field createDate_ = new Field("createDate", createDate, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
             doc.add(createDate_);

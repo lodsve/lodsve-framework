@@ -1,6 +1,5 @@
 package message.config.loader.i18n;
 
-import message.config.exception.ConfigException;
 import message.utils.FileUtils;
 import message.utils.StringUtils;
 import org.slf4j.Logger;
@@ -137,7 +136,7 @@ public class ResourceBundleHolder implements Serializable {
             locale = new Locale(locals[0], locals[1]);
         }
         if (locals == null) {
-            throw new ConfigException(10007, "can not get locale!");
+            throw new RuntimeException("can not get locale!");
         }
 
         if (logger.isDebugEnabled())

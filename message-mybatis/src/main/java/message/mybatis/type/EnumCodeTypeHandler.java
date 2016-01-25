@@ -1,6 +1,6 @@
 package message.mybatis.type;
 
-import message.base.Codeable;
+import message.base.bean.Codeable;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.slf4j.Logger;

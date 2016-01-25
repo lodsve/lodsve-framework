@@ -1,13 +1,12 @@
 package message.mybatis.configs;
 
-import message.datasource.core.factory.RdbmsDataSourceBeanDefinitionFactory;
+import message.base.utils.StringUtils;
 import message.mybatis.configs.annotations.EnableMyBatis;
 import message.mybatis.helper.MySQLSqlHelper;
 import message.mybatis.helper.OracleSqlHelper;
 import message.mybatis.key.generic.MySQLMaxValueIncrementer;
 import message.mybatis.key.sequence.OracleSequenceMaxValueIncrementer;
 import message.mybatis.type.TypeHandlerScanner;
-import message.utils.StringUtils;
 import org.flywaydb.core.Flyway;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;

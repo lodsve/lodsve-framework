@@ -95,7 +95,7 @@ public class InitConfigPath {
         }
 
         if (StringUtils.isEmpty(paramsPath)) {
-            throw new ConfigException(10008, "读取配置文件错误！需要设置web.xml参数或者启动参数[params.home]或者环境变量[PARAMS_HOME]，并且web.xml中配置 > 启动参数 > 环境变量");
+            throw new RuntimeException("读取配置文件错误！需要设置web.xml参数或者启动参数[params.home]或者环境变量[PARAMS_HOME]，并且web.xml中配置 > 启动参数 > 环境变量");
         }
 
         //判断路径是否含有classpath或者file
@@ -103,14 +103,14 @@ public class InitConfigPath {
             paramsPath = StringUtils.removeStart(paramsPath, PREFIX_CLASSPATH);
             Resource resource = new ClassPathResource(paramsPath, InitConfigPath.class.getClassLoader());
             if (resource == null) {
-                throw new ConfigException(10008, "参数配置文件[" + (paramsPath) + "]不存在");
+                throw new RuntimeException("参数配置文件[" + (paramsPath) + "]不存在");
             }
 
             try {
                 paramsPath = resource.getURL().getPath();
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);
-                throw new ConfigException(10008, "解析配置文件路径异常!");
+                throw new RuntimeException("解析配置文件路径异常!");
             }
         } else if (StringUtils.indexOf(paramsPath, PREFIX_SYSTEM) == 0) {
             paramsPath = StringUtils.removeStart(paramsPath, PREFIX_SYSTEM);
@@ -118,19 +118,19 @@ public class InitConfigPath {
 
         Resource paramsResource = new FileSystemResource(paramsPath + File.separator + ROOT_PARAM_FILE_NAME);
         if (!paramsResource.exists()) {
-            throw new ConfigException(10008, "参数配置文件[" + (paramsPath + File.separator + ROOT_PARAM_FILE_NAME) + "]不存在");
+            throw new RuntimeException("参数配置文件[" + (paramsPath + File.separator + ROOT_PARAM_FILE_NAME) + "]不存在");
         }
 
         Properties properties;
         try {
             properties = PropertiesLoaderUtils.loadProperties(paramsResource);
         } catch (IOException e) {
-            throw new ConfigException(10008, "加载配置文件[" + paramsResource + "]发生IO异常");
+            throw new RuntimeException("加载配置文件[" + paramsResource + "]发生IO异常");
         }
 
         String root = properties.getProperty(ROOT_PARAM_KEY);
         if (StringUtils.isEmpty(root)) {
-            throw new ConfigException(10008, "配置文件中没有rootKey:[" + ROOT_PARAM_KEY + "]");
+            throw new RuntimeException("配置文件中没有rootKey:[" + ROOT_PARAM_KEY + "]");
         }
 
         paramsRoot = paramsPath + File.separator + root;

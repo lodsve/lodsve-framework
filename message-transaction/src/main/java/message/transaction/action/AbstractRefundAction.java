@@ -1,6 +1,5 @@
 package message.transaction.action;
 
-import message.transaction.RefundException;
 import message.transaction.channel.Pay;
 import message.transaction.domain.Payment;
 import message.transaction.domain.Refund;
@@ -45,7 +44,7 @@ public abstract class AbstractRefundAction implements RefundAction {
             refund = this.prepare(paymentId);
         } else {
             if (TradeResult.YES == refund.getTradeResult()) {
-                throw new RefundException(-1, "支付单:[" + paymentId + "]已经退款成功!");
+                throw new RuntimeException("支付单:[" + paymentId + "]已经退款成功!");
             }
         }
 

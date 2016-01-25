@@ -16,16 +16,8 @@
         <module>message-config</module>
         <!-- 单元测试 -->
         <module>message-test</module>
-        <!-- 日志 -->
-        <module>message-logger</module>
-        <!-- 工具类 -->
-        <module>message-utils</module>
-        <!-- 异常 -->
-        <module>message-exception</module>
         <!-- 缓存 -->
         <module>message-cache</module>
-        <!-- 数据源 -->
-        <module>message-datasource</module>
         <!-- mybatis -->
         <module>message-mybatis</module>
         <!-- redis -->
@@ -36,18 +28,12 @@
         <module>message-search</module>
         <!-- 事件 -->
         <module>message-event</module>
-        <!-- 标签库 -->
-        <module>message-tags</module>
         <!-- 邮箱 -->
         <module>message-email</module>
-        <!-- 模板引擎 -->
-        <module>message-template</module>
         <!-- amqp -->
         <module>message-amqp</module>
         <!-- mvc -->
         <module>message-mvc</module>
-        <!-- swagger -->
-        <module>message-swagger</module>
         <!-- validate -->
         <module>message-validate</module>
         <!-- 安全 -->
@@ -682,6 +668,36 @@
                 <groupId>com.mangofactory</groupId>
                 <artifactId>swagger-springmvc</artifactId>
                 <version>0.8.4</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-webmvc</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-web</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-beans</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-lang</groupId>
+                        <artifactId>commons-lang</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.wordnik</groupId>
@@ -828,11 +844,6 @@
             </dependency>
             <dependency>
                 <groupId>cosmos.message</groupId>
-                <artifactId>message-datasource</artifactId>
-                <version>${cosmos.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cosmos.message</groupId>
                 <artifactId>message-email</artifactId>
                 <version>${cosmos.version}</version>
             </dependency>
@@ -843,17 +854,7 @@
             </dependency>
             <dependency>
                 <groupId>cosmos.message</groupId>
-                <artifactId>message-exception</artifactId>
-                <version>${cosmos.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cosmos.message</groupId>
                 <artifactId>message-mybatis</artifactId>
-                <version>${cosmos.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cosmos.message</groupId>
-                <artifactId>message-logger</artifactId>
                 <version>${cosmos.version}</version>
             </dependency>
             <dependency>
@@ -878,24 +879,9 @@
             </dependency>
             <dependency>
                 <groupId>cosmos.message</groupId>
-                <artifactId>message-tags</artifactId>
-                <version>${cosmos.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cosmos.message</groupId>
-                <artifactId>message-template</artifactId>
-                <version>${cosmos.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cosmos.message</groupId>
                 <artifactId>message-test</artifactId>
                 <version>${cosmos.version}</version>
                 <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>cosmos.message</groupId>
-                <artifactId>message-utils</artifactId>
-                <version>${cosmos.version}</version>
             </dependency>
             <dependency>
                 <groupId>cosmos.message</groupId>
@@ -910,11 +896,6 @@
             <dependency>
                 <groupId>cosmos.message</groupId>
                 <artifactId>message-redis</artifactId>
-                <version>${cosmos.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cosmos.message</groupId>
-                <artifactId>message-swagger</artifactId>
                 <version>${cosmos.version}</version>
             </dependency>
             <!-- cosmos message dependencies end -->

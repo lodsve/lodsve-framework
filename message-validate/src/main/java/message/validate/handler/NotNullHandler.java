@@ -1,6 +1,6 @@
 package message.validate.handler;
 
-import message.utils.ObjectUtils;
+import message.base.utils.ObjectUtils;
 import message.validate.core.ValidateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

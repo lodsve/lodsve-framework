@@ -1,7 +1,5 @@
 package message.transaction.notify;
 
-import message.transaction.PayException;
-import message.transaction.RefundException;
 import message.transaction.action.PayAction;
 import message.transaction.action.RefundAction;
 import message.transaction.domain.Payment;
@@ -61,7 +59,7 @@ public class TradeNotifyService {
         }
 
         if (null == payment || TradeResult.PROCESSING != payment.getTradeResult()) {
-            throw new PayException(10010, "支付单不存在。请确认数据完整性,需要查询的支付单号为：" + paymentId, paymentId);
+            throw new RuntimeException("支付单不存在。请确认数据完整性,需要查询的支付单号为：" + paymentId);
         }
 
         if (TradeResult.YES.equals(payment.getTradeResult())) {
@@ -73,7 +71,7 @@ public class TradeNotifyService {
         Assert.notNull(payAction, "消费类型异常!");
 
         if (amount == null || amount.longValue() != payment.getAmount().longValue()) {
-            throw new PayException(10011, "支付错误，支付金额被篡改，请检查支付数据,payId=" + paymentId, paymentId);
+            throw new RuntimeException("支付错误，支付金额被篡改，请检查支付数据,payId=" + paymentId);
         }
 
         // 支付账户
@@ -126,7 +124,7 @@ public class TradeNotifyService {
         Refund refund = refundRepository.findByChargeId(chargeId);
 
         if (null == refund || TradeResult.PROCESSING != refund.getTradeResult()) {
-            throw new RefundException(-1, "退款单不存在,请确认!支付单号为:" + chargeId);
+            throw new RuntimeException("退款单不存在,请确认!支付单号为:" + chargeId);
         }
 
         if (TradeResult.YES.equals(refund.getTradeResult())) {
@@ -137,7 +135,7 @@ public class TradeNotifyService {
         Payment payment = this.paymentRepository.findByChargeId(chargeId);
 
         if (amount == null || amount.longValue() != refund.getAmount() || payment == null || amount.longValue() != payment.getAmount()) {
-            throw new RefundException(-1, "退款金额错误!支付单号为=" + chargeId);
+            throw new RuntimeException("退款金额错误!支付单号为=" + chargeId);
         }
 
         RefundAction refundAction = this.tradeRouting.refund(payment.getTradeType());

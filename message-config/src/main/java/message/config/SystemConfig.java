@@ -3,7 +3,6 @@ package message.config;
 import message.config.loader.properties.Configuration;
 import message.config.loader.properties.ConfigurationLoader;
 import message.config.loader.properties.PropertiesConfiguration;
-import message.config.exception.ConfigException;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
@@ -191,7 +190,7 @@ public class SystemConfig {
         try {
             return configuration = new PropertiesConfiguration(ConfigurationLoader.getConfigFileProperties(resource));
         } catch (IOException e) {
-            throw new ConfigException(10008, "加载配置文件发生IO异常");
+            throw new RuntimeException("加载配置文件发生IO异常");
         }
     }
 }

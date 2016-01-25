@@ -1,6 +1,5 @@
 package message.security.core;
 
-import message.security.SecurityConstants;
 import message.security.annotation.NeedLogin;
 import message.security.service.Authz;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             return super.preHandle(request, response, handler);
         } else {
             //未登录
-            throw new message.security.exception.SecurityException(SecurityConstants.SECUTIRY_EXCEPTION_CODE, "未登录！");
+            throw new RuntimeException("未登录！");
         }
     }
 

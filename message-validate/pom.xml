@@ -28,10 +28,6 @@
             <groupId>cosmos.message</groupId>
             <artifactId>message-base</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cosmos.message</groupId>
-            <artifactId>message-utils</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

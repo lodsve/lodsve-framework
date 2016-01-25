@@ -6,6 +6,7 @@ import net.paoding.analysis.analyzer.PaodingAnalyzer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * lucene配置.
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Bean;
  * @version V1.0, 2016/1/20 12:33
  */
 @Configurable
+@ComponentScan("message.search")
 public class LuceneConfiguration {
     @Autowired
     private SearchProperties properties;

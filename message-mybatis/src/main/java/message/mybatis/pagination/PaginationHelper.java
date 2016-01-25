@@ -1,6 +1,6 @@
 package message.mybatis.pagination;
 
-import message.base.utils.ApplicationHelper;
+import message.base.context.ApplicationHelper;
 import message.mybatis.helper.SqlHelper;
 import message.utils.StringUtils;
 import org.apache.ibatis.binding.MapperMethod;

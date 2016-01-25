@@ -1,8 +1,6 @@
 package message.validate.core;
 
-import message.utils.StringUtils;
-
-import java.lang.annotation.Annotation;
+import message.base.utils.StringUtils;
 
 /**
  * 类似于map,放置验证注解和其对应的处理类.

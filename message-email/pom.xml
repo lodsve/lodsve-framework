@@ -26,9 +26,8 @@
 
         <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-exception</artifactId>
+            <artifactId>message-base</artifactId>
         </dependency>
-
         <dependency>
             <groupId>cosmos.message</groupId>
             <artifactId>message-config</artifactId>

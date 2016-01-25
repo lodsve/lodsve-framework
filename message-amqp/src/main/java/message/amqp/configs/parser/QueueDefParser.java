@@ -2,7 +2,7 @@ package message.amqp.configs.parser;
 
 import message.amqp.core.Queue;
 import message.config.SystemConfig;
-import message.template.resource.ThymeleafTemplateResource;
+import message.base.template.ThymeleafTemplateResource;
 import message.utils.PropertyPlaceholderHelper;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionReader;

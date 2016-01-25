@@ -1,10 +1,8 @@
 package message.security.core;
 
-import message.security.SecurityConstants;
 import message.security.annotation.NeedAuthz;
-import message.security.exception.SecurityException;
 import message.security.pojo.Account;
-import message.utils.StringUtils;
+import message.base.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -26,7 +24,7 @@ public class AuthzInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if(!(handler instanceof HandlerMethod)) {
+        if (!(handler instanceof HandlerMethod)) {
             return super.preHandle(request, response, handler);
         }
 
@@ -43,7 +41,7 @@ public class AuthzInterceptor extends HandlerInterceptorAdapter {
         Account account = this.authz.getLoginAccount(request);
         if (account == null) {
             //未登录
-            throw new SecurityException(SecurityConstants.SECUTIRY_EXCEPTION_CODE, "未登录！");
+            throw new RuntimeException("未登录！");
         }
 
         boolean authz = this.authz.authz(account.getLoginName(), ac.roles());
@@ -51,9 +49,8 @@ public class AuthzInterceptor extends HandlerInterceptorAdapter {
         if (authz) {
             return super.preHandle(request, response, handler);
         } else {
-            throw new SecurityException(SecurityConstants.SECUTIRY_EXCEPTION_CODE, "用户{0}没有权限访问此url:{1},指定角色code为:{2}", new String[]{
-                    account.getLoginName(), request.getContextPath(), StringUtils.join(ac.roles(), ",")
-            });
+            throw new RuntimeException(String.format("用户%s没有权限访问此url:%s,指定角色code为:%s",
+                    account.getLoginName(), request.getContextPath(), StringUtils.join(ac.roles(), ",")));
         }
     }
 }

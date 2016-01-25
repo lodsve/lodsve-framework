@@ -1,6 +1,5 @@
 package message.transaction.channel;
 
-import message.transaction.PayException;
 import message.transaction.enums.TradeChannel;
 import message.transaction.enums.TradeType;
 import message.transaction.utils.Channel;
@@ -31,7 +30,7 @@ public class AliPayWap extends CommonAliPay {
         TradeType type = ParamsHolder.get("tradeType");
 
         if (type == null) {
-            throw new PayException(10016, "TradeType IS NULL!");
+            throw new RuntimeException("TradeType IS NULL!");
         }
 
         String notifyUrl = pingConfig.getNotifyUrl() + "/%s/" + type.toString();

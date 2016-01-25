@@ -1,12 +1,12 @@
 package message.mvc.config;
 
-import message.mvc.web.convert.CustomMappingJackson2HttpMessageConverter;
-import message.mvc.web.convert.CustomObjectMapper;
-import message.mvc.web.convert.EnumCodeConverterFactory;
-import message.mvc.web.convert.StringDateConvertFactory;
-import message.mvc.web.resolver.BindDataHandlerMethodArgumentResolver;
-import message.mvc.web.resolver.ParseDataHandlerMethodArgumentResolver;
-import message.mvc.web.resolver.WebResourceDataHandlerMethodArgumentResolver;
+import message.mvc.convert.CustomMappingJackson2HttpMessageConverter;
+import message.mvc.convert.CustomObjectMapper;
+import message.mvc.convert.EnumCodeConverterFactory;
+import message.mvc.convert.StringDateConvertFactory;
+import message.mvc.resolver.BindDataHandlerMethodArgumentResolver;
+import message.mvc.resolver.ParseDataHandlerMethodArgumentResolver;
+import message.mvc.resolver.WebResourceDataHandlerMethodArgumentResolver;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -25,7 +25,7 @@ import java.util.List;
  * @version V1.0, 15/8/15 下午1:22
  */
 @Configuration
-@ComponentScan(basePackages = {"message.mvc.web"})
+@ComponentScan(basePackages = {"message.mvc"})
 public class CosmosWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
 
     @Override

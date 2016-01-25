@@ -39,9 +39,4 @@ public class SecurityConstants {
      * 账号在session中的key
      */
     public static final String ACCOUNT_KEY_IN_SESSION = "ACCOUNT_SESSION_KEY";
-
-    /**
-     * 安全模块异常code
-     */
-    public static final Integer SECUTIRY_EXCEPTION_CODE = Integer.valueOf(10012);
 }

@@ -17,11 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>cosmos.message</groupId>
-            <artifactId>message-template</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cosmos.message</groupId>
-            <artifactId>message-utils</artifactId>
+            <artifactId>message-base</artifactId>
         </dependency>
         <dependency>
             <groupId>cosmos.message</groupId>

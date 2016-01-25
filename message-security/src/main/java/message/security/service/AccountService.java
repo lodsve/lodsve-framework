@@ -6,7 +6,7 @@ import message.security.pojo.Role;
 import message.security.repository.AccountRepository;
 import message.security.repository.AccountRoleRepository;
 import message.security.repository.RoleRepository;
-import message.utils.EncryptUtils;
+import message.base.utils.EncryptUtils;
 import message.validate.core.NeedValidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
