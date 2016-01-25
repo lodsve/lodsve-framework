@@ -1,6 +1,5 @@
 package message.base.utils;
 
-import message.utils.exception.FileExistException;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +63,7 @@ public class FileUtils {
 	public static void createFolder(File file){
 		if(file.exists()){
 			logger.error("folder named '{}' is exist!", file.getName());
-			throw new FileExistException(10006, "'{}'文件夹已存在", file.getName());
+			throw new RuntimeException(String.format("'%s'文件夹已存在", file.getName()));
 		} else {
 			try {
 				org.apache.commons.io.FileUtils.forceMkdir(file);

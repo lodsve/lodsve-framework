@@ -1,13 +1,13 @@
 package message.config.auto;
 
+import message.base.utils.GenericsUtils;
+import message.base.utils.PropertyPlaceholderHelper;
+import message.base.utils.StringUtils;
 import message.config.SystemConfig;
 import message.config.auto.annotations.ConfigurationProperties;
 import message.config.loader.properties.Configuration;
 import message.config.loader.properties.ConfigurationLoader;
 import message.config.loader.properties.PropertiesConfiguration;
-import message.utils.GenericsUtils;
-import message.utils.PropertyPlaceholderHelper;
-import message.utils.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.StandardEnvironment;

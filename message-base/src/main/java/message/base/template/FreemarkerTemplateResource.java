@@ -4,8 +4,8 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
-import message.utils.FileUtils;
-import message.utils.StringUtils;
+import message.base.utils.FileUtils;
+import message.base.utils.StringUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;

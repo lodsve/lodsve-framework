@@ -1,6 +1,6 @@
 package message.base.template;
 
-import message.utils.StringUtils;
+import message.base.utils.StringUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;

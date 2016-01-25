@@ -1,7 +1,7 @@
 package message.base.template;
 
-import message.utils.FileUtils;
-import message.utils.StringUtils;
+import message.base.utils.FileUtils;
+import message.base.utils.StringUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.VelocityContext;
