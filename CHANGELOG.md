@@ -1,5 +1,37 @@
 # 更新日志
 ---
+## V2.4.1
+1. 项目进行重构
+2. 合并一些基础项目到message-base中
+3. 重构spring的加载方式,eg:
+
+	```
+	<!-- spring配置 start -->
+	...
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath*:/META-INF/spring/*.xml</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>spring</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextClass</param-name>
+            <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+        </init-param>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>test.cosmos.config.CosmosWebMVCConfig,classpath*:/META-INF/springWeb/*.xml</param-value>
+        </init-param>
+    </servlet>
+    ...
+    <!-- spring配置 start -->
+	```
+
+## V2.3.4
+1. 添加message-mongodb,对mongodb的支持
+
 ## V2.3.3
 1. 大量使用JavaConfig，抛弃原有的xml配置
 
