@@ -1,6 +1,6 @@
 package message.mybatis.type;
 
-import message.utils.StringUtils;
+import message.base.utils.StringUtils;
 import org.apache.ibatis.type.MappedTypes;
 import org.apache.ibatis.type.TypeHandler;
 import org.slf4j.Logger;

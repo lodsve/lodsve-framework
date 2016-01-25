@@ -2,7 +2,7 @@ package message.config;
 
 import message.base.context.ApplicationHelper;
 import message.config.loader.i18n.DefaultResourceBundleMessageSource;
-import message.utils.StringUtils;
+import message.base.utils.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

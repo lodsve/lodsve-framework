@@ -48,6 +48,10 @@
             <groupId>cosmos.message</groupId>
             <artifactId>message-base</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cosmos.message</groupId>
+            <artifactId>message-config</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

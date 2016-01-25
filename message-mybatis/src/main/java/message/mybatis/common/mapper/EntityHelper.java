@@ -1,7 +1,6 @@
 package message.mybatis.common.mapper;
 
-import message.mybatis.exception.MybatisException;
-import message.utils.StringUtils;
+import message.base.utils.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -286,13 +285,13 @@ public class EntityHelper {
                 entityTable.name = camelhumpToUnderline(entityClass.getSimpleName());
             }
         } else {
-            throw new MybatisException(10011, "类[" + entityClass.getName() + "]必须要有@Table注解!");
+            throw new RuntimeException("类[" + entityClass.getName() + "]必须要有@Table注解!");
         }
 
         //列
         List<Field> fieldList = getAllField(entityClass, null);
-        Set<EntityColumn> columnSet = new LinkedHashSet<EntityColumn>();
-        Set<EntityColumn> pkColumnSet = new LinkedHashSet<EntityColumn>();
+        Set<EntityColumn> columnSet = new LinkedHashSet<>();
+        Set<EntityColumn> pkColumnSet = new LinkedHashSet<>();
         for (Field field : fieldList) {
             //排除字段
             if (field.isAnnotationPresent(Transient.class)) {
@@ -308,7 +307,7 @@ public class EntityHelper {
                 GeneratedValue generatedValue = field.getAnnotation(GeneratedValue.class);
                 String generator = generatedValue.generator();
                 if (StringUtils.isEmpty(generator)) {
-                    throw new MybatisException(10011, "类[" + entityClass.getName() + "]的字段[" + field.getName()
+                    throw new RuntimeException("类[" + entityClass.getName() + "]的字段[" + field.getName()
                             + "]有@GeneratedValue注解,但是没有设置值!");
                 } else {
                     entityColumn.setGenerator(generator);

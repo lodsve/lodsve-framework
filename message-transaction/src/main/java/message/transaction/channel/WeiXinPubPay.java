@@ -2,7 +2,7 @@ package message.transaction.channel;
 
 import message.transaction.enums.TradeChannel;
 import message.transaction.utils.Channel;
-import message.utils.ParamsHolder;
+import message.base.utils.ParamsHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 

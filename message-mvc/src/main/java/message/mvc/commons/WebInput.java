@@ -2,8 +2,8 @@ package message.mvc.commons;
 
 import message.base.bean.Constants;
 import message.mvc.editor.CustomDateEditor;
-import message.utils.RequestUtils;
-import message.utils.StringUtils;
+import message.base.utils.RequestUtils;
+import message.base.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;

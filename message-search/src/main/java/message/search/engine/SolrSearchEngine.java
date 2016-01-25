@@ -1,7 +1,7 @@
 package message.search.engine;
 
 import message.search.SearchBean;
-import message.utils.StringUtils;
+import message.base.utils.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;

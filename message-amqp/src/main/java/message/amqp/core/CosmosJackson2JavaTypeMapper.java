@@ -2,7 +2,7 @@ package message.amqp.core;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import message.utils.StringUtils;
+import message.base.utils.StringUtils;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.support.converter.DefaultJackson2JavaTypeMapper;
 import org.springframework.util.ClassUtils;

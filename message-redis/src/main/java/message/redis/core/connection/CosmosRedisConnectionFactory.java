@@ -1,7 +1,7 @@
 package message.redis.core.connection;
 
 import message.redis.core.config.RedisProperties;
-import message.utils.StringUtils;
+import message.base.utils.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;

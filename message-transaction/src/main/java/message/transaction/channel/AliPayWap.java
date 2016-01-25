@@ -4,7 +4,7 @@ import message.transaction.enums.TradeChannel;
 import message.transaction.enums.TradeType;
 import message.transaction.utils.Channel;
 import message.transaction.utils.PingConfig;
-import message.utils.ParamsHolder;
+import message.base.utils.ParamsHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

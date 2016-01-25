@@ -7,7 +7,7 @@ import message.transaction.domain.Payment;
 import message.transaction.utils.PingConfig;
 import message.transaction.utils.data.PayData;
 import message.transaction.utils.data.RefundData;
-import message.utils.StringUtils;
+import message.base.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;

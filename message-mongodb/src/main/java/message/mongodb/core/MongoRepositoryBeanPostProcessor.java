@@ -1,6 +1,6 @@
 package message.mongodb.core;
 
-import message.utils.GenericsUtils;
+import message.base.utils.GenericsUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;

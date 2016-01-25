@@ -2,8 +2,8 @@ package message.config.loader.ini;
 
 import message.config.core.InitConfigPath;
 
-import message.utils.FileUtils;
-import message.utils.StringUtils;
+import message.base.utils.FileUtils;
+import message.base.utils.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;

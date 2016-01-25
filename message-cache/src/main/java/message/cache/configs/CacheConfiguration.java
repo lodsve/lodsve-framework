@@ -1,9 +1,9 @@
 package message.cache.configs;
 
+import message.base.utils.PropertyPlaceholderHelper;
 import message.cache.CacheManager;
 import message.cache.utils.CacheFactoryBean;
 import message.config.SystemConfig;
-import message.utils.PropertyPlaceholderHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

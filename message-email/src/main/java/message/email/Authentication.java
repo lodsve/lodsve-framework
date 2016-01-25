@@ -1,6 +1,6 @@
 package message.email;
 
-import message.utils.StringUtils;
+import message.base.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

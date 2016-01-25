@@ -1,7 +1,7 @@
 package message.email;
 
-import message.utils.StringUtils;
-import message.utils.ValidateUtils;
+import message.base.utils.StringUtils;
+import message.base.utils.ValidateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,7 @@ package message.transaction.notify;
 import com.pingplusplus.model.Event;
 import com.pingplusplus.model.Webhooks;
 import message.transaction.utils.PingConfig;
-import message.utils.StringUtils;
+import message.base.utils.StringUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;

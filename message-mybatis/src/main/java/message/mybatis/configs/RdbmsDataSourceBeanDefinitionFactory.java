@@ -1,14 +1,13 @@
 package message.mybatis.configs;
 
-import message.config.SystemConfig;
-import message.config.loader.properties.Configuration;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import message.config.SystemConfig;
+import message.config.loader.properties.Configuration;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 
 /**
  * 关系型数据库数据源.
