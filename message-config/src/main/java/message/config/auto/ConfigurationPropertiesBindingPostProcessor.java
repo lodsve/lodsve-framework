@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @version V1.0, 16/1/9 下午5:41
  */
 @Component
-@DependsOn({"configurationLoader", "iniLoader", "messageSourceLoader"})
+@DependsOn({"messageSourceLoader"})
 public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProcessor {
 
     @Override

@@ -1,8 +1,12 @@
 package message.mongodb.annotations;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import message.base.template.ThymeleafTemplateResource;
 import message.base.utils.StringUtils;
 import message.mongodb.core.MongoDataSourceBeanDefinitionFactory;
-import message.base.template.ThymeleafTemplateResource;
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -10,11 +14,9 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.io.Resource;
 import org.springframework.core.type.AnnotationMetadata;
+import org.springframework.core.type.StandardAnnotationMetadata;
 import org.springframework.util.Assert;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.util.ClassUtils;
 
 /**
  * 加载mongodb操作的一些bean.
@@ -39,6 +41,14 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
 
         String[] basePackage = attributes.getStringArray(BASE_PACKAGE_ATTRIBUTE_NAME);
         String[] domainPackage = attributes.getStringArray(DOMAIN_PACKAGE_ATTRIBUTE_NAME);
+
+        Class<?> introspectedClass = ((StandardAnnotationMetadata) importingClassMetadata).getIntrospectedClass();
+        if (ArrayUtils.isEmpty(basePackage) && introspectedClass != null) {
+            basePackage = Arrays.asList(ClassUtils.getPackageName(introspectedClass)).toArray(new String[1]);
+        }
+        if (ArrayUtils.isEmpty(domainPackage) && introspectedClass != null) {
+            domainPackage = Arrays.asList(ClassUtils.getPackageName(introspectedClass)).toArray(new String[1]);
+        }
 
         BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(registry);
         beanDefinitionReader.loadBeanDefinitions(loadBeanDefinitions(dataSource, basePackage, domainPackage));

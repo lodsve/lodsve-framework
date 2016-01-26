@@ -1,17 +1,13 @@
 package message.mongodb.core;
 
 import com.mongodb.MongoURI;
-import message.config.SystemConfig;
 import message.config.auto.AutoConfigurationCreator;
 import message.config.auto.annotations.ConfigurationProperties;
 import message.mongodb.config.MongoProperties;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.util.StringUtils;
-
-import java.util.Properties;
 
 /**
  * mongo db datasource.
@@ -21,7 +17,6 @@ import java.util.Properties;
  */
 public class MongoDataSourceBeanDefinitionFactory {
     private static final String URL_PREFIX = "mongodb://";
-    private static final String DATASOURCE_FILE_NAME = "mongo.properties";
 
     private String dataSourceName;
     private MongoProperties mongoProperties;
@@ -32,9 +27,6 @@ public class MongoDataSourceBeanDefinitionFactory {
             AutoConfigurationCreator.Builder<MongoProperties> builder = new AutoConfigurationCreator.Builder<>();
             builder.setAnnotation(MongoProperties.class.getAnnotation(ConfigurationProperties.class));
             builder.setClazz(MongoProperties.class);
-            Properties prop = new Properties();
-            PropertiesLoaderUtils.fillProperties(prop, SystemConfig.getConfigFile(DATASOURCE_FILE_NAME));
-            builder.setProp(prop);
 
             this.mongoProperties = builder.build();
         } catch (Exception e) {

@@ -33,7 +33,7 @@ public @interface EnableMongo {
      * @return
      * @see org.springframework.stereotype.Repository
      */
-    String[] basePackage();
+    String[] basePackage() default {};
 
     /**
      * 含有{@link org.springframework.data.mongodb.core.mapping.Document }注解的dao类所在的包路径
@@ -41,5 +41,5 @@ public @interface EnableMongo {
      * @return
      * @see org.springframework.data.mongodb.core.mapping.Document
      */
-    String[] domainPackage();
+    String[] domainPackage() default {};
 }

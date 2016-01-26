@@ -1,25 +1,5 @@
 package message.config.auto;
 
-import message.base.utils.GenericUtils;
-import message.base.utils.PropertyPlaceholderHelper;
-import message.base.utils.StringUtils;
-import message.config.SystemConfig;
-import message.config.auto.annotations.ConfigurationProperties;
-import message.config.loader.properties.Configuration;
-import message.config.loader.properties.ConfigurationLoader;
-import message.config.loader.properties.PropertiesConfiguration;
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.ArrayUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.core.env.Environment;
-import org.springframework.core.env.StandardEnvironment;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
-
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -29,6 +9,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import message.base.utils.GenericUtils;
+import message.base.utils.PropertyPlaceholderHelper;
+import message.base.utils.StringUtils;
+import message.config.SystemConfig;
+import message.config.auto.annotations.ConfigurationProperties;
+import message.config.loader.properties.Configuration;
+import message.config.loader.properties.ConfigurationLoader;
+import message.config.loader.properties.PropertiesConfiguration;
+import org.apache.commons.lang.ArrayUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 /**
  * 自动装配生成器.
@@ -40,8 +36,6 @@ public class AutoConfigurationCreator {
     private static final List<? extends Class<? extends Serializable>> SIMPLE_CLASS = Arrays.asList(Boolean.class, boolean.class, Long.class, long.class,
             Integer.class, int.class, String.class, Double.class, double.class);
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
-    private Environment environment = new StandardEnvironment();
-    private Properties properties;
 
     private AutoConfigurationCreator() {
     }
@@ -85,19 +79,14 @@ public class AutoConfigurationCreator {
 
     private Configuration loadProp(String... configLocations) throws Exception {
         if (ArrayUtils.isEmpty(configLocations)) {
-            Properties allProperties = ConfigurationLoader.getConfigProperties();
-            if (MapUtils.isNotEmpty(properties)) {
-                allProperties.putAll(properties);
-            }
-
-            return new PropertiesConfiguration(allProperties);
+            return new PropertiesConfiguration(ConfigurationLoader.getConfigProperties());
         }
 
         Properties prop = new Properties();
         for (String location : configLocations) {
             location = PropertyPlaceholderHelper.replacePlaceholder(location, true, SystemConfig.getAllConfigs());
 
-            Resource resource = this.resourceLoader.getResource(this.environment.resolvePlaceholders(location));
+            Resource resource = this.resourceLoader.getResource(location);
             PropertiesLoaderUtils.fillProperties(prop, resource);
         }
 
@@ -151,10 +140,6 @@ public class AutoConfigurationCreator {
         return map;
     }
 
-    public void setProperties(Properties properties) {
-        this.properties = properties;
-    }
-
     public static class Builder<T> {
         private AutoConfigurationCreator creator = new AutoConfigurationCreator();
         private Class<T> clazz;
@@ -167,11 +152,6 @@ public class AutoConfigurationCreator {
 
         public Builder<T> setAnnotation(ConfigurationProperties annotation) {
             this.annotation = annotation;
-            return this;
-        }
-
-        public Builder<T> setProp(Properties prop) {
-            creator.setProperties(prop);
             return this;
         }
 
