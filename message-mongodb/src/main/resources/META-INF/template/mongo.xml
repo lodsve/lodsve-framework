@@ -12,7 +12,7 @@
             th:attr="id=${dataSource}+'MappingConverter',
             db-factory-ref=${dataSource},
     		type-mapper-ref='defaultMongoTypeMapper',
-    		base-package=${basePackage}+'.domain'"/>
+    		base-package=${domainPackage}"/>
 
     <mongo:template
             th:attr="id=${dataSource}+'MongoTemplate',
@@ -21,9 +21,10 @@
 
     <mongo:repositories
             th:attr="mongo-template-ref=${dataSource}+'MongoTemplate',
-            base-package=${basePackage}+'.repository'"/>
+            base-package=${basePackage}"/>
 
-    <bean id="mongoRepositoryFactory" class="org.springframework.data.mongodb.repository.support.MongoRepositoryFactory">
+    <bean id="mongoRepositoryFactory"
+          class="org.springframework.data.mongodb.repository.support.MongoRepositoryFactory">
         <constructor-arg th:attr="ref=${dataSource}+'MongoTemplate'"/>
     </bean>
 </beans>

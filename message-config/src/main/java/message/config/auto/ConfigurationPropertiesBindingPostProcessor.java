@@ -24,7 +24,10 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
         Object target = bean;
         if (annotation != null) {
             try {
-                target = new AutoConfigurationCreator(null).createBean(target.getClass(), annotation);
+                AutoConfigurationCreator.Builder builder = new AutoConfigurationCreator.Builder();
+                builder.setClazz(target.getClass());
+                builder.setAnnotation(annotation);
+                target = builder.build();
             } catch (Exception e) {
                 e.printStackTrace();
             }

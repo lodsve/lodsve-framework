@@ -7,8 +7,11 @@ import message.config.auto.annotations.ConfigurationProperties;
 import message.mongodb.config.MongoProperties;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.util.StringUtils;
+
+import java.util.Properties;
 
 /**
  * mongo db datasource.
@@ -26,7 +29,14 @@ public class MongoDataSourceBeanDefinitionFactory {
     public MongoDataSourceBeanDefinitionFactory(String dataSourceName) {
         this.dataSourceName = dataSourceName;
         try {
-            this.mongoProperties = new AutoConfigurationCreator(SystemConfig.getFileConfiguration(DATASOURCE_FILE_NAME)).createBean(MongoProperties.class, MongoProperties.class.getAnnotation(ConfigurationProperties.class));
+            AutoConfigurationCreator.Builder<MongoProperties> builder = new AutoConfigurationCreator.Builder<>();
+            builder.setAnnotation(MongoProperties.class.getAnnotation(ConfigurationProperties.class));
+            builder.setClazz(MongoProperties.class);
+            Properties prop = new Properties();
+            PropertiesLoaderUtils.fillProperties(prop, SystemConfig.getConfigFile(DATASOURCE_FILE_NAME));
+            builder.setProp(prop);
+
+            this.mongoProperties = builder.build();
         } catch (Exception e) {
             e.printStackTrace();
         }

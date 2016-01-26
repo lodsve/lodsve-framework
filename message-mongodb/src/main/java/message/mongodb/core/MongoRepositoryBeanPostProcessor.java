@@ -1,6 +1,6 @@
 package message.mongodb.core;
 
-import message.base.utils.GenericsUtils;
+import message.base.utils.GenericUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
@@ -35,7 +35,7 @@ public class MongoRepositoryBeanPostProcessor implements BeanPostProcessor, Appl
             return bean;
         }
 
-        Class<?> domainClass = GenericsUtils.getClassGenericType0(bean.getClass());
+        Class<?> domainClass = GenericUtils.getGenericParameter0(bean.getClass());
         MongoRepositoryFactory repositoryFactory = context.getBean(MongoRepositoryFactory.class);
         MongoEntityInformation information = repositoryFactory.getEntityInformation(domainClass);
 
