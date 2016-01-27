@@ -42,6 +42,8 @@
         <module>message-transaction</module>
         <!-- 日志 -->
         <module>message-logger</module>
+        <!-- 微信公众号 -->
+        <module>message-wechat</module>
     </modules>
 
     <properties>
@@ -795,6 +797,11 @@
             <dependency>
                 <groupId>cosmos.message</groupId>
                 <artifactId>message-redis</artifactId>
+                <version>${cosmos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cosmos.message</groupId>
+                <artifactId>message-wechat</artifactId>
                 <version>${cosmos.version}</version>
             </dependency>
             <!-- cosmos message dependencies end -->
