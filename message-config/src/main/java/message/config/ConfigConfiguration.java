@@ -17,28 +17,20 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 public class ConfigConfiguration {
 
     @Bean
-    public ConfigurationLoader configurationLoader() throws Exception {
-        ConfigurationLoader configurationLoader = new ConfigurationLoader();
-        configurationLoader.afterPropertiesSet();
-
-        return configurationLoader;
-    }
-
-    @Bean
-    public ResourceBundleHolder resourceBundleHolder(){
+    public ResourceBundleHolder resourceBundleHolder() {
         return new ResourceBundleHolder();
     }
 
     @Bean
     public PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() throws Exception {
         PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
-        configurer.setProperties(configurationLoader().getObject());
+        configurer.setProperties(ConfigurationLoader.getConfigProperties());
 
         return configurer;
     }
 
     @Bean
-    public DefaultResourceBundleMessageSource messageSource(){
+    public DefaultResourceBundleMessageSource messageSource() {
         DefaultResourceBundleMessageSource messageSource = new DefaultResourceBundleMessageSource();
         messageSource.setAlwaysUseMessageFormat(true);
         messageSource.setResourceBundleHolder(resourceBundleHolder());

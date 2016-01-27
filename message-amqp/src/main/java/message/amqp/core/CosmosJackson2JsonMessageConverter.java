@@ -1,8 +1,6 @@
 package message.amqp.core;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -56,12 +54,12 @@ public class CosmosJackson2JsonMessageConverter extends Jackson2JsonMessageConve
         return content;
     }
 
-    private Object convertBytesToObject(byte[] body, String encoding, JavaType targetJavaType) throws JsonParseException, JsonMappingException, IOException {
+    private Object convertBytesToObject(byte[] body, String encoding, JavaType targetJavaType) throws IOException {
         String contentAsString = new String(body, encoding);
         return jsonObjectMapper.readValue(contentAsString, targetJavaType);
     }
 
-    private Object convertBytesToObject(byte[] body, String encoding, Class<?> targetClass) throws JsonParseException, JsonMappingException, IOException {
+    private Object convertBytesToObject(byte[] body, String encoding, Class<?> targetClass) throws IOException {
         String contentAsString = new String(body, encoding);
         return jsonObjectMapper.readValue(contentAsString, jsonObjectMapper.constructType(targetClass));
     }

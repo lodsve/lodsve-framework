@@ -188,7 +188,7 @@ public class SystemConfig {
         Resource resource = getConfigFile(fileName);
 
         try {
-            return configuration = new PropertiesConfiguration(ConfigurationLoader.getConfigFileProperties(resource));
+            return new PropertiesConfiguration(ConfigurationLoader.getConfigFileProperties(resource));
         } catch (IOException e) {
             throw new RuntimeException("加载配置文件发生IO异常");
         }

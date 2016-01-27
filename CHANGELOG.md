@@ -1,5 +1,13 @@
 # 更新日志
 ---
+## V2.4.2
+1. 使用Spring BeanWrapper实现配置即对象
+2. servlet容器启动即加载properties和ini配置
+3. 修改redis mongodb配置加载方式
+4. mongodb mybatis等加载配置时,basePackage可以不写,默认是项目ApplicationConfiguration.java所在的包路径
+5. domain自动转dto的一个bug修改
+6. 关系型数据库使用类型安全的方式配置参数
+
 ## V2.4.1
 1. 项目进行重构
 2. 合并一些基础项目到message-base中

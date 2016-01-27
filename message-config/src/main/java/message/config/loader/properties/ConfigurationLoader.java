@@ -1,8 +1,9 @@
 package message.config.loader.properties;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
 import message.config.core.InitConfigPath;
-import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -10,18 +11,17 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
-
 /**
  * 配置文件解析.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 14-8-17 下午9:44
  */
-public class ConfigurationLoader implements InitializingBean, FactoryBean<Properties> {
+public class ConfigurationLoader {
     private static Properties prop = new Properties();
+
+    private ConfigurationLoader() {
+    }
 
     public static Properties getConfigFileProperties(Resource... resources) throws IOException {
         Properties prop = new Properties();
@@ -52,27 +52,11 @@ public class ConfigurationLoader implements InitializingBean, FactoryBean<Proper
         return loader.getResource("file:" + InitConfigPath.getParamsRoot() + File.separator + "files" + File.separator + fileName);
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    public static void init() throws Exception {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource[] resources = resolver.getResources("file:" + InitConfigPath.getParamsRoot() + "/*.properties");
 
         loadProperties(prop, resources);
         prop.put("params.root", InitConfigPath.getParamsRoot());
-    }
-
-    @Override
-    public Properties getObject() throws Exception {
-        return prop;
-    }
-
-    @Override
-    public Class<?> getObjectType() {
-        return Properties.class;
-    }
-
-    @Override
-    public boolean isSingleton() {
-        return false;
     }
 }

@@ -1,5 +1,7 @@
 package message.config.core;
 
+import message.config.loader.ini.IniLoader;
+import message.config.loader.properties.ConfigurationLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,5 +32,11 @@ public class ParamsHomeListener implements ServletContextListener {
         logger.debug("get init parameter '{}' from web.xml is '{}'", PARAMS_HOME, paramsHome);
 
         InitConfigPath.setDefaultParamsHome(paramsHome);
+        try {
+            ConfigurationLoader.init();
+            IniLoader.init();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 }

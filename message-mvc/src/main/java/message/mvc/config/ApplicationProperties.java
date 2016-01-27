@@ -1,4 +1,4 @@
-package message.config.core;
+package message.mvc.config;
 
 import message.config.auto.annotations.ConfigurationProperties;
 
@@ -8,12 +8,16 @@ import message.config.auto.annotations.ConfigurationProperties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/10/10 下午10:01
  */
-@ConfigurationProperties(prefix = "system")
-public class SystemConfig {
+@ConfigurationProperties(prefix = "application")
+public class ApplicationProperties {
     /**
      * 开发模式
      */
     private boolean devMode;
+    /**
+     * 打印出每次请求地址
+     */
+    private boolean debug;
     /**
      * 前台URL
      */
@@ -29,6 +33,14 @@ public class SystemConfig {
 
     public void setDevMode(boolean devMode) {
         this.devMode = devMode;
+    }
+
+    public boolean isDebug() {
+        return debug;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
     }
 
     public String getFrontEndUrl() {

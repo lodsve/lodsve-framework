@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @version V1.0, 16/1/9 下午5:41
  */
 @Component
-@DependsOn({"configurationLoader", "iniLoader", "messageSourceLoader"})
+@DependsOn({"messageSourceLoader"})
 public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProcessor {
 
     @Override
@@ -24,7 +24,10 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
         Object target = bean;
         if (annotation != null) {
             try {
-                target = new AutoConfigurationCreator(null).createBean(target.getClass(), annotation);
+                AutoConfigurationCreator.Builder builder = new AutoConfigurationCreator.Builder();
+                builder.setClazz(target.getClass());
+                builder.setAnnotation(annotation);
+                target = builder.build();
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,7 +1,7 @@
 package message.mvc.convert;
 
 import message.base.context.ApplicationHelper;
-import message.base.utils.GenericsUtils;
+import message.base.utils.GenericUtils;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public final class ConverterHelper {
         if (!isInit) {
             Collection<AbstractConverter> converters = ApplicationHelper.getInstance().getBeansByType(AbstractConverter.class).values();
             for (AbstractConverter converter : converters) {
-                Class p0 = GenericsUtils.getClassGenericType0(converter.getClass());
+                Class p0 = GenericUtils.getGenericParameter0(converter.getClass());
                 CONVERTER_STORAGE.put(p0, converter);
             }
         }

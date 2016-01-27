@@ -1,5 +1,6 @@
 package message.mvc.convert;
 
+import java.lang.reflect.Type;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.converter.HttpMessageNotWritableException;
@@ -17,7 +18,7 @@ import java.util.Collection;
  */
 public class CustomMappingJackson2HttpMessageConverter extends MappingJackson2HttpMessageConverter {
     @Override
-    protected void writeInternal(Object object, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+    protected void writeInternal(Object object, Type type, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
         if (object instanceof Page) {
             // 分页的
             object = converterForPage((Page) object);
@@ -28,7 +29,12 @@ public class CustomMappingJackson2HttpMessageConverter extends MappingJackson2Ht
             object = converterForDomain(object);
         }
 
-        super.writeInternal(object, outputMessage);
+        super.writeInternal(object, type, outputMessage);
+    }
+
+    @Override
+    protected void writeInternal(Object o, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+        writeInternal(o, null, outputMessage);
     }
 
     private Object converterForPage(Page object) {

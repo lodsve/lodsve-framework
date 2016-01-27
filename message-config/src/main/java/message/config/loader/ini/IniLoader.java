@@ -1,15 +1,5 @@
 package message.config.loader.ini;
 
-import message.config.core.InitConfigPath;
-
-import message.base.utils.FileUtils;
-import message.base.utils.StringUtils;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.stereotype.Component;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import message.base.utils.FileUtils;
+import message.base.utils.StringUtils;
+import message.config.core.InitConfigPath;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 /**
  * 解析ini文件.
@@ -27,8 +23,7 @@ import java.util.Set;
  * @version V1.0
  * @createTime 2014-12-31 14:25
  */
-@Component
-public class IniLoader implements InitializingBean {
+public class IniLoader {
 
     private static Map<String, Map<String, String>> values = new HashMap<>();
 
@@ -158,8 +153,7 @@ public class IniLoader implements InitializingBean {
         values.put(section, sectionValues);
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    public static void init() throws Exception {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource[] resources = resolver.getResources("file:" + InitConfigPath.getParamsRoot() + "/*.ini");
 

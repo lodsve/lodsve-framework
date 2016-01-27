@@ -40,7 +40,7 @@ public @interface EnableMyBatis {
      * @return
      * @see org.springframework.stereotype.Repository
      */
-    String[] basePackages();
+    String[] basePackages() default {};
 
     /**
      * 枚举类型转换器所在包路径,可以多个
@@ -48,7 +48,7 @@ public @interface EnableMyBatis {
      * @return
      * @see message.mybatis.type.EnumCodeTypeHandler
      */
-    String[] typeHandlersLocations();
+    String[] typeHandlersLocations() default {};
 
     /**
      * 是否使用flyway

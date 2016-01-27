@@ -10,7 +10,7 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/9/8 下午3:49
  */
-@ConfigurationProperties(prefix = "cosmos.redis")
+@ConfigurationProperties(prefix = "cosmos.redis", locations = "file:${params.root}/files/redis.properties")
 public class RedisProperties {
     private Pool pool;
     private Map<String, ProjectSetting> project;
