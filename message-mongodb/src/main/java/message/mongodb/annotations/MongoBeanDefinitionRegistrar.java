@@ -1,8 +1,5 @@
 package message.mongodb.annotations;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import message.base.template.ThymeleafTemplateResource;
 import message.base.utils.StringUtils;
 import message.mongodb.core.MongoDataSourceBeanDefinitionFactory;
@@ -17,6 +14,10 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.StandardAnnotationMetadata;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 加载mongodb操作的一些bean.
@@ -33,7 +34,6 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableMongo.class.getName(), false));
         Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableMongo.class.getName(), importingClassMetadata.getClassName()));
-
 
         // 注册数据源
         String dataSource = attributes.getString(DATA_SOURCE_ATTRIBUTE_NAME);

@@ -1,13 +1,16 @@
 package message.mybatis.configs;
 
+import message.config.auto.AutoConfigurationCreator;
+import message.config.auto.annotations.ConfigurationProperties;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+
+import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-import message.config.SystemConfig;
-import message.config.loader.properties.Configuration;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 
 /**
  * 关系型数据库数据源.
@@ -16,24 +19,25 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
  * @version V1.0, 16/1/21 下午4:00
  */
 public class RdbmsDataSourceBeanDefinitionFactory {
-    /**
-     * 数据源配置的key
-     */
-    private static final String DATASOURCE_CLASS = "datasources.rdbms.dataSourceClass";
-    private static final String DATASOURCE_PROPERTY_PREFIX = "datasources.rdbms";
-    private static final String DEFAULT_PROPERTIES_KEY_PREFIX = DATASOURCE_PROPERTY_PREFIX + ".default";
-    private static final String DATASOURCE_FILE_NAME = "rdbms.properties";
-
-    private Configuration configuration;
     private String dataSourceName;
+    private RdbmsProperties rdbmsProperties;
 
     public RdbmsDataSourceBeanDefinitionFactory(String dataSourceName) {
-        this.configuration = SystemConfig.getFileConfiguration(DATASOURCE_FILE_NAME);
         this.dataSourceName = dataSourceName;
+
+        try {
+            AutoConfigurationCreator.Builder<RdbmsProperties> builder = new AutoConfigurationCreator.Builder<>();
+            builder.setAnnotation(RdbmsProperties.class.getAnnotation(ConfigurationProperties.class));
+            builder.setClazz(RdbmsProperties.class);
+
+            rdbmsProperties = builder.build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public BeanDefinition build() {
-        String dataSourceClassName = configuration.getString(DATASOURCE_CLASS);
+        String dataSourceClassName = rdbmsProperties.getDataSourceClass();
 
         BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(dataSourceClassName);
 
@@ -48,14 +52,29 @@ public class RdbmsDataSourceBeanDefinitionFactory {
     private Map<String, String> getProperties(String dataSourceName) {
         Map<String, String> properties = new HashMap<>();
 
-        String currentDatasourcePrefix = DATASOURCE_PROPERTY_PREFIX + "." + dataSourceName;
+        RdbmsProperties.RdbmsConnection connection = rdbmsProperties.getConnections().get(dataSourceName);
+        RdbmsProperties.DataSourceSetting setting = rdbmsProperties.getDefaults();
 
-        Set<String> keys = this.configuration.subset(DEFAULT_PROPERTIES_KEY_PREFIX).getKeys();
-        keys.addAll(this.configuration.subset(currentDatasourcePrefix).getKeys());
+        BeanWrapper connectionWrapper = new BeanWrapperImpl(connection);
+        BeanWrapper settingWrapper = new BeanWrapperImpl(setting);
 
-        for (String key : keys) {
-            properties.put(key, this.configuration.getString(currentDatasourcePrefix + "." + key,
-                    this.configuration.getString(DEFAULT_PROPERTIES_KEY_PREFIX + "." + key)));
+        PropertyDescriptor[] descriptors = connectionWrapper.getPropertyDescriptors();
+        for (PropertyDescriptor d : descriptors) {
+            if (d.getWriteMethod() == null) {
+                continue;
+            }
+
+            String name = d.getName();
+            Object value = connectionWrapper.getPropertyValue(name);
+
+            if (value != null) {
+                properties.put(name, value.toString());
+            } else {
+                value = settingWrapper.getPropertyValue(name);
+                if (value != null) {
+                    properties.put(name, value.toString());
+                }
+            }
         }
 
         return properties;
