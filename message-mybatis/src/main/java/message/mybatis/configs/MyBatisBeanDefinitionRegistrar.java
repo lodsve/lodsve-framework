@@ -1,6 +1,5 @@
 package message.mybatis.configs;
 
-import java.util.Arrays;
 import message.base.utils.StringUtils;
 import message.mybatis.configs.annotations.EnableMyBatis;
 import message.mybatis.helper.MySQLSqlHelper;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.core.type.StandardAnnotationMetadata;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.jdbc.support.lob.OracleLobHandler;
 import org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor;
@@ -61,12 +59,11 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         String[] typeHandlersLocations = attributes.getStringArray(TYPE_HANDLERS_LOCATIONS_ATTRIBUTE_NAME);
         String[] basePackages = attributes.getStringArray(BASE_PACKAGES_ATTRIBUTE_NAME);
 
-        Class<?> introspectedClass = ((StandardAnnotationMetadata) importingClassMetadata).getIntrospectedClass();
-        if (ArrayUtils.isEmpty(basePackages) && introspectedClass != null) {
-            basePackages = Arrays.asList(ClassUtils.getPackageName(introspectedClass)).toArray(new String[1]);
+        if (ArrayUtils.isEmpty(typeHandlersLocations)) {
+            typeHandlersLocations = findDefaultPackage(importingClassMetadata);
         }
-        if (ArrayUtils.isEmpty(typeHandlersLocations) && introspectedClass != null) {
-            typeHandlersLocations = Arrays.asList(ClassUtils.getPackageName(introspectedClass)).toArray(new String[1]);
+        if (ArrayUtils.isEmpty(basePackages)) {
+            basePackages = findDefaultPackage(importingClassMetadata);
         }
 
         boolean useFlyway = attributes.getBoolean(USE_FLYWAY_ATTRIBUTE_NAME);
@@ -193,4 +190,14 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         }
     }
 
+    private String[] findDefaultPackage(AnnotationMetadata annotationMetadata) {
+        String className = annotationMetadata.getClassName();
+        try {
+            Class<?> clazz = ClassUtils.forName(className, getClass().getClassLoader());
+            return new String[]{ClassUtils.getPackageName(clazz)};
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return new String[0];
+        }
+    }
 }

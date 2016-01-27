@@ -11,7 +11,6 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.io.Resource;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.core.type.StandardAnnotationMetadata;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
@@ -42,12 +41,11 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
         String[] basePackage = attributes.getStringArray(BASE_PACKAGE_ATTRIBUTE_NAME);
         String[] domainPackage = attributes.getStringArray(DOMAIN_PACKAGE_ATTRIBUTE_NAME);
 
-        Class<?> introspectedClass = ((StandardAnnotationMetadata) importingClassMetadata).getIntrospectedClass();
-        if (ArrayUtils.isEmpty(basePackage) && introspectedClass != null) {
-            basePackage = Arrays.asList(ClassUtils.getPackageName(introspectedClass)).toArray(new String[1]);
+        if (ArrayUtils.isEmpty(basePackage)) {
+            basePackage = findDefaultPackage(importingClassMetadata);
         }
-        if (ArrayUtils.isEmpty(domainPackage) && introspectedClass != null) {
-            domainPackage = Arrays.asList(ClassUtils.getPackageName(introspectedClass)).toArray(new String[1]);
+        if (ArrayUtils.isEmpty(domainPackage)) {
+            domainPackage = findDefaultPackage(importingClassMetadata);
         }
 
         BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(registry);
@@ -61,5 +59,16 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
         context.put("domainPackage", StringUtils.join(Arrays.asList(domainPackage), ","));
 
         return new ThymeleafTemplateResource("META-INF/template/mongo.xml", context, "xml");
+    }
+
+    private String[] findDefaultPackage(AnnotationMetadata importingClassMetadata) {
+        String className = importingClassMetadata.getClassName();
+        try {
+            Class<?> clazz = ClassUtils.forName(className, this.getClass().getClassLoader());
+            return new String[]{ClassUtils.getPackageName(clazz)};
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return new String[0];
+        }
     }
 }
