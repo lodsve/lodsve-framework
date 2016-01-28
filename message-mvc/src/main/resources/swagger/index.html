@@ -25,9 +25,11 @@
     <script type="text/javascript">
         var url = window.location.pathname;
         var temp = url.split("/");
-        var baseUrl = "/";
+        var baseUrl;
         if (temp[1] != "swagger") {
             baseUrl = "/" + temp[1];
+        } else {
+            baseUrl = "";
         }
 
         function log(msg) {
@@ -49,17 +51,13 @@
                     for (var i in apis) {
                         var api = apis[i];
 
-                        var key = api.path;
-                        var value = api.description;
+                        var desc = api.description;
+                        var url = api.path;
 
-                        select.options.add(new Option(value, baseUrl + key + "?index=" + i));
+                        select.options.add(new Option(desc, baseUrl + url));
                     }
 
                     var _url = baseUrl + apis[0].path;
-
-                    if(window.SwaggerTranslator) {
-                        window.SwaggerTranslator.translate();
-                    }
 
                     window.swaggerUi = new SwaggerUi({
                         url: _url,
@@ -85,17 +83,7 @@
                 }
             });
 
-            function addApiKeyAuthorization() {
-                var key = encodeURIComponent($('#input_apiKey')[0].value);
-                if (key && key.trim() != "") {
-                    var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
-                    window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
-                    log("added key " + key);
-                }
-            }
-
-            $('#input_apiKey').change(addApiKeyAuthorization);
-            $('#input_baseUrl').change(function () {
+            $('#input_baseUrl').bind("change", function(){
                 window.swaggerUi = new SwaggerUi({
                     url: $("#input_baseUrl").val(),
                     dom_id: "swagger-ui-container",
