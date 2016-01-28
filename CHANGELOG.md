@@ -1,5 +1,10 @@
 # 更新日志
 ---
+## V2.4.3
+1. message-mybatis和message-mongodb配置basePackage时,默认是当前包路径
+2. 解决之前spring-data-mongodb的版本冲突
+3. swagger支持可配置路径
+
 ## V2.4.2
 1. 使用Spring BeanWrapper实现配置即对象
 2. servlet容器启动即加载properties和ini配置
