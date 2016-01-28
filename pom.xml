@@ -536,7 +536,7 @@
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-mongodb</artifactId>
-                <version>1.8.2.RELEASE</version>
+                <version>1.6.4.RELEASE</version>
             </dependency>
             <!-- spring data end -->
 
@@ -553,6 +553,18 @@
                 <groupId>org.mongodb</groupId>
                 <artifactId>mongo-java-driver</artifactId>
                 <version>${mongodb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mysema.querydsl</groupId>
+                <artifactId>querydsl-mongodb</artifactId>
+                <version>3.4.3</version>
+                <optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>com.mysema.querydsl</groupId>
+                <artifactId>querydsl-apt</artifactId>
+                <version>3.4.3</version>
+                <scope>provided</scope>
             </dependency>
             <!-- mongodb end -->
 

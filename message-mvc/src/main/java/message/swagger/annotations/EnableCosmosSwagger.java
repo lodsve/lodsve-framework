@@ -20,6 +20,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Documented
 @EnableSwagger
-@Import(CosmosSwaggerConfiguration.class)
+@Import({SwaggerConfigBeanRegistrar.class, CosmosSwaggerConfiguration.class})
 public @interface EnableCosmosSwagger {
+    /**
+     *
+     * @return
+     */
+    String basePath() default "/";
 }

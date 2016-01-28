@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * .
+ * 利用插件配置swagger的一些信息.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/1/18 下午6:25
@@ -22,12 +22,13 @@ public class CosmosSwaggerPlugin extends SwaggerSpringMvcPlugin {
      * @param springSwaggerConfig
      */
     @Autowired
-    public CosmosSwaggerPlugin(SpringSwaggerConfig springSwaggerConfig, ApiInfoProperties apiInfoProperties) {
+    public CosmosSwaggerPlugin(SpringSwaggerConfig springSwaggerConfig, ApiInfoProperties apiInfoProperties, CosmosPathProvider pathProvider) {
         super(springSwaggerConfig);
 
         apiInfo(getApiInfo(apiInfoProperties));
         swaggerGroup("group");
         includePatterns(".*?");
+        pathProvider(pathProvider);
     }
 
     private ApiInfo getApiInfo(ApiInfoProperties apiInfoProperties) {
