@@ -1,15 +1,14 @@
 package message.mvc.annotation;
 
-import message.mvc.config.CosmosWebMvcConfigurerAdapter;
-import org.springframework.context.annotation.Import;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import message.mvc.config.WebMvcConfiguration;
+import org.springframework.context.annotation.Import;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * 启用cosmos-mvc.
@@ -22,6 +21,6 @@ import java.lang.annotation.Target;
 @Documented
 @Inherited
 @EnableWebMvc
-@Import(CosmosWebMvcConfigurerAdapter.class)
+@Import({WebMvcConfiguration.class})
 public @interface EnableCosmosMvc {
 }

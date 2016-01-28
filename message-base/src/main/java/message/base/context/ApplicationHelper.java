@@ -23,6 +23,8 @@ public class ApplicationHelper {
 
     private String rootPath;
 
+    private String contextPath;
+
     private Set<ApplicationContext> apps = new HashSet<>();
 
     //构造器私有，不可在外部进行初始化实例
@@ -118,7 +120,8 @@ public class ApplicationHelper {
         }
 
         if (context instanceof WebApplicationContext) {
-            this.setRootPath(((WebApplicationContext) context).getServletContext().getRealPath("/"));
+            rootPath = ((WebApplicationContext) context).getServletContext().getRealPath("/");
+            contextPath = ((WebApplicationContext) context).getServletContext().getContextPath();
         }
     }
 
@@ -128,8 +131,8 @@ public class ApplicationHelper {
         return "./webapp/";
     }
 
-    public void setRootPath(String rootPath) {
-        this.rootPath = rootPath;
+    public String getContextPath() {
+        return contextPath;
     }
 
     public static ApplicationHelper getInstance() {

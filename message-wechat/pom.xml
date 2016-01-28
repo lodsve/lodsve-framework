@@ -10,9 +10,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>message-mongodb</artifactId>
+    <artifactId>message-wechat</artifactId>
     <packaging>jar</packaging>
-    <name>message mongodb</name>
+    <name>message wechat</name>
 
     <dependencies>
         <dependency>
@@ -22,23 +22,6 @@
         <dependency>
             <groupId>cosmos.message</groupId>
             <artifactId>message-config</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-mongodb</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-mongodb</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-apt</artifactId>
         </dependency>
     </dependencies>
 
