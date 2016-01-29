@@ -24,6 +24,7 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 /**
@@ -87,7 +88,7 @@ public class AutoConfigurationCreator {
             location = PropertyPlaceholderHelper.replacePlaceholder(location, true, SystemConfig.getAllConfigs());
 
             Resource resource = this.resourceLoader.getResource(location);
-            PropertiesLoaderUtils.fillProperties(prop, resource);
+            PropertiesLoaderUtils.fillProperties(prop, new EncodedResource(resource, "UTF-8"));
         }
 
         return new PropertiesConfiguration(prop);
