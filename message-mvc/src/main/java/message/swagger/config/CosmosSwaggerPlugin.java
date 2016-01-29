@@ -3,6 +3,7 @@ package message.swagger.config;
 import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
 import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
 import com.wordnik.swagger.model.ApiInfo;
+import message.properties.SwaggerProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,23 +23,23 @@ public class CosmosSwaggerPlugin extends SwaggerSpringMvcPlugin {
      * @param springSwaggerConfig
      */
     @Autowired
-    public CosmosSwaggerPlugin(SpringSwaggerConfig springSwaggerConfig, ApiInfoProperties apiInfoProperties, CosmosPathProvider pathProvider) {
+    public CosmosSwaggerPlugin(SpringSwaggerConfig springSwaggerConfig, SwaggerProperties swaggerProperties, CosmosPathProvider pathProvider) {
         super(springSwaggerConfig);
 
-        apiInfo(getApiInfo(apiInfoProperties));
+        apiInfo(getApiInfo(swaggerProperties));
         swaggerGroup("group");
         includePatterns(".*?");
         pathProvider(pathProvider);
     }
 
-    private ApiInfo getApiInfo(ApiInfoProperties apiInfoProperties) {
+    private ApiInfo getApiInfo(SwaggerProperties swaggerProperties) {
         ApiInfo apiInfo = new ApiInfo(
-                apiInfoProperties.getTitle(),
-                apiInfoProperties.getDescription(),
-                apiInfoProperties.getTermsOfServiceUrl(),
-                apiInfoProperties.getContact(),
-                apiInfoProperties.getLicense(),
-                apiInfoProperties.getLicenseUrl()
+                swaggerProperties.getTitle(),
+                swaggerProperties.getDescription(),
+                swaggerProperties.getTermsOfServiceUrl(),
+                swaggerProperties.getContact(),
+                swaggerProperties.getLicense(),
+                swaggerProperties.getLicenseUrl()
         );
 
         return apiInfo;

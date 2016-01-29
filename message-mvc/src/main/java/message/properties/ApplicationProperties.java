@@ -1,4 +1,4 @@
-package message.mvc.config;
+package message.properties;
 
 import message.config.auto.annotations.ConfigurationProperties;
 

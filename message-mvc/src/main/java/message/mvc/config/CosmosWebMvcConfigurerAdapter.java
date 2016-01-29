@@ -8,12 +8,15 @@ import message.mvc.convert.StringDateConvertFactory;
 import message.mvc.resolver.BindDataHandlerMethodArgumentResolver;
 import message.mvc.resolver.ParseDataHandlerMethodArgumentResolver;
 import message.mvc.resolver.WebResourceDataHandlerMethodArgumentResolver;
+import message.properties.ApplicationProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.CorsRegistration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -24,6 +27,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 public class CosmosWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
+    @Autowired
+    private ApplicationProperties properties;
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
@@ -38,11 +43,7 @@ public class CosmosWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        StringDateConvertFactory stringDateConvertFactory = new StringDateConvertFactory();
-        EnumCodeConverterFactory enumCodeConverterFactory = new EnumCodeConverterFactory();
-
-        registry.addConverterFactory(stringDateConvertFactory);
-        registry.addConverterFactory(enumCodeConverterFactory);
+        registry.addConverterFactory(new StringDateConvertFactory());
     }
 
     @Override
@@ -54,7 +55,15 @@ public class CosmosWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
     }
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/swagger/**").addResourceLocations("classpath:/swagger/").setCachePeriod(31556926);
+    public void addCorsMappings(CorsRegistry registry) {
+        CorsRegistration corsRegistration = registry.addMapping("/**")
+                .allowedHeaders("X-requested-with", "x-auth-token", "Content-Type")
+                .allowedMethods("POST", "GET", "OPTIONS", "DELETE")
+                .exposedHeaders("x-auth-token");
+        if (properties.isDevMode()) {
+            corsRegistration.allowedOrigins("*");
+        } else {
+            corsRegistration.allowedOrigins(properties.getFrontEndUrl(), properties.getServerUrl());
+        }
     }
 }

@@ -1,11 +1,16 @@
 package message.mybatis.configs;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import message.base.utils.StringUtils;
 import message.mybatis.configs.annotations.EnableMyBatis;
 import message.mybatis.helper.MySQLSqlHelper;
 import message.mybatis.helper.OracleSqlHelper;
 import message.mybatis.key.generic.MySQLMaxValueIncrementer;
 import message.mybatis.key.sequence.OracleSequenceMaxValueIncrementer;
+import message.mybatis.key.snowflake.SnowflakeIdGenerator;
 import message.mybatis.type.TypeHandlerScanner;
 import org.apache.commons.lang.ArrayUtils;
 import org.flywaydb.core.Flyway;
@@ -24,11 +29,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 /**
  * 动态创建mybatis的配置.
  *
@@ -41,7 +41,9 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
     private static final String TYPE_HANDLERS_LOCATIONS_ATTRIBUTE_NAME = "typeHandlersLocations";
     private static final String USE_FLYWAY_ATTRIBUTE_NAME = "useFlyway";
     private static final String MIGRATION_ATTRIBUTE_NAME = "migration";
+    private static final String USE_SNOWFLAKE_ATTRIBUTE_NAME = "useSnowflake";
     private static String dataSource;
+    private static boolean useSnowflake;
 
     private static final boolean IS_MYSQL = ClassUtils.isPresent("com.mysql.jdbc.Driver", MyBatisBeanDefinitionRegistrar.class.getClassLoader());
     private static final boolean IS_ORACLE = ClassUtils.isPresent("oracle.jdbc.driver.OracleDriver", MyBatisBeanDefinitionRegistrar.class.getClassLoader());
@@ -55,6 +57,8 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
 
         dataSource = attributes.getString(DATA_SOURCE_ATTRIBUTE_NAME);
         beanDefinitions.putAll(generateDataSource(dataSource));
+
+        useSnowflake = attributes.getBoolean(USE_SNOWFLAKE_ATTRIBUTE_NAME);
 
         String[] typeHandlersLocations = attributes.getStringArray(TYPE_HANDLERS_LOCATIONS_ATTRIBUTE_NAME);
         String[] basePackages = attributes.getStringArray(BASE_PACKAGES_ATTRIBUTE_NAME);
@@ -96,10 +100,15 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         BeanDefinitionBuilder lobHandlerBean = BeanDefinitionBuilder.genericBeanDefinition(DefaultLobHandler.class);
         lobHandlerBean.setLazyInit(true);
 
-        BeanDefinitionBuilder maxValueIncrementerBean = BeanDefinitionBuilder.genericBeanDefinition(MySQLMaxValueIncrementer.class);
-        maxValueIncrementerBean.addPropertyReference("dataSource", dataSource);
-        maxValueIncrementerBean.addPropertyValue("keyLength", 5);
-        maxValueIncrementerBean.addPropertyValue("cacheSize", 5);
+        BeanDefinitionBuilder maxValueIncrementerBean;
+        if (useSnowflake) {
+            maxValueIncrementerBean = BeanDefinitionBuilder.genericBeanDefinition(SnowflakeIdGenerator.class);
+        } else {
+            maxValueIncrementerBean = BeanDefinitionBuilder.genericBeanDefinition(MySQLMaxValueIncrementer.class);
+            maxValueIncrementerBean.addPropertyReference("dataSource", dataSource);
+            maxValueIncrementerBean.addPropertyValue("keyLength", 5);
+            maxValueIncrementerBean.addPropertyValue("cacheSize", 5);
+        }
 
         BeanDefinitionBuilder sqlHelperBean = BeanDefinitionBuilder.genericBeanDefinition(MySQLSqlHelper.class);
         sqlHelperBean.addPropertyReference("idGenerator", dataSource + "MaxValueIncrementer");

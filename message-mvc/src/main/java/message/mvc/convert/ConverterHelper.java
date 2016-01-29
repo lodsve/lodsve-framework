@@ -24,6 +24,7 @@ public final class ConverterHelper {
                 Class p0 = GenericUtils.getGenericParameter0(converter.getClass());
                 CONVERTER_STORAGE.put(p0, converter);
             }
+            isInit = true;
         }
 
         if (domain == null) {

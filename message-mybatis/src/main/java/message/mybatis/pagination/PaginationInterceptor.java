@@ -52,7 +52,7 @@ public class PaginationInterceptor implements Interceptor {
         int total = PaginationHelper.queryForTotal(sql, ms, boundSql);
 
         //分页语句
-        String pageSql = PaginationHelper.getPageSql(sql, pageable.getPageSize(), pageable.getOffset());
+        String pageSql = PaginationHelper.getPageSql(sql, pageable.getOffset(), pageable.getPageSize());
 
         queryArgs[ROWBOUNDS_INDEX] = new RowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
         queryArgs[MAPPED_STATEMENT_INDEX] = PaginationHelper.copyFromNewSql(ms, boundSql, pageSql);

@@ -1,6 +1,6 @@
 package message.mvc.debug;
 
-import message.mvc.config.ApplicationProperties;
+import message.properties.ApplicationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

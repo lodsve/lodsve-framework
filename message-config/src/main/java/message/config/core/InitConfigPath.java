@@ -1,17 +1,5 @@
 package message.config.core;
 
-import message.base.utils.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
-
 /**
  * 初始化配置文件的路径.<br/>
  * 配置文件加载顺序：<br/>
@@ -56,87 +44,16 @@ import java.util.Properties;
  * @see message.config.core.ParamsHomeListener
  */
 public class InitConfigPath {
-    private static final Logger logger = LoggerFactory.getLogger(InitConfigPath.class);
-
-    private static final String SYSTEM_PARAM_PATH = "params.home";
-    private static final String ENV_PARAM_PATH = "PARAMS_HOME";
-    private static final String ROOT_PARAM_KEY = "config.root";
-    private static final String ROOT_PARAM_FILE_NAME = "root.properties";
-    private static final String PREFIX_SYSTEM = "system:";
-    private static final String PREFIX_CLASSPATH = "classpath:";
-
-    private static String defaultParamsHome;
     private static String paramsRoot = "";
 
     public static String getParamsRoot() {
-        if (StringUtils.isEmpty(paramsRoot)) {
-            init();
-        }
-
         return paramsRoot;
     }
 
     private InitConfigPath() {
     }
 
-    private static void init() {
-        //1.默认是在web.xml中配置
-        String paramsPath = defaultParamsHome;
-
-        //2.启动参数获取
-        if (StringUtils.isEmpty(paramsPath)) {
-            paramsPath = System.getProperty(SYSTEM_PARAM_PATH);
-        }
-
-        //3.环境变量获取
-        if (StringUtils.isEmpty(paramsPath)) {
-            paramsPath = System.getenv(ENV_PARAM_PATH);
-        }
-
-        if (StringUtils.isEmpty(paramsPath)) {
-            throw new RuntimeException("读取配置文件错误！需要设置web.xml参数或者启动参数[params.home]或者环境变量[PARAMS_HOME]，并且web.xml中配置 > 启动参数 > 环境变量");
-        }
-
-        //判断路径是否含有classpath或者file
-        if (StringUtils.indexOf(paramsPath, PREFIX_CLASSPATH) == 0) {
-            paramsPath = StringUtils.removeStart(paramsPath, PREFIX_CLASSPATH);
-            Resource resource = new ClassPathResource(paramsPath, InitConfigPath.class.getClassLoader());
-            if (resource == null) {
-                throw new RuntimeException("参数配置文件[" + (paramsPath) + "]不存在");
-            }
-
-            try {
-                paramsPath = resource.getURL().getPath();
-            } catch (IOException e) {
-                logger.error(e.getMessage(), e);
-                throw new RuntimeException("解析配置文件路径异常!");
-            }
-        } else if (StringUtils.indexOf(paramsPath, PREFIX_SYSTEM) == 0) {
-            paramsPath = StringUtils.removeStart(paramsPath, PREFIX_SYSTEM);
-        }
-
-        Resource paramsResource = new FileSystemResource(paramsPath + File.separator + ROOT_PARAM_FILE_NAME);
-        if (!paramsResource.exists()) {
-            throw new RuntimeException("参数配置文件[" + (paramsPath + File.separator + ROOT_PARAM_FILE_NAME) + "]不存在");
-        }
-
-        Properties properties;
-        try {
-            properties = PropertiesLoaderUtils.loadProperties(paramsResource);
-        } catch (IOException e) {
-            throw new RuntimeException("加载配置文件[" + paramsResource + "]发生IO异常");
-        }
-
-        String root = properties.getProperty(ROOT_PARAM_KEY);
-        if (StringUtils.isEmpty(root)) {
-            throw new RuntimeException("配置文件中没有rootKey:[" + ROOT_PARAM_KEY + "]");
-        }
-
-        paramsRoot = paramsPath + File.separator + root;
-        logger.debug("获取到的配置文件路径为:'{}'", paramsRoot);
-    }
-
-    protected static void setDefaultParamsHome(String paramsHome) {
-        defaultParamsHome = paramsHome;
+    public static void setParamsRoot(String paramsRoot) {
+        InitConfigPath.paramsRoot = paramsRoot;
     }
 }

@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 
 
 /**
- * 国际化资源文件工具类
+ * 国际化资源文件工具类 TODO 有问题,需要修改
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0

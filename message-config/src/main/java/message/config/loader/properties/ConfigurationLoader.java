@@ -7,6 +7,7 @@ import message.config.core.InitConfigPath;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -39,7 +40,7 @@ public class ConfigurationLoader {
     private static void loadProperties(Properties prop, Resource[] resources) {
         for (Resource resource : resources) {
             try {
-                PropertiesLoaderUtils.fillProperties(prop, resource);
+                PropertiesLoaderUtils.fillProperties(prop, new EncodedResource(resource, "UTF-8"));
             } catch (IOException e) {
                 throw new RuntimeException("load配置文件发生异常");
             }

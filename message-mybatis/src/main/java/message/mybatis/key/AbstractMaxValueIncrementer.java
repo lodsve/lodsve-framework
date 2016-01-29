@@ -1,9 +1,7 @@
 package message.mybatis.key;
 
-import org.springframework.dao.DataAccessException;
-
 import javax.sql.DataSource;
-import java.util.UUID;
+import org.springframework.dao.DataAccessException;
 
 /**
  * 主键生成器实现
@@ -20,28 +18,8 @@ public abstract class AbstractMaxValueIncrementer implements IDGenerator {
 	 */
 	private int keyLength;
 
-	public int nextIntValue(String name) throws DataAccessException {
-		return (int) getNextKey(name);
-	}
-
 	public long nextLongValue(String name) throws DataAccessException {
 		return getNextKey(name);
-	}
-
-	public String nextStringValue(String name) throws DataAccessException {
-		String key = Long.toString(getNextKey(name));
-		int l = key.length();
-		if(l < this.getKeyLength()){
-			//从数据库中得到的key长度小于给定的length，则在缺失的位置补0
-			StringBuffer sb = new StringBuffer();
-			for(int i = 0; i < this.getKeyLength() - l; i++){
-				sb.append("0");
-			}
-			sb.append(key);
-			key = sb.toString();
-		}
-		
-		return key;
 	}
 	
 	/**
@@ -52,13 +30,6 @@ public abstract class AbstractMaxValueIncrementer implements IDGenerator {
 	 * @return
 	 */
 	protected abstract long getNextKey(String name);
-
-	/**
-	 * get uuid as pkId
-	 */
-	public String UUID() {
-		return UUID.randomUUID().toString();
-	}
 	
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
@@ -75,16 +46,4 @@ public abstract class AbstractMaxValueIncrementer implements IDGenerator {
 	public void setKeyLength(int keyLength) {
 		this.keyLength = keyLength;
 	}
-
-	public Object nextObjectValue(Class<?> clazz, String name) throws DataAccessException {
-		long id = getNextKey(name);
-
-	    if (Integer.class.equals(clazz))
-	      return new Integer(id + "");
-	    if (String.class.equals(clazz))
-	      return String.valueOf(id);
-
-	    return id;
-	}
-
 }
