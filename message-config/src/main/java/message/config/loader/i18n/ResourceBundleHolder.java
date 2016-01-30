@@ -46,12 +46,12 @@ public class ResourceBundleHolder implements Serializable {
     /**
      * 存放每个locale对应的资源信息.
      */
-    private Map bundledMap = new HashMap();
+    private Map<Locale, Map> bundledMap = new HashMap<>();
 
     /**
      * 存放资源的当前顺序.
      */
-    private Map bundledOrderMap = new HashMap();
+    private Map<Locale, Map> bundledOrderMap = new HashMap<>();
 
     /**
      * 根据baseName加资源文件.
@@ -135,9 +135,6 @@ public class ResourceBundleHolder implements Serializable {
         if (locals.length == 2) {
             locale = new Locale(locals[0], locals[1]);
         }
-        if (locals == null) {
-            throw new RuntimeException("can not get locale!");
-        }
 
         if (logger.isDebugEnabled())
             logger.debug("get locale for file '{}' is '{}'!", fileName, locale);
@@ -182,8 +179,8 @@ public class ResourceBundleHolder implements Serializable {
             locale = Locale.CHINA;
         }
 
-        Map propertiesMap = (Map) this.bundledMap.get(locale);
-        Map orderMap = (Map) this.bundledOrderMap.get(locale);
+        Map propertiesMap = this.bundledMap.get(locale);
+        Map orderMap = this.bundledOrderMap.get(locale);
 
         //各种语言的property存储map
         if (propertiesMap == null) {
@@ -207,7 +204,7 @@ public class ResourceBundleHolder implements Serializable {
      * @param src      资源.
      * @param order    次序.
      */
-    private void mergePropertiesToMap(final Map destMap, final Map orderMap, final Map src, final int order) {
+    private void mergePropertiesToMap(final Map<String, Object> destMap, final Map<String, Object> orderMap, final Map src, final int order) {
         for (Object keyObj : src.keySet()) {
             String key = keyObj.toString();
 

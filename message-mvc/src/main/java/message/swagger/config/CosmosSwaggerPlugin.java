@@ -23,13 +23,12 @@ public class CosmosSwaggerPlugin extends SwaggerSpringMvcPlugin {
      * @param springSwaggerConfig
      */
     @Autowired
-    public CosmosSwaggerPlugin(SpringSwaggerConfig springSwaggerConfig, SwaggerProperties swaggerProperties, CosmosPathProvider pathProvider) {
+    public CosmosSwaggerPlugin(SpringSwaggerConfig springSwaggerConfig, SwaggerProperties swaggerProperties) {
         super(springSwaggerConfig);
 
         apiInfo(getApiInfo(swaggerProperties));
         swaggerGroup("group");
         includePatterns(".*?");
-        pathProvider(pathProvider);
     }
 
     private ApiInfo getApiInfo(SwaggerProperties swaggerProperties) {
