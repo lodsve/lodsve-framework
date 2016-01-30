@@ -1,6 +1,7 @@
 package message.mybatis.configs;
 
-import org.springframework.context.annotation.ComponentScan;
+import message.mybatis.type.TypeHandlerScanner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -10,6 +11,9 @@ import org.springframework.context.annotation.Configuration;
  * @version V1.0, 16/1/19 下午10:21
  */
 @Configuration
-@ComponentScan("message.mybatis")
 public class MyBatisConfiguration {
+    @Bean
+    public TypeHandlerScanner typeHandlerScanner() {
+        return new TypeHandlerScanner();
+    }
 }

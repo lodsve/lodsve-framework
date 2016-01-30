@@ -1,5 +1,9 @@
 package message.mybatis.type;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import message.base.utils.StringUtils;
 import org.apache.ibatis.type.MappedTypes;
 import org.apache.ibatis.type.TypeHandler;
@@ -14,14 +18,8 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.core.type.filter.TypeFilter;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * 扫描所有的MyBatis的TypeHandler.
@@ -29,7 +27,6 @@ import java.util.List;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/6/25 下午7:30
  */
-@Component
 public class TypeHandlerScanner {
     private static final Logger logger = LoggerFactory.getLogger(TypeHandlerScanner.class);
 
@@ -37,7 +34,7 @@ public class TypeHandlerScanner {
     private static final String DEFAULT_RESOURCE_PATTERN = "**/*.class";
     private ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
     private MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(this.resourcePatternResolver);
-    private final List<TypeFilter> includeFilters = new LinkedList<TypeFilter>();
+    private final List<TypeFilter> includeFilters = new LinkedList<>();
 
     public TypeHandlerScanner() {
         this.includeFilters.add(new AnnotationTypeFilter(MappedTypes.class));
@@ -96,7 +93,7 @@ public class TypeHandlerScanner {
                 ClassUtils.convertClassNameToResourcePath(basePackage) + "/" + DEFAULT_RESOURCE_PATTERN;
 
         Resource[] resources = resourcePatternResolver.getResources(packageSearchPath);
-        List<String> classes = new ArrayList<String>(resources.length);
+        List<String> classes = new ArrayList<>(resources.length);
         for (Resource resource : resources) {
             MetadataReader metadataReader = this.metadataReaderFactory.getMetadataReader(resource);
             if (isMappedTypesClass(metadataReader)) {
