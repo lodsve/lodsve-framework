@@ -1,5 +1,6 @@
 package message.swagger.annotations;
 
+import com.mangofactory.swagger.paths.RelativeSwaggerPathProvider;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,6 +18,12 @@ import org.springframework.context.annotation.Import;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Documented
-@Import(CosmosSwaggerConfiguration.class)
+@Import({CosmosSwaggerRegistrar.class, CosmosSwaggerConfiguration.class})
 public @interface EnableCosmosSwagger {
+    /**
+     * url路径前缀
+     *
+     * @return
+     */
+    String prefix() default RelativeSwaggerPathProvider.ROOT;
 }

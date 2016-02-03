@@ -24,12 +24,11 @@
 
     <script type="text/javascript">
         var url = window.location.pathname;
-        var temp = url.split("/");
-        var baseUrl;
-        if (temp[1] != "swagger") {
-            baseUrl = "/" + temp[1];
-        } else {
-            baseUrl = "";
+        var temp = url.split("swagger");
+        var baseUrl = temp[0];
+
+        if (baseUrl.endsWith("/")) {
+            baseUrl = baseUrl.substring(0, baseUrl.length - 1);
         }
 
         function log(msg) {
@@ -52,12 +51,12 @@
                         var api = apis[i];
 
                         var desc = api.description;
-                        var url = api.path;
+                        var url = "/api-docs" + api.path;
 
                         select.options.add(new Option(desc, baseUrl + url));
                     }
 
-                    var _url = baseUrl + apis[0].path;
+                    var _url = baseUrl + "/api-docs" + apis[0].path;
 
                     window.swaggerUi = new SwaggerUi({
                         url: _url,
@@ -83,7 +82,7 @@
                 }
             });
 
-            $('#input_baseUrl').bind("change", function(){
+            $('#input_baseUrl').bind("change", function () {
                 window.swaggerUi = new SwaggerUi({
                     url: $("#input_baseUrl").val(),
                     dom_id: "swagger-ui-container",
