@@ -1,6 +1,6 @@
 package message.security.repository;
 
-import message.mybatis.common.dao.BaseRepository;
+import message.mybatis.repository.MyBatisRepository;
 import message.security.pojo.Account;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * @version V1.0, 16/1/8 上午10:10
  */
 @Repository
-public interface AccountRepository extends BaseRepository<Account> {
+public interface AccountRepository extends MyBatisRepository<Account> {
     /**
      * 根据登录名查找账户
      *

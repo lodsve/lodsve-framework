@@ -1,6 +1,6 @@
-package message.mybatis.common;
+package message.mybatis.repository;
 
-import message.mybatis.common.mapper.MapperHelper;
+import message.mybatis.repository.mapper.MapperHelper;
 import org.apache.ibatis.builder.annotation.ProviderSqlSource;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;

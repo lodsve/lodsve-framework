@@ -1,7 +1,7 @@
-package message.mybatis.common.provider;
+package message.mybatis.repository.provider;
 
-import message.mybatis.common.mapper.MapperHelper;
-import message.mybatis.common.mapper.MapperTemplate;
+import message.mybatis.repository.mapper.MapperHelper;
+import message.mybatis.repository.mapper.MapperTemplate;
 
 /**
  * 空方法Mapper接口默认MapperTemplate<br/>

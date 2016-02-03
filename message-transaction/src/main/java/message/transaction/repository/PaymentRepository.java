@@ -1,6 +1,6 @@
 package message.transaction.repository;
 
-import message.mybatis.common.dao.BaseRepository;
+import message.mybatis.repository.MyBatisRepository;
 import message.transaction.domain.Payment;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * @version V1.0, 15/11/5 下午7:42
  */
 @Repository
-public interface PaymentRepository extends BaseRepository<Payment> {
+public interface PaymentRepository extends MyBatisRepository<Payment> {
     Payment findByUnionId(@Param("unionId") String unionId);
 
     Payment findByTargetId(@Param("targetId") String targetId);

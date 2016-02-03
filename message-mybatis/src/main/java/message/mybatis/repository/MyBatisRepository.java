@@ -1,6 +1,6 @@
-package message.mybatis.common.dao;
+package message.mybatis.repository;
 
-import message.mybatis.common.provider.MapperProvider;
+import message.mybatis.repository.provider.MapperProvider;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.SelectProvider;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 /**
  * 基础dao,将常用的数据库CRUD方法放在这里,需要用到时,只需直接继承此接口就好了.<br/>
- * 其中的方法与{@code message.mybatis.common.dao.BaseRepository}一一对应<br/>
+ * 其中的方法与{@code message.mybatis.repository.dao.BaseRepository}一一对应<br/>
  * eg:<br/>
  * <pre>
  *  &#64;Repository
@@ -20,9 +20,9 @@ import java.io.Serializable;
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/7/13 下午3:39
- * @see message.mybatis.common.provider.MapperProvider
+ * @see message.mybatis.repository.provider.MapperProvider
  */
-public interface BaseRepository<T> {
+public interface MyBatisRepository<T> {
     /**
      * 根据实体中的id属性进行查询，只能有一个返回值，有多个结果是抛出异常，查询条件使用等号
      *
@@ -30,7 +30,7 @@ public interface BaseRepository<T> {
      * @return 查询到的值
      */
     @SelectProvider(type = MapperProvider.class, method = "dynamicSQL")
-    T select(Serializable id);
+    T findOne(Serializable id);
 
     /**
      * 根据实体中的属性进行查询，只能有一个返回值
@@ -39,7 +39,7 @@ public interface BaseRepository<T> {
      * @return 查询到的值
      */
     @SelectProvider(type = MapperProvider.class, method = "dynamicSQL")
-    T selectOne(T entity);
+    T findByEntity(T entity);
 
     /**
      * 保存一个实体，null的属性不会保存，会使用数据库默认值。
@@ -48,7 +48,7 @@ public interface BaseRepository<T> {
      * @return 操作后影响的数据库记录数量(一般情况为1)
      */
     @InsertProvider(type = MapperProvider.class, method = "dynamicSQL")
-    int insert(T entity);
+    T save(T entity);
 
     /**
      * 根据主键更新属性不为null的值。
@@ -57,7 +57,7 @@ public interface BaseRepository<T> {
      * @return 操作后影响的数据库记录数量(一般情况为1)
      */
     @UpdateProvider(type = MapperProvider.class, method = "dynamicSQL")
-    int update(T entity);
+    T update(T entity);
 
     /**
      * 根据主键字段进行删除，方法参数必须包含完整的主键属性
@@ -66,5 +66,5 @@ public interface BaseRepository<T> {
      * @return 操作后影响的数据库记录数量(一般情况为1)
      */
     @DeleteProvider(type = MapperProvider.class, method = "dynamicSQL")
-    int delete(Serializable id);
+    boolean delete(Serializable id);
 }

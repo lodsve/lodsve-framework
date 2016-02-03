@@ -1,4 +1,4 @@
-package message.mybatis.common.mapper;
+package message.mybatis.repository.mapper;
 
 import message.base.utils.StringUtils;
 
@@ -35,8 +35,6 @@ public class EntityHelper {
         private Set<EntityColumn> entityClassColumns;
         //实体类 => 主键信息
         private Set<EntityColumn> entityClassPKColumns;
-        //字段名和属性名的映射
-        private Map<String, String> aliasMap;
         //useGenerator包含多列的时候需要用到
         private List<String> keyProperties;
         private List<String> keyColumns;
@@ -57,10 +55,6 @@ public class EntityHelper {
             return entityClassPKColumns;
         }
 
-        public Map<String, String> getAliasMap() {
-            return aliasMap;
-        }
-
         public String[] getKeyProperties() {
             if (keyProperties != null && keyProperties.size() > 0) {
                 return keyProperties.toArray(new String[]{});
@@ -70,7 +64,7 @@ public class EntityHelper {
 
         public void setKeyProperties(String keyProperty) {
             if (this.keyProperties == null) {
-                this.keyProperties = new LinkedList<String>();
+                this.keyProperties = new LinkedList<>();
                 this.keyProperties.add(keyProperty);
             } else {
                 this.keyProperties.add(keyProperty);
@@ -86,7 +80,7 @@ public class EntityHelper {
 
         public void setKeyColumns(String keyColumn) {
             if (this.keyColumns == null) {
-                this.keyColumns = new LinkedList<String>();
+                this.keyColumns = new LinkedList<>();
                 this.keyColumns.add(keyColumn);
             } else {
                 this.keyColumns.add(keyColumn);
@@ -190,7 +184,7 @@ public class EntityHelper {
     /**
      * 实体类 => 表对象
      */
-    private static final Map<Class<?>, EntityTable> entityTableMap = new HashMap<Class<?>, EntityTable>();
+    private static final Map<Class<?>, EntityTable> entityTableMap = new HashMap<>();
 
     /**
      * 获取表对象
@@ -382,7 +376,7 @@ public class EntityHelper {
      */
     private static List<Field> getAllField(Class<?> entityClass, List<Field> fieldList) {
         if (fieldList == null) {
-            fieldList = new LinkedList<Field>();
+            fieldList = new LinkedList<>();
         }
         if (entityClass.equals(Object.class)) {
             return fieldList;

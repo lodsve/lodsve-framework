@@ -1,8 +1,8 @@
-package message.mybatis.common.provider;
+package message.mybatis.repository.provider;
 
-import message.mybatis.common.mapper.EntityHelper;
-import message.mybatis.common.mapper.MapperHelper;
-import message.mybatis.common.mapper.MapperTemplate;
+import message.mybatis.repository.mapper.EntityHelper;
+import message.mybatis.repository.mapper.MapperHelper;
+import message.mybatis.repository.mapper.MapperTemplate;
 import org.apache.ibatis.builder.StaticSqlSource;
 import org.apache.ibatis.jdbc.SQL;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -20,11 +20,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Mappper实现类，基础方法实现类.其中的方法与{@code message.mybatis.common.dao.BaseRepository}一一对应
+ * Mapper实现类，基础方法实现类.其中的方法与{@code message.mybatis.repository.dao.BaseRepository}一一对应
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/7/13 下午3:39
- * @see message.mybatis.common.dao.BaseRepository
+ * @see message.mybatis.repository.repository.MyBatisRepository
  */
 public class MapperProvider extends MapperTemplate {
     public MapperProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
@@ -37,11 +37,11 @@ public class MapperProvider extends MapperTemplate {
      * @param ms
      * @return
      */
-    public SqlNode select(MappedStatement ms) {
+    public SqlNode findOne(MappedStatement ms) {
         Class<?> entityClass = getSelectReturnType(ms);
         //修改返回值类型为实体类型
         setResultType(ms, entityClass);
-        List<SqlNode> sqlNodes = new LinkedList<SqlNode>();
+        List<SqlNode> sqlNodes = new LinkedList<>();
         //静态的sql部分:select column ... from table
         sqlNodes.add(new StaticTextSqlNode("SELECT "
                 + EntityHelper.getSelectColumns(entityClass)
@@ -50,7 +50,7 @@ public class MapperProvider extends MapperTemplate {
 
         //获取全部的主键的列
         Set<EntityHelper.EntityColumn> columnList = EntityHelper.getPKColumns(entityClass);
-        List<SqlNode> whereNodes = new LinkedList<SqlNode>();
+        List<SqlNode> whereNodes = new LinkedList<>();
         boolean first = true;
         //where 主键=#{property} 条件
         for (EntityHelper.EntityColumn column : columnList) {
@@ -68,11 +68,11 @@ public class MapperProvider extends MapperTemplate {
      * @param ms
      * @return
      */
-    public SqlNode selectOne(MappedStatement ms) {
+    public SqlNode findByEntity(MappedStatement ms) {
         Class<?> entityClass = getSelectReturnType(ms);
         //修改返回值类型为实体类型
         setResultType(ms, entityClass);
-        List<SqlNode> sqlNodes = new LinkedList<SqlNode>();
+        List<SqlNode> sqlNodes = new LinkedList<>();
         //静态的sql部分:select column ... from table
         sqlNodes.add(new StaticTextSqlNode("SELECT "
                 + EntityHelper.getSelectColumns(entityClass)
@@ -89,14 +89,14 @@ public class MapperProvider extends MapperTemplate {
      * @param ms
      * @return
      */
-    public SqlNode insert(MappedStatement ms) {
+    public SqlNode save(MappedStatement ms) {
         Class<?> entityClass = getSelectReturnType(ms);
-        List<SqlNode> sqlNodes = new LinkedList<SqlNode>();
+        List<SqlNode> sqlNodes = new LinkedList<>();
         //insert into table
         sqlNodes.add(new StaticTextSqlNode("INSERT INTO " + tableName(entityClass)));
         //获取全部列
         Set<EntityHelper.EntityColumn> columnList = EntityHelper.getColumns(entityClass);
-        List<SqlNode> ifNodes = new LinkedList<SqlNode>();
+        List<SqlNode> ifNodes = new LinkedList<>();
         //当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
         for (EntityHelper.EntityColumn column : columnList) {
             ifNodes.add(getIfNotNull(column, new StaticTextSqlNode(column.getColumn() + ",")));
@@ -104,7 +104,7 @@ public class MapperProvider extends MapperTemplate {
         //将动态的列加入sqlNodes
         sqlNodes.add(new TrimSqlNode(ms.getConfiguration(), new MixedSqlNode(ifNodes), "(", null, ")", ","));
 
-        ifNodes = new LinkedList<SqlNode>();
+        ifNodes = new LinkedList<>();
         //处理values(#{property},#{property}...)
         for (EntityHelper.EntityColumn column : columnList) {
             ifNodes.add(new IfSqlNode(new StaticTextSqlNode("#{" + column.getProperty() + "},"), column.getProperty() + " != null "));
@@ -121,12 +121,12 @@ public class MapperProvider extends MapperTemplate {
      */
     public SqlNode update(MappedStatement ms) {
         Class<?> entityClass = getSelectReturnType(ms);
-        List<SqlNode> sqlNodes = new LinkedList<SqlNode>();
+        List<SqlNode> sqlNodes = new LinkedList<>();
         //update table
         sqlNodes.add(new StaticTextSqlNode("UPDATE " + tableName(entityClass)));
         //获取全部列
         Set<EntityHelper.EntityColumn> columnList = EntityHelper.getColumns(entityClass);
-        List<SqlNode> ifNodes = new LinkedList<SqlNode>();
+        List<SqlNode> ifNodes = new LinkedList<>();
         //全部的if property!=null and property!=''
         for (EntityHelper.EntityColumn column : columnList) {
             if (!column.isId()) {
@@ -137,7 +137,7 @@ public class MapperProvider extends MapperTemplate {
         sqlNodes.add(new SetSqlNode(ms.getConfiguration(), new MixedSqlNode(ifNodes)));
         //获取全部的主键的列
         columnList = EntityHelper.getPKColumns(entityClass);
-        List<SqlNode> whereNodes = new LinkedList<SqlNode>();
+        List<SqlNode> whereNodes = new LinkedList<>();
         boolean first = true;
         //where 主键=#{property} 条件
         for (EntityHelper.EntityColumn column : columnList) {

@@ -1,4 +1,4 @@
-package message.mybatis.common.mapper;
+package message.mybatis.repository.mapper;
 
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.ParameterMapping;
@@ -154,7 +154,7 @@ public abstract class MapperTemplate {
      * @throws ClassNotFoundException
      */
     public static Class<?> getMapperClass(String msId) {
-        if (msId.indexOf(".") == -1) {
+        if (!msId.contains(".")) {
             throw new RuntimeException("当前MappedStatement的id=" + msId + ",不符合MappedStatement的规则!");
         }
         String mapperClassStr = msId.substring(0, msId.lastIndexOf("."));
@@ -266,7 +266,7 @@ public abstract class MapperTemplate {
     protected SqlNode getAllIfColumnNode(Class<?> entityClass) {
         //获取全部列
         Set<EntityHelper.EntityColumn> columnList = EntityHelper.getColumns(entityClass);
-        List<SqlNode> ifNodes = new LinkedList<SqlNode>();
+        List<SqlNode> ifNodes = new LinkedList<>();
         boolean first = true;
         //对所有列循环，生成<if test="property!=null">column = #{property}</if>
         for (EntityHelper.EntityColumn column : columnList) {

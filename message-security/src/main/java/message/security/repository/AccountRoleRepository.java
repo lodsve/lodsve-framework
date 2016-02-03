@@ -1,11 +1,10 @@
 package message.security.repository;
 
-import message.mybatis.common.dao.BaseRepository;
+import java.util.List;
+import message.mybatis.repository.MyBatisRepository;
 import message.security.pojo.AccountRole;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * .
@@ -14,7 +13,7 @@ import java.util.List;
  * @version V1.0, 16/1/8 上午10:10
  */
 @Repository
-public interface AccountRoleRepository extends BaseRepository<AccountRole> {
+public interface AccountRoleRepository extends MyBatisRepository<AccountRole> {
     /**
      * 删除角色关系
      *

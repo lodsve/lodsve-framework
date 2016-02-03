@@ -1,17 +1,4 @@
-package message.mybatis.common.mapper;
-
-import message.base.context.ApplicationHelper;
-import message.mybatis.common.dao.BaseRepository;
-import message.mybatis.common.provider.EmptyMapperProvider;
-import message.mybatis.helper.SqlHelper;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
-import org.apache.ibatis.binding.MapperMethod;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.reflection.SystemMetaObject;
+package message.mybatis.repository.mapper;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -22,6 +9,18 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import message.base.context.ApplicationHelper;
+import message.mybatis.helper.SqlHelper;
+import message.mybatis.repository.MyBatisRepository;
+import message.mybatis.repository.provider.EmptyMapperProvider;
+import org.apache.ibatis.annotations.DeleteProvider;
+import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.binding.MapperMethod;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.reflection.SystemMetaObject;
 
 /**
  * 处理主要逻辑，最关键的一个类.
@@ -74,7 +73,7 @@ public class MapperHelper {
         Method[] methods = mapperClass.getDeclaredMethods();
         Class<?> templateClass = null;
         Class<?> tempClass = null;
-        Set<String> methodSet = new HashSet<String>();
+        Set<String> methodSet = new HashSet<>();
         for (Method method : methods) {
             if (method.isAnnotationPresent(SelectProvider.class)) {
                 SelectProvider provider = method.getAnnotation(SelectProvider.class);
@@ -286,7 +285,7 @@ public class MapperHelper {
         for (Type type : types) {
             if (type instanceof ParameterizedType) {
                 ParameterizedType t = (ParameterizedType) type;
-                if (t.getRawType() == BaseRepository.class || BaseRepository.class.isAssignableFrom((Class<?>) t.getRawType())) {
+                if (t.getRawType() == MyBatisRepository.class || MyBatisRepository.class.isAssignableFrom((Class<?>) t.getRawType())) {
                     Class<?> returnType = (Class<?>) t.getActualTypeArguments()[0];
                     return returnType;
                 }
