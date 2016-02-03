@@ -51,7 +51,7 @@ public class TradeNotifyService {
         if (!NumberUtils.isNumber(paymentId)) {
             return false;
         }
-        Payment payment = this.paymentRepository.select(Long.valueOf(paymentId));
+        Payment payment = this.paymentRepository.findOne(Long.valueOf(paymentId));
         if (payment == null) {
             // 兼容以前的数据,以前数据,给ping++的order_no是orderId
             // 根据orderId获取支付单
@@ -83,13 +83,13 @@ public class TradeNotifyService {
                 // 修改支付单的支付状态
                 payment.setTradeResult(TradeResult.YES);
                 payment.setCompleteTime(new Date());
-                this.paymentRepository.insert(payment);
+                this.paymentRepository.save(payment);
 
                 payAction.doPaySuccess(payment);
             } else {
                 payment.setTradeResult(TradeResult.ERROR);
                 // 修改支付单的支付状态
-                this.paymentRepository.insert(payment);
+                this.paymentRepository.save(payment);
 
                 payAction.doPayFail(payment);
             }
@@ -99,7 +99,7 @@ public class TradeNotifyService {
             logger.error("更新订单状态失败", e);
             payment.setTradeResult(TradeResult.ERROR);
             // 修改支付单的支付状态
-            this.paymentRepository.insert(payment);
+            this.paymentRepository.save(payment);
 
             payAction.doPayFail(payment);
             return false;
@@ -147,13 +147,13 @@ public class TradeNotifyService {
                 refund.setTradeResult(TradeResult.YES);
                 refund.setCompleteTime(new Date());
 
-                this.refundRepository.insert(refund);
+                this.refundRepository.save(refund);
 
                 refundAction.doRefundSuccess(refund);
             } else {
                 payment.setTradeResult(TradeResult.ERROR);
                 // 修改支付单的支付状态
-                this.paymentRepository.insert(payment);
+                this.paymentRepository.save(payment);
 
                 refundAction.doRefundFail(refund);
             }
@@ -163,7 +163,7 @@ public class TradeNotifyService {
             logger.error("更新订单状态失败", e);
             payment.setTradeResult(TradeResult.ERROR);
             // 修改支付单的支付状态
-            this.paymentRepository.insert(payment);
+            this.paymentRepository.save(payment);
 
             refundAction.doRefundFail(refund);
             return false;

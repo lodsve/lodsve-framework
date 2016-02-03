@@ -30,7 +30,7 @@ public abstract class AbstractRefundAction implements RefundAction {
     @Override
     public void refund(Long paymentId) throws Exception {
         Assert.notNull(paymentId);
-        Payment payment = paymentRepository.select(paymentId);
+        Payment payment = paymentRepository.findOne(paymentId);
         Assert.notNull(payment);
 
         // 处理各个支付的一些情况
@@ -63,7 +63,7 @@ public abstract class AbstractRefundAction implements RefundAction {
                 pay.changeRefundStatus(null, refund);
             }
 
-            this.refundRepository.insert(refund);
+            this.refundRepository.save(refund);
         } catch (Exception e) {
             occurException(paymentId, payment.getUserId(), e);
             throw e;
@@ -75,7 +75,7 @@ public abstract class AbstractRefundAction implements RefundAction {
 
         Refund refund = build(paymentId);
 
-        this.refundRepository.insert(refund);
+        this.refundRepository.save(refund);
 
         afterBuild(refund);
         return refund;

@@ -48,12 +48,7 @@ public class AccountService {
         account.setPassword(EncryptUtils.encodeMD5(account.getPassword()));
         account.setCreateDate(new Date());
 
-        int i = this.accountRepository.insert(account);
-        if (i == 1) {
-            return account;
-        } else {
-            return null;
-        }
+        return this.accountRepository.save(account);
     }
 
 
@@ -87,12 +82,7 @@ public class AccountService {
     protected Role saveRole(Role role) throws Exception {
         role.setCreateTime(new Date());
 
-        int i = this.roleRepository.insert(role);
-        if (i == 1) {
-            return role;
-        } else {
-            return null;
-        }
+        return this.roleRepository.save(role);
     }
 
     /**
@@ -119,7 +109,7 @@ public class AccountService {
         for (String code : roleCodes) {
             AccountRole accountRole = new AccountRole(account, code);
             try {
-                this.accountRoleRepository.insert(accountRole);
+                this.accountRoleRepository.save(accountRole);
             } catch (Exception e) {
                 logger.error("保存账户角色关系出错，关系：" + accountRole, e);
                 continue;

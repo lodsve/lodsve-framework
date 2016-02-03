@@ -79,7 +79,7 @@ public abstract class AbstractPayAction implements PayAction {
         String chargeId = ((Charge) result).getId();
         payment.setChargeId(chargeId);
 
-        this.paymentRepository.insert(payment);
+        this.paymentRepository.save(payment);
 
         return result;
     }
@@ -96,7 +96,7 @@ public abstract class AbstractPayAction implements PayAction {
         String unionId = EncryptUtils.encodeMD5(targetId);
         payment.setUnionId(unionId);
 
-        this.paymentRepository.insert(payment);
+        this.paymentRepository.save(payment);
 
         afterBuild(payment);
         return payment;
