@@ -1,14 +1,5 @@
 package message.config.auto;
 
-import java.beans.PropertyDescriptor;
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 import message.base.utils.GenericUtils;
 import message.base.utils.PropertyPlaceholderHelper;
 import message.base.utils.StringUtils;
@@ -26,6 +17,16 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+
+import java.beans.PropertyDescriptor;
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * 自动装配生成器.
@@ -128,7 +129,7 @@ public class AutoConfigurationCreator {
         Set<String> keys = configuration.subset(prefix).getKeys();
         for (String key : keys) {
             String[] temp = StringUtils.split(key, ".");
-            if (temp.length != 2) {
+            if (temp.length < 2) {
                 continue;
             }
 

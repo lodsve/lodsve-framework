@@ -42,6 +42,8 @@
         <module>message-transaction</module>
         <!-- 日志 -->
         <module>message-logger</module>
+		<!-- dubbo -->
+		<module>message-dubbo</module>
     </modules>
 
     <properties>
@@ -732,6 +734,31 @@
             </dependency>
             <!-- pay end -->
 
+            <!-- dubbo start -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>2.5.3</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.github.sgroschupf</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.netty</groupId>
+                <artifactId>netty</artifactId>
+                <version>3.2.10.Final</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- dubbo end -->
+
             <!-- cosmos message dependencies start -->
             <dependency>
                 <groupId>cosmos.message</groupId>
@@ -807,6 +834,11 @@
             <dependency>
                 <groupId>cosmos.message</groupId>
                 <artifactId>message-redis</artifactId>
+                <version>${cosmos.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>cosmos.message</groupId>
+                <artifactId>message-dubbo</artifactId>
                 <version>${cosmos.version}</version>
             </dependency>
             <!-- cosmos message dependencies end -->
