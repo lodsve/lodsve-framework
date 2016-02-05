@@ -1,5 +1,13 @@
 # 更新日志
 ---
+## V2.4.4
+1. 新增dubbo支持
+2. 通过配置spring的profile来控制是否启用swagger
+3. 解决配置文件乱码问题
+4. mybatis主键支持twitter的snowflake的ID生成器
+5. 解决跨域问题
+6. 修改一些bug
+
 ## V2.4.3
 1. message-mybatis和message-mongodb配置basePackage时,默认是当前包路径
 2. 解决之前spring-data-mongodb的版本冲突
