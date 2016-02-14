@@ -1,8 +1,8 @@
 package message.mybatis.pagination;
 
 import message.base.context.ApplicationHelper;
-import message.mybatis.helper.SqlHelper;
 import message.base.utils.StringUtils;
+import message.mybatis.helper.SqlHelper;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.mapping.BoundSql;
@@ -13,13 +13,16 @@ import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.util.Assert;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * mybatis分页工具类.
@@ -30,6 +33,7 @@ import java.util.Map;
 public class PaginationHelper {
     private static final Logger logger = LoggerFactory.getLogger(PaginationHelper.class);
     private static SqlHelper sqlHelper;
+    private static final Pattern ORDER_BY = Pattern.compile(".*order\\s+by\\s+.*", Pattern.CASE_INSENSITIVE);
 
     static {
         if (sqlHelper == null) {
@@ -201,5 +205,38 @@ public class PaginationHelper {
         public BoundSql getBoundSql(Object parameterObject) {
             return boundSql;
         }
+    }
+
+    public static String applySortSql(String sql, Sort sort) {
+        if (null == sort || !sort.iterator().hasNext()) {
+            return sql;
+        }
+
+        StringBuilder builder = new StringBuilder(sql);
+
+        if (!ORDER_BY.matcher(sql).matches()) {
+            builder.append(" order by ");
+        } else {
+            builder.append(", ");
+        }
+
+        for (Sort.Order order : sort) {
+            builder.append(getOrderClause(order)).append(", ");
+        }
+
+        builder.delete(builder.length() - 2, builder.length());
+
+        return builder.toString();
+    }
+
+    private static String getOrderClause(Sort.Order order) {
+        String property = order.getProperty();
+        String wrapped = order.isIgnoreCase() ? String.format("lower(%s)", property) : property;
+
+        return String.format("%s %s", wrapped, toSqlDirection(order));
+    }
+
+    private static String toSqlDirection(Sort.Order order) {
+        return order.getDirection().name().toLowerCase(Locale.US);
     }
 }

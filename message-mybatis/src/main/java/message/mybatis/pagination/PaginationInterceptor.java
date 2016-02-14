@@ -13,6 +13,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,8 @@ public class PaginationInterceptor implements Interceptor {
 
         //在参数中获取分页的信息
         Pageable pageable = PaginationHelper.findObjectFromParameter(parameter, Pageable.class);
-        if (pageable == null) {
+        Sort sort = PaginationHelper.findObjectFromParameter(parameter, Sort.class);
+        if (pageable == null && sort == null) {
             //无需分页
             return invocation.proceed();
         }
@@ -49,7 +51,24 @@ public class PaginationInterceptor implements Interceptor {
         final MappedStatement ms = (MappedStatement) queryArgs[MAPPED_STATEMENT_INDEX];
         final BoundSql boundSql = ms.getBoundSql(parameter);
         String sql = boundSql.getSql();
+
+        if(pageable == null) {
+            // 仅排序
+            String orderSql = PaginationHelper.applySortSql(sql, sort);
+            queryArgs[MAPPED_STATEMENT_INDEX] = PaginationHelper.copyFromNewSql(ms, boundSql, orderSql);
+
+            return invocation.proceed();
+        }
+
         int total = PaginationHelper.queryForTotal(sql, ms, boundSql);
+
+        //参数sort优先于pageable中的sort
+        if(sort == null && pageable.getSort() != null) {
+            sort = pageable.getSort();
+        }
+        if(sort != null) {
+            sql = PaginationHelper.applySortSql(sql, sort);
+        }
 
         //分页语句
         String pageSql = PaginationHelper.getPageSql(sql, pageable.getOffset(), pageable.getPageSize());
