@@ -35,7 +35,7 @@
 [CHANGELOG][]
 
 ## 联系我
-1. Email: [email_to][sunhao.java@gmail.com]
+1. Email: sunhao.java@gmail.com
 2. QQ: 867885140
 3. Blog: [OSChina][]
 
@@ -44,5 +44,4 @@ The Spring Framework is released under version 2.0 of the [Apache License][].
 
 [Apache License]: http://www.apache.org/licenses/LICENSE-2.0
 [CHANGELOG]: https://github.com/sunhao-java/cosmos-message/blob/master/CHANGELOG.md
-[email_to]: mailto:sunhao.java@gmail.com
 [OSChina]: http://my.oschina.net/sunhaojava/blog
