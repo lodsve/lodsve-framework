@@ -1,5 +1,8 @@
 # 更新日志
 ---
+## V2.4.5
+1. mybatis支持排序
+
 ## V2.4.4
 1. 新增dubbo支持
 2. 通过配置spring的profile来控制是否启用swagger

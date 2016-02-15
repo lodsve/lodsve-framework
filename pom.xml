@@ -4,7 +4,7 @@
 
     <groupId>cosmos.message</groupId>
     <artifactId>message-parent</artifactId>
-    <version>2.4.5-SNAPSHOT</version>
+    <version>2.4.5</version>
     <packaging>pom</packaging>
     <name>message parent</name>
     <url>http://maven.apache.org</url>
