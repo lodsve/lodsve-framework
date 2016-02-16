@@ -2,6 +2,8 @@ package message.transaction.channel;
 
 import message.transaction.enums.TradeChannel;
 import message.transaction.utils.Channel;
+import message.transaction.utils.data.PayData;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -17,7 +19,17 @@ import java.util.Map;
 @Channel(TradeChannel.WX)
 public class WeiXinPay extends CommonWXPay {
     @Override
-    protected Map<String, String> buildExtraData() {
+    protected Map<String, String> buildExtraData(Map<String, String> extra) {
+        if (MapUtils.isEmpty(extra)) {
+            return Collections.emptyMap();
+        }
+
+        String limitPay = extra.get(PayData.LIMIT_PAY);
+        Boolean limit = Boolean.valueOf(limitPay);
+        if (limit) {
+            return Collections.singletonMap(PayData.LIMIT_PAY, "no_credit");
+        }
+
         return Collections.emptyMap();
     }
 }

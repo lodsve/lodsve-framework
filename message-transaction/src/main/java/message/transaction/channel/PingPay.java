@@ -35,7 +35,6 @@ public abstract class PingPay implements Pay<Charge, Refund> {
     @Override
     public void validatePay(Long amount, Map<String, Object> extraParam) {
         // 通过ping++支付 不需要验证
-        return;
     }
 
     @Override
@@ -56,7 +55,7 @@ public abstract class PingPay implements Pay<Charge, Refund> {
         chargeParams.put("body", payData.getPayDesc());
 
         // 设置额外参数
-        setExtraData(chargeParams);
+        setExtraData(chargeParams, payData.getExtra());
 
         return Charge.create(chargeParams);
     }
@@ -92,10 +91,10 @@ public abstract class PingPay implements Pay<Charge, Refund> {
         return object.toString();
     }
 
-    private void setExtraData(Map<String, Object> chargeParams) {
-        Map<String, String> extra = buildExtraData();
+    private void setExtraData(Map<String, Object> chargeParams, Map<String, String> extra) {
+        Map<String, String> _extra = buildExtraData(extra);
         if (extra != null && !extra.isEmpty()) {
-            chargeParams.put("extra", extra);
+            chargeParams.put("extra", _extra);
         }
     }
 
@@ -172,7 +171,8 @@ public abstract class PingPay implements Pay<Charge, Refund> {
      * </li>
      * </ul>
      *
+     * @param extra 一些额外的参数
      * @return
      */
-    protected abstract Map<String, String> buildExtraData();
+    protected abstract Map<String, String> buildExtraData(Map<String, String> extra);
 }

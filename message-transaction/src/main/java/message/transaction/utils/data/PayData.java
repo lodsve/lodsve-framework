@@ -1,7 +1,9 @@
 package message.transaction.utils.data;
 
 import message.transaction.enums.TradeChannel;
+
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * 这里放着所有支付方式(使用ping++)需要用到的额外信息.
@@ -10,6 +12,10 @@ import java.io.Serializable;
  * @version V1.0, 15/8/28 下午1:21
  */
 public class PayData implements Serializable {
+    public static final String RN_CHECK = "rn_check";
+    public static final String LIMIT_PAY = "limit_pay";
+    public static final String OPEN_ID = "openId";
+
     /**
      * 支付渠道
      */
@@ -31,6 +37,10 @@ public class PayData implements Serializable {
      */
     private String payDesc;
     /** 以上是公共字段 **/
+    /**
+     * 额外参数
+     */
+    private Map<String, String> extra;
 
     public TradeChannel getTradeChannel() {
         return tradeChannel;
@@ -70,5 +80,13 @@ public class PayData implements Serializable {
 
     public void setPayDesc(String payDesc) {
         this.payDesc = payDesc;
+    }
+
+    public Map<String, String> getExtra() {
+        return extra;
+    }
+
+    public void setExtra(Map<String, String> extra) {
+        this.extra = extra;
     }
 }

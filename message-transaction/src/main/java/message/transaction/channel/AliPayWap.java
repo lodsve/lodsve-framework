@@ -24,7 +24,7 @@ public class AliPayWap extends CommonAliPay {
     private PingConfig pingConfig;
 
     @Override
-    protected Map<String, String> buildExtraData() {
+    protected Map<String, String> buildExtraData(Map<String, String> extra) {
         Map<String, String> params = new HashMap<>();
 
         TradeType type = ParamsHolder.get("tradeType");
