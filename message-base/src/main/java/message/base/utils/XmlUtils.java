@@ -1,0 +1,194 @@
+package message.base.utils;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
+import org.springframework.util.Assert;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.util.List;
+
+/**
+ * xml工具类.
+ *
+ * @author sunhao(sunhao.java@gmail.com)
+ * @version V1.0, 2015-11-18 13:58
+ */
+public final class XmlUtils {
+    private static final SAXReader saxReader = new SAXReader();
+
+    private XmlUtils() {
+    }
+
+    /**
+     * 解析xml
+     *
+     * @param in
+     * @return
+     */
+    public static Document parseXML(InputStream in) {
+        Assert.notNull(in);
+
+        try {
+            return saxReader.read(in);
+        } catch (DocumentException e) {
+            throw new RuntimeException("XML解析发生错误");
+        }
+    }
+
+    /**
+     * xml 2 string
+     *
+     * @param document xml document
+     * @return
+     */
+    public static String parseXMLToString(Document document) {
+        Assert.notNull(document);
+
+        OutputFormat format = OutputFormat.createPrettyPrint();
+        format.setEncoding("UTF-8");
+        StringWriter writer = new StringWriter();
+        XMLWriter xmlWriter = new XMLWriter(writer, format);
+        try {
+            xmlWriter.write(document);
+            xmlWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException("XML解析发生错误");
+        }
+        return writer.toString();
+    }
+
+    /**
+     * 获取元素下指定节点名的子元素集合
+     *
+     * @param element 元素
+     * @param tagName 子元素
+     * @return
+     */
+    public static List<Element> getChildren(Element element, String tagName) {
+        Assert.notNull(element);
+        Assert.hasText(tagName);
+
+        return element.elements(tagName);
+    }
+
+    /**
+     * 获取元素下指定节点名的子元素
+     *
+     * @param element 元素
+     * @param tagName 子元素
+     * @return
+     */
+    public static Element getChild(Element element, String tagName) {
+        Assert.notNull(element);
+        Assert.hasText(tagName);
+
+        return element.element(tagName);
+    }
+
+    /**
+     * 获取元素下的全部子元素
+     *
+     * @param element 元素
+     * @return
+     */
+    public static List<Element> getChildren(Element element) {
+        Assert.notNull(element);
+
+        return element.elements();
+    }
+
+    /**
+     * 获取元素中包含的内容
+     *
+     * @param element 元素
+     * @return
+     */
+    public static String getElementBody(Element element) {
+        Assert.notNull(element);
+
+        return element.getTextTrim();
+    }
+
+    /**
+     * 获取元素属性
+     *
+     * @param element 元素
+     * @param attr    属性名
+     * @return
+     */
+    public static String getElementAttr(Element element, String attr) {
+        Assert.notNull(element);
+        Assert.hasText(attr);
+
+        return element.attributeValue(attr);
+    }
+
+    /**
+     * 获取元素下子元素的属性
+     *
+     * @param element 元素
+     * @param attr    属性名
+     * @return
+     */
+    public static String getChildAttr(Element element, String tagName, String attr) {
+        Assert.notNull(element);
+        Assert.hasText(tagName);
+        Assert.hasText(attr);
+
+        Element child = element.element(tagName);
+        return child.attributeValue(attr);
+    }
+
+    /**
+     * 获取指定路径节点
+     *
+     * @param root 根
+     * @param path 路径（相对于给定的根元素）,eg: root/node1/node2...
+     * @return
+     */
+    public static Element getElement(Element root, String path) {
+        Assert.notNull(root);
+        Assert.hasText(path);
+
+        String[] paths = StringUtils.split(path, "/");
+        Element element = null;
+        for (String p : paths) {
+            element = getChild(root, p);
+        }
+
+        return element;
+    }
+
+    /**
+     * 获取指定路径节点的属性
+     *
+     * @param root        根
+     * @param pathAndAttr 路径（相对于给定的根元素）,eg: root/node1/node2/attr3:attrName
+     * @return
+     */
+    public static String getAttrValue(Element root, String pathAndAttr) {
+        Assert.notNull(root);
+        Assert.hasText(pathAndAttr);
+
+        String[] temp = StringUtils.split(pathAndAttr, ":");
+        if (temp.length != 2) {
+            return StringUtils.EMPTY;
+        }
+
+        String path = temp[0];
+        String attr = temp[1];
+
+        Element element = getElement(root, path);
+        if (element == null) {
+            return StringUtils.EMPTY;
+        }
+
+        return getElementAttr(element, attr);
+    }
+}

@@ -1,9 +1,5 @@
 package message.mybatis.configs;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import message.base.utils.StringUtils;
 import message.mybatis.configs.annotations.EnableMyBatis;
 import message.mybatis.helper.MySQLSqlHelper;
@@ -28,6 +24,11 @@ import org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtracto
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * 动态创建mybatis的配置.
@@ -154,7 +155,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         BeanDefinitionBuilder flywayBean = BeanDefinitionBuilder.genericBeanDefinition(Flyway.class);
         flywayBean.setInitMethodName("migrate");
         flywayBean.addPropertyReference("dataSource", dataSource);
-        flywayBean.addPropertyReference("locations", migration);
+        flywayBean.addPropertyValue("locations", migration);
 
         beanDefinitions.put(dataSource + "Flyway", flywayBean.getBeanDefinition());
 
