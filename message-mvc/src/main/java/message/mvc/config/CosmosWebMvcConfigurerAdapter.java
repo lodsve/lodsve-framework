@@ -1,23 +1,23 @@
 package message.mvc.config;
 
-import java.util.List;
 import message.mvc.convert.CustomMappingJackson2HttpMessageConverter;
 import message.mvc.convert.CustomObjectMapper;
-import message.mvc.convert.EnumCodeConverterFactory;
 import message.mvc.convert.StringDateConvertFactory;
 import message.mvc.resolver.BindDataHandlerMethodArgumentResolver;
 import message.mvc.resolver.ParseDataHandlerMethodArgumentResolver;
 import message.mvc.resolver.WebResourceDataHandlerMethodArgumentResolver;
 import message.properties.ApplicationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.util.List;
 
 /**
  * 配置springMVC.
@@ -25,7 +25,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/8/15 下午1:22
  */
-@Configuration
+@Component
 public class CosmosWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
     @Autowired
     private ApplicationProperties properties;
