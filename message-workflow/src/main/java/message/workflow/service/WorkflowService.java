@@ -48,7 +48,8 @@ public class WorkflowService {
     public Workflow saveWorkflow(Workflow workflow) {
         Assert.notNull(workflow, "流程不能为空！");
 
-        return workflowRepository.save(workflow);
+        workflowRepository.save(workflow);
+        return workflow;
     }
 
     /**

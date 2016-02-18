@@ -48,7 +48,9 @@ public class AccountService {
         account.setPassword(EncryptUtils.encodeMD5(account.getPassword()));
         account.setCreateDate(new Date());
 
-        return this.accountRepository.save(account);
+        this.accountRepository.save(account);
+
+        return account;
     }
 
 
@@ -82,7 +84,9 @@ public class AccountService {
     protected Role saveRole(Role role) throws Exception {
         role.setCreateTime(new Date());
 
-        return this.roleRepository.save(role);
+        this.roleRepository.save(role);
+
+        return role;
     }
 
     /**
