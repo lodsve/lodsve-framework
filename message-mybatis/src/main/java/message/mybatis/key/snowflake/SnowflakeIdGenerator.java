@@ -1,6 +1,6 @@
 package message.mybatis.key.snowflake;
 
-import message.mybatis.key.AbstractMaxValueIncrementer;
+import message.mybatis.key.IDGenerator;
 
 /**
  * twitter的snowflake的ID生成器实现
@@ -8,7 +8,7 @@ import message.mybatis.key.AbstractMaxValueIncrementer;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016-01-29 下午23:39
  */
-public class SnowflakeIdGenerator extends AbstractMaxValueIncrementer {
+public class SnowflakeIdGenerator implements IDGenerator {
     private final static long twepoch = 1361753741828L;
     private long sequence = 0L;
     private final static long workerIdBits = 4L;
@@ -21,7 +21,7 @@ public class SnowflakeIdGenerator extends AbstractMaxValueIncrementer {
     private long lastTimestamp = -1L;
 
     @Override
-    protected long getNextKey(String name) {
+    public long nextId() {
         long timestamp = this.timeGen();
 
         if (this.lastTimestamp == timestamp) {

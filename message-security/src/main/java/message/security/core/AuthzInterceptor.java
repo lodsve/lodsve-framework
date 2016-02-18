@@ -4,6 +4,7 @@ import message.security.annotation.NeedAuthz;
 import message.security.pojo.Account;
 import message.base.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -18,6 +19,7 @@ import java.lang.reflect.Method;
  * @version V1.0
  * @createTime 2014-12-7 14:53
  */
+@Component
 public class AuthzInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private message.security.service.Authz authz;

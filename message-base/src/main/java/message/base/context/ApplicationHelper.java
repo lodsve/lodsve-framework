@@ -1,13 +1,15 @@
 package message.base.context;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * applicationContext的辅助类
@@ -17,8 +19,6 @@ import java.util.*;
  * @createTime 2012-3-8 下午09:56:58
  */
 public class ApplicationHelper {
-    private static final Logger logger = LoggerFactory.getLogger(ApplicationHelper.class);
-
     private static ApplicationHelper instance = new ApplicationHelper();
 
     private String rootPath;
@@ -55,7 +55,7 @@ public class ApplicationHelper {
         }
 
         if (result == null)
-            throw new NoSuchBeanDefinitionException("there is no bean named '" + clazz.getName() + "'");
+            throw new NoSuchBeanDefinitionException(clazz.getName());
 
         return result;
     }
@@ -82,7 +82,7 @@ public class ApplicationHelper {
         } while (!it.hasNext());
 
         if (result == null)
-            throw new NoSuchBeanDefinitionException("there is no bean named '" + name + "'");
+            throw new NoSuchBeanDefinitionException(name);
 
         return result;
     }

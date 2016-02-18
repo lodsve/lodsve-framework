@@ -1,8 +1,8 @@
 package message.mybatis.pagination;
 
-import message.base.context.ApplicationHelper;
 import message.base.utils.StringUtils;
-import message.mybatis.helper.SqlHelper;
+import message.mybatis.dialect.Dialect;
+import message.mybatis.utils.MyBatisUtils;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.mapping.BoundSql;
@@ -32,12 +32,12 @@ import java.util.regex.Pattern;
  */
 public class PaginationHelper {
     private static final Logger logger = LoggerFactory.getLogger(PaginationHelper.class);
-    private static SqlHelper sqlHelper;
+    private static Dialect dialect;
     private static final Pattern ORDER_BY = Pattern.compile(".*order\\s+by\\s+.*", Pattern.CASE_INSENSITIVE);
 
     static {
-        if (sqlHelper == null) {
-            sqlHelper = ApplicationHelper.getInstance().getBean(SqlHelper.class);
+        if (dialect == null) {
+            dialect = MyBatisUtils.getDialect();
         }
     }
 
@@ -80,7 +80,7 @@ public class PaginationHelper {
             return 0;
         }
 
-        String totalSql = sqlHelper.getCountSql(sql);
+        String totalSql = dialect.getCountSql(sql);
         Connection connection = null;
         PreparedStatement preStmt = null;
         ResultSet rs = null;
@@ -133,7 +133,7 @@ public class PaginationHelper {
         Assert.notNull(start, "start is required!");
         Assert.notNull(num, "num is required!");
 
-        return sqlHelper.getPageSql(sql, start, num);
+        return dialect.getPageSql(sql, start, num);
     }
 
     protected static MappedStatement copyFromNewSql(MappedStatement ms, BoundSql boundSql, String sql) {

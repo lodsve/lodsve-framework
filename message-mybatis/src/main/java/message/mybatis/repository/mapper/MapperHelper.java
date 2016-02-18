@@ -1,5 +1,18 @@
 package message.mybatis.repository.mapper;
 
+import message.mybatis.key.IDGenerator;
+import message.mybatis.repository.MyBatisRepository;
+import message.mybatis.repository.provider.EmptyMapperProvider;
+import message.mybatis.utils.MyBatisUtils;
+import org.apache.ibatis.annotations.DeleteProvider;
+import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.binding.MapperMethod;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.reflection.SystemMetaObject;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -9,18 +22,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import message.base.context.ApplicationHelper;
-import message.mybatis.helper.SqlHelper;
-import message.mybatis.repository.MyBatisRepository;
-import message.mybatis.repository.provider.EmptyMapperProvider;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
-import org.apache.ibatis.binding.MapperMethod;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.reflection.SystemMetaObject;
 
 /**
  * 处理主要逻辑，最关键的一个类.
@@ -43,9 +44,9 @@ public class MapperHelper {
      */
     private final Map<String, Boolean> msIdSkip = new HashMap<>();
     /**
-     * sqlHelper
+     * dialect
      */
-    private SqlHelper sqlHelper;
+    private IDGenerator idGenerator;
 
     /**
      * 默认构造方法
@@ -329,17 +330,16 @@ public class MapperHelper {
         Set<EntityHelper.EntityColumn> keys = table.getEntityClassPKColumns();
         for (EntityHelper.EntityColumn key : keys) {
             String property = key.getProperty();
-            String generator = key.getGenerator();
 
-            if(this.getValue(obj, property) != null) {
+            if (this.getValue(obj, property) != null) {
                 continue;
             }
 
-            if (this.sqlHelper == null) {
-                this.sqlHelper = ApplicationHelper.getInstance().getBean(SqlHelper.class);
+            if (this.idGenerator == null) {
+                this.idGenerator = MyBatisUtils.getIDGenerator(IDGenerator.KeyType.SNOWFLAKE);
             }
 
-            Long pkId = this.sqlHelper.getNextId(generator);
+            Long pkId = this.idGenerator.nextId();
             this.setValue(obj, property, pkId);
         }
     }

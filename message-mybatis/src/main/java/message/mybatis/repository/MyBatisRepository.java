@@ -48,7 +48,7 @@ public interface MyBatisRepository<T> {
      * @return 操作后影响的数据库记录数量(一般情况为1)
      */
     @InsertProvider(type = MapperProvider.class, method = "dynamicSQL")
-    T save(T entity);
+    int save(T entity);
 
     /**
      * 根据主键更新属性不为null的值。
@@ -57,7 +57,7 @@ public interface MyBatisRepository<T> {
      * @return 操作后影响的数据库记录数量(一般情况为1)
      */
     @UpdateProvider(type = MapperProvider.class, method = "dynamicSQL")
-    T update(T entity);
+    int update(T entity);
 
     /**
      * 根据主键字段进行删除，方法参数必须包含完整的主键属性

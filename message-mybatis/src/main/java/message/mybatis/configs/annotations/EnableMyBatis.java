@@ -51,13 +51,6 @@ public @interface EnableMyBatis {
     String[] typeHandlersLocations() default {};
 
     /**
-     * 主键生成策略,默认(false)是通过数据库生成,为true是按twitter的snowflake的ID生成器实现
-     *
-     * @return
-     */
-    boolean useSnowflake() default false;
-
-    /**
      * 是否使用flyway
      *
      * @return

@@ -3,6 +3,7 @@ package message.security.core;
 import message.security.annotation.NeedLogin;
 import message.security.service.Authz;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -18,6 +19,7 @@ import java.lang.reflect.Method;
  * @version V1.0
  * @createTime 2014-12-7 16:46
  */
+@Component
 public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private Authz authz;
