@@ -15,18 +15,12 @@
     <name>message config</name>
 
     <dependencies>
-        <!-- tomcat start -->
+        <!-- servlet start -->
         <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>servlet-api</artifactId>
-            <scope>provided</scope>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>jsp-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!-- tomcat end -->
+        <!-- servlet end -->
 
         <dependency>
             <groupId>org.springframework</groupId>

@@ -42,8 +42,8 @@
         <module>message-transaction</module>
         <!-- 日志 -->
         <module>message-logger</module>
-		<!-- dubbo -->
-		<module>message-dubbo</module>
+        <!-- dubbo -->
+        <module>message-dubbo</module>
         <!-- workflow -->
         <module>message-workflow</module>
     </modules>
@@ -52,7 +52,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.10</junit.version>
         <spring.version>4.2.4.RELEASE</spring.version>
-        <tomcat.version>6.0.44</tomcat.version>
+        <servlet.version>3.0.1</servlet.version>
         <mongodb.version>2.14.1</mongodb.version>
     </properties>
 
@@ -161,20 +161,14 @@
             </dependency>
             <!-- 单元测试 end -->
 
-            <!-- tomcat start -->
+            <!-- servlet start -->
             <dependency>
-                <groupId>org.apache.tomcat</groupId>
-                <artifactId>servlet-api</artifactId>
-                <version>${tomcat.version}</version>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servlet.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat</groupId>
-                <artifactId>jsp-api</artifactId>
-                <version>${tomcat.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <!-- tomcat end -->
+            <!-- servlet end -->
 
             <!-- apache commons start -->
             <dependency>
@@ -206,11 +200,6 @@
                 <groupId>commons-digester</groupId>
                 <artifactId>commons-digester</artifactId>
                 <version>2.0</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>1.4</version>
             </dependency>
             <dependency>
                 <groupId>commons-fileupload</groupId>
@@ -272,11 +261,6 @@
                 <groupId>javax.persistence</groupId>
                 <artifactId>persistence-api</artifactId>
                 <version>1.0</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.transaction</groupId>
-                <artifactId>jta</artifactId>
-                <version>1.1</version>
             </dependency>
             <!-- javax end -->
 
@@ -419,22 +403,6 @@
             </dependency>
             <!-- 搜索引擎的 end -->
 
-            <!-- Java文本处理工具包 start -->
-            <dependency>
-                <groupId>oro</groupId>
-                <artifactId>oro</artifactId>
-                <version>2.0.8</version>
-            </dependency>
-            <!-- Java文本处理工具包 end -->
-
-            <!-- jstl start -->
-            <dependency>
-                <groupId>jstl</groupId>
-                <artifactId>jstl</artifactId>
-                <version>1.2</version>
-            </dependency>
-            <!-- jstl end -->
-
             <!-- html,xml处理 start -->
             <dependency>
                 <groupId>nekohtml</groupId>
@@ -492,26 +460,7 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <dependency>
-                <groupId>antlr</groupId>
-                <artifactId>antlr</artifactId>
-                <version>2.7.6</version>
-            </dependency>
             <!-- ant end -->
-
-            <!-- 数据库相关 start -->
-            <dependency>
-                <groupId>org.apache.ddlutils</groupId>
-                <artifactId>ddlutils-customize</artifactId>
-                <version>1.0</version>
-            </dependency>
-            <!-- 数据库相关 end -->
-
-            <dependency>
-                <groupId>aopalliance</groupId>
-                <artifactId>aopalliance</artifactId>
-                <version>1.0</version>
-            </dependency>
 
             <!-- spring framework start -->
             <dependency>
@@ -837,7 +786,7 @@
                 <artifactId>message-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
-			<dependency>
+            <dependency>
                 <groupId>cosmos.message</groupId>
                 <artifactId>message-dubbo</artifactId>
                 <version>${project.version}</version>
