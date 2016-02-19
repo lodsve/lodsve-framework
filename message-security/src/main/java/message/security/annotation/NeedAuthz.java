@@ -22,5 +22,5 @@ public @interface NeedAuthz {
      *
      * @return
      */
-    String[] roles() default "";
+    String[] value() default "";
 }

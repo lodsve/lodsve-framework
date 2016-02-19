@@ -1,10 +1,7 @@
 package message.security.core;
 
 import message.security.annotation.NeedAuthz;
-import message.security.pojo.Account;
-import message.base.utils.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import message.security.service.Authz;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -19,10 +16,12 @@ import java.lang.reflect.Method;
  * @version V1.0
  * @createTime 2014-12-7 14:53
  */
-@Component
 public class AuthzInterceptor extends HandlerInterceptorAdapter {
-    @Autowired
-    private message.security.service.Authz authz;
+    private Authz authz;
+
+    public AuthzInterceptor(Authz authz) {
+        this.authz = authz;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -40,19 +39,16 @@ public class AuthzInterceptor extends HandlerInterceptorAdapter {
             return super.preHandle(request, response, handler);
         }
 
-        Account account = this.authz.getLoginAccount(request);
+        //判断是否有权限
+        Account account = LoginAccountHolder.getCurrentAccount();
         if (account == null) {
-            //未登录
-            throw new RuntimeException("未登录！");
+            throw new RuntimeException("not login!");
         }
 
-        boolean authz = this.authz.authz(account.getLoginName(), ac.roles());
-
-        if (authz) {
+        if (this.authz.authz(account, ac.value())) {
             return super.preHandle(request, response, handler);
         } else {
-            throw new RuntimeException(String.format("用户%s没有权限访问此url:%s,指定角色code为:%s",
-                    account.getLoginName(), request.getContextPath(), StringUtils.join(ac.roles(), ",")));
+            throw new RuntimeException("authz failure! user id is:{" + account.getId() + "}!");
         }
     }
 }

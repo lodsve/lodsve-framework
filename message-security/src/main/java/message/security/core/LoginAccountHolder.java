@@ -1,7 +1,5 @@
 package message.security.core;
 
-import message.security.pojo.Account;
-
 /**
  * 在当前请求（即一个线程中）中保存当前登录者.
  *
@@ -10,7 +8,7 @@ import message.security.pojo.Account;
  * @createTime 2014-12-7 16:50
  */
 public class LoginAccountHolder {
-    private static ThreadLocal<Account> accountThreadLocal = new ThreadLocal<Account>();
+    private static ThreadLocal<Account> accountThreadLocal = new ThreadLocal<>();
 
     public static Account getCurrentAccount() {
         return accountThreadLocal.get();
