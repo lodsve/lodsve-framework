@@ -46,6 +46,8 @@
         <module>message-dubbo</module>
         <!-- workflow -->
         <module>message-workflow</module>
+        <!-- wechat -->
+        <module>message-wechat</module>
     </modules>
 
     <properties>
@@ -281,6 +283,14 @@
                 <version>2.5.4</version>
             </dependency>
             <!-- jackson end -->
+
+            <!-- fastjson start -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.0</version>
+            </dependency>
+            <!-- fastjson end -->
 
             <dependency>
                 <groupId>javassist</groupId>

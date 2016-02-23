@@ -108,7 +108,7 @@ public class EHCacheManagerImpl implements CacheManager {
                  timeToIdleSeconds - the default amount of time to live for an element from its last accessed or modified date
                  diskPersistent - whether to persist the cache to disk between JVM restarts
                  diskExpiryThreadIntervalSeconds - how often to run the disk store expiry thread. A large number of 120 seconds plus is recommended
-                 registeredEventListeners - a notification service. Optionally null, in which case a new one with no registered listeners will be created.
+                 registeredEventListeners - a notification base. Optionally null, in which case a new one with no registered listeners will be created.
                  */
                 cache = new net.sf.ehcache.Cache(region,     //cache scope
                         this.maxElementsInMemory,            //maxElementsInMemory

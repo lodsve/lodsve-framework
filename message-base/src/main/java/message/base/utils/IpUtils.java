@@ -20,7 +20,7 @@ public class IpUtils {
     /**
      * 默认的识别IP的地址(第三方运营商)
      */
-    private static final String REQUEST_URL = "http://ip.taobao.com/service/getIpInfo.php";
+    private static final String REQUEST_URL = "http://ip.taobao.com/base/getIpInfo.php";
     /**
      * url中的参数key
      */

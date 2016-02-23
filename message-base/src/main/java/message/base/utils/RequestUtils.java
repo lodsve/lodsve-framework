@@ -1,10 +1,19 @@
 package message.base.utils;
 
-import message.base.bean.Constants;
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import message.base.bean.ClientType;
+import message.base.bean.Constants;
+import org.springframework.util.Assert;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * HttpServletRequest的工具类
@@ -53,7 +62,7 @@ public class RequestUtils {
         while (it.hasNext()) {
             String key = (String) it.next();
             String[] values = (String[]) params.get(key);
-            String value = StringUtils.EMPTY;
+            String value;
             if (values != null && values.length > 0) {
                 value = values[0];
             } else {
@@ -173,7 +182,7 @@ public class RequestUtils {
         }
 
         String[] ps = params.split("&");
-        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        Map<String, Object> paramsMap = new HashMap<>();
         for (String p : ps) {
             String[] tmp = p.split("=");
             if (tmp == null || tmp.length <= 0)
@@ -236,31 +245,35 @@ public class RequestUtils {
         return getParam(params, key);
     }
 
-    /**
-     * 从request中获取模块名
-     *
-     * @param request
-     * @return
-     * @throws Exception
-     */
-    public static String getModuleName(HttpServletRequest request) throws Exception {
-        if (ObjectUtils.isEmpty(request)) {
-            return StringUtils.EMPTY;
-        }
+    public static HttpServletRequest getCurrentRequest() {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        Assert.state(requestAttributes != null, "Could not find current request via RequestContextHolder");
+        Assert.isInstanceOf(ServletRequestAttributes.class, requestAttributes);
+        HttpServletRequest servletRequest = ((ServletRequestAttributes) requestAttributes).getRequest();
+        Assert.state(servletRequest != null, "Could not find current HttpServletRequest");
+        return servletRequest;
+    }
 
-        String href = request.getRequestURI();
-        if (StringUtils.isNotEmpty(href)) {
-            String[] args = href.split("/");
+    public static String getUserAgent(HttpServletRequest request) {
+        return StringUtils.defaultString(request.getHeader("user-agent")).toLowerCase();
+    }
 
-            if (args != null && args.length == 4) {
-                return args[2];
-            } else if (args != null && args.length == 3) {
-                return args[1];
+    public static ClientType getClientType() {
+        HttpServletRequest request = getCurrentRequest();
+        if (request != null) {
+            String userAgent = getUserAgent(request);
+            if (userAgent.lastIndexOf("mah/") > -1 || userAgent.lastIndexOf("thttpclient") > -1) {
+                return ClientType.APP;
+            } else if (userAgent.lastIndexOf("micromessenger") > -1) {
+                return ClientType.WEIXIN;
+            } else if (userAgent.lastIndexOf("alipayclient") > -1) {
+                return ClientType.ALIPAY;
+            } else if (userAgent.lastIndexOf("qq") > -1) {
+                return ClientType.QQ;
             } else {
-                return StringUtils.EMPTY;
+                return ClientType.BROWSER;
             }
         }
-
-        return StringUtils.EMPTY;
+        return ClientType.UNKNOWN;
     }
 }

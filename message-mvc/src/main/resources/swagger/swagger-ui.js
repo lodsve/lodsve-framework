@@ -327,7 +327,7 @@
     var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
     return "<div class=\"info_tos\"><a href=\""
         + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.info : depth0)) != null ? stack1.termsOfServiceUrl : stack1), depth0))
-        + "\" data-sw-translate>Terms of service</a></div>";
+        + "\" data-sw-translate>Terms of base</a></div>";
   },"6":function(depth0,helpers,partials,data) {
     var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
     return "<div class='info_name' data-sw-translate>Created by "

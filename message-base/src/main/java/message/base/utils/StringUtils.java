@@ -1,5 +1,6 @@
 package message.base.utils;
 
+import java.nio.charset.Charset;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.util.Assert;
@@ -90,11 +91,11 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
      * @param baseString
      * @return
      */
-    public static String decodeBase64(String baseString) {
+    public static String decodeBase64(String baseString) throws UnsupportedEncodingException {
         String result = null;
 
         if (isNotBlank(baseString)) {
-            result = new String(Base64.decodeBase64(baseString));
+            result = new String(Base64.decodeBase64(baseString.getBytes(Charset.forName("UTF-8").displayName())));
         }
 
         return result;

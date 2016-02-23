@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 import java.util.List;
 
 /**
- * service.
+ * base.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2015-11-18 17:06
