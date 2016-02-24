@@ -1,4 +1,4 @@
-package message.wechat.beans.message.handler;
+package message.wechat.message;
 
 import com.alibaba.fastjson.util.TypeUtils;
 import java.util.ArrayList;

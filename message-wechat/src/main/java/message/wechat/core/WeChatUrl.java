@@ -43,4 +43,36 @@ public final class WeChatUrl {
      * 删除全部自定义菜单
      */
     public static final String DELETE_MENUS = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=%s";
+    /**
+     * 增加客服接口
+     */
+    public static final String ADD_CUSTOMER_SERVICE = "https://api.weixin.qq.com/customservice/kfaccount/add?access_token=%s";
+    /**
+     * 删除客服接口
+     */
+    public static final String DELETE_CUSTOMER_SERVICE = "https://api.weixin.qq.com/customservice/kfaccount/del?access_token=%s";
+    /**
+     * 修改客服帐号
+     */
+    public static final String UPDATE_CUSTOMER_SERVICE = "https://api.weixin.qq.com/customservice/kfaccount/update?access_token=%s";
+    /**
+     * 获取所有客服账号
+     */
+    public static final String LIST_CUSTOMER_SERVICE = "https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token=%s";
+    /**
+     * 客服发送消息
+     */
+    public static final String CUSTOMER_SEND_TIDINGS = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s";
+    /**
+     * 设置所属行业
+     */
+    public static final String API_SET_INDUSTRY = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=%s";
+    /**
+     * 获取模板
+     */
+    public static final String API_GET_TEMPLATE = "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=%s";
+    /**
+     * 发送模板消息
+     */
+    public static final String API_SEND_TEMPLATE_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s";
 }

@@ -6,7 +6,7 @@ import message.mvc.annotation.WebResource;
 import message.mvc.commons.WebInput;
 import message.wechat.beans.JsApiConfig;
 import message.wechat.beans.ValidateSignature;
-import message.wechat.beans.message.handler.ReceiveHandler;
+import message.wechat.message.ReceiveHandler;
 import message.wechat.beans.message.reply.Reply;
 import message.wechat.base.WeChatCommonsService;
 import org.springframework.beans.factory.annotation.Autowired;
