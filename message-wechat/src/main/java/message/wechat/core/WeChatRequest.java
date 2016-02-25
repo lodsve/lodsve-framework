@@ -3,6 +3,7 @@ package message.wechat.core;
 import java.util.Collections;
 import message.mvc.convert.CustomMappingJackson2HttpMessageConverter;
 import message.mvc.convert.CustomObjectMapper;
+import message.wechat.exception.WeChatResponseErrorHandler;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +21,8 @@ public final class WeChatRequest {
         converter.setObjectMapper(new CustomObjectMapper());
 
         template.setMessageConverters(Collections.<HttpMessageConverter<?>>singletonList(converter));
+
+        template.setErrorHandler(new WeChatResponseErrorHandler());
     }
 
     public static <T> T get(String url, Class<T> responseType, Object... params) {
