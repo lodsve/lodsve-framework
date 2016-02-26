@@ -1,5 +1,6 @@
 package message.wechat.web;
 
+import com.mangofactory.swagger.annotations.ApiIgnore;
 import java.io.IOException;
 import java.io.PrintWriter;
 import message.base.utils.StringUtils;
@@ -7,6 +8,7 @@ import message.base.utils.XmlUtils;
 import message.mvc.annotation.WebResource;
 import message.mvc.commons.WebInput;
 import message.mvc.commons.WebOutput;
+import message.swagger.annotations.SwaggerIgnore;
 import message.wechat.base.WeChatCommonsService;
 import message.wechat.beans.JsApiConfig;
 import message.wechat.beans.message.reply.Reply;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/21 下午5:13
  */
+@SwaggerIgnore
 @RestController
 @RequestMapping("/wx")
 public class WeChatCommonsController {
@@ -32,6 +35,7 @@ public class WeChatCommonsController {
     @Autowired
     private ReceiveHandler receiveHandler;
 
+    @ApiIgnore
     @RequestMapping(value = "/message", produces = "application/json", method = RequestMethod.GET)
     public String check(String signature, String timestamp, String nonce, String echostr, @WebResource WebOutput out) throws IOException {
         Assert.notNull(signature);
@@ -53,6 +57,7 @@ public class WeChatCommonsController {
         return StringUtils.EMPTY;
     }
 
+    @ApiIgnore
     @RequestMapping(value = "/message", produces = "application/json", method = RequestMethod.POST)
     public String handleMessage(@WebResource WebInput in) {
         try {
@@ -63,6 +68,7 @@ public class WeChatCommonsController {
         }
     }
 
+    @ApiIgnore
     @RequestMapping(value = "/js/config", produces = "application/json", method = RequestMethod.GET)
     @ResponseBody
     public JsApiConfig jsApiConfig(String url) {

@@ -4,6 +4,7 @@ import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
 import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
 import com.wordnik.swagger.model.ApiInfo;
 import message.properties.SwaggerProperties;
+import message.swagger.annotations.SwaggerIgnore;
 import message.swagger.paths.CosmosSwaggerPathProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,7 @@ public class CosmosSwaggerPlugin extends SwaggerSpringMvcPlugin {
         apiInfo(getApiInfo(swaggerProperties));
         swaggerGroup("group");
         includePatterns(".*?");
+        excludeAnnotations(SwaggerIgnore.class);
         pathProvider(pathProvider);
     }
 
