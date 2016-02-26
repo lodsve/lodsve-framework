@@ -27,5 +27,5 @@ public class LocationMsg extends Receive {
     public float scale;
     @XmlElement(name = "Label")
     @JSONField(name = "Label")
-    public float label;
+    public String label;
 }

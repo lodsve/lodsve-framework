@@ -50,7 +50,7 @@ public final class WeChatRequest {
 
     }
 
-    private static <T> T evalMap(Map<String, Object> result, Class<T> responseType) {
+    public static <T> T evalMap(Map<String, Object> result, Class<T> responseType) {
         try {
             String json = OBJECT_MAPPER.writeValueAsString(result);
             return OBJECT_MAPPER.readValue(json, responseType);
