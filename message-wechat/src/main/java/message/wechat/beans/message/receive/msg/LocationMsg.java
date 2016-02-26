@@ -1,5 +1,6 @@
 package message.wechat.beans.message.receive.msg;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -16,43 +17,15 @@ import message.wechat.beans.message.receive.Receive;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class LocationMsg extends Receive {
     @XmlElement(name = "Location_X")
-    private float locationX;
+    @JSONField(name = "Location_X")
+    public float locationX;
     @XmlElement(name = "Location_Y")
-    private float locationY;
+    @JSONField(name = "Location_Y")
+    public float locationY;
     @XmlElement(name = "Scale")
-    private float scale;
+    @JSONField(name = "Scale")
+    public float scale;
     @XmlElement(name = "Label")
-    private float label;
-
-    public float getLocationX() {
-        return locationX;
-    }
-
-    public void setLocationX(float locationX) {
-        this.locationX = locationX;
-    }
-
-    public float getLocationY() {
-        return locationY;
-    }
-
-    public void setLocationY(float locationY) {
-        this.locationY = locationY;
-    }
-
-    public float getScale() {
-        return scale;
-    }
-
-    public void setScale(float scale) {
-        this.scale = scale;
-    }
-
-    public float getLabel() {
-        return label;
-    }
-
-    public void setLabel(float label) {
-        this.label = label;
-    }
+    @JSONField(name = "Label")
+    public float label;
 }

@@ -1,5 +1,7 @@
 package message.wechat.beans;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * .
  *
@@ -7,7 +9,9 @@ package message.wechat.beans;
  * @version V1.0, 16/2/21 下午5:40
  */
 public class AccessToken {
+    @JsonProperty("access_token")
     private String accessToken;
+    @JsonProperty("expires_in")
     private int expiresIn;
 
     public String getAccessToken() {

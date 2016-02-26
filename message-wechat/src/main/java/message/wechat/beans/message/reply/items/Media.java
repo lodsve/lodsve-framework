@@ -1,5 +1,6 @@
 package message.wechat.beans.message.reply.items;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import javax.xml.bind.annotation.XmlElement;
 
 /**
@@ -10,13 +11,6 @@ import javax.xml.bind.annotation.XmlElement;
  */
 public class Media {
     @XmlElement(name = "MediaId")
-    private String mediaId;
-
-    public String getMediaId() {
-        return mediaId;
-    }
-
-    public void setMediaId(String mediaId) {
-        this.mediaId = mediaId;
-    }
+    @JSONField(name = "MediaId")
+    public String mediaId;
 }

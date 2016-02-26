@@ -1,5 +1,6 @@
 package message.wechat.beans.message.reply;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -17,17 +18,10 @@ import message.wechat.beans.message.reply.items.Image;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class ImageReply extends Reply {
     public ImageReply() {
-        setMsgType(ReplyType.image);
+        msgType = ReplyType.image;
     }
 
     @XmlElement(name = "Image")
-    private Image image;
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
+    @JSONField(name = "Image")
+    public Image image;
 }

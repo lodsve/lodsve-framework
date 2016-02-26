@@ -14,4 +14,6 @@ public interface EventHandler<T extends Event> {
     boolean support(EventType eventType);
 
     Reply handle(T event);
+
+    Class<T> getType();
 }

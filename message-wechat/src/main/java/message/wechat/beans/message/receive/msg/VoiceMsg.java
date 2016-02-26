@@ -1,5 +1,6 @@
 package message.wechat.beans.message.receive.msg;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -16,23 +17,9 @@ import message.wechat.beans.message.receive.Receive;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class VoiceMsg extends Receive {
     @XmlElement(name = "Format")
-    private String format;
+    @JSONField(name = "Format")
+    public String format;
     @XmlElement(name = "MediaId")
-    private String mediaId;
-
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
-    public String getMediaId() {
-        return mediaId;
-    }
-
-    public void setMediaId(String mediaId) {
-        this.mediaId = mediaId;
-    }
+    @JSONField(name = "MediaId")
+    public String mediaId;
 }

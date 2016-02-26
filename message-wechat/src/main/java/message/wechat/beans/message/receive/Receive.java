@@ -1,5 +1,6 @@
 package message.wechat.beans.message.receive;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 import message.wechat.beans.message.MsgType;
@@ -12,53 +13,18 @@ import message.wechat.beans.message.MsgType;
  */
 public class Receive implements Serializable {
     @XmlElement(name = "ToUserName")
-    private String toUserName;
+    @JSONField(name = "ToUserName")
+    public String toUserName;
     @XmlElement(name = "FromUserName")
-    private String fromUserName;
+    @JSONField(name = "FromUserName")
+    public String fromUserName;
     @XmlElement(name = "MsgType")
-    private MsgType msgType;
+    @JSONField(name = "MsgType")
+    public MsgType msgType;
     @XmlElement(name = "CreateTime")
-    private long createTime;
+    @JSONField(name = "CreateTime")
+    public long createTime;
     @XmlElement(name = "MsgId")
-    private long msgId;
-
-    public String getToUserName() {
-        return toUserName;
-    }
-
-    public void setToUserName(String toUserName) {
-        this.toUserName = toUserName;
-    }
-
-    public String getFromUserName() {
-        return fromUserName;
-    }
-
-    public void setFromUserName(String fromUserName) {
-        this.fromUserName = fromUserName;
-    }
-
-    public MsgType getMsgType() {
-        return msgType;
-    }
-
-    public void setMsgType(MsgType msgType) {
-        this.msgType = msgType;
-    }
-
-    public long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(long createTime) {
-        this.createTime = createTime;
-    }
-
-    public long getMsgId() {
-        return msgId;
-    }
-
-    public void setMsgId(long msgId) {
-        this.msgId = msgId;
-    }
+    @JSONField(name = "MsgId")
+    public long msgId;
 }

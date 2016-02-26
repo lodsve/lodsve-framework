@@ -1,5 +1,6 @@
 package message.wechat.beans.message.receive.msg;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -16,13 +17,6 @@ import message.wechat.beans.message.receive.Receive;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class TextMsg extends Receive {
     @XmlElement(name = "Content")
-    private String content;
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
+    @JSONField(name = "Content")
+    public String content;
 }

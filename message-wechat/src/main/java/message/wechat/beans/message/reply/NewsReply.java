@@ -1,5 +1,6 @@
 package message.wechat.beans.message.reply;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -19,27 +20,13 @@ import message.wechat.beans.message.reply.items.Article;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class NewsReply extends Reply {
     public NewsReply() {
-        setMsgType(ReplyType.news);
+        msgType = ReplyType.music;
     }
 
     @XmlElement(name = "ArticleCount")
-    private int articleCount;
+    @JSONField(name = "ArticleCount")
+    public int articleCount;
     @XmlElement(name = "Articles")
-    private List<Article> articles = Lists.newArrayList();
-
-    public int getArticleCount() {
-        return articleCount;
-    }
-
-    public void setArticleCount(int articleCount) {
-        this.articleCount = articleCount;
-    }
-
-    public List<Article> getArticles() {
-        return articles;
-    }
-
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
-    }
+    @JSONField(name = "Articles")
+    public List<Article> articles = Lists.newArrayList();
 }

@@ -1,5 +1,6 @@
 package message.wechat.beans.message.reply;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -17,17 +18,10 @@ import message.wechat.beans.message.reply.items.Music;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class MusicReply extends Reply {
     public MusicReply() {
-        setMsgType(ReplyType.music);
+        msgType = ReplyType.music;
     }
 
     @XmlElement(name = "Music")
-    private Music music;
-
-    public Music getMusic() {
-        return music;
-    }
-
-    public void setMusic(Music music) {
-        this.music = music;
-    }
+    @JSONField(name = "Music")
+    public Music music;
 }

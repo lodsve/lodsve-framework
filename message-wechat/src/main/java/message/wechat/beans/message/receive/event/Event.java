@@ -1,5 +1,6 @@
 package message.wechat.beans.message.receive.event;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import javax.xml.bind.annotation.XmlElement;
 import message.wechat.beans.message.EventType;
 import message.wechat.beans.message.MsgType;
@@ -13,27 +14,13 @@ import message.wechat.beans.message.receive.Receive;
  */
 public class Event extends Receive {
     @XmlElement(name = "Event")
-    private EventType event;
+    @JSONField(name = "Event")
+    public EventType event;
     @XmlElement(name = "EventKey")
-    private String eventKey;
+    @JSONField(name = "EventKey")
+    public String eventKey;
 
     public Event() {
-        setMsgType(MsgType.event);
-    }
-
-    public EventType getEvent() {
-        return event;
-    }
-
-    public void setEvent(EventType event) {
-        this.event = event;
-    }
-
-    public String getEventKey() {
-        return eventKey;
-    }
-
-    public void setEventKey(String eventKey) {
-        this.eventKey = eventKey;
+        msgType = MsgType.event;
     }
 }

@@ -1,5 +1,6 @@
 package message.wechat.beans.message.receive.msg;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -16,23 +17,9 @@ import message.wechat.beans.message.receive.Receive;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class VideoMsg extends Receive {
     @XmlElement(name = "MediaId")
-    private String mediaId;
+    @JSONField(name = "MediaId")
+    public String mediaId;
     @XmlElement(name = "ThumbMediaId")
-    private String thumbMediaId;
-
-    public String getMediaId() {
-        return mediaId;
-    }
-
-    public void setMediaId(String mediaId) {
-        this.mediaId = mediaId;
-    }
-
-    public String getThumbMediaId() {
-        return thumbMediaId;
-    }
-
-    public void setThumbMediaId(String thumbMediaId) {
-        this.thumbMediaId = thumbMediaId;
-    }
+    @JSONField(name = "ThumbMediaId")
+    public String thumbMediaId;
 }

@@ -1,5 +1,6 @@
 package message.wechat.beans.message.receive.event;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -15,13 +16,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class ScanEvent extends Event {
     @XmlElement(name = "Ticket")
-    private String ticket;
-
-    public String getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(String ticket) {
-        this.ticket = ticket;
-    }
+    @JSONField(name = "Ticket")
+    public String ticket;
 }

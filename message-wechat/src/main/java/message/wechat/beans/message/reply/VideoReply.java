@@ -1,5 +1,6 @@
 package message.wechat.beans.message.reply;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -17,17 +18,10 @@ import message.wechat.beans.message.reply.items.Video;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class VideoReply extends Reply {
     public VideoReply() {
-        setMsgType(ReplyType.video);
+        msgType = ReplyType.video;
     }
 
     @XmlElement(name = "Video")
-    private Video video;
-
-    public Video getVideo() {
-        return video;
-    }
-
-    public void setVideo(Video video) {
-        this.video = video;
-    }
+    @JSONField(name = "Video")
+    public Video video;
 }

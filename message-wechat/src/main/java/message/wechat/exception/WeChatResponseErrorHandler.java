@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.ResponseErrorHandler;
 
 /**
@@ -54,6 +55,12 @@ public class WeChatResponseErrorHandler implements ResponseErrorHandler {
             return true;
         }
 
-        return !"0".equals(message.get("errcode"));
+        String errcode = message.get("errcode");
+
+        if(StringUtils.isEmpty(errcode) || "0".equals(message.get("errcode"))) {
+            return false;
+        }
+
+        return true;
     }
 }

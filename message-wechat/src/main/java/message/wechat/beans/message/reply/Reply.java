@@ -1,5 +1,6 @@
 package message.wechat.beans.message.reply;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import javax.xml.bind.annotation.XmlElement;
 import message.wechat.beans.message.ReplyType;
 
@@ -11,43 +12,15 @@ import message.wechat.beans.message.ReplyType;
  */
 public class Reply {
     @XmlElement(name = "ToUserName")
-    private String toUserName;
+    @JSONField(name = "ToUserName")
+    public String toUserName;
     @XmlElement(name = "FromUserName")
-    private String fromUserName;
+    @JSONField(name = "FromUserName")
+    public String fromUserName;
     @XmlElement(name = "MsgType")
-    private ReplyType msgType;
+    @JSONField(name = "MsgType")
+    public ReplyType msgType;
     @XmlElement(name = "CreateTime")
-    private long createTime;
-
-    public String getToUserName() {
-        return toUserName;
-    }
-
-    public void setToUserName(String toUserName) {
-        this.toUserName = toUserName;
-    }
-
-    public String getFromUserName() {
-        return fromUserName;
-    }
-
-    public void setFromUserName(String fromUserName) {
-        this.fromUserName = fromUserName;
-    }
-
-    public ReplyType getMsgType() {
-        return msgType;
-    }
-
-    public void setMsgType(ReplyType msgType) {
-        this.msgType = msgType;
-    }
-
-    public long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(long createTime) {
-        this.createTime = createTime;
-    }
+    @JSONField(name = "CreateTime")
+    public long createTime;
 }

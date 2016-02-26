@@ -14,4 +14,6 @@ public interface MsgHandler<T extends Receive> {
     boolean support(MsgType msgType);
 
     Reply handle(T msg);
+
+    Class<T> getType();
 }

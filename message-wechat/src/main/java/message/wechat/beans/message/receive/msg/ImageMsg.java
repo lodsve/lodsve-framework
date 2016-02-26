@@ -1,5 +1,6 @@
 package message.wechat.beans.message.receive.msg;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -16,23 +17,9 @@ import message.wechat.beans.message.receive.Receive;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class ImageMsg extends Receive {
     @XmlElement(name = "PicUrl")
-    private String picUrl;
+    @JSONField(name = "PicUrl")
+    public String picUrl;
     @XmlElement(name = "MediaId")
-    private String mediaId;
-
-    public String getPicUrl() {
-        return picUrl;
-    }
-
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
-    }
-
-    public String getMediaId() {
-        return mediaId;
-    }
-
-    public void setMediaId(String mediaId) {
-        this.mediaId = mediaId;
-    }
+    @JSONField(name = "MediaId")
+    public String mediaId;
 }

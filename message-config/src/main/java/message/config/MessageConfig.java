@@ -1,28 +1,29 @@
 package message.config;
 
-import message.base.context.ApplicationHelper;
-import message.config.loader.i18n.DefaultResourceBundleMessageSource;
-import message.base.utils.StringUtils;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.support.DelegatingMessageSource;
-
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
+import message.base.utils.StringUtils;
+import message.config.loader.i18n.DefaultResourceBundleMessageSource;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.support.DelegatingMessageSource;
+import org.springframework.stereotype.Component;
 
 
 /**
- * 国际化资源文件工具类 TODO 有问题,需要修改
+ * 国际化资源文件工具类
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
  * @createTime 2012-3-14 下午07:59:37
  */
+@Component
 public class MessageConfig implements ApplicationContextAware {
     //国际化资源文件处理类在spring上下文中的key
     private static final String DEFAULT_MESSAGE_SOURCE = "messageSource";
@@ -32,9 +33,10 @@ public class MessageConfig implements ApplicationContextAware {
     private static Map<Locale, Map<String, String>> allMessagesMap = new HashMap<>();
     private static ApplicationContext context;
 
-    static {
+    @PostConstruct
+    public void init() {
         synchronized (lockObject) {
-            Object obj = ApplicationHelper.getInstance().getBean(DEFAULT_MESSAGE_SOURCE);
+            Object obj = context.getBean(DEFAULT_MESSAGE_SOURCE);
 
             if (obj instanceof DefaultResourceBundleMessageSource)
                 bundleMessageSource = (DefaultResourceBundleMessageSource) obj;

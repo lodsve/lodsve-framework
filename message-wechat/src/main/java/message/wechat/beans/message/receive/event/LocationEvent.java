@@ -1,5 +1,6 @@
 package message.wechat.beans.message.receive.event;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -15,33 +16,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class LocationEvent extends Event {
     @XmlElement(name = "Latitude")
-    private float latitude;
+    @JSONField(name = "Latitude")
+    public float latitude;
     @XmlElement(name = "Longitude")
-    private float longitude;
+    @JSONField(name = "Longitude")
+    public float longitude;
     @XmlElement(name = "Precision")
-    private float precision;
-
-    public float getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
-    }
-
-    public float getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-
-    public float getPrecision() {
-        return precision;
-    }
-
-    public void setPrecision(float precision) {
-        this.precision = precision;
-    }
+    @JSONField(name = "Precision")
+    public float precision;
 }

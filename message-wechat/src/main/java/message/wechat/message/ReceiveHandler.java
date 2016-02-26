@@ -36,7 +36,7 @@ public class ReceiveHandler implements ApplicationContextAware {
             EventType eventType = EventType.eval(params.get(EVENT));
             for (EventHandler eventHandler : eventHandlers) {
                 if (eventHandler.support(eventType)) {
-                    reply = eventHandler.handle((Event) TypeUtils.castToJavaBean(params, getType(eventHandler.getClass())));
+                    reply = eventHandler.handle((Event) TypeUtils.castToJavaBean(params, eventHandler.getType()));
                     if (reply != null) {
                         break;
                     }
@@ -47,7 +47,7 @@ public class ReceiveHandler implements ApplicationContextAware {
             MsgType msgType = MsgType.eval(params.get(MSG_TYPE));
             for (MsgHandler msgHandler : msgHandlers) {
                 if (msgHandler.support(msgType)) {
-                    reply = msgHandler.handle((Receive) TypeUtils.castToJavaBean(params, getType(msgHandler.getClass())));
+                    reply = msgHandler.handle((Receive) TypeUtils.castToJavaBean(params, msgHandler.getType()));
                     if (reply != null) {
                         break;
                     }
