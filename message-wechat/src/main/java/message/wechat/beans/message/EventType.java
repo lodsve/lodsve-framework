@@ -7,11 +7,13 @@ package message.wechat.beans.message;
  * @version V1.0, 16/2/23 下午11:02
  */
 public enum EventType {
-    subscribe, SCAN, LOCATION, CLICK, VIEW;
+    subscribe, unsubscribe, SCAN, LOCATION, CLICK, VIEW;
 
     public static EventType eval(String name) {
-        if ("subscribe".equals(name) || "unsubscribe".equals(name)) {
+        if ("subscribe".equals(name)) {
             return subscribe;
+        } else if ("unsubscribe".equals(name)) {
+            return unsubscribe;
         } else if ("SCAN".equals(name)) {
             return SCAN;
         } else if ("LOCATION".equals(name)) {

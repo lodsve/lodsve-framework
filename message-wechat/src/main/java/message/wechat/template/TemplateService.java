@@ -86,7 +86,7 @@ public class TemplateService {
         }
         params.put("data", configs);
 
-        Map<String, String> result = WeChatRequest.post(String.format(WeChatUrl.API_SEND_TEMPLATE_MESSAGE, WeChat.getAccessToken()), params, Map.class);
-        return MapUtils.isNotEmpty(result) ? result.get("msgid") : StringUtils.EMPTY;
+        Map<String, Object> result = WeChatRequest.post(String.format(WeChatUrl.API_SEND_TEMPLATE_MESSAGE, WeChat.getAccessToken()), params, Map.class);
+        return MapUtils.isNotEmpty(result) ? (result.get("msgid") != null ? result.get("msgid").toString() : StringUtils.EMPTY) : StringUtils.EMPTY;
     }
 }
