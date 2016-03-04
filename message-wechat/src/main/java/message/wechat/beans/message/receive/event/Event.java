@@ -7,7 +7,7 @@ import message.wechat.beans.message.MsgType;
 import message.wechat.beans.message.receive.Receive;
 
 /**
- * .
+ * 微信事件.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/23 下午11:03

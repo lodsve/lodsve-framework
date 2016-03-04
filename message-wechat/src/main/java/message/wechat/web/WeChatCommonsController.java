@@ -9,7 +9,7 @@ import message.mvc.annotation.WebResource;
 import message.mvc.commons.WebInput;
 import message.mvc.commons.WebOutput;
 import message.swagger.annotations.SwaggerIgnore;
-import message.wechat.base.WeChatCommonsService;
+import message.wechat.base.WeChatService;
 import message.wechat.beans.JsApiConfig;
 import message.wechat.beans.message.reply.Reply;
 import message.wechat.message.ReceiveHandler;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * .
+ * 微信配置校验及消息/事件捕获.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/21 下午5:13
@@ -31,10 +31,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/wx")
 public class WeChatCommonsController {
     @Autowired
-    private WeChatCommonsService weChatCommonsService;
+    private WeChatService weChatService;
     @Autowired
     private ReceiveHandler receiveHandler;
 
+    /**
+     * 校验配置
+     *
+     * @param signature 签名
+     * @param timestamp 时间戳
+     * @param nonce     随机数
+     * @param echostr   随机字符串
+     * @param out       response
+     * @return
+     * @throws IOException
+     */
     @ApiIgnore
     @RequestMapping(value = "/message", produces = "application/json", method = RequestMethod.GET)
     public String check(String signature, String timestamp, String nonce, String echostr, @WebResource WebOutput out) throws IOException {
@@ -43,7 +54,7 @@ public class WeChatCommonsController {
         Assert.notNull(nonce);
         Assert.notNull(echostr);
 
-        boolean result = weChatCommonsService.checkSignature(timestamp, nonce, signature);
+        boolean result = weChatService.checkSignature(timestamp, nonce, signature);
         PrintWriter writer = out.getResponse().getWriter();
         if (result) {
             writer.print(echostr);
@@ -57,6 +68,12 @@ public class WeChatCommonsController {
         return StringUtils.EMPTY;
     }
 
+    /**
+     * 接受消息/事件处理
+     *
+     * @param in request
+     * @return
+     */
     @ApiIgnore
     @RequestMapping(value = "/message", produces = "application/json", method = RequestMethod.POST)
     public String handleMessage(@WebResource WebInput in) {
@@ -68,10 +85,16 @@ public class WeChatCommonsController {
         }
     }
 
+    /**
+     * 获取JS-API配置
+     *
+     * @param url
+     * @return
+     */
     @ApiIgnore
     @RequestMapping(value = "/js/config", produces = "application/json", method = RequestMethod.GET)
     @ResponseBody
     public JsApiConfig jsApiConfig(String url) {
-        return weChatCommonsService.jsApiConfig(url);
+        return weChatService.jsApiConfig(url);
     }
 }

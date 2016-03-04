@@ -3,7 +3,7 @@ package message.wechat.beans;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * .
+ * oauth认证的票据.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/23 下午3:01

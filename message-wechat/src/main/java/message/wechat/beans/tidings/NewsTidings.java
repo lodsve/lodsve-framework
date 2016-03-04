@@ -9,7 +9,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 
 /**
- * .
+ * 图文客服消息,带外链.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/24 下午12:05

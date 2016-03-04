@@ -1,7 +1,7 @@
 package message.wechat.beans;
 
 /**
- * .
+ * 通过JS-API调用的一些配置.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/23 上午11:55

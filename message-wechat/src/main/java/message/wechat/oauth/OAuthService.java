@@ -1,5 +1,6 @@
 package message.wechat.oauth;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Charsets;
 import java.io.UnsupportedEncodingException;
 import message.base.utils.StringUtils;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * .
+ * oauth认证.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/23 下午12:38
@@ -55,7 +56,8 @@ public class OAuthService {
             throw new RuntimeException("用户拒绝认证!");
         }
 
-        OAuthToken oAuthToken = WeChatRequest.get(String.format(WeChatUrl.WEIXIN_TOKEN_URL, properties.getAppId(), properties.getAppSecret(), code), OAuthToken.class);
+        OAuthToken oAuthToken = WeChatRequest.get(String.format(WeChatUrl.WEIXIN_TOKEN_URL, properties.getAppId(), properties.getAppSecret(), code), new TypeReference<OAuthToken>() {
+        });
         if (oAuthToken == null) {
             throw new RuntimeException("微信认证失败!");
         }
@@ -78,7 +80,8 @@ public class OAuthService {
             throw new RuntimeException("获取token失败!");
         }
 
-        OAuthToken oAuthToken = WeChatRequest.get(String.format(WeChatUrl.WEIXIN_REFRESH_TOKEN_URL, properties.getAppId(), refreshToken), OAuthToken.class);
+        OAuthToken oAuthToken = WeChatRequest.get(String.format(WeChatUrl.WEIXIN_REFRESH_TOKEN_URL, properties.getAppId(), refreshToken), new TypeReference<OAuthToken>() {
+        });
         if (oAuthToken == null) {
             throw new RuntimeException("微信认证失败!");
         }

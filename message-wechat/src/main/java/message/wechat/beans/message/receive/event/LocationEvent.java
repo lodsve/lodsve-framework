@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * .
+ * 接收上报地理位置事件.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/23 下午11:15

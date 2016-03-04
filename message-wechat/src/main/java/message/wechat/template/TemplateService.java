@@ -1,5 +1,6 @@
 package message.wechat.template;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 /**
- * .
+ * 发送模板消息.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/24 下午1:39
@@ -32,7 +33,8 @@ public class TemplateService {
         industry.put("industry_id1", industryId1);
         industry.put("industry_id2", industryId2);
 
-        WeChatRequest.post(String.format(WeChatUrl.API_SET_INDUSTRY, WeChat.getAccessToken()), industry, Void.class);
+        WeChatRequest.post(String.format(WeChatUrl.API_SET_INDUSTRY, WeChat.getAccessToken()), industry, new TypeReference<Void>() {
+        });
     }
 
     /**
@@ -47,7 +49,9 @@ public class TemplateService {
         Map<String, String> params = new HashMap<>(2);
         params.put("template_id_short", templateId);
 
-        Map<String, String> result = WeChatRequest.post(String.format(WeChatUrl.API_GET_TEMPLATE, WeChat.getAccessToken()), params, Map.class);
+        Map<String, String> result = WeChatRequest.post(String.format(WeChatUrl.API_GET_TEMPLATE, WeChat.getAccessToken()), params,
+                new TypeReference<Map<String, String>>() {
+                });
 
         return MapUtils.isNotEmpty(result) ? result.get("template_id") : StringUtils.EMPTY;
     }
@@ -86,7 +90,10 @@ public class TemplateService {
         }
         params.put("data", configs);
 
-        Map<String, Object> result = WeChatRequest.post(String.format(WeChatUrl.API_SEND_TEMPLATE_MESSAGE, WeChat.getAccessToken()), params, Map.class);
+        Map<String, Object> result = WeChatRequest.post(String.format(WeChatUrl.API_SEND_TEMPLATE_MESSAGE, WeChat.getAccessToken()), params,
+                new TypeReference<Map<String, Object>>() {
+                });
+
         return MapUtils.isNotEmpty(result) ? (result.get("msgid") != null ? result.get("msgid").toString() : StringUtils.EMPTY) : StringUtils.EMPTY;
     }
 }

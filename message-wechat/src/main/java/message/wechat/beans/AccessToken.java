@@ -3,7 +3,7 @@ package message.wechat.beans;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * .
+ * 保存token.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/21 下午5:40

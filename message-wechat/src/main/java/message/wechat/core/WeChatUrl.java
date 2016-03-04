@@ -1,7 +1,7 @@
 package message.wechat.core;
 
 /**
- * .
+ * 微信开放API.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/21 下午5:23
@@ -75,4 +75,49 @@ public final class WeChatUrl {
      * 发送模板消息
      */
     public static final String API_SEND_TEMPLATE_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s";
+    /**
+     * 创建分组
+     */
+    public static final String ADD_GROUP = "https://api.weixin.qq.com/cgi-bin/groups/create?access_token=%s";
+    /**
+     * 获取所有分组
+     */
+    public static final String LIST_GROUP = "https://api.weixin.qq.com/cgi-bin/groups/get?access_token=%s";
+    /**
+     * 查询用户所在分组
+     */
+    public static final String FIND_USER_GROUP = "https://api.weixin.qq.com/cgi-bin/groups/getid?access_token=%s";
+    /**
+     * 修改分组名
+     */
+    public static final String UPDATE_GROUP = "https://api.weixin.qq.com/cgi-bin/groups/update?access_token=%s";
+    /**
+     * 移动用户分组
+     */
+    public static final String MOVE_USER_GROUP = "https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token=%s";
+    /**
+     * 批量移动用户分组
+     */
+    public static final String BATCH_MOVE_USER_GROUP = "https://api.weixin.qq.com/cgi-bin/groups/members/batchupdate?access_token=%s";
+    /**
+     * 删除分组
+     */
+    public static final String DELETE_GROUP = "https://api.weixin.qq.com/cgi-bin/groups/delete?access_token=%s";
+    /**
+     * 设置备注名
+     */
+    public static final String UPDATE_USER_ALIAS = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark?access_token=%s";
+    /**
+     * 获取用户基本信息
+     */
+    public static final String GET_USER_INFO = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=%s";
+    /**
+     * 批量获取用户基本信息
+     */
+    public static final String BATCH_GET_USER_INFO = "https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=%s";
+    /**
+     * 获取关注者列表
+     */
+    public static final String LIST_SUBSCRIBER = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=%s&next_openid=%s";
+
 }

@@ -4,7 +4,6 @@ import com.alibaba.fastjson.util.TypeUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import message.base.utils.GenericUtils;
 import message.wechat.beans.message.EventType;
 import message.wechat.beans.message.MsgType;
 import message.wechat.beans.message.receive.Receive;
@@ -16,7 +15,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * .
+ * 处理微信的消息/事件.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/23 下午11:24
@@ -55,10 +54,6 @@ public class ReceiveHandler implements ApplicationContextAware {
             }
         }
         return reply;
-    }
-
-    private Class getType(Class clazz) {
-        return GenericUtils.getGenericParameter(clazz, 0);
     }
 
     @Override

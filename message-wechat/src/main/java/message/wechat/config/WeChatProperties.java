@@ -3,7 +3,7 @@ package message.wechat.config;
 import message.config.auto.annotations.ConfigurationProperties;
 
 /**
- * .
+ * 参数配置在配置文件中.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/21 下午4:58

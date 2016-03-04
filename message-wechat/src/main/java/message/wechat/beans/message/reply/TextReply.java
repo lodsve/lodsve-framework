@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import message.wechat.beans.message.ReplyType;
 
 /**
- * .
+ * 回复文本消息.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/23 下午11:29

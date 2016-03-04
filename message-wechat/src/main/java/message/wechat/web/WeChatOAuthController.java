@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * .
+ * 微信oauth认证.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/23 下午2:12
@@ -22,6 +22,12 @@ public class WeChatOAuthController {
     @Autowired
     private OAuthService oAuthService;
 
+    /**
+     * 跳转
+     *
+     * @param url 前台url
+     * @return
+     */
     @ApiIgnore
     @RequestMapping("/init")
     public String init(String url) {
@@ -33,6 +39,13 @@ public class WeChatOAuthController {
         return "redirect:" + url;
     }
 
+    /**
+     * 获取openId
+     *
+     * @param url
+     * @param code
+     * @return
+     */
     @ApiIgnore
     @RequestMapping("/openId")
     public String openId(String url, String code) {

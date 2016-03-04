@@ -1,7 +1,7 @@
 package message.wechat.beans;
 
 /**
- * .
+ * 模板消息的数据.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/24 下午4:24

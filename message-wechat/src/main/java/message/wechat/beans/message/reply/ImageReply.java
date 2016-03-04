@@ -9,7 +9,7 @@ import message.wechat.beans.message.ReplyType;
 import message.wechat.beans.message.reply.items.Image;
 
 /**
- * .
+ * 回复图片消息.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/23 下午11:31

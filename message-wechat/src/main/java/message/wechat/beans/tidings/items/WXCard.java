@@ -3,7 +3,7 @@ package message.wechat.beans.tidings.items;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * .
+ * 卡券.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/24 下午12:24

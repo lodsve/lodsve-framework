@@ -1,6 +1,13 @@
 package message.wechat.core;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.io.IOException;
 import java.util.Map;
 import message.base.utils.StringUtils;
 import message.wechat.exception.WeChatException;
@@ -10,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * .
+ * 微信请求的封装,包括处理异常.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/21 下午5:26
@@ -20,22 +27,52 @@ public final class WeChatRequest {
     private static final RestTemplate template = new RestTemplate();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    public static <T> T get(String url, Class<T> responseType, Object... params) {
+    static {
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Boolean.class, new JsonDeserializer<Boolean>() {
+            @Override
+            public Boolean deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+                JsonToken currentToken = jp.getCurrentToken();
+
+                if (currentToken.equals(JsonToken.VALUE_STRING)) {
+                    String text = jp.getText().trim();
+
+                    if ("yes".equalsIgnoreCase(text) || "1".equals(text)) {
+                        return Boolean.TRUE;
+                    } else {
+                        return Boolean.FALSE;
+                    }
+                } else if (currentToken.equals(JsonToken.VALUE_NULL)) {
+                    return getNullValue();
+                }
+
+                throw ctxt.mappingException(Boolean.class);
+            }
+
+            @Override
+            public Boolean getNullValue() {
+                return Boolean.FALSE;
+            }
+        });
+        OBJECT_MAPPER.registerModule(module);
+    }
+
+    public static <T> T get(String url, TypeReference<T> typeReference, Object... params) {
         Map<String, Object> result = template.getForObject(url, Map.class, params);
         if (isError(result)) {
             throw new WeChatException((Integer) result.get("errcode"), (String) result.get("errmsg"));
         }
 
-        return evalMap(result, responseType);
+        return evalMap(result, typeReference);
     }
 
-    public static <T> T post(String url, Object object, Class<T> responseType, Object... params) {
+    public static <T> T post(String url, Object object, TypeReference<T> typeReference, Object... params) {
         Map<String, Object> result = template.postForObject(url, object, Map.class, params);
         if (isError(result)) {
             throw new WeChatException((Integer) result.get("errcode"), (String) result.get("errmsg"));
         }
 
-        return evalMap(result, responseType);
+        return evalMap(result, typeReference);
     }
 
     private static boolean isError(Map<String, Object> result) {
@@ -50,10 +87,11 @@ public final class WeChatRequest {
 
     }
 
-    public static <T> T evalMap(Map<String, Object> result, Class<T> responseType) {
+    public static <T> T evalMap(Map<String, Object> result, TypeReference<T> typeReference) {
         try {
             String json = OBJECT_MAPPER.writeValueAsString(result);
-            return OBJECT_MAPPER.readValue(json, responseType);
+
+            return OBJECT_MAPPER.readValue(json, typeReference);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;

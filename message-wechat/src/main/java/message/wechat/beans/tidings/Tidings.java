@@ -3,7 +3,7 @@ package message.wechat.beans.tidings;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * .
+ * 客服消息.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/24 上午11:53
