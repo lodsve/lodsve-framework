@@ -6,11 +6,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import message.base.utils.StringUtils;
 import message.wechat.base.Lang;
 import message.wechat.beans.User;
 import message.wechat.core.WeChat;
 import message.wechat.core.WeChatRequest;
 import message.wechat.core.WeChatUrl;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 /**
@@ -19,6 +21,7 @@ import org.springframework.util.Assert;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/3/2 上午11:06
  */
+@Component
 public class WeChatUserService {
     /**
      * 设置备注名
@@ -76,7 +79,7 @@ public class WeChatUserService {
             params.add(p);
         }
 
-        return WeChatRequest.post(String.format(WeChatUrl.BATCH_GET_USER_INFO, WeChat.getAccessToken()), Collections.singletonMap("", params), new TypeReference<Map<String, List<User>>>() {
+        return WeChatRequest.post(String.format(WeChatUrl.BATCH_GET_USER_INFO, WeChat.getAccessToken()), Collections.singletonMap("user_list", params), new TypeReference<Map<String, List<User>>>() {
         }).get("user_info_list");
     }
 
@@ -87,7 +90,7 @@ public class WeChatUserService {
      * @return 关注者openId
      */
     public List<String> listSubscribe(String nextOpenId) {
-        String url = String.format(WeChatUrl.LIST_SUBSCRIBER, WeChat.getAccessToken(), nextOpenId);
+        String url = String.format(WeChatUrl.LIST_SUBSCRIBER, WeChat.getAccessToken(), StringUtils.isEmpty(nextOpenId) ? StringUtils.EMPTY : nextOpenId);
         Map<String, Object> result = WeChatRequest.get(url, new TypeReference<Map<String, Object>>() {
         });
 
