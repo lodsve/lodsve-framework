@@ -14,6 +14,7 @@ import message.wechat.exception.WeChatException;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -58,7 +59,22 @@ public final class WeChatRequest {
     }
 
     public static <T> T get(String url, TypeReference<T> typeReference, Object... params) {
-        Map<String, Object> result = template.getForObject(url, Map.class, params);
+        Assert.hasText(url);
+
+        Map<String, Object> result;
+        if (url.contains("oauth")) {
+            String returnValue = template.getForObject(url, String.class, params);
+
+            try {
+                result = OBJECT_MAPPER.readValue(returnValue, new TypeReference<Map>() {
+                });
+            } catch (IOException e) {
+                return null;
+            }
+        } else {
+            result = template.getForObject(url, Map.class, params);
+        }
+
         if (isError(result)) {
             throw new WeChatException((Integer) result.get("errcode"), (String) result.get("errmsg"));
         }
@@ -67,6 +83,8 @@ public final class WeChatRequest {
     }
 
     public static <T> T post(String url, Object object, TypeReference<T> typeReference, Object... params) {
+        Assert.hasText(url);
+
         Map<String, Object> result = template.postForObject(url, object, Map.class, params);
         if (isError(result)) {
             throw new WeChatException((Integer) result.get("errcode"), (String) result.get("errmsg"));
@@ -88,6 +106,10 @@ public final class WeChatRequest {
     }
 
     public static <T> T evalMap(Map<String, Object> result, TypeReference<T> typeReference) {
+        if (Void.class.equals(typeReference.getType())) {
+            return null;
+        }
+
         try {
             String json = OBJECT_MAPPER.writeValueAsString(result);
 

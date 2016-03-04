@@ -22,7 +22,7 @@ public final class WeChatUrl {
     /**
      * 微信认证
      */
-    public static final String WEIXIN_AUTHORIZE_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_base";
+    public static final String WEIXIN_AUTHORIZE_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=%s";
     /**
      * 获取token
      */

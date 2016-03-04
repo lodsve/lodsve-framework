@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SwaggerIgnore
 @RestController
 @RequestMapping("/wx")
-public class WeChatCommonsController {
+public class WeChatController {
     @Autowired
     private WeChatService weChatService;
     @Autowired
