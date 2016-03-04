@@ -68,9 +68,21 @@ public final class WeChatUrl {
      */
     public static final String API_SET_INDUSTRY = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=%s";
     /**
+     * 获取设置的行业信息
+     */
+    public static final String API_GET_INDUSTRY = "https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=%s";
+    /**
      * 获取模板
      */
     public static final String API_GET_TEMPLATE = "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=%s";
+    /**
+     * 获取所有模板
+     */
+    public static final String API_GET_ALL_TEMPLATE = "https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=%s";
+    /**
+     * 删除模板
+     */
+    public static final String API_DELETE_TEMPLATE = "https://api,weixin.qq.com/cgi-bin/template/del_private_template?access_token=%s";
     /**
      * 发送模板消息
      */

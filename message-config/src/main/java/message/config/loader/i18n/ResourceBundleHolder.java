@@ -1,12 +1,6 @@
 package message.config.loader.i18n;
 
-import message.base.utils.FileUtils;
-import message.base.utils.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -14,6 +8,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import message.base.utils.FileUtils;
+import message.base.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.support.EncodedResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 /**
  * 存放消息源的容器.
@@ -89,7 +90,7 @@ public class ResourceBundleHolder implements Serializable {
             String fileName = file.getName();
             if (fileName.startsWith(baseName) && (fileName.endsWith(SUFFIX_OF_PROPERTIES) || fileName.endsWith(SUFFIX_OF_TEXT) || fileName.endsWith(SUFFIX_OF_HTML))) {
                 //匹配baseName的所有语言的properties文件
-                Locale locale = null;
+                Locale locale;
                 try {
                     locale = this.getLocaleFromFileName(fileName, baseName);
                 } catch (Exception e) {
@@ -150,7 +151,7 @@ public class ResourceBundleHolder implements Serializable {
         try {
             if (SUFFIX_OF_PROPERTIES.equals(fileType)) {
                 //1.properties
-                properties.load(new FileInputStream(file));
+                PropertiesLoaderUtils.fillProperties(properties, new EncodedResource(new FileSystemResource(file), "UTF-8"));
             } else if (SUFFIX_OF_TEXT.equals(fileType) || SUFFIX_OF_HTML.equals(fileType)) {
                 //2.txt/html
                 properties.put(baseName, FileUtils.getFileText(file, this.fileEncoding));

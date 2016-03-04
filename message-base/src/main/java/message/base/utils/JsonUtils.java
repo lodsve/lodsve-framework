@@ -43,7 +43,8 @@ public class JsonUtils {
      * json string convert to map
      */
     public static Map<String, Object> json2map(String jsonStr) throws Exception {
-        return objectMapper.readValue(jsonStr, Map.class);
+        return objectMapper.readValue(jsonStr, new TypeReference<Map<String, Object>>() {
+        });
     }
 
     /**

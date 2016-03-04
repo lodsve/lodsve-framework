@@ -1,10 +1,13 @@
 package message.wechat.template;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import message.base.utils.StringUtils;
+import message.wechat.beans.Industry;
+import message.wechat.beans.Template;
 import message.wechat.beans.TemplateData;
 import message.wechat.core.WeChat;
 import message.wechat.core.WeChatRequest;
@@ -38,16 +41,26 @@ public class TemplateService {
     }
 
     /**
+     * 获取设置的行业信息
+     *
+     * @return 行业信息
+     */
+    public Industry getIndustry() {
+        return WeChatRequest.get(String.format(WeChatUrl.API_GET_INDUSTRY, WeChat.getAccessToken()), new TypeReference<Industry>() {
+        });
+    }
+
+    /**
      * 根据模板短名称获取模板,即在OpenAPI中可以使用
      *
-     * @param templateId 模板短名称
+     * @param templateShortId 模板短名称
      * @return 模板id
      */
-    public String getTemplate(String templateId) {
-        Assert.hasText(templateId);
+    public String getTemplateId(String templateShortId) {
+        Assert.hasText(templateShortId);
 
-        Map<String, String> params = new HashMap<>(2);
-        params.put("template_id_short", templateId);
+        Map<String, String> params = new HashMap<>(1);
+        params.put("template_id_short", templateShortId);
 
         Map<String, String> result = WeChatRequest.post(String.format(WeChatUrl.API_GET_TEMPLATE, WeChat.getAccessToken()), params,
                 new TypeReference<Map<String, String>>() {
@@ -57,10 +70,39 @@ public class TemplateService {
     }
 
     /**
+     * 获取模板列表
+     *
+     * @return 模板id
+     */
+    public List<Template> listAllTemplates() {
+        Map<String, List<Template>> result = WeChatRequest.get(String.format(WeChatUrl.API_GET_ALL_TEMPLATE, WeChat.getAccessToken()),
+                new TypeReference<Map<String, List<Template>>>() {
+                });
+
+        return MapUtils.isNotEmpty(result) ? result.get("template_list") : Collections.<Template>emptyList();
+    }
+
+    /**
+     * 删除模板列表
+     *
+     * @return 模板id
+     */
+    public void deleteTemplate(String templateId) {
+        Assert.hasText(templateId);
+
+        Map<String, String> params = new HashMap<>(1);
+        params.put("template_id", templateId);
+
+        WeChatRequest.post(String.format(WeChatUrl.API_DELETE_TEMPLATE, WeChat.getAccessToken()), params,
+                new TypeReference<Void>() {
+                });
+    }
+
+    /**
      * 发送模板消息
      *
      * @param toUser     接受者OpenId
-     * @param templateId 使用的模板Id,通过{@link #getTemplate(String)}获取的
+     * @param templateId 使用的模板Id,通过{@link #getTemplateId(String)}获取的
      * @param url        微信中点击消息后进入的页面
      * @param datas      需要的数据
      * @return 消息id

@@ -1,18 +1,24 @@
 package message.mvc.exception;
 
-import message.config.MessageConfig;
+import java.io.IOException;
+import java.lang.reflect.UndeclaredThrowableException;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import message.base.utils.PropertyPlaceholderHelper;
+import message.base.utils.StringUtils;
+import message.config.SystemConfig;
+import message.config.loader.i18n.ResourceBundleHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.NativeWebRequest;
-
-import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.UndeclaredThrowableException;
 
 /**
  * 异常处理,返回前端类似于<code>{"code": 10001,"message": "test messages"}</code>的json数据.
@@ -23,6 +29,31 @@ import java.lang.reflect.UndeclaredThrowableException;
 @ControllerAdvice
 public class ExceptionAdvice {
     private static final Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
+    /**
+     * 加载了所有的资源文件信息.
+     */
+    private ResourceBundleHolder resourceBundleHolder = new ResourceBundleHolder();
+
+    @PostConstruct
+    public void init() throws IOException {
+        String folderPath = "error";
+        Resource resource = SystemConfig.getConfigFile(folderPath);
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        Resource[] resources = new Resource[0];
+        try {
+            resources = resolver.getResources("file:" + resource.getFile().getAbsolutePath() + "/*.properties");
+        } catch (IOException e) {
+            logger.error("resolver resource:'{" + resource + "}' is error!", e);
+            e.printStackTrace();
+        }
+
+        for (Resource r : resources) {
+            String filePath = r.getFile().getAbsolutePath();
+            if (StringUtils.indexOf(filePath, "_") == -1) {
+                this.resourceBundleHolder.loadMessageResource(filePath, 1);
+            }
+        }
+    }
 
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
@@ -40,7 +71,8 @@ public class ExceptionAdvice {
             Integer code = exceptionInfo.getCode();
             if (code != null) {
                 try {
-                    message = MessageConfig.getMessage(code.toString(), request.getLocale(), exceptionInfo.getArgs());
+                    message = this.resourceBundleHolder.getResourceBundle(request.getLocale()).getString(code.toString());
+                    message = PropertyPlaceholderHelper.replacePlaceholder(message, message, exceptionInfo.getArgs());
                 } catch (Exception e) {
                     logger.error("根据异常编码获取异常描述信息发生异常，errorCode：" + code);
                     message = exceptionInfo.getMessage();
