@@ -1,4 +1,4 @@
-package message.wechat.user;
+package message.wechat.api.user;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.Collections;
@@ -31,7 +31,7 @@ public class WeChatGroupService {
         Assert.hasText(groupName);
         Assert.isTrue(groupName.length() <= 30);
 
-        Map<String, Group> map = WeChatRequest.post(String.format(WeChatUrl.ADD_GROUP, WeChat.getAccessToken()), null,
+        Map<String, Group> map = WeChatRequest.post(String.format(WeChatUrl.ADD_GROUP, WeChat.accessToken()), null,
                 new TypeReference<Map<String, Group>>() {
                 });
         return MapUtils.isNotEmpty(map) ? map.get("group") : null;
@@ -43,7 +43,7 @@ public class WeChatGroupService {
      * @return 所有分组
      */
     public List<Group> list() {
-        Map<String, List<Group>> map = WeChatRequest.post(String.format(WeChatUrl.LIST_GROUP, WeChat.getAccessToken()), null,
+        Map<String, List<Group>> map = WeChatRequest.post(String.format(WeChatUrl.LIST_GROUP, WeChat.accessToken()), null,
                 new TypeReference<Map<String, List<Group>>>() {
                 });
 
@@ -59,7 +59,7 @@ public class WeChatGroupService {
     public int findUserGroup(String openId) {
         Assert.hasLength(openId);
 
-        Map<String, Integer> group = WeChatRequest.post(String.format(WeChatUrl.FIND_USER_GROUP, WeChat.getAccessToken()), Collections.singletonMap("openid", openId), new TypeReference<Map<String, Integer>>() {
+        Map<String, Integer> group = WeChatRequest.post(String.format(WeChatUrl.FIND_USER_GROUP, WeChat.accessToken()), Collections.singletonMap("openid", openId), new TypeReference<Map<String, Integer>>() {
         });
 
         if (MapUtils.isEmpty(group)) {
@@ -84,7 +84,7 @@ public class WeChatGroupService {
         params.put("id", groupId);
         params.put("name", groupName);
 
-        WeChatRequest.post(String.format(WeChatUrl.UPDATE_GROUP, WeChat.getAccessToken()), params, new TypeReference<Void>() {
+        WeChatRequest.post(String.format(WeChatUrl.UPDATE_GROUP, WeChat.accessToken()), params, new TypeReference<Void>() {
         });
     }
 
@@ -102,7 +102,7 @@ public class WeChatGroupService {
         params.put("openid", openId);
         params.put("to_groupid", toGroupId);
 
-        WeChatRequest.post(String.format(WeChatUrl.MOVE_USER_GROUP, WeChat.getAccessToken()), params, new TypeReference<Void>() {
+        WeChatRequest.post(String.format(WeChatUrl.MOVE_USER_GROUP, WeChat.accessToken()), params, new TypeReference<Void>() {
         });
     }
 
@@ -120,7 +120,7 @@ public class WeChatGroupService {
         params.put("openid_list", openIds);
         params.put("to_groupid", toGroupId);
 
-        WeChatRequest.post(String.format(WeChatUrl.BATCH_MOVE_USER_GROUP, WeChat.getAccessToken()), params, new TypeReference<Void>() {
+        WeChatRequest.post(String.format(WeChatUrl.BATCH_MOVE_USER_GROUP, WeChat.accessToken()), params, new TypeReference<Void>() {
         });
     }
 
@@ -134,7 +134,7 @@ public class WeChatGroupService {
 
         Map<String, Map<String, Integer>> params = Collections.singletonMap("group", Collections.singletonMap("id", groupId));
 
-        WeChatRequest.post(String.format(WeChatUrl.DELETE_GROUP, WeChat.getAccessToken()), params, new TypeReference<Void>() {
+        WeChatRequest.post(String.format(WeChatUrl.DELETE_GROUP, WeChat.accessToken()), params, new TypeReference<Void>() {
         });
     }
 }

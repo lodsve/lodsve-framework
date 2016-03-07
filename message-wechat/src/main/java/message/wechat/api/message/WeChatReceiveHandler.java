@@ -1,4 +1,4 @@
-package message.wechat.message;
+package message.wechat.api.message;
 
 import com.alibaba.fastjson.util.TypeUtils;
 import java.util.ArrayList;

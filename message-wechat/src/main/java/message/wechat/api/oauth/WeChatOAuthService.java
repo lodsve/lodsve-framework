@@ -1,4 +1,4 @@
-package message.wechat.oauth;
+package message.wechat.api.oauth;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Charsets;
@@ -24,21 +24,20 @@ import org.springframework.stereotype.Component;
 public class WeChatOAuthService {
     @Autowired
     private WeChatProperties properties;
-    @Autowired
-    private ApplicationProperties applicationProperties;
 
     /**
      * 获取OAuth认证的地址.
      *
-     * @param url   前台url
-     * @param scope 用户授权的作用域，"snsapi_base" or "snsapi_userinfo"
+     * @param getOpenIdUrl 获取openId的url
+     * @param url          前台url
+     * @param scope        用户授权的作用域，"snsapi_base" or "snsapi_userinfo"
      * @return 认证的地址
      */
-    public String getOAuthUrl(String url, String scope) {
+    public String getOAuthUrl(String getOpenIdUrl, String url, String scope) {
         String weChatUrl = WeChatUrl.WEIXIN_AUTHORIZE_URL;
         String bizUrl;
         try {
-            String systemUrl = applicationProperties.getServerUrl() + "/wx/openId?url=";
+            String systemUrl = getOpenIdUrl + "?url=";
             bizUrl = URLUtils.encodeURL(systemUrl + URLUtils.encodeURL(url, Charsets.UTF_8.displayName()), Charsets.UTF_8.displayName());
         } catch (UnsupportedEncodingException e) {
             bizUrl = StringUtils.EMPTY;

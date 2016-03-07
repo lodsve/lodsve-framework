@@ -1,4 +1,4 @@
-package message.wechat.message;
+package message.wechat.api.message;
 
 import message.wechat.beans.message.EventType;
 import message.wechat.beans.message.receive.event.Event;

@@ -1,4 +1,4 @@
-package message.wechat.template;
+package message.wechat.api.template;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.Collections;
@@ -36,7 +36,7 @@ public class WeChatTemplateService {
         industry.put("industry_id1", industryId1);
         industry.put("industry_id2", industryId2);
 
-        WeChatRequest.post(String.format(WeChatUrl.API_SET_INDUSTRY, WeChat.getAccessToken()), industry, new TypeReference<Void>() {
+        WeChatRequest.post(String.format(WeChatUrl.API_SET_INDUSTRY, WeChat.accessToken()), industry, new TypeReference<Void>() {
         });
     }
 
@@ -46,7 +46,7 @@ public class WeChatTemplateService {
      * @return 行业信息
      */
     public Industry getIndustry() {
-        return WeChatRequest.get(String.format(WeChatUrl.API_GET_INDUSTRY, WeChat.getAccessToken()), new TypeReference<Industry>() {
+        return WeChatRequest.get(String.format(WeChatUrl.API_GET_INDUSTRY, WeChat.accessToken()), new TypeReference<Industry>() {
         });
     }
 
@@ -62,7 +62,7 @@ public class WeChatTemplateService {
         Map<String, String> params = new HashMap<>(1);
         params.put("template_id_short", templateShortId);
 
-        Map<String, String> result = WeChatRequest.post(String.format(WeChatUrl.API_GET_TEMPLATE, WeChat.getAccessToken()), params,
+        Map<String, String> result = WeChatRequest.post(String.format(WeChatUrl.API_GET_TEMPLATE, WeChat.accessToken()), params,
                 new TypeReference<Map<String, String>>() {
                 });
 
@@ -75,7 +75,7 @@ public class WeChatTemplateService {
      * @return 模板id
      */
     public List<Template> listAllTemplates() {
-        Map<String, List<Template>> result = WeChatRequest.get(String.format(WeChatUrl.API_GET_ALL_TEMPLATE, WeChat.getAccessToken()),
+        Map<String, List<Template>> result = WeChatRequest.get(String.format(WeChatUrl.API_GET_ALL_TEMPLATE, WeChat.accessToken()),
                 new TypeReference<Map<String, List<Template>>>() {
                 });
 
@@ -93,7 +93,7 @@ public class WeChatTemplateService {
         Map<String, String> params = new HashMap<>(1);
         params.put("template_id", templateId);
 
-        WeChatRequest.post(String.format(WeChatUrl.API_DELETE_TEMPLATE, WeChat.getAccessToken()), params,
+        WeChatRequest.post(String.format(WeChatUrl.API_DELETE_TEMPLATE, WeChat.accessToken()), params,
                 new TypeReference<Void>() {
                 });
     }
@@ -132,7 +132,7 @@ public class WeChatTemplateService {
         }
         params.put("data", configs);
 
-        Map<String, Object> result = WeChatRequest.post(String.format(WeChatUrl.API_SEND_TEMPLATE_MESSAGE, WeChat.getAccessToken()), params,
+        Map<String, Object> result = WeChatRequest.post(String.format(WeChatUrl.API_SEND_TEMPLATE_MESSAGE, WeChat.accessToken()), params,
                 new TypeReference<Map<String, Object>>() {
                 });
 

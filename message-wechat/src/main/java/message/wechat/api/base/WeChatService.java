@@ -1,4 +1,4 @@
-package message.wechat.base;
+package message.wechat.api.base;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Charsets;
@@ -32,7 +32,7 @@ public class WeChatService {
     private WeChatProperties properties;
 
     public List<String> getIps() {
-        String accessToken = WeChat.getAccessToken();
+        String accessToken = WeChat.accessToken();
         Map<String, List<String>> ips = WeChatRequest.get(WeChatUrl.GET_IPS, new TypeReference<Map<String, List<String>>>() {
         }, accessToken);
         return ips.get("ip_list");
@@ -58,7 +58,7 @@ public class WeChatService {
         jac.setTimestamp(System.currentTimeMillis() / 1000);
         jac.setNonceStr(RandomUtils.randomString(16));
 
-        String jsApiTicket = WeChat.getJsApiTicket();
+        String jsApiTicket = WeChat.jsApiTicket();
         String signature = EncryptUtils.encodeSHA(String.format(SIGN_STR, jsApiTicket, jac.getNonceStr(), jac.getTimestamp(), url));
         jac.setSignature(signature);
 

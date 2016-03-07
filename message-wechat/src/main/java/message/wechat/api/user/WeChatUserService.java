@@ -1,4 +1,4 @@
-package message.wechat.user;
+package message.wechat.api.user;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import message.base.utils.StringUtils;
 import message.wechat.beans.User;
+import message.wechat.beans.UserQuery;
 import message.wechat.core.WeChat;
 import message.wechat.core.WeChatRequest;
 import message.wechat.core.WeChatUrl;
@@ -38,7 +39,7 @@ public class WeChatUserService {
         params.put("openid", openId);
         params.put("remark", alias);
 
-        WeChatRequest.post(String.format(WeChatUrl.UPDATE_USER_ALIAS, WeChat.getAccessToken()), params, new TypeReference<Void>() {
+        WeChatRequest.post(String.format(WeChatUrl.UPDATE_USER_ALIAS, WeChat.accessToken()), params, new TypeReference<Void>() {
         });
     }
 
@@ -56,7 +57,7 @@ public class WeChatUserService {
             lang = Lang.zh_CN;
         }
 
-        return WeChatRequest.get(String.format(WeChatUrl.GET_USER_INFO, WeChat.getAccessToken(), openId, lang.toString()), new TypeReference<User>() {
+        return WeChatRequest.get(String.format(WeChatUrl.GET_USER_INFO, WeChat.accessToken(), openId, lang.toString()), new TypeReference<User>() {
         });
     }
 
@@ -66,11 +67,11 @@ public class WeChatUserService {
      * @param users 查询条件,只用到openId和language两个字段
      * @return 用户
      */
-    public List<User> batchGetUser(List<User> users) {
+    public List<User> batchGetUser(List<UserQuery> users) {
         Assert.notNull(users);
 
         List<Map<String, Object>> params = new ArrayList<>();
-        for (User user : users) {
+        for (UserQuery user : users) {
             Map<String, Object> p = new HashMap<>(2);
 
             p.put("openid", user.getOpenId());
@@ -79,7 +80,7 @@ public class WeChatUserService {
             params.add(p);
         }
 
-        return WeChatRequest.post(String.format(WeChatUrl.BATCH_GET_USER_INFO, WeChat.getAccessToken()), Collections.singletonMap("user_list", params), new TypeReference<Map<String, List<User>>>() {
+        return WeChatRequest.post(String.format(WeChatUrl.BATCH_GET_USER_INFO, WeChat.accessToken()), Collections.singletonMap("user_list", params), new TypeReference<Map<String, List<User>>>() {
         }).get("user_info_list");
     }
 
@@ -90,7 +91,7 @@ public class WeChatUserService {
      * @return 关注者openId
      */
     public List<String> listSubscribe(String nextOpenId) {
-        String url = String.format(WeChatUrl.LIST_SUBSCRIBER, WeChat.getAccessToken(), StringUtils.isEmpty(nextOpenId) ? StringUtils.EMPTY : nextOpenId);
+        String url = String.format(WeChatUrl.LIST_SUBSCRIBER, WeChat.accessToken(), StringUtils.isEmpty(nextOpenId) ? StringUtils.EMPTY : nextOpenId);
         Map<String, Object> result = WeChatRequest.get(url, new TypeReference<Map<String, Object>>() {
         });
 

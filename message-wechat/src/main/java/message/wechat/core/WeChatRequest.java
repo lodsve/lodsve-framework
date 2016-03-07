@@ -1,5 +1,6 @@
 package message.wechat.core;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -56,6 +57,7 @@ public final class WeChatRequest {
             }
         });
         OBJECT_MAPPER.registerModule(module);
+        OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
     public static <T> T get(String url, TypeReference<T> typeReference, Object... params) {

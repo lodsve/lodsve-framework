@@ -1,4 +1,4 @@
-package message.wechat.menu;
+package message.wechat.api.menu;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class WeChatMenuService {
             }
         }
 
-        WeChatRequest.post(String.format(WeChatUrl.CREATE_MENUS, WeChat.getAccessToken()), Collections.singletonMap("button", Arrays.asList(menus)), new TypeReference<Void>() {
+        WeChatRequest.post(String.format(WeChatUrl.CREATE_MENUS, WeChat.accessToken()), Collections.singletonMap("button", Arrays.asList(menus)), new TypeReference<Void>() {
         });
     }
 
@@ -53,7 +53,7 @@ public class WeChatMenuService {
      */
     public List<Menu> getMenus() {
         try {
-            Map<String, Map<String, List<Map<String, Object>>>> result = WeChatRequest.get(String.format(WeChatUrl.GET_MENUS, WeChat.getAccessToken()),
+            Map<String, Map<String, List<Map<String, Object>>>> result = WeChatRequest.get(String.format(WeChatUrl.GET_MENUS, WeChat.accessToken()),
                     new TypeReference<Map<String, Map<String, List<Map<String, Object>>>>>() {
                     });
             List<Map<String, Object>> temp = result.get("menu").get("button");
@@ -75,7 +75,7 @@ public class WeChatMenuService {
      * 删除全部菜单
      */
     public void delete() {
-        WeChatRequest.get(String.format(WeChatUrl.DELETE_MENUS, WeChat.getAccessToken()), new TypeReference<Void>() {
+        WeChatRequest.get(String.format(WeChatUrl.DELETE_MENUS, WeChat.accessToken()), new TypeReference<Void>() {
         });
     }
 }

@@ -15,8 +15,6 @@ public class CustomerServer {
     private String account;
     @JsonProperty("kf_nick")
     private String nick;
-    @JsonProperty("nickname")
-    private String nickname;
     @JsonProperty("kf_headimgurl")
     private String headImgUrl;
     @JsonProperty("password")
@@ -44,14 +42,6 @@ public class CustomerServer {
 
     public void setNick(String nick) {
         this.nick = nick;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public String getHeadImgUrl() {

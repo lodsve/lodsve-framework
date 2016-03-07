@@ -1,4 +1,4 @@
-package message.wechat.message;
+package message.wechat.api.message;
 
 import message.wechat.beans.message.MsgType;
 import message.wechat.beans.message.receive.Receive;

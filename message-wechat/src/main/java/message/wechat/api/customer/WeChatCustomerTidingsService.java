@@ -1,4 +1,4 @@
-package message.wechat.customer;
+package message.wechat.api.customer;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import message.wechat.beans.tidings.Tidings;
@@ -15,7 +15,7 @@ import org.springframework.util.Assert;
  * @version V1.0, 16/2/24 下午12:25
  */
 @Component
-public class CustomerTidingsService {
+public class WeChatCustomerTidingsService {
     /**
      * 客服发送消息
      *
@@ -24,7 +24,7 @@ public class CustomerTidingsService {
     public void send(Tidings tidings) {
         Assert.notNull(tidings);
 
-        WeChatRequest.post(String.format(WeChatUrl.CUSTOMER_SEND_TIDINGS, WeChat.getAccessToken()), tidings, new TypeReference<Void>() {
+        WeChatRequest.post(String.format(WeChatUrl.CUSTOMER_SEND_TIDINGS, WeChat.accessToken()), tidings, new TypeReference<Void>() {
         });
     }
 }

@@ -6,10 +6,11 @@ import com.google.common.cache.CacheBuilder;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import message.base.utils.StringUtils;
 import message.wechat.beans.AccessToken;
 import message.wechat.beans.JsApiTicket;
 import message.wechat.config.WeChatProperties;
+import message.wechat.exception.WeChatException;
+import org.apache.commons.httpclient.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +30,7 @@ public final class WeChat {
         WeChat.properties = properties;
     }
 
-    public static String getAccessToken() {
+    public static String accessToken() {
         try {
             return CACHE.get("accessToken", new Callable<String>() {
                 @Override
@@ -38,13 +39,11 @@ public final class WeChat {
                 }
             });
         } catch (ExecutionException e) {
-            e.printStackTrace();
+            throw new WeChatException(HttpStatus.SC_BAD_REQUEST, e.getMessage());
         }
-
-        return StringUtils.EMPTY;
     }
 
-    public static String getJsApiTicket() {
+    public static String jsApiTicket() {
         try {
             return CACHE.get("jsapi_ticket", new Callable<String>() {
                 @Override
@@ -53,10 +52,8 @@ public final class WeChat {
                 }
             });
         } catch (ExecutionException e) {
-            e.printStackTrace();
+            throw new WeChatException(HttpStatus.SC_BAD_REQUEST, e.getMessage());
         }
-
-        return StringUtils.EMPTY;
     }
 
     private static AccessToken requestAccessToken() {
@@ -65,7 +62,7 @@ public final class WeChat {
     }
 
     private static JsApiTicket requestJsApiTicket() {
-        return WeChatRequest.get(String.format(WeChatUrl.GET_JSP_API_TICKET, getAccessToken()), new TypeReference<JsApiTicket>() {
+        return WeChatRequest.get(String.format(WeChatUrl.GET_JSP_API_TICKET, accessToken()), new TypeReference<JsApiTicket>() {
         });
     }
 }
