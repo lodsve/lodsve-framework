@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
  * @version V1.0, 16/2/23 下午4:17
  */
 @Component
-public class MenuService {
+public class WeChatMenuService {
 
     /**
      * 创建菜单(会删除原来的菜单)

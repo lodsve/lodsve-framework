@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  * @version V1.0, 16/2/23 下午11:24
  */
 @Component
-public class ReceiveHandler implements ApplicationContextAware {
+public class WeChatReceiveHandler implements ApplicationContextAware {
     private static final String EVENT = "Event";
     private static final String MSG_TYPE = "MsgType";
 

@@ -2,8 +2,8 @@ package message.wechat.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
-import message.wechat.base.Lang;
-import message.wechat.base.Sex;
+import message.wechat.enums.Lang;
+import message.wechat.enums.Sex;
 
 /**
  * 微信用户.

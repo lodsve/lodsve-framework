@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import message.base.utils.StringUtils;
-import message.wechat.base.Lang;
 import message.wechat.beans.User;
 import message.wechat.core.WeChat;
 import message.wechat.core.WeChatRequest;
 import message.wechat.core.WeChatUrl;
+import message.wechat.enums.Lang;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 

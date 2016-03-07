@@ -12,7 +12,7 @@ import message.swagger.annotations.SwaggerIgnore;
 import message.wechat.base.WeChatService;
 import message.wechat.beans.JsApiConfig;
 import message.wechat.beans.message.reply.Reply;
-import message.wechat.message.ReceiveHandler;
+import message.wechat.message.WeChatReceiveHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +33,7 @@ public class WeChatController {
     @Autowired
     private WeChatService weChatService;
     @Autowired
-    private ReceiveHandler receiveHandler;
+    private WeChatReceiveHandler weChatReceiveHandler;
 
     /**
      * 校验配置
@@ -78,7 +78,7 @@ public class WeChatController {
     @RequestMapping(value = "/message", produces = "application/json", method = RequestMethod.POST)
     public String handleMessage(@WebResource WebInput in) {
         try {
-            Reply reply = receiveHandler.handle(XmlUtils.parse(in.getRequest().getInputStream()));
+            Reply reply = weChatReceiveHandler.handle(XmlUtils.parse(in.getRequest().getInputStream()));
             return XmlUtils.toXML(reply);
         } catch (Exception e) {
             return StringUtils.EMPTY;

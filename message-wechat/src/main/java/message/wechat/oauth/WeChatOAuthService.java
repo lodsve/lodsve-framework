@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  * @version V1.0, 16/2/23 下午12:38
  */
 @Component
-public class OAuthService {
+public class WeChatOAuthService {
     @Autowired
     private WeChatProperties properties;
     @Autowired

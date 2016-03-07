@@ -1,12 +1,11 @@
 package message.base.utils;
 
-import org.apache.commons.httpclient.NameValuePair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 操作ip的工具类.
@@ -20,11 +19,7 @@ public class IpUtils {
     /**
      * 默认的识别IP的地址(第三方运营商)
      */
-    private static final String REQUEST_URL = "http://ip.taobao.com/base/getIpInfo.php";
-    /**
-     * url中的参数key
-     */
-    private static final String IP_KEY = "ip";
+    private static final String REQUEST_URL = "http://ip.taobao.com/base/getIpInfo.php?ip=%s";
 
     /**
      * 私有化构造器
@@ -45,29 +40,26 @@ public class IpUtils {
     public static Map<String, String> getAllInfo(String ip) {
         if (StringUtils.isEmpty(ip)) {
             logger.error("ip is null!!!");
-            return Collections.EMPTY_MAP;
+            return Collections.emptyMap();
         }
 
-        NameValuePair nameValuePair = new NameValuePair(IP_KEY, ip);
-        String message = null;
+        String message;
         try {
-            message = HttpClientUtils.get(REQUEST_URL, new NameValuePair[]{nameValuePair});
+            message = HttpClientUtils.get(String.format(REQUEST_URL, ip));
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
-            return Collections.EMPTY_MAP;
+            return Collections.emptyMap();
         }
 
-        return null;
-        // TODO
-//        JSONObject object = JSONObject.fromObject(message);
-//        Integer result = object.getInt("code");
-//        if(result != null && Integer.valueOf(0).equals(result)){
-//            logger.debug("get from '{}' success!", REQUEST_URL);
-//            return (Map<String, String>) object.get("data");
-//        }else{
-//            logger.error("get from '{}' failure!", REQUEST_URL);
-//            return Collections.EMPTY_MAP;
-//        }
+        JSONObject object = JSONObject.parseObject(message);
+        Integer result = object.getInteger("code");
+        if (result != null && Integer.valueOf(0).equals(result)) {
+            logger.debug("get from '{}' success!", REQUEST_URL);
+            return (Map<String, String>) object.getObject("data", Map.class);
+        } else {
+            logger.error("get from '{}' failure!", REQUEST_URL);
+            return Collections.emptyMap();
+        }
     }
 
     /**
@@ -77,7 +69,7 @@ public class IpUtils {
      * @return
      */
     public static String getCountry(String ip) {
-        return get(ip, IpKeys.COUNTRY);
+        return get(ip, IpKey.COUNTRY);
     }
 
     /**
@@ -87,7 +79,7 @@ public class IpUtils {
      * @return
      */
     public static String getArea(String ip) {
-        return get(ip, IpKeys.AREA);
+        return get(ip, IpKey.AREA);
     }
 
     /**
@@ -97,7 +89,7 @@ public class IpUtils {
      * @return
      */
     public static String getRegion(String ip) {
-        return get(ip, IpKeys.REGION);
+        return get(ip, IpKey.REGION);
     }
 
     /**
@@ -107,7 +99,7 @@ public class IpUtils {
      * @return
      */
     public static String getCity(String ip) {
-        return get(ip, IpKeys.CITY);
+        return get(ip, IpKey.CITY);
     }
 
     /**
@@ -117,7 +109,7 @@ public class IpUtils {
      * @return
      */
     public static String getIsp(String ip) {
-        return get(ip, IpKeys.ISP);
+        return get(ip, IpKey.ISP);
     }
 
     /**
@@ -127,17 +119,17 @@ public class IpUtils {
      * @return
      */
     public static String getCounty(String ip) {
-        return get(ip, IpKeys.COUNTY);
+        return get(ip, IpKey.COUNTY);
     }
 
     /**
      * 获取给定IP的一些信息
      *
      * @param ip  ip
-     * @param key IpKeys中的值
+     * @param key IpKey中的值
      * @return
      */
-    public static String get(String ip, IpKeys key) {
+    public static String get(String ip, IpKey key) {
         Map<String, String> allInfo = getAllInfo(ip);
 
         if (allInfo != null && !allInfo.isEmpty()) {
@@ -147,7 +139,7 @@ public class IpUtils {
         return StringUtils.EMPTY;
     }
 
-    public enum IpKeys {
+    public enum IpKey {
         /**
          * 国家/国家ID
          */

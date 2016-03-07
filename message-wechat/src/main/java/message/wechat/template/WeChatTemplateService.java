@@ -23,7 +23,7 @@ import org.springframework.util.Assert;
  * @version V1.0, 16/2/24 下午1:39
  */
 @Component
-public class TemplateService {
+public class WeChatTemplateService {
     /**
      * 设置所属行业,相关代码编号请参考微信公众号开发文档<p/>
      * <a href="http://mp.weixin.qq.com/wiki/17/304c1885ea66dbedf7dc170d84999a9d.html#.E8.AE.BE.E7.BD.AE.E6.89.80.E5.B1.9E.E8.A1.8C.E4.B8.9A">模板消息接口 - 微信公众平台开发者文档</a>

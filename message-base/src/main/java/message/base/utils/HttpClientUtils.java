@@ -1,5 +1,12 @@
 package message.base.utils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.HttpStatus;
@@ -10,10 +17,6 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
 /**
  * HttpClient的工具类.
@@ -36,73 +39,52 @@ public class HttpClientUtils {
     /**
      * 构造器私有化
      */
-    private HttpClientUtils(){}
-
-    /**
-     * 发送一个post请求(默认编码UTF-8,超时时间5000毫秒)
-     * @param url
-     * @param params
-     * @return
-     * @throws java.io.IOException
-     */
-    public static String post(String url, NameValuePair[] params) throws IOException {
-        return post(url, params, DEFAULT_CHARSET, DEFAULT_TIMEOUT);
+    private HttpClientUtils() {
     }
 
     /**
      * 发送一个post请求
      *
-     * @param url       地址
-     * @param params    参数
-     * @param charset   编码
-     * @param timeout   超时时间
-     * @return
+     * @param url    地址
+     * @param params 参数
+     * @return 返回结果
      * @throws java.io.IOException
      */
-    public static String post(String url, NameValuePair[] params, String charset, int timeout) throws IOException {
+    public static String post(String url, Map<String, String> params) throws IOException {
         PostMethod method = new PostMethod(url);
 
-        method.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET, charset);
-        method.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, Integer.valueOf(timeout));
+        method.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET, DEFAULT_CHARSET);
+        method.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, DEFAULT_TIMEOUT);
 
-        if (params != null) {
-            method.addParameters(params);
+        if (MapUtils.isNotEmpty(params)) {
+            List<NameValuePair> pairs = new ArrayList<>(params.size());
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                NameValuePair pair = new NameValuePair();
+                pair.setName(entry.getKey());
+                pair.setValue(entry.getValue());
+
+                pairs.add(pair);
+            }
+
+            method.addParameters(pairs.toArray(new NameValuePair[pairs.size()]));
         }
 
         return executeMethod(method);
     }
 
     /**
-     * 发送一个get请求(默认编码UTF-8,超时时间5000毫秒)
-     * @param url
-     * @param params
-     * @return
-     * @throws java.io.IOException
-     */
-    public static String get(String url, NameValuePair[] params) throws IOException {
-        return get(url, params, DEFAULT_CHARSET, DEFAULT_TIMEOUT);
-    }
-
-    /**
      * 发送一个get请求
      *
-     * @param url       地址
-     * @param params    参数
-     * @param charset   编码
-     * @param timeout   超时时间
+     * @param url 地址
      * @return
      * @throws java.io.IOException
      */
-    public static String get(String url, NameValuePair[] params, String charset, int timeout) throws IOException {
+    public static String get(String url) throws IOException {
         GetMethod method = new GetMethod(url);
         HttpMethodParams hmp = method.getParams();
 
-        hmp.setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET, charset);
-        hmp.setParameter(HttpMethodParams.SO_TIMEOUT, Integer.valueOf(timeout));
-
-        if (params != null) {
-            method.setQueryString(params);
-        }
+        hmp.setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET, DEFAULT_CHARSET);
+        hmp.setParameter(HttpMethodParams.SO_TIMEOUT, DEFAULT_TIMEOUT);
 
         return executeMethod(method);
     }
@@ -110,7 +92,7 @@ public class HttpClientUtils {
     /**
      * 执行post或者get方法
      *
-     * @param method    post或者get方法
+     * @param method post或者get方法
      * @return
      * @throws java.io.IOException
      */

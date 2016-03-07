@@ -1,4 +1,4 @@
-package message.wechat.base;
+package message.wechat.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
