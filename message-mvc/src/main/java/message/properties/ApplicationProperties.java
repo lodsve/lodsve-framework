@@ -15,10 +15,6 @@ public class ApplicationProperties {
      */
     private boolean devMode;
     /**
-     * 打印出每次请求地址
-     */
-    private boolean debug;
-    /**
      * 前台URL
      */
     private String frontEndUrl;
@@ -33,14 +29,6 @@ public class ApplicationProperties {
 
     public void setDevMode(boolean devMode) {
         this.devMode = devMode;
-    }
-
-    public boolean isDebug() {
-        return debug;
-    }
-
-    public void setDebug(boolean debug) {
-        this.debug = debug;
     }
 
     public String getFrontEndUrl() {

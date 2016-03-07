@@ -24,7 +24,7 @@ public class DebugRequestListener implements ApplicationListener {
     private ApplicationProperties applicationProperties;
 
     public void onApplicationEvent(ApplicationEvent event) {
-        if (applicationProperties.isDebug()) {
+        if (applicationProperties.isDevMode()) {
             if (!(event instanceof ServletRequestHandledEvent)) {
                 logger.debug("the event is not ServletRequestHandledEvent");
                 return;
