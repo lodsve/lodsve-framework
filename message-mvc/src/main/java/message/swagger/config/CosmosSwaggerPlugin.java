@@ -35,7 +35,7 @@ public class CosmosSwaggerPlugin extends SwaggerSpringMvcPlugin {
     }
 
     private ApiInfo getApiInfo(SwaggerProperties swaggerProperties) {
-        ApiInfo apiInfo = new ApiInfo(
+        return new ApiInfo(
                 swaggerProperties.getTitle(),
                 swaggerProperties.getDescription(),
                 swaggerProperties.getTermsOfServiceUrl(),
@@ -43,7 +43,5 @@ public class CosmosSwaggerPlugin extends SwaggerSpringMvcPlugin {
                 swaggerProperties.getLicense(),
                 swaggerProperties.getLicenseUrl()
         );
-
-        return apiInfo;
     }
 }
