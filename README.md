@@ -9,8 +9,6 @@
     - message-cache
     - message-config
     - message-dubbo
-    - message-email
-    - message-event
     - message-logger
     - message-mongodb
     - message-mvc
