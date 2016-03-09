@@ -1,17 +1,16 @@
-package message.event.listener;
-
-import message.event.EventExecutor;
-import message.event.module.BaseEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+package message.base.event.listener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import message.base.event.EventExecutor;
+import message.base.event.module.BaseEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * 事件监听器.
@@ -35,16 +34,16 @@ public abstract class AbstractEventListener implements InitializingBean {
     /**
      * 同步事件类型
      */
-    protected List<Class<? extends BaseEvent>> syncEventListeners = new ArrayList<Class<? extends BaseEvent>>();
+    protected List<Class<? extends BaseEvent>> syncEventListeners = new ArrayList<>();
     /**
      * 异步事件类型
      */
-    protected List<Class<? extends BaseEvent>> asyncEventListeners = new ArrayList<Class<? extends BaseEvent>>();
+    protected List<Class<? extends BaseEvent>> asyncEventListeners = new ArrayList<>();
 
     /**
      * 事件class类型 --> 中文描述
      */
-    protected Map<Class<? extends BaseEvent>, String> operationEvents = new HashMap<Class<? extends BaseEvent>, String>();
+    protected Map<Class<? extends BaseEvent>, String> operationEvents = new HashMap<>();
 
     protected AbstractEventListener() {
     }
@@ -73,7 +72,7 @@ public abstract class AbstractEventListener implements InitializingBean {
             return;
         }
 
-        List<Class<? extends BaseEvent>> operations = new ArrayList<Class<? extends BaseEvent>>();
+        List<Class<? extends BaseEvent>> operations = new ArrayList<>();
         for (Class<? extends BaseEvent> moduleClass : operationEvents.keySet()) {
             operations.add(moduleClass);
         }

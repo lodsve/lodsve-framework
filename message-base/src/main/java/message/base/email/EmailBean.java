@@ -1,4 +1,4 @@
-package message.email;
+package message.base.email;
 
 /**
  * 邮箱服务器的配置.
@@ -7,11 +7,20 @@ package message.email;
  * @version V1.0, 13-3-25 上午6:42
  */
 public class EmailBean {
+    private String name;
     private String smtp;                //smtp服务器名称
     private int port;                    //端口号
     private String description;        //描述
 
     public EmailBean() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSmtp() {

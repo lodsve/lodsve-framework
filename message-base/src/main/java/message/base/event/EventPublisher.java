@@ -1,6 +1,6 @@
-package message.event;
+package message.base.event;
 
-import message.event.module.BaseEvent;
+import message.base.event.module.BaseEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

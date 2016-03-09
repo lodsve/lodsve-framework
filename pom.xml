@@ -26,10 +26,6 @@
         <module>message-mongodb</module>
         <!-- 搜索 -->
         <module>message-search</module>
-        <!-- 事件 -->
-        <module>message-event</module>
-        <!-- 邮箱 -->
-        <module>message-email</module>
         <!-- amqp -->
         <module>message-amqp</module>
         <!-- mvc -->

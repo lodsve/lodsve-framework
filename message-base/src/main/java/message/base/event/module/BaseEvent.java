@@ -1,12 +1,11 @@
-package message.event.module;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package message.base.event.module;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.EventObject;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 事件的基类.

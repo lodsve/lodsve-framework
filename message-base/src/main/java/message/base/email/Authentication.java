@@ -1,11 +1,10 @@
-package message.email;
-
-import message.base.utils.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package message.base.email;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
+import message.base.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 发送邮件时的身份认证器.

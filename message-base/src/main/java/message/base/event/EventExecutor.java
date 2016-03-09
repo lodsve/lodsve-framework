@@ -1,12 +1,15 @@
-package message.event;
+package message.base.event;
 
-import message.event.module.BaseEvent;
-import message.event.listener.AbstractEventListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import message.base.event.listener.AbstractEventListener;
+import message.base.event.module.BaseEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.*;
 
 /**
  * 事件执行器.
@@ -25,12 +28,12 @@ public class EventExecutor {
     /**
      * 同步事件Map.
      */
-    private final Map<Class<? extends BaseEvent>, List<AbstractEventListener>> syncEventListeners = new HashMap<Class<? extends BaseEvent>, List<AbstractEventListener>>();
+    private final Map<Class<? extends BaseEvent>, List<AbstractEventListener>> syncEventListeners = new HashMap<>();
 
     /**
      * 异步事件Map.
      */
-    private final Map<Class<? extends BaseEvent>, List<AbstractEventListener>> asyncEventListeners = new HashMap<Class<? extends BaseEvent>, List<AbstractEventListener>>();
+    private final Map<Class<? extends BaseEvent>, List<AbstractEventListener>> asyncEventListeners = new HashMap<>();
 
     private final Object REGISTER_LOCK_OBJECT = new Object();
 

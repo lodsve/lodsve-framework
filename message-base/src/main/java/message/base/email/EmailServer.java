@@ -1,12 +1,14 @@
-package message.email;
+package message.base.email;
 
-import message.base.utils.StringUtils;
-import message.base.utils.ValidateUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.Address;
@@ -20,14 +22,15 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
+import message.base.utils.ListUtils;
+import message.base.utils.StringUtils;
+import message.base.utils.ValidateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 /**
  * 发送邮件服务器.
@@ -36,21 +39,10 @@ import java.util.Properties;
  * @version V1.0, 13-3-25 上午6:19
  */
 @Component
-public class EmailServer {
+public class EmailServer implements ApplicationContextAware {
     private static final Logger logger = LoggerFactory.getLogger(EmailServer.class);
-    /**
-     * 邮箱服务器配置*
-     */
-    @Autowired
-    private EmailConfig emailConfig;
-    /**
-     * 是否开启debug调试模式*
-     */
-    private boolean isDebug = false;
-    /**
-     * 是否启用身份验证*
-     */
-    private boolean isAuth = true;
+
+    private List<EmailBean> emailBeens;
 
     /**
      * 发送普通邮件(单个接收人)
@@ -218,14 +210,10 @@ public class EmailServer {
      * @return
      */
     private boolean sendMail(String username, String password, String title, String content, List<String> receivers, boolean isHtmlMail, List<File> files) {
-        Authentication auth = null;
-        if (this.isAuth) {
-            //如果需要身份认证，则创建一个密码验证器
-            auth = new Authentication(username, password);
-        }
+        Authentication auth = new Authentication(username, password);
 
         Properties props = new Properties();
-        props.setProperty("mail.smtp.auth", this.isAuth ? "true" : "false");
+        props.setProperty("mail.smtp.auth", "true");
         props.setProperty("mail.transport.protocol", "auth");
         EmailBean bean = this.getEmailBean(username);
         props.setProperty("mail.smtp.host", bean.getSmtp());
@@ -233,7 +221,7 @@ public class EmailServer {
 
         // 根据邮件会话属性和密码验证器构造一个发送邮件的session
         Session session = Session.getDefaultInstance(props, auth);
-        session.setDebug(this.isDebug);
+        session.setDebug(false);
 
         Message message;
         if (files == null || files.isEmpty()) {
@@ -261,9 +249,14 @@ public class EmailServer {
      * @return
      */
     private EmailBean getEmailBean(String email) {
-        String mailServiceDomainName = this.getMailServiceDomainName(email);
+        final String mailServiceDomainName = this.getMailServiceDomainName(email);
 
-        return emailConfig.getBeans().get(mailServiceDomainName);
+        return ListUtils.findOne(emailBeens, new ListUtils.Decide<EmailBean>() {
+            @Override
+            public boolean judge(EmailBean target) {
+                return target.getName().equals(mailServiceDomainName);
+            }
+        });
     }
 
     /**
@@ -394,5 +387,15 @@ public class EmailServer {
 
             return StringUtils.substring(email, firstIndex + 1, secondIndex);
         }
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        Map<String, EmailBean> beans = applicationContext.getBeansOfType(EmailBean.class);
+        if (emailBeens == null) {
+            emailBeens = new ArrayList<>(beans.size());
+        }
+
+        emailBeens.addAll(beans.values());
     }
 }
