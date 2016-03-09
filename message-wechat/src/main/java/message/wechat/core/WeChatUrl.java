@@ -82,7 +82,7 @@ public final class WeChatUrl {
     /**
      * 删除模板
      */
-    public static final String API_DELETE_TEMPLATE = "https://api,weixin.qq.com/cgi-bin/template/del_private_template?access_token=%s";
+    public static final String API_DELETE_TEMPLATE = "https://api.weixin.qq.com/cgi-bin/template/del_private_template?access_token=%s";
     /**
      * 发送模板消息
      */

@@ -56,15 +56,6 @@
         </dependency>
 
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml</groupId>
-            <artifactId>classmate</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>cosmos.message</groupId>
             <artifactId>message-base</artifactId>
         </dependency>

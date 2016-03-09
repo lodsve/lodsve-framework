@@ -1,5 +1,7 @@
 package message.wechat.beans.tidings;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import message.wechat.beans.tidings.items.Media;
 
 /**
@@ -8,18 +10,22 @@ import message.wechat.beans.tidings.items.Media;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/24 上午11:59
  */
+@ApiModel(description = "语音客服消息")
 public class VoiceTidings extends Tidings {
     public VoiceTidings() {
         setTidingsType(TidingsType.voice);
     }
 
-    private Media image;
+    @ApiModelProperty(value = "语音", required = true)
+    private Media voice;
 
-    public Media getImage() {
-        return image;
+    @ApiModelProperty(value = "语音", required = true)
+    public Media getVoice() {
+        return voice;
     }
 
-    public void setImage(Media image) {
-        this.image = image;
+    @ApiModelProperty(value = "语音", required = true)
+    public void setVoice(Media voice) {
+        this.voice = voice;
     }
 }

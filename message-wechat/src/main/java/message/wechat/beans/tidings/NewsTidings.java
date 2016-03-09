@@ -1,5 +1,7 @@
 package message.wechat.beans.tidings;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,17 +16,21 @@ import org.apache.commons.collections.MapUtils;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/24 下午12:05
  */
+@ApiModel(description = "图文客服消息,带外链")
 public class NewsTidings extends Tidings {
     public NewsTidings() {
         setTidingsType(TidingsType.news);
     }
 
+    @ApiModelProperty(value = "图文", required = true)
     private Map<String, List<Article>> news;
 
+    @ApiModelProperty(value = "图文", required = true)
     public Map<String, List<Article>> getNews() {
         return news;
     }
 
+    @ApiModelProperty(value = "图文", required = true)
     public void setNews(Map<String, List<Article>> news) {
         if (MapUtils.isEmpty(news)) {
             this.news = news;
