@@ -743,16 +743,6 @@
             </dependency>
             <dependency>
                 <groupId>cosmos.message</groupId>
-                <artifactId>message-email</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cosmos.message</groupId>
-                <artifactId>message-event</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cosmos.message</groupId>
                 <artifactId>message-mybatis</artifactId>
                 <version>${project.version}</version>
             </dependency>
