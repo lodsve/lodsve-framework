@@ -48,7 +48,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>4.10</junit.version>
         <spring.version>4.2.4.RELEASE</spring.version>
         <servlet.version>3.0.1</servlet.version>
         <mongodb.version>2.14.1</mongodb.version>
@@ -158,6 +157,60 @@
                 <version>4.11</version>
             </dependency>
             <!-- 单元测试 end -->
+
+            <!-- dbunit start -->
+            <dependency>
+                <groupId>org.dbunit</groupId>
+                <artifactId>dbunit</artifactId>
+                <version>2.5.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.springtestdbunit</groupId>
+                <artifactId>spring-test-dbunit</artifactId>
+                <version>1.2.1</version>
+            </dependency>
+            <!-- dbunit end -->
+
+            <!-- mock start -->
+            <!-- mockito -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.9.5</version>
+            </dependency>
+            <!-- powermockito -->
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito</artifactId>
+                <version>1.6.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4</artifactId>
+                <version>1.6.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-module-junit4-rule-agent</artifactId>
+                <version>1.6.4</version>
+            </dependency>
+            <!-- mock server -->
+            <dependency>
+                <groupId>org.mock-server</groupId>
+                <artifactId>mockserver-netty</artifactId>
+                <version>3.10.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mock-server</groupId>
+                <artifactId>mockserver-client-java</artifactId>
+                <version>3.10.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mock-server</groupId>
+                <artifactId>mockserver-core</artifactId>
+                <version>3.10.2</version>
+            </dependency>
+            <!-- mock end -->
 
             <!-- servlet start -->
             <dependency>
