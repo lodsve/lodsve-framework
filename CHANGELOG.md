@@ -1,5 +1,13 @@
 # 更新日志
 
+## V2.4.6
+1. 调整项目结构
+2. 添加微信公众号开发API
+3. 简化security模块
+4. 修改mybatis通用repository的CRUD返回值问题
+5. 添加单元测试的(DBUnit Mockito PowerMockito Mock-Server)
+6. 修改一些bug
+
 ## V2.4.5
 1. mybatis支持排序
 
