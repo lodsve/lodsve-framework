@@ -346,11 +346,13 @@
             </dependency>
             <!-- fastjson end -->
 
+            <!-- java字节码操作 start -->
             <dependency>
                 <groupId>javassist</groupId>
                 <artifactId>javassist</artifactId>
                 <version>3.12.0.GA</version>
             </dependency>
+            <!-- java字节码操作 end -->
 
             <!-- 搜索引擎的 start -->
             <dependency>
@@ -451,19 +453,9 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>lius</groupId>
-                <artifactId>lius</artifactId>
-                <version>1.0</version>
-            </dependency>
-            <dependency>
                 <groupId>org.textmining</groupId>
                 <artifactId>tm-extractors</artifactId>
                 <version>0.4</version>
-            </dependency>
-            <dependency>
-                <groupId>net.paoding</groupId>
-                <artifactId>paoding-analysis</artifactId>
-                <version>2.0.5</version>
             </dependency>
             <!-- 搜索引擎的 end -->
 
@@ -496,11 +488,6 @@
                 <groupId>com.drewnoakes</groupId>
                 <artifactId>metadata-extractor</artifactId>
                 <version>2.4.0-beta-1</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.jimi</groupId>
-                <artifactId>jimi-utils</artifactId>
-                <version>1.0.0</version>
             </dependency>
             <!-- 图片EXIF信息处理 end -->
 
@@ -772,6 +759,30 @@
                 <scope>provided</scope>
             </dependency>
             <!-- dubbo end -->
+
+            <!-- maven 3rd party Repository begin -->
+            <!-- for 搜索引擎的 -->
+            <!-- @see https://yunpan.cn/cYxFCHFhFEXaK （提取码：1adb） -->
+            <dependency>
+                <groupId>lius</groupId>
+                <artifactId>lius</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <!-- @see https://yunpan.cn/cYxFaXVVJU5iX （提取码：30aa） -->
+            <dependency>
+                <groupId>net.paoding</groupId>
+                <artifactId>paoding-analysis</artifactId>
+                <version>2.0.5</version>
+            </dependency>
+
+            <!-- for 图片EXIF信息处理 -->
+            <!-- @see https://yunpan.cn/cYxFicxxgBH8c （提取码：976d） -->
+            <dependency>
+                <groupId>com.sun.jimi</groupId>
+                <artifactId>jimi-utils</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <!-- maven 3rd party Repository end -->
 
             <!-- cosmos message dependencies start -->
             <dependency>
