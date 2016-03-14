@@ -1,6 +1,9 @@
 # 更新日志
 
 ## V2.4.6
+1. 将groupId改成com.github.cosmos
+
+## V2.4.6
 1. 调整项目结构
 2. 添加微信公众号开发API
 3. 简化security模块
