@@ -55,6 +55,11 @@
         <mongodb.version>2.14.1</mongodb.version>
     </properties>
 
+    <organization>
+        <name>lodsve</name>
+        <url>https://github.com/lodsve</url>
+    </organization>
+
     <!-- issue -->
     <issueManagement>
         <system>Github Issue</system>

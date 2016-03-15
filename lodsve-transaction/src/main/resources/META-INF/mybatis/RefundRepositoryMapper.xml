@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="message.transaction.repository.RefundRepository">
+    <select id="findByPaymentId" parameterType="String" resultType="message.transaction.domain.Refund">
+        SELECT t.* FROM t_refund t WHERE t.payment_id = #{paymentId}
+    </select>
+
+    <select id="findByChargeId" parameterType="String" resultType="message.transaction.domain.Refund">
+        SELECT t.* FROM t_refund t WHERE t.charge_id = #{chargeId}
+    </select>
+
+    <select id="findRefunds">
+        SELECT t.* FROM t_refund t
+    </select>
+</mapper>
