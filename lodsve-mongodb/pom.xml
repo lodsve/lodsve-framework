@@ -13,6 +13,7 @@
     <artifactId>lodsve-mongodb</artifactId>
     <packaging>jar</packaging>
     <name>lodsve mongodb</name>
+    <description>mongodb相关封装</description>
 
     <dependencies>
         <dependency>

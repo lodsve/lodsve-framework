@@ -13,6 +13,7 @@
     <artifactId>lodsve-logger</artifactId>
     <packaging>jar</packaging>
     <name>lodsve logger</name>
+    <description>log4j相关封装</description>
 
     <dependencies>
         <dependency>

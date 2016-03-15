@@ -13,6 +13,7 @@
     <artifactId>lodsve-base</artifactId>
     <packaging>jar</packaging>
     <name>lodsve base</name>
+    <description>基础包</description>
 
     <dependencies>
         <dependency>
@@ -81,10 +82,6 @@
         <dependency>
             <groupId>com.drewnoakes</groupId>
             <artifactId>metadata-extractor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.jimi</groupId>
-            <artifactId>jimi-utils</artifactId>
         </dependency>
         <dependency>
             <groupId>com.belerweb</groupId>

@@ -13,6 +13,7 @@
     <artifactId>lodsve-test</artifactId>
     <packaging>jar</packaging>
     <name>lodsve test</name>
+    <description>单元测试</description>
 
     <dependencies>
         <dependency>

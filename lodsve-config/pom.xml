@@ -13,6 +13,7 @@
     <artifactId>lodsve-config</artifactId>
     <packaging>jar</packaging>
     <name>lodsve config</name>
+    <description>配置文件</description>
 
     <dependencies>
         <!-- servlet start -->

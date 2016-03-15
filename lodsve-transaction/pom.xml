@@ -13,6 +13,7 @@
     <artifactId>lodsve-transaction</artifactId>
     <packaging>jar</packaging>
     <name>lodsve transaction</name>
+    <description>ping++支付相关封装</description>
 
     <dependencies>
         <dependency>

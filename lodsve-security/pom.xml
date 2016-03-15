@@ -13,6 +13,7 @@
     <artifactId>lodsve-security</artifactId>
     <packaging>jar</packaging>
     <name>lodsve security</name>
+    <description>简单的安全校验</description>
 
     <dependencies>
         <dependency>

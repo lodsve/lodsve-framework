@@ -1,6 +1,13 @@
 # 更新日志
 
-## V2.4.6
+## V2.4.8
+1. 修改项目名为lodsve
+2. 含义: Let our develop Spring very easy!
+3. 修改相关文件夹名
+4. 将groupId改成com.github.lodsve
+5. 准备发布maven中央仓库相关工作
+
+## V2.4.7
 1. 将groupId改成com.github.cosmos
 
 ## V2.4.6

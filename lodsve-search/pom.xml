@@ -13,6 +13,7 @@
     <artifactId>lodsve-search</artifactId>
     <packaging>jar</packaging>
     <name>lodsve search</name>
+    <description>搜索引擎相关封装</description>
 
     <dependencies>
         <dependency>
@@ -36,16 +37,8 @@
             <artifactId>solr-solrj</artifactId>
         </dependency>
         <dependency>
-            <groupId>lius</groupId>
-            <artifactId>lius</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.textmining</groupId>
             <artifactId>tm-extractors</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.paoding</groupId>
-            <artifactId>paoding-analysis</artifactId>
         </dependency>
 
         <dependency>
@@ -60,6 +53,10 @@
         <dependency>
             <groupId>com.github.lodsve</groupId>
             <artifactId>lodsve-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.lodsve</groupId>
+            <artifactId>lodsve-3rd</artifactId>
         </dependency>
     </dependencies>
 

@@ -13,6 +13,7 @@
     <artifactId>lodsve-dubbo</artifactId>
     <packaging>jar</packaging>
     <name>lodsve dubbo</name>
+    <description>ali dubbo相关封装</description>
 
     <dependencies>
         <dependency>

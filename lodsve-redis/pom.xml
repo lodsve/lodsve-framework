@@ -13,6 +13,7 @@
     <artifactId>lodsve-redis</artifactId>
     <packaging>jar</packaging>
     <name>lodsve redis</name>
+    <description>redis相关封装</description>
 
     <dependencies>
         <dependency>

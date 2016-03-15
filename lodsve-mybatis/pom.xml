@@ -13,6 +13,7 @@
     <artifactId>lodsve-mybatis</artifactId>
     <packaging>jar</packaging>
     <name>lodsve mybatis</name>
+    <description>mybatis相关封装</description>
 
     <dependencies>
         <dependency>

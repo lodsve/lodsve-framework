@@ -13,6 +13,7 @@
     <artifactId>lodsve-mvc</artifactId>
     <packaging>jar</packaging>
     <name>lodsve mvc</name>
+    <description>spring-mvc和swagger相关封装</description>
 
     <dependencies>
         <dependency>

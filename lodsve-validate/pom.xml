@@ -13,6 +13,7 @@
     <artifactId>lodsve-validate</artifactId>
     <packaging>jar</packaging>
     <name>lodsve validate</name>
+    <description>后端校验</description>
 
     <dependencies>
         <dependency>
