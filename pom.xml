@@ -2,49 +2,49 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.cosmos</groupId>
-    <artifactId>message-parent</artifactId>
+    <groupId>com.github.lodsve</groupId>
+    <artifactId>lodsve-parent</artifactId>
     <version>2.4.8-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>message parent</name>
+    <name>lodsve parent</name>
     <description>工具类集合，封装了一系列开源项目，更好方便的进行Java Web开发</description>
     <url>https://github.com/sunhao-java/cosmos-message</url>
 
     <modules>
         <!-- 基础 -->
-        <module>message-base</module>
+        <module>lodsve-base</module>
         <!-- 配置文件 -->
-        <module>message-config</module>
+        <module>lodsve-config</module>
         <!-- 单元测试 -->
-        <module>message-test</module>
+        <module>lodsve-test</module>
         <!-- 缓存 -->
-        <module>message-cache</module>
+        <module>lodsve-cache</module>
         <!-- mybatis -->
-        <module>message-mybatis</module>
+        <module>lodsve-mybatis</module>
         <!-- redis -->
-        <module>message-redis</module>
+        <module>lodsve-redis</module>
         <!-- mongodb -->
-        <module>message-mongodb</module>
+        <module>lodsve-mongodb</module>
         <!-- 搜索 -->
-        <module>message-search</module>
+        <module>lodsve-search</module>
         <!-- amqp -->
-        <module>message-amqp</module>
+        <module>lodsve-amqp</module>
         <!-- mvc -->
-        <module>message-mvc</module>
+        <module>lodsve-mvc</module>
         <!-- validate -->
-        <module>message-validate</module>
+        <module>lodsve-validate</module>
         <!-- 安全 -->
-        <module>message-security</module>
+        <module>lodsve-security</module>
         <!-- 支付相关 -->
-        <module>message-transaction</module>
+        <module>lodsve-transaction</module>
         <!-- 日志 -->
-        <module>message-logger</module>
+        <module>lodsve-logger</module>
         <!-- dubbo -->
-        <module>message-dubbo</module>
+        <module>lodsve-dubbo</module>
         <!-- workflow -->
-        <module>message-workflow</module>
+        <module>lodsve-workflow</module>
         <!-- wechat -->
-        <module>message-wechat</module>
+        <module>lodsve-wechat</module>
     </modules>
 
     <properties>
@@ -86,8 +86,8 @@
 
     <!-- 代码库 -->
     <scm>
-        <connection>scm:git@github.com:sunhao-java/cosmos-message.git</connection>
-        <developerConnection>scm:git@github.com:sunhao-java/cosmos-message.git</developerConnection>
+        <connection>scm:git:git@github.com:sunhao-java/cosmos-message.git</connection>
+        <developerConnection>scm:git:git@github.com:sunhao-java/cosmos-message.git</developerConnection>
         <url>git@github.com:sunhao-java/cosmos-message.git</url>
     </scm>
 
@@ -779,79 +779,79 @@
 
             <!-- cosmos message dependencies start -->
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-amqp</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-amqp</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-base</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-base</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-cache</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-config</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-config</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-mybatis</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-mybatis</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-mvc</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-mvc</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-search</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-search</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-security</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-mongodb</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-mongodb</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-test</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-test</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-validate</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-validate</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons.message</groupId>
-                <artifactId>message-transaction</artifactId>
+                <artifactId>lodsve-transaction</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-redis</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-dubbo</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-dubbo</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.cosmos</groupId>
-                <artifactId>message-workflow</artifactId>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-workflow</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- cosmos message dependencies end -->
@@ -953,15 +953,15 @@
             <!-- 发布仓库 -->
             <distributionManagement>
                 <snapshotRepository>
-                    <id>message-snapshots</id>
-                    <name>message SNAPSHOTS</name>
-                    <url>http://sunhao-java.vicp.cc/nexus/content/repositories/message-snapshots/</url>
+                    <id>lodsve-snapshots</id>
+                    <name>lodsve SNAPSHOTS</name>
+                    <url>http://sunhao-java.vicp.cc/nexus/content/repositories/lodsve-snapshots/</url>
                 </snapshotRepository>
 
                 <repository>
-                    <id>message-releases</id>
-                    <name>message releases</name>
-                    <url>http://sunhao-java.vicp.cc/nexus/content/repositories/message-releases/</url>
+                    <id>lodsve-releases</id>
+                    <name>lodsve releases</name>
+                    <url>http://sunhao-java.vicp.cc/nexus/content/repositories/lodsve-releases/</url>
                 </repository>
             </distributionManagement>
         </profile>
