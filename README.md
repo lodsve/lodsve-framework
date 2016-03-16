@@ -1,6 +1,9 @@
 ## lodsve-cosmos
 我的工具类，封装了一系列开源项目，更好方便的进行Java Web开发
 
+## What is `lodsve`
+Short for 'Let our develop Spring very easy!'.
+
 ## 简单的介绍
 1. 基于一些开源框架,封装了一些类,使对于开发比较方便
 2. 安装功能、开源框架分为以下几个模块
