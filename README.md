@@ -1,12 +1,12 @@
 ## lodsve-cosmos
-我的工具类，封装了一系列开源项目，更好方便的进行Java Web开发
+My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web development.
 
 ## What is `lodsve`
-Short for 'Let our develop Spring very easy!'.
+`lodsve` is the short of `Let our develop Spring very easy!``.
 
 ## 简单的介绍
-1. 基于一些开源框架,封装了一些类,使对于开发比较方便
-2. 安装功能、开源框架分为以下几个模块
+1. Base on some open source framework. It encapsulates some classes and methods to make more convenient for developers.
+2. It consists of the following modules:
     - lodsve-amqp
     - lodsve-base
     - lodsve-cache
@@ -23,19 +23,19 @@ Short for 'Let our develop Spring very easy!'.
     - lodsve-transaction
     - lodsve-validate
 
-## 获取源码
+## Check out sources
 `git clone https://github.com/lodsve/lodsve-cosmos.git`
 
-## 获取示例代码
+## Check out demos
 `git clone git@github.com:sunhao-java/cosmos-demo.git`
 
-## 获取示例配置文件
+## Check out the configurations
 `git clone git@github.com:sunhao-java/cosmos-configs.git`
 
-## 更新历史
+## Change History
 [CHANGELOG][]
 
-## 联系我
+## Contact me
 1. Email: sunhao.java@gmail.com
 2. QQ: 867885140
 3. Blog: [Blog][] [OSChina][]
