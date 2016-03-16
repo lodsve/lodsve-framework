@@ -1,27 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<bibliotheque>
-	<book>
-		<title>Livre 1</title>
-		<creator>reda benjelloun</creator>		
-	</book>	
-	<book>
-		<title>Programmer en Java</title>
-		<creator>claude de la noye</creator>		
-	</book>	
-	<book>
-		<title>Indexation du xml en utilisant Jdom</title>
-		<creator>Jean bobo</creator>		
-	</book>	
-	<article>
-		<title>Meta</title>
-		<creator>Roy Fr</creator>		
-		<volume>56</volume>
-	</article>	
-
-	<article>
-		<title>Relations industrielles</title>
-		<creator>Reda benjelloun</creator>		
-		<volume>11</volume>
-	</article>
-
+<?xml version="1.0" encoding="UTF-8"?>
+
+<bibliotheque>
+
+	<book>
+
+		<title>Livre 1</title>
+
+		<creator>reda benjelloun</creator>
+
+	</book>
+
+	<book>
+
+		<title>Programmer en Java</title>
+
+		<creator>claude de la noye</creator>
+
+	</book>
+
+	<book>
+
+		<title>Indexation du xml en utilisant Jdom</title>
+
+		<creator>Jean bobo</creator>
+
+	</book>
+
+	<article>
+
+		<title>Meta</title>
+
+		<creator>Roy Fr</creator>
+
+		<volume>56</volume>
+
+	</article>
+
+
+
+	<article>
+
+		<title>Relations industrielles</title>
+
+		<creator>Reda benjelloun</creator>
+
+		<volume>11</volume>
+
+	</article>
+
+
+
 </bibliotheque>

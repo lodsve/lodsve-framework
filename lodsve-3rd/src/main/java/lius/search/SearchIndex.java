@@ -19,19 +19,15 @@ package lius.search;
  */
 
 import java.io.IOException;
-
 import lius.config.LiusConfig;
 import lius.config.LiusConfigBuilder;
 import lius.lucene.LuceneActions;
-import lius.search.LiusQuery;
-
 import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.MultiSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searchable;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 
 
 /**
@@ -41,23 +37,23 @@ import org.apache.lucene.store.FSDirectory;
 
 
 public class SearchIndex {
-	
-	private static LiusConfig liusConfig;
+
+    private static LiusConfig liusConfig;
 
     public static LiusHitList search(String luceneQueryString, String indexDir, String liusConfigPath) {
         try {
-        	
-        	liusConfig =  getLiusConfig(liusConfigPath);
-        	Directory indexDirectory = LuceneActions.getSingletonInstance().getDirectory(indexDir);
+
+            liusConfig =  getLiusConfig(liusConfigPath);
+            Directory indexDirectory = LuceneActions.getSingletonInstance().getDirectory(indexDir);
             IndexSearcher luceneSearcher = new IndexSearcher(indexDirectory);
 
             LiusQuery liusQuery = new LiusQuery();
             Query luceneQuery = liusQuery.getQueryFactory(liusConfig.getElemSearch(), liusConfig, luceneQueryString);
-            
+
             Hits luceneHits = luceneSearcher.search(luceneQuery);
-            
+
             return new LiusHitList(luceneHits, luceneQuery, liusConfig, indexDirectory, luceneSearcher);
-            
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -65,17 +61,17 @@ public class SearchIndex {
 
     public static LiusHitList multiIndexSearch(String luceneQueryString, String[] indexDirs, String liusConfigPath) {
         try {
-        	liusConfig =  getLiusConfig(liusConfigPath);
-        	Directory[] indexDirectories = LuceneActions.getSingletonInstance().getDirectories(indexDirs);
+            liusConfig =  getLiusConfig(liusConfigPath);
+            Directory[] indexDirectories = LuceneActions.getSingletonInstance().getDirectories(indexDirs);
             MultiSearcher luceneSearcher = new MultiSearcher(buildSearchableTab(indexDirectories));
 
             LiusQuery liusQuery = new LiusQuery();
             Query luceneQuery = liusQuery.getQueryFactory(liusConfig.getElemSearch(), liusConfig, luceneQueryString);
-            
+
             Hits luceneHits = luceneSearcher.search(luceneQuery);
-            
+
             return new LiusHitList(luceneHits, luceneQuery, liusConfig, indexDirectories, luceneSearcher);
-            
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -95,13 +91,13 @@ public class SearchIndex {
         return searchables;
 
     }
-    
+
     private static LiusConfig getLiusConfig(String liusConfigPath){
-    	return LiusConfigBuilder.getSingletonInstance().getLiusConfig(liusConfigPath);
+        return LiusConfigBuilder.getSingletonInstance().getLiusConfig(liusConfigPath);
     }
 
-    
-    
-    
+
+
+
 
 }

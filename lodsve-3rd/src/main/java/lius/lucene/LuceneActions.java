@@ -47,15 +47,15 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 /**
- * 
- * Classe permettant d'effectuer des actions relatives ‡ Lucene.
- * 
+ *
+ * Classe permettant d'effectuer des actions relatives √† Lucene.
+ *
  * <br/><br/>
- * 
+ *
  * Class that executes actions related to Lucene.
- * 
+ *
  * @author Rida Benjelloun (ridabenjelloun@gmail.com)
- * 
+ *
  */
 
 public class LuceneActions {
@@ -76,9 +76,9 @@ public class LuceneActions {
 	}
 
 	/**
-	 * Methode permettant de construire un objet de type "Lucene Document" ‡
+	 * Methode permettant de construire un objet de type "Lucene Document" √†
 	 * partir de plusieurs collections contenant des informations sur les
-	 * documents ‡ indexer. Cette mÈthode est utilisÈe pour l'indexation mixte.
+	 * documents √† indexer. Cette m√©thode est utilis√©e pour l'indexation mixte.
 	 * <br/><br/>Method that constructs a Lucene document object from many
 	 * collections containing information on the documents to index. This method
 	 * is used for mixed indexation.
@@ -124,7 +124,7 @@ public class LuceneActions {
 					} else if (lf.getValueReader() != null)
 						field = new Field(lf.getName(), lf.getValueReader());
 					logger.debug(lf.getName() + " (type = " + lf.getType()
-							+ ") " + " : Texte ajoutÈ");
+							+ ") " + " : Texte ajout√©");
 				} else if (lf.getType().equalsIgnoreCase("Keyword")) {
 					field = new Field(lf.getName(), lf.getValue(),
 							Field.Store.YES, Field.Index.UN_TOKENIZED);
@@ -207,29 +207,29 @@ public class LuceneActions {
 	}
 
 	/**
-	 * MÈthode permettant d'insÈrer une liste de documents Lucene dans l'index.
+	 * M√©thode permettant d'ins√©rer une liste de documents Lucene dans l'index.
 	 * <br/><br/>Method that inserts a list of Lucene documents in the index.
 	 */
 
 	public synchronized void save(List luceneDocs, IndexWriter writer,
-			LiusConfig lc) throws LiusException {
+								  LiusConfig lc) throws LiusException {
 		for (int i = 0; i < luceneDocs.size(); i++)
 			save((Document) luceneDocs.get(i), writer, lc);
 	}
 
 	/**
-	 * MÈthode permettant d'insÈrer un document Lucene dans l'index <br/><br/>
-	 * MÈthod that inserts a Lucene document in the index.
+	 * M√©thode permettant d'ins√©rer un document Lucene dans l'index <br/><br/>
+	 * M√©thod that inserts a Lucene document in the index.
 	 */
 
 	public synchronized void save(Document luceneDoc, IndexWriter writer,
-			LiusConfig lc) throws LiusException {
+								  LiusConfig lc) throws LiusException {
 		try {
 			writer.addDocument(luceneDoc);
-			logger.debug("**************Document AjoutÈ ‡ l'index*********");
+			logger.debug("**************Document Ajout√© √† l'index*********");
 		} catch (IOException e) {
 			logger.error(e.getMessage());
-			logger.error("*************Document non AjoutÈ ‡ l'index*********");
+			logger.error("*************Document non Ajout√© √† l'index*********");
 		}
 		if (lc.getOptimizeValue() != null) {
 			if (lc.getOptimize()) {
@@ -264,7 +264,7 @@ public class LuceneActions {
 	}
 
 	public synchronized Directory index(Document doc, Directory indexDir,
-			LiusConfig lc) throws LiusException, IOException {
+										LiusConfig lc) throws LiusException, IOException {
 		Analyzer analyzer = AnalyzerFactory.getAnalyzer(lc);
 		IndexWriter writer = null;
 		try {
@@ -282,7 +282,7 @@ public class LuceneActions {
 	}
 
 	public synchronized void index(String toIndex, String indexDir,
-			String liusConfig) throws LiusException, IOException {
+								   String liusConfig) throws LiusException, IOException {
 
 		lc = LiusConfigBuilder.getSingletonInstance().getLiusConfig(liusConfig);
 		Analyzer analyzer = AnalyzerFactory.getAnalyzer(lc);
@@ -305,7 +305,7 @@ public class LuceneActions {
 	}
 
 	public synchronized void recursifIndexing(File f, String indexDir,
-			LiusConfig lc) {
+											  LiusConfig lc) {
 
 		IndexWriter iw = null;
 		try {
@@ -330,12 +330,12 @@ public class LuceneActions {
 	}
 
 	public synchronized void indexSubDirectories(File f, String indexDir,
-			LiusConfig lc) {
+												 LiusConfig lc) {
 		recursifIndexing(f, indexDir, lc);
 	}
 
 	private void fileDirectoryProcessing(File f, String indexDir,
-			LiusConfig lc, IndexWriter iw) throws IOException {
+										 LiusConfig lc, IndexWriter iw) throws IOException {
 		Indexer indexer = null;
 		if (f.isFile()) {
 			indexer = IndexerFactory.getIndexer(f, lc);
@@ -360,7 +360,7 @@ public class LuceneActions {
 	}
 
 	public void addIndexes(Directory[] directoriesToIndex, String indexDir,
-			LiusConfig lc) {
+						   LiusConfig lc) {
 		Analyzer analyzer = AnalyzerFactory.getAnalyzer(lc);
 		IndexWriter writer = null;
 		try {
@@ -405,13 +405,13 @@ public class LuceneActions {
 	}
 
 	/**
-	 * MÈthode appelÈe par la mÈthode index(). Elle permet d'effectuer le
+	 * M√©thode appel√©e par la m√©thode index(). Elle permet d'effectuer le
 	 * processus d'indexation. <br/><br/>Method called by index(). It processes
 	 * the indexation.
 	 */
 
 	private void fileDirectoryIndexing(String toIndex, String indexDir,
-			LiusConfig lc) throws IOException {
+									   LiusConfig lc) throws IOException {
 		String sep = System.getProperty("file.separator");
 		File typFD = new File(toIndex);
 		if (typFD.isFile()) {
@@ -431,7 +431,7 @@ public class LuceneActions {
 	}
 
 	/**
-	 * MÈthode appelÈe par la la mÈthode fileDirectoryIndexing(), pour indexer
+	 * M√©thode appel√©e par la la m√©thode fileDirectoryIndexing(), pour indexer
 	 * en fonction du type de fichier. <br/><br/>Method called by
 	 * fileDirectoryIndexing(), for indexing related to the file type.
 	 */
@@ -444,8 +444,8 @@ public class LuceneActions {
 	}
 
 	/**
-	 * MÈthode permettant de forcer l'ouverture de l'index de Lucene quand il
-	 * est fermÈ. <br/><br/>Method that force the opening of Lucene index when
+	 * M√©thode permettant de forcer l'ouverture de l'index de Lucene quand il
+	 * est ferm√©. <br/><br/>Method that force the opening of Lucene index when
 	 * it is closed.
 	 */
 
@@ -537,8 +537,8 @@ public class LuceneActions {
 	}
 
 	/**
-	 * MÈthode permettant d'initialiser les propriÈtÈs de l'index si ces
-	 * derniËres ont ÈtÈ placÈes dans le fichier de configuration. <br/><br/>
+	 * M√©thode permettant d'initialiser les propri√©t√©s de l'index si ces
+	 * derni√®res ont √©t√© plac√©es dans le fichier de configuration. <br/><br/>
 	 * Method that initializes the properties of the index if those were placed
 	 * in the configuration file.
 	 */
@@ -554,15 +554,15 @@ public class LuceneActions {
 	}
 
 	/**
-	 * MÈthode permettant d'effacer un document dans l'index. Elle prend comme
-	 * arguments le rÈpertoire de l'index, le nom du champs et le contenu
-	 * recherchÈ. <br/><br/>Method that erases a document from the index. Its
+	 * M√©thode permettant d'effacer un document dans l'index. Elle prend comme
+	 * arguments le r√©pertoire de l'index, le nom du champs et le contenu
+	 * recherch√©. <br/><br/>Method that erases a document from the index. Its
 	 * parameters are the directory of the index, the name of the field and the
 	 * content searched.
 	 */
 
 	public synchronized int deleteDoc(String indexDir, String field,
-			String content) throws LiusException {
+									  String content) throws LiusException {
 		int nbDelete = 0;
 		try {
 			Directory fsDir = FSDirectory.getDirectory(indexDir, false);
@@ -572,7 +572,7 @@ public class LuceneActions {
 			if (indexReader != null) {
 				indexReader.close();
 			}
-			logger.debug("Document supprimÈ");
+			logger.debug("Document supprim√©");
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}
@@ -580,8 +580,8 @@ public class LuceneActions {
 	}
 
 	/**
-	 * MÈthode permettant d'effacer un document dans l'index. Elle prend comme
-	 * arguments le rÈpertoire de l'index et un objet de type Lucene Term. <br/>
+	 * M√©thode permettant d'effacer un document dans l'index. Elle prend comme
+	 * arguments le r√©pertoire de l'index et un objet de type Lucene Term. <br/>
 	 * <br/>Method that erases a document from the index. Its parameters are the
 	 * directory of the index and a Lucene term object.
 	 */
@@ -595,7 +595,7 @@ public class LuceneActions {
 			if (indexReader != null) {
 				indexReader.close();
 			}
-			logger.info("Document supprimÈ");
+			logger.info("Document supprim√©");
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}
@@ -612,7 +612,7 @@ public class LuceneActions {
 			if (indexReader != null) {
 				indexReader.close();
 			}
-			logger.info("Document supprimÈ");
+			logger.info("Document supprim√©");
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}
@@ -620,29 +620,29 @@ public class LuceneActions {
 	}
 
 	/**
-	 * MÈthode permettant de mettre ‡ jour un document dans l'index. Elle prend
-	 * comme arguments le rÈpertoire de l'index, un objet de type lucene Term,
-	 * le fichier ‡ indexer ‡ la place de celui trouvÈ et le fichier XML de
-	 * configuration qui servira ‡ l'indexation. <br/><br/>Method that updated
+	 * M√©thode permettant de mettre √† jour un document dans l'index. Elle prend
+	 * comme arguments le r√©pertoire de l'index, un objet de type lucene Term,
+	 * le fichier √† indexer √† la place de celui trouv√© et le fichier XML de
+	 * configuration qui servira √† l'indexation. <br/><br/>Method that updated
 	 * a document in the index. Its parameters are the directory of the index,
 	 * an Lucene Term object, the file to index in place of the one found and
 	 * the XML configuration file which will serve for indexing.
-	 * 
+	 *
 	 */
 
 	public synchronized void updateDoc(String rep, Term t,
-			String fileToReindex, String configFile) throws LiusException,
+									   String fileToReindex, String configFile) throws LiusException,
 			IOException {
 		deleteDoc(rep, t);
 		getSingletonInstance().index(fileToReindex, rep, configFile);
-		logger.info("Document mis ‡ jour");
+		logger.info("Document mis √† jour");
 	}
 
 	/**
-	 * MÈthode permettant de mettre ‡ jour un document dans l'index. Elle prend
+	 * M√©thode permettant de mettre √† jour un document dans l'index. Elle prend
 	 * comme arguments le repertoire de l'index, le nom du champs qui doit
-	 * contenir la valeur recherchÈe, le fichier ‡ indexer ‡ la place de celui
-	 * trouvÈ et le fichier XML de configuration qui servira ‡ la rÈindexation.
+	 * contenir la valeur recherch√©e, le fichier √† indexer √† la place de celui
+	 * trouv√© et le fichier XML de configuration qui servira √† la r√©indexation.
 	 * <br/><br/>Method that updates a document in the index. Its parameters
 	 * are the directory of the index, the name of the field which will contain
 	 * the searched value, the searched value, the file to index in place of the
@@ -650,11 +650,11 @@ public class LuceneActions {
 	 */
 
 	public synchronized void updateDoc(String rep, String field,
-			String content, String fileToReindex, String configFile)
+									   String content, String fileToReindex, String configFile)
 			throws LiusException, IOException {
 		deleteDoc(rep, field, content);
 		getSingletonInstance().index(fileToReindex, rep, configFile);
-		logger.info("Document mis ‡ jour");
+		logger.info("Document mis √† jour");
 	}
 
 	public boolean createIndexValue(String valueCreateIndex, String indexDir) {
@@ -670,8 +670,8 @@ public class LuceneActions {
 	}
 
 	/**
-	 * MÈthode permettant de vÈrifier le rÈpertoire de sortie de l'index. S'il
-	 * n'existe pas il sera crÈe. <br/><br/>Method for verifying the output
+	 * M√©thode permettant de v√©rifier le r√©pertoire de sortie de l'index. S'il
+	 * n'existe pas il sera cr√©e. <br/><br/>Method for verifying the output
 	 * directory of index. If it does not exist it will be created.
 	 */
 	public boolean indexExists(String indexDir) {

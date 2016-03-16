@@ -24,21 +24,21 @@ import java.util.Date;
 
 /**
  * Class: LiusProxyField <br>
- * 
+ *
  * This class simply maps all requests to a 'real' LiusField object.
  * The intention of this class is to serve as an entrypoint for multiple (equal) fields from
  * a single document.
- * 
+ *
  * Changelog:
  * <ul>
  * <li>02.06.2005: Initial implementation (jf)</li>
  * </ul>
- * 
+ *
  * @see lius.config.LiusValueProxyField
  * @see lius.index.application.VCardIndexer
- * 
+ *
  * @author <a href="mailto:jf@teamskill.de">Jens Fendler </a>
- * 
+ *
  */
 public abstract class LiusProxyField extends LiusField {
 

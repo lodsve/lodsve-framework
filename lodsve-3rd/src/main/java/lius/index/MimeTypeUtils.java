@@ -29,29 +29,29 @@ import de.sty.io.mimetype.MimeTypeResolver;
  * @author Rida Benjelloun (ridabenjelloun@gmail.com)
  */
 public class MimeTypeUtils {
-	
+
 	public static String getMimeType(InputStream is){
 		List ls = MimeTypeResolver.resolve(is);
 		MimeType mime = (MimeType)ls.get(0);
 		return  mime.getName();
 	}
-	
+
 	public static String getMimeType(File f){
 		List ls = MimeTypeResolver.resolve(f);
 		if(ls.isEmpty()){
 			return null;
 		}
-		MimeType mime = (MimeType)ls.get(0);		
+		MimeType mime = (MimeType)ls.get(0);
 		return  mime.getName();
 	}
-	
+
 	public static String getMimeType(URL url){
 		List ls = MimeTypeResolver.resolve(url);
 		if(ls.isEmpty()){
 			return null;
 		}
-		MimeType mime = (MimeType)ls.get(0);		
+		MimeType mime = (MimeType)ls.get(0);
 		return  mime.getName();
 	}
-	
+
 }

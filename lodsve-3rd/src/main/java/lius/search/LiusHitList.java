@@ -101,7 +101,7 @@ public class LiusHitList extends AbstractList implements Serializable {
         Document luceneDocument = luceneHits.doc(index);
 
         Map liusHitFieldsMap = new HashMap();
-        List liusFieldsList = new ArrayList(); 
+        List liusFieldsList = new ArrayList();
         Highlighter luceneHighlighter = null;
 
         if (liusConfig.getHighlighter() == true) {
@@ -117,10 +117,10 @@ public class LiusHitList extends AbstractList implements Serializable {
         }
 
         for (int j = 0; j < liusConfig.getDisplayFields().size(); j++) {
-        	LiusField configLiusField = (LiusField) liusConfig.getDisplayFields().get(j);
+            LiusField configLiusField = (LiusField) liusConfig.getDisplayFields().get(j);
             LiusField hitLiusField = new LiusField();
             String fieldName = configLiusField.getName();
-            
+
             hitLiusField.setName(fieldName);
             hitLiusField.setLabel(configLiusField.getLabel());
 
@@ -160,11 +160,11 @@ public class LiusHitList extends AbstractList implements Serializable {
                         }
                     }
                 }
-               
-                	hitLiusField.setValue(luceneDocumentValues[0]);
-                    hitLiusField.setValues(luceneDocumentValues);	
-               
-                
+
+                hitLiusField.setValue(luceneDocumentValues[0]);
+                hitLiusField.setValues(luceneDocumentValues);
+
+
                 liusHitFieldsMap.put(configLiusField.getName(), hitLiusField);
                 liusFieldsList.add(hitLiusField);
             }

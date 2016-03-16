@@ -24,20 +24,20 @@ import java.util.Vector;
 
 /**
  * Class: VCard <br>
- * 
+ *
  * This class represents a single VCard which is either constructed or read from
  * a string that must begin with 'BEGIN:VCARD' and end with 'END:VCARD'. All
  * fields - including possible extensions (e.g. from mozilla) - will be read.
  * This class overrides the toString() method for outputting a constructed the
  * VCard entry.
- * 
+ *
  * Changelog:
  * <ul>
  * <li>02.06.2005: Initial implementation (jf)</li>
  * <li>03.06.2005: changes from java.lang.String.contains() to indexOf() for
  * JDK 1.4 compatibility (jf)</li>
  * </ul>
- * 
+ *
  * @author <a href="mailto:jf@teamskill.de">Jens Fendler </a>
  */
 public class VCard implements Serializable {
@@ -55,7 +55,7 @@ public class VCard implements Serializable {
 
 		/**
 		 * Construct a single VCard element
-		 * 
+		 *
 		 * @param key:
 		 *           the element's key
 		 * @param type:
@@ -143,7 +143,7 @@ public class VCard implements Serializable {
 	/**
 	 * keyAllowed this method should be used to force exclusion of certain
 	 * fields (e.g. binary content)
-	 * 
+	 *
 	 * @param meta
 	 *           the meta (key/type) part of the element in question
 	 * @return true, if this field should be added as a VCElement, otherwise
@@ -155,7 +155,7 @@ public class VCard implements Serializable {
 
 	/**
 	 * getCardElements get all available elements
-	 * 
+	 *
 	 * @return List of VCard.VCElement
 	 */
 	public List getCardElements() {
@@ -164,7 +164,7 @@ public class VCard implements Serializable {
 
 	/**
 	 * setCardElements set the card elements
-	 * 
+	 *
 	 * @param cardElements:
 	 *           List of VCard.VCElement
 	 */
@@ -176,7 +176,7 @@ public class VCard implements Serializable {
 	 * getElement iterates over all available card elements and returns the data
 	 * parts for all matching key elements <br/>(note: use
 	 * getElement(String,String) for additional type lookup)
-	 * 
+	 *
 	 * @param key:
 	 *           the key to search for (e.g. 'EMAIL')
 	 * @return the first matching element or null if no match was found
@@ -200,7 +200,7 @@ public class VCard implements Serializable {
 	 * getElement iterates over all available card elements and returns the data
 	 * parts for all matching key elements <br/>(note: use
 	 * getElement(String,String) for additional type lookup)
-	 * 
+	 *
 	 * @param key:
 	 *           the key to search for (e.g. 'EMAIL')
 	 * @param type:
@@ -223,7 +223,7 @@ public class VCard implements Serializable {
 	}
 
 	/**
-	 * @see Object#toString()
+	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
 		StringBuffer sb = new StringBuffer( PATTERN_BEGIN ).append( lineSep );

@@ -40,7 +40,7 @@ import org.apache.lucene.store.RAMDirectory;
 public abstract class Indexer {
 
 	static Logger logger = Logger.getRootLogger();
-	
+
 	private LiusConfig lc = null;
 
 	private Directory ramDir = null;
@@ -58,7 +58,7 @@ public abstract class Indexer {
 	private Object objectToIndex = null;
 
 	private Object mixedContentsObj = null;
-	
+
 	private String docToIndexPath = null;
 
 	public final static int INDEXER_CONFIG_FIELDS_COL = 1;
@@ -120,14 +120,14 @@ public abstract class Indexer {
 	public synchronized void index(String indexDir, List LuceneCostumFields) {
 		Document luceneDoc = LuceneActions.getSingletonInstance()
 				.populateLuceneDoc(getPopulatedLiusFields());
-		
+
 		if(docToIndexPath != null)
 			luceneDoc.add(new Field( "filePath",docToIndexPath, Field.Store.YES,Field.Index.UN_TOKENIZED));
-		
+
 		for (int i = 0; i < LuceneCostumFields.size(); i++) {
 			luceneDoc.add((Field) LuceneCostumFields.get(i));
 		}
-		
+
 		try {
 			LuceneActions.getSingletonInstance().index(luceneDoc, indexDir, lc);
 		} catch (LiusException e) {
@@ -138,13 +138,13 @@ public abstract class Indexer {
 	}
 
 	public synchronized void indexWithCostumLiusFields(String indexDir,
-			List LuceneCostumFields) {
+													   List LuceneCostumFields) {
 		Document luceneDoc = LuceneActions.getSingletonInstance()
 				.populateLuceneDoc(getPopulatedLiusFields());
-		
+
 		if(docToIndexPath != null)
 			luceneDoc.add(new Field( "filePath",docToIndexPath, Field.Store.YES,Field.Index.UN_TOKENIZED));
-		
+
 		for (int i = 0; i < LuceneCostumFields.size(); i++) {
 			LiusField lf = (LiusField) LuceneCostumFields.get(i);
 
@@ -175,16 +175,16 @@ public abstract class Indexer {
 			logger.error(e.getMessage());
 		}
 	}
-	
+
 
 	public synchronized void indexUsingTransaction(String indexDir,
-			List LuceneCostumFields) {
+												   List LuceneCostumFields) {
 		Document luceneDoc = LuceneActions.getSingletonInstance()
 				.populateLuceneDoc(getPopulatedLiusFields());
-		
+
 		if(docToIndexPath != null)
 			luceneDoc.add(new Field( "filePath",docToIndexPath, Field.Store.YES,Field.Index.UN_TOKENIZED));
-		
+
 		for (int i = 0; i < LuceneCostumFields.size(); i++) {
 			luceneDoc.add((Field) LuceneCostumFields.get(i));
 		}

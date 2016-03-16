@@ -32,7 +32,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 /**
- * 
+ *
  * @author Rida Benjelloun (ridabenjelloun@gmail.com)
  */
 
@@ -92,45 +92,45 @@ public class ThreadIndexer {
 		mergeIndexes(indexDir);
 	}
 
-private synchronized void startIndexing(String toIndex) {
-		
+	private synchronized void startIndexing(String toIndex) {
+
 		File toIndexFile = new File(toIndex);
 		File[] files = toIndexFile.listFiles();
 		for(int i=0; i<files.length;i++ ){
 			if(files[i].isDirectory()){
 				if((files[i].getAbsolutePath()).length() == 26){
 					System.out.println("OK");
-					
+
 					if(ct == 0){
 						ct = nbThreadsN;
 					}
 					toIndexF = files[i];
 					System.out.println(toIndexF);
 					Thread t = new Thread(){
-						public void run(){					
+						public void run(){
 							System.out.println(tmpsIndexPath[ct]);
-							Indexer indexer = new MixedIndexer(); 
+							Indexer indexer = new MixedIndexer();
 							indexer.setUp(lc);
 							indexer.setMixedContentsObj(toIndexF);
-							
-								// IndexerFactory.getIndexer(toIndexF,lc);
+
+							// IndexerFactory.getIndexer(toIndexF,lc);
 							indexer.index(tmpsIndexPath[ct]);
 							r++;
 						}
 					};
-					t.start();					
+					t.start();
 					try {
 						t.sleep(10);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					ct --;				
+					ct --;
 				}
-				startIndexing(files[i].getAbsolutePath());				
+				startIndexing(files[i].getAbsolutePath());
 			}
-			
-				
+
+
 		}
 	}	public void mergeIndexes(String indexDir) {
 		File indexDirFile = new File(indexDir);

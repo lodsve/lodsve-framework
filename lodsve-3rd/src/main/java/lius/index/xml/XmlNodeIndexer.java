@@ -49,7 +49,7 @@ import org.apache.lucene.document.Field;
  */
 
 public class XmlNodeIndexer
-    extends Indexer {
+        extends Indexer {
 
   static Logger logger = Logger.getRootLogger();
 
@@ -78,29 +78,29 @@ public class XmlNodeIndexer
 
   public Collection getPopulatedLiusFields() {
     logger
-        .info(
-        "Pour des raisons de performance cette méthode n'a pas été implémentée");
+            .info(
+                    "Pour des raisons de performance cette mÃ©thode n'a pas Ã©tÃ© implÃ©mentÃ©e");
     return null;
   }
 
   public org.apache.lucene.document.Document storeNodeInLuceneDocument(
-      Object xmlDoc, Collection liusFields) {
+          Object xmlDoc, Collection liusFields) {
 
     Collection resColl = xfi.getPopulatedLiusFields(xmlDoc, liusFields);
     org.apache.lucene.document.Document luceneDoc = LuceneActions
-        .getSingletonInstance().populateLuceneDoc(resColl);
+            .getSingletonInstance().populateLuceneDoc(resColl);
     return luceneDoc;
   }
 
   public synchronized void index(String indexDir) {
     IndexWriter iw = null;
     org.jdom.Document xmlDoc = (org.jdom.Document) LiusUtils
-        .parse(getStreamToIndex());
+            .parse(getStreamToIndex());
     try {
       Set s = getLiusConfig().getXmlNodesFields().keySet();
       Object[] a = s.toArray();
       iw = LuceneActions.getSingletonInstance().openIndex(indexDir,
-          getLiusConfig());
+              getLiusConfig());
       for (int i = 0; i < a.length; i++) {
         String XpathNode = (String) a[i];
         List ls = XPath.selectNodes(xmlDoc, XpathNode);
@@ -108,11 +108,11 @@ public class XmlNodeIndexer
         while (it.hasNext()) {
           Element elem = (Element) it.next();
           org.apache.lucene.document.Document luceneDoc =
-              storeNodeInLuceneDocument(
-              elem, (Collection) getLiusConfig()
-              .getXmlNodesFields().get(XpathNode));
+                  storeNodeInLuceneDocument(
+                          elem, (Collection) getLiusConfig()
+                                  .getXmlNodesFields().get(XpathNode));
           LuceneActions.getSingletonInstance().save(luceneDoc, iw,
-              getLiusConfig());
+                  getLiusConfig());
         }
       }
       iw.close();
@@ -132,15 +132,15 @@ public class XmlNodeIndexer
   }
 
   public synchronized void indexWithCostumLiusFields(String indexDir,
-      List LuceneCostumFields) {
+                                                     List LuceneCostumFields) {
     IndexWriter iw = null;
     org.jdom.Document xmlDoc = (org.jdom.Document) LiusUtils
-        .parse(getStreamToIndex());
+            .parse(getStreamToIndex());
     try {
       Set s = getLiusConfig().getXmlNodesFields().keySet();
       Object[] a = s.toArray();
       iw = LuceneActions.getSingletonInstance().openIndex(indexDir,
-          getLiusConfig());
+              getLiusConfig());
       for (int i = 0; i < a.length; i++) {
         String XpathNode = (String) a[i];
         List ls = XPath.selectNodes(xmlDoc, XpathNode);
@@ -148,9 +148,9 @@ public class XmlNodeIndexer
         while (it.hasNext()) {
           Element elem = (Element) it.next();
           org.apache.lucene.document.Document luceneDoc =
-              storeNodeInLuceneDocument(
-              elem, (Collection) getLiusConfig()
-              .getXmlNodesFields().get(XpathNode));
+                  storeNodeInLuceneDocument(
+                          elem, (Collection) getLiusConfig()
+                                  .getXmlNodesFields().get(XpathNode));
 
           for (int m = 0; m < LuceneCostumFields.size(); m++) {
             LiusField lf = (LiusField) LuceneCostumFields.get(m);
@@ -169,8 +169,8 @@ public class XmlNodeIndexer
               field = new Field(lf.getName(), lf.getValue(), Field.Store.NO, Field.Index.TOKENIZED);
             }
             logger.info("New field added to document : " + lf.getName() +
-                        " (type = " + lf.getType()
-                        + ") " + " : " + lf.getValue());
+                    " (type = " + lf.getType()
+                    + ") " + " : " + lf.getValue());
             if (field != null) {
               luceneDoc.add(field);
             }
@@ -178,7 +178,7 @@ public class XmlNodeIndexer
           }
 
           LuceneActions.getSingletonInstance().save(luceneDoc, iw,
-              getLiusConfig());
+                  getLiusConfig());
         }
       }
       iw.close();

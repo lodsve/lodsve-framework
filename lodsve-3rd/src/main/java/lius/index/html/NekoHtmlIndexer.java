@@ -45,7 +45,7 @@ import org.xml.sax.SAXException;
 /**
  * Classe permettant d'indexer des fichiers HTML <br/><br/> Class for indexing
  * HTML files.
- * 
+ *
  * @author Rida Benjelloun (ridabenjelloun@gmail.com)
  * @author Nicolas Belisle (nicolas.belisle@doculibre.com)
  */
@@ -73,35 +73,35 @@ public class NekoHtmlIndexer extends Indexer {
 
 	private File omitXMLDeclaration(InputStream fis)
 			throws FileNotFoundException, IOException {
-        BufferedWriter out = null;
-        BufferedReader in = null;
-        File liusTmp;
-        try {
-    		String line = null;
-    		liusTmp = File.createTempFile("tmp", "LiusNekoHtml.xml");
-    		in = new BufferedReader(new InputStreamReader(fis));
-            
-            FileOutputStream fos = new FileOutputStream(liusTmp);
-    		out = new BufferedWriter(new OutputStreamWriter(fos));
-    		while ((line = in.readLine()) != null) {
-    			if (line.startsWith("<?xml")) {
-    				int offset = line.indexOf("?>");
-    				out.write(line.substring(offset + 2));
-    			} else {
-    				out.write(line);
-    			}
-    		}
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } finally {
-                if (out != null) {
-                    out.close();
-                }
-            }
-        }
+		BufferedWriter out = null;
+		BufferedReader in = null;
+		File liusTmp;
+		try {
+			String line = null;
+			liusTmp = File.createTempFile("tmp", "LiusNekoHtml.xml");
+			in = new BufferedReader(new InputStreamReader(fis));
+
+			FileOutputStream fos = new FileOutputStream(liusTmp);
+			out = new BufferedWriter(new OutputStreamWriter(fos));
+			while ((line = in.readLine()) != null) {
+				if (line.startsWith("<?xml")) {
+					int offset = line.indexOf("?>");
+					out.write(line.substring(offset + 2));
+				} else {
+					out.write(line);
+				}
+			}
+		} finally {
+			try {
+				if (in != null) {
+					in.close();
+				}
+			} finally {
+				if (out != null) {
+					out.close();
+				}
+			}
+		}
 
 		return liusTmp;
 	}
@@ -109,37 +109,37 @@ public class NekoHtmlIndexer extends Indexer {
 	private org.jdom.Document parse(InputStream is) {
 		File newTmpFile = null;
 		org.jdom.Document jdomDoc = null;
-        FileInputStream fis = null;
+		FileInputStream fis = null;
 		try {
 			newTmpFile = omitXMLDeclaration(is);
 			DOMParser parser = new DOMParser();
-            fis = new FileInputStream(newTmpFile.getAbsolutePath());
+			fis = new FileInputStream(newTmpFile.getAbsolutePath());
 			parser.parse(new InputSource(fis));
 			org.w3c.dom.Document domDoc = parser.getDocument();
 			jdomDoc = convert(domDoc);
 		} catch (SAXException e) {
 			logger.error(e.getMessage());
 		} catch (IOException e) {
-            e.printStackTrace();
+			e.printStackTrace();
 			logger.error(e.getMessage());
 		} catch (JDOMException e) {
 			logger.error(e.getMessage());
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		} finally {
-            try {
-                try {
-                    if (fis != null) {
-                        fis.close();
-                    }
-                } finally {
-                    if (newTmpFile != null) {
-                        FileUtils.forceDelete(newTmpFile);
-                    }
-                }
-            } catch (IOException ioe) {
-                logger.error(ioe);
-            }
+			try {
+				try {
+					if (fis != null) {
+						fis.close();
+					}
+				} finally {
+					if (newTmpFile != null) {
+						FileUtils.forceDelete(newTmpFile);
+					}
+				}
+			} catch (IOException ioe) {
+				logger.error(ioe);
+			}
 		}
 		return jdomDoc;
 	}

@@ -16,28 +16,51 @@ package lius.index.openoffice;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import java.io.*;
-
+
+
+import org.xml.sax.EntityResolver;
+
+import org.xml.sax.InputSource;
+
+import java.io.*;
+
+
+
 /**
  * @author Rida Benjelloun (ridabenjelloun@gmail.com)
  */
-public class OpenOfficeEntityResolver
-  implements EntityResolver {
-    public InputSource resolveEntity (String publicId, String systemId)
-    {
-        if (systemId.endsWith(".dtd"))
-        {        	 
-            StringReader stringInput =
-                new StringReader(" ");
-            return new InputSource(stringInput);
-        }
-        else
-        {
-            return null;
-        }
-    }
-}
-
+public class OpenOfficeEntityResolver
+
+        implements EntityResolver {
+
+    public InputSource resolveEntity (String publicId, String systemId)
+
+    {
+
+        if (systemId.endsWith(".dtd"))
+
+        {
+
+
+            StringReader stringInput =
+
+                    new StringReader(" ");
+
+            return new InputSource(stringInput);
+
+        }
+
+        else
+
+        {
+
+            return null;
+
+        }
+
+    }
+
+}
+
+
+

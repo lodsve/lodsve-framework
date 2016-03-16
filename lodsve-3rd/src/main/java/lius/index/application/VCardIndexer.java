@@ -35,11 +35,11 @@ import org.apache.log4j.Logger;
 
 /**
  * Class: VCardIndexer <br>
- * 
+ *
  * This Indexer reads .vcf and .vcard files as exported by various email and PIM
  * applications (e.g. Mozilla Mail, Evolution, KMail). Fields which can be
  * indexed are:
- * 
+ *
  * <ul>
  * <li><code>name</code>: The contact's full name</li>
  * <li><code>title</code>: Title (e.g. 'Dr.')</li>
@@ -59,12 +59,12 @@ import org.apache.log4j.Logger;
  * <li><code>organization</code>: the organization</li>
  * </ul>
  * <br/>
- * 
+ *
  * Changelog:
  * <ul>
  * <li>02.06.2005: Initial implementation (jf)</li>
  * </ul>
- * 
+ *
  * @author <a href="mailto:jf@teamskill.de">Jens Fendler </a>
  */
 
@@ -74,23 +74,23 @@ import org.apache.log4j.Logger;
 public class VCardIndexer extends Indexer {
 
 	static Logger logger = Logger.getRootLogger();
-	
-	
+
+
 	public int getType() {
 		return 1;
 	}
 
 	public boolean isConfigured() {
 		boolean ef = false;
-	  	if(getLiusConfig().getVCardFields() != null)
-	   		return ef = true;   	
-	   	return ef;
-	  }
+		if(getLiusConfig().getVCardFields() != null)
+			return ef = true;
+		return ef;
+	}
 
 	public Collection getConfigurationFields() {
 		return getLiusConfig().getVCardFields();
 	}
-	
+
 	public Collection getPopulatedLiusFields() {
 		Collection c = new ArrayList();
 		try {
@@ -111,7 +111,7 @@ public class VCardIndexer extends Indexer {
 	}
 
 	private void addVCardProxyFields( VCardParser vcp, LiusField lf,
-			Collection c ) {
+									  Collection c ) {
 		if ( "name".equalsIgnoreCase( lf.getGet() ) ) {
 			addElements( vcp, "FN", null, lf, c );
 		} else if ( "title".equalsIgnoreCase( lf.getGet() ) ) {
@@ -148,7 +148,7 @@ public class VCardIndexer extends Indexer {
 	}
 
 	private void addElements( VCardParser vcp, String key, String type,
-			LiusField realField, Collection c ) {
+							  LiusField realField, Collection c ) {
 		List cards = vcp.getCards();
 		for ( int i = 0; i < cards.size(); i++ ) {
 			VCard card = (VCard) cards.get( i );
@@ -163,7 +163,7 @@ public class VCardIndexer extends Indexer {
 	}
 
 
-	
+
 
 	public String getContent() {
 		return null;

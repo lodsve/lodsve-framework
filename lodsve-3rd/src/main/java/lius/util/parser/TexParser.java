@@ -25,15 +25,15 @@ import java.io.InputStreamReader;
 
 /**
  * Class: TexParser <br>
- * 
+ *
  * Read some interesting meta-data from LaTeX source files.
- * 
+ *
  * Changelog:
  * <ul>
  * <li>01.06.2005: Initial implementation. Does not take any tex-options into
  * account yet. Just a quick hack so far..</li>
  * </ul>
- * 
+ *
  * @author <a href="mailto:jf@teamskill.de">Jens Fendler </a>
  */
 public class TexParser {

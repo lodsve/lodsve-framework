@@ -27,12 +27,12 @@ import org.apache.log4j.PropertyConfigurator;
  * @version 1.0
  */
 public class LiusLogger {
-   static Logger logger = Logger.getLogger("LiusLogger");
+    static Logger logger = Logger.getLogger("LiusLogger");
 
 
-   public  static void setLoggerConfigFile(String loggerConfigPath){
-      PropertyConfigurator.configure(loggerConfigPath);
-      logger.setLevel(((Level)Level.ERROR));
- }
+    public  static void setLoggerConfigFile(String loggerConfigPath){
+        PropertyConfigurator.configure(loggerConfigPath);
+        logger.setLevel(((Level)Level.ERROR));
+    }
 
 }

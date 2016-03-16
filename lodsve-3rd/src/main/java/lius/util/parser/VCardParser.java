@@ -31,13 +31,13 @@ import lius.util.VCard;
 
 /**
  * Class: VCardParser <br>
- * 
+ *
  * Changelog:
  * <ul>
  * <li>02.06.2005: Initial implementation (jf)</li>
  * <li>03.06.2005: Fixed card detection code (no reg-ex anymore) (jf)</li>
  * </ul>
- * 
+ *
  * @author <a href="mailto:jf@teamskill.de">Jens Fendler </a>
  */
 public class VCardParser {
@@ -65,7 +65,7 @@ public class VCardParser {
 
 	/**
 	 * parse
-	 * 
+	 *
 	 * @param stream2
 	 * @throws IOException
 	 */
@@ -88,7 +88,7 @@ public class VCardParser {
 
 	/**
 	 * finishCard
-	 * 
+	 *
 	 * @param br
 	 * @param cardBuffer
 	 * @return @throws

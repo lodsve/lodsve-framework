@@ -21,17 +21,17 @@ package lius.config;
 
 /**
  * Class: LiusValueProxyField <br>
- * 
+ *
  * This class provides the possibility to add multiple (equal) LiusFields with
  * different values to the same document.
- * 
+ *
  * Changelog:
  * <ul>
  * <li>02.06.2005: Initial implementation (jf)</li>
  * </ul>
- * 
+ *
  * @author <a href="mailto:jf@teamskill.de">Jens Fendler </a>
- * 
+ *
  * @see de.teamskill.lius.index.VCardIndexer
  */
 public class LiusValueProxyField extends LiusProxyField {

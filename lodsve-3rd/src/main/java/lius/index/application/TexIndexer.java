@@ -31,12 +31,12 @@ import org.apache.log4j.Logger;
 
 /**
  * Class: TexIndexer <br>
- * 
+ *
  * Changelog:
  * <ul>
  * <li>01.06.2005: Initial implementation</li>
  * </ul>
- * 
+ *
  * @author <a href="mailto:jf@teamskill.de">Jens Fendler </a>
  */
 
@@ -45,28 +45,28 @@ import org.apache.log4j.Logger;
  */
 public class TexIndexer extends Indexer {
 	static Logger logger = Logger.getRootLogger();
-	
+
 	public int getType() {
 		return 1;
 	}
 
 	public boolean isConfigured() {
 		boolean ef = false;
-	  	if(getLiusConfig().getTexFields() != null)
-	   		return ef = true;   	
-	   	return ef;
-	  }
+		if(getLiusConfig().getTexFields() != null)
+			return ef = true;
+		return ef;
+	}
 
 	public Collection getConfigurationFields() {
 		return getLiusConfig().getTexFields();
 	}
 
-	
-	
+
+
 
 	/**
-	 * @see lius.index.Indexer#getPopulatedCollection(Object,
-	 *      Collection)
+	 * @see lius.index.Indexer#getPopulatedCollection(java.lang.Object,
+	 *      java.util.Collection)
 	 */
 	public Collection getPopulatedLiusFields() {
 		Collection c = new ArrayList();
@@ -103,23 +103,23 @@ public class TexIndexer extends Indexer {
 		return c;
 	}
 
-	
+
 	public String getContent() {
 		StringBuffer sb = new StringBuffer();
 		TexParser tp = null;;
-	
-			try {
-				tp = new TexParser(getStreamToIndex());
-			} catch (IOException e) {
-				logger.error(e.getMessage());
-			}
-			sb.append(tp.getDocumentclass()+" ");
-			sb.append(tp.getTitle()+" ");
-			sb.append(tp.getAuthor()+" ");
-			sb.append(tp.getContent()+" " );
-			sb.append(tp.getAbstract()+" ");
-			 
-			
+
+		try {
+			tp = new TexParser(getStreamToIndex());
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+		}
+		sb.append(tp.getDocumentclass()+" ");
+		sb.append(tp.getTitle()+" ");
+		sb.append(tp.getAuthor()+" ");
+		sb.append(tp.getContent()+" " );
+		sb.append(tp.getAbstract()+" ");
+
+
 
 		return sb.toString();
 	}

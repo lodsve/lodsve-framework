@@ -19,18 +19,14 @@ package lius.index.zip;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-
-import lius.config.LiusField;
 import lius.index.Indexer;
 import lius.index.IndexerFactory;
-
 import org.apache.log4j.Logger;
 
 /**
  * @author Rida Benjelloun (ridabenjelloun@gmail.com)
- * 
+ *
  * */
 
 

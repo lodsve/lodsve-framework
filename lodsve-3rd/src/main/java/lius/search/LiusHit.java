@@ -28,28 +28,28 @@ public class LiusHit {
 	private List liusFields;
 	private Map liusFieldsMap;
 	private int docId;
-	
+
 
 	public List getLiusFields() {
 		return liusFields;
 	}
-	
+
 	public void setLiusFields(List liusFields) {
 		this.liusFields = liusFields;
 	}
-	
+
 	public double getScore() {
 		return score;
 	}
-	
+
 	public void setScore(double score) {
 		this.score = score;
-	}	
-	
+	}
+
 	public int getDocId() {
 		return docId;
 	}
-	
+
 	public void setDocId(int docId) {
 		this.docId = docId;
 	}

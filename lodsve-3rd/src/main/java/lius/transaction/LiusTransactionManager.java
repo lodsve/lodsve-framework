@@ -31,25 +31,25 @@ import org.apache.lucene.store.Directory;
  * */
 public class LiusTransactionManager {
 	private Directory[] luceneTmpIndexTab = new Directory[1];
-	private LiusConfig  conf = null; 
+	private LiusConfig  conf = null;
 	private Document doc = null;
 	private String permanentIndexPath = null;
-	
+
 	public LiusTransactionManager(Document doc, Directory luceneTmpIndex, String permanentIndexPath ,LiusConfig conf){
 		this.luceneTmpIndexTab[0] = luceneTmpIndex;
 		this.doc = doc;
 		this.conf = conf;
-		this.permanentIndexPath =permanentIndexPath; 
+		this.permanentIndexPath =permanentIndexPath;
 	}
-	
-	public void start() throws LiusException, IOException{		
-			LuceneActions.getSingletonInstance().index(doc,this.luceneTmpIndexTab[0],conf);	
+
+	public void start() throws LiusException, IOException{
+		LuceneActions.getSingletonInstance().index(doc,this.luceneTmpIndexTab[0],conf);
 	}
-	public void commit(){		
+	public void commit(){
 		LuceneActions.getSingletonInstance().addIndexes(luceneTmpIndexTab,permanentIndexPath,conf);
 	}
-	
-	public void rollBack(){		
+
+	public void rollBack(){
 		luceneTmpIndexTab[0] = null;
 	}
 
