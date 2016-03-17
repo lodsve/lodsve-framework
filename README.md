@@ -2,9 +2,9 @@
 My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web development.
 
 ## What is `lodsve`
-`lodsve` is the short of `Let our develop Spring very easy!``.
+`lodsve` is the short of `Let our development of Spring very easy!`.
 
-## 简单的介绍
+## Simple Introduction
 1. Base on some open source framework. It encapsulates some classes and methods to make more convenient for developers.
 2. It consists of the following modules:
     - lodsve-amqp
@@ -23,14 +23,24 @@ My development tools, it encapsulates some open source projects, and better faci
     - lodsve-transaction
     - lodsve-validate
 
+## How To Use
+
+    <dependency>
+        <groupId>com.github.lodsve</groupId>
+        <artifactId>lodsve-parent</artifactId>
+        <version>${lodsve.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+    </dependency>
+
 ## Check out sources
-`git clone https://github.com/lodsve/lodsve-cosmos.git`
+`git clone git@github.com:lodsve/lodsve-cosmos.git`
 
 ## Check out demos
-`git clone git@github.com:sunhao-java/cosmos-demo.git`
+`git clone git@github.com:lodsve/lodsve-demo.git`
 
 ## Check out the configurations
-`git clone git@github.com:sunhao-java/cosmos-configs.git`
+`git clone git@github.com:lodsve/lodsve-configs.git`
 
 ## Change History
 [CHANGELOG][]
@@ -41,7 +51,7 @@ My development tools, it encapsulates some open source projects, and better faci
 3. Blog: [Blog][] [OSChina][]
 
 ## License
-The Spring Framework is released under version 2.0 of the [Apache License][].
+The `Lodsve Framework` is released under version 2.0 of the [Apache License][].
 
 [Apache License]: http://www.apache.org/licenses/LICENSE-2.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-cosmos/blob/master/CHANGELOG.md

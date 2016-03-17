@@ -7,7 +7,7 @@
     <version>2.4.9-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>lodsve parent</name>
-    <description>工具类集合，封装了一系列开源项目，更好方便的进行Java Web开发</description>
+    <description>工具类集合，封装了一系列开源项目，使更好更方便的进行Java Web开发</description>
     <url>https://github.com/sunhao-java/cosmos-message</url>
 
     <modules>
