@@ -351,9 +351,9 @@
 
             <!-- java字节码操作 start -->
             <dependency>
-                <groupId>javassist</groupId>
+                <groupId>org.javassist</groupId>
                 <artifactId>javassist</artifactId>
-                <version>3.12.0.GA</version>
+                <version>3.20.0-GA</version>
             </dependency>
             <!-- java字节码操作 end -->
 

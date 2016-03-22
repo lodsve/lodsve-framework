@@ -31,7 +31,7 @@ import java.util.Map;
 public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
     private static final String DATA_SOURCE_ATTRIBUTE_NAME = "dataSource";
     private static final String BASE_PACKAGES_ATTRIBUTE_NAME = "basePackages";
-    private static final String TYPE_HANDLERS_LOCATIONS_ATTRIBUTE_NAME = "typeHandlersLocations";
+    private static final String ENUMS_LOCATIONS_ATTRIBUTE_NAME = "enumsLocations";
     private static final String USE_FLYWAY_ATTRIBUTE_NAME = "useFlyway";
     private static final String MIGRATION_ATTRIBUTE_NAME = "migration";
     private static String dataSource;
@@ -45,11 +45,11 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         dataSource = attributes.getString(DATA_SOURCE_ATTRIBUTE_NAME);
         beanDefinitions.putAll(generateDataSource(dataSource));
 
-        String[] typeHandlersLocations = attributes.getStringArray(TYPE_HANDLERS_LOCATIONS_ATTRIBUTE_NAME);
+        String[] enumsLocations = attributes.getStringArray(ENUMS_LOCATIONS_ATTRIBUTE_NAME);
         String[] basePackages = attributes.getStringArray(BASE_PACKAGES_ATTRIBUTE_NAME);
 
-        if (ArrayUtils.isEmpty(typeHandlersLocations)) {
-            typeHandlersLocations = findDefaultPackage(importingClassMetadata);
+        if (ArrayUtils.isEmpty(enumsLocations)) {
+            enumsLocations = findDefaultPackage(importingClassMetadata);
         }
         if (ArrayUtils.isEmpty(basePackages)) {
             basePackages = findDefaultPackage(importingClassMetadata);
@@ -62,7 +62,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
             beanDefinitions.putAll(findFlyWayBeanDefinitions(migration));
         }
 
-        beanDefinitions.putAll(findMyBatisBeanDefinitions(useFlyway, basePackages, typeHandlersLocations));
+        beanDefinitions.putAll(findMyBatisBeanDefinitions(useFlyway, basePackages, enumsLocations));
 
         registerBeanDefinitions(beanDefinitions, registry);
     }
@@ -83,7 +83,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         return beanDefinitions;
     }
 
-    private Map<String, BeanDefinition> findMyBatisBeanDefinitions(boolean useFlyway, String[] basePackages, String[] typeHandlersLocations) {
+    private Map<String, BeanDefinition> findMyBatisBeanDefinitions(boolean useFlyway, String[] basePackages, String[] enumsLocations) {
         Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
 
         BeanDefinitionBuilder sqlSessionFactoryBean = BeanDefinitionBuilder.genericBeanDefinition(SqlSessionFactoryBean.class);
@@ -94,7 +94,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         sqlSessionFactoryBean.addPropertyValue("mapperLocations", "classpath*:/META-INF/mybatis/**/*Mapper.xml");
         sqlSessionFactoryBean.addPropertyValue("configLocation", "classpath:/META-INF/mybatis/mybatis.xml");
         TypeHandlerScanner scanner = new TypeHandlerScanner();
-        sqlSessionFactoryBean.addPropertyValue("typeHandlers", scanner.find(StringUtils.join(typeHandlersLocations, ",")));
+        sqlSessionFactoryBean.addPropertyValue("typeHandlers", scanner.find(StringUtils.join(enumsLocations, ",")));
 
         BeanDefinitionBuilder scannerConfigurerBean = BeanDefinitionBuilder.genericBeanDefinition(MapperScannerConfigurer.class);
         scannerConfigurerBean.addPropertyValue("basePackage", StringUtils.join(basePackages, ","));

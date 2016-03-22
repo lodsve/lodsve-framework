@@ -43,12 +43,11 @@ public @interface EnableMyBatis {
     String[] basePackages() default {};
 
     /**
-     * 枚举类型转换器所在包路径,可以多个
+     * 枚举类型所在包路径,可以多个
      *
      * @return
-     * @see message.mybatis.type.EnumCodeTypeHandler
      */
-    String[] typeHandlersLocations() default {};
+    String[] enumsLocations() default {};
 
     /**
      * 是否使用flyway
