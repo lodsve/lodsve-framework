@@ -1,5 +1,9 @@
 # 更新日志
 
+## V2.4.9
+1. 修复父级pom忘记写入lodsve-logger了
+2. mybatis不需要再写Enum的TypeHandler了,只需要在@EnableMyBatis中配置enumsLocations指定枚举在哪即可
+
 ## V2.4.8
 1. 修改项目名为lodsve
 2. 含义: Let our develop Spring very easy!
