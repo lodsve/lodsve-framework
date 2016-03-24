@@ -1,26 +1,24 @@
 package message.swagger.paths;
 
-import com.mangofactory.swagger.paths.RelativeSwaggerPathProvider;
 import javax.servlet.ServletContext;
 import message.base.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import springfox.documentation.spring.web.paths.RelativePathProvider;
 
 /**
  * 处理swagger的路径.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/3 下午12:45
+ * @version V1.0, 16/3/24 上午9:47
  */
-public class CosmosSwaggerPathProvider extends RelativeSwaggerPathProvider {
+public class SpringFoxPathProvider extends RelativePathProvider {
     private String prefix;
-    @Autowired
-    private ServletContext servletContext;
+    private final ServletContext servletContext;
 
-    public CosmosSwaggerPathProvider(String prefix) {
-        if (StringUtils.equals(ROOT, prefix)) {
-            prefix = StringUtils.EMPTY;
-        }
-        this.prefix = prefix;
+    @Autowired
+    public SpringFoxPathProvider(ServletContext servletContext) {
+        super(servletContext);
+        this.servletContext = servletContext;
     }
 
     @Override
@@ -36,5 +34,9 @@ public class CosmosSwaggerPathProvider extends RelativeSwaggerPathProvider {
     @Override
     protected String getDocumentationPath() {
         return ROOT;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 }

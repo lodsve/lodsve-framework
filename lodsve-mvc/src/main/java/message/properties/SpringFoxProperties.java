@@ -9,7 +9,7 @@ import message.config.auto.annotations.ConfigurationProperties;
  * @version V1.0, 16/1/23 下午8:50
  */
 @ConfigurationProperties(prefix = "cosmos.swagger")
-public class SwaggerProperties {
+public class SpringFoxProperties {
 
     private String title;
     private String description;
