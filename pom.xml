@@ -11,40 +11,40 @@
     <url>https://github.com/lodsve/lodsve-cosmos</url>
 
     <modules>
+        <!-- 第三方库依赖 -->
+        <module>lodsve-3rd</module>
+        <!-- amqp -->
+        <module>lodsve-amqp</module>
         <!-- 基础 -->
         <module>lodsve-base</module>
-        <!-- 配置文件 -->
-        <module>lodsve-config</module>
-        <!-- 单元测试 -->
-        <module>lodsve-test</module>
         <!-- 缓存 -->
         <module>lodsve-cache</module>
+        <!-- 配置文件 -->
+        <module>lodsve-config</module>
+        <!-- dubbo -->
+        <module>lodsve-dubbo</module>
+        <!-- 日志 -->
+        <module>lodsve-logger</module>
+        <!-- mongodb -->
+        <module>lodsve-mongodb</module>
+        <!-- mvc -->
+        <module>lodsve-mvc</module>
         <!-- mybatis -->
         <module>lodsve-mybatis</module>
         <!-- redis -->
         <module>lodsve-redis</module>
-        <!-- mongodb -->
-        <module>lodsve-mongodb</module>
         <!-- 搜索 -->
         <module>lodsve-search</module>
-        <!-- amqp -->
-        <module>lodsve-amqp</module>
-        <!-- mvc -->
-        <module>lodsve-mvc</module>
-        <!-- validate -->
-        <module>lodsve-validate</module>
         <!-- 安全 -->
         <module>lodsve-security</module>
+        <!-- 单元测试 -->
+        <module>lodsve-test</module>
         <!-- 支付相关 -->
         <module>lodsve-transaction</module>
-        <!-- 日志 -->
-        <module>lodsve-logger</module>
-        <!-- dubbo -->
-        <module>lodsve-dubbo</module>
+        <!-- validate -->
+        <module>lodsve-validate</module>
         <!-- wechat -->
         <module>lodsve-wechat</module>
-        <!-- 第三方库依赖 -->
-        <module>lodsve-3rd</module>
     </modules>
 
     <properties>
@@ -259,11 +259,6 @@
                 <groupId>commons-dbcp</groupId>
                 <artifactId>commons-dbcp</artifactId>
                 <version>1.4</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>1.9</version>
             </dependency>
             <dependency>
                 <groupId>commons-logging</groupId>
@@ -580,49 +575,6 @@
             </dependency>
             <!-- rabbit end -->
 
-            <!-- spring swagger start -->
-            <dependency>
-                <groupId>com.mangofactory</groupId>
-                <artifactId>swagger-springmvc</artifactId>
-                <version>0.8.4</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-webmvc</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-web</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-context</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-beans</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>commons-lang</groupId>
-                        <artifactId>commons-lang</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.fasterxml.jackson.core</groupId>
-                        <artifactId>jackson-annotations</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-api</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>com.wordnik</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>1.5.3-M1</version>
-            </dependency>
-            <!-- spring swagger end -->
-
             <!-- spring fox start -->
             <dependency>
                 <groupId>io.springfox</groupId>
@@ -804,11 +756,6 @@
             </dependency>
             <dependency>
                 <groupId>com.github.lodsve</groupId>
-                <artifactId>lodsve-logger</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.lodsve</groupId>
                 <artifactId>lodsve-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -819,12 +766,32 @@
             </dependency>
             <dependency>
                 <groupId>com.github.lodsve</groupId>
-                <artifactId>lodsve-mybatis</artifactId>
+                <artifactId>lodsve-dubbo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-logger</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-mongodb</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.lodsve</groupId>
                 <artifactId>lodsve-mvc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-mybatis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -839,19 +806,9 @@
             </dependency>
             <dependency>
                 <groupId>com.github.lodsve</groupId>
-                <artifactId>lodsve-mongodb</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.lodsve</groupId>
                 <artifactId>lodsve-test</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.github.lodsve</groupId>
-                <artifactId>lodsve-validate</artifactId>
-                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.lodsve</groupId>
@@ -860,12 +817,12 @@
             </dependency>
             <dependency>
                 <groupId>com.github.lodsve</groupId>
-                <artifactId>lodsve-redis</artifactId>
+                <artifactId>lodsve-validate</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.lodsve</groupId>
-                <artifactId>lodsve-dubbo</artifactId>
+                <artifactId>lodsve-wechat</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- lodsve message dependencies end -->
