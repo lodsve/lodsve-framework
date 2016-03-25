@@ -1,10 +1,10 @@
-package message.swagger.config;
+package message.springfox.config;
 
 import javax.annotation.PostConstruct;
 import message.base.utils.StringUtils;
 import message.properties.ApplicationProperties;
 import message.properties.SpringFoxProperties;
-import message.swagger.paths.SpringFoxPathProvider;
+import message.springfox.paths.SpringFoxPathProvider;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

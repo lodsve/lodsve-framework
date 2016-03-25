@@ -13,7 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableMyBatis(
         dataSource = "transaction",
-        basePackages = "message.transaction",
+        basePackages = "message.transaction.repository",
+        enumsLocations = "message.transaction.enums",
         useFlyway = true,
         migration = "db/transaction"
 )

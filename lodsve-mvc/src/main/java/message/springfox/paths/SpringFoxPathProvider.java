@@ -1,4 +1,4 @@
-package message.swagger.paths;
+package message.springfox.paths;
 
 import javax.servlet.ServletContext;
 import message.base.utils.StringUtils;

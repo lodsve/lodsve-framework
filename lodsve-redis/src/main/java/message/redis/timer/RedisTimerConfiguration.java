@@ -1,7 +1,7 @@
 package message.redis.timer;
 
-import message.redis.core.connection.CosmosRedisConnectionFactory;
 import message.redis.core.annotations.EnableRedis;
+import message.redis.core.connection.LodsveRedisConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +26,7 @@ public class RedisTimerConfiguration {
     private RedisTimerListener listener;
     @Autowired
     @Qualifier("redisTimer")
-    private CosmosRedisConnectionFactory connectionFactory;
+    private LodsveRedisConnectionFactory connectionFactory;
 
     @Bean
     public RedisTemplate<String, Object> redisTimerRedisTemplate() {

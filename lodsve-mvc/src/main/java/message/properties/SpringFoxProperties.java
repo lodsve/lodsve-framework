@@ -8,7 +8,7 @@ import message.config.auto.annotations.ConfigurationProperties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/1/23 下午8:50
  */
-@ConfigurationProperties(prefix = "cosmos.swagger")
+@ConfigurationProperties(prefix = "lodsve.springfox")
 public class SpringFoxProperties {
 
     private String title;

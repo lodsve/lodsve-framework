@@ -16,5 +16,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @Import(RabbitConfiguration.class)
-public @interface EnableCosmosAmqp {
+public @interface EnableAmqp {
 }

@@ -8,7 +8,7 @@ import message.config.auto.annotations.ConfigurationProperties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/8/26 上午4:01
  */
-@ConfigurationProperties(prefix = "cosmos.ping.config")
+@ConfigurationProperties(prefix = "lodsve.ping.config")
 public class PingConfig {
     /**
      * ping++的apiKey

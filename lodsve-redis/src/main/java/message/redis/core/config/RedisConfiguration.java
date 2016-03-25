@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Configuration;
  * @version V1.0, 2016-1-25 16:00
  */
 @Configuration
-@ComponentScan("cosmos.redis.core")
+@ComponentScan("message.redis.core")
 public class RedisConfiguration {
 }

@@ -8,7 +8,7 @@ import message.config.auto.annotations.ConfigurationProperties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/1/14 下午9:24
  */
-@ConfigurationProperties(prefix = "cosmos.cache")
+@ConfigurationProperties(prefix = "lodsve.cache")
 public class CacheProperties {
     private String cacheName = "ehcache";
     private Ehcache ehcache;

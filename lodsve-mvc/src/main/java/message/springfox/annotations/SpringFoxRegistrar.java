@@ -1,6 +1,6 @@
-package message.swagger.annotations;
+package message.springfox.annotations;
 
-import message.swagger.paths.SpringFoxPathProvider;
+import message.springfox.paths.SpringFoxPathProvider;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;

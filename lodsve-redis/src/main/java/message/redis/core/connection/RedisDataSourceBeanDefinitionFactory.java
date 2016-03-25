@@ -30,7 +30,7 @@ public class RedisDataSourceBeanDefinitionFactory {
     }
 
     public BeanDefinition build() {
-        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(CosmosRedisConnectionFactory.class);
+        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(LodsveRedisConnectionFactory.class);
 
         beanDefinitionBuilder.addConstructorArgValue(dataSourceName);
         beanDefinitionBuilder.addConstructorArgValue(redisProperties);

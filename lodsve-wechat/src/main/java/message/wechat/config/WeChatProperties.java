@@ -8,7 +8,7 @@ import message.config.auto.annotations.ConfigurationProperties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/21 下午4:58
  */
-@ConfigurationProperties(prefix = "cosmos.wechat")
+@ConfigurationProperties(prefix = "lodsve.wechat")
 public class WeChatProperties {
     /**
      * 应用ID

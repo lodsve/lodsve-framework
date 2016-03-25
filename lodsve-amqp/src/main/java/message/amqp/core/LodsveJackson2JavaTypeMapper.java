@@ -15,7 +15,7 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/1/18 下午1:38
  */
-public class CosmosJackson2JavaTypeMapper extends DefaultJackson2JavaTypeMapper {
+public class LodsveJackson2JavaTypeMapper extends DefaultJackson2JavaTypeMapper {
     private static final ObjectMapper jsonObjectMapper = new ObjectMapper();
 
     @Override

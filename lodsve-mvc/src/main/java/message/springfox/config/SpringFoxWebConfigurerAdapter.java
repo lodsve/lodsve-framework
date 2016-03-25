@@ -1,4 +1,4 @@
-package message.swagger.config;
+package message.springfox.config;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

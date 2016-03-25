@@ -18,8 +18,8 @@ import java.io.IOException;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/1/18 下午1:28
  */
-public class CosmosJackson2JsonMessageConverter extends Jackson2JsonMessageConverter {
-    private static Log log = LogFactory.getLog(CosmosJackson2JsonMessageConverter.class);
+public class LodsveJackson2JsonMessageConverter extends Jackson2JsonMessageConverter {
+    private static Log log = LogFactory.getLog(LodsveJackson2JsonMessageConverter.class);
     private ObjectMapper jsonObjectMapper = new ObjectMapper();
 
     @Override
@@ -65,6 +65,6 @@ public class CosmosJackson2JsonMessageConverter extends Jackson2JsonMessageConve
     }
 
     public Jackson2JavaTypeMapper getJavaTypeMapper() {
-        return new CosmosJackson2JavaTypeMapper();
+        return new LodsveJackson2JavaTypeMapper();
     }
 }

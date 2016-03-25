@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 根据{@link EnableCosmosCache}中的{@link CacheMode}类型判断启用哪个缓存.
+ * 根据{@link EnableCache}中的{@link CacheMode}类型判断启用哪个缓存.
  *
- * @see EnableCosmosCache
+ * @see EnableCache
  * @see CacheMode
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016/1/19 15:10
@@ -22,8 +22,8 @@ public class CacheConfigurationSelector implements ImportSelector {
 
     @Override
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
-        AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableCosmosCache.class.getName(), false));
-        Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableCosmosCache.class.getName(), importingClassMetadata.getClassName()));
+        AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableCache.class.getName(), false));
+        Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableCache.class.getName(), importingClassMetadata.getClassName()));
 
         List<String> imports = new ArrayList<>();
 

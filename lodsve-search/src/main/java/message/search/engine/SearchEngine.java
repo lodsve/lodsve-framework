@@ -1,6 +1,6 @@
 package message.search.engine;
 
-import message.search.SearchBean;
+import message.search.bean.SearchBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

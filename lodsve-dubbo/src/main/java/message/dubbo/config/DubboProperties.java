@@ -10,7 +10,7 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016-2-4 13:29
  */
-@ConfigurationProperties(prefix = "cosmos.dubbo", locations = "file:${params.root}/files/dubbo.properties")
+@ConfigurationProperties(prefix = "lodsve.dubbo", locations = "file:${params.root}/files/dubbo.properties")
 public class DubboProperties {
     private Map<String, Registry> registry;
 

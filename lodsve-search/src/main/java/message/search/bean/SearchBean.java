@@ -1,4 +1,4 @@
-package message.search;
+package message.search.bean;
 
 import message.base.utils.DateUtils;
 import message.base.utils.ObjectUtils;
@@ -12,9 +12,9 @@ import java.util.*;
 
 /**
  * 构建索引以及检索使用到的一个抽象类<br/>.
- * 所有需要检索的类均继承这个类,实现{@link message.search.SearchBean#getDoSearchFields}和
- * {@link message.search.SearchBean#getDoIndexFields}和
- * {@link message.search.SearchBean#initPublicFields()}三个方法<br/>
+ * 所有需要检索的类均继承这个类,实现{@link SearchBean#getDoSearchFields}和
+ * {@link SearchBean#getDoIndexFields}和
+ * {@link SearchBean#initPublicFields()}三个方法<br/>
  *
  * eg:<br/>
  * <pre><code>

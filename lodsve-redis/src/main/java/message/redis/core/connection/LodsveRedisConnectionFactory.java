@@ -13,11 +13,11 @@ import redis.clients.jedis.JedisPoolConfig;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/9/8 下午23:40
  */
-public class CosmosRedisConnectionFactory extends JedisConnectionFactory {
+public class LodsveRedisConnectionFactory extends JedisConnectionFactory {
     private static final String URL_PREFIX = "redis://";
     private RedisProperties settings;
 
-    public CosmosRedisConnectionFactory(String dataSourceName, RedisProperties redisProperties) {
+    public LodsveRedisConnectionFactory(String dataSourceName, RedisProperties redisProperties) {
         settings = redisProperties;
         RedisProperties.ProjectSetting redisSetting = settings.getProject().get(dataSourceName);
 
@@ -77,7 +77,7 @@ public class CosmosRedisConnectionFactory extends JedisConnectionFactory {
         }
 
         public RedisConnectionFactory build() {
-            RedisConnectionFactory factory = new CosmosRedisConnectionFactory(project, redisProperties);
+            RedisConnectionFactory factory = new LodsveRedisConnectionFactory(project, redisProperties);
             try {
                 ((InitializingBean) factory).afterPropertiesSet();
             } catch (Exception e) {

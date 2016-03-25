@@ -26,7 +26,7 @@ import java.util.List;
  * @version V1.0, 15/8/15 下午1:22
  */
 @Component
-public class CosmosWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
+public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
     @Autowired
     private ApplicationProperties properties;
 

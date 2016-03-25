@@ -8,7 +8,7 @@ import message.config.auto.annotations.ConfigurationProperties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016/1/20 12:39
  */
-@ConfigurationProperties(prefix = "cosmos.search")
+@ConfigurationProperties(prefix = "lodsve.search")
 public class SearchProperties {
     /**
      * lucene索引文件路径

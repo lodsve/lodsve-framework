@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
- * 启用cosmos-mvc.
+ * 启用lodsve-mvc.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/1/18 下午10:50
@@ -22,5 +22,5 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Inherited
 @EnableWebMvc
 @Import({WebMvcConfiguration.class})
-public @interface EnableCosmosMvc {
+public @interface EnableLodsveMvc {
 }

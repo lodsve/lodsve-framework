@@ -22,7 +22,7 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2014-11-3 19:09
  */
-public class CosmosMessageListenerAdapter extends MessageListenerAdapter {
+public class LodsveMessageListenerAdapter extends MessageListenerAdapter {
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
         // Check whether the delegate is a MessageListener impl itself.

@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
     <name>lodsve parent</name>
     <description>工具类集合，封装了一系列开源项目，使更好更方便的进行Java Web开发</description>
-    <url>https://github.com/sunhao-java/cosmos-message</url>
+    <url>https://github.com/lodsve/lodsve-cosmos</url>
 
     <modules>
         <!-- 基础 -->
@@ -63,7 +63,7 @@
     <!-- issue -->
     <issueManagement>
         <system>Github Issue</system>
-        <url>https://github.com/sunhao-java/cosmos-message/issues</url>
+        <url>https://github.com/lodsve/lodsve-cosmos/issues</url>
     </issueManagement>
 
     <!-- license -->
@@ -91,9 +91,9 @@
 
     <!-- 代码库 -->
     <scm>
-        <connection>scm:git:git@github.com:sunhao-java/cosmos-message.git</connection>
-        <developerConnection>scm:git:git@github.com:sunhao-java/cosmos-message.git</developerConnection>
-        <url>git@github.com:sunhao-java/cosmos-message.git</url>
+        <connection>scm:git:git@github.com:lodsve/lodsve-cosmos.git</connection>
+        <developerConnection>scm:git:git@github.com:lodsve/lodsve-cosmos.git</developerConnection>
+        <url>git@github.com:lodsve/lodsve-cosmos.git</url>
     </scm>
 
     <!-- 仓库 -->

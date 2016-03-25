@@ -8,7 +8,7 @@ import message.config.auto.annotations.ConfigurationProperties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016-01-15 12:00
  */
-@ConfigurationProperties(prefix = "cosmos.rabbit")
+@ConfigurationProperties(prefix = "lodsve.rabbit")
 public class RabbitProperties {
     private String address;
     private String username;

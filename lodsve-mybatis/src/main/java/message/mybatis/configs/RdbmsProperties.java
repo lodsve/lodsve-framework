@@ -10,7 +10,7 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016-1-27 09:20
  */
-@ConfigurationProperties(prefix = "cosmos.rdbms", locations = "file:${params.root}/files/rdbms.properties")
+@ConfigurationProperties(prefix = "lodsve.rdbms", locations = "file:${params.root}/files/rdbms.properties")
 public class RdbmsProperties {
     private String dataSourceClass;
     private DataSourceSetting defaults;

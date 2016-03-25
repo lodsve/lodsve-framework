@@ -1,1 +1,1 @@
-http\://www.message.com/schema/message-amqp=message.amqp.configs.RabbitMqNamespaceHandler
+http\://www.lodsve.com/schema/lodsve-amqp=message.amqp.configs.RabbitMqNamespaceHandler

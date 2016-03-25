@@ -16,7 +16,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import(CacheConfigurationSelector.class)
-public @interface EnableCosmosCache {
+public @interface EnableCache {
     /**
      * 选择使用的缓存类型
      *

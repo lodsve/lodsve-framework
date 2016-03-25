@@ -1,16 +1,16 @@
-package message.swagger.annotations;
+package message.springfox.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import message.swagger.config.SpringFoxConfiguration;
+import message.springfox.config.SpringFoxConfiguration;
 import org.springframework.context.annotation.Import;
 import springfox.documentation.spring.web.paths.RelativePathProvider;
 
 /**
- * 启用cosmos-mvc中得spring fox.
+ * 启用lodsve-mvc中得spring fox.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/3/24 上午9:28

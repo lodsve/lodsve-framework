@@ -17,7 +17,7 @@
         <constructor-arg index="2" th:value="${queue.routingKey}"/>
     </bean>
 
-    <bean th:each="queue : ${queues}" th:id="${queue.name} + 'Listener'" class="message.amqp.core.CosmosMessageListenerAdapter">
+    <bean th:each="queue : ${queues}" th:id="${queue.name} + 'Listener'" class="message.amqp.core.LodsveMessageListenerAdapter">
         <property name="messageConverter" ref="messageConverter" />
         <property name="delegate" th:attr="ref=${queue.ref}" />
         <property name="defaultListenerMethod" th:attr="value=${queue.method}" />

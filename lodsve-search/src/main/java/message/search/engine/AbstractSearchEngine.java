@@ -7,7 +7,7 @@ import lius.index.pdf.PdfIndexer;
 import lius.index.powerpoint.PPTIndexer;
 import lius.index.txt.TXTIndexer;
 import lius.index.xml.XmlFileIndexer;
-import message.search.SearchBean;
+import message.search.bean.SearchBean;
 import message.base.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
