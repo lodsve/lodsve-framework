@@ -19,19 +19,23 @@
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache-core</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.google.code.simple-spring-memcached</groupId>
             <artifactId>spymemcached</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>opensymphony</groupId>
             <artifactId>oscache</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>

@@ -19,26 +19,32 @@
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-core</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-highlighter</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-memory</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.solr</groupId>
             <artifactId>solr-core</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.solr</groupId>
             <artifactId>solr-solrj</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.textmining</groupId>
             <artifactId>tm-extractors</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
