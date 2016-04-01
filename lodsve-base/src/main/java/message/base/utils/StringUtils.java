@@ -263,7 +263,7 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
         }
 
         String[] temps = split(str, character);
-        List<T> result = new ArrayList<T>();
+        List<T> result = new ArrayList<>();
         for (String t : temps) {
             result.add(parse.parse(t));
         }

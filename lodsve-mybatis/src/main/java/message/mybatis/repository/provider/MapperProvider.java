@@ -24,7 +24,7 @@ import java.util.Set;
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/7/13 下午3:39
- * @see message.mybatis.repository.repository.MyBatisRepository
+ * @see message.mybatis.repository.MyBatisRepository
  */
 public class MapperProvider extends MapperTemplate {
     public MapperProvider(Class<?> mapperClass, MapperHelper mapperHelper) {

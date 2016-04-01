@@ -7,8 +7,7 @@ package message.cache.annotations;
  * @version V1.0, 2016/1/19 15:11
  */
 public enum CacheMode {
-    EHCAHE,
-    MEMCACHE,
-    OSCACHE,
-    MAP
+    REDIS,
+    GUAVA,
+    EHCAHE
 }

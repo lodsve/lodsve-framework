@@ -290,6 +290,11 @@
 
             <!-- ehcache,memcached,oscache start -->
             <dependency>
+                <groupId>javax.cache</groupId>
+                <artifactId>cache-api</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
                 <groupId>net.sf.ehcache</groupId>
                 <artifactId>ehcache-core</artifactId>
                 <version>2.5.1</version>
