@@ -10,10 +10,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>lodsve-dubbo</artifactId>
+    <artifactId>lodsve-workflow</artifactId>
     <packaging>jar</packaging>
-    <name>lodsve dubbo</name>
-    <description>ali dubbo相关封装</description>
+    <name>lodsve workflow</name>
 
     <dependencies>
         <dependency>
@@ -25,16 +24,12 @@
             <artifactId>lodsve-config</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>dubbo</artifactId>
+            <groupId>com.github.lodsve</groupId>
+            <artifactId>lodsve-mybatis</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.sgroschupf</groupId>
-            <artifactId>zkclient</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.netty</groupId>
-            <artifactId>netty</artifactId>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
         </dependency>
     </dependencies>
 

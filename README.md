@@ -1,4 +1,4 @@
-## lodsve-cosmos
+## lodsve-framework
 My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web development.
 
 ## What is `lodsve`
@@ -27,14 +27,14 @@ My development tools, it encapsulates some open source projects, and better faci
 
     <dependency>
         <groupId>com.github.lodsve</groupId>
-        <artifactId>lodsve-parent</artifactId>
+        <artifactId>lodsve-framework</artifactId>
         <version>${lodsve.version}</version>
         <type>pom</type>
         <scope>import</scope>
     </dependency>
 
 ## Check out sources
-`git clone git@github.com:lodsve/lodsve-cosmos.git`
+`git clone git@github.com:lodsve/lodsve-framework.git`
 
 ## Check out demos
 `git clone git@github.com:lodsve/lodsve-demo.git`
@@ -54,6 +54,6 @@ My development tools, it encapsulates some open source projects, and better faci
 The `Lodsve Framework` is released under version 2.0 of the [Apache License][].
 
 [Apache License]: http://www.apache.org/licenses/LICENSE-2.0
-[CHANGELOG]: https://github.com/lodsve/lodsve-cosmos/blob/master/CHANGELOG.md
+[CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
 [Blog]: http://www.izufang.me
 [OSChina]: http://my.oschina.net/sunhaojava/blog

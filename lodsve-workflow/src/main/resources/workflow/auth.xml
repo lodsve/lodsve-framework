@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow xmlns="http://www.lodsve.com/schema/workflow"
+          title="风控模型" name="auth" handler="com.orange.flower.api.common.RedisCounter"
+          domain="com.orange.flower.core.security.core.Authz">
+
+    <urls>
+        <view-url url="ss"/>
+        <update-url url="sss"/>
+    </urls>
+
+    <node title="基础认证" name="baseAuth" type="update">
+        <method name="init"/>
+        <to node="idCardAuth"/>
+        <conditional>ADMIN</conditional>
+    </node>
+    <node title="身份认证" name="idCardAuth">
+        <method name="set"/>
+        <to node="schoolAuth"/>
+        <conditional>ADMIN</conditional>
+    </node>
+    <node title="学籍认证" name="schoolAuth">
+        <method name="get"/>
+        <to node="relationAuth"/>
+        <conditional>ADMIN</conditional>
+    </node>
+    <node title="关系认证" name="relationAuth">
+        <method name="_increment"/>
+        <to node="advancedAuth"/>
+        <conditional>ADMIN</conditional>
+    </node>
+    <node title="高级认证" name="advancedAuth">
+        <method name="flushAll"/>
+        <to node="end"/>
+        <conditional>ADMIN</conditional>
+    </node>
+</workflow>

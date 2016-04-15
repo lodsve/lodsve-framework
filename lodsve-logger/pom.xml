@@ -5,7 +5,7 @@
     <!-- 配置父 -->
     <parent>
         <groupId>com.github.lodsve</groupId>
-        <artifactId>lodsve-parent</artifactId>
+        <artifactId>lodsve-framework</artifactId>
         <version>2.4.10-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>

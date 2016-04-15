@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.lodsve</groupId>
-    <artifactId>lodsve-parent</artifactId>
+    <artifactId>lodsve-framework</artifactId>
     <version>2.4.10-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>lodsve parent</name>
+    <name>lodsve framework</name>
     <description>工具类集合，封装了一系列开源项目，使更好更方便的进行Java Web开发</description>
-    <url>https://github.com/lodsve/lodsve-cosmos</url>
+    <url>https://github.com/lodsve/lodsve-framework</url>
 
     <modules>
         <!-- 第三方库依赖 -->
@@ -45,6 +45,8 @@
         <module>lodsve-validate</module>
         <!-- wechat -->
         <module>lodsve-wechat</module>
+        <!-- workflow -->
+        <module>lodsve-workflow</module>
     </modules>
 
     <properties>
@@ -63,7 +65,7 @@
     <!-- issue -->
     <issueManagement>
         <system>Github Issue</system>
-        <url>https://github.com/lodsve/lodsve-cosmos/issues</url>
+        <url>https://github.com/lodsve/lodsve-framework/issues</url>
     </issueManagement>
 
     <!-- license -->
@@ -91,9 +93,9 @@
 
     <!-- 代码库 -->
     <scm>
-        <connection>scm:git:git@github.com:lodsve/lodsve-cosmos.git</connection>
-        <developerConnection>scm:git:git@github.com:lodsve/lodsve-cosmos.git</developerConnection>
-        <url>git@github.com:lodsve/lodsve-cosmos.git</url>
+        <connection>scm:git:git@github.com:lodsve/lodsve-framework.git</connection>
+        <developerConnection>scm:git:git@github.com:lodsve/lodsve-framework.git</developerConnection>
+        <url>git@github.com:lodsve/lodsve-framework.git</url>
     </scm>
 
     <!-- 仓库 -->
@@ -764,7 +766,7 @@
             </dependency>
             <!-- dubbo end -->
 
-            <!-- lodsve message dependencies start -->
+            <!-- lodsve framework dependencies start -->
             <dependency>
                 <groupId>com.github.lodsve</groupId>
                 <artifactId>lodsve-3rd</artifactId>
@@ -851,7 +853,12 @@
                 <artifactId>lodsve-wechat</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- lodsve message dependencies end -->
+            <dependency>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-workflow</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- lodsve framework dependencies end -->
         </dependencies>
     </dependencyManagement>
 

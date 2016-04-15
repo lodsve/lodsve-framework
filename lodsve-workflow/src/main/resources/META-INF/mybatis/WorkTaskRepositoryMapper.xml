@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="message.workflow.repository.WorkTaskRepository">
+    <select id="findUndoTask" resultType="message.workflow.domain.WorkTask">
+        SELECT
+        t.*
+        FROM
+        t_work_task t
+        JOIN t_workflow t1 ON t.flow_id = t1.id
+        WHERE
+        t.flow_id = #{flowId}
+        AND t.resource_id = #{resourceId}
+        AND t.result IS NULL
+        AND t.handleTime IS NULL
+        AND t1.domain = #{domain}
+    </select>
+</mapper>
