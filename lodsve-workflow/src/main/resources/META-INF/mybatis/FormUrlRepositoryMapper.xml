@@ -3,5 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="message.workflow.repository.FormUrlRepository">
-
+    <insert id="saveFormUrls" parameterType="List">
+        insert into t_form_url (id, url, type, flow_id)
+        values
+        <foreach collection="formUrls" open="(" close=")" item="formUrl" separator=",">
+            #{formUrl.id}, #{formUrl.url}, #{formUrl.type}, #{formUrl.flow_id}
+        </foreach>
+    </insert>
 </mapper>
