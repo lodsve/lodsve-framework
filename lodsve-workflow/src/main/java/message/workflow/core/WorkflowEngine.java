@@ -23,7 +23,7 @@ import org.springframework.util.Assert;
  * @version V1.0, 2015-11-19 10:35
  */
 @Component
-public class WorkFlowEngine {
+public class WorkflowEngine {
     @Autowired
     private WorkTaskRepository workTaskRepository;
     @Autowired
