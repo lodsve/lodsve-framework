@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import message.workflow.enums.UrlType;
 
 /**
  * 工作流节点.
@@ -25,11 +26,15 @@ public class FlowNode {
     @Column
     private String method;
     @Column(length = 1000)
-    private String roles;
+    private String conditional;
     @Column(name = "next")
     private String to;
     @Column(name = "node_version")
     private int version;
+    @Column
+    private UrlType urlType;
+
+    private FormUrl formUrl;
 
     public Long getId() {
         return id;
@@ -71,12 +76,12 @@ public class FlowNode {
         this.method = method;
     }
 
-    public String getRoles() {
-        return roles;
+    public String getConditional() {
+        return conditional;
     }
 
-    public void setRoles(String roles) {
-        this.roles = roles;
+    public void setConditional(String conditional) {
+        this.conditional = conditional;
     }
 
     public String getTo() {
@@ -93,5 +98,21 @@ public class FlowNode {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public UrlType getUrlType() {
+        return urlType;
+    }
+
+    public void setUrlType(UrlType urlType) {
+        this.urlType = urlType;
+    }
+
+    public FormUrl getFormUrl() {
+        return formUrl;
+    }
+
+    public void setFormUrl(FormUrl formUrl) {
+        this.formUrl = formUrl;
     }
 }

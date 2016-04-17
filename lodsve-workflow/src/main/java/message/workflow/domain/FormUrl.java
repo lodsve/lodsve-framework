@@ -21,6 +21,8 @@ public class FormUrl {
     private String url;
     @Column
     private UrlType type;
+    @Column
+    private Long workFlowId;
 
     public Long getId() {
         return id;
@@ -44,5 +46,13 @@ public class FormUrl {
 
     public void setType(UrlType type) {
         this.type = type;
+    }
+
+    public Long getWorkFlowId() {
+        return workFlowId;
+    }
+
+    public void setWorkFlowId(Long workFlowId) {
+        this.workFlowId = workFlowId;
     }
 }

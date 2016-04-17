@@ -1,6 +1,7 @@
 package message.workflow.service;
 
 import message.workflow.domain.Workflow;
+import message.workflow.repository.WorkflowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -20,11 +21,11 @@ import java.util.Map;
 @Component
 public final class WorkflowLocalStorage {
     private static final Map<Class<?>, List<Workflow>> WORKFLOW_LOCAL_STORAGE = new HashMap<>();
-    private static WorkflowService workflowService;
+    private static WorkflowRepository workflowRepository;
 
     @Autowired
-    public WorkflowLocalStorage(WorkflowService workflowService) {
-        WorkflowLocalStorage.workflowService = workflowService;
+    public WorkflowLocalStorage(WorkflowRepository workflowRepository) {
+        WorkflowLocalStorage.workflowRepository = workflowRepository;
     }
 
     public static void store(Workflow workflow) {
@@ -52,7 +53,7 @@ public final class WorkflowLocalStorage {
         List<Workflow> workflows = WORKFLOW_LOCAL_STORAGE.get(clazz);
         if (workflows == null || workflows.isEmpty()) {
             // 初始化
-            workflows = workflowService.findWorkflowByDomain(clazz.getName());
+            workflows = workflowRepository.findByDomain(clazz.getName());
             WORKFLOW_LOCAL_STORAGE.put(clazz, workflows);
         }
 

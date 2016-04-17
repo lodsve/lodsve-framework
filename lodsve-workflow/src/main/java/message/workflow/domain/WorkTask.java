@@ -1,10 +1,13 @@
 package message.workflow.domain;
 
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import message.base.utils.DateUtils;
 import message.workflow.enums.AuditResult;
+import message.workflow.enums.UrlType;
 
 /**
  * 工作流任务.
@@ -43,6 +46,11 @@ public class WorkTask {
     @Column
     private String taskName;
     /**
+     * 表单URL类型
+     */
+    @Column
+    private UrlType urlType;
+    /**
      * 办理人Id
      */
     @Column
@@ -66,12 +74,17 @@ public class WorkTask {
      * 接收时间
      */
     @Column
-    private Long receiveTime = System.currentTimeMillis();
+    private Date receiveTime = DateUtils.getNow();
     /**
      * 办理时间
      */
     @Column
-    private Long handleTime;
+    private Date handleTime;
+
+    /**
+     * 关联表单的URL
+     */
+    private String formUrl;
 
     public Long getId() {
         return id;
@@ -121,6 +134,14 @@ public class WorkTask {
         this.taskName = taskName;
     }
 
+    public UrlType getUrlType() {
+        return urlType;
+    }
+
+    public void setUrlType(UrlType urlType) {
+        this.urlType = urlType;
+    }
+
     public Long getTaskUserId() {
         return taskUserId;
     }
@@ -153,19 +174,27 @@ public class WorkTask {
         this.remark = remark;
     }
 
-    public Long getReceiveTime() {
+    public Date getReceiveTime() {
         return receiveTime;
     }
 
-    public void setReceiveTime(Long receiveTime) {
+    public void setReceiveTime(Date receiveTime) {
         this.receiveTime = receiveTime;
     }
 
-    public Long getHandleTime() {
+    public Date getHandleTime() {
         return handleTime;
     }
 
-    public void setHandleTime(Long handleTime) {
+    public void setHandleTime(Date handleTime) {
         this.handleTime = handleTime;
+    }
+
+    public String getFormUrl() {
+        return formUrl;
+    }
+
+    public void setFormUrl(String formUrl) {
+        this.formUrl = formUrl;
     }
 }

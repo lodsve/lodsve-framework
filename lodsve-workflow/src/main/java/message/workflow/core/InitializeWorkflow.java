@@ -1,5 +1,10 @@
 package message.workflow.core;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import message.base.utils.EncryptUtils;
 import message.base.utils.ListUtils;
 import message.base.utils.ObjectUtils;
@@ -7,10 +12,15 @@ import message.base.utils.StringUtils;
 import message.base.utils.XmlUtils;
 import message.workflow.Constants;
 import message.workflow.domain.FlowNode;
+import message.workflow.domain.FormUrl;
 import message.workflow.domain.Workflow;
+import message.workflow.enums.UrlType;
+import message.workflow.repository.FlowNodeRepository;
+import message.workflow.repository.FormUrlRepository;
+import message.workflow.repository.WorkflowRepository;
 import message.workflow.service.WorkflowLocalStorage;
-import message.workflow.service.WorkflowService;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +30,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * 工作流.
@@ -39,7 +44,11 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
     private List<Resource> resources = new ArrayList<>();
 
     @Autowired
-    private WorkflowService workflowService;
+    private WorkflowRepository workflowRepository;
+    @Autowired
+    private FlowNodeRepository flowNodeRepository;
+    @Autowired
+    private FormUrlRepository formUrlRepository;
 
     private void init() throws Exception {
         for (Resource resource : resources) {
@@ -60,26 +69,56 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
                 continue;
             }
 
+            // 处理url节点
+            List<Element> urls_ = XmlUtils.getChildren(root, Constants.TAG_URLS);
+            List<FormUrl> urls = initUrls(urls_, workflow);
+
             // 获取根元素下的所有node节点
             List<Element> children = XmlUtils.getChildren(root, Constants.TAG_NODE);
-            List<FlowNode> nodes = initFlowNode(workflow, children);
-            workflow.setNodes(nodes);
+            List<FlowNode> nodes = initFlowNode(workflow, children, urls);
 
+            workflow.setNodes(nodes);
+            workflow.setFormUrls(urls);
             WorkflowLocalStorage.store(workflow);
         }
     }
 
-    private List<FlowNode> initFlowNode(Workflow workflow, List<Element> children) {
+    private List<FormUrl> initUrls(List<Element> urls_, Workflow workflow) {
+        // 有且仅有一个
+        Assert.isTrue(ArrayUtils.getLength(urls_) == 1);
+
+        Element element = urls_.get(0);
+
+        FormUrl updateFormUrl = new FormUrl();
+        FormUrl viewFormUrl = new FormUrl();
+
+        updateFormUrl.setType(UrlType.UPDATE);
+        updateFormUrl.setUrl(XmlUtils.getAttrValue(element, Constants.TAG_UPDATE_URL + ":" + Constants.ATTR_URL));
+        updateFormUrl.setWorkFlowId(workflow.getId());
+
+        viewFormUrl.setType(UrlType.VIEW);
+        viewFormUrl.setUrl(XmlUtils.getAttrValue(element, Constants.TAG_VIEW_URL + ":" + Constants.ATTR_URL));
+        viewFormUrl.setWorkFlowId(workflow.getId());
+
+        List<FormUrl> urls = Arrays.asList(updateFormUrl, viewFormUrl);
+        formUrlRepository.saveFormUrls(urls);
+
+        return urls;
+    }
+
+    private List<FlowNode> initFlowNode(Workflow workflow, List<Element> children, List<FormUrl> urls) {
         List<FlowNode> nodes = new ArrayList<>(children.size());
         for (Element child : children) {
             String title = XmlUtils.getElementAttr(child, Constants.ATTR_TITLE);
             String name = XmlUtils.getElementAttr(child, Constants.ATTR_NAME);
+            String type = XmlUtils.getElementAttr(child, Constants.ATTR_TYPE);
 
             String method = XmlUtils.getAttrValue(child, Constants.TAG_METHOD + ":" + Constants.ATTR_NAME);
             // 校验方法是否存在
             checkHandlerMethod(workflow.getName(), name, workflow.getHandlerClass(), method);
+
             String to = XmlUtils.getAttrValue(child, Constants.TAG_TO + ":" + Constants.ATTR_NODE);
-            String roles = XmlUtils.getElementBody(XmlUtils.getChild(child, Constants.TAG_CONDITIONAL));
+            String conditional = XmlUtils.getElementBody(XmlUtils.getChild(child, Constants.TAG_CONDITIONAL));
 
             FlowNode node = new FlowNode();
             node.setTitle(title);
@@ -88,13 +127,23 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
             node.setTo(to);
             node.setFlowId(workflow.getId());
             node.setVersion(workflow.getVersion());
-            node.setRoles(roles);
+            node.setConditional(conditional);
+            final UrlType urlType = UrlType.eval(type);
+            node.setUrlType(urlType);
+            node.setFormUrl(ListUtils.findOne(urls, new ListUtils.Decide<FormUrl>() {
+                @Override
+                public boolean judge(FormUrl target) {
+                    return urlType == target.getType();
+                }
+            }));
 
             nodes.add(node);
         }
 
         checkNode(nodes);
-        return workflowService.saveFlowNodes(nodes);
+        flowNodeRepository.saveFlowNodes(nodes);
+
+        return nodes;
     }
 
     private void checkNode(List<FlowNode> nodes) {
@@ -137,7 +186,7 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         int version = 1;
         // 判断流程是否发生变化，如果发生变化，则版本号增加1
         String xmlMd5 = getFileMD5(resource);
-        Workflow lastestWorkflow = workflowService.loadLatestWorkflow(name);
+        Workflow lastestWorkflow = workflowRepository.loadLatest(name);
         if (lastestWorkflow != null) {
             if (xmlMd5.equals(lastestWorkflow.getXmlMd5())) {
                 return lastestWorkflow;
@@ -169,7 +218,7 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         workflow.setDomainClass(domainClass);
 
         // 保存(每次都是增加，修改版本号)
-        workflowService.saveWorkflow(workflow);
+        workflowRepository.save(workflow);
         return workflow;
     }
 
@@ -202,16 +251,20 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         return clazz;
     }
 
-    private void checkHandlerMethod(String flowName, String nodeName, Class<?> handlerCLass, String method) {
+    private void checkHandlerMethod(String flowName, String nodeName, Class<?> handlerClass, String method) {
+        if (handlerClass == null || StringUtils.isBlank(method)) {
+            return;
+        }
+
         boolean isContains = false;
         try {
-            isContains = Arrays.asList(ObjectUtils.getMethodNames(handlerCLass.newInstance(), false)).contains(method);
+            isContains = Arrays.asList(ObjectUtils.getMethodNames(handlerClass.newInstance(), false)).contains(method);
         } catch (Exception e) {
 
         }
 
         if (!isContains) {
-            throw new RuntimeException(String.format("流程【%s】的节点【%s】的处理类【%s】不包含方法【%s】！", flowName, nodeName, handlerCLass.getName(), method));
+            throw new RuntimeException(String.format("流程【%s】的节点【%s】的处理类【%s】不包含方法【%s】！", flowName, nodeName, handlerClass.getName(), method));
         }
     }
 

@@ -30,4 +30,11 @@ public interface FlowNodeRepository extends MyBatisRepository<FlowNode> {
      * @return
      */
     List<FlowNode> loadByFlowIds(@Param("flowIds") List<Long> flowIds);
+
+    /**
+     * 批量保存流程节点
+     *
+     * @param flowNodes 流程节点
+     */
+    void saveFlowNodes(List<FlowNode> flowNodes);
 }

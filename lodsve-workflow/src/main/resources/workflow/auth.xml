@@ -13,7 +13,7 @@
         <to node="idCardAuth"/>
         <conditional>ADMIN</conditional>
     </node>
-    <node title="身份认证" name="idCardAuth">
+    <node title="身份认证" name="idCardAuth" type="view">
         <method name="set"/>
         <to node="schoolAuth"/>
         <conditional>ADMIN</conditional>

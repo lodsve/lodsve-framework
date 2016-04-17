@@ -39,6 +39,7 @@ public class Workflow {
     private Class<?> domainClass;
     private FlowNode startNode;
     private FlowNode endNode;
+    private List<FormUrl> formUrls;
 
     public Long getId() {
         return id;
@@ -175,5 +176,13 @@ public class Workflow {
 
     public void setEndNode(FlowNode endNode) {
         this.endNode = endNode;
+    }
+
+    public List<FormUrl> getFormUrls() {
+        return formUrls;
+    }
+
+    public void setFormUrls(List<FormUrl> formUrls) {
+        this.formUrls = formUrls;
     }
 }

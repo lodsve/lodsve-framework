@@ -1,6 +1,7 @@
 package message.workflow.enums;
 
 import message.base.bean.Codeable;
+import message.base.utils.StringUtils;
 
 /**
  * .
@@ -27,5 +28,20 @@ public enum UrlType implements Codeable {
     @Override
     public String getTitle() {
         return title;
+    }
+
+    public static UrlType eval(String type) {
+        if (StringUtils.isBlank(type)) {
+            return null;
+        }
+
+        switch (type) {
+            case "update":
+                return UPDATE;
+            case "view":
+                return VIEW;
+            default:
+                throw new RuntimeException(String.format("can't eval given type: %s", type));
+        }
     }
 }
