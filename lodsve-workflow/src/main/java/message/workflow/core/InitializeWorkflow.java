@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import message.base.utils.EncryptUtils;
 import message.base.utils.ListUtils;
 import message.base.utils.StringUtils;
@@ -97,11 +98,11 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
 
         updateFormUrl.setType(UrlType.UPDATE);
         updateFormUrl.setUrl(XmlUtils.getAttrValue(element, Constants.TAG_UPDATE_URL + ":" + Constants.ATTR_URL));
-        updateFormUrl.setWorkFlowId(workflow.getId());
+        updateFormUrl.setFlowId(workflow.getId());
 
         viewFormUrl.setType(UrlType.VIEW);
         viewFormUrl.setUrl(XmlUtils.getAttrValue(element, Constants.TAG_VIEW_URL + ":" + Constants.ATTR_URL));
-        viewFormUrl.setWorkFlowId(workflow.getId());
+        viewFormUrl.setFlowId(workflow.getId());
 
         List<FormUrl> urls = Arrays.asList(updateFormUrl, viewFormUrl);
         formUrlRepository.saveFormUrls(urls);
