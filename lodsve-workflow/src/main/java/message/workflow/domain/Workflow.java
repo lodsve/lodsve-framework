@@ -27,14 +27,11 @@ public class Workflow {
     private String domain;
     @Column
     private int version = 0;
-    @Column
-    private String handler;
     @Column(length = 3000)
     private String xml;
     @Column(name = "xml_md")
     private String xmlMd5;
 
-    private Class<?> handlerClass;
     private List<FlowNode> nodes;
     private Class<?> domainClass;
     private FlowNode startNode;
@@ -81,14 +78,6 @@ public class Workflow {
         this.version = version;
     }
 
-    public String getHandler() {
-        return handler;
-    }
-
-    public void setHandler(String handler) {
-        this.handler = handler;
-    }
-
     public String getXml() {
         return xml;
     }
@@ -103,14 +92,6 @@ public class Workflow {
 
     public void setXmlMd5(String xmlMd5) {
         this.xmlMd5 = xmlMd5;
-    }
-
-    public Class<?> getHandlerClass() {
-        return handlerClass;
-    }
-
-    public void setHandlerClass(Class<?> handlerClass) {
-        this.handlerClass = handlerClass;
     }
 
     public List<FlowNode> getNodes() {

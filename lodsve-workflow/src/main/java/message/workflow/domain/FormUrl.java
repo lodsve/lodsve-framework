@@ -22,7 +22,7 @@ public class FormUrl {
     @Column
     private UrlType type;
     @Column
-    private Long workFlowId;
+    private Long flowId;
 
     public Long getId() {
         return id;
@@ -48,11 +48,11 @@ public class FormUrl {
         this.type = type;
     }
 
-    public Long getWorkFlowId() {
-        return workFlowId;
+    public Long getFlowId() {
+        return flowId;
     }
 
-    public void setWorkFlowId(Long workFlowId) {
-        this.workFlowId = workFlowId;
+    public void setFlowId(Long flowId) {
+        this.flowId = flowId;
     }
 }

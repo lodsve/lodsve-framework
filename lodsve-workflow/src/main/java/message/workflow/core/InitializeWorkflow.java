@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import message.base.utils.EncryptUtils;
 import message.base.utils.ListUtils;
-import message.base.utils.ObjectUtils;
 import message.base.utils.StringUtils;
 import message.base.utils.XmlUtils;
 import message.workflow.Constants;
@@ -18,11 +17,13 @@ import message.workflow.enums.UrlType;
 import message.workflow.repository.FlowNodeRepository;
 import message.workflow.repository.FormUrlRepository;
 import message.workflow.repository.WorkflowRepository;
-import message.workflow.service.WorkflowLocalStorage;
+import message.workflow.repository.WorkflowLocalStorage;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -42,6 +43,8 @@ import org.springframework.util.ClassUtils;
 @Component
 public class InitializeWorkflow implements ApplicationListener<ContextRefreshedEvent> {
     private List<Resource> resources = new ArrayList<>();
+
+    private ContextRefreshedEvent applicationReadyEvent;
 
     @Autowired
     private WorkflowRepository workflowRepository;
@@ -113,21 +116,23 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
             String name = XmlUtils.getElementAttr(child, Constants.ATTR_NAME);
             String type = XmlUtils.getElementAttr(child, Constants.ATTR_TYPE);
 
-            String method = XmlUtils.getAttrValue(child, Constants.TAG_METHOD + ":" + Constants.ATTR_NAME);
-            // 校验方法是否存在
-            checkHandlerMethod(workflow.getName(), name, workflow.getHandlerClass(), method);
-
+            String bean = XmlUtils.getAttrValue(child, Constants.TAG_INTERCEPTOR + ":" + Constants.ATTR_BEAN);
+            String clazz = XmlUtils.getAttrValue(child, Constants.TAG_INTERCEPTOR + ":" + Constants.ATTR_CLASS);
             String to = XmlUtils.getAttrValue(child, Constants.TAG_TO + ":" + Constants.ATTR_NODE);
             String conditional = XmlUtils.getElementBody(XmlUtils.getChild(child, Constants.TAG_CONDITIONAL));
+
+            // 检查处理类是否正确
+            HandlerInterceptor handler = checkHandler(workflow.getTitle(), bean, clazz);
 
             FlowNode node = new FlowNode();
             node.setTitle(title);
             node.setName(name);
-            node.setMethod(method);
             node.setTo(to);
             node.setFlowId(workflow.getId());
             node.setVersion(workflow.getVersion());
             node.setConditional(conditional);
+            node.setInterceptorBean(bean);
+            node.setInterceptorClass(clazz);
             final UrlType urlType = UrlType.eval(type);
             node.setUrlType(urlType);
             node.setFormUrl(ListUtils.findOne(urls, new ListUtils.Decide<FormUrl>() {
@@ -136,6 +141,7 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
                     return urlType == target.getType();
                 }
             }));
+            node.setInterceptor(handler);
 
             nodes.add(node);
         }
@@ -144,6 +150,36 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         flowNodeRepository.saveFlowNodes(nodes);
 
         return nodes;
+    }
+
+    private HandlerInterceptor checkHandler(String title, String bean, String clazz) {
+        if (StringUtils.isNotBlank(bean)) {
+            // 判断bean
+            Object source;
+            try {
+                source = applicationReadyEvent.getApplicationContext().getBean(bean);
+            } catch (BeansException e) {
+                throw new RuntimeException(String.format("解析流程处理类出现问题！流程名：%s, 处理类：%s", title, bean));
+            }
+            if (source == null || source.getClass().isAssignableFrom(HandlerInterceptor.class)) {
+                throw new RuntimeException(String.format("解析流程处理类出现问题！流程名：%s, 处理类：%s", title, bean));
+            }
+
+            return (HandlerInterceptor) source;
+        }
+        if (StringUtils.isNotBlank(clazz)) {
+            // 判断class
+            Class<?> _clazz;
+            try {
+                _clazz = ClassUtils.forName(clazz, Thread.currentThread().getContextClassLoader());
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(String.format("解析流程处理类出现问题！流程名：%s, 处理类：%s", title, clazz));
+            }
+
+            return (HandlerInterceptor) BeanUtils.instantiate(_clazz);
+        }
+
+        throw new RuntimeException("handler节点属性bean或者class必须二选一!");
     }
 
     private void checkNode(List<FlowNode> nodes) {
@@ -180,7 +216,6 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
     private Workflow initWorkflow(Resource resource, Document document, Element root) {
         String title = XmlUtils.getElementAttr(root, Constants.ATTR_TITLE);
         String name = XmlUtils.getElementAttr(root, Constants.ATTR_NAME);
-        String handler = XmlUtils.getElementAttr(root, Constants.ATTR_HANDLER);
         String domain = XmlUtils.getElementAttr(root, Constants.ATTR_DOMAIN);
 
         int version = 1;
@@ -195,11 +230,6 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
             version = lastestWorkflow.getVersion() + 1;
         }
 
-        // 检查处理类是否正确
-        Class<?> handlerClass = null;
-        if (StringUtils.isNotBlank(handler)) {
-            handlerClass = checkClass(handler, String.format("解析流程处理类出现问题！流程名：%s, 处理类：%s", name, handler));
-        }
         // 检查domain
         Class<?> domainClass = checkClass(domain, String.format("解析流程domain类出现问题！流程名：%s, domain类：%s", name, domain));
 
@@ -210,10 +240,8 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         workflow.setTitle(title);
         workflow.setName(name);
         workflow.setVersion(version);
-        workflow.setHandler(handler);
         workflow.setXml(xmlContent);
         workflow.setXmlMd5(xmlMd5);
-        workflow.setHandlerClass(handlerClass);
         workflow.setDomain(domain);
         workflow.setDomainClass(domainClass);
 
@@ -251,25 +279,10 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         return clazz;
     }
 
-    private void checkHandlerMethod(String flowName, String nodeName, Class<?> handlerClass, String method) {
-        if (handlerClass == null || StringUtils.isBlank(method)) {
-            return;
-        }
-
-        boolean isContains = false;
-        try {
-            isContains = Arrays.asList(ObjectUtils.getMethodNames(handlerClass.newInstance(), false)).contains(method);
-        } catch (Exception e) {
-
-        }
-
-        if (!isContains) {
-            throw new RuntimeException(String.format("流程【%s】的节点【%s】的处理类【%s】不包含方法【%s】！", flowName, nodeName, handlerClass.getName(), method));
-        }
-    }
-
     @Override
     public void onApplicationEvent(ContextRefreshedEvent applicationReadyEvent) {
+        this.applicationReadyEvent = applicationReadyEvent;
+
         ResourcePatternResolver loader = new PathMatchingResourcePatternResolver();
         Resource[] _resources;
         try {

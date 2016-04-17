@@ -1,16 +1,14 @@
-package message.workflow.service;
-
-import message.workflow.domain.Workflow;
-import message.workflow.repository.WorkflowRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
+package message.workflow.repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import message.workflow.domain.Workflow;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+import org.springframework.util.ClassUtils;
 
 /**
  * .

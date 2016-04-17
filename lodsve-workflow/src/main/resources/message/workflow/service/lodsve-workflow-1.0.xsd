@@ -70,13 +70,12 @@
 
     <xsd:attributeGroup name="workflowAttrs">
         <xsd:attribute name="title" type="xsd:string" use="required"/>
-        <xsd:attribute name="handler" type="xsd:string" use="optional"/>
         <xsd:attribute name="domain" type="xsd:string" use="required"/>
     </xsd:attributeGroup>
 
     <xsd:group name="nodeElements">
         <xsd:all>
-            <xsd:element ref="method" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="interceptor" minOccurs="0" maxOccurs="1"/>
             <xsd:element ref="to" minOccurs="1" maxOccurs="1"/>
             <xsd:element ref="conditional" minOccurs="1" maxOccurs="1"/>
         </xsd:all>
@@ -93,6 +92,20 @@
             <xsd:enumeration value="update"/>
         </xsd:restriction>
     </xsd:simpleType>
+
+    <xsd:element name="interceptor" type="interceptorAttrs"/>
+
+    <xsd:complexType name="interceptorAttrs">
+        <xsd:annotation>
+            <xsd:documentation>
+                class: the interceptor class name with package;<p/>
+                bean: the interceptor bean's name in spring context;<p/>
+                when also give this two attrs, will use bean.<p/>
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:attribute name="class" type="xsd:string" use="optional"/>
+        <xsd:attribute name="bean" type="xsd:string" use="optional"/>
+    </xsd:complexType>
 
     <xsd:element name="method" type="methodType"/>
 

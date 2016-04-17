@@ -10,7 +10,7 @@ import message.workflow.domain.Workflow;
 import message.workflow.enums.AuditResult;
 import message.workflow.repository.ProcessInstanceRepository;
 import message.workflow.repository.WorkTaskRepository;
-import message.workflow.service.WorkflowLocalStorage;
+import message.workflow.repository.WorkflowLocalStorage;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ import org.springframework.util.Assert;
  * @version V1.0, 2015-11-19 10:35
  */
 @Component
-public class WorkflowEngine {
+public class WorkFlowEngine {
     @Autowired
     private WorkTaskRepository workTaskRepository;
     @Autowired

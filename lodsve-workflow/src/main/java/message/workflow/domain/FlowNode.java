@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import message.workflow.enums.UrlType;
+import message.workflow.core.HandlerInterceptor;
 
 /**
  * 工作流节点.
@@ -23,8 +24,6 @@ public class FlowNode {
     private String title;
     @Column
     private String name;
-    @Column
-    private String method;
     @Column(length = 1000)
     private String conditional;
     @Column(name = "next")
@@ -32,9 +31,14 @@ public class FlowNode {
     @Column(name = "node_version")
     private int version;
     @Column
+    private String interceptorBean;
+    @Column
+    private String interceptorClass;
+    @Column
     private UrlType urlType;
 
     private FormUrl formUrl;
+    private HandlerInterceptor interceptor;
 
     public Long getId() {
         return id;
@@ -68,14 +72,6 @@ public class FlowNode {
         this.name = name;
     }
 
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
-    }
-
     public String getConditional() {
         return conditional;
     }
@@ -100,6 +96,22 @@ public class FlowNode {
         this.version = version;
     }
 
+    public String getInterceptorBean() {
+        return interceptorBean;
+    }
+
+    public void setInterceptorBean(String interceptorBean) {
+        this.interceptorBean = interceptorBean;
+    }
+
+    public String getInterceptorClass() {
+        return interceptorClass;
+    }
+
+    public void setInterceptorClass(String interceptorClass) {
+        this.interceptorClass = interceptorClass;
+    }
+
     public UrlType getUrlType() {
         return urlType;
     }
@@ -114,5 +126,13 @@ public class FlowNode {
 
     public void setFormUrl(FormUrl formUrl) {
         this.formUrl = formUrl;
+    }
+
+    public HandlerInterceptor getInterceptor() {
+        return interceptor;
+    }
+
+    public void setInterceptor(HandlerInterceptor interceptor) {
+        this.interceptor = interceptor;
     }
 }
