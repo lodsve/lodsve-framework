@@ -34,12 +34,12 @@ public class ProcessInstance {
      * 发起人
      */
     @Column
-    private Long userId;
+    private Long startUserId;
     /**
      * 发起人姓名
      */
     @Column
-    private String userName;
+    private String startUserName;
     /**
      * 当前节点id
      */
@@ -80,20 +80,20 @@ public class ProcessInstance {
         this.flowTitle = flowTitle;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getStartUserId() {
+        return startUserId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setStartUserId(Long startUserId) {
+        this.startUserId = startUserId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getStartUserName() {
+        return startUserName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setStartUserName(String startUserName) {
+        this.startUserName = startUserName;
     }
 
     public Long getCurrentNodeId() {

@@ -1,8 +1,10 @@
 package message.workflow.core;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import message.base.utils.DateUtils;
+import message.base.utils.ListUtils;
 import message.workflow.domain.FlowNode;
 import message.workflow.domain.ProcessInstance;
 import message.workflow.domain.WorkTask;
@@ -28,6 +30,8 @@ public class WorkflowEngine {
     private WorkTaskRepository workTaskRepository;
     @Autowired
     private ProcessInstanceRepository processInstanceRepository;
+    @Autowired
+    private ConditionalResolver resolver;
 
     /**
      * 发起工作流
@@ -60,6 +64,7 @@ public class WorkflowEngine {
         task.setTaskUserId(launchUserId);
         task.setTaskUserName(launchUser);
         task.setReceiveTime(time);
+        task.setResult(AuditResult.UNDO);
 
         workTaskRepository.save(task);
 
@@ -67,38 +72,116 @@ public class WorkflowEngine {
         ProcessInstance instance = new ProcessInstance();
         instance.setFlowId(workflow.getId());
         instance.setFlowTitle(workflow.getTitle());
-        instance.setUserId(launchUserId);
-        instance.setUserName(launchUser);
+        instance.setStartUserId(launchUserId);
+        instance.setStartUserName(launchUser);
         instance.setCurrentNodeId(startNode.getId());
         instance.setCurrentNodeTitle(startNode.getTitle());
         instance.setStartTime(time);
 
         processInstanceRepository.save(instance);
-
         return instance.getId();
     }
 
     /**
      * 流程办理
      *
-     * @param target       发起的目标对象
-     * @param launchUserId 办理人ID
-     * @param launchUser   办理人姓名
-     * @param result       办理结果
-     * @param remark       办理意见
+     * @param processInstanceId 流程实例ID
+     * @param domain            发起的目标对象class
+     * @param resourceId        资源ID
+     * @param launchUserId      办理人ID
+     * @param launchUser        办理人姓名
+     * @param result            办理结果
+     * @param remark            办理意见
      */
-    public void handler(Object target, Long launchUserId, String launchUser, AuditResult result, String remark) {
-        Assert.notNull(target);
+    public void handler(Long processInstanceId, Class<?> domain, Long resourceId, Long launchUserId, String launchUser, AuditResult result, String remark) {
+        Assert.notNull(processInstanceId);
+        Assert.notNull(domain);
+        Assert.notNull(resourceId);
         Assert.notNull(launchUserId);
-        Assert.hasText(launchUser);
+        Assert.notNull(launchUser);
         Assert.notNull(result);
         Assert.hasText(remark);
 
-        Class<?> domain = target.getClass();
+        // processInstance
+        ProcessInstance instance = processInstanceRepository.findOne(processInstanceId);
+        Assert.notNull(instance, String.format("流程示例不存在!流程示例id: %s!", processInstanceId));
+
+        // 获得流程定义
         Workflow workflow = findWorkflow(domain);
 
-        // 获取当前的未办理的待办
-        WorkTask task = workTaskRepository.findUndoTask(workflow.getId(), null, domain.getName());
+        // 获取当前待办
+        WorkTask task = workTaskRepository.findUndoTask(workflow.getId(), resourceId, domain.getName());
+        Assert.notNull(task, String.format("当前待办不存在,流程名: %s, 流程实例ID: %s, 当前待办ID: %s", instance.getFlowTitle(), processInstanceId, task.getId()));
+
+        // 获取当前节点
+        List<FlowNode> nodes = workflow.getNodes();
+        final Long currentNodeId = instance.getCurrentNodeId();
+        FlowNode node = ListUtils.findOne(nodes, new ListUtils.Decide<FlowNode>() {
+            @Override
+            public boolean judge(FlowNode target) {
+                return target.getId().equals(currentNodeId);
+            }
+        });
+        Assert.notNull(node, String.format("当前节点不存在!流程名: %s, 流程实例ID: %s, 流程节点: %s, 待办ID: %s",
+                workflow.getTitle(), processInstanceId, currentNodeId, task.getId()));
+
+        // 获得下一节点
+        final String next = node.getTo();
+        FlowNode nextNode = ListUtils.findOne(nodes, new ListUtils.Decide<FlowNode>() {
+            @Override
+            public boolean judge(FlowNode target) {
+                return target.getName().equals(next);
+            }
+        });
+        Assert.notNull(nextNode, String.format("当前节点下一节点不存在!流程名: %s, 流程实例ID: %s, 当前节点: %s, 待办ID: %s, 下一节点name: %s",
+                workflow.getTitle(), processInstanceId, currentNodeId, task.getId(), next));
+
+        // 获得下一节点的handlerInterceptor
+        HandlerInterceptor interceptor = node.getInterceptor();
+        // 获得下一节点的办理人表达式
+        String conditional = node.getConditional();
+        List<Long> handlerUserIds = resolver.resolveHandlers(conditional);
+
+        // 开始办理...
+
+        // 办理前做的事情
+        if (interceptor != null) {
+            interceptor.preNodeHandler(workflow, node, task, result, launchUserId, remark);
+        }
+        // 办理
+        // 1. 办掉当前事项
+        task.setResult(result);
+        task.setRemark(remark);
+        task.setHandleTime(new Date());
+        workTaskRepository.update(task);
+        // 2. 生成下一步待办,如果是多个人办理,就生成多条待办
+        List<WorkTask> tasks = new ArrayList<>(handlerUserIds.size());
+        for (Long handlerUserId : handlerUserIds) {
+            WorkTask nextTask = new WorkTask();
+
+            nextTask.setFlowId(workflow.getId());
+            nextTask.setNodeId(nextNode.getId());
+            nextTask.setResourceId(task.getResourceId());
+            nextTask.setProcessName(workflow.getTitle());
+            nextTask.setTaskName(nextNode.getTitle());
+            nextTask.setUrlType(nextNode.getUrlType());
+            nextTask.setTaskUserId(handlerUserId);
+            nextTask.setTaskUserName(resolver.resolveHandlerName(handlerUserId));
+            nextTask.setReceiveTime(new Date());
+            task.setResult(AuditResult.UNDO);
+
+            tasks.add(nextTask);
+        }
+        workTaskRepository.batchSave(tasks);
+        // 3. 更新流程实例
+        instance.setCurrentNodeId(nextNode.getId());
+        instance.setCurrentNodeTitle(nextNode.getTitle());
+        processInstanceRepository.update(instance);
+
+        // 办理之后要做的事情
+        if (interceptor != null) {
+            interceptor.postNodeHandler(workflow, node, task, result, launchUserId, remark);
+        }
     }
 
     private Workflow findWorkflow(Class<?> clazz) {

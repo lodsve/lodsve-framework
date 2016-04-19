@@ -1,5 +1,6 @@
 package message.workflow.repository;
 
+import java.util.List;
 import message.mybatis.repository.MyBatisRepository;
 import message.workflow.domain.WorkTask;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +23,11 @@ public interface WorkTaskRepository extends MyBatisRepository<WorkTask> {
      * @return
      */
     WorkTask findUndoTask(@Param("flowId") Long flowId, @Param("resourceId") Long resourceId, @Param("domain") String domain);
+
+    /**
+     * 批量保存
+     *
+     * @param workTasks task
+     */
+    void batchSave(List<WorkTask> workTasks);
 }

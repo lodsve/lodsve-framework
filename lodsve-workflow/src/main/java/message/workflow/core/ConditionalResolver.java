@@ -16,4 +16,12 @@ public interface ConditionalResolver {
      * @return 办理人
      */
     List<Long> resolveHandlers(String conditional);
+
+    /**
+     * 解析办理人的姓名
+     *
+     * @param id id
+     * @return 姓名
+     */
+    String resolveHandlerName(Long id);
 }

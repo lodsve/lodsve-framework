@@ -9,7 +9,7 @@ import message.base.bean.Codeable;
  * @version V1.0, 2015-11-19 11:51
  */
 public enum AuditResult implements Codeable {
-    SUCCESS("100", "审核通过"), FAILURE("101", "审核失败");
+    UNDO("100", "未办理"), SUCCESS("101", "审核通过"), FAILURE("102", "审核失败");
 
     private String code;
     private String title;

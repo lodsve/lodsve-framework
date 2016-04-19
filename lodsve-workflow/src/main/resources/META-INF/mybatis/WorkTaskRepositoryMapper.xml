@@ -3,6 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="message.workflow.repository.WorkTaskRepository">
+    <sql id="workTaskSaveColumns">
+        id, flow_id, node_id, resource_id, process_name, task_name, url_type, task_user_id, task_user_name, result, remark, receive_time
+    </sql>
+
     <select id="findUndoTask" resultType="message.workflow.domain.WorkTask">
         SELECT
         t.*
@@ -12,8 +16,29 @@
         WHERE
         t.flow_id = #{flowId}
         AND t.resource_id = #{resourceId}
-        AND t.result IS NULL
-        AND t.handleTime IS NULL
+        AND t.result = '100'
+        AND t.handle_time IS NULL
         AND t1.domain = #{domain}
     </select>
+
+    <insert id="batchSave" parameterType="List">
+        insert into t_flow_node (
+        <include refid="workTaskSaveColumns"/>
+        )
+        values
+        <foreach collection="workTasks" open="(" close=")" item="task" separator=",">
+            #{task.id},
+            #{task.flowId},
+            #{task.nodeId},
+            #{task.resourceId},
+            #{task.processName},
+            #{task.taskName},
+            #{task.urlType},
+            #{task.taskUserId},
+            #{task.taskUserName},
+            #{task.result},
+            #{task.remark},
+            #{task.receiveTime}
+        </foreach>
+    </insert>
 </mapper>
