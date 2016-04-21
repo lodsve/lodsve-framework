@@ -31,6 +31,16 @@ public class ProcessInstance {
     @Column
     private String flowTitle;
     /**
+     * 资源Id,业务Id
+     */
+    @Column
+    private Long resourceId;
+    /**
+     * 流程实例的title
+     */
+    @Column
+    private String processTitle;
+    /**
      * 发起人
      */
     @Column
@@ -78,6 +88,22 @@ public class ProcessInstance {
 
     public void setFlowTitle(String flowTitle) {
         this.flowTitle = flowTitle;
+    }
+
+    public Long getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(Long resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public String getProcessTitle() {
+        return processTitle;
+    }
+
+    public void setProcessTitle(String processTitle) {
+        this.processTitle = processTitle;
     }
 
     public Long getStartUserId() {

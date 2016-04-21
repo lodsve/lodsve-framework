@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import message.workflow.enums.UrlType;
-import message.workflow.core.HandlerInterceptor;
+import message.workflow.api.HandlerInterceptor;
 
 /**
  * 工作流节点.

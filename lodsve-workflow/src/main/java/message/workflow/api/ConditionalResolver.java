@@ -1,4 +1,4 @@
-package message.workflow.core;
+package message.workflow.api;
 
 import java.util.List;
 

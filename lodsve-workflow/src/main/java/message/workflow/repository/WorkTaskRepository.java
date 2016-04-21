@@ -3,6 +3,8 @@ package message.workflow.repository;
 import java.util.List;
 import message.mybatis.repository.MyBatisRepository;
 import message.workflow.domain.WorkTask;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -30,4 +32,15 @@ public interface WorkTaskRepository extends MyBatisRepository<WorkTask> {
      * @param workTasks task
      */
     void batchSave(List<WorkTask> workTasks);
+
+    /**
+     * 查询个人待办
+     *
+     * @param userId       办理人ID(必填)
+     * @param flowId       流程id(非必填, 查询用)
+     * @param processTitle 流程实例标题(非必填, 查询用)
+     * @param pageable     分页信息
+     * @return 待办的分页对象
+     */
+    Page<WorkTask> listUndoTask(@Param("userId") Long userId, @Param("flowId") Long flowId, @Param("processTitle") String processTitle, Pageable pageable);
 }

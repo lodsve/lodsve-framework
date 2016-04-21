@@ -11,6 +11,7 @@ import message.base.utils.ListUtils;
 import message.base.utils.StringUtils;
 import message.base.utils.XmlUtils;
 import message.workflow.Constants;
+import message.workflow.api.HandlerInterceptor;
 import message.workflow.domain.FlowNode;
 import message.workflow.domain.FormUrl;
 import message.workflow.domain.Workflow;

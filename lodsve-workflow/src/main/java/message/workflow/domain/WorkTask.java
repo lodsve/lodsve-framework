@@ -26,6 +26,11 @@ public class WorkTask {
     @Column
     private Long flowId;
     /**
+     * 流程名
+     */
+    @Column
+    private String flowTitle;
+    /**
      * 节点ID
      */
     @Column
@@ -36,15 +41,15 @@ public class WorkTask {
     @Column
     private Long resourceId;
     /**
-     * 流程名称
+     * 流程实例名称
      */
     @Column
-    private String processName;
+    private String processTitle;
     /**
      * 任务描述
      */
     @Column
-    private String taskName;
+    private String nodeTitle;
     /**
      * 表单URL类型
      */
@@ -102,6 +107,14 @@ public class WorkTask {
         this.flowId = flowId;
     }
 
+    public String getFlowTitle() {
+        return flowTitle;
+    }
+
+    public void setFlowTitle(String flowTitle) {
+        this.flowTitle = flowTitle;
+    }
+
     public Long getNodeId() {
         return nodeId;
     }
@@ -118,20 +131,20 @@ public class WorkTask {
         this.resourceId = resourceId;
     }
 
-    public String getProcessName() {
-        return processName;
+    public String getProcessTitle() {
+        return processTitle;
     }
 
-    public void setProcessName(String processName) {
-        this.processName = processName;
+    public void setProcessTitle(String processTitle) {
+        this.processTitle = processTitle;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public String getNodeTitle() {
+        return nodeTitle;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setNodeTitle(String nodeTitle) {
+        this.nodeTitle = nodeTitle;
     }
 
     public UrlType getUrlType() {

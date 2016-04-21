@@ -37,4 +37,12 @@ public interface FlowNodeRepository extends MyBatisRepository<FlowNode> {
      * @param flowNodes 流程节点
      */
     void saveFlowNodes(List<FlowNode> flowNodes);
+
+    /**
+     * 获得流程当前节点
+     *
+     * @param processInstanceId 流程实例ID
+     * @return 当前节点
+     */
+    FlowNode findCurrentNode(@Param("processInstanceId") Long processInstanceId);
 }

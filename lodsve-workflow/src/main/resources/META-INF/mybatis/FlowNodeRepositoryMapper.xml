@@ -9,21 +9,25 @@
     </sql>
 
     <select id="findByFlowId" resultType="message.workflow.domain.FlowNode" parameterType="Long">
-        SELECT <include refid="flowNodeColumns"/> FROM t_flow_node WHERE flow_id = #{flowId}
+        SELECT
+        <include refid="flowNodeColumns"/>
+        FROM t_flow_node WHERE flow_id = #{flowId}
     </select>
 
     <select id="loadByFlowIds" resultType="message.workflow.domain.FlowNode" parameterType="List">
-        SELECT <include refid="flowNodeColumns"/> FROM t_flow_node WHERE flow_Id IN
+        SELECT
+        <include refid="flowNodeColumns"/>
+        FROM t_flow_node WHERE flow_Id IN
         <foreach collection="flowIds" item="flowId" index="index" separator="," open="(" close=")">
             #{flowId}
         </foreach>
     </select>
 
     <insert id="saveFlowNodes" parameterType="List">
-        insert into t_flow_node (
+        INSERT INTO t_flow_node (
         <include refid="flowNodeColumns"/>
         )
-        values
+        VALUES
         <foreach collection="flowNodes" open="(" close=")" item="node" separator=",">
             #{node.id},
             #{node.flowId},
@@ -37,4 +41,9 @@
             #{node.urlType}
         </foreach>
     </insert>
+
+    <select id="findCurrentNode" resultType="message.workflow.domain.FlowNode">
+        SELECT n.* FROM t_flow_node n JOIN t_process_instance pi ON n.id = pi.current_node_id
+        WHERE pi.id = #{processInstanceId}
+    </select>
 </mapper>

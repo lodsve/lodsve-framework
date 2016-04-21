@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import message.base.utils.DateUtils;
 import message.base.utils.ListUtils;
+import message.workflow.api.ConditionalResolver;
+import message.workflow.api.HandlerInterceptor;
 import message.workflow.domain.FlowNode;
 import message.workflow.domain.ProcessInstance;
 import message.workflow.domain.WorkTask;
@@ -42,7 +44,7 @@ public class WorkflowEngine {
      * @param launchUser   发起人姓名
      * @return 流程实例ID
      */
-    public Long startProcess(Long resourceId, Class<?> domain, Long launchUserId, String launchUser) {
+    public Long startProcess(Long resourceId, String title, Class<?> domain, Long launchUserId, String launchUser) {
         Assert.notNull(domain);
         Assert.notNull(launchUserId);
         Assert.hasText(launchUser);
@@ -57,14 +59,14 @@ public class WorkflowEngine {
         task.setFlowId(workflow.getId());
         task.setNodeId(startNode.getId());
         task.setResourceId(resourceId);
-        task.setProcessName(workflow.getTitle());
-        task.setTaskName(startNode.getTitle());
+        task.setFlowTitle(workflow.getTitle());
+        task.setNodeTitle(startNode.getTitle());
         task.setUrlType(startNode.getUrlType());
-        task.setFormUrl(startNode.getFormUrl().getUrl());
         task.setTaskUserId(launchUserId);
         task.setTaskUserName(launchUser);
         task.setReceiveTime(time);
         task.setResult(AuditResult.UNDO);
+        task.setProcessTitle(title);
 
         workTaskRepository.save(task);
 
@@ -77,6 +79,8 @@ public class WorkflowEngine {
         instance.setCurrentNodeId(startNode.getId());
         instance.setCurrentNodeTitle(startNode.getTitle());
         instance.setStartTime(time);
+        instance.setResourceId(resourceId);
+        instance.setProcessTitle(title);
 
         processInstanceRepository.save(instance);
         return instance.getId();
@@ -162,13 +166,14 @@ public class WorkflowEngine {
             nextTask.setFlowId(workflow.getId());
             nextTask.setNodeId(nextNode.getId());
             nextTask.setResourceId(task.getResourceId());
-            nextTask.setProcessName(workflow.getTitle());
-            nextTask.setTaskName(nextNode.getTitle());
+            nextTask.setFlowTitle(workflow.getTitle());
+            nextTask.setNodeTitle(nextNode.getTitle());
+            nextTask.setProcessTitle(task.getProcessTitle());
             nextTask.setUrlType(nextNode.getUrlType());
             nextTask.setTaskUserId(handlerUserId);
             nextTask.setTaskUserName(resolver.resolveHandlerName(handlerUserId));
             nextTask.setReceiveTime(new Date());
-            task.setResult(AuditResult.UNDO);
+            nextTask.setResult(AuditResult.UNDO);
 
             tasks.add(nextTask);
         }
