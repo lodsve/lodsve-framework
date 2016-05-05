@@ -1,5 +1,12 @@
 # 更新日志
 
+## V2.4.10
+1. 完成简单工作流
+2. swagger升级为springfox
+3. 修改 cosmos-->lodsve
+4. 支持spring cache
+5. 修复若干bug
+
 ## V2.4.9
 1. 修复父级pom忘记写入lodsve-logger了
 2. mybatis不需要再写Enum的TypeHandler了,只需要在@EnableMyBatis中配置enumsLocations指定枚举在哪即可
