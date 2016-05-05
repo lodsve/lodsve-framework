@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import message.base.utils.ListUtils;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -29,13 +30,18 @@ public class Workflow {
     private int version = 0;
     @Column(length = 3000)
     private String xml;
-    @Column(name = "xml_md")
-    private String xmlMd5;
+    @Column
+    private String xmlMd;
 
+    @Transient
     private List<FlowNode> nodes;
+    @Transient
     private Class<?> domainClass;
+    @Transient
     private FlowNode startNode;
+    @Transient
     private FlowNode endNode;
+    @Transient
     private List<FormUrl> formUrls;
 
     public Long getId() {
@@ -86,12 +92,12 @@ public class Workflow {
         this.xml = xml;
     }
 
-    public String getXmlMd5() {
-        return xmlMd5;
+    public String getXmlMd() {
+        return xmlMd;
     }
 
-    public void setXmlMd5(String xmlMd5) {
-        this.xmlMd5 = xmlMd5;
+    public void setXmlMd(String xmlMd) {
+        this.xmlMd = xmlMd;
     }
 
     public List<FlowNode> getNodes() {
@@ -105,7 +111,7 @@ public class Workflow {
         FlowNode endNode = ListUtils.findOne(nodes, new ListUtils.Decide<FlowNode>() {
             @Override
             public boolean judge(FlowNode target) {
-                return "end".equals(target.getTo());
+                return "end".equals(target.getNext());
             }
         });
         setEndNode(endNode);
@@ -124,14 +130,14 @@ public class Workflow {
         FlowNode _node = ListUtils.findOne(nodes, new ListUtils.Decide<FlowNode>() {
             @Override
             public boolean judge(FlowNode target) {
-                return name.equals(target.getTo());
+                return name.equals(target.getNext());
             }
         });
 
         if (_node == null) {
             return node;
         } else {
-            return findStartNode(startNode, nodes);
+            return findStartNode(_node, nodes);
         }
     }
 

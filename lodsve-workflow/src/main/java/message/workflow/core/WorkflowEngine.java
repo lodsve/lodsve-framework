@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import message.base.utils.DateUtils;
 import message.base.utils.ListUtils;
+import message.mybatis.key.IDGenerator;
+import message.mybatis.key.snowflake.SnowflakeIdGenerator;
 import message.workflow.api.ConditionalResolver;
 import message.workflow.api.HandlerInterceptor;
 import message.workflow.domain.FlowNode;
@@ -34,6 +36,8 @@ public class WorkflowEngine {
     private ProcessInstanceRepository processInstanceRepository;
     @Autowired
     private ConditionalResolver resolver;
+
+    private IDGenerator idGenerator = new SnowflakeIdGenerator();
 
     /**
      * 发起工作流
@@ -130,7 +134,7 @@ public class WorkflowEngine {
                 workflow.getTitle(), processInstanceId, currentNodeId, task.getId()));
 
         // 获得下一节点
-        final String next = node.getTo();
+        final String next = node.getNext();
         FlowNode nextNode = ListUtils.findOne(nodes, new ListUtils.Decide<FlowNode>() {
             @Override
             public boolean judge(FlowNode target) {
@@ -163,6 +167,7 @@ public class WorkflowEngine {
         for (Long handlerUserId : handlerUserIds) {
             WorkTask nextTask = new WorkTask();
 
+            nextTask.setId(idGenerator.nextId());
             nextTask.setFlowId(workflow.getId());
             nextTask.setNodeId(nextNode.getId());
             nextTask.setResourceId(task.getResourceId());

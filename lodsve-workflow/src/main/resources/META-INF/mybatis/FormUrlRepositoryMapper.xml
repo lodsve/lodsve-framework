@@ -4,10 +4,10 @@
 
 <mapper namespace="message.workflow.repository.FormUrlRepository">
     <insert id="saveFormUrls" parameterType="List">
-        insert into t_form_url (id, url, type, flow_id)
+        insert into t_form_url (id, url, url_type, flow_id)
         values
-        <foreach collection="formUrls" open="(" close=")" item="formUrl" separator=",">
-            #{formUrl.id}, #{formUrl.url}, #{formUrl.type}, #{formUrl.flow_id}
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id}, #{item.url}, #{item.urlType}, #{item.flowId})
         </foreach>
     </insert>
 </mapper>

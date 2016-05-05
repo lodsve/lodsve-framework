@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import message.base.utils.EncryptUtils;
 import message.base.utils.ListUtils;
 import message.base.utils.StringUtils;
 import message.base.utils.XmlUtils;
+import message.mybatis.key.IDGenerator;
+import message.mybatis.key.snowflake.SnowflakeIdGenerator;
 import message.workflow.Constants;
 import message.workflow.api.HandlerInterceptor;
 import message.workflow.domain.FlowNode;
@@ -18,10 +19,9 @@ import message.workflow.domain.Workflow;
 import message.workflow.enums.UrlType;
 import message.workflow.repository.FlowNodeRepository;
 import message.workflow.repository.FormUrlRepository;
-import message.workflow.repository.WorkflowRepository;
 import message.workflow.repository.WorkflowLocalStorage;
+import message.workflow.repository.WorkflowRepository;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.springframework.beans.BeanUtils;
@@ -47,6 +47,7 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
     private List<Resource> resources = new ArrayList<>();
 
     private ContextRefreshedEvent applicationReadyEvent;
+    private IDGenerator idGenerator = new SnowflakeIdGenerator();
 
     @Autowired
     private WorkflowRepository workflowRepository;
@@ -61,96 +62,74 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
 
             // 获取根元素
             Element root = document.getRootElement();
-            Workflow workflow = initWorkflow(resource, document, root);
-
-            if (workflow != null && CollectionUtils.isNotEmpty(workflow.getNodes())) {
-                // 流程未发生变化
-                WorkflowLocalStorage.store(workflow);
-                continue;
-            }
-
-            if (workflow == null) {
-                // 可能是出问题了
-                continue;
-            }
-
-            // 处理url节点
-            List<Element> urls_ = XmlUtils.getChildren(root, Constants.TAG_URLS);
-            List<FormUrl> urls = initUrls(urls_, workflow);
-
-            // 获取根元素下的所有node节点
-            List<Element> children = XmlUtils.getChildren(root, Constants.TAG_NODE);
-            List<FlowNode> nodes = initFlowNode(workflow, children, urls);
-
-            workflow.setNodes(nodes);
-            workflow.setFormUrls(urls);
-            WorkflowLocalStorage.store(workflow);
+            initWorkflow(resource, document, root);
         }
     }
 
-    private List<FormUrl> initUrls(List<Element> urls_, Workflow workflow) {
+    private List<FormUrl> resovleUrls(List<Element> urls_, Workflow workflow) {
         // 有且仅有一个
-        Assert.isTrue(ArrayUtils.getLength(urls_) == 1);
+        Assert.isTrue(CollectionUtils.isNotEmpty(urls_));
 
         Element element = urls_.get(0);
 
         FormUrl updateFormUrl = new FormUrl();
         FormUrl viewFormUrl = new FormUrl();
 
-        updateFormUrl.setType(UrlType.UPDATE);
+        updateFormUrl.setId(idGenerator.nextId());
+        updateFormUrl.setUrlType(UrlType.UPDATE);
         updateFormUrl.setUrl(XmlUtils.getAttrValue(element, Constants.TAG_UPDATE_URL + ":" + Constants.ATTR_URL));
         updateFormUrl.setFlowId(workflow.getId());
 
-        viewFormUrl.setType(UrlType.VIEW);
+        viewFormUrl.setId(idGenerator.nextId());
+        viewFormUrl.setUrlType(UrlType.VIEW);
         viewFormUrl.setUrl(XmlUtils.getAttrValue(element, Constants.TAG_VIEW_URL + ":" + Constants.ATTR_URL));
         viewFormUrl.setFlowId(workflow.getId());
 
-        List<FormUrl> urls = Arrays.asList(updateFormUrl, viewFormUrl);
-        formUrlRepository.saveFormUrls(urls);
-
-        return urls;
+        return Arrays.asList(updateFormUrl, viewFormUrl);
     }
 
-    private List<FlowNode> initFlowNode(Workflow workflow, List<Element> children, List<FormUrl> urls) {
+    private List<FlowNode> resovleFlowNode(Workflow workflow, List<Element> children, List<FormUrl> urls) {
         List<FlowNode> nodes = new ArrayList<>(children.size());
         for (Element child : children) {
             String title = XmlUtils.getElementAttr(child, Constants.ATTR_TITLE);
             String name = XmlUtils.getElementAttr(child, Constants.ATTR_NAME);
             String type = XmlUtils.getElementAttr(child, Constants.ATTR_TYPE);
 
-            String bean = XmlUtils.getAttrValue(child, Constants.TAG_INTERCEPTOR + ":" + Constants.ATTR_BEAN);
-            String clazz = XmlUtils.getAttrValue(child, Constants.TAG_INTERCEPTOR + ":" + Constants.ATTR_CLASS);
             String to = XmlUtils.getAttrValue(child, Constants.TAG_TO + ":" + Constants.ATTR_NODE);
             String conditional = XmlUtils.getElementBody(XmlUtils.getChild(child, Constants.TAG_CONDITIONAL));
 
-            // 检查处理类是否正确
-            HandlerInterceptor handler = checkHandler(workflow.getTitle(), bean, clazz);
-
             FlowNode node = new FlowNode();
+            if (XmlUtils.hasChildNode(child, Constants.TAG_INTERCEPTOR)) {
+                String bean = XmlUtils.getAttrValue(child, Constants.TAG_INTERCEPTOR + ":" + Constants.ATTR_BEAN);
+                String clazz = XmlUtils.getAttrValue(child, Constants.TAG_INTERCEPTOR + ":" + Constants.ATTR_CLASS);
+
+                // 检查处理类是否正确
+                HandlerInterceptor handler = checkHandler(workflow.getTitle(), bean, clazz);
+                node.setInterceptorBean(bean);
+                node.setInterceptorClass(clazz);
+                node.setInterceptor(handler);
+            }
+
+            node.setId(idGenerator.nextId());
             node.setTitle(title);
             node.setName(name);
-            node.setTo(to);
+            node.setNext(to);
             node.setFlowId(workflow.getId());
-            node.setVersion(workflow.getVersion());
+            node.setNodeVersion(workflow.getVersion());
             node.setConditional(conditional);
-            node.setInterceptorBean(bean);
-            node.setInterceptorClass(clazz);
             final UrlType urlType = UrlType.eval(type);
             node.setUrlType(urlType);
             node.setFormUrl(ListUtils.findOne(urls, new ListUtils.Decide<FormUrl>() {
                 @Override
                 public boolean judge(FormUrl target) {
-                    return urlType == target.getType();
+                    return urlType == target.getUrlType();
                 }
             }));
-            node.setInterceptor(handler);
 
             nodes.add(node);
         }
 
         checkNode(nodes);
-        flowNodeRepository.saveFlowNodes(nodes);
-
         return nodes;
     }
 
@@ -187,7 +166,7 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
     private void checkNode(List<FlowNode> nodes) {
         for (FlowNode node : nodes) {
             final String name = node.getName();
-            final String to = node.getTo();
+            final String to = node.getNext();
 
             // 校验code是否唯一
             List<FlowNode> _nodes = ListUtils.findMore(nodes, new ListUtils.Decide<FlowNode>() {
@@ -215,41 +194,67 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         }
     }
 
-    private Workflow initWorkflow(Resource resource, Document document, Element root) {
+    private void initWorkflow(Resource resource, Document document, Element root) {
         String title = XmlUtils.getElementAttr(root, Constants.ATTR_TITLE);
         String name = XmlUtils.getElementAttr(root, Constants.ATTR_NAME);
         String domain = XmlUtils.getElementAttr(root, Constants.ATTR_DOMAIN);
 
-        int version = 1;
-        // 判断流程是否发生变化，如果发生变化，则版本号增加1
-        String xmlMd5 = getFileMD5(resource);
         Workflow lastestWorkflow = workflowRepository.loadLatest(name);
-        if (lastestWorkflow != null) {
-            if (xmlMd5.equals(lastestWorkflow.getXmlMd5())) {
-                return lastestWorkflow;
-            }
-            // 版本号递增
-            version = lastestWorkflow.getVersion() + 1;
-        }
+        boolean needSave = true;
+        int version = lastestWorkflow == null ? 0 : lastestWorkflow.getVersion();
 
         // 检查domain
         Class<?> domainClass = checkClass(domain, String.format("解析流程domain类出现问题！流程名：%s, domain类：%s", name, domain));
 
         String xmlContent = XmlUtils.parseXMLToString(document);
 
-        Workflow workflow = new Workflow();
+        Workflow workflow;
+        if (lastestWorkflow != null && isSameVersion(name, resource)) {
+            // 同一流程,但是版本不同,版本号递增
+            workflow = lastestWorkflow;
+            needSave = false;
+        } else {
+            workflow = new Workflow();
 
-        workflow.setTitle(title);
-        workflow.setName(name);
-        workflow.setVersion(version);
-        workflow.setXml(xmlContent);
-        workflow.setXmlMd5(xmlMd5);
-        workflow.setDomain(domain);
+            workflow.setTitle(title);
+            workflow.setName(name);
+            workflow.setVersion(++version);
+            workflow.setXml(xmlContent);
+            workflow.setXmlMd(getFileMD5(resource));
+            workflow.setDomain(domain);
+
+            workflowRepository.save(workflow);
+        }
+
+        // 处理url节点
+        List<Element> urls_ = XmlUtils.getChildren(root, Constants.TAG_URLS);
+        List<FormUrl> urls = resovleUrls(urls_, workflow);
+
+        if (needSave) {
+            formUrlRepository.saveFormUrls(urls);
+        }
+
+        // 获取根元素下的所有node节点
+        List<Element> children = XmlUtils.getChildren(root, Constants.TAG_NODE);
+        List<FlowNode> nodes = resovleFlowNode(workflow, children, urls);
+
+        if (needSave) {
+            flowNodeRepository.saveFlowNodes(nodes);
+        }
+
+        workflow.setNodes(nodes);
+        workflow.setFormUrls(urls);
         workflow.setDomainClass(domainClass);
+        WorkflowLocalStorage.store(workflow);
+    }
 
-        // 保存(每次都是增加，修改版本号)
-        workflowRepository.save(workflow);
-        return workflow;
+    private boolean isSameVersion(String flowName, Resource resource) {
+        // 判断流程是否发生变化，如果发生变化，则版本号增加1
+        String xmlMd5 = getFileMD5(resource);
+        Workflow lastestWorkflow = workflowRepository.loadLatest(flowName);
+
+        return lastestWorkflow != null && xmlMd5.equals(lastestWorkflow.getXmlMd());
+
     }
 
     private String getFileMD5(Resource resource) {

@@ -40,10 +40,6 @@
         </dependency>
         <dependency>
             <groupId>com.github.lodsve</groupId>
-            <artifactId>lodsve-mybatis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.lodsve</groupId>
             <artifactId>lodsve-validate</artifactId>
         </dependency>
     </dependencies>

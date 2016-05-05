@@ -83,7 +83,7 @@
 
     <xsd:attributeGroup name="nodeAttrs">
         <xsd:attribute name="title" type="xsd:string" use="required"/>
-        <xsd:attribute name="type" type="urlType"/>
+        <xsd:attribute name="type" type="urlType" use="required"/>
     </xsd:attributeGroup>
 
     <xsd:simpleType name="urlType">

@@ -20,7 +20,7 @@ public class FormUrl {
     @Column
     private String url;
     @Column
-    private UrlType type;
+    private UrlType urlType;
     @Column
     private Long flowId;
 
@@ -40,12 +40,12 @@ public class FormUrl {
         this.url = url;
     }
 
-    public UrlType getType() {
-        return type;
+    public UrlType getUrlType() {
+        return urlType;
     }
 
-    public void setType(UrlType type) {
-        this.type = type;
+    public void setUrlType(UrlType urlType) {
+        this.urlType = urlType;
     }
 
     public Long getFlowId() {

@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import message.base.utils.DateUtils;
 import message.workflow.enums.AuditResult;
 import message.workflow.enums.UrlType;
@@ -89,6 +90,7 @@ public class WorkTask {
     /**
      * 关联表单的URL
      */
+    @Transient
     private String formUrl;
 
     public Long getId() {

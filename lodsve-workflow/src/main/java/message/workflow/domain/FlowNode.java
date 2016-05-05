@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import message.workflow.enums.UrlType;
 import message.workflow.api.HandlerInterceptor;
 
@@ -26,10 +27,10 @@ public class FlowNode {
     private String name;
     @Column(length = 1000)
     private String conditional;
-    @Column(name = "next")
-    private String to;
-    @Column(name = "node_version")
-    private int version;
+    @Column
+    private String next;
+    @Column
+    private int nodeVersion;
     @Column
     private String interceptorBean;
     @Column
@@ -37,7 +38,9 @@ public class FlowNode {
     @Column
     private UrlType urlType;
 
+    @Transient
     private FormUrl formUrl;
+    @Transient
     private HandlerInterceptor interceptor;
 
     public Long getId() {
@@ -80,20 +83,20 @@ public class FlowNode {
         this.conditional = conditional;
     }
 
-    public String getTo() {
-        return to;
+    public String getNext() {
+        return next;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setNext(String next) {
+        this.next = next;
     }
 
-    public int getVersion() {
-        return version;
+    public int getNodeVersion() {
+        return nodeVersion;
     }
 
-    public void setVersion(int version) {
-        this.version = version;
+    public void setNodeVersion(int nodeVersion) {
+        this.nodeVersion = nodeVersion;
     }
 
     public String getInterceptorBean() {

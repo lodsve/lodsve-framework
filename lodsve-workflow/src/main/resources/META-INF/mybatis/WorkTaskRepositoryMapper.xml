@@ -26,8 +26,8 @@
         <include refid="workTaskSaveColumns"/>
         )
         VALUES
-        <foreach collection="workTasks" open="(" close=")" item="task" separator=",">
-            #{task.id},
+        <foreach collection="list" item="task" separator=",">
+            (#{task.id},
             #{task.flowId},
             #{task.nodeId},
             #{task.resourceId},
@@ -38,7 +38,7 @@
             #{task.taskUserName},
             #{task.result},
             #{task.remark},
-            #{task.receiveTime}
+            #{task.receiveTime})
         </foreach>
     </insert>
 

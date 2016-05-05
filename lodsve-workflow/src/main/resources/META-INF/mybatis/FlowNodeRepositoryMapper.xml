@@ -28,17 +28,17 @@
         <include refid="flowNodeColumns"/>
         )
         VALUES
-        <foreach collection="flowNodes" open="(" close=")" item="node" separator=",">
-            #{node.id},
+        <foreach collection="list" item="node" separator=",">
+            (#{node.id},
             #{node.flowId},
             #{node.title},
             #{node.name},
             #{node.conditional},
-            #{node.to},
-            #{node.version},
+            #{node.next},
+            #{node.nodeVersion},
             #{node.interceptorBean},
             #{node.interceptorClass},
-            #{node.urlType}
+            #{node.urlType})
         </foreach>
     </insert>
 

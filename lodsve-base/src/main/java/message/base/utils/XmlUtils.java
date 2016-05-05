@@ -202,6 +202,29 @@ public final class XmlUtils {
         return getElementAttr(element, attr);
     }
 
+    /**
+     * 判断元素是否含有子节点
+     *
+     * @param ele      元素
+     * @param nodeName 子节点
+     * @return true/false
+     */
+    public static boolean hasChildNode(Element ele, String nodeName) {
+        List<Element> eles = getChildren(ele, nodeName);
+        return eles != null && eles.size() > 0;
+    }
+
+    /**
+     * 判断元素是否含有属性
+     *
+     * @param ele      元素
+     * @param attrName 属性名
+     * @return true/false
+     */
+    public static boolean hasAttr(Element ele, String attrName) {
+        return ele.attributeValue(attrName) != null;
+    }
+
     public static Map<String, String> parse(InputStream body) {
         try {
             InputSource source = new InputSource(new InputStreamReader(body, "UTF-8"));
