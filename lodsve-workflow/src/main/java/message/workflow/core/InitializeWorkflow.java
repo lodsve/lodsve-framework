@@ -10,7 +10,7 @@ import message.base.utils.ListUtils;
 import message.base.utils.StringUtils;
 import message.base.utils.XmlUtils;
 import message.mybatis.key.IDGenerator;
-import message.mybatis.key.snowflake.SnowflakeIdGenerator;
+import message.mybatis.utils.MyBatisUtils;
 import message.workflow.Constants;
 import message.workflow.api.HandlerInterceptor;
 import message.workflow.domain.FlowNode;
@@ -47,7 +47,6 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
     private List<Resource> resources = new ArrayList<>();
 
     private ContextRefreshedEvent applicationReadyEvent;
-    private IDGenerator idGenerator = new SnowflakeIdGenerator();
 
     @Autowired
     private WorkflowRepository workflowRepository;
@@ -75,12 +74,14 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         FormUrl updateFormUrl = new FormUrl();
         FormUrl viewFormUrl = new FormUrl();
 
-        updateFormUrl.setId(idGenerator.nextId());
+        Long id = MyBatisUtils.nextId(IDGenerator.KeyType.SNOWFLAKE);
+        updateFormUrl.setId(id);
         updateFormUrl.setUrlType(UrlType.UPDATE);
         updateFormUrl.setUrl(XmlUtils.getAttrValue(element, Constants.TAG_UPDATE_URL + ":" + Constants.ATTR_URL));
         updateFormUrl.setFlowId(workflow.getId());
 
-        viewFormUrl.setId(idGenerator.nextId());
+        id = MyBatisUtils.nextId(IDGenerator.KeyType.SNOWFLAKE);
+        viewFormUrl.setId(id);
         viewFormUrl.setUrlType(UrlType.VIEW);
         viewFormUrl.setUrl(XmlUtils.getAttrValue(element, Constants.TAG_VIEW_URL + ":" + Constants.ATTR_URL));
         viewFormUrl.setFlowId(workflow.getId());
@@ -110,7 +111,8 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
                 node.setInterceptor(handler);
             }
 
-            node.setId(idGenerator.nextId());
+            Long id = MyBatisUtils.nextId(IDGenerator.KeyType.SNOWFLAKE);
+            node.setId(id);
             node.setTitle(title);
             node.setName(name);
             node.setNext(to);

@@ -1,6 +1,5 @@
 package message.transaction.repository;
 
-import message.mybatis.repository.MyBatisRepository;
 import message.transaction.domain.Refund;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +13,9 @@ import org.springframework.stereotype.Repository;
  * @version V1.0, 15/11/5 下午7:43
  */
 @Repository
-public interface RefundRepository extends MyBatisRepository<Refund> {
+public interface RefundRepository {
+    void save(Refund refund);
+
     Refund findByPaymentId(@Param("paymentId") Long paymentId);
 
     Refund findByChargeId(@Param("chargeId") String chargeId);

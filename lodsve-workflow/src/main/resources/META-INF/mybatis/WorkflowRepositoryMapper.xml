@@ -3,6 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="message.workflow.repository.WorkflowRepository">
+    <sql id="workflowColumns">
+      id, title, name, domain, version, xml, xml_md
+    </sql>
+
     <select id="loadLatest" resultType="message.workflow.domain.Workflow" parameterType="String">
         SELECT * FROM t_workflow t WHERE t.name = #{name} ORDER BY t.version DESC limit 1
     </select>
@@ -10,4 +14,17 @@
     <select id="findByDomain" resultType="message.workflow.domain.Workflow" parameterType="String">
         SELECT * FROM t_workflow WHERE domain = #{domain}
     </select>
+
+    <insert id="save" parameterType="message.workflow.domain.Workflow">
+        INSERT INTO t_workflow (<include refid="workflowColumns"/>)
+        VALUES (
+        #{id},
+        #{title},
+        #{name},
+        #{domain},
+        #{version},
+        #{xml},
+        #{xml_md}
+        )
+    </insert>
 </mapper>

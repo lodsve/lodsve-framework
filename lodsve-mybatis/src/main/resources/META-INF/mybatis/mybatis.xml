@@ -9,8 +9,5 @@
 	
 	<plugins>
 		<plugin interceptor="message.mybatis.pagination.PaginationInterceptor"/>
-		<plugin interceptor="message.mybatis.repository.MapperInterceptor">
-			<property name="mappers" value="message.mybatis.repository.MyBatisRepository"/>
-		</plugin>
 	</plugins>
 </configuration>

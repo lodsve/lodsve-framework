@@ -1,11 +1,9 @@
 package message.workflow.repository;
 
-import message.mybatis.repository.MyBatisRepository;
+import java.util.List;
 import message.workflow.domain.FlowNode;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * .
@@ -14,7 +12,7 @@ import java.util.List;
  * @version V1.0, 2015-11-18 14:19
  */
 @Repository
-public interface FlowNodeRepository extends MyBatisRepository<FlowNode> {
+public interface FlowNodeRepository {
     /**
      * 通过流程id获取流程节点
      *

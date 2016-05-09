@@ -3,6 +3,47 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="message.transaction.repository.PaymentRepository">
+    <insert id="save" parameterType="message.transaction.domain.Payment">
+        INSERT INTO t_payment (
+        id,
+        union_id,
+        target_id,
+        description,
+        product_name,
+        trade_type,
+        pay_account,
+        amount,
+        trade_channel,
+        user_id,
+        user_name,
+        order_time,
+        complete_time,
+        trade_result,
+        charge_id
+        )
+        VALUES (
+        #{id},
+        #{unionId},
+        #{targetId},
+        #{description},
+        #{productName},
+        #{tradeType},
+        #{payAccount},
+        #{amount},
+        #{tradeChannel},
+        #{userId},
+        #{userName},
+        #{orderTime},
+        #{completeTime},
+        #{tradeResult},
+        #{chargeId}
+        )
+    </insert>
+
+    <select id="findOne" parameterType="Long" resultType="message.transaction.domain.Payment">
+        SELECT * FROM t_payment t WHERE t.id = #{id}
+    </select>
+
     <select id="findByUnionId" parameterType="String" resultType="message.transaction.domain.Payment">
         SELECT t.* FROM t_payment t WHERE t.union_id = #{unionId}
     </select>

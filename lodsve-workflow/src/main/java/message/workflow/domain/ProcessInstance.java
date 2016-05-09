@@ -1,10 +1,6 @@
 package message.workflow.domain;
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * 流程实例.
@@ -12,58 +8,46 @@ import javax.persistence.Table;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/4/15 下午4:12
  */
-@Entity
-@Table(name = "t_process_instance")
 public class ProcessInstance {
     /**
      * 流程实例ID
      */
-    @Id
     private Long id;
     /**
      * 流程ID
      */
-    @Column
     private Long flowId;
     /**
      * 流程名
      */
-    @Column
     private String flowTitle;
     /**
      * 资源Id,业务Id
      */
-    @Column
     private Long resourceId;
     /**
      * 流程实例的title
      */
-    @Column
     private String processTitle;
     /**
      * 发起人
      */
-    @Column
     private Long startUserId;
     /**
      * 发起人姓名
      */
-    @Column
     private String startUserName;
     /**
      * 当前节点id
      */
-    @Column
     private Long currentNodeId;
     /**
      * 当前节点名
      */
-    @Column
     private String currentNodeTitle;
     /**
      * 发起时间
      */
-    @Column
     private Date startTime;
 
     public Long getId() {

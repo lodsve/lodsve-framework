@@ -1,12 +1,7 @@
 package message.workflow.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import message.workflow.enums.UrlType;
 import message.workflow.api.HandlerInterceptor;
+import message.workflow.enums.UrlType;
 
 /**
  * 工作流节点.
@@ -14,33 +9,19 @@ import message.workflow.api.HandlerInterceptor;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2015-11-18 下午1:43
  */
-@Entity
-@Table(name = "t_flow_node")
 public class FlowNode {
-    @Id
     private Long id;
-    @Column
     private Long flowId;
-    @Column
     private String title;
-    @Column
     private String name;
-    @Column(length = 1000)
     private String conditional;
-    @Column
     private String next;
-    @Column
     private int nodeVersion;
-    @Column
     private String interceptorBean;
-    @Column
     private String interceptorClass;
-    @Column
     private UrlType urlType;
 
-    @Transient
     private FormUrl formUrl;
-    @Transient
     private HandlerInterceptor interceptor;
 
     public Long getId() {

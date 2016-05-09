@@ -5,6 +5,7 @@ import message.mybatis.dialect.MySQLDialect;
 import message.mybatis.dialect.OracleDialect;
 import message.mybatis.key.IDGenerator;
 import message.mybatis.key.snowflake.SnowflakeIdGenerator;
+import message.mybatis.key.uuid.UUIDGenerator;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -35,8 +36,14 @@ public final class MyBatisUtils {
     public static IDGenerator getIDGenerator(IDGenerator.KeyType keyType) {
         if (IDGenerator.KeyType.SNOWFLAKE == keyType) {
             return new SnowflakeIdGenerator();
+        } else if (IDGenerator.KeyType.UUID == keyType) {
+            return new UUIDGenerator();
         }
 
         throw new RuntimeException("找不到IDGenerator！");
+    }
+
+    public static <T> T nextId(IDGenerator.KeyType keyType) {
+        return (T) getIDGenerator(keyType).nextId();
     }
 }

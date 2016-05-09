@@ -1,7 +1,6 @@
 package message.workflow.repository;
 
 import java.util.List;
-import message.mybatis.repository.MyBatisRepository;
 import message.workflow.domain.Workflow;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * @version V1.0, 2015-11-18 14:19
  */
 @Repository
-public interface WorkflowRepository extends MyBatisRepository<Workflow> {
+public interface WorkflowRepository {
     /**
      * 获取最新的一条流程记录，即version最大
      *
@@ -29,4 +28,11 @@ public interface WorkflowRepository extends MyBatisRepository<Workflow> {
      * @return
      */
     List<Workflow> findByDomain(@Param("domain") String domain);
+
+    /**
+     * 保存流程
+     *
+     * @param workflow 流程
+     */
+    void save(Workflow workflow);
 }
