@@ -1,16 +1,17 @@
 package message.mybatis.configs;
 
-import message.config.auto.AutoConfigurationCreator;
-import message.config.auto.annotations.ConfigurationProperties;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-
 import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import message.config.auto.AutoConfigurationCreator;
+import message.config.auto.annotations.ConfigurationProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 
 /**
  * 关系型数据库数据源.
@@ -19,20 +20,23 @@ import java.util.Map;
  * @version V1.0, 16/1/21 下午4:00
  */
 public class RdbmsDataSourceBeanDefinitionFactory {
+    public static final Logger logger = LoggerFactory.getLogger(RdbmsDataSourceBeanDefinitionFactory.class);
     private String dataSourceName;
     private RdbmsProperties rdbmsProperties;
 
     public RdbmsDataSourceBeanDefinitionFactory(String dataSourceName) {
         this.dataSourceName = dataSourceName;
 
-        try {
-            AutoConfigurationCreator.Builder<RdbmsProperties> builder = new AutoConfigurationCreator.Builder<>();
-            builder.setAnnotation(RdbmsProperties.class.getAnnotation(ConfigurationProperties.class));
-            builder.setClazz(RdbmsProperties.class);
+        AutoConfigurationCreator.Builder<RdbmsProperties> builder = new AutoConfigurationCreator.Builder<>();
+        builder.setAnnotation(RdbmsProperties.class.getAnnotation(ConfigurationProperties.class));
+        builder.setClazz(RdbmsProperties.class);
 
+        try {
             rdbmsProperties = builder.build();
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             e.printStackTrace();
+            this.rdbmsProperties = new RdbmsProperties();
         }
     }
 

@@ -1,23 +1,5 @@
 package message.config.auto;
 
-import message.base.utils.GenericUtils;
-import message.base.utils.PropertyPlaceholderHelper;
-import message.base.utils.StringUtils;
-import message.config.SystemConfig;
-import message.config.auto.annotations.ConfigurationProperties;
-import message.config.loader.properties.Configuration;
-import message.config.loader.properties.ConfigurationLoader;
-import message.config.loader.properties.PropertiesConfiguration;
-import org.apache.commons.lang.ArrayUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.support.EncodedResource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
-
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -27,6 +9,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import message.base.utils.GenericUtils;
+import message.base.utils.PropertyPlaceholderHelper;
+import message.base.utils.StringUtils;
+import message.config.SystemConfig;
+import message.config.auto.annotations.ConfigurationProperties;
+import message.config.auto.annotations.Required;
+import message.config.loader.properties.Configuration;
+import message.config.loader.properties.ConfigurationLoader;
+import message.config.loader.properties.PropertiesConfiguration;
+import org.apache.commons.lang.ArrayUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.EncodedResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 /**
  * 自动装配生成器.
@@ -60,6 +61,8 @@ public class AutoConfigurationCreator {
             String name = descriptor.getName();
             Class<?> type = descriptor.getPropertyType();
             Method method = descriptor.getReadMethod();
+            TypeDescriptor typeDescriptor = beanWrapper.getPropertyTypeDescriptor(name);
+            Required required = typeDescriptor.getAnnotation(Required.class);
 
             String key = prefix + "." + name;
             Object value;
@@ -73,6 +76,8 @@ public class AutoConfigurationCreator {
 
             if (value != null) {
                 beanWrapper.setPropertyValue(name, value);
+            } else if (required != null && required.value()) {
+                throw new RuntimeException(String.format("property [%s]'s value can't be null!please check your config!", name));
             }
         }
 
@@ -157,12 +162,8 @@ public class AutoConfigurationCreator {
             return this;
         }
 
-        public T build() {
-            try {
-                return creator.generateConfigurationBean(clazz, annotation);
-            } catch (Exception e) {
-                return null;
-            }
+        public T build() throws Exception {
+            return creator.generateConfigurationBean(clazz, annotation);
         }
     }
 }

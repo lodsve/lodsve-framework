@@ -17,7 +17,7 @@ public class LodsveCachingConfigurerSupport extends CachingConfigurerSupport {
     protected CacheProperties cacheProperties;
 
     @PostConstruct
-    public void init() {
+    public void init() throws Exception {
         AutoConfigurationCreator.Builder<CacheProperties> builder = new AutoConfigurationCreator.Builder<>();
         builder.setAnnotation(CacheProperties.class.getAnnotation(ConfigurationProperties.class));
         builder.setClazz(CacheProperties.class);
