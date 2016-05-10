@@ -76,7 +76,7 @@ public class AutoConfigurationCreator {
 
             if (value != null) {
                 beanWrapper.setPropertyValue(name, value);
-            } else if (required != null && required.value()) {
+            } else if (required != null) {
                 throw new RuntimeException(String.format("property [%s]'s value can't be null!please check your config!", name));
             }
         }

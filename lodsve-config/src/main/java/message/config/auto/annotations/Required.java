@@ -18,10 +18,4 @@ import java.lang.annotation.Target;
 @Documented
 @Inherited
 public @interface Required {
-    /**
-     * 是否必填
-     *
-     * @return 是否必填
-     */
-    boolean value() default true;
 }
