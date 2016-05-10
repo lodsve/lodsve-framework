@@ -1,4 +1,4 @@
-![LOGO](https://static.oschina.net/uploads/img/201605/10173347_gzP9.png "lodsve-framework")
+![LOGO](logo-01.png "lodsve-framework")
 
 ## lodsve-framework
 My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web development.
