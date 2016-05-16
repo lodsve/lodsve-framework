@@ -55,6 +55,10 @@ My development tools, it encapsulates some open source projects, and better faci
 ## License
 The `Lodsve Framework` is released under version 2.0 of the [Apache License][].
 
+## Donate
+![AliPay](http://git.oschina.net/uploads/qrcode/qrcode_alipay_1463048409407089.png "支付宝")
+![WeChat](http://git.oschina.net/uploads/qrcode/qrcode_wechat_1463066035407089.png "微信")
+
 [Apache License]: http://www.apache.org/licenses/LICENSE-2.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
 [Blog]: http://www.izufang.me
