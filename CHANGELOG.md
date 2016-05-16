@@ -1,5 +1,10 @@
 # 更新日志
 
+## V2.4.11
+1. 删除mybatis的通用repository，并修改相关联的代码
+2. 配置: 增加必填项检查(@Required)
+3. README.md添加logo
+
 ## V2.4.10
 1. 完成简单工作流
 2. swagger升级为springfox
