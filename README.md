@@ -49,7 +49,7 @@ My development tools, it encapsulates some open source projects, and better faci
 
 ## Contact me
 1. Email: sunhao.java@gmail.com
-2. QQ: 867885140
+2. QQ: [867885140][]
 3. Blog: [Blog][] [OSChina][]
 
 ## License
@@ -63,3 +63,4 @@ The `Lodsve Framework` is released under version 2.0 of the [Apache License][].
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
 [Blog]: http://www.izufang.me
 [OSChina]: http://my.oschina.net/sunhaojava/blog
+[867885140]: http://wpa.qq.com/msgrd?v=3&uin=867885140&site=qq&menu=yes
