@@ -9,27 +9,27 @@
     http://www.springframework.org/schema/context/spring-context-2.5.xsd">
     <context:annotation-config/>
 
-    <context:component-scan base-package="message.base"/>
+    <context:component-scan base-package="lodsve.base"/>
 
-    <bean class="message.base.email.EmailBean">
+    <bean class="lodsve.base.email.EmailBean">
         <property name="name" value="163"/>
         <property name="smtp" value="smtp.163.com"/>
         <property name="port" value="25"/>
         <property name="description" value="163邮箱的配置"/>
     </bean>
-    <bean class="message.base.email.EmailBean">
+    <bean class="lodsve.base.email.EmailBean">
         <property name="name" value="sina"/>
         <property name="smtp" value="smtp.sina.cn"/>
         <property name="port" value="25"/>
         <property name="description" value="sina邮箱的配置(.com和.cn的配置一样)"/>
     </bean>
-    <bean class="message.base.email.EmailBean">
+    <bean class="lodsve.base.email.EmailBean">
         <property name="name" value="gmail"/>
         <property name="smtp" value="smtp.gmail.com"/>
         <property name="port" value="465"/>
         <property name="description" value="Google的Gmail配置"/>
     </bean>
-    <bean class="message.base.email.EmailBean">
+    <bean class="lodsve.base.email.EmailBean">
         <property name="name" value="qq"/>
         <property name="smtp" value="smtp.qq.com"/>
         <property name="port" value="465"/>

@@ -8,6 +8,6 @@
 	</settings>
 	
 	<plugins>
-		<plugin interceptor="message.mybatis.pagination.PaginationInterceptor"/>
+		<plugin interceptor="lodsve.mybatis.pagination.PaginationInterceptor"/>
 	</plugins>
 </configuration>

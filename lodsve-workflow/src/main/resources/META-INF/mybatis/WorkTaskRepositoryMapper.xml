@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="message.workflow.repository.WorkTaskRepository">
+<mapper namespace="lodsve.workflow.repository.WorkTaskRepository">
     <sql id="workTaskSaveColumns">
         id, flow_id, node_id, resource_id, flow_title, node_title, url_type, task_user_id, task_user_name, result, remark, receive_time
     </sql>
 
-    <insert id="save" parameterType="message.workflow.domain.WorkTask">
+    <insert id="save" parameterType="lodsve.workflow.domain.WorkTask">
         INSERT INTO t_work_task (
         <include refid="workTaskSaveColumns"/>
         )
@@ -28,7 +28,7 @@
         )
     </insert>
 
-    <select id="findUndoTask" resultType="message.workflow.domain.WorkTask">
+    <select id="findUndoTask" resultType="lodsve.workflow.domain.WorkTask">
         SELECT
         t.*
         FROM
@@ -63,7 +63,7 @@
         </foreach>
     </insert>
 
-    <select id="listUndoTask" resultType="message.workflow.domain.WorkTask">
+    <select id="listUndoTask" resultType="lodsve.workflow.domain.WorkTask">
         SELECT * FROM t_work_task WHERE task_user_id = #{userId} AND result = '100' AND handle_time IS NULL
         <if test="flowId != null">
             AND flow_id = #{flowId}
