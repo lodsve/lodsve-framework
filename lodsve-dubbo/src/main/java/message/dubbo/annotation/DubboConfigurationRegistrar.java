@@ -1,11 +1,17 @@
 package message.dubbo.annotation;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import message.base.template.ThymeleafTemplateResource;
 import message.base.utils.StringUtils;
 import message.config.auto.AutoConfigurationCreator;
 import message.config.auto.annotations.ConfigurationProperties;
 import message.dubbo.config.DubboProperties;
 import org.apache.commons.lang.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -16,11 +22,6 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * 加载dubbo的配置.
  *
@@ -28,6 +29,8 @@ import java.util.Map;
  * @version V1.0, 2016-2-4 13:42
  */
 public class DubboConfigurationRegistrar implements ImportBeanDefinitionRegistrar {
+    private static final Logger logger = LoggerFactory.getLogger(DubboConfigurationRegistrar.class);
+
     private static final String APPLICATION_ATTRIBUTE_NAME = "application";
     private static final String SCAN_PACKAGES_ATTRIBUTE_NAME = "scanPackages";
     private static final String PRODUCERS_ATTRIBUTE_NAME = "producers";
@@ -45,15 +48,20 @@ public class DubboConfigurationRegistrar implements ImportBeanDefinitionRegistra
             scanPackages = findDefaultPackage(annotationMetadata);
         }
 
-        DubboProperties properties = getDubboProperties();
-        Map<String, Object> context = new HashMap<>();
-        context.put("application", application);
-        context.put("registry", properties.getRegistry().get(application));
-        context.put("scanPackages", StringUtils.join(scanPackages, ","));
-        context.put("producers", getProductorsInfo(producers, properties));
+        try {
+            DubboProperties properties = getDubboProperties();
+            Map<String, Object> context = new HashMap<>();
+            context.put("application", application);
+            context.put("registry", properties.getRegistry().get(application));
+            context.put("scanPackages", StringUtils.join(scanPackages, ","));
+            context.put("producers", getProductorsInfo(producers, properties));
 
-        BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanDefinitionRegistry);
-        beanDefinitionReader.loadBeanDefinitions(loadBeanDefinitions(context));
+            BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanDefinitionRegistry);
+            beanDefinitionReader.loadBeanDefinitions(loadBeanDefinitions(context));
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            e.printStackTrace();
+        }
     }
 
     private Resource loadBeanDefinitions(Map<String, Object> context) {
@@ -73,7 +81,7 @@ public class DubboConfigurationRegistrar implements ImportBeanDefinitionRegistra
         return scanPackages.toArray(new String[scanPackages.size()]);
     }
 
-    private DubboProperties getDubboProperties() {
+    private DubboProperties getDubboProperties() throws Exception {
         AutoConfigurationCreator.Builder<DubboProperties> builder = new AutoConfigurationCreator.Builder<>();
         builder.setAnnotation(DubboProperties.class.getAnnotation(ConfigurationProperties.class));
         builder.setClazz(DubboProperties.class);

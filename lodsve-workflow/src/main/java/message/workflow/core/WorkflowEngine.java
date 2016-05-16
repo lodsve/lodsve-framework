@@ -6,7 +6,7 @@ import java.util.List;
 import message.base.utils.DateUtils;
 import message.base.utils.ListUtils;
 import message.mybatis.key.IDGenerator;
-import message.mybatis.key.snowflake.SnowflakeIdGenerator;
+import message.mybatis.utils.MyBatisUtils;
 import message.workflow.api.ConditionalResolver;
 import message.workflow.api.HandlerInterceptor;
 import message.workflow.domain.FlowNode;
@@ -36,8 +36,6 @@ public class WorkflowEngine {
     private ProcessInstanceRepository processInstanceRepository;
     @Autowired
     private ConditionalResolver resolver;
-
-    private IDGenerator idGenerator = new SnowflakeIdGenerator();
 
     /**
      * 发起工作流
@@ -158,16 +156,14 @@ public class WorkflowEngine {
         }
         // 办理
         // 1. 办掉当前事项
-        task.setResult(result);
-        task.setRemark(remark);
-        task.setHandleTime(new Date());
-        workTaskRepository.update(task);
+        workTaskRepository.doTask(task.getId(), result, remark);
         // 2. 生成下一步待办,如果是多个人办理,就生成多条待办
         List<WorkTask> tasks = new ArrayList<>(handlerUserIds.size());
         for (Long handlerUserId : handlerUserIds) {
             WorkTask nextTask = new WorkTask();
 
-            nextTask.setId(idGenerator.nextId());
+            Long id = MyBatisUtils.nextId(IDGenerator.KeyType.SNOWFLAKE);
+            nextTask.setId(id);
             nextTask.setFlowId(workflow.getId());
             nextTask.setNodeId(nextNode.getId());
             nextTask.setResourceId(task.getResourceId());
@@ -184,9 +180,7 @@ public class WorkflowEngine {
         }
         workTaskRepository.batchSave(tasks);
         // 3. 更新流程实例
-        instance.setCurrentNodeId(nextNode.getId());
-        instance.setCurrentNodeTitle(nextNode.getTitle());
-        processInstanceRepository.update(instance);
+        processInstanceRepository.updateProcessInstance(instance.getId(), nextNode.getId(), nextNode.getTitle());
 
         // 办理之后要做的事情
         if (interceptor != null) {

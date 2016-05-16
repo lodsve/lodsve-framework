@@ -1,11 +1,6 @@
 package message.workflow.domain;
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import message.base.utils.DateUtils;
 import message.workflow.enums.AuditResult;
 import message.workflow.enums.UrlType;
@@ -16,81 +11,64 @@ import message.workflow.enums.UrlType;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2015-11-18 下午1:43
  */
-@Entity
-@Table(name = "t_work_task")
 public class WorkTask {
-    @Id
     private Long id;
     /**
      * 流程ID
      */
-    @Column
     private Long flowId;
     /**
      * 流程名
      */
-    @Column
     private String flowTitle;
     /**
      * 节点ID
      */
-    @Column
     private Long nodeId;
     /**
      * 关联的资源ID
      */
-    @Column
     private Long resourceId;
     /**
      * 流程实例名称
      */
-    @Column
     private String processTitle;
     /**
      * 任务描述
      */
-    @Column
     private String nodeTitle;
     /**
      * 表单URL类型
      */
-    @Column
     private UrlType urlType;
     /**
      * 办理人Id
      */
-    @Column
     private Long taskUserId;
     /**
      * 办理人姓名
      */
-    @Column
     private String taskUserName;
     /**
      * 审核结果(为空即待办)
      */
-    @Column
     private AuditResult result;
     /**
      * 处理意见
      */
-    @Column
     private String remark;
     /**
      * 接收时间
      */
-    @Column
     private Date receiveTime = DateUtils.getNow();
     /**
      * 办理时间
      */
-    @Column
     private Date handleTime;
 
     /**
      * 关联表单的URL
      */
-    @Transient
     private String formUrl;
 
     public Long getId() {

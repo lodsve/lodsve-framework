@@ -1,11 +1,6 @@
 package message.workflow.domain;
 
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import message.base.utils.ListUtils;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -15,33 +10,19 @@ import org.apache.commons.collections.CollectionUtils;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2015-11-18 下午1:43
  */
-@Entity
-@Table(name = "t_workflow")
 public class Workflow {
-    @Id
     private Long id;
-    @Column
     private String title;
-    @Column
     private String name;
-    @Column
     private String domain;
-    @Column
     private int version = 0;
-    @Column(length = 3000)
     private String xml;
-    @Column
     private String xmlMd;
 
-    @Transient
     private List<FlowNode> nodes;
-    @Transient
     private Class<?> domainClass;
-    @Transient
     private FlowNode startNode;
-    @Transient
     private FlowNode endNode;
-    @Transient
     private List<FormUrl> formUrls;
 
     public Long getId() {

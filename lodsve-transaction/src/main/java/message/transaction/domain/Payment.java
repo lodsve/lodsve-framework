@@ -1,15 +1,10 @@
 package message.transaction.domain;
 
+import java.io.Serializable;
+import java.util.Date;
 import message.transaction.enums.TradeChannel;
 import message.transaction.enums.TradeResult;
 import message.transaction.enums.TradeType;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * ﻿交易.
@@ -17,41 +12,24 @@ import java.util.Date;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/8/19 下午2:26
  */
-@Table(name = "t_payment")
 public class Payment implements Serializable {
-    @Id
-    @GeneratedValue(generator = "s_payment")
     private Long id;
     /**
      * 冗余字段,targetId进行MD5加密后,保证数据唯一
      */
-    @Column(unique = true)
     private String unionId;
-    @Column
     private String targetId;
-    @Column
     private String description;
-    @Column
     private String productName;
-    @Column
     private TradeType tradeType = TradeType.TRADE_CONSUME;
-    @Column
     private String payAccount;
-    @Column
     private Long amount;
-    @Column
     private TradeChannel tradeChannel = TradeChannel.WX_PUB;
-    @Column
     private Long userId;
-    @Column
     private String userName;
-    @Column
     private Date orderTime;
-    @Column
     private Date completeTime;
-    @Column
     private TradeResult tradeResult = TradeResult.NO;
-    @Column
     private String chargeId;
 
     public Long getId() {

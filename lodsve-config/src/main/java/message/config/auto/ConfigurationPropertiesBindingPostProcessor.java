@@ -1,6 +1,8 @@
 package message.config.auto;
 
 import message.config.auto.annotations.ConfigurationProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.DependsOn;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 @DependsOn({"messageSourceLoader"})
 public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(ConfigurationPropertiesBindingPostProcessor.class);
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -23,12 +26,13 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 
         Object target = bean;
         if (annotation != null) {
+            AutoConfigurationCreator.Builder builder = new AutoConfigurationCreator.Builder();
+            builder.setClazz(target.getClass());
+            builder.setAnnotation(annotation);
             try {
-                AutoConfigurationCreator.Builder builder = new AutoConfigurationCreator.Builder();
-                builder.setClazz(target.getClass());
-                builder.setAnnotation(annotation);
                 target = builder.build();
             } catch (Exception e) {
+                logger.error(e.getMessage(), e);
                 e.printStackTrace();
             }
         }

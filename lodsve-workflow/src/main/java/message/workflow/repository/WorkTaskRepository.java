@@ -1,21 +1,28 @@
 package message.workflow.repository;
 
 import java.util.List;
-import message.mybatis.repository.MyBatisRepository;
 import message.workflow.domain.WorkTask;
+import message.workflow.enums.AuditResult;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
- * .
+ * 待办.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2015-11-18 14:19
  */
 @Repository
-public interface WorkTaskRepository extends MyBatisRepository<WorkTask> {
+public interface WorkTaskRepository {
+    /**
+     * 保存待办
+     *
+     * @param workTask 待办
+     */
+    void save(WorkTask workTask);
+
     /**
      * 获取待办
      *
@@ -43,4 +50,13 @@ public interface WorkTaskRepository extends MyBatisRepository<WorkTask> {
      * @return 待办的分页对象
      */
     Page<WorkTask> listUndoTask(@Param("userId") Long userId, @Param("flowId") Long flowId, @Param("processTitle") String processTitle, Pageable pageable);
+
+    /**
+     * 办理待办
+     *
+     * @param taskId 待办ID
+     * @param result 结果
+     * @param remark 备注
+     */
+    void doTask(@Param("taskId") Long taskId, @Param("result") AuditResult result, @Param("remark") String remark);
 }

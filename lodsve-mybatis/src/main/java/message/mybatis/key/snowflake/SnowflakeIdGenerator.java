@@ -8,7 +8,7 @@ import message.mybatis.key.IDGenerator;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016-01-29 下午23:39
  */
-public class SnowflakeIdGenerator implements IDGenerator {
+public class SnowflakeIdGenerator implements IDGenerator<Long> {
     private final static long twepoch = 1361753741828L;
     private long sequence = 0L;
     private final static long workerIdBits = 4L;
@@ -21,7 +21,7 @@ public class SnowflakeIdGenerator implements IDGenerator {
     private long lastTimestamp = -1L;
 
     @Override
-    public long nextId() {
+    public Long nextId() {
         long timestamp = this.timeGen();
 
         if (this.lastTimestamp == timestamp) {

@@ -7,6 +7,27 @@
         id, flow_id, node_id, resource_id, flow_title, node_title, url_type, task_user_id, task_user_name, result, remark, receive_time
     </sql>
 
+    <insert id="save" parameterType="message.workflow.domain.WorkTask">
+        INSERT INTO t_work_task (
+        <include refid="workTaskSaveColumns"/>
+        )
+        VALUES
+        (
+        #{id},
+        #{flowId},
+        #{nodeId},
+        #{resourceId},
+        #{flowTitle},
+        #{nodeTitle},
+        #{urlType},
+        #{taskUserId},
+        #{taskUserName},
+        #{result},
+        #{remark},
+        #{receiveTime}
+        )
+    </insert>
+
     <select id="findUndoTask" resultType="message.workflow.domain.WorkTask">
         SELECT
         t.*
@@ -22,7 +43,7 @@
     </select>
 
     <insert id="batchSave" parameterType="List">
-        INSERT INTO t_flow_node (
+        INSERT INTO t_work_task (
         <include refid="workTaskSaveColumns"/>
         )
         VALUES
@@ -43,7 +64,7 @@
     </insert>
 
     <select id="listUndoTask" resultType="message.workflow.domain.WorkTask">
-        SELECT * FROM t_flow_node WHERE task_user_id = #{userId} AND result = '100' AND handle_time IS NULL
+        SELECT * FROM t_work_task WHERE task_user_id = #{userId} AND result = '100' AND handle_time IS NULL
         <if test="flowId != null">
             AND flow_id = #{flowId}
         </if>
@@ -51,4 +72,10 @@
             AND process_title LIKE CONCAT('%',#{processTitle},'%')
         </if>
     </select>
+
+    <update id="update">
+        UPDATE t_work_task
+        SET result = #{result}, remark = #{remark}, handle_time = NOW()
+        WHERE id = #{id}
+    </update>
 </mapper>
