@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="message.transaction.repository.RefundRepository">
-    <select id="save" parameterType="message.transaction.domain.Refund">
+<mapper namespace="lodsve.transaction.repository.RefundRepository">
+    <select id="save" parameterType="lodsve.transaction.domain.Refund">
         INSERT INTO t_refund (
         id,
         charge_id,
@@ -26,11 +26,11 @@
         )
     </select>
 
-    <select id="findByPaymentId" parameterType="String" resultType="message.transaction.domain.Refund">
+    <select id="findByPaymentId" parameterType="String" resultType="lodsve.transaction.domain.Refund">
         SELECT t.* FROM t_refund t WHERE t.payment_id = #{paymentId}
     </select>
 
-    <select id="findByChargeId" parameterType="String" resultType="message.transaction.domain.Refund">
+    <select id="findByChargeId" parameterType="String" resultType="lodsve.transaction.domain.Refund">
         SELECT t.* FROM t_refund t WHERE t.charge_id = #{chargeId}
     </select>
 

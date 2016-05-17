@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="message.workflow.repository.FormUrlRepository">
+<mapper namespace="lodsve.workflow.repository.FormUrlRepository">
     <insert id="saveFormUrls" parameterType="List">
         insert into t_form_url (id, url, url_type, flow_id)
         values

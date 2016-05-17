@@ -11,13 +11,13 @@
     <rabbit:queue th:each="queue : ${queues}" th:attr="name=${queue.name}" durable="true" exclusive="false" auto-delete="false"/>
 
     <!-- 通过名称进行绑定 -->
-    <bean th:each="queue : ${queues}" th:id="${queue.name} + 'QueueBinding'" class="message.amqp.core.QueueBinding">
+    <bean th:each="queue : ${queues}" th:id="${queue.name} + 'QueueBinding'" class="lodsve.amqp.core.QueueBinding">
         <constructor-arg index="0" th:value="${queue.exchange}"/>
         <constructor-arg index="1" th:value="${queue.name}"/>
         <constructor-arg index="2" th:value="${queue.routingKey}"/>
     </bean>
 
-    <bean th:each="queue : ${queues}" th:id="${queue.name} + 'Listener'" class="message.amqp.core.LodsveMessageListenerAdapter">
+    <bean th:each="queue : ${queues}" th:id="${queue.name} + 'Listener'" class="lodsve.amqp.core.LodsveMessageListenerAdapter">
         <property name="messageConverter" ref="messageConverter" />
         <property name="delegate" th:attr="ref=${queue.ref}" />
         <property name="defaultListenerMethod" th:attr="value=${queue.method}" />

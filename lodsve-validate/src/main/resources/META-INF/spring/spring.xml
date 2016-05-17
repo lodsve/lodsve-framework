@@ -13,5 +13,5 @@
 
     <aop:aspectj-autoproxy/>
     <context:annotation-config/>
-    <context:component-scan base-package="message.validate"/>
+    <context:component-scan base-package="lodsve.validate"/>
 </beans>
