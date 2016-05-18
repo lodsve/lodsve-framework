@@ -21,6 +21,9 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
  */
 public class RdbmsDataSourceBeanDefinitionFactory {
     public static final Logger logger = LoggerFactory.getLogger(RdbmsDataSourceBeanDefinitionFactory.class);
+    public static final String DRUID_DATA_SOURCE_CLASS = "com.alibaba.druid.pool.DruidDataSource";
+    public static final String DBCP_DATA_SOURCE_CLASS = "org.apache.commons.dbcp.BasicDataSource";
+
     private String dataSourceName;
     private RdbmsProperties rdbmsProperties;
 
@@ -42,46 +45,35 @@ public class RdbmsDataSourceBeanDefinitionFactory {
 
     public BeanDefinition build() {
         String dataSourceClassName = rdbmsProperties.getDataSourceClass();
-
         BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(dataSourceClassName);
 
-        Map<String, String> properties = this.getProperties(dataSourceName);
-        this.setDataSourceProperty(beanDefinitionBuilder, properties);
-
-        this.setCustomProperties(beanDefinitionBuilder, dataSourceClassName);
+        setDataSourceProperty(beanDefinitionBuilder);
+        setCustomProperties(beanDefinitionBuilder, dataSourceClassName);
 
         return beanDefinitionBuilder.getBeanDefinition();
     }
 
-    private Map<String, String> getProperties(String dataSourceName) {
-        Map<String, String> properties = new HashMap<>();
-
+    private void setDataSourceProperty(BeanDefinitionBuilder dataSourceBuilder) {
+        // 通用配置
+        RdbmsProperties.DataSourceSetting commons = rdbmsProperties.getCommons();
+        // dbcp配置
+        RdbmsProperties.DbcpSetting dbcp = rdbmsProperties.getDbcp();
+        // druid配置
+        RdbmsProperties.DruidSetting druid = rdbmsProperties.getDruid();
+        // 连接信息
         RdbmsProperties.RdbmsConnection connection = rdbmsProperties.getConnections().get(dataSourceName);
-        RdbmsProperties.DataSourceSetting setting = rdbmsProperties.getDefaults();
 
-        BeanWrapper connectionWrapper = new BeanWrapperImpl(connection);
-        BeanWrapper settingWrapper = new BeanWrapperImpl(setting);
+        Map<String, String> properties = new HashMap<>();
+        properties.putAll(toMap(commons));
+        properties.putAll(toMap(connection));
 
-        PropertyDescriptor[] descriptors = connectionWrapper.getPropertyDescriptors();
-        for (PropertyDescriptor d : descriptors) {
-            if (d.getWriteMethod() == null) {
-                continue;
-            }
-
-            String name = d.getName();
-            Object value = connectionWrapper.getPropertyValue(name);
-
-            if (value != null) {
-                properties.put(name, value.toString());
-            } else {
-                value = settingWrapper.getPropertyValue(name);
-                if (value != null) {
-                    properties.put(name, value.toString());
-                }
-            }
+        if (DRUID_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
+            properties.putAll(toMap(druid));
+        } else if (DBCP_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
+            properties.putAll(toMap(dbcp));
         }
 
-        return properties;
+        setDataSourceProperty(dataSourceBuilder, properties);
     }
 
     private void setDataSourceProperty(BeanDefinitionBuilder dataSourceBuilder, Map<String, String> properties) {
@@ -90,6 +82,24 @@ public class RdbmsDataSourceBeanDefinitionFactory {
             Map.Entry<String, String> entry = it.next();
             dataSourceBuilder.addPropertyValue(entry.getKey(), entry.getValue());
         }
+    }
+
+    private Map<String, String> toMap(Object object) {
+        Map<String, String> properties = new HashMap<>();
+        BeanWrapper wrapper = new BeanWrapperImpl(object);
+        PropertyDescriptor[] descriptors = wrapper.getPropertyDescriptors();
+        for (PropertyDescriptor d : descriptors) {
+            if (d.getWriteMethod() == null) {
+                continue;
+            }
+
+            String name = d.getName();
+            Object value = wrapper.getPropertyValue(name);
+
+            properties.put(name, value.toString());
+        }
+
+        return properties;
     }
 
     private void setCustomProperties(BeanDefinitionBuilder beanDefinitionBuilder, String dataSourceClassName) {

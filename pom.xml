@@ -55,6 +55,7 @@
         <spring.version>4.2.4.RELEASE</spring.version>
         <servlet.version>3.0.1</servlet.version>
         <mongodb.version>2.14.1</mongodb.version>
+        <druid.version>1.0.19</druid.version>
     </properties>
 
     <organization>
@@ -719,6 +720,14 @@
                 <version>3.0</version>
             </dependency>
             <!--flyway end -->
+
+            <!-- druid start -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <!-- druid end -->
 
             <!-- mybatis start -->
             <dependency>
