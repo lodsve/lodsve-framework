@@ -1,19 +1,36 @@
 package lodsve.mybatis.configs;
 
-import lodsve.config.auto.annotations.ConfigurationProperties;
+import lodsve.base.config.auto.annotations.ConfigurationProperties;
 
 import java.util.Map;
 
 /**
- * rdbms base properties.
+ * rdbms base properties,only support BasicDataSource and DruidDataSource.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016-1-27 09:20
  */
 @ConfigurationProperties(prefix = "lodsve.rdbms", locations = "file:${params.root}/files/rdbms.properties")
 public class RdbmsProperties {
+    /**
+     * 数据源类型
+     */
     private String dataSourceClass;
-    private DataSourceSetting defaults;
+    /**
+     * 通用配置
+     */
+    private DataSourceSetting commons;
+    /**
+     * dbcp配置
+     */
+    private DbcpSetting dbcp;
+    /**
+     * druid数据源的配置
+     */
+    private DruidSetting druid;
+    /**
+     * 连接信息
+     */
     private Map<String, RdbmsConnection> connections;
 
     public String getDataSourceClass() {
@@ -24,12 +41,28 @@ public class RdbmsProperties {
         this.dataSourceClass = dataSourceClass;
     }
 
-    public DataSourceSetting getDefaults() {
-        return defaults;
+    public DataSourceSetting getCommons() {
+        return commons;
     }
 
-    public void setDefaults(DataSourceSetting defaults) {
-        this.defaults = defaults;
+    public void setCommons(DataSourceSetting commons) {
+        this.commons = commons;
+    }
+
+    public DbcpSetting getDbcp() {
+        return dbcp;
+    }
+
+    public void setDbcp(DbcpSetting dbcp) {
+        this.dbcp = dbcp;
+    }
+
+    public DruidSetting getDruid() {
+        return druid;
+    }
+
+    public void setDruid(DruidSetting druid) {
+        this.druid = druid;
     }
 
     public Map<String, RdbmsConnection> getConnections() {
@@ -45,7 +78,6 @@ public class RdbmsProperties {
         private Integer initialSize;
         private Integer maxActive;
         private Integer minIdle;
-        private Integer maxIdle;
         private Integer maxWait;
         private Boolean removeAbandoned;
         private Integer removeAbandonedTimeout;
@@ -84,14 +116,6 @@ public class RdbmsProperties {
 
         public void setMinIdle(Integer minIdle) {
             this.minIdle = minIdle;
-        }
-
-        public Integer getMaxIdle() {
-            return maxIdle;
-        }
-
-        public void setMaxIdle(Integer maxIdle) {
-            this.maxIdle = maxIdle;
         }
 
         public Integer getMaxWait() {
@@ -151,7 +175,31 @@ public class RdbmsProperties {
         }
     }
 
-    public static class RdbmsConnection extends DataSourceSetting {
+    public static class DbcpSetting {
+        private Integer maxIdle;
+
+        public Integer getMaxIdle() {
+            return maxIdle;
+        }
+
+        public void setMaxIdle(Integer maxIdle) {
+            this.maxIdle = maxIdle;
+        }
+    }
+
+    public static class DruidSetting {
+        private String filters;
+
+        public String getFilters() {
+            return filters;
+        }
+
+        public void setFilters(String filters) {
+            this.filters = filters;
+        }
+    }
+
+    public static class RdbmsConnection {
         private String url;
         private String username;
         private String password;

@@ -1,6 +1,6 @@
 package lodsve.dubbo.config;
 
-import lodsve.config.auto.annotations.ConfigurationProperties;
+import lodsve.base.config.auto.annotations.ConfigurationProperties;
 
 import java.util.Map;
 
