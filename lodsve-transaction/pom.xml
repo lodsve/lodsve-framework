@@ -28,15 +28,11 @@
 
         <dependency>
             <groupId>com.github.lodsve</groupId>
-            <artifactId>lodsve-base</artifactId>
+            <artifactId>lodsve-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.lodsve</groupId>
             <artifactId>lodsve-mybatis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.lodsve</groupId>
-            <artifactId>lodsve-config</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>

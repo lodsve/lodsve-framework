@@ -15,16 +15,12 @@
         <module>lodsve-3rd</module>
         <!-- amqp -->
         <module>lodsve-amqp</module>
-        <!-- 基础 -->
-        <module>lodsve-base</module>
         <!-- 缓存 -->
         <module>lodsve-cache</module>
-        <!-- 配置文件 -->
-        <module>lodsve-config</module>
+        <!-- 基础 -->
+        <module>lodsve-core</module>
         <!-- dubbo -->
         <module>lodsve-dubbo</module>
-        <!-- 日志 -->
-        <module>lodsve-logger</module>
         <!-- mongodb -->
         <module>lodsve-mongodb</module>
         <!-- mvc -->
@@ -788,27 +784,17 @@
             </dependency>
             <dependency>
                 <groupId>com.github.lodsve</groupId>
-                <artifactId>lodsve-base</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.lodsve</groupId>
                 <artifactId>lodsve-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.lodsve</groupId>
-                <artifactId>lodsve-config</artifactId>
+                <artifactId>lodsve-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.lodsve</groupId>
                 <artifactId>lodsve-dubbo</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.lodsve</groupId>
-                <artifactId>lodsve-logger</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

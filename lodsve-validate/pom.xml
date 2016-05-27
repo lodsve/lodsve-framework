@@ -27,7 +27,7 @@
 
         <dependency>
             <groupId>com.github.lodsve</groupId>
-            <artifactId>lodsve-base</artifactId>
+            <artifactId>lodsve-core</artifactId>
         </dependency>
     </dependencies>
 

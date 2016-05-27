@@ -1,8 +1,8 @@
 package lodsve.mongodb.core;
 
 import com.mongodb.MongoURI;
-import lodsve.config.auto.AutoConfigurationCreator;
-import lodsve.config.auto.annotations.ConfigurationProperties;
+import lodsve.base.config.auto.AutoConfigurationCreator;
+import lodsve.base.config.auto.annotations.ConfigurationProperties;
 import lodsve.mongodb.config.MongoProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

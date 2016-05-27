@@ -9,12 +9,11 @@ My development tools, it encapsulates some open source projects, and better faci
 ## Simple Introduction
 1. Base on some open source framework. It encapsulates some classes and methods to make more convenient for developers.
 2. It consists of the following modules:
+    - lodsve-3rd
     - lodsve-amqp
-    - lodsve-base
     - lodsve-cache
-    - lodsve-config
+    - lodsve-core
     - lodsve-dubbo
-    - lodsve-logger
     - lodsve-mongodb
     - lodsve-mvc
     - lodsve-mybatis
@@ -24,6 +23,8 @@ My development tools, it encapsulates some open source projects, and better faci
     - lodsve-test
     - lodsve-transaction
     - lodsve-validate
+    - lodsve-wechat
+    - lodsve-workflow
 
 ## How To Use
 

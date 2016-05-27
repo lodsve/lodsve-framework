@@ -1,6 +1,6 @@
 package lodsve.mybatis.configs;
 
-import lodsve.config.auto.annotations.ConfigurationProperties;
+import lodsve.base.config.auto.annotations.ConfigurationProperties;
 
 import java.util.Map;
 
