@@ -1,5 +1,9 @@
 # 更新日志
 
+## V2.5.2
+1. 添加druid支持
+2. 合并lodsve-base/lodsve-config/lodsve-logger为lodsve-core
+
 ## V2.5.1
 1. 修改包路径为lodsve开头
 
