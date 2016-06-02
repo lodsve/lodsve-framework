@@ -1,7 +1,7 @@
 package lodsve.springfox.config;
 
 import javax.annotation.PostConstruct;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import lodsve.properties.ApplicationProperties;
 import lodsve.properties.SpringFoxProperties;
 import lodsve.springfox.paths.SpringFoxPathProvider;

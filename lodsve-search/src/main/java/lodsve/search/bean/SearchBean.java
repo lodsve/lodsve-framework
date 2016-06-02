@@ -1,8 +1,8 @@
 package lodsve.search.bean;
 
-import lodsve.base.utils.DateUtils;
-import lodsve.base.utils.ObjectUtils;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.DateUtils;
+import lodsve.core.utils.ObjectUtils;
+import lodsve.core.utils.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

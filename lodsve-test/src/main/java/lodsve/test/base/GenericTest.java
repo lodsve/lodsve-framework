@@ -1,6 +1,6 @@
 package lodsve.test.base;
 
-import lodsve.base.context.ApplicationHelper;
+import lodsve.core.context.ApplicationHelper;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

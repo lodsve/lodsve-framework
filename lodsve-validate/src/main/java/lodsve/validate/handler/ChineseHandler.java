@@ -1,6 +1,6 @@
 package lodsve.validate.handler;
 
-import lodsve.base.utils.ValidateUtils;
+import lodsve.core.utils.ValidateUtils;
 import lodsve.validate.annotations.Chinese;
 import lodsve.validate.core.ValidateHandler;
 import org.slf4j.Logger;

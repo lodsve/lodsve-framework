@@ -4,8 +4,8 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.LoaderClassPath;
-import lodsve.base.utils.StringParse;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringParse;
+import lodsve.core.utils.StringUtils;
 import lodsve.mvc.annotation.Parse;
 import lodsve.mvc.commons.WebInput;
 import org.apache.commons.collections.CollectionUtils;
@@ -110,9 +110,9 @@ public class ParseDataHandlerMethodArgumentResolver implements HandlerMethodArgu
         try {
             ClassPool cp = classPool;
             //创建一个类
-            CtClass ctClass = cp.makeClass("lodsve.base.utils.StringParse$" + System.currentTimeMillis());
+            CtClass ctClass = cp.makeClass("lodsve.core.utils.StringParse$" + System.currentTimeMillis());
             //创建一个接口(StringUtils.StringParse)
-            CtClass ctInterface = cp.makeInterface("lodsve.base.utils.StringParse");
+            CtClass ctInterface = cp.makeInterface("lodsve.core.utils.StringParse");
             //上面创建的类实现上面的接口
             ctClass.addInterface(ctInterface);
 
@@ -137,7 +137,7 @@ public class ParseDataHandlerMethodArgumentResolver implements HandlerMethodArgu
             if (StringUtils.isEmpty(destClass)) {
                 body.append("return $1;\n");
             } else {
-                body.append("return lodsve.base.utils.NumberUtils.isNumber($1) ? ").append(destClass).append(".valueOf($1) : null;\n");
+                body.append("return lodsve.core.utils.NumberUtils.isNumber($1) ? ").append(destClass).append(".valueOf($1) : null;\n");
             }
 
             body.append("}\n");

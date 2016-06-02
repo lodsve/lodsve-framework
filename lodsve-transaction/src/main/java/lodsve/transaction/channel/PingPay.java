@@ -3,18 +3,17 @@ package lodsve.transaction.channel;
 import com.pingplusplus.Pingpp;
 import com.pingplusplus.model.Charge;
 import com.pingplusplus.model.Refund;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.PostConstruct;
+import lodsve.core.utils.StringUtils;
 import lodsve.transaction.domain.Payment;
 import lodsve.transaction.utils.PingConfig;
 import lodsve.transaction.utils.data.PayData;
 import lodsve.transaction.utils.data.RefundData;
-import lodsve.base.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * ping++支付实现.

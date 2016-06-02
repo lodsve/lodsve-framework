@@ -1,7 +1,7 @@
 package lodsve.cache.core;
 
-import lodsve.base.utils.StringUtils;
-import lodsve.base.config.auto.annotations.ConfigurationProperties;
+import lodsve.core.utils.StringUtils;
+import lodsve.core.config.auto.annotations.ConfigurationProperties;
 
 /**
  * cache配置.

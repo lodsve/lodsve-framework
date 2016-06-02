@@ -1,9 +1,9 @@
 package lodsve.amqp.configs.parser;
 
 import lodsve.amqp.core.Queue;
-import lodsve.base.config.SystemConfig;
-import lodsve.base.template.ThymeleafTemplateResource;
-import lodsve.base.utils.PropertyPlaceholderHelper;
+import lodsve.core.config.SystemConfig;
+import lodsve.core.template.ThymeleafTemplateResource;
+import lodsve.core.utils.PropertyPlaceholderHelper;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

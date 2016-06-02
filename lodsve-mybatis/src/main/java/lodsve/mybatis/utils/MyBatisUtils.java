@@ -2,7 +2,7 @@ package lodsve.mybatis.utils;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.dialect.Dialect;
 import lodsve.mybatis.dialect.MySQLDialect;
 import lodsve.mybatis.dialect.OracleDialect;

@@ -1,7 +1,7 @@
 package lodsve.validate.handler;
 
-import lodsve.base.utils.NumberUtils;
-import lodsve.base.utils.ValidateUtils;
+import lodsve.core.utils.NumberUtils;
+import lodsve.core.utils.ValidateUtils;
 import lodsve.validate.core.ValidateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

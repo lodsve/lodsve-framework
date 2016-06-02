@@ -1,6 +1,6 @@
 package lodsve.mvc.convert;
 
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.ConditionalConverter;
 import org.springframework.core.convert.converter.Converter;

@@ -2,7 +2,7 @@ package lodsve.amqp.core;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.support.converter.DefaultJackson2JavaTypeMapper;
 import org.springframework.util.ClassUtils;

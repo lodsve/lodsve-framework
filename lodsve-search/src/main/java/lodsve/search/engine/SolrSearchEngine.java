@@ -1,7 +1,7 @@
 package lodsve.search.engine;
 
 import lodsve.search.bean.SearchBean;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;

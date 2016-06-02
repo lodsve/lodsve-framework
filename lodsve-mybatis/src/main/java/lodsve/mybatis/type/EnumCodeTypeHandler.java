@@ -1,6 +1,6 @@
 package lodsve.mybatis.type;
 
-import lodsve.base.bean.Codeable;
+import lodsve.core.bean.Codeable;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.slf4j.Logger;

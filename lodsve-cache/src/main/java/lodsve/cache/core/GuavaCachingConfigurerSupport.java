@@ -1,8 +1,8 @@
 package lodsve.cache.core;
 
 import java.util.List;
-import lodsve.base.utils.StringParse;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringParse;
+import lodsve.core.utils.StringUtils;
 import lodsve.cache.conditional.GuavaCondition;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.guava.GuavaCacheManager;

@@ -2,8 +2,8 @@ package lodsve.wechat.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import lodsve.base.utils.StringUtils;
-import lodsve.base.utils.XmlUtils;
+import lodsve.core.utils.StringUtils;
+import lodsve.core.utils.XmlUtils;
 import lodsve.mvc.annotation.WebResource;
 import lodsve.mvc.commons.WebInput;
 import lodsve.mvc.commons.WebOutput;

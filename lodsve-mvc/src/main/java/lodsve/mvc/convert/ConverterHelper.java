@@ -1,7 +1,7 @@
 package lodsve.mvc.convert;
 
-import lodsve.base.context.ApplicationHelper;
-import lodsve.base.utils.GenericUtils;
+import lodsve.core.context.ApplicationHelper;
+import lodsve.core.utils.GenericUtils;
 
 import java.util.Collection;
 import java.util.HashMap;

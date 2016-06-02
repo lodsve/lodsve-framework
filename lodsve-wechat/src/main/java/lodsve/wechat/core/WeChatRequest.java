@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.IOException;
 import java.util.Map;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import lodsve.wechat.exception.WeChatException;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;

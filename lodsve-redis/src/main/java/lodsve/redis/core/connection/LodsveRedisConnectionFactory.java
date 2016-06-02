@@ -1,7 +1,7 @@
 package lodsve.redis.core.connection;
 
 import lodsve.redis.core.config.RedisProperties;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;

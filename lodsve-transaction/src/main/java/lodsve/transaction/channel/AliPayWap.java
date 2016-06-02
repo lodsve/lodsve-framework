@@ -1,15 +1,14 @@
 package lodsve.transaction.channel;
 
+import java.util.HashMap;
+import java.util.Map;
+import lodsve.core.utils.ParamsHolder;
 import lodsve.transaction.enums.TradeChannel;
 import lodsve.transaction.enums.TradeType;
 import lodsve.transaction.utils.Channel;
 import lodsve.transaction.utils.PingConfig;
-import lodsve.base.utils.ParamsHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 支付宝手机网页支付.

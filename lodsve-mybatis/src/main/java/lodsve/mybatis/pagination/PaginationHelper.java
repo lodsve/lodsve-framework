@@ -1,6 +1,6 @@
 package lodsve.mybatis.pagination;
 
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.dialect.Dialect;
 import lodsve.mybatis.utils.MyBatisUtils;
 import org.apache.ibatis.binding.MapperMethod;
