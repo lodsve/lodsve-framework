@@ -32,14 +32,7 @@ import java.util.regex.Pattern;
  */
 public class PaginationHelper {
     private static final Logger logger = LoggerFactory.getLogger(PaginationHelper.class);
-    private static Dialect dialect;
     private static final Pattern ORDER_BY = Pattern.compile(".*order\\s+by\\s+.*", Pattern.CASE_INSENSITIVE);
-
-    static {
-        if (dialect == null) {
-            dialect = MyBatisUtils.getDialect();
-        }
-    }
 
     private PaginationHelper() {
     }
@@ -80,13 +73,16 @@ public class PaginationHelper {
             return 0;
         }
 
-        String totalSql = dialect.getCountSql(sql);
         Connection connection = null;
         PreparedStatement preStmt = null;
         ResultSet rs = null;
 
         try {
             connection = mappedStatement.getConfiguration().getEnvironment().getDataSource().getConnection();
+
+            Dialect dialect = MyBatisUtils.getDialect(connection);
+            String totalSql = dialect.getCountSql(sql);
+
             preStmt = connection.prepareStatement(totalSql);
             BoundSql countBoundSql = copyFromBoundSql(mappedStatement, boundSql, totalSql);
             setParameters(preStmt, mappedStatement, countBoundSql, boundSql.getParameterObject());
@@ -128,11 +124,12 @@ public class PaginationHelper {
         }
     }
 
-    protected static String getPageSql(String sql, int start, int num) {
+    protected static String getPageSql(String sql, MappedStatement mappedStatement, int start, int num) throws SQLException {
         Assert.hasText(sql, "sql is required!");
         Assert.notNull(start, "start is required!");
         Assert.notNull(num, "num is required!");
 
+        Dialect dialect = MyBatisUtils.getDialect(mappedStatement.getConfiguration().getEnvironment().getDataSource().getConnection());
         return dialect.getPageSql(sql, start, num);
     }
 

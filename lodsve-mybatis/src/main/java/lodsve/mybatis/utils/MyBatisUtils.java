@@ -1,12 +1,15 @@
 package lodsve.mybatis.utils;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import lodsve.base.utils.StringUtils;
 import lodsve.mybatis.dialect.Dialect;
 import lodsve.mybatis.dialect.MySQLDialect;
 import lodsve.mybatis.dialect.OracleDialect;
+import lodsve.mybatis.enums.DbType;
 import lodsve.mybatis.key.IDGenerator;
 import lodsve.mybatis.key.snowflake.SnowflakeIdGenerator;
 import lodsve.mybatis.key.uuid.UUIDGenerator;
-import org.springframework.util.ClassUtils;
 
 /**
  * MyBatis utils.
@@ -18,15 +21,12 @@ public final class MyBatisUtils {
     private MyBatisUtils() {
     }
 
-    public static final boolean IS_MYSQL = ClassUtils.isPresent("com.mysql.jdbc.Driver", MyBatisUtils.class.getClassLoader());
-    public static final boolean IS_ORACLE = ClassUtils.isPresent("oracle.jdbc.driver.OracleDriver", MyBatisUtils.class.getClassLoader());
+    public static Dialect getDialect(Connection connection) throws SQLException {
+        String database = connection.getMetaData().getDatabaseProductName();
 
-    public static Dialect getDialect() {
-        if (IS_MYSQL) {
+        if (StringUtils.equalsIgnoreCase(database, DbType.DB_MYSQL.getName())) {
             return new MySQLDialect();
-        }
-
-        if (IS_ORACLE) {
+        } else if (StringUtils.equalsIgnoreCase(database, DbType.DB_ORACLE.getName())) {
             return new OracleDialect();
         }
 

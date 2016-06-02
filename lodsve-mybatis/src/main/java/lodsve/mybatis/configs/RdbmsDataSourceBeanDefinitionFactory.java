@@ -104,7 +104,7 @@ public class RdbmsDataSourceBeanDefinitionFactory {
 
     private void setCustomProperties(BeanDefinitionBuilder beanDefinitionBuilder, String dataSourceClassName) {
         //1.druid
-        if ("com.alibaba.druid.pool.DruidDataSource".equals(dataSourceClassName)) {
+        if (DRUID_DATA_SOURCE_CLASS.equals(dataSourceClassName)) {
             // init method
             beanDefinitionBuilder.setInitMethodName("init");
             // destroy method
