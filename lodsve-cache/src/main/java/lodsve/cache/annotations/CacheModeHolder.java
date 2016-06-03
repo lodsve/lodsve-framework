@@ -7,7 +7,7 @@ package lodsve.cache.annotations;
  * @version V1.0, 16/4/1 上午10:52
  */
 public final class CacheModeHolder {
-    private static CacheMode cacheMode;
+    private static CacheMode cacheMode = CacheMode.EHCAHE;
 
     public static CacheMode getCacheMode() {
         return CacheModeHolder.cacheMode;
