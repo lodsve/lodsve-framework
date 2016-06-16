@@ -36,6 +36,8 @@ My development tools, it encapsulates some open source projects, and better faci
         <scope>import</scope>
     </dependency>
 
+> **Note:** Per use `lodsve`, you need ensure this dependency above appears in your parent `pom.xml`. And `lodsve-core` is required! Others are optional!
+
 ## Check out sources
 `git clone git@github.com:lodsve/lodsve-framework.git`
 
