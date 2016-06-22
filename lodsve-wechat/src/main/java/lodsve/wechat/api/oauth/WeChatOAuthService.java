@@ -10,6 +10,7 @@ import lodsve.wechat.beans.OAuthToken;
 import lodsve.wechat.config.WeChatProperties;
 import lodsve.wechat.core.WeChatRequest;
 import lodsve.wechat.core.WeChatUrl;
+import lodsve.wechat.exception.WeChatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -58,17 +59,17 @@ public class WeChatOAuthService {
      */
     public OAuthToken getOAuthToken(String code) {
         if (StringUtils.isBlank(code)) {
-            throw new RuntimeException("用户拒绝认证!");
+            throw new WeChatException(107003, "用户拒绝认证!");
         }
 
         OAuthToken oAuthToken = WeChatRequest.get(String.format(WeChatUrl.WEIXIN_TOKEN_URL, properties.getAppId(), properties.getAppSecret(), code), new TypeReference<OAuthToken>() {
         });
         if (oAuthToken == null) {
-            throw new RuntimeException("微信认证失败!");
+            throw new WeChatException(107004, "微信认证失败!");
         }
 
         if (StringUtils.isEmpty(oAuthToken.getAccessToken())) {
-            throw new RuntimeException("微信认证失败!");
+            throw new WeChatException(107004, "微信认证失败!");
         }
 
         return oAuthToken;
@@ -82,17 +83,17 @@ public class WeChatOAuthService {
      */
     public OAuthToken refreshOAuthToken(String refreshToken) {
         if (StringUtils.isBlank(refreshToken)) {
-            throw new RuntimeException("获取token失败!");
+            throw new WeChatException(107005, "获取token失败!");
         }
 
         OAuthToken oAuthToken = WeChatRequest.get(String.format(WeChatUrl.WEIXIN_REFRESH_TOKEN_URL, properties.getAppId(), refreshToken), new TypeReference<OAuthToken>() {
         });
         if (oAuthToken == null) {
-            throw new RuntimeException("微信认证失败!");
+            throw new WeChatException(107004, "微信认证失败!");
         }
 
         if (StringUtils.isEmpty(oAuthToken.getAccessToken())) {
-            throw new RuntimeException("微信认证失败!");
+            throw new WeChatException(107004, "微信认证失败!");
         }
 
         return oAuthToken;

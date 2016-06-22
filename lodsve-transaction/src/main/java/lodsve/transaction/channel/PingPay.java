@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import lodsve.core.utils.StringUtils;
 import lodsve.transaction.domain.Payment;
+import lodsve.transaction.exception.RefundException;
 import lodsve.transaction.utils.PingConfig;
 import lodsve.transaction.utils.data.PayData;
 import lodsve.transaction.utils.data.RefundData;
@@ -67,13 +68,14 @@ public abstract class PingPay implements Pay<Charge, Refund> {
         Assert.notNull(payment);
 
         if (StringUtils.isEmpty(payment.getChargeId())) {
-            throw new RuntimeException("退款失败!");
+            throw new RefundException(106004, "has no chargeId, payment id is " + payment.getId() + ", target id is " + payment.getTargetId());
         }
 
         Charge ch = Charge.retrieve(payment.getChargeId());
 
         if (ch == null) {
-            throw new RuntimeException("退款失败!");
+            throw new RefundException(106004, "has no charge, payment id is " + payment.getId() + ", target id is " + payment.getTargetId() +
+                    ", charge id is " + payment.getChargeId());
         }
 
         Map<String, Object> refundMap = new HashMap<>();

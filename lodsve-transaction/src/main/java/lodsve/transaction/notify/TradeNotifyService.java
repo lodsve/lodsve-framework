@@ -8,6 +8,7 @@ import lodsve.transaction.action.RefundAction;
 import lodsve.transaction.domain.Payment;
 import lodsve.transaction.domain.Refund;
 import lodsve.transaction.enums.TradeResult;
+import lodsve.transaction.exception.WebhooksValidateException;
 import lodsve.transaction.repository.PaymentRepository;
 import lodsve.transaction.repository.RefundRepository;
 import lodsve.transaction.utils.TradeRouting;
@@ -58,7 +59,7 @@ public class TradeNotifyService {
         }
 
         if (null == payment || TradeResult.PROCESSING != payment.getTradeResult()) {
-            throw new RuntimeException("支付单不存在。请确认数据完整性,需要查询的支付单号为：" + paymentId);
+            throw new WebhooksValidateException(106005, "支付单不存在。请确认数据完整性,需要查询的支付单号为：" + paymentId);
         }
 
         if (TradeResult.YES.equals(payment.getTradeResult())) {
@@ -70,7 +71,7 @@ public class TradeNotifyService {
         Assert.notNull(payAction, "消费类型异常!");
 
         if (amount == null || amount.longValue() != payment.getAmount().longValue()) {
-            throw new RuntimeException("支付错误，支付金额被篡改，请检查支付数据,payId=" + paymentId);
+            throw new WebhooksValidateException(106005, "支付错误，支付金额被篡改，请检查支付数据,payId=" + paymentId);
         }
 
         // 支付账户
@@ -123,7 +124,7 @@ public class TradeNotifyService {
         Refund refund = refundRepository.findByChargeId(chargeId);
 
         if (null == refund || TradeResult.PROCESSING != refund.getTradeResult()) {
-            throw new RuntimeException("退款单不存在,请确认!支付单号为:" + chargeId);
+            throw new WebhooksValidateException(106006, "退款单不存在,请确认!支付单号为:" + chargeId);
         }
 
         if (TradeResult.YES.equals(refund.getTradeResult())) {
@@ -134,7 +135,7 @@ public class TradeNotifyService {
         Payment payment = this.paymentRepository.findByChargeId(chargeId);
 
         if (amount == null || amount.longValue() != refund.getAmount() || payment == null || amount.longValue() != payment.getAmount()) {
-            throw new RuntimeException("退款金额错误!支付单号为=" + chargeId);
+            throw new WebhooksValidateException(106006, "退款金额错误!支付单号为=" + chargeId);
         }
 
         RefundAction refundAction = this.tradeRouting.refund(payment.getTradeType());

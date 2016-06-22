@@ -1,14 +1,14 @@
 package lodsve.security.core;
 
+import java.lang.reflect.Method;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lodsve.security.annotation.NeedLogin;
+import lodsve.security.exception.AuthException;
 import lodsve.security.service.Authz;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
 
 /**
  * 判断是否登录的拦截器.
@@ -46,7 +46,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             return super.preHandle(request, response, handler);
         } else {
             //未登录
-            throw new RuntimeException("未登录！");
+            throw new AuthException(105001, "not login！");
         }
     }
 

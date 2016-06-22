@@ -1,13 +1,17 @@
-package lodsve.mvc.exception;
+package lodsve.core.exception;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import lodsve.core.utils.PropertyPlaceholderHelper;
-import lodsve.core.utils.StringUtils;
 import lodsve.core.config.SystemConfig;
 import lodsve.core.config.loader.i18n.ResourceBundleHolder;
+import lodsve.core.utils.PropertyPlaceholderHelper;
+import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -39,17 +43,21 @@ public class ExceptionAdvice {
         String folderPath = "error";
         Resource resource = SystemConfig.getConfigFile(folderPath);
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = new Resource[0];
+        List<Resource> resources = new ArrayList<>();
         try {
-            resources = resolver.getResources("file:" + resource.getFile().getAbsolutePath() + "/*.properties");
+            resources.addAll(Arrays.asList(resolver.getResources("file:" + resource.getFile().getAbsolutePath() + "/*.properties")));
         } catch (IOException e) {
             logger.error("resolver resource:'{" + resource + "}' is error!", e);
             e.printStackTrace();
         }
 
+        // 获取系统异常
+        resources.addAll(getSystemExceptionInfo());
+
         for (Resource r : resources) {
             String filePath = r.getFile().getAbsolutePath();
-            if (StringUtils.indexOf(filePath, "_") == -1) {
+
+            if (StringUtils.contains(filePath, "_")) {
                 this.resourceBundleHolder.loadMessageResource(filePath, 1);
             }
         }
@@ -66,7 +74,7 @@ public class ExceptionAdvice {
         if (exception == null) {
             exceptionData = new ExceptionData(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
         } else {
-            ExceptionInfo exceptionInfo = ((ExceptionInfoGetter) exception).getInfo();
+            ExceptionInfo exceptionInfo = ((ApplicationRuntimeException) exception).getInfo();
             String message;
             Integer code = exceptionInfo.getCode();
             if (code != null) {
@@ -88,8 +96,7 @@ public class ExceptionAdvice {
             exceptionData = new ExceptionData(code, message);
         }
 
-        logger.error("exception code:" + exceptionData.getCode() + ",exception message:" + exceptionData.getMessage(),
-                ex);
+        logger.error("exception code:" + exceptionData.getCode() + ",exception message:" + exceptionData.getMessage(), ex);
 
         return exceptionData;
     }
@@ -97,7 +104,7 @@ public class ExceptionAdvice {
     private Throwable getHasInfoException(Throwable throwable) {
         Throwable exception = null;
 
-        if (throwable instanceof ExceptionInfoGetter) {
+        if (throwable instanceof ApplicationRuntimeException) {
             exception = throwable;
         }
 
@@ -115,5 +122,56 @@ public class ExceptionAdvice {
         }
 
         return exception;
+    }
+
+    private List<Resource> getSystemExceptionInfo() {
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        List<Resource> resources = new ArrayList<>();
+        try {
+            resources.addAll(Arrays.asList(resolver.getResources("classpath*:/META-INF/error/*.properties")));
+        } catch (IOException e) {
+            logger.error("resolver resource:'{classpath*:/META-INF/error/*.properties}' is error!", e);
+            e.printStackTrace();
+        }
+
+        return resources;
+    }
+
+    static class ExceptionData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * 异常编码
+         */
+        private Integer code;
+
+        /**
+         * 后台异常描述，正常不应该把后台异常描述反馈给前台用户
+         */
+        private String message;
+
+        public ExceptionData() {
+        }
+
+        public ExceptionData(Integer code, String message) {
+            this.code = code;
+            this.message = message;
+        }
+
+        public Integer getCode() {
+            return code;
+        }
+
+        public void setCode(Integer code) {
+            this.code = code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
     }
 }

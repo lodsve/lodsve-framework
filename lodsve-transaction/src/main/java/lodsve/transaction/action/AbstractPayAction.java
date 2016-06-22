@@ -9,6 +9,7 @@ import lodsve.transaction.domain.Payment;
 import lodsve.transaction.enums.TradeChannel;
 import lodsve.transaction.enums.TradeResult;
 import lodsve.transaction.enums.TradeType;
+import lodsve.transaction.exception.PayException;
 import lodsve.transaction.repository.PaymentRepository;
 import lodsve.transaction.utils.TradeRouting;
 import lodsve.transaction.utils.data.PayData;
@@ -50,7 +51,7 @@ public abstract class AbstractPayAction implements PayAction {
             payment = this.prepare(targetId, tradeType, amount, tradeChannel, userId);
         } else {
             if (TradeResult.YES == payment.getTradeResult()) {
-                throw new RuntimeException("this order is paid!");
+                throw new PayException(106001, "this order is paid!orderId is " + payment.getTargetId());
             }
         }
 
@@ -72,7 +73,7 @@ public abstract class AbstractPayAction implements PayAction {
             result = pay.pay(payData);
         } catch (Exception e) {
             occurException(targetId, userId, e);
-            throw e;
+            throw new PayException(106002, e.getMessage());
         }
 
         // ping++支付

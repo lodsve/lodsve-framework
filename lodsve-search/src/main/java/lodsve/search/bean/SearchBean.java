@@ -15,7 +15,7 @@ import java.util.*;
  * 所有需要检索的类均继承这个类,实现{@link SearchBean#getDoSearchFields}和
  * {@link SearchBean#getDoIndexFields}和
  * {@link SearchBean#initPublicFields()}三个方法<br/>
- *
+ * <p/>
  * eg:<br/>
  * <pre><code>
  *     public class EntitySearchBean extends SearchBean {
@@ -184,6 +184,7 @@ public abstract class SearchBean {
 
     /**
      * 初始化searchBean中的公共字段(每个对象都必须创建的索引字段)
+     *
      * @throws Exception
      */
     public abstract void initPublicFields() throws Exception;
@@ -199,9 +200,10 @@ public abstract class SearchBean {
     /**************************************以下 可能需要继承的方法****************************************/
     /**
      * 获取对象中文件域，K(字段名)-V(文件)
+     *
      * @return
      */
-    public Map<String, File> getFileMap(){
+    public Map<String, File> getFileMap() {
         return Collections.EMPTY_MAP;
     }
     /**************************************以上 可能需要继承的方法****************************************/
@@ -213,21 +215,21 @@ public abstract class SearchBean {
      * @return
      */
     public Map<String, String> getIndexFieldValues() {
-        if(this.object == null){
+        if (this.object == null) {
             logger.warn("given object is null!");
             return Collections.emptyMap();
         }
 
         String[] doIndexFields = this.getDoIndexFields();
-        if(doIndexFields == null || doIndexFields.length < 1){
+        if (doIndexFields == null || doIndexFields.length < 1) {
             logger.debug("given no doIndexFields!");
             return Collections.emptyMap();
         }
 
         Map<String, String> extInfo = new HashMap<String, String>();
-        for(String f : doIndexFields){
-            String value = getValue(f, object);
-            if(StringUtils.isNotEmpty(value))
+        for (String f : doIndexFields) {
+            String value = getValue(f);
+            if (StringUtils.isNotEmpty(value))
                 extInfo.put(f, value);
         }
 
@@ -237,12 +239,11 @@ public abstract class SearchBean {
     /**
      * 获取一个对象中的某个字段的值,结果转化成string类型
      *
-     * @param field         字段名称
-     * @param obj           对象
+     * @param field 字段名称
      * @return
      */
-    private String getValue(String field, Object obj){
-        if(StringUtils.isEmpty(field)){
+    private String getValue(String field) {
+        if (StringUtils.isEmpty(field)) {
             logger.warn("field is empty!");
             return StringUtils.EMPTY;
         }
@@ -271,9 +272,9 @@ public abstract class SearchBean {
     /**
      * you must use this method when you create the index, set what object you will to be created its index!
      *
-     * @param object            the object which you will want to be create index
+     * @param object the object which you will want to be create index
      */
-    public void setObject(Object object){
+    public void setObject(Object object) {
         this.object = object;
     }
 
@@ -282,7 +283,7 @@ public abstract class SearchBean {
      *
      * @return
      */
-    public Object getObject(){
+    public Object getObject() {
         return this.object;
     }
     /**************************************以上 公共方法****************************************/

@@ -7,6 +7,7 @@ import lodsve.mybatis.dialect.Dialect;
 import lodsve.mybatis.dialect.MySQLDialect;
 import lodsve.mybatis.dialect.OracleDialect;
 import lodsve.mybatis.enums.DbType;
+import lodsve.mybatis.exception.MyBatisException;
 import lodsve.mybatis.key.IDGenerator;
 import lodsve.mybatis.key.snowflake.SnowflakeIdGenerator;
 import lodsve.mybatis.key.uuid.UUIDGenerator;
@@ -30,7 +31,7 @@ public final class MyBatisUtils {
             return new OracleDialect();
         }
 
-        throw new RuntimeException("找不到Dialect！");
+        throw new MyBatisException(102001, "can't find dialect!", database);
     }
 
     public static IDGenerator getIDGenerator(IDGenerator.KeyType keyType) {
@@ -40,7 +41,7 @@ public final class MyBatisUtils {
             return new UUIDGenerator();
         }
 
-        throw new RuntimeException("找不到IDGenerator！");
+        throw new MyBatisException(102002, "can't find IDGenerator!", keyType.toString());
     }
 
     public static <T> T nextId(IDGenerator.KeyType keyType) {

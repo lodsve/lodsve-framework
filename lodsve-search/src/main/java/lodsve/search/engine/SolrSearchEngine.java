@@ -2,6 +2,7 @@ package lodsve.search.engine;
 
 import lodsve.search.bean.SearchBean;
 import lodsve.core.utils.StringUtils;
+import lodsve.search.exception.SolrException;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
@@ -42,7 +43,7 @@ public class SolrSearchEngine extends AbstractSearchEngine {
     private SolrServer getSolrServer() {
         if (StringUtils.isEmpty(server)) {
             logger.error("null solr server path!");
-            throw new RuntimeException("Give a null solr server path");
+            throw new SolrException(104001, "Give a null solr server path");
         }
 
         try {
@@ -51,7 +52,7 @@ public class SolrSearchEngine extends AbstractSearchEngine {
 
             return solrServer;
         } catch (MalformedURLException e) {
-            throw new RuntimeException("Connect to solr server error use server '" + server + "'");
+            throw new SolrException(104002, "Connect to solr server error use server '" + server + "'", server);
         }
     }
 
@@ -71,32 +72,32 @@ public class SolrSearchEngine extends AbstractSearchEngine {
             //保证每个对象的唯一性,而且通过对象的主键可以明确的找到这个对象在solr中的索引
             sid.addField("id", "uniqueKey-" + sb.getIndexType() + "-" + sb.getId());
             if (StringUtils.isEmpty(sb.getId())) {
-                throw new RuntimeException("you must give a id");
+                throw new SolrException(104003, "you must give a id");
             }
             sid.addField("pkId", sb.getId());
 
             if (StringUtils.isEmpty(sb.getKeyword())) {
-                throw new RuntimeException("you must give a keyword");
+                throw new SolrException(104004, "you must give a keyword");
             }
             sid.addField("keyword", sb.getKeyword());
 
             if (StringUtils.isEmpty(sb.getOwerId())) {
-                throw new RuntimeException("you must give a owerId");
+                throw new SolrException(104005, "you must give a owerId");
             }
             sid.addField("owerId", sb.getOwerId());
 
             if (StringUtils.isEmpty(sb.getOwerName())) {
-                throw new RuntimeException("you must give a owerName");
+                throw new SolrException(104006, "you must give a owerName");
             }
             sid.addField("owerName", sb.getOwerName());
 
             if (StringUtils.isEmpty(sb.getLink())) {
-                throw new RuntimeException("you must give a link");
+                throw new SolrException(104007, "you must give a link");
             }
             sid.addField("link", sb.getLink());
 
             if (StringUtils.isEmpty(sb.getCreateDate())) {
-                throw new RuntimeException("you must give a createDate");
+                throw new SolrException(104008, "you must give a createDate");
             }
             sid.addField("createDate", sb.getCreateDate());
 
