@@ -2,7 +2,6 @@ package lodsve.redis.core.connection;
 
 import lodsve.redis.core.config.RedisProperties;
 import lodsve.core.utils.StringUtils;
-import lodsve.redis.exception.RedisException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -24,10 +23,10 @@ public class LodsveRedisConnectionFactory extends JedisConnectionFactory {
 
         String url = redisSetting.getUrl();
         if (StringUtils.isBlank(url)) {
-            throw new RedisException(103001, "url must not null");
+            throw new IllegalArgumentException("url must not null");
         }
         if (!url.startsWith(URL_PREFIX)) {
-            throw new RedisException(103002, "url needs to start with " + URL_PREFIX, URL_PREFIX);
+            throw new IllegalArgumentException("url needs to start with " + URL_PREFIX);
         }
 
         url = url.substring(URL_PREFIX.length());

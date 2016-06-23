@@ -10,7 +10,6 @@ import lodsve.wechat.beans.Menu;
 import lodsve.wechat.core.WeChat;
 import lodsve.wechat.core.WeChatRequest;
 import lodsve.wechat.core.WeChatUrl;
-import lodsve.wechat.exception.WeChatException;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.stereotype.Component;
 
@@ -34,12 +33,12 @@ public class WeChatMenuService {
         }
 
         if (menus.length > 3) {
-            throw new WeChatException(107001, "微信按钮个数限制小于等于3个");
+            throw new RuntimeException("微信按钮个数限制小于等于3个");
         }
         for (Menu m : menus) {
             List<Menu> subButtons = m.getSubButtons();
             if (subButtons != null && subButtons.size() > 5) {
-                throw new WeChatException(107002, "微信子按钮个数限制小于等于5个");
+                throw new RuntimeException("微信子按钮个数限制小于等于5个");
             }
         }
 

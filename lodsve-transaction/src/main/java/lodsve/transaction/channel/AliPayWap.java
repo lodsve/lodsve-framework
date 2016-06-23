@@ -5,7 +5,6 @@ import java.util.Map;
 import lodsve.core.utils.ParamsHolder;
 import lodsve.transaction.enums.TradeChannel;
 import lodsve.transaction.enums.TradeType;
-import lodsve.transaction.exception.PayException;
 import lodsve.transaction.utils.Channel;
 import lodsve.transaction.utils.PingConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class AliPayWap extends CommonAliPay {
         TradeType type = ParamsHolder.get("tradeType");
 
         if (type == null) {
-            throw new PayException(106002, "TradeType IS NULL!");
+            throw new RuntimeException("TradeType IS NULL!");
         }
 
         String notifyUrl = pingConfig.getNotifyUrl() + "/%s/" + type.toString();

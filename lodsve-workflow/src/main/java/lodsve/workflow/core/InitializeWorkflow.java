@@ -17,7 +17,6 @@ import lodsve.workflow.domain.FlowNode;
 import lodsve.workflow.domain.FormUrl;
 import lodsve.workflow.domain.Workflow;
 import lodsve.workflow.enums.UrlType;
-import lodsve.workflow.exception.InitializeWorkflowException;
 import lodsve.workflow.repository.FlowNodeRepository;
 import lodsve.workflow.repository.FormUrlRepository;
 import lodsve.workflow.repository.WorkflowLocalStorage;
@@ -143,10 +142,10 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
             try {
                 source = applicationReadyEvent.getApplicationContext().getBean(bean);
             } catch (BeansException e) {
-                throw new InitializeWorkflowException(108001, String.format("解析流程处理类出现问题！流程名：%s, 处理类：%s", title, bean), title, bean);
+                throw new RuntimeException(String.format("解析流程处理类出现问题！流程名：%s, 处理类：%s", title, bean));
             }
             if (source == null || source.getClass().isAssignableFrom(HandlerInterceptor.class)) {
-                throw new InitializeWorkflowException(108001, String.format("解析流程处理类出现问题！流程名：%s, 处理类：%s", title, bean), title, bean);
+                throw new RuntimeException(String.format("解析流程处理类出现问题！流程名：%s, 处理类：%s", title, bean));
             }
 
             return (HandlerInterceptor) source;
@@ -157,13 +156,13 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
             try {
                 _clazz = ClassUtils.forName(clazz, Thread.currentThread().getContextClassLoader());
             } catch (ClassNotFoundException e) {
-                throw new InitializeWorkflowException(108001, String.format("解析流程处理类出现问题！流程名：%s, 处理类：%s", title, clazz), title, bean);
+                throw new RuntimeException(String.format("解析流程处理类出现问题！流程名：%s, 处理类：%s", title, clazz));
             }
 
             return (HandlerInterceptor) BeanUtils.instantiate(_clazz);
         }
 
-        throw new InitializeWorkflowException(108002, "handler节点属性bean或者class必须二选一!");
+        throw new RuntimeException("handler节点属性bean或者class必须二选一!");
     }
 
     private void checkNode(List<FlowNode> nodes) {
@@ -180,7 +179,7 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
             });
 
             if (_nodes.size() > 1) {
-                throw new InitializeWorkflowException(108003, "节点【" + node.getName() + "】的code【" + name + "】存在重复！", node.getName(), name);
+                throw new RuntimeException("节点【" + node.getName() + "】的code【" + name + "】存在重复！");
             }
 
             // 检查to节点是否存在
@@ -192,7 +191,7 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
             });
 
             if (_node == null) {
-                throw new InitializeWorkflowException(108004, "节点【" + node.getName() + "】的下一节点【" + name + "】不存在，请检查！", node.getName(), name);
+                throw new RuntimeException("节点【" + node.getName() + "】的下一节点【" + name + "】不存在，请检查！");
             }
         }
     }
@@ -283,7 +282,7 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
             // 判断是否存在
             clazz = ClassUtils.forName(className, Thread.currentThread().getContextClassLoader());
         } catch (ClassNotFoundException e) {
-            throw new InitializeWorkflowException(108005, errorMsg);
+            throw new RuntimeException(errorMsg, e);
         }
 
         return clazz;
@@ -298,7 +297,7 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         try {
             _resources = loader.getResources(Constants.DEFAULT_WORKFLOW_XML_PATH);
         } catch (IOException e) {
-            throw new InitializeWorkflowException(108006, "获取工作流配置文件列表失败");
+            throw new RuntimeException("获取工作流配置文件列表失败", e);
         }
 
         resources.addAll(Arrays.asList(_resources));
@@ -306,7 +305,7 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         try {
             init();
         } catch (Exception e) {
-            throw new InitializeWorkflowException(108007, "流程配置文件解析发生错误");
+            throw new RuntimeException("流程配置文件解析发生错误", e);
         }
     }
 }

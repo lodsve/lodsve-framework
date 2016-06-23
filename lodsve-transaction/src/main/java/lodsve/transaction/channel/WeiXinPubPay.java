@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import lodsve.core.utils.StringUtils;
 import lodsve.transaction.enums.TradeChannel;
-import lodsve.transaction.exception.PayException;
 import lodsve.transaction.utils.Channel;
 import lodsve.transaction.utils.data.PayData;
 import org.apache.commons.collections.MapUtils;
@@ -27,13 +26,13 @@ public class WeiXinPubPay extends CommonWXPay {
     protected Map<String, String> buildExtraData(Map<String, String> extra) {
         if (MapUtils.isEmpty(extra)) {
             logger.error("openId必填!");
-            throw new PayException(106002, "openId必填!");
+            throw new RuntimeException("openId必填!");
         }
 
         String openId = extra.get(PayData.OPEN_ID);
         if (StringUtils.isBlank(openId)) {
             logger.error("openId必填!");
-            throw new PayException(106002, "openId必填!");
+            throw new RuntimeException("openId必填!");
         }
 
         Map<String, String> result = new HashMap<>();

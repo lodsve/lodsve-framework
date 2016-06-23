@@ -1,6 +1,6 @@
 package lodsve.wechat.exception;
 
-import lodsve.core.exception.ApplicationException;
+import lodsve.mvc.exception.ApplicationRuntimeException;
 
 /**
  * 异常.
@@ -8,7 +8,7 @@ import lodsve.core.exception.ApplicationException;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/25 上午10:05
  */
-public class WeChatException extends ApplicationException {
+public class WeChatException extends ApplicationRuntimeException {
     public WeChatException(String content) {
         super(content);
     }

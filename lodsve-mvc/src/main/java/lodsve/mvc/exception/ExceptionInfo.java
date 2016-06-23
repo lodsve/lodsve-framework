@@ -1,4 +1,4 @@
-package lodsve.core.exception;
+package lodsve.mvc.exception;
 
 import java.io.Serializable;
 

@@ -1,12 +1,12 @@
 package lodsve.core.config.core;
 
-import lodsve.core.condition.ConditionalOnWebApplication;
 import lodsve.core.config.loader.ini.IniLoader;
 import lodsve.core.config.loader.properties.ConfigurationLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ClassUtils;
 
 /**
  * .
@@ -15,17 +15,19 @@ import org.springframework.stereotype.Component;
  * @version V1.0, 16/5/5 下午2:53
  */
 @Component
-@ConditionalOnWebApplication
 public class LoadConfiguration implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(LoadConfiguration.class);
+    private static final boolean IS_SERVLET = ClassUtils.isPresent("javax.servlet.Servlet", Thread.currentThread().getContextClassLoader());
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        try {
-            ConfigurationLoader.init();
-            IniLoader.init();
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+        if (!IS_SERVLET) {
+            try {
+                ConfigurationLoader.init();
+                IniLoader.init();
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package lodsve.core.exception;
+package lodsve.mvc.exception;
 
 import org.springframework.core.NestedRuntimeException;
 
@@ -8,7 +8,7 @@ import org.springframework.core.NestedRuntimeException;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/8/14 下午12:27
  */
-public class ApplicationException extends NestedRuntimeException {
+public class ApplicationRuntimeException extends NestedRuntimeException implements ExceptionInfoGetter {
     /**
      * 异常code
      */
@@ -22,7 +22,7 @@ public class ApplicationException extends NestedRuntimeException {
      */
     private String content;
 
-    public ApplicationException(String content) {
+    public ApplicationRuntimeException(String content) {
         super(content);
         this.content = content;
     }
@@ -31,7 +31,7 @@ public class ApplicationException extends NestedRuntimeException {
      * @param code    异常编码，在i18n配置文件中配置的编码，请确保该异常编码已经定义
      * @param content 后台异常内容，这个内容主要用于输出后台日志，便于异常诊断
      */
-    public ApplicationException(Integer code, String content) {
+    public ApplicationRuntimeException(Integer code, String content) {
         super(content);
         this.code = code;
         this.content = content;
@@ -42,7 +42,7 @@ public class ApplicationException extends NestedRuntimeException {
      * @param content 后台异常内容，这个内容主要用于输出后台日志，便于异常诊断
      * @param args    在i18n配置文件中配置的错误描述中的占位符填充信息
      */
-    public ApplicationException(Integer code, String content, String... args) {
+    public ApplicationRuntimeException(Integer code, String content, String... args) {
         super(content);
         this.code = code;
         this.args = args;
@@ -65,6 +65,7 @@ public class ApplicationException extends NestedRuntimeException {
         this.content = content;
     }
 
+    @Override
     public ExceptionInfo getInfo() {
         return new ExceptionInfo(this.code, this.args, this.content);
     }

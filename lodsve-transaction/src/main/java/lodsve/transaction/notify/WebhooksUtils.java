@@ -2,16 +2,8 @@ package lodsve.transaction.notify;
 
 import com.pingplusplus.model.Event;
 import com.pingplusplus.model.Webhooks;
-import java.io.BufferedReader;
-import java.security.KeyFactory;
-import java.security.PublicKey;
-import java.security.Signature;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import lodsve.core.utils.StringUtils;
-import lodsve.transaction.exception.WebhooksValidateException;
 import lodsve.transaction.utils.PingConfig;
+import lodsve.core.utils.StringUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;
@@ -21,6 +13,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.security.KeyFactory;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Map;
 
 /**
  * ping++的回调校验.
@@ -75,8 +75,8 @@ public final class WebhooksUtils implements ResourceLoaderAware {
         // 3. 获取 Webhooks 请求的原始数据
         // 4. 将获取到的 Webhooks 通知、Ping++ 管理平台提供的 RSA 公钥、和 base64 解码后的签名三者一同放入 RSA 的签名函数中进行非对称的签名运算，来判断签名是否验证通过
         boolean result = verifySignature(eventBody.getBytes(), signatureBytes, getPubKey());
-       if (!result) {
-            throw new WebhooksValidateException(106007, String.format("invalid webhooks!request body is %s!", eventBody));
+        if (!result) {
+            throw new RuntimeException(String.format("invalid webhooks!request body is %s!", eventBody));
         }
     }
 
