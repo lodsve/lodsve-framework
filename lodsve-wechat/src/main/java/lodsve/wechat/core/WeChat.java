@@ -9,8 +9,6 @@ import java.util.concurrent.TimeUnit;
 import lodsve.wechat.beans.AccessToken;
 import lodsve.wechat.beans.JsApiTicket;
 import lodsve.wechat.config.WeChatProperties;
-import lodsve.wechat.exception.WeChatException;
-import org.apache.commons.httpclient.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +37,7 @@ public final class WeChat {
                 }
             });
         } catch (ExecutionException e) {
-            throw new WeChatException(HttpStatus.SC_BAD_REQUEST, e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -52,7 +50,7 @@ public final class WeChat {
                 }
             });
         } catch (ExecutionException e) {
-            throw new WeChatException(HttpStatus.SC_BAD_REQUEST, e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 

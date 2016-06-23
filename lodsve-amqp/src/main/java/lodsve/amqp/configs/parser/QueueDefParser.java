@@ -40,8 +40,7 @@ public class QueueDefParser implements BeanDefinitionParser {
     }
 
     private Resource getConfigFileResource(String templatePath, Map<String, Object> context) {
-        Resource resource = new ThymeleafTemplateResource(templatePath, context, "xml");
-        return resource;
+        return new ThymeleafTemplateResource(templatePath, context, "xml");
     }
 
     /**
@@ -55,7 +54,7 @@ public class QueueDefParser implements BeanDefinitionParser {
 
         List<Element> childElements = DomUtils.getChildElementsByTagName(element, "queue");
 
-        List<Queue> queues = new ArrayList<Queue>();
+        List<Queue> queues = new ArrayList<>();
         for(Element ele : childElements){
             Queue queue = new Queue();
             queue.setName(PropertyPlaceholderHelper.replacePlaceholder(ele.getAttribute("queue-name"), false, configs));
