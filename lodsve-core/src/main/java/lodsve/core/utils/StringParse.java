@@ -14,5 +14,5 @@ public interface StringParse<V> {
      * @param str 待转换的数据
      * @return
      */
-    public V parse(String str);
+    V parse(String str);
 }

@@ -52,7 +52,7 @@ public class ZipUtils {
 		//zip文件
 		java.util.zip.ZipFile zipFile = new java.util.zip.ZipFile(srcZipFile);
 		//zip文件包含的文件实体
-		java.util.zip.ZipEntry entry = null;
+		java.util.zip.ZipEntry entry;
 		Enumeration<?> e = zipFile.entries();
 		//遍历每一个zip包含的文件
 		while(e.hasMoreElements()){
@@ -93,9 +93,9 @@ public class ZipUtils {
 			return;
 		}
     	
-    	OutputStream out = null;
-        BufferedOutputStream bos = null;
-        ZipOutputStream zos = null;
+    	OutputStream out;
+        BufferedOutputStream bos;
+        ZipOutputStream zos;
 
         File f = new File(zipFileName);
         out = new FileOutputStream(f);

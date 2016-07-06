@@ -1,14 +1,9 @@
 package lodsve.mvc.exception;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.UndeclaredThrowableException;
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import lodsve.core.utils.PropertyPlaceholderHelper;
-import lodsve.core.utils.StringUtils;
 import lodsve.core.config.SystemConfig;
 import lodsve.core.config.loader.i18n.ResourceBundleHolder;
+import lodsve.core.utils.PropertyPlaceholderHelper;
+import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -20,6 +15,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.NativeWebRequest;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.UndeclaredThrowableException;
 
 /**
  * 异常处理,返回前端类似于<code>{"code": 10001,"message": "test messages"}</code>的json数据.
@@ -73,7 +74,7 @@ public class ExceptionAdvice {
             if (code != null) {
                 try {
                     message = this.resourceBundleHolder.getResourceBundle(request.getLocale()).getString(code.toString());
-                    message = PropertyPlaceholderHelper.replacePlaceholder(message, message, exceptionInfo.getArgs());
+                    message = PropertyPlaceholderHelper.replace(message, message, exceptionInfo.getArgs());
                 } catch (Exception e) {
                     logger.error("根据异常编码获取异常描述信息发生异常，errorCode：" + code);
                     message = exceptionInfo.getMessage();

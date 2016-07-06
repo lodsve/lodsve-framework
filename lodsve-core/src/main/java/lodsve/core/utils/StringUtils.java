@@ -1,11 +1,11 @@
 package lodsve.core.utils;
 
-import java.nio.charset.Charset;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.util.Assert;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -108,7 +108,7 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
      * @return 包含字符串的集合
      */
     public static List toStringList(List list) {
-        List result = new ArrayList(list.size());
+        List<String> result = new ArrayList<>(list.size());
         Object obj;
         for (int i = 0; i < list.size(); i++) {
             obj = list.get(i);
@@ -131,8 +131,7 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
     public static String replaceString(String strcontent, String oldstr,
                                        String newstr, int len) {
         StringBuffer buffer = new StringBuffer();
-        int pos = 0;
-        int i = 0;
+        int pos = 0, i;
         for (i = strcontent.indexOf(oldstr, pos); i >= 0; i = strcontent
                 .indexOf(oldstr, pos)) {
             buffer.append(strcontent.substring(pos, i));
@@ -152,13 +151,15 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
      * @return
      */
     public static String[] split(String str, String character) {
+        if (isBlank(str) || isBlank(character)) {
+            return new String[0];
+        }
         StringTokenizer stk = new StringTokenizer(str, character);
-        List list = new ArrayList();
+        List<String> list = new ArrayList<>();
         for (; stk.hasMoreTokens(); list.add(stk.nextToken()))
             ;
-        String strs[] = new String[list.size()];
-        list.toArray(strs);
-        return strs;
+
+        return list.toArray(new String[list.size()]);
     }
 
     /**
@@ -295,7 +296,7 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
             return null;
         }
 
-        List<String> ss = new ArrayList<String>();
+        List<String> ss = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             Object obj = list.get(i);
             if (obj == null && !containNull) {

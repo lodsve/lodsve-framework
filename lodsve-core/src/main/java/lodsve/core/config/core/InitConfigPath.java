@@ -1,8 +1,5 @@
 package lodsve.core.config.core;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +7,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * 初始化配置文件的路径.<br/>
@@ -98,6 +99,8 @@ public class InitConfigPath {
         if (StringUtils.isEmpty(paramsPath)) {
             throw new RuntimeException("读取配置文件错误！需要设置环境变量[PARAMS_HOME]或者启动参数[params.home]或者web.xml参数，并且环境变量 > 启动参数 > web.xml中配置!");
         }
+
+        logger.debug(String.format("解析得到的paramsPath为【%s】", paramsPath));
 
         //判断路径是否含有classpath或者file
         if (StringUtils.indexOf(paramsPath, PREFIX_CLASSPATH) == 0) {

@@ -126,8 +126,8 @@ public class PropertyPlaceholderHelper {
      * @param args         参数
      * @return
      */
-    public static String replacePlaceholder(String formatString, Object... args) {
-        String result = replacePlaceholder(formatString, StringUtils.EMPTY, args);
+    public static String replace(String formatString, Object... args) {
+        String result = replace(formatString, StringUtils.EMPTY, args);
 
         return StringUtils.isEmpty(result) ? formatString : result;
     }
@@ -140,7 +140,7 @@ public class PropertyPlaceholderHelper {
      * @param args         参数
      * @return
      */
-    public static String replacePlaceholder(String formatString, String defaultValue, Object... args) {
+    public static String replace(String formatString, String defaultValue, Object... args) {
         if (StringUtils.isEmpty(formatString)) {
             logger.error("the formatString, args, defaultValue is required! please check given paramters are all right!");
             return StringUtils.EMPTY;

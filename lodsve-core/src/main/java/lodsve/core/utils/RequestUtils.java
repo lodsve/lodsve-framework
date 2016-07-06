@@ -1,19 +1,20 @@
 package lodsve.core.utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import lodsve.core.bean.ClientType;
 import lodsve.core.bean.Constants;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * HttpServletRequest的工具类
@@ -89,7 +90,7 @@ public class RequestUtils {
      * @return
      */
     public static List<String> getRequestParam(HttpServletRequest request) {
-        List<String> urlParams = new ArrayList<String>();
+        List<String> urlParams = new ArrayList<>();
         Map params = request.getParameterMap();
         Iterator it = params.keySet().iterator();
         while (it.hasNext()) {
@@ -185,7 +186,7 @@ public class RequestUtils {
         Map<String, Object> paramsMap = new HashMap<>();
         for (String p : ps) {
             String[] tmp = p.split("=");
-            if (tmp == null || tmp.length <= 0)
+            if (tmp.length <= 0)
                 continue;
 
             if (tmp.length == 1)
@@ -212,7 +213,7 @@ public class RequestUtils {
         String[] ps = params.split("&");
         for (String p : ps) {
             String[] tmp = p.split("=");
-            if (tmp == null || tmp.length <= 0)
+            if (tmp.length <= 0)
                 continue;
 
             if (key.equals(tmp[0])) {
@@ -238,7 +239,7 @@ public class RequestUtils {
             return StringUtils.EMPTY;
         }
 
-        if (url.indexOf("?") == -1)
+        if (!url.contains("?"))
             return StringUtils.EMPTY;
 
         String params = url.substring(url.indexOf("?") + 1);
@@ -249,6 +250,7 @@ public class RequestUtils {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         Assert.state(requestAttributes != null, "Could not find current request via RequestContextHolder");
         Assert.isInstanceOf(ServletRequestAttributes.class, requestAttributes);
+        Assert.notNull(requestAttributes);
         HttpServletRequest servletRequest = ((ServletRequestAttributes) requestAttributes).getRequest();
         Assert.state(servletRequest != null, "Could not find current HttpServletRequest");
         return servletRequest;

@@ -76,11 +76,8 @@ public class URLUtils {
 				result = true;
 			}
 		}
-		
-		if(!result){
-			return false;
-		}
-		return true;
+
+		return result;
 	}
 	
 	/**
