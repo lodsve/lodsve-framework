@@ -3,7 +3,7 @@ package lodsve.mvc.convert;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import lodsve.base.bean.Codeable;
+import lodsve.core.bean.Codeable;
 
 import java.io.IOException;
 

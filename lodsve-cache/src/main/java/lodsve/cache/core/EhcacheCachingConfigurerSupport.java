@@ -1,9 +1,8 @@
 package lodsve.cache.core;
 
-import lodsve.cache.conditional.EhcacheCondition;
+import lodsve.core.condition.ConditionalOnExpression;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @version V1.0, 16/4/1 上午9:49
  */
 @Component
-@Conditional(EhcacheCondition.class)
+@ConditionalOnExpression("T(lodsve.cache.annotations.CacheModeHolder).getCacheMode() eq T(lodsve.cache.annotations.CacheMode).EHCAHE")
 public class EhcacheCachingConfigurerSupport extends LodsveCachingConfigurerSupport {
     @Override
     public CacheManager cacheManager() {

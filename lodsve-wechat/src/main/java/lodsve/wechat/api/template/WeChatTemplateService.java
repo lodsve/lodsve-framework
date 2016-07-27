@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import lodsve.wechat.beans.Industry;
 import lodsve.wechat.beans.Template;
 import lodsve.wechat.beans.TemplateData;

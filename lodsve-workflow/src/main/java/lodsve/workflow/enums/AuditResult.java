@@ -1,6 +1,6 @@
 package lodsve.workflow.enums;
 
-import lodsve.base.bean.Codeable;
+import lodsve.core.bean.Codeable;
 
 /**
  * .

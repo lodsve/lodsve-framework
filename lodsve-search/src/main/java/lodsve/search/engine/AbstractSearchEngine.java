@@ -8,7 +8,7 @@ import lius.index.powerpoint.PPTIndexer;
 import lius.index.txt.TXTIndexer;
 import lius.index.xml.XmlFileIndexer;
 import lodsve.search.bean.SearchBean;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;

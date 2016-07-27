@@ -1,8 +1,8 @@
 package lodsve.mvc.commons;
 
-import lodsve.base.bean.Constants;
-import lodsve.base.utils.RequestUtils;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.bean.Constants;
+import lodsve.core.utils.RequestUtils;
+import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;

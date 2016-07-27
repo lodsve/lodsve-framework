@@ -2,8 +2,8 @@ package lodsve.mvc.resolver;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lodsve.base.utils.ObjectUtils;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.ObjectUtils;
+import lodsve.core.utils.StringUtils;
 import lodsve.mvc.annotation.Bind;
 import lodsve.mvc.commons.WebInput;
 import org.springframework.core.MethodParameter;

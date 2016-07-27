@@ -1,6 +1,6 @@
 package lodsve.properties;
 
-import lodsve.base.config.auto.annotations.ConfigurationProperties;
+import lodsve.core.config.auto.annotations.ConfigurationProperties;
 
 /**
  * .

@@ -1,6 +1,6 @@
 package lodsve.validate.core;
 
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 
 /**
  * 类似于map,放置验证注解和其对应的处理类.

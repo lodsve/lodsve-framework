@@ -10,8 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.IOException;
 import java.util.Map;
-import lodsve.base.utils.StringUtils;
-import lodsve.wechat.exception.WeChatException;
+import lodsve.core.utils.StringUtils;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +77,7 @@ public final class WeChatRequest {
         }
 
         if (isError(result)) {
-            throw new WeChatException((Integer) result.get("errcode"), (String) result.get("errmsg"));
+            throw new RuntimeException((String) result.get("errmsg"));
         }
 
         return evalMap(result, typeReference);
@@ -89,7 +88,7 @@ public final class WeChatRequest {
 
         Map<String, Object> result = template.postForObject(url, object, Map.class, params);
         if (isError(result)) {
-            throw new WeChatException((Integer) result.get("errcode"), (String) result.get("errmsg"));
+            throw new RuntimeException((String) result.get("errmsg"));
         }
 
         return evalMap(result, typeReference);

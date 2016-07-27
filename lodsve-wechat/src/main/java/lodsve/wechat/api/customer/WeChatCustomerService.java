@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lodsve.base.utils.EncryptUtils;
+import lodsve.core.utils.EncryptUtils;
 import lodsve.wechat.beans.CustomerServer;
 import lodsve.wechat.core.WeChat;
 import lodsve.wechat.core.WeChatRequest;

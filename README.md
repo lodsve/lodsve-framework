@@ -45,6 +45,10 @@ My development tools, it encapsulates some open source projects, and better faci
 ## Check out the configurations
 `git clone git@github.com:lodsve/lodsve-configs.git`
 
+## Import sources into your IDE
+Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
+> **Note:** Per the prerequisites above, ensure that you have JDK 7 and Maven 3.3.X configured properly in your IDE.
+
 ## Change History
 [CHANGELOG][]
 

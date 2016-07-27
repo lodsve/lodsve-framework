@@ -1,7 +1,7 @@
 package lodsve.validate.core;
 
-import lodsve.base.utils.ObjectUtils;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.ObjectUtils;
+import lodsve.core.utils.StringUtils;
 import lodsve.validate.annotations.ValidateEntity;
 import lodsve.validate.constants.ValidateConstants;
 import lodsve.validate.exception.DefaultExceptionHandler;
@@ -53,9 +53,9 @@ public class ValidateEngine implements InitializingBean {
     private Map<String, List<Field>> validateFields;
 
     //验证引擎的注解所在classpath下的包路径
-    private static final String ANNOTATION_PATH = "message.validate.annotations";
+    private static final String ANNOTATION_PATH = "lodsve.validate.annotations";
     //验证引擎的注解对应的处理类所在classpath下的包路径
-    private static final String VALIDATE_HANDLER_PATH = "message.validate.handler";
+    private static final String VALIDATE_HANDLER_PATH = "lodsve.validate.handler";
     //处理类的后缀名(类名)
     private static final String HANDLER_CLASS_SUFFIX = "Handler";
 

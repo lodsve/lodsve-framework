@@ -1,7 +1,7 @@
 package lodsve.search.engine;
 
 import lodsve.search.bean.SearchBean;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.SimpleAnalyzer;
 import org.apache.lucene.document.Document;
