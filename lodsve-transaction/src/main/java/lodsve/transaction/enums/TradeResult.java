@@ -1,6 +1,6 @@
 package lodsve.transaction.enums;
 
-import lodsve.base.bean.Codeable;
+import lodsve.core.bean.Codeable;
 
 /**
  * 支付状态.

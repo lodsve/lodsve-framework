@@ -1,6 +1,8 @@
 package lodsve.transaction.channel;
 
-import lodsve.base.utils.StringUtils;
+import java.util.HashMap;
+import java.util.Map;
+import lodsve.core.utils.StringUtils;
 import lodsve.transaction.enums.TradeChannel;
 import lodsve.transaction.utils.Channel;
 import lodsve.transaction.utils.data.PayData;
@@ -8,9 +10,6 @@ import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 微信公众号支付.

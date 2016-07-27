@@ -1,7 +1,7 @@
 package lodsve.workflow.domain;
 
 import java.util.List;
-import lodsve.base.utils.ListUtils;
+import lodsve.core.utils.ListUtils;
 import org.apache.commons.collections.CollectionUtils;
 
 /**

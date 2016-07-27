@@ -1,6 +1,6 @@
 package lodsve.mongodb.core;
 
-import lodsve.base.utils.GenericUtils;
+import lodsve.core.utils.GenericUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;

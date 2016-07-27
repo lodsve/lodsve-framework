@@ -1,7 +1,7 @@
 package lodsve.springfox.paths;
 
 import javax.servlet.ServletContext;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import springfox.documentation.spring.web.paths.RelativePathProvider;
 

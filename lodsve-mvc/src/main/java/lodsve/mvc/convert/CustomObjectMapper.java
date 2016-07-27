@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.cfg.BaseSettings;
 import com.fasterxml.jackson.databind.introspect.BasicClassIntrospector;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import lodsve.base.bean.Codeable;
+import lodsve.core.bean.Codeable;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;

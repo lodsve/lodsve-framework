@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.lodsve</groupId>
         <artifactId>lodsve-framework</artifactId>
-        <version>2.5.2</version>
+        <version>2.5.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -37,10 +37,6 @@
         <dependency>
             <groupId>com.github.lodsve</groupId>
             <artifactId>lodsve-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.lodsve</groupId>
-            <artifactId>lodsve-validate</artifactId>
         </dependency>
     </dependencies>
 

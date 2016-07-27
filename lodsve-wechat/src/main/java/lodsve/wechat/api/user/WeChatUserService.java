@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import lodsve.wechat.beans.User;
 import lodsve.wechat.beans.UserQuery;
 import lodsve.wechat.core.WeChat;

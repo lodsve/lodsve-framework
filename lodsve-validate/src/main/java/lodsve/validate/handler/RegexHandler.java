@@ -1,6 +1,6 @@
 package lodsve.validate.handler;
 
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import lodsve.validate.annotations.Regex;
 import lodsve.validate.core.ValidateHandler;
 import org.slf4j.Logger;

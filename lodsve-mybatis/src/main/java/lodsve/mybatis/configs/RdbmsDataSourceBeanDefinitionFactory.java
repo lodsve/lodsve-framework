@@ -4,8 +4,8 @@ import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import lodsve.base.config.auto.AutoConfigurationCreator;
-import lodsve.base.config.auto.annotations.ConfigurationProperties;
+import lodsve.core.config.auto.AutoConfigurationCreator;
+import lodsve.core.config.auto.annotations.ConfigurationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapper;
@@ -104,7 +104,7 @@ public class RdbmsDataSourceBeanDefinitionFactory {
 
     private void setCustomProperties(BeanDefinitionBuilder beanDefinitionBuilder, String dataSourceClassName) {
         //1.druid
-        if ("com.alibaba.druid.pool.DruidDataSource".equals(dataSourceClassName)) {
+        if (DRUID_DATA_SOURCE_CLASS.equals(dataSourceClassName)) {
             // init method
             beanDefinitionBuilder.setInitMethodName("init");
             // destroy method

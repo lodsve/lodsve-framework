@@ -3,7 +3,7 @@ package lodsve.cache.configs;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lodsve.cache.conditional.RedisCondition;
+import lodsve.core.condition.ConditionalOnExpression;
 import lodsve.redis.core.annotations.EnableRedis;
 import lodsve.redis.core.connection.LodsveRedisConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -26,7 +25,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 @Configuration
 @EnableRedis(name = "cache")
 @ComponentScan("lodsve.cache.core")
-@Conditional(RedisCondition.class)
+@ConditionalOnExpression("T(lodsve.cache.annotations.CacheModeHolder).getCacheMode() eq T(lodsve.cache.annotations.CacheMode).REDIS")
 public class WithRedisCacheConfiguration {
     @Autowired
     @Qualifier("cache")

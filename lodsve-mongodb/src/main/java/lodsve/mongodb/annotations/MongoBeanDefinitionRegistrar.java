@@ -1,7 +1,10 @@
 package lodsve.mongodb.annotations;
 
-import lodsve.base.template.ThymeleafTemplateResource;
-import lodsve.base.utils.StringUtils;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import lodsve.core.template.ThymeleafTemplateResource;
+import lodsve.core.utils.StringUtils;
 import lodsve.mongodb.core.MongoDataSourceBeanDefinitionFactory;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
@@ -13,10 +16,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 加载mongodb操作的一些bean.

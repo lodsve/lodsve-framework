@@ -1,7 +1,7 @@
 package lodsve.workflow.domain;
 
 import java.util.Date;
-import lodsve.base.utils.DateUtils;
+import lodsve.core.utils.DateUtils;
 import lodsve.workflow.enums.AuditResult;
 import lodsve.workflow.enums.UrlType;
 

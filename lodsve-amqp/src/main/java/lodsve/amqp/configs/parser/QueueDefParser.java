@@ -1,9 +1,9 @@
 package lodsve.amqp.configs.parser;
 
 import lodsve.amqp.core.Queue;
-import lodsve.base.config.SystemConfig;
-import lodsve.base.template.ThymeleafTemplateResource;
-import lodsve.base.utils.PropertyPlaceholderHelper;
+import lodsve.core.config.SystemConfig;
+import lodsve.core.template.ThymeleafTemplateResource;
+import lodsve.core.utils.PropertyPlaceholderHelper;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -40,8 +40,7 @@ public class QueueDefParser implements BeanDefinitionParser {
     }
 
     private Resource getConfigFileResource(String templatePath, Map<String, Object> context) {
-        Resource resource = new ThymeleafTemplateResource(templatePath, context, "xml");
-        return resource;
+        return new ThymeleafTemplateResource(templatePath, context, "xml");
     }
 
     /**
@@ -55,7 +54,7 @@ public class QueueDefParser implements BeanDefinitionParser {
 
         List<Element> childElements = DomUtils.getChildElementsByTagName(element, "queue");
 
-        List<Queue> queues = new ArrayList<Queue>();
+        List<Queue> queues = new ArrayList<>();
         for(Element ele : childElements){
             Queue queue = new Queue();
             queue.setName(PropertyPlaceholderHelper.replacePlaceholder(ele.getAttribute("queue-name"), false, configs));

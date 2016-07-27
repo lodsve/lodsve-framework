@@ -1,6 +1,6 @@
 package lodsve.redis.timer;
 
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

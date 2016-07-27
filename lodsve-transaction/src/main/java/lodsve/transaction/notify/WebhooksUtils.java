@@ -3,7 +3,7 @@ package lodsve.transaction.notify;
 import com.pingplusplus.model.Event;
 import com.pingplusplus.model.Webhooks;
 import lodsve.transaction.utils.PingConfig;
-import lodsve.base.utils.StringUtils;
+import lodsve.core.utils.StringUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;

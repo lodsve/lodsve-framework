@@ -1,13 +1,9 @@
 package lodsve.mvc.exception;
 
-import java.io.IOException;
-import java.lang.reflect.UndeclaredThrowableException;
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import lodsve.base.utils.PropertyPlaceholderHelper;
-import lodsve.base.utils.StringUtils;
-import lodsve.base.config.SystemConfig;
-import lodsve.base.config.loader.i18n.ResourceBundleHolder;
+import lodsve.core.config.SystemConfig;
+import lodsve.core.config.loader.i18n.ResourceBundleHolder;
+import lodsve.core.utils.PropertyPlaceholderHelper;
+import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -19,6 +15,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.NativeWebRequest;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.UndeclaredThrowableException;
 
 /**
  * 异常处理,返回前端类似于<code>{"code": 10001,"message": "test messages"}</code>的json数据.
@@ -66,13 +68,13 @@ public class ExceptionAdvice {
         if (exception == null) {
             exceptionData = new ExceptionData(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
         } else {
-            ExceptionInfo exceptionInfo = ((ExceptionInfoGetter) exception).getInfo();
+            ExceptionInfo exceptionInfo = ((ApplicationException) exception).getInfo();
             String message;
             Integer code = exceptionInfo.getCode();
             if (code != null) {
                 try {
                     message = this.resourceBundleHolder.getResourceBundle(request.getLocale()).getString(code.toString());
-                    message = PropertyPlaceholderHelper.replacePlaceholder(message, message, exceptionInfo.getArgs());
+                    message = PropertyPlaceholderHelper.replace(message, message, exceptionInfo.getArgs());
                 } catch (Exception e) {
                     logger.error("根据异常编码获取异常描述信息发生异常，errorCode：" + code);
                     message = exceptionInfo.getMessage();
@@ -97,7 +99,7 @@ public class ExceptionAdvice {
     private Throwable getHasInfoException(Throwable throwable) {
         Throwable exception = null;
 
-        if (throwable instanceof ExceptionInfoGetter) {
+        if (throwable instanceof ApplicationException) {
             exception = throwable;
         }
 
@@ -115,5 +117,43 @@ public class ExceptionAdvice {
         }
 
         return exception;
+    }
+
+    private static class ExceptionData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * 异常编码
+         */
+        private Integer code;
+
+        /**
+         * 后台异常描述，正常不应该把后台异常描述反馈给前台用户
+         */
+        private String message;
+
+        public ExceptionData() {
+        }
+
+        public ExceptionData(Integer code, String message) {
+            this.code = code;
+            this.message = message;
+        }
+
+        public Integer getCode() {
+            return code;
+        }
+
+        public void setCode(Integer code) {
+            this.code = code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
     }
 }

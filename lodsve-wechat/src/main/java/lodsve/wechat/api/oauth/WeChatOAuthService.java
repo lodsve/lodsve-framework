@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Charsets;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
-import lodsve.base.utils.StringUtils;
-import lodsve.base.utils.URLUtils;
-import lodsve.wechat.config.WeChatProperties;
+import lodsve.core.utils.StringUtils;
+import lodsve.core.utils.URLUtils;
 import lodsve.wechat.beans.OAuthToken;
+import lodsve.wechat.config.WeChatProperties;
 import lodsve.wechat.core.WeChatRequest;
 import lodsve.wechat.core.WeChatUrl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ public class WeChatOAuthService {
      *
      * @param code 微信OAuth认证第一步返回的code,用户同意授权，获取的code
      * @return
-     * @see #getOAuthUrl(String, String)
+     * @see #getOAuthUrl(String, String, String)
      */
     public OAuthToken getOAuthToken(String code) {
         if (StringUtils.isBlank(code)) {

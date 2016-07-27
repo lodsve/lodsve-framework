@@ -52,7 +52,7 @@ public class PaginationInterceptor implements Interceptor {
         final BoundSql boundSql = ms.getBoundSql(parameter);
         String sql = boundSql.getSql();
 
-        if(pageable == null) {
+        if (pageable == null) {
             // 仅排序
             String orderSql = PaginationHelper.applySortSql(sql, sort);
             queryArgs[MAPPED_STATEMENT_INDEX] = PaginationHelper.copyFromNewSql(ms, boundSql, orderSql);
@@ -63,15 +63,15 @@ public class PaginationInterceptor implements Interceptor {
         int total = PaginationHelper.queryForTotal(sql, ms, boundSql);
 
         //参数sort优先于pageable中的sort
-        if(sort == null && pageable.getSort() != null) {
+        if (sort == null && pageable.getSort() != null) {
             sort = pageable.getSort();
         }
-        if(sort != null) {
+        if (sort != null) {
             sql = PaginationHelper.applySortSql(sql, sort);
         }
 
         //分页语句
-        String pageSql = PaginationHelper.getPageSql(sql, pageable.getOffset(), pageable.getPageSize());
+        String pageSql = PaginationHelper.getPageSql(sql, ms, pageable.getOffset(), pageable.getPageSize());
 
         queryArgs[ROWBOUNDS_INDEX] = new RowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
         queryArgs[MAPPED_STATEMENT_INDEX] = PaginationHelper.copyFromNewSql(ms, boundSql, pageSql);
