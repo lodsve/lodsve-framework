@@ -1,5 +1,11 @@
 # 更新日志
 
+## V2.5.3
+1. 实现spring-boot的condition,并修改框架中的一些实现
+2. 修改包路径(改为lodsve)
+3. 修改mybatis获取数据库类型的方式
+4. 修改一些语法警告
+
 ## V2.5.2
 1. 添加druid支持
 2. 合并lodsve-base/lodsve-config/lodsve-logger为lodsve-core

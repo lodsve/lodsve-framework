@@ -4,7 +4,7 @@
 
     <groupId>com.github.lodsve</groupId>
     <artifactId>lodsve-framework</artifactId>
-    <version>2.5.3-SNAPSHOT</version>
+    <version>2.5.3</version>
     <packaging>pom</packaging>
     <name>lodsve framework</name>
     <description>工具类集合，封装了一系列开源项目，使更好更方便的进行Java Web开发</description>
