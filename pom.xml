@@ -98,31 +98,9 @@
     <!-- 仓库 -->
     <repositories>
         <repository>
-            <id>nexus-releases</id>
-            <url>http://maven.oschina.net/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>nexus-snapshots</id>
-            <url>http://maven.oschina.net/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>osc-thirdparty</id>
-            <url>http://maven.oschina.net/content/repositories/thirdparty/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
+            <id>default-center</id>
+            <name>default center</name>
+            <url>http://repo1.maven.org/maven2</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -144,6 +122,21 @@
             </snapshots>
         </repository>
     </repositories>
+
+    <!-- 发布仓库 -->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>oss-snapshots</id>
+            <name>oss SNAPSHOTS</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+
+        <repository>
+            <id>oss-releases</id>
+            <name>oss releases</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
@@ -908,61 +901,20 @@
                     <docencoding>${project.build.sourceEncoding}</docencoding>
                 </configuration>
             </plugin>
+            <!-- GPG,发布maven中央仓库用 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>maven-center</id>
-            <!-- 发布仓库 -->
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>oss-snapshots</id>
-                    <name>oss SNAPSHOTS</name>
-                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-                </snapshotRepository>
-
-                <repository>
-                    <id>oss-releases</id>
-                    <name>oss releases</name>
-                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                </repository>
-            </distributionManagement>
-            <build>
-                <plugins>
-                    <!-- GPG -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
-                        <executions>
-                            <execution>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>myself</id>
-            <!-- 发布仓库 -->
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>lodsve-snapshots</id>
-                    <name>lodsve SNAPSHOTS</name>
-                    <url>http://sunhao-java.vicp.cc/nexus/content/repositories/lodsve-snapshots/</url>
-                </snapshotRepository>
-
-                <repository>
-                    <id>lodsve-releases</id>
-                    <name>lodsve releases</name>
-                    <url>http://sunhao-java.vicp.cc/nexus/content/repositories/lodsve-releases/</url>
-                </repository>
-            </distributionManagement>
-        </profile>
-    </profiles>
 </project>
