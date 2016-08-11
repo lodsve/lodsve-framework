@@ -54,7 +54,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>tm-extractors</groupId>
+            <groupId>org.textmining</groupId>
             <artifactId>tm-extractors</artifactId>
             <version>0.4</version>
             <scope>provided</scope>
@@ -70,9 +70,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.tritonus</groupId>
-            <artifactId>tritonus</artifactId>
-            <version>0.4.2</version>
+            <groupId>com.googlecode.soundlibs</groupId>
+            <artifactId>tritonus-share</artifactId>
+            <version>0.3.7.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
