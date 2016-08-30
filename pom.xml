@@ -917,7 +917,7 @@
                 <version>1.5</version>
                 <executions>
                     <execution>
-                        <phase>verify</phase>
+                        <phase>deploy</phase>
                         <goals>
                             <goal>sign</goal>
                         </goals>

@@ -1,8 +1,5 @@
 package lodsve.workflow.core;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import lodsve.core.utils.DateUtils;
 import lodsve.core.utils.ListUtils;
 import lodsve.mybatis.key.IDGenerator;
@@ -14,6 +11,7 @@ import lodsve.workflow.domain.ProcessInstance;
 import lodsve.workflow.domain.WorkTask;
 import lodsve.workflow.domain.Workflow;
 import lodsve.workflow.enums.AuditResult;
+import lodsve.workflow.exception.WorkflowException;
 import lodsve.workflow.repository.ProcessInstanceRepository;
 import lodsve.workflow.repository.WorkTaskRepository;
 import lodsve.workflow.repository.WorkflowLocalStorage;
@@ -21,6 +19,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 工作流对外核心接口.
@@ -191,7 +193,7 @@ public class WorkflowEngine {
     private Workflow findWorkflow(Class<?> clazz) {
         List<Workflow> workflows = WorkflowLocalStorage.getWorkflow(clazz);
         if (CollectionUtils.isEmpty(workflows)) {
-            throw new RuntimeException(String.format("%s对应的流程不存在，请检查！", clazz.getSimpleName()));
+            throw new WorkflowException(108008, String.format("%s对应的流程不存在，请检查！", clazz.getSimpleName()), clazz.getSimpleName());
         }
 
         // 目前仅支持单一流程，即一个domain对应一个流程

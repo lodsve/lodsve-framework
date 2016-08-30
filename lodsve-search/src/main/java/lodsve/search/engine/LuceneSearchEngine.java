@@ -1,7 +1,8 @@
 package lodsve.search.engine;
 
-import lodsve.search.bean.SearchBean;
 import lodsve.core.utils.StringUtils;
+import lodsve.search.bean.SearchBean;
+import lodsve.search.exception.LuceneException;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.SimpleAnalyzer;
 import org.apache.lucene.document.Document;
@@ -10,11 +11,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.MultiSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.*;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
@@ -30,13 +27,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 基于lucene实现的索引引擎.
@@ -296,35 +287,35 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
 
             String owerId = sb.getOwerId();
             if (StringUtils.isEmpty(owerId)) {
-                throw new RuntimeException("you must give a owerId");
+                throw new LuceneException(104009, "you must give a owerId");
             }
             Field owerId_ = new Field("owerId", owerId, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
             doc.add(owerId_);
 
             String owerName = sb.getOwerName();
             if (StringUtils.isEmpty(owerName)) {
-                throw new RuntimeException("you must give a owerName");
+                throw new LuceneException(104010, "you must give a owerName");
             }
             Field owerName_ = new Field("owerName", owerName, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
             doc.add(owerName_);
 
             String link = sb.getLink();
             if (StringUtils.isEmpty(link)) {
-                throw new RuntimeException("you must give a link");
+                throw new LuceneException(104011, "you must give a link");
             }
             Field link_ = new Field("link", link, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
             doc.add(link_);
 
             String keyword = sb.getKeyword();
             if (StringUtils.isEmpty(keyword)) {
-                throw new RuntimeException("you must give a keyword");
+                throw new LuceneException(104012, "you must give a keyword");
             }
             Field keyword_ = new Field("keyword", keyword, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
             doc.add(keyword_);
 
             String createDate = sb.getCreateDate();
             if (StringUtils.isEmpty(createDate)) {
-                throw new RuntimeException("you must give a createDate");
+                throw new LuceneException(104013, "you must give a createDate");
             }
             Field createDate_ = new Field("createDate", createDate, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
             doc.add(createDate_);

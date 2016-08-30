@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableMyBatis(
         dataSource = "workflow",
-        basePackages = "message.workflow.repository",
-        enumsLocations = "message.workflow.enums",
+        basePackages = "lodsve.workflow.repository",
+        enumsLocations = "lodsve.workflow.enums",
         useFlyway = true,
         migration = "db/workflow"
 )

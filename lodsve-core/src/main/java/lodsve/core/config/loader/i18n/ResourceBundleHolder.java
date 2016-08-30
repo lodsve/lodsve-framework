@@ -1,20 +1,20 @@
 package lodsve.core.config.loader.i18n;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.ResourceBundle;
 import lodsve.core.utils.FileUtils;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.EncodedResource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.core.io.support.ResourcePatternResolver;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * 存放消息源的容器.
@@ -67,6 +67,14 @@ public class ResourceBundleHolder implements Serializable {
             return;
         }
 
+        if (StringUtils.startsWith(baseFilePath, "jar:file:")) {
+            loadMessageResourcesFromClasspath(baseFilePath, order);
+        } else {
+            loadMessageResourceFromFile(baseFilePath, order);
+        }
+    }
+
+    private void loadMessageResourceFromFile(String baseFilePath, int order) {
         File baseFile = new File(baseFilePath);
         if (!baseFile.exists() || !baseFile.canRead()) {
             logger.debug("give file '{}' not exist or can not read!", baseFilePath);
@@ -82,8 +90,7 @@ public class ResourceBundleHolder implements Serializable {
         String baseName = baseFile.getName();
         baseName = StringUtils.substringBefore(baseName, ".");
 
-        if (logger.isDebugEnabled())
-            logger.debug("get baseName for give fileName '{}' is '{}'!", baseFile.getName(), baseName);
+        logger.debug("get baseName for give fileName '{}' is '{}'!", baseFile.getName(), baseName);
 
         File[] fileChildren = parentDir.listFiles();
         for (File file : fileChildren) {
@@ -100,13 +107,63 @@ public class ResourceBundleHolder implements Serializable {
                 if (locale == null)
                     logger.warn("get locale is null!");
 
-                Properties properties = this.getProperties(baseName, file);
+                Properties properties = this.getPropertiesFromFile(baseName, file);
 
                 if (properties != null)
                     this.addProperties(properties, locale, order);
                 else
                     logger.warn("can not get any properties from given file '{}'!", file.getAbsolutePath());
             }
+        }
+    }
+
+    private void loadMessageResourcesFromClasspath(String baseFilePath, int order) {
+        // 类路径下的文件
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+
+        Resource r = resolver.getResource(baseFilePath);
+        if (!r.exists() || !r.isReadable()) {
+            logger.debug("give file '{}' not exist or can not read!", baseFilePath);
+            return;
+        }
+
+        //父级目录
+        String parentFolder = StringUtils.substring(baseFilePath, 0, StringUtils.lastIndexOf(baseFilePath, "/"));
+        //获取文件除去后缀的名称
+        //baseName.properties --> baseName
+        //baseName.txt        --> baseName
+        //baseName.html       --> baseName
+        String baseName = r.getFilename();
+        baseName = StringUtils.substringBefore(baseName, ".");
+
+        logger.debug("get baseName for give fileName '{}' is '{}'!", r.getFilename(), baseName);
+
+        try {
+            Resource[] resources = resolver.getResources(parentFolder + File.separator + baseName + "*.properties");
+            for (Resource r1 : resources) {
+                String fileName = r1.getFilename();
+                if (fileName.startsWith(baseName) && (fileName.endsWith(SUFFIX_OF_PROPERTIES) || fileName.endsWith(SUFFIX_OF_TEXT) || fileName.endsWith(SUFFIX_OF_HTML))) {
+                    //匹配baseName的所有语言的properties文件
+                    Locale locale;
+                    try {
+                        locale = this.getLocaleFromFileName(fileName, baseName);
+                    } catch (Exception e) {
+                        logger.warn("file '{}' can not get any locale, continue!", r1.getURL());
+                        continue;
+                    }
+                    if (locale == null)
+                        logger.warn("get locale is null!");
+
+                    Properties properties = this.getPropertiesFromResource(baseName, r1);
+
+                    if (properties != null)
+                        this.addProperties(properties, locale, order);
+                    else
+                        logger.warn("can not get any properties from given file '{}'!", r1.getURL());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -143,7 +200,7 @@ public class ResourceBundleHolder implements Serializable {
         return locale;
     }
 
-    private Properties getProperties(String baseName, File file) {
+    private Properties getPropertiesFromFile(String baseName, File file) {
         Properties properties = new Properties();
 
         String fileType = FileUtils.getFileExt(file);
@@ -158,6 +215,30 @@ public class ResourceBundleHolder implements Serializable {
             } else {
                 //do nothing!
                 logger.debug("this file '{}' is not properties, txt, html!", file.getName());
+            }
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+            return null;
+        }
+
+        return properties;
+    }
+
+    private Properties getPropertiesFromResource(String baseName, Resource resource) {
+        Properties properties = new Properties();
+
+        String fileType = FileUtils.getFileExt(resource.getFilename());
+
+        try {
+            if (SUFFIX_OF_PROPERTIES.equals(fileType)) {
+                //1.properties
+                PropertiesLoaderUtils.fillProperties(properties, new EncodedResource(resource, "UTF-8"));
+            } else if (SUFFIX_OF_TEXT.equals(fileType) || SUFFIX_OF_HTML.equals(fileType)) {
+                //2.txt/html
+                properties.put(baseName, FileUtils.getFileText(resource, this.fileEncoding));
+            } else {
+                //do nothing!
+                logger.debug("this file '{}' is not properties, txt, html!", resource.getFilename());
             }
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
