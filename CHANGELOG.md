@@ -1,5 +1,10 @@
 # 更新日志
 
+## V2.5.4
+1. 修改dubbo版本
+2. 框架的异常处理
+3. 移除OSChina的maven配置,并修复一些依赖的问题
+
 ## V2.5.3
 1. 实现spring-boot的condition,并修改框架中的一些实现
 2. 修改包路径(改为lodsve)
