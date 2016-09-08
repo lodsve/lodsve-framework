@@ -1,1 +1,1 @@
-mvn clean deploy -P maven-center
+mvn clean deploy -P release
