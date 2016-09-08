@@ -47,13 +47,13 @@ public class ExceptionAdvice {
         // 1. 框架异常
         List<Resource> resources = new ArrayList<>();
         try {
-            resources.addAll(Arrays.asList(resolver.getResources("classpath*:" + "/error/*.properties")));
+            resources.addAll(Arrays.asList(resolver.getResources("classpath*:" + "/META-INF/error/*.properties")));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // 2. 项目异常
-        String folderPath = "error";
+        String folderPath = "META-INF/error";
         Resource resource = SystemConfig.getConfigFile(folderPath);
 
         try {
