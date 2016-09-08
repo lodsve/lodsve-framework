@@ -1,4 +1,4 @@
-package lodsve.mvc.exception;
+package lodsve.core.exception;
 
 import lodsve.core.config.SystemConfig;
 import lodsve.core.config.loader.i18n.ResourceBundleHolder;
@@ -6,6 +6,7 @@ import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -21,6 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 异常处理,返回前端类似于<code>{"code": 10001,"message": "test messages"}</code>的json数据.
@@ -38,19 +42,35 @@ public class ExceptionAdvice {
 
     @PostConstruct
     public void init() throws IOException {
-        String folderPath = "error";
-        Resource resource = SystemConfig.getConfigFile(folderPath);
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = new Resource[0];
+
+        // 1. 框架异常
+        List<Resource> resources = new ArrayList<>();
         try {
-            resources = resolver.getResources("file:" + resource.getFile().getAbsolutePath() + "/*.properties");
+            resources.addAll(Arrays.asList(resolver.getResources("classpath*:" + "/META-INF/error/*.properties")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 2. 项目异常
+        String folderPath = "META-INF/error";
+        Resource resource = SystemConfig.getConfigFile(folderPath);
+
+        try {
+            resources.addAll(Arrays.asList(resolver.getResources("file:" + resource.getFile().getAbsolutePath() + "/*.properties")));
         } catch (IOException e) {
             logger.error("resolver resource:'{" + resource + "}' is error!", e);
             e.printStackTrace();
         }
 
         for (Resource r : resources) {
-            String filePath = r.getFile().getAbsolutePath();
+            String filePath;
+            if (r instanceof FileSystemResource) {
+                filePath = r.getFile().getAbsolutePath();
+            } else {
+                filePath = r.getURL().toString();
+            }
+
             if (StringUtils.indexOf(filePath, "_") == -1) {
                 this.resourceBundleHolder.loadMessageResource(filePath, 1);
             }

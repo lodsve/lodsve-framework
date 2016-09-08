@@ -1,6 +1,7 @@
 package lodsve.security.core;
 
 import lodsve.security.annotation.NeedLogin;
+import lodsve.security.exception.AuthException;
 import lodsve.security.service.Authz;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,7 +47,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             return super.preHandle(request, response, handler);
         } else {
             //未登录
-            throw new RuntimeException("未登录！");
+            throw new AuthException(105001, "not login！");
         }
     }
 

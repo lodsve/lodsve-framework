@@ -4,6 +4,7 @@ import lodsve.transaction.channel.Pay;
 import lodsve.transaction.domain.Payment;
 import lodsve.transaction.domain.Refund;
 import lodsve.transaction.enums.TradeResult;
+import lodsve.transaction.exception.RefundException;
 import lodsve.transaction.repository.PaymentRepository;
 import lodsve.transaction.repository.RefundRepository;
 import lodsve.transaction.utils.TradeRouting;
@@ -44,7 +45,7 @@ public abstract class AbstractRefundAction implements RefundAction {
             refund = this.prepare(paymentId);
         } else {
             if (TradeResult.YES == refund.getTradeResult()) {
-                throw new RuntimeException("支付单:[" + paymentId + "]已经退款成功!");
+                throw new RefundException(106003, "this payment is refunded success!payment id is " + paymentId);
             }
         }
 
@@ -66,7 +67,7 @@ public abstract class AbstractRefundAction implements RefundAction {
             this.refundRepository.save(refund);
         } catch (Exception e) {
             occurException(paymentId, payment.getUserId(), e);
-            throw e;
+            throw new RefundException(106004, e.getMessage());
         }
     }
 
