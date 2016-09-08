@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import java.util.List;
 
 /**
- * security模块的配置，业务模块使用时，import到spring web的配置即可.
+ * security模块的配置，业务模块使用时，在spring web的配置加上{@code @EnableSecurity}.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016-2-18 14:27
