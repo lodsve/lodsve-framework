@@ -58,14 +58,15 @@ import java.util.Properties;
 public class InitConfigPath {
     private static final Logger logger = LoggerFactory.getLogger(InitConfigPath.class);
 
-    private static String webXmlParamsHome;
-    private static String paramsRoot;
+    public static final String ROOT_PARAM_KEY = "config.root";
     private static final String SYSTEM_PARAM_PATH = "params.home";
     private static final String ENV_PARAM_PATH = "PARAMS_HOME";
-    private static final String ROOT_PARAM_KEY = "config.root";
     private static final String ROOT_PARAM_FILE_NAME = "root.properties";
     private static final String PREFIX_SYSTEM = "system:";
     private static final String PREFIX_CLASSPATH = "classpath:";
+
+    private static String webXmlParamsHome;
+    private static String paramsRoot;
 
     private InitConfigPath() {
     }

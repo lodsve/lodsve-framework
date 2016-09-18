@@ -1,12 +1,14 @@
 package lodsve.core.config.profile;
 
-import java.util.Set;
 import lodsve.core.config.SystemConfig;
+import lodsve.core.config.core.InitConfigPath;
 import lodsve.core.config.loader.properties.Configuration;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.CollectionUtils;
+
+import java.util.Set;
 
 /**
  * 读取配置的profile.
@@ -31,5 +33,9 @@ public class ProfileInitializer implements ApplicationContextInitializer<Configu
                 configEnv.addActiveProfile(profile);
             }
         }
+
+        // 将配置文件的文件夹名放入profile中
+        String configRoot = SystemConfig.getString(InitConfigPath.ROOT_PARAM_KEY);
+        configEnv.addActiveProfile(configRoot);
     }
 }
