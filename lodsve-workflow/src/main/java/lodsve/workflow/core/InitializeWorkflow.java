@@ -4,8 +4,7 @@ import lodsve.core.utils.EncryptUtils;
 import lodsve.core.utils.ListUtils;
 import lodsve.core.utils.StringUtils;
 import lodsve.core.utils.XmlUtils;
-import lodsve.mybatis.key.IDGenerator;
-import lodsve.mybatis.utils.MyBatisUtils;
+import lodsve.mybatis.key.snowflake.SnowflakeIdGenerator;
 import lodsve.workflow.Constants;
 import lodsve.workflow.api.HandlerInterceptor;
 import lodsve.workflow.domain.FlowNode;
@@ -56,6 +55,8 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
     private FlowNodeRepository flowNodeRepository;
     @Autowired
     private FormUrlRepository formUrlRepository;
+    @Autowired
+    private SnowflakeIdGenerator snowflakeIdGenerator;
 
     private void init() throws Exception {
         for (Resource resource : resources) {
@@ -76,13 +77,13 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         FormUrl updateFormUrl = new FormUrl();
         FormUrl viewFormUrl = new FormUrl();
 
-        Long id = MyBatisUtils.nextId(IDGenerator.KeyType.SNOWFLAKE);
+        Long id = snowflakeIdGenerator.nextId("");
         updateFormUrl.setId(id);
         updateFormUrl.setUrlType(UrlType.UPDATE);
         updateFormUrl.setUrl(XmlUtils.getAttrValue(element, Constants.TAG_UPDATE_URL + ":" + Constants.ATTR_URL));
         updateFormUrl.setFlowId(workflow.getId());
 
-        id = MyBatisUtils.nextId(IDGenerator.KeyType.SNOWFLAKE);
+        id = snowflakeIdGenerator.nextId("");
         viewFormUrl.setId(id);
         viewFormUrl.setUrlType(UrlType.VIEW);
         viewFormUrl.setUrl(XmlUtils.getAttrValue(element, Constants.TAG_VIEW_URL + ":" + Constants.ATTR_URL));
@@ -113,7 +114,7 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
                 node.setInterceptor(handler);
             }
 
-            Long id = MyBatisUtils.nextId(IDGenerator.KeyType.SNOWFLAKE);
+            Long id = snowflakeIdGenerator.nextId("");
             node.setId(id);
             node.setTitle(title);
             node.setName(name);

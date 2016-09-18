@@ -26,10 +26,20 @@ public abstract class AbstractDialect implements Dialect {
         Assert.hasText(tableName);
 
         String name = dataSource.getConnection().getCatalog();
-        PreparedStatement ps = DataSourceUtils.doGetConnection(dataSource).prepareStatement(existTableSql(name, tableName));
-        ResultSet resultSet = ps.executeQuery();
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
 
-        return resultSet.getInt("count") > 0;
+        try {
+            ps = DataSourceUtils.doGetConnection(dataSource).prepareStatement(existTableSql(name, tableName));
+            resultSet = ps.executeQuery();
+
+            return resultSet.next() && resultSet.getInt("count") > 0;
+        } finally {
+            if (ps != null)
+                ps.close();
+            if (resultSet != null)
+                resultSet.close();
+        }
     }
 
     /**

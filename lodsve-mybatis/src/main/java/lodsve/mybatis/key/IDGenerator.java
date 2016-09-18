@@ -6,13 +6,14 @@ package lodsve.mybatis.key;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2012-4-11 上午08:10:32
  */
-public interface IDGenerator<T> {
+public interface IDGenerator {
     /**
      * get next long value
      *
-     * @return
+     * @param sequenceName sequence name
+     * @return next value
      */
-    T nextId();
+    Long nextId(String sequenceName);
 
     enum KeyType {
         /**
@@ -20,8 +21,12 @@ public interface IDGenerator<T> {
          */
         SNOWFLAKE,
         /**
-         * UUID的方式
+         * MYSQL的方式
          */
-        UUID
+        MYSQL,
+        /**
+         * ORACLE的方式
+         */
+        ORACLE
     }
 }

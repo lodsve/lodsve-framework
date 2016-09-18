@@ -6,11 +6,12 @@ import lodsve.mybatis.dialect.MySQLDialect;
 import lodsve.mybatis.dialect.OracleDialect;
 import lodsve.mybatis.enums.DbType;
 import lodsve.mybatis.exception.MyBatisException;
-import lodsve.mybatis.key.IDGenerator;
-import lodsve.mybatis.key.snowflake.SnowflakeIdGenerator;
-import lodsve.mybatis.key.uuid.UUIDGenerator;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -35,17 +36,44 @@ public final class MyBatisUtils {
         throw new MyBatisException(102001, "can't find dialect!", database);
     }
 
-    public static IDGenerator getIDGenerator(IDGenerator.KeyType keyType) {
-        if (IDGenerator.KeyType.SNOWFLAKE == keyType) {
-            return new SnowflakeIdGenerator();
-        } else if (IDGenerator.KeyType.UUID == keyType) {
-            return new UUIDGenerator();
-        }
+    public static int queryForInt(DataSource dataSource, String sql, Object... params) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = DataSourceUtils.doGetConnection(dataSource).prepareStatement(sql);
+            for (int i = 0; i < params.length; i++) {
+                ps.setObject(i + 1, params[i]);
+            }
 
-        throw new MyBatisException(102002, "can't find IDGenerator!", keyType.toString());
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            } else {
+                return -1;
+            }
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+        }
     }
 
-    public static <T> T nextId(IDGenerator.KeyType keyType) {
-        return (T) getIDGenerator(keyType).nextId();
+    public static int executeSql(DataSource dataSource, String sql, Object... params) throws SQLException {
+        PreparedStatement ps = null;
+        try {
+            ps = DataSourceUtils.doGetConnection(dataSource).prepareStatement(sql);
+            for (int i = 0; i < params.length; i++) {
+                ps.setObject(i + 1, params[i]);
+            }
+
+            return ps.executeUpdate();
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+        }
     }
 }
