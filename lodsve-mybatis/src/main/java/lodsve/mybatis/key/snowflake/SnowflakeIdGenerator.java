@@ -1,7 +1,6 @@
 package lodsve.mybatis.key.snowflake;
 
 import lodsve.mybatis.key.IDGenerator;
-import org.springframework.stereotype.Component;
 
 /**
  * twitter的snowflake的ID生成器实现
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Component;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016-01-29 下午23:39
  */
-@Component("snowflake")
 public class SnowflakeIdGenerator implements IDGenerator {
     private final static long twepoch = 1361753741828L;
     private long sequence = 0L;

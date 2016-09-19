@@ -3,8 +3,8 @@ package lodsve.mybatis.key.mysql;
 import lodsve.mybatis.exception.MyBatisException;
 import lodsve.mybatis.key.IDGenerator;
 import lodsve.mybatis.utils.MyBatisUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
@@ -19,9 +19,9 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version 1.0 16/9/14 上午9:57
  */
-@Component("mysql")
 public class MySQLIDGenerator implements IDGenerator {
-    @Autowired
+    private static final Logger logger = LoggerFactory.getLogger(MySQLIDGenerator.class);
+
     private DataSource dataSource;
 
     private static final String SEQUENCE_TABLE = "t_sequence";
@@ -44,6 +44,10 @@ public class MySQLIDGenerator implements IDGenerator {
      */
     private static final int CACHE_SIZE = 20;
 
+    public MySQLIDGenerator(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @PostConstruct
     public void init() throws SQLException {
         if (isExistTable()) {
@@ -52,8 +56,11 @@ public class MySQLIDGenerator implements IDGenerator {
 
 
         // 初始化这张表
-        boolean ok = MyBatisUtils.executeSql(dataSource, CREATE_SEQUENCE_TABLE) == 1;
-        Assert.isTrue(ok, String.format("执行sql语句[%s]发送错误,请检查!", CREATE_SEQUENCE_TABLE));
+        try {
+            MyBatisUtils.executeSql(dataSource, CREATE_SEQUENCE_TABLE);
+        } catch (SQLException e) {
+            logger.error(String.format("执行sql语句[%s]发送错误,请检查!", CREATE_SEQUENCE_TABLE), e);
+        }
     }
 
     @Override

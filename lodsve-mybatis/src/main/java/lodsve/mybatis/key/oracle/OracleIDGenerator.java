@@ -3,8 +3,6 @@ package lodsve.mybatis.key.oracle;
 import lodsve.mybatis.exception.MyBatisException;
 import lodsve.mybatis.key.IDGenerator;
 import lodsve.mybatis.utils.MyBatisUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
@@ -16,10 +14,12 @@ import java.sql.SQLException;
  * @author sunhao(sunhao.java@gmail.com)
  * @version 1.0 16/9/14 上午9:57
  */
-@Component("oracle")
 public class OracleIDGenerator implements IDGenerator {
-    @Autowired
     private DataSource dataSource;
+
+    public OracleIDGenerator(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     public Long nextId(String sequenceName) {
