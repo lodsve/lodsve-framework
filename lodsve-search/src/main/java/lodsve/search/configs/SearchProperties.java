@@ -8,7 +8,7 @@ import lodsve.core.config.auto.annotations.ConfigurationProperties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016/1/20 12:39
  */
-@ConfigurationProperties(prefix = "lodsve.search")
+@ConfigurationProperties(prefix = "lodsve.search", locations = "file:${params.root}/framework/search.properties")
 public class SearchProperties {
     /**
      * lucene索引文件路径

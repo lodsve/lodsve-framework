@@ -10,7 +10,7 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/1/21 下午6:55
  */
-@ConfigurationProperties(prefix = "lodsve.mongo", locations = "file:${params.root}/files/mongo.properties")
+@ConfigurationProperties(prefix = "lodsve.mongo", locations = "file:${params.root}/framework/mongo.properties")
 public class MongoProperties {
     //default
     private int maxpoolsize;

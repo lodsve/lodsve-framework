@@ -1,8 +1,5 @@
 package lodsve.core.config.loader.properties;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
 import lodsve.core.config.core.InitConfigPath;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -11,6 +8,10 @@ import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.core.io.support.ResourcePatternResolver;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * 配置文件解析.
@@ -29,7 +30,6 @@ public class ConfigurationLoader {
 
         loadProperties(prop, resources);
 
-        prop.put("params.root", InitConfigPath.getParamsRoot());
         return prop;
     }
 
