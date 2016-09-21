@@ -3,10 +3,14 @@ package lodsve.validate.handler;
 import lodsve.core.utils.ValidateUtils;
 import lodsve.validate.annotations.Chinese;
 import lodsve.validate.core.ValidateHandler;
+import lodsve.validate.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
+
+import static lodsve.core.utils.ValidateUtils.isChinese;
 
 /**
  * 中文验证的处理类.
@@ -18,18 +22,25 @@ import java.lang.annotation.Annotation;
 public class ChineseHandler extends ValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(ChineseHandler.class);
 
-    public boolean handle(Annotation annotation, Object value) {
+    public ChineseHandler() throws IOException {
+        super();
+    }
+
+    public ErrorMessage handle(Annotation annotation, Object value) {
         Chinese c = (Chinese) annotation;
         int min = c.min();
         int max = c.max();
 
-        if(min >= max){
+        boolean result;
+        if (min >= max) {
             logger.debug("no length limit!");
-            return ValidateUtils.isChinese((String) value);
+            result = ValidateUtils.isChinese((String) value);
+            return getMessage(Chinese.class, this.getClass(), "chinese-invalid", result);
         } else {
             int length = ((String) value).length();
-            logger.debug("get validate min is '{}', max is '{}', value length is '{}'", new int[]{min, max, length});
-            return min <= length && max >= length && ValidateUtils.isChinese((String) value);
+            logger.debug("get validate min is '{}', max is '{}', value length is '{}'", min, max, length);
+            result = min <= length && max >= length && isChinese((String) value);
+            return getMessage(Chinese.class, this.getClass(), "chinese-length", result);
         }
     }
 }

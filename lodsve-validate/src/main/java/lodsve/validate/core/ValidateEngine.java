@@ -5,7 +5,9 @@ import lodsve.core.utils.StringUtils;
 import lodsve.validate.annotations.ValidateEntity;
 import lodsve.validate.constants.ValidateConstants;
 import lodsve.validate.exception.DefaultExceptionHandler;
+import lodsve.validate.exception.ErrorMessage;
 import lodsve.validate.exception.ExceptionHandler;
+import org.apache.commons.collections.CollectionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,11 +20,7 @@ import org.springframework.util.ClassUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 验证引擎核心组件.
@@ -60,77 +58,57 @@ public class ValidateEngine implements InitializingBean {
     private static final String HANDLER_CLASS_SUFFIX = "Handler";
 
     /******************************************************验证引擎初始化--开始***********************************************************/
+
     /**
      * 初始化验证引擎
      */
     private void initValidateEngine() throws Exception {
-        this.getBeanHandler();
-
-        putBeanHandleToMap();
-    }
-
-    /**
-     * 从jar包中获取验证的beanHandler
-     *
-     * @throws Exception
-     */
-    private void getBeanHandler() {
         String[] validateAnnotations = ValidateConstants.VALIDATE_ANNOTATIONS;
         if (validateAnnotations == null || validateAnnotations.length == 0) {
             logger.debug("there is no validate annotations in jars!");
             return;
         }
         for (String va : validateAnnotations) {
-            if (StringUtils.isEmpty(va)) continue;
-
-            String packagePath = ANNOTATION_PATH + "." + va;
-            Class<?> annotation = null;
-            try {
-                annotation = ClassUtils.forName(packagePath, Thread.currentThread().getContextClassLoader());
-            } catch (ClassNotFoundException e) {
-                logger.error("can't get annotation for name '{}'!", packagePath);
-                logger.error(e.getMessage(), e);
-                continue;
-            }
-            String handlerPath = VALIDATE_HANDLER_PATH + "." + va + HANDLER_CLASS_SUFFIX;
-            Class<?> handler = null;
-            try {
-                handler = ClassUtils.forName(handlerPath, Thread.currentThread().getContextClassLoader());
-            } catch (ClassNotFoundException e) {
-                logger.error("can't get handler for name '{}'!", handlerPath);
-                logger.error(e.getMessage(), e);
-                continue;
-            }
-
-            if (annotation == null || handler == null || !ValidateHandler.class.equals(handler.getSuperclass())) {
-                logger.error("no annotation or handler!");
-                continue;
-            }
-
-            BeanHandler beanHandler = new BeanHandler(annotation.getSimpleName(), annotation, (ValidateHandler) BeanUtils.instantiate(handler));
-            beanHandlers.add(beanHandler);
+            resolveAnnotation(va);
         }
     }
 
-    /**
-     * 将beanHandlers中的注解-处理类放入beanHandlerMap中(并将注解中文名放入内存中-annotations)
-     */
-    private void putBeanHandleToMap() {
-        if (!this.beanHandlers.isEmpty()) {
-            for (BeanHandler bh : this.beanHandlers) {
-                if (bh.getKey() != null && bh.getAnnotation() != null && bh.getValidateHandler() != null) {
-                    logger.debug("validate key is '{}', annotation is '{}', validateHandler is '{}'!", new Object[]{
-                            bh.getKey(), bh.getAnnotation(), bh.getValidateHandler()
-                    });
-                    //TODO 需要处理这里key值
-                    this.beanHandlerMap.put(bh.getKey(), bh);
-
-                    //将所有的注解放入内存中
-                    String annName = bh.getAnnotation().getSimpleName();
-                    this.annotations.add(annName);
-                }
-            }
+    private void resolveAnnotation(String annotationName) {
+        if (StringUtils.isEmpty(annotationName)) {
+            return;
         }
+
+        String packagePath = ANNOTATION_PATH + "." + annotationName;
+        Class<?> annotation;
+        try {
+            annotation = ClassUtils.forName(packagePath, Thread.currentThread().getContextClassLoader());
+        } catch (ClassNotFoundException e) {
+            logger.error("can't get annotation for name '{}'!", packagePath);
+            logger.error(e.getMessage(), e);
+            return;
+        }
+        String handlerPath = VALIDATE_HANDLER_PATH + "." + annotationName + HANDLER_CLASS_SUFFIX;
+        Class<?> handler;
+        try {
+            handler = ClassUtils.forName(handlerPath, Thread.currentThread().getContextClassLoader());
+        } catch (ClassNotFoundException e) {
+            logger.error("can't get handler for name '{}'!", handlerPath);
+            logger.error(e.getMessage(), e);
+            return;
+        }
+
+        if (annotation == null || handler == null || !ValidateHandler.class.equals(handler.getSuperclass())) {
+            logger.error("no annotation or handler!");
+            return;
+        }
+
+        BeanHandler beanHandler = new BeanHandler(annotation.getSimpleName(), annotation, (ValidateHandler) BeanUtils.instantiate(handler));
+        beanHandlers.add(beanHandler);
+
+        // 将beanHandlers中的注解-处理类放入beanHandlerMap中(并将注解中文名放入内存中-annotations)
+        this.beanHandlerMap.put(annotation.getSimpleName(), beanHandler);
+        // 将所有的注解放入内存中
+        this.annotations.add(annotation.getSimpleName());
     }
 
     @Override
@@ -139,18 +117,11 @@ public class ValidateEngine implements InitializingBean {
             logger.debug("this web project is not open validate engine!");
             return;
         }
-        if (beanHandlers == null) {
-            beanHandlers = new ArrayList<BeanHandler>();
-        }
-        if (beanHandlerMap == null) {
-            beanHandlerMap = new HashMap<String, BeanHandler>();
-        }
-        if (this.validateFields == null) {
-            validateFields = new HashMap<String, List<Field>>();
-        }
-        if (this.annotations == null) {
-            this.annotations = new ArrayList<String>();
-        }
+
+        beanHandlers = new ArrayList<>();
+        beanHandlerMap = new HashMap<>();
+        validateFields = new HashMap<>();
+        annotations = new ArrayList<>();
 
         initValidateEngine();
     }
@@ -167,36 +138,34 @@ public class ValidateEngine implements InitializingBean {
      */
     @Around("@annotation(lodsve.validate.core.NeedValidate)")
     public Object validate(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-
         if (!this.openValidate) {
-            logger.debug("this web project is no open validate engine!");
+            logger.debug("this web project is not open validate engine!");
         }
-        if (logger.isDebugEnabled())
-            logger.debug("start validate..., proceedingJoinPoint is '{}'!", proceedingJoinPoint);
+
+        logger.debug("start validate..., proceedingJoinPoint is '{}'!", proceedingJoinPoint);
 
         //获取所有参数
         Object[] args = proceedingJoinPoint.getArgs();
-        boolean result = true;
-        if (logger.isDebugEnabled())
-            logger.debug("get args is '{}'!", args);
+        logger.debug("get args is '{}'!", args);
 
+        List<ErrorMessage> errorMessages = new ArrayList<>();
         for (Object arg : args) {
-            if (arg == null) continue;
+            if (arg == null) {
+                continue;
+            }
+
             Class clazz = arg.getClass();
             if (clazz.isAnnotationPresent(ValidateEntity.class)) {
-                result = validateEntityFields(arg);
-                if (!result) {
-                    logger.debug("validate class '{}' is error!", clazz);
-                    break;
-                }
+                errorMessages.addAll(validateEntityFields(arg));
             }
         }
 
-        if (result) {
-            return proceedingJoinPoint.proceed();
+        if (CollectionUtils.isNotEmpty(errorMessages)) {
+            // 处理异常
+            this.exceptionHandler.doHandleException(errorMessages);
         }
 
-        return null;
+        return proceedingJoinPoint.proceed();
     }
 
     /**
@@ -205,26 +174,23 @@ public class ValidateEngine implements InitializingBean {
      * @param entity 要验证的entity
      * @return
      */
-    private boolean validateEntityFields(Object entity) throws Exception {
+    private List<ErrorMessage> validateEntityFields(Object entity) throws Exception {
         if (entity == null) {
             logger.error("given empty entity!");
-            return false;
+            return Collections.emptyList();
         }
         List<Field> fieldList = this.getValidateFields(entity.getClass());
-        if (fieldList == null || fieldList.isEmpty()) {
+        if (CollectionUtils.isEmpty(fieldList)) {
             logger.debug("given entity class is '{}' has no validate fields!", entity.getClass());
-            return true;
+            return Collections.emptyList();
         }
 
-        boolean result = false;
+        List<ErrorMessage> errorMessages = new ArrayList<>();
         for (Field f : fieldList) {
-            result = this.validateField(f, entity);
-            if (!result) {
-                break;
-            }
+            errorMessages.addAll(validateField(f, entity));
         }
 
-        return result;
+        return errorMessages;
     }
 
     /**
@@ -234,36 +200,37 @@ public class ValidateEngine implements InitializingBean {
      * @param entity 待验证实体
      * @return
      */
-    private boolean validateField(final Field f, final Object entity) throws Exception {
+    private List<ErrorMessage> validateField(final Field f, final Object entity) throws Exception {
         if (f == null || entity == null) {
             logger.error("given field is null or entity is null!");
-            return false;
+            return Collections.emptyList();
         }
         Annotation[] as = f.getAnnotations();
-        boolean result = false;
+
+        List<ErrorMessage> messages = new ArrayList<>();
         for (Annotation a : as) {
-            //TODO 需要处理这里key值
             BeanHandler bh = this.beanHandlerMap.get(a.annotationType().getSimpleName());
-            if (bh != null) {
-                ValidateHandler handler = bh.getValidateHandler();
-                if (handler == null) {
-                    logger.error("handler is null for annotation '{}'", a);
-                    //仅结束本次循环
-                    continue;
-                }
-                Object value = ObjectUtils.getFieldValue(entity, f.getName());
-                result = handler.validate(a, value);
-                if (!result) {
-                    logger.debug("validate field is error for class '{}'! field is '{}', value is '{}'!", new Object[]{
-                            entity.getClass(), f.getName(), value
-                    });
-                    //执行异常处理类
-                    this.exceptionHandler.doHandleException(entity.getClass(), f, value, a);
-                }
+            if (bh == null) {
+                continue;
+            }
+
+            ValidateHandler handler = bh.getValidateHandler();
+            if (handler == null) {
+                logger.error("handler is null for annotation '{}'", a);
+                continue;
+            }
+            Object value = ObjectUtils.getFieldValue(entity, f.getName());
+            ErrorMessage message = handler.validate(a, value);
+            if (message != null) {
+                message.setClazz(entity.getClass());
+                message.setField(f);
+                message.setValue(value);
+
+                messages.add(message);
             }
         }
 
-        return result;
+        return messages;
     }
 
     /**
@@ -280,9 +247,9 @@ public class ValidateEngine implements InitializingBean {
         }
         String key = "validate-" + clazz.getName();
         List<Field> fieldList = this.validateFields.get(key);
-        //内存中不存在这个类的需要验证字段
-        if (fieldList == null || fieldList.isEmpty()) {
-            fieldList = new ArrayList<Field>();
+        // 内存中不存在这个类的需要验证字段
+        if (CollectionUtils.isEmpty(fieldList)) {
+            fieldList = new ArrayList<>();
             Field[] fields = ObjectUtils.getFields(BeanUtils.instantiate(clazz));
             for (Field f : fields) {
                 Annotation[] ans = f.getAnnotations();
@@ -295,7 +262,7 @@ public class ValidateEngine implements InitializingBean {
                 }
             }
 
-            if (fieldList != null && !fieldList.isEmpty()) {
+            if (CollectionUtils.isNotEmpty(fieldList)) {
                 //放入内存中
                 this.validateFields.put(key, fieldList);
             }
