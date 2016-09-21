@@ -3,9 +3,11 @@ package lodsve.validate.handler;
 import lodsve.core.utils.StringUtils;
 import lodsve.validate.annotations.Password;
 import lodsve.validate.core.ValidateHandler;
+import lodsve.validate.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,30 +22,35 @@ import java.util.regex.Pattern;
 public class PasswordHandler extends ValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(PasswordHandler.class);
 
-    protected boolean handle(Annotation annotation, Object value) {
-        if(!(value instanceof String)){
+    public PasswordHandler() throws IOException {
+        super();
+    }
+
+    protected ErrorMessage handle(Annotation annotation, Object value) {
+        if (!(value instanceof String)) {
             logger.error("is not string!");
-            return false;
+            return getMessage(Password.class, getClass(), "password-invalid", false);
         }
+
         Password password = (Password) annotation;
         String regex = password.regex();
         int min = password.min();
         int max = password.max();
         int length = ((String) value).length();
 
-        if(StringUtils.isEmpty(regex)) {
+        if (StringUtils.isEmpty(regex)) {
             //不通过正则表达式
-            return min < max && min <= length && max >= length;
+            return getMessage(Password.class, getClass(), "pwd-length-error", min < max && min <= length && max >= length, min, max, length);
         } else {
             //通过正则表达式验证
             Pattern patter = Pattern.compile(regex);
             Matcher matcher = patter.matcher((String) value);
             boolean l = true;
-            if(min < max)
+            if (min < max)
                 //并且有长度的校验
                 l = (min <= length && max >= length);
 
-            return matcher.matches() && l;
+            return getMessage(Password.class, getClass(), "pwd-regex-error", matcher.matches() && l, regex, value);
         }
     }
 }

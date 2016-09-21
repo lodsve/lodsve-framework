@@ -40,7 +40,7 @@ public class EnglishHandler extends ValidateHandler {
             int length = ((String) value).length();
             logger.debug("get validate min is '{}', max is '{}', value length is '{}'", min, max, length);
             result = min <= length && max >= length && isChinese((String) value);
-            return getMessage(English.class, this.getClass(), "english-length", result);
+            return getMessage(English.class, this.getClass(), "english-length", result, min, max);
         }
     }
 }

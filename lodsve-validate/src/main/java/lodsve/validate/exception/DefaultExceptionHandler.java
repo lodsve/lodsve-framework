@@ -1,8 +1,10 @@
 package lodsve.validate.exception;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lodsve.core.utils.StringUtils;
+import lodsve.validate.constants.ValidateConstants;
+import org.apache.commons.collections.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,9 +15,19 @@ import java.util.List;
  * @createTime 12-12-2 上午1:11
  */
 public class DefaultExceptionHandler implements ExceptionHandler {
-    private static final Logger logger = LoggerFactory.getLogger(DefaultExceptionHandler.class);
-
     public void doHandleException(List<ErrorMessage> messages) throws Exception {
-        // TODO 异常处理
+        if (CollectionUtils.isEmpty(messages)) {
+            return;
+        }
+
+        List<String> msgs = new ArrayList<>(messages.size());
+        for (ErrorMessage em : messages) {
+            msgs.add(em.getMessage());
+        }
+
+        StringBuilder sb = new StringBuilder(ValidateConstants.getMessage("error-occurred"));
+        sb.append("\r\n").append(StringUtils.join(msgs, "\r\n"));
+
+        throw new Exception(sb.toString());
     }
 }
