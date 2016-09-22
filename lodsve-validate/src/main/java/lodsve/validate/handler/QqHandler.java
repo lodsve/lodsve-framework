@@ -1,10 +1,13 @@
 package lodsve.validate.handler;
 
 import lodsve.core.utils.ValidateUtils;
+import lodsve.validate.annotations.Qq;
 import lodsve.validate.core.ValidateHandler;
+import lodsve.validate.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 
 /**
@@ -17,10 +20,14 @@ import java.lang.annotation.Annotation;
 public class QqHandler extends ValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(QqHandler.class);
 
-    protected boolean handle(Annotation annotation, Object value) {
-        if(logger.isDebugEnabled())
+    public QqHandler() throws IOException {
+        super();
+    }
+
+    protected ErrorMessage handle(Annotation annotation, Object value) {
+        if (logger.isDebugEnabled())
             logger.debug("annotation is '{}', value is '{}'!", annotation, value);
 
-        return ValidateUtils.isQq((String) value);
+        return getMessage(Qq.class, getClass(), "qq-invalid", ValidateUtils.isQq((String) value));
     }
 }

@@ -3,9 +3,11 @@ package lodsve.validate.handler;
 import lodsve.core.utils.StringUtils;
 import lodsve.validate.annotations.Regex;
 import lodsve.validate.core.ValidateHandler;
+import lodsve.validate.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,24 +22,28 @@ import java.util.regex.Pattern;
 public class RegexHandler extends ValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(RegexHandler.class);
 
-    protected boolean handle(Annotation annotation, Object value) {
-        if(!(value instanceof String)){
+    public RegexHandler() throws IOException {
+        super();
+    }
+
+    protected ErrorMessage handle(Annotation annotation, Object value) {
+        if (!(value instanceof String)) {
             logger.error("is not string!");
-            return false;
+            return getMessage(Regex.class, getClass(), "regex-error", false);
         }
         Regex regex = (Regex) annotation;
         String regexPattern = regex.regex();
-        if(StringUtils.isEmpty(regexPattern)){
+        if (StringUtils.isEmpty(regexPattern)) {
             logger.error("given empty regex string!");
             throw new RuntimeException("regex pattern string is null!");
         }
 
-        if(logger.isDebugEnabled())
+        if (logger.isDebugEnabled())
             logger.debug("the regex pattern is '{}'!", regexPattern);
 
         Pattern pattern = Pattern.compile(regexPattern);
         Matcher matcher = pattern.matcher((String) value);
 
-        return matcher.matches();
+        return getMessage(Regex.class, getClass(), "regex-not-match", matcher.matches(), regex, value);
     }
 }

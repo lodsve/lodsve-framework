@@ -1,10 +1,13 @@
 package lodsve.validate.handler;
 
 import lodsve.core.utils.ValidateUtils;
+import lodsve.validate.annotations.Double;
 import lodsve.validate.core.ValidateHandler;
+import lodsve.validate.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 
 /**
@@ -17,10 +20,13 @@ import java.lang.annotation.Annotation;
 public class DoubleHandler extends ValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(DoubleHandler.class);
 
-    public boolean handle(Annotation annotation, Object value) {
-        if(logger.isDebugEnabled())
-            logger.debug("annotation is '{}', value is '{}'!", annotation, value);
+    public DoubleHandler() throws IOException {
+        super();
+    }
 
-        return ValidateUtils.isDouble(value + "");
+    public ErrorMessage handle(Annotation annotation, Object value) {
+        logger.debug("annotation is '{}', value is '{}'!", annotation, value);
+
+        return getMessage(Double.class, getClass(), "double-error", ValidateUtils.isDouble(value + ""));
     }
 }

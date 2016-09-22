@@ -1,10 +1,13 @@
 package lodsve.validate.handler;
 
 import lodsve.core.utils.ValidateUtils;
+import lodsve.validate.annotations.IdCard;
 import lodsve.validate.core.ValidateHandler;
+import lodsve.validate.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 
 /**
@@ -17,10 +20,14 @@ import java.lang.annotation.Annotation;
 public class IdCardHandler extends ValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(IdCardHandler.class);
 
-    protected boolean handle(Annotation annotation, Object value) {
+    public IdCardHandler() throws IOException {
+        super();
+    }
+
+    protected ErrorMessage handle(Annotation annotation, Object value) {
         if (logger.isDebugEnabled())
             logger.debug("annotation is '{}', value is '{}'!", annotation, value);
 
-        return ValidateUtils.isIdCard((String) value);
+        return getMessage(IdCard.class, getClass(), "id-card-error", ValidateUtils.isIdCard((String) value));
     }
 }
