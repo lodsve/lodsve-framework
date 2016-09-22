@@ -1,5 +1,6 @@
 package lodsve.validate.core;
 
+import lodsve.core.config.profile.ProfileConfig;
 import lodsve.core.utils.ObjectUtils;
 import lodsve.core.utils.StringUtils;
 import lodsve.validate.annotations.ValidateEntity;
@@ -35,7 +36,7 @@ public class ValidateEngine implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(ValidateEngine.class);
 
     //是否开启验证引擎?默认是开启
-    private boolean openValidate = true;
+    private boolean openValidate = ProfileConfig.getProfile("validator");
     //放置验证注解和其对应的处理类
     private List<BeanHandler> beanHandlers;
     //key-value(注解名称-beanHandler)
@@ -140,6 +141,7 @@ public class ValidateEngine implements InitializingBean {
     public Object validate(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         if (!this.openValidate) {
             logger.debug("this web project is not open validate engine!");
+            return proceedingJoinPoint.proceed();
         }
 
         logger.debug("start validate..., proceedingJoinPoint is '{}'!", proceedingJoinPoint);

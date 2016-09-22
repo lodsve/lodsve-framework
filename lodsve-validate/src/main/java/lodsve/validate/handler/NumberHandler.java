@@ -25,9 +25,9 @@ public class NumberHandler extends ValidateHandler {
     }
 
     protected ErrorMessage handle(Annotation annotation, Object value) {
-        if(logger.isDebugEnabled())
+        if (logger.isDebugEnabled())
             logger.debug("annotation is '{}', value is '{}'!", annotation, value);
 
-        return getMessage(Number.class, getClass(), "number-invalid", ValidateUtils.isNumber((String) value));
+        return getMessage(Number.class, getClass(), "number-invalid", ValidateUtils.isNumber(value + ""));
     }
 }
