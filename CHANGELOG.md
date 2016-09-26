@@ -1,5 +1,14 @@
 # 更新日志
 
+## V2.5.5
+1. 修改pom,增加名为release的profile
+2. 修复异常处理的bug
+3. 升级flyway
+4. 主键自增长
+5. springfox配置描述信息
+6. 系统配置文件路径结构修改
+7. 重构validate
+
 ## V2.5.4
 1. 修改dubbo版本
 2. 框架的异常处理
