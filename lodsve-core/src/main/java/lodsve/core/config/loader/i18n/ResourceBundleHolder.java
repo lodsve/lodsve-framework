@@ -139,7 +139,7 @@ public class ResourceBundleHolder implements Serializable {
         logger.debug("get baseName for give fileName '{}' is '{}'!", r.getFilename(), baseName);
 
         try {
-            Resource[] resources = resolver.getResources(parentFolder + File.separator + baseName + "*.properties");
+            Resource[] resources = resolver.getResources(parentFolder + "/" + baseName + "*.properties");
             for (Resource r1 : resources) {
                 String fileName = r1.getFilename();
                 if (fileName.startsWith(baseName) && (fileName.endsWith(SUFFIX_OF_PROPERTIES) || fileName.endsWith(SUFFIX_OF_TEXT) || fileName.endsWith(SUFFIX_OF_HTML))) {

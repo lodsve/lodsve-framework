@@ -47,13 +47,14 @@ public class ExceptionAdvice {
         // 1. 框架异常
         List<Resource> resources = new ArrayList<>();
         try {
-            resources.addAll(Arrays.asList(resolver.getResources("classpath*:" + "/META-INF/error/*.properties")));
+            resources.addAll(Arrays.asList(resolver.getResources("classpath*:/META-INF/error/*.properties")));
         } catch (IOException e) {
+            logger.error("resolver resource:'{classpath*:/META-INF/error/*.properties}' is error!", e);
             e.printStackTrace();
         }
 
         // 2. 项目异常
-        String folderPath = "META-INF/error";
+        String folderPath = "error";
         Resource resource = SystemConfig.getConfigFile(folderPath);
 
         try {
@@ -65,13 +66,14 @@ public class ExceptionAdvice {
 
         for (Resource r : resources) {
             String filePath;
+            String fileName = r.getFilename();
             if (r instanceof FileSystemResource) {
                 filePath = r.getFile().getAbsolutePath();
             } else {
                 filePath = r.getURL().toString();
             }
 
-            if (StringUtils.indexOf(filePath, "_") == -1) {
+            if (!StringUtils.contains(fileName, "_")) {
                 this.resourceBundleHolder.loadMessageResource(filePath, 1);
             }
         }

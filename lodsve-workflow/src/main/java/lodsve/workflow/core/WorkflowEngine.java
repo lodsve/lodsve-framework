@@ -2,8 +2,7 @@ package lodsve.workflow.core;
 
 import lodsve.core.utils.DateUtils;
 import lodsve.core.utils.ListUtils;
-import lodsve.mybatis.key.IDGenerator;
-import lodsve.mybatis.utils.MyBatisUtils;
+import lodsve.mybatis.key.snowflake.SnowflakeIdGenerator;
 import lodsve.workflow.api.ConditionalResolver;
 import lodsve.workflow.api.HandlerInterceptor;
 import lodsve.workflow.domain.FlowNode;
@@ -38,6 +37,8 @@ public class WorkflowEngine {
     private ProcessInstanceRepository processInstanceRepository;
     @Autowired
     private ConditionalResolver resolver;
+    @Autowired
+    private SnowflakeIdGenerator snowflakeIdGenerator;
 
     /**
      * 发起工作流
@@ -164,7 +165,7 @@ public class WorkflowEngine {
         for (Long handlerUserId : handlerUserIds) {
             WorkTask nextTask = new WorkTask();
 
-            Long id = MyBatisUtils.nextId(IDGenerator.KeyType.SNOWFLAKE);
+            Long id = snowflakeIdGenerator.nextId("");
             nextTask.setId(id);
             nextTask.setFlowId(workflow.getId());
             nextTask.setNodeId(nextNode.getId());

@@ -4,7 +4,7 @@ import com.pingplusplus.model.Event;
 import com.pingplusplus.model.Webhooks;
 import lodsve.core.utils.StringUtils;
 import lodsve.transaction.exception.WebhooksValidateException;
-import lodsve.transaction.utils.PingConfig;
+import lodsve.transaction.utils.PingppProperties;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;
@@ -36,12 +36,12 @@ public final class WebhooksUtils implements ResourceLoaderAware {
     private static final String SIGN_ALGORITHM = "SHA256withRSA";
     private static final String REGEX_PUB_KEY = "(-+BEGIN PUBLIC KEY-+\\r?\\n|-+END PUBLIC KEY-+\\r?\\n?)";
 
-    private static PingConfig pingConfig;
+    private static PingppProperties pingppProperties;
     private static ResourceLoader resourceLoader;
 
     @Autowired
-    public WebhooksUtils(PingConfig pingConfig) {
-        WebhooksUtils.pingConfig = pingConfig;
+    public WebhooksUtils(PingppProperties pingppProperties) {
+        WebhooksUtils.pingppProperties = pingppProperties;
     }
 
     /**
@@ -132,7 +132,7 @@ public final class WebhooksUtils implements ResourceLoaderAware {
      * @throws Exception
      */
     private static PublicKey getPubKey() throws Exception {
-        String pubKeyPath = pingConfig.getPubKey();
+        String pubKeyPath = pingppProperties.getPubKey();
         Resource resource = resourceLoader.getResource(pubKeyPath);
         String pubKey = IOUtils.toString(resource.getInputStream());
 

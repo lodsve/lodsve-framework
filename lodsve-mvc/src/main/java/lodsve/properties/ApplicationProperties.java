@@ -8,7 +8,7 @@ import lodsve.core.config.auto.annotations.ConfigurationProperties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/10/10 下午10:01
  */
-@ConfigurationProperties(prefix = "application")
+@ConfigurationProperties(prefix = "application", locations = "file:${params.root}/framework/application.properties")
 public class ApplicationProperties {
     /**
      * 开发模式

@@ -1,11 +1,11 @@
 package lodsve.validate.exception;
 
+import lodsve.core.utils.StringUtils;
 import lodsve.validate.constants.ValidateConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.collections.CollectionUtils;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 默认的异常处理类.
@@ -15,16 +15,19 @@ import java.lang.reflect.Field;
  * @createTime 12-12-2 上午1:11
  */
 public class DefaultExceptionHandler implements ExceptionHandler {
-    private static final Logger logger = LoggerFactory.getLogger(DefaultExceptionHandler.class);
+    public void doHandleException(List<ErrorMessage> messages) throws Exception {
+        if (CollectionUtils.isEmpty(messages)) {
+            return;
+        }
 
-    public void doHandleException(Class<?> validateClass, Field validateField, Object value, Annotation annotation) throws Exception {
-        Exception ex = new RuntimeException(String.format(ValidateConstants.VALIDATE_NO, validateClass.getName(),
-                validateField.getName(), value.toString(), annotation.annotationType().getSimpleName()));
+        List<String> msgs = new ArrayList<>(messages.size());
+        for (ErrorMessage em : messages) {
+            msgs.add(em.getMessage());
+        }
 
-        if (logger.isErrorEnabled())
-            logger.error(String.format(ValidateConstants.VALIDATE_NO, validateClass.getName(),
-                    validateField.getName(), value.toString(), annotation.annotationType().getSimpleName()), ex);
+        StringBuilder sb = new StringBuilder(ValidateConstants.getMessage("error-occurred"));
+        sb.append("\r\n").append(StringUtils.join(msgs, "\r\n"));
 
-        throw ex;
+        throw new Exception(sb.toString());
     }
 }

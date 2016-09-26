@@ -1,10 +1,11 @@
 package lodsve.validate.handler;
 
 import lodsve.core.utils.ObjectUtils;
+import lodsve.validate.annotations.NotNull;
 import lodsve.validate.core.ValidateHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lodsve.validate.exception.ErrorMessage;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 
 /**
@@ -15,14 +16,17 @@ import java.lang.annotation.Annotation;
  * @createTime 12-11-26 下午8:51
  */
 public class NotNullHandler extends ValidateHandler {
-    private static final Logger logger = LoggerFactory.getLogger(NotNullHandler.class);
+    public NotNullHandler() throws IOException {
+        super();
+    }
 
-    protected boolean handle(Annotation annotation, Object value) {
+    protected ErrorMessage handle(Annotation annotation, Object value) {
         try {
-            return ObjectUtils.isNotEmpty(value);
+            return getMessage(NotNull.class, getClass(), "not-null-error", ObjectUtils.isNotEmpty(value));
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            return false;
+            e.printStackTrace();
         }
+
+        return null;
     }
 }

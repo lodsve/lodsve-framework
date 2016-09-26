@@ -1,5 +1,7 @@
 package lodsve.validate.core;
 
+import lodsve.validate.constants.ValidateConstants;
+import lodsve.validate.exception.ErrorMessage;
 import lodsve.validate.handler.DoubleHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,21 +25,29 @@ public abstract class ValidateHandler {
      * @param value      待验证字段的值
      * @return
      */
-    protected abstract boolean handle(Annotation annotation, Object value);
+    protected abstract ErrorMessage handle(Annotation annotation, Object value);
 
     /**
      * 在抽象类中进行每个验证组件都会执行的操作(判空)
      *
-     * @param annotation    待验证字段的注解
-     * @param value         待验证字段的值
+     * @param annotation 待验证字段的注解
+     * @param value      待验证字段的值
      * @return
      */
-    public boolean validate(Annotation annotation, Object value){
+    public ErrorMessage validate(Annotation annotation, Object value) {
         if (annotation == null || value == null) {
             logger.error("given null annotation! or null value!");
-            return false;
+            return null;
         }
 
         return this.handle(annotation, value);
+    }
+
+    protected ErrorMessage getMessage(Class<? extends Annotation> annotation, Class<? extends ValidateHandler> handler, String key, boolean result, Object... args) {
+        if (result) {
+            return null;
+        }
+
+        return new ErrorMessage(annotation, handler, ValidateConstants.getMessage(key, args));
     }
 }

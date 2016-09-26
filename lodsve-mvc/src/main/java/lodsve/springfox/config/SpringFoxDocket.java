@@ -1,6 +1,5 @@
 package lodsve.springfox.config;
 
-import javax.annotation.PostConstruct;
 import lodsve.core.utils.StringUtils;
 import lodsve.properties.ApplicationProperties;
 import lodsve.properties.SpringFoxProperties;
@@ -12,6 +11,8 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+
+import javax.annotation.PostConstruct;
 
 /**
  * 利用插件配置swagger的一些信息.
@@ -49,9 +50,9 @@ public class SpringFoxDocket extends Docket {
         return new ApiInfo(
                 properties.getTitle(),
                 properties.getDescription(),
-                "1.0",
+                properties.getVersion(),
                 properties.getTermsOfServiceUrl(),
-                new Contact("", "", properties.getContact()),
+                new Contact(properties.getContact().getName(), properties.getContact().getUrl(), properties.getContact().getEmail()),
                 properties.getLicense(),
                 properties.getLicenseUrl()
         );

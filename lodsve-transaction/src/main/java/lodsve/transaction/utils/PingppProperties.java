@@ -8,8 +8,8 @@ import lodsve.core.config.auto.annotations.ConfigurationProperties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/8/26 上午4:01
  */
-@ConfigurationProperties(prefix = "lodsve.ping.config")
-public class PingConfig {
+@ConfigurationProperties(prefix = "lodsve.ping.config", locations = "file:${params.root}/framework/pingpp.properties")
+public class PingppProperties {
     /**
      * ping++的apiKey
      */

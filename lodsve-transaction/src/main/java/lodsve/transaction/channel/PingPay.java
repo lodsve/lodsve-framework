@@ -6,7 +6,7 @@ import com.pingplusplus.model.Refund;
 import lodsve.core.utils.StringUtils;
 import lodsve.transaction.domain.Payment;
 import lodsve.transaction.exception.RefundException;
-import lodsve.transaction.utils.PingConfig;
+import lodsve.transaction.utils.PingppProperties;
 import lodsve.transaction.utils.data.PayData;
 import lodsve.transaction.utils.data.RefundData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +26,11 @@ import java.util.Map;
 @Component
 public abstract class PingPay implements Pay<Charge, Refund> {
     @Autowired
-    private PingConfig pingConfig;
+    private PingppProperties pingppProperties;
 
     @PostConstruct
     public void init() {
-        Pingpp.apiKey = this.pingConfig.getApiKey();
+        Pingpp.apiKey = this.pingppProperties.getApiKey();
     }
 
     @Override
@@ -45,7 +45,7 @@ public abstract class PingPay implements Pay<Charge, Refund> {
         chargeParams.put("amount", asString(payData.getAmount()));
 
         Map<String, String> app = new HashMap<>();
-        app.put("id", this.pingConfig.getAppId());
+        app.put("id", this.pingppProperties.getAppId());
         chargeParams.put("app", app);
         chargeParams.put("channel", payData.getTradeChannel().name().toLowerCase());
         chargeParams.put("currency", "cny");
