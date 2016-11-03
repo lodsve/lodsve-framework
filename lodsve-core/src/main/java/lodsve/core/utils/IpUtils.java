@@ -1,11 +1,15 @@
 package lodsve.core.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.*;
 
 /**
  * 操作ip的工具类.
@@ -137,6 +141,52 @@ public class IpUtils {
         }
 
         return StringUtils.EMPTY;
+    }
+
+    /**
+     * 获取系统中第一个IP不为127.0.0.1的网卡的ip地址
+     *
+     * @return ip地址
+     */
+    public static String getInetIp() {
+        List<String> ips = getInetIps();
+        for (String ip : ips) {
+            if (!"127.0.0.1".equals(ip)) {
+                return ip;
+            }
+        }
+
+        return "127.0.0.1";
+    }
+
+    /**
+     * 获取系统中所有网卡的ip地址
+     *
+     * @return ip地址
+     */
+    public static List<String> getInetIps() {
+        List<String> ipList = new LinkedList<>();
+        try {
+            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+            NetworkInterface networkInterface;
+            Enumeration<InetAddress> inetAddresses;
+            InetAddress inetAddress;
+            String ip;
+            while (networkInterfaces.hasMoreElements()) {
+                networkInterface = networkInterfaces.nextElement();
+                inetAddresses = networkInterface.getInetAddresses();
+                while (inetAddresses.hasMoreElements()) {
+                    inetAddress = inetAddresses.nextElement();
+                    if (inetAddress != null && inetAddress instanceof Inet4Address) {
+                        ip = inetAddress.getHostAddress();
+                        ipList.add(ip);
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        return ipList;
     }
 
     public enum IpKey {

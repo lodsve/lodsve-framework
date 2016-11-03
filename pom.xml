@@ -893,7 +893,6 @@
                     <charset>${project.build.sourceEncoding}</charset>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <docencoding>${project.build.sourceEncoding}</docencoding>
-                    <additionalparam>-Xdoclint:none</additionalparam>
                 </configuration>
             </plugin>
         </plugins>

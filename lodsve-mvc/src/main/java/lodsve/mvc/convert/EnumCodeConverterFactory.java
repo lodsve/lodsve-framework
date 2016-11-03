@@ -1,6 +1,8 @@
 package lodsve.mvc.convert;
 
+import com.google.common.base.Enums;
 import lodsve.core.bean.Codeable;
+import lodsve.core.utils.StringUtils;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.ConditionalConverter;
 import org.springframework.core.convert.converter.Converter;
@@ -22,28 +24,47 @@ public class EnumCodeConverterFactory implements ConverterFactory<String, Enum<?
 
     @Override
     public <T extends Enum<?>> Converter<String, T> getConverter(Class<T> targetType) {
-        if(!Codeable.class.isAssignableFrom(targetType)){
+        if (!Codeable.class.isAssignableFrom(targetType)) {
             return null;
         }
 
         return new ValueToEnum(targetType);
     }
 
-    private class ValueToEnum<T extends Enum<?> & Codeable> implements Converter<String, T> {
+    private class ValueToEnum<T extends Enum<T> & Codeable> implements Converter<String, T> {
         private T[] enums;
+        private Class<T> enumType;
 
-        public ValueToEnum(Class<T> enumType) {
+        private ValueToEnum(Class<T> enumType) {
+            this.enumType = enumType;
             this.enums = enumType.getEnumConstants();
         }
 
         @Override
         public T convert(String source) {
+            if (StringUtils.isBlank(source)) {
+                return null;
+            }
+
+            T result;
+            try {
+                result = Enums.stringConverter(enumType).convert(source);
+            } catch (Exception e) {
+                result = null;
+            }
+
+            if (result != null) {
+                return result;
+            }
+
             for (T em : enums) {
                 if (em.getCode().equals(source)) {
-                    return em;
+                    result = em;
+                    break;
                 }
             }
-            return null;
+
+            return result;
         }
     }
 }
