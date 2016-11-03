@@ -14,14 +14,18 @@ import java.io.IOException;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/6/24 下午9:31
  */
-public class EnumSerializer extends JsonSerializer<Codeable> {
+public class EnumSerializer extends JsonSerializer<Enum> {
     @Override
-    public void serialize(Codeable value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        if (value instanceof Enum<?>) {
-            jgen.writeStartObject();
-            jgen.writeStringField("code", value.getCode());
-            jgen.writeStringField("title", value.getTitle());
-            jgen.writeEndObject();
+    public void serialize(Enum value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+        if (!(value instanceof Codeable)) {
+            return;
         }
+
+        Codeable codeable = (Codeable) value;
+
+        jgen.writeStartObject();
+        jgen.writeStringField("code", codeable.getCode());
+        jgen.writeStringField("title", codeable.getTitle());
+        jgen.writeEndObject();
     }
 }

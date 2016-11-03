@@ -3,16 +3,11 @@ package lodsve.mvc.convert;
 import com.fasterxml.jackson.core.Base64Variants;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationConfig;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.cfg.BaseSettings;
 import com.fasterxml.jackson.databind.introspect.BasicClassIntrospector;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import lodsve.core.bean.Codeable;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -47,9 +42,14 @@ public class CustomObjectMapper extends ObjectMapper {
         configure(SerializationFeature.WRITE_ENUMS_USING_INDEX, true);
 
         // 序列化枚举时的处理
-        SimpleModule serializerModule = new SimpleModule();
-        serializerModule.addSerializer(Codeable.class, new EnumSerializer());
+        SimpleModule serializerModule = new SimpleModule("enumSerializer");
+        serializerModule.addSerializer(Enum.class, new EnumSerializer());
         registerModule(serializerModule);
+
+        // 反序列化枚举时的处理
+        SimpleModule deserializerModule = new SimpleModule("enumDeserializer");
+        deserializerModule.addDeserializer(Enum.class, new EnumDeserializer());
+        registerModule(deserializerModule);
 
         //日期的处理
         //默认是将日期类型转换为yyyy-MM-dd HH:mm
