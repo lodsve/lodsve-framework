@@ -1,5 +1,7 @@
 package lodsve.mybatis.configs;
 
+import com.p6spy.engine.spy.P6DataSource;
+import lodsve.core.config.profile.ProfileConfig;
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
 import lodsve.mybatis.type.TypeHandlerScanner;
@@ -68,6 +70,20 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
     }
 
     private Map<String, BeanDefinition> generateDataSource(String dataSource) {
+        boolean p6spy = ProfileConfig.getProfile("p6spy");
+        if (p6spy) {
+            Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
+
+            beanDefinitions.put("realDataSource", new RdbmsDataSourceBeanDefinitionFactory(dataSource).build());
+
+            BeanDefinitionBuilder p6spyDataSource = BeanDefinitionBuilder.genericBeanDefinition(P6DataSource.class);
+            p6spyDataSource.addConstructorArgReference("realDataSource");
+
+            beanDefinitions.put(dataSource, p6spyDataSource.getBeanDefinition());
+
+            return beanDefinitions;
+        }
+
         return Collections.singletonMap(dataSource, new RdbmsDataSourceBeanDefinitionFactory(dataSource).build());
     }
 
