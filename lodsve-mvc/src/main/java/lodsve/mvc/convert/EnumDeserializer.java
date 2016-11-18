@@ -32,7 +32,7 @@ public class EnumDeserializer extends JsonDeserializer<Enum> {
 
         Enum<?> result;
         try {
-            result = Enums.stringConverter(getType(p)).convert(value);
+            result = Enums.stringConverter(clazz).convert(value);
         } catch (Exception e) {
             result = null;
         }
