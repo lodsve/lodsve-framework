@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.google.common.base.Enums;
 import lodsve.core.bean.Codeable;
 import lodsve.core.utils.StringUtils;
 
@@ -32,7 +31,7 @@ public class EnumDeserializer extends JsonDeserializer<Enum> {
 
         Enum<?> result;
         try {
-            result = Enums.stringConverter(clazz).convert(value);
+            result = Enum.valueOf(clazz, value);
         } catch (Exception e) {
             result = null;
         }
