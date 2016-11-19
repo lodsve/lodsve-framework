@@ -3,6 +3,7 @@ package lodsve.security.service;
 import lodsve.security.core.Account;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 鉴权.
@@ -21,6 +22,14 @@ public interface Authz {
     boolean isLogin(HttpServletRequest request);
 
     /**
+     * 没有登录
+     *
+     * @param request  request
+     * @param response response
+     */
+    void ifNotLogin(HttpServletRequest request, HttpServletResponse response);
+
+    /**
      * 判断当前登录人是否含有给定的角色
      *
      * @param account 当前登录人
@@ -28,6 +37,15 @@ public interface Authz {
      * @return true:鉴权成功  false:鉴权失败
      */
     boolean authz(Account account, String... roles);
+
+    /**
+     * 没有权限
+     *
+     * @param request  request
+     * @param response response
+     * @param account  登录用户
+     */
+    void ifNotAuth(HttpServletRequest request, HttpServletResponse response, Account account);
 
     /**
      * 获取当前登录人的ID
