@@ -47,10 +47,16 @@ public class ConfigurationLoader {
         }
     }
 
-    public static Resource getConfigFile(String fileName) {
+    public static Resource getFileConfig(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
         return loader.getResource("file:" + InitConfigPath.getParamsRoot() + File.separator + "files" + File.separator + fileName);
+    }
+
+    public static Resource getFrameworkConfig(String fileName) {
+        ResourceLoader loader = new DefaultResourceLoader();
+
+        return loader.getResource("file:" + InitConfigPath.getParamsRoot() + File.separator + "framework" + File.separator + fileName);
     }
 
     public static void init() throws Exception {

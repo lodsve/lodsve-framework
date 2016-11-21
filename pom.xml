@@ -21,6 +21,8 @@
         <module>lodsve-core</module>
         <!-- dubbo -->
         <module>lodsve-dubbo</module>
+        <!-- fastdfs -->
+        <module>lodsve-fs</module>
         <!-- mongodb -->
         <module>lodsve-mongodb</module>
         <!-- mvc -->
