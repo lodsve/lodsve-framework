@@ -98,7 +98,7 @@ public class ExceptionAdvice {
             return new ExceptionData(ASSERT_ERROR_CODE, ex.getMessage());
         }
 
-        return DEFAULT_EXCEPTION_DATA;
+        return new ExceptionData(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
     }
 
     private ExceptionData handleWebException(Exception ex, NativeWebRequest webRequest) {
