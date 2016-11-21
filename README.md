@@ -14,6 +14,7 @@ My development tools, it encapsulates some open source projects, and better faci
     - lodsve-cache
     - lodsve-core
     - lodsve-dubbo
+    - lodsve-fs
     - lodsve-mongodb
     - lodsve-mvc
     - lodsve-mybatis
