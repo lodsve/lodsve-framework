@@ -1,7 +1,7 @@
 package lodsve.mybatis.configs;
 
 import com.p6spy.engine.spy.P6DataSource;
-import lodsve.core.config.profile.ProfileConfig;
+import lodsve.core.config.ProfileConfig;
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
 import lodsve.mybatis.type.TypeHandlerScanner;

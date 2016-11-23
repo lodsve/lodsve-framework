@@ -1,6 +1,5 @@
-package lodsve.core.config.profile;
+package lodsve.core.config;
 
-import lodsve.core.config.SystemConfig;
 import lodsve.core.config.loader.properties.Configuration;
 import org.springframework.util.Assert;
 

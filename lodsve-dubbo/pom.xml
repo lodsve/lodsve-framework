@@ -23,6 +23,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>dubbo</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.github.sgroschupf</groupId>
@@ -43,6 +44,37 @@
                     <archive>
                         <addMavenDescriptor>true</addMavenDescriptor>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>com.alibaba:dubbo</include>
+                            <include>com.github.lodsve:lodsve-dubbo</include>
+                        </includes>
+                    </artifactSet>
+                    <filters>
+                        <filter>
+                            <artifact>com.alibaba:dubbo</artifact>
+                            <excludes>
+                                <exclude>com/alibaba/dubbo/rpc/filter/ExceptionFilter</exclude>
+                                <exclude>com/alibaba/dubbo/config/spring/ServiceBean</exclude>
+                                <exclude>com/alibaba/dubbo/config/spring/AnnotationBean</exclude>
+                                <exclude>META-INF/maven/com.alibaba/**</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                 </configuration>
             </plugin>
         </plugins>
