@@ -20,15 +20,15 @@ public class ProfileInitializer implements ApplicationContextInitializer<Configu
     public void initialize(ConfigurableApplicationContext applicationContext) {
         ConfigurableEnvironment configEnv = applicationContext.getEnvironment();
 
-        Configuration profileConfig = SystemConfig.subset("profiles");
-        Set<String> profiles = profileConfig.getKeys();
+        Configuration profileConfig = SystemConfig.getFrameworkConfiguration("profiles.properties");
+        Set<String> profiles = profileConfig.subset("profiles").getKeys();
 
         if (CollectionUtils.isEmpty(profiles)) {
             return;
         }
 
         for (String profile : profiles) {
-            if (profileConfig.getBoolean(profile, false)) {
+            if (profileConfig.getBoolean("profiles." + profile, false)) {
                 configEnv.addActiveProfile(profile);
             }
         }

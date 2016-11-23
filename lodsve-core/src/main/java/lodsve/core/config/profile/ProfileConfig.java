@@ -11,6 +11,13 @@ import org.springframework.util.Assert;
  * @version 1.0 2016-9-22 10:37
  */
 public class ProfileConfig {
+    private static Configuration profileConfig;
+
+    public ProfileConfig() {
+        Configuration frameworkConfigurationProfiles = SystemConfig.getFrameworkConfiguration("profiles.properties");
+        profileConfig = frameworkConfigurationProfiles.subset("profiles");
+    }
+
     /**
      * 获取profile的值
      *
@@ -20,9 +27,6 @@ public class ProfileConfig {
     public static boolean getProfile(String profileName) {
         Assert.hasText(profileName, "profile name is required!");
 
-        Configuration profileConfig = SystemConfig.subset("profiles");
-        String result = profileConfig.getString(profileName, Boolean.FALSE.toString());
-
-        return Boolean.TRUE.toString().equals(result);
+        return Boolean.TRUE.toString().equals(profileConfig.getString(profileName, Boolean.FALSE.toString()));
     }
 }
