@@ -54,6 +54,7 @@
         <servlet.version>3.0.1</servlet.version>
         <mongodb.version>2.14.1</mongodb.version>
         <druid.version>1.0.19</druid.version>
+        <lombok.version>1.16.10</lombok.version>
     </properties>
 
     <organization>
@@ -132,6 +133,14 @@
             </snapshots>
         </repository>
     </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>
