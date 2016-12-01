@@ -1,20 +1,16 @@
-package lodsve.core.config.loader.ini;
+package lodsve.core.config.ini;
+
+import lodsve.core.config.core.InitializeConfigurationPath;
+import lodsve.core.utils.FileUtils;
+import lodsve.core.utils.StringUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import lodsve.core.utils.FileUtils;
-import lodsve.core.utils.StringUtils;
-import lodsve.core.config.core.InitConfigPath;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
+import java.util.*;
 
 /**
  * 解析ini文件.
@@ -155,7 +151,7 @@ public class IniLoader {
 
     public static void init() throws Exception {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resolver.getResources("file:" + InitConfigPath.getParamsRoot() + "/*.ini");
+        Resource[] resources = resolver.getResources("file:" + InitializeConfigurationPath.getParamsRoot() + "/*.ini");
 
         for (Resource res : resources) {
             load(values, res);

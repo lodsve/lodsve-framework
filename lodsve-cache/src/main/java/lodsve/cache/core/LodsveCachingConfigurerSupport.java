@@ -3,8 +3,8 @@ package lodsve.cache.core;
 import javax.annotation.PostConstruct;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.core.config.SystemConfig;
-import lodsve.core.config.auto.AutoConfigurationCreator;
-import lodsve.core.config.auto.annotations.ConfigurationProperties;
+import lodsve.core.config.autoconfigure.AutoConfigurationCreator;
+import lodsve.core.config.annotations.ConfigurationProperties;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 
 /**

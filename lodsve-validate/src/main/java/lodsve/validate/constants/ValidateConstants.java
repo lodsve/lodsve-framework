@@ -1,6 +1,6 @@
 package lodsve.validate.constants;
 
-import lodsve.core.config.loader.i18n.ResourceBundleHolder;
+import lodsve.core.config.i18n.ResourceBundleHolder;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;

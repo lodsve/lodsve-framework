@@ -1,7 +1,7 @@
 package lodsve.core.config.profile;
 
 import lodsve.core.config.SystemConfig;
-import lodsve.core.config.loader.properties.Configuration;
+import lodsve.core.config.properties.Configuration;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;

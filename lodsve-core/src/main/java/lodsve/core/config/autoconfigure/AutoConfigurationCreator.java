@@ -1,20 +1,11 @@
-package lodsve.core.config.auto;
+package lodsve.core.config.autoconfigure;
 
-import java.beans.PropertyDescriptor;
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 import lodsve.core.config.SystemConfig;
-import lodsve.core.config.auto.annotations.ConfigurationProperties;
-import lodsve.core.config.auto.annotations.Required;
-import lodsve.core.config.loader.properties.Configuration;
-import lodsve.core.config.loader.properties.ConfigurationLoader;
-import lodsve.core.config.loader.properties.PropertiesConfiguration;
+import lodsve.core.config.annotations.ConfigurationProperties;
+import lodsve.core.config.annotations.Required;
+import lodsve.core.config.properties.Configuration;
+import lodsve.core.config.properties.ConfigurationLoader;
+import lodsve.core.config.properties.PropertiesConfiguration;
 import lodsve.core.utils.GenericUtils;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.core.utils.StringUtils;
@@ -28,6 +19,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+
+import java.beans.PropertyDescriptor;
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * 自动装配生成器.

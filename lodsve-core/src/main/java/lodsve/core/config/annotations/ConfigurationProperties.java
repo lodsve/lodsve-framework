@@ -1,4 +1,4 @@
-package lodsve.core.config.auto.annotations;
+package lodsve.core.config.annotations;
 
 import org.springframework.stereotype.Component;
 

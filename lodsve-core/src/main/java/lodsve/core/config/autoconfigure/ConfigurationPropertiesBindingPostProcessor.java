@@ -1,6 +1,6 @@
-package lodsve.core.config.auto;
+package lodsve.core.config.autoconfigure;
 
-import lodsve.core.config.auto.annotations.ConfigurationProperties;
+import lodsve.core.config.annotations.ConfigurationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;

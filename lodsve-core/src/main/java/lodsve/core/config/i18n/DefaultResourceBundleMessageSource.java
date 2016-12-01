@@ -1,4 +1,4 @@
-package lodsve.core.config.loader.i18n;
+package lodsve.core.config.i18n;
 
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.context.support.AbstractMessageSource;

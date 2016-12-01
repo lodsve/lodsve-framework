@@ -1,6 +1,6 @@
-package lodsve.core.config.loader.properties;
+package lodsve.core.config.properties;
 
-import lodsve.core.config.core.InitConfigPath;
+import lodsve.core.config.core.InitializeConfigurationPath;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -50,20 +50,20 @@ public class ConfigurationLoader {
     public static Resource getFileConfig(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
-        return loader.getResource("file:" + InitConfigPath.getParamsRoot() + File.separator + "files" + File.separator + fileName);
+        return loader.getResource("file:" + InitializeConfigurationPath.getParamsRoot() + File.separator + "files" + File.separator + fileName);
     }
 
     public static Resource getFrameworkConfig(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
-        return loader.getResource("file:" + InitConfigPath.getParamsRoot() + File.separator + "framework" + File.separator + fileName);
+        return loader.getResource("file:" + InitializeConfigurationPath.getParamsRoot() + File.separator + "framework" + File.separator + fileName);
     }
 
     public static void init() throws Exception {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resolver.getResources("file:" + InitConfigPath.getParamsRoot() + "/*.properties");
+        Resource[] resources = resolver.getResources("file:" + InitializeConfigurationPath.getParamsRoot() + "/*.properties");
 
         loadProperties(prop, resources);
-        prop.put("params.root", InitConfigPath.getParamsRoot());
+        prop.put("params.root", InitializeConfigurationPath.getParamsRoot());
     }
 }

@@ -1,4 +1,4 @@
-package lodsve.core.config.loader.properties;
+package lodsve.core.config.properties;
 
 import java.util.ArrayList;
 import java.util.HashMap;

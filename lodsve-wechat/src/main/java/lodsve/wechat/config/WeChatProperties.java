@@ -1,6 +1,6 @@
 package lodsve.wechat.config;
 
-import lodsve.core.config.auto.annotations.ConfigurationProperties;
+import lodsve.core.config.annotations.ConfigurationProperties;
 
 /**
  * 参数配置在配置文件中.

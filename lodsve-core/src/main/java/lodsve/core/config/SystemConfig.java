@@ -1,8 +1,8 @@
 package lodsve.core.config;
 
-import lodsve.core.config.loader.properties.Configuration;
-import lodsve.core.config.loader.properties.ConfigurationLoader;
-import lodsve.core.config.loader.properties.PropertiesConfiguration;
+import lodsve.core.config.properties.Configuration;
+import lodsve.core.config.properties.ConfigurationLoader;
+import lodsve.core.config.properties.PropertiesConfiguration;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 

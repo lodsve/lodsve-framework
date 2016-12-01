@@ -55,10 +55,10 @@ import java.util.Properties;
  * @version V1.0, 14-9-2 下午11:53
  * @see ParamsHomeListener
  */
-public class InitConfigPath {
-    private static final Logger logger = LoggerFactory.getLogger(InitConfigPath.class);
+public class InitializeConfigurationPath {
+    private static final Logger logger = LoggerFactory.getLogger(InitializeConfigurationPath.class);
 
-    public static final String ROOT_PARAM_KEY = "config.root";
+    private static final String ROOT_PARAM_KEY = "config.root";
     private static final String SYSTEM_PARAM_PATH = "params.home";
     private static final String ENV_PARAM_PATH = "PARAMS_HOME";
     private static final String ROOT_PARAM_FILE_NAME = "root.properties";
@@ -68,7 +68,7 @@ public class InitConfigPath {
     private static String webXmlParamsHome;
     private static String paramsRoot;
 
-    private InitConfigPath() {
+    private InitializeConfigurationPath() {
     }
 
     public static String getParamsRoot() {
@@ -106,7 +106,7 @@ public class InitConfigPath {
         //判断路径是否含有classpath或者file
         if (StringUtils.indexOf(paramsPath, PREFIX_CLASSPATH) == 0) {
             paramsPath = StringUtils.removeStart(paramsPath, PREFIX_CLASSPATH);
-            Resource resource = new ClassPathResource(paramsPath, InitConfigPath.class.getClassLoader());
+            Resource resource = new ClassPathResource(paramsPath, InitializeConfigurationPath.class.getClassLoader());
 
             try {
                 paramsPath = resource.getURL().getPath();

@@ -1,6 +1,6 @@
 package lodsve.redis.core.config;
 
-import lodsve.core.config.auto.annotations.ConfigurationProperties;
+import lodsve.core.config.annotations.ConfigurationProperties;
 
 import java.util.Map;
 

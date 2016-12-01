@@ -1,8 +1,8 @@
 package lodsve.core.config.core;
 
 import lodsve.core.condition.ConditionalOnWebApplication;
-import lodsve.core.config.loader.ini.IniLoader;
-import lodsve.core.config.loader.properties.ConfigurationLoader;
+import lodsve.core.config.ini.IniLoader;
+import lodsve.core.config.properties.ConfigurationLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ConditionalOnWebApplication
-public class LoadConfiguration implements InitializingBean {
-    private static final Logger logger = LoggerFactory.getLogger(LoadConfiguration.class);
+public class WebApplicationLoader implements InitializingBean {
+    private static final Logger logger = LoggerFactory.getLogger(WebApplicationLoader.class);
 
     @Override
     public void afterPropertiesSet() throws Exception {

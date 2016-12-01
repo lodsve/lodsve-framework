@@ -1,6 +1,6 @@
-package lodsve.core.config.loader.i18n;
+package lodsve.core.config.i18n;
 
-import lodsve.core.config.core.InitConfigPath;
+import lodsve.core.config.core.InitializeConfigurationPath;
 import lodsve.core.utils.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class MessageSourceLoader implements InitializingBean {
     }
 
     private Resource[] getResources() throws IOException {
-        String paramsRoot = InitConfigPath.getParamsRoot();
+        String paramsRoot = InitializeConfigurationPath.getParamsRoot();
 
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource[] propertiesResources = resolver.getResources("file:" + paramsRoot + "/i18n/**/*.properties");

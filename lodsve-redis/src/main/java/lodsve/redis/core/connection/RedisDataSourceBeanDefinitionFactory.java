@@ -1,7 +1,7 @@
 package lodsve.redis.core.connection;
 
-import lodsve.core.config.auto.AutoConfigurationCreator;
-import lodsve.core.config.auto.annotations.ConfigurationProperties;
+import lodsve.core.config.autoconfigure.AutoConfigurationCreator;
+import lodsve.core.config.annotations.ConfigurationProperties;
 import lodsve.redis.core.config.RedisProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
