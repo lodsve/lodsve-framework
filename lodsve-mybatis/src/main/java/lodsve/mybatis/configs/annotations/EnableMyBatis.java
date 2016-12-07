@@ -1,13 +1,11 @@
 package lodsve.mybatis.configs.annotations;
 
 import lodsve.mybatis.configs.MyBatisConfigurationSelector;
+import lodsve.mybatis.pagination.PaginationInterceptor;
+import org.apache.ibatis.plugin.Interceptor;
 import org.springframework.context.annotation.Import;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 通过注解的方式启动mybatis的配置.
@@ -62,4 +60,11 @@ public @interface EnableMyBatis {
      * @return
      */
     String migration() default "db/migration";
+
+    /**
+     * 加载插件
+     *
+     * @return
+     */
+    Class<? extends Interceptor>[] plugins() default {PaginationInterceptor.class};
 }

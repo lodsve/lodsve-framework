@@ -6,9 +6,11 @@ import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
 import lodsve.mybatis.type.TypeHandlerScanner;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.ibatis.plugin.Interceptor;
 import org.flywaydb.core.Flyway;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -19,10 +21,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 动态创建mybatis的配置.
@@ -36,6 +35,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
     private static final String ENUMS_LOCATIONS_ATTRIBUTE_NAME = "enumsLocations";
     private static final String USE_FLYWAY_ATTRIBUTE_NAME = "useFlyway";
     private static final String MIGRATION_ATTRIBUTE_NAME = "migration";
+    private static final String PLUGINS_ATTRIBUTE_NAME = "plugins";
     private static String dataSource;
 
     @Override
@@ -64,7 +64,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
             beanDefinitions.putAll(findFlyWayBeanDefinitions(migration));
         }
 
-        beanDefinitions.putAll(findMyBatisBeanDefinitions(useFlyway, basePackages, enumsLocations));
+        beanDefinitions.putAll(findMyBatisBeanDefinitions(useFlyway, basePackages, enumsLocations, attributes.getClassArray(PLUGINS_ATTRIBUTE_NAME)));
 
         registerBeanDefinitions(beanDefinitions, registry);
     }
@@ -99,7 +99,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         return beanDefinitions;
     }
 
-    private Map<String, BeanDefinition> findMyBatisBeanDefinitions(boolean useFlyway, String[] basePackages, String[] enumsLocations) {
+    private Map<String, BeanDefinition> findMyBatisBeanDefinitions(boolean useFlyway, String[] basePackages, String[] enumsLocations, Class<?>[] pluginClasses) {
         Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
 
         BeanDefinitionBuilder sqlSessionFactoryBean = BeanDefinitionBuilder.genericBeanDefinition(SqlSessionFactoryBean.class);
@@ -111,6 +111,15 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         sqlSessionFactoryBean.addPropertyValue("configLocation", "classpath:/META-INF/mybatis/mybatis.xml");
         TypeHandlerScanner scanner = new TypeHandlerScanner();
         sqlSessionFactoryBean.addPropertyValue("typeHandlers", scanner.find(StringUtils.join(enumsLocations, ",")));
+        List<Interceptor> plugins = new ArrayList<>(pluginClasses.length);
+        for (Class<?> clazz : pluginClasses) {
+            if (!(Interceptor.class.isAssignableFrom(clazz))) {
+                continue;
+            }
+
+            plugins.add((Interceptor) BeanUtils.instantiate(clazz));
+        }
+        sqlSessionFactoryBean.addPropertyValue("plugins", plugins);
 
         BeanDefinitionBuilder scannerConfigurerBean = BeanDefinitionBuilder.genericBeanDefinition(MapperScannerConfigurer.class);
         scannerConfigurerBean.addPropertyValue("basePackage", StringUtils.join(basePackages, ","));

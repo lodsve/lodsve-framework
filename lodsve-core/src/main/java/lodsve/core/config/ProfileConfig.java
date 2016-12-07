@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 public class ProfileConfig {
     private static Configuration profileConfig;
 
-    public ProfileConfig() {
+    static {
         Configuration frameworkConfigurationProfiles = SystemConfig.getFrameworkConfiguration("profiles.properties");
         profileConfig = frameworkConfigurationProfiles.subset("profiles");
     }
