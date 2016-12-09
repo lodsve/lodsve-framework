@@ -1,6 +1,6 @@
 package lodsve.core.config.core;
 
-import lodsve.core.condition.ConditionalOnWebApplication;
+import lodsve.core.condition.ConditionalOnNotWebApplication;
 import lodsve.core.config.ini.IniLoader;
 import lodsve.core.config.properties.ConfigurationLoader;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @version V1.0, 16/5/5 下午2:53
  */
 @Component
-@ConditionalOnWebApplication
+@ConditionalOnNotWebApplication
 public class WebApplicationLoader implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(WebApplicationLoader.class);
 

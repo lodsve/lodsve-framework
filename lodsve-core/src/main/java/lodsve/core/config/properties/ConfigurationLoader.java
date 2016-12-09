@@ -11,6 +11,9 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -28,7 +31,7 @@ public class ConfigurationLoader {
     public static Properties getConfigFileProperties(Resource... resources) throws IOException {
         Properties prop = new Properties();
 
-        loadProperties(prop, resources);
+        loadProperties(prop, Arrays.asList(resources));
 
         return prop;
     }
@@ -37,7 +40,7 @@ public class ConfigurationLoader {
         return prop;
     }
 
-    private static void loadProperties(Properties prop, Resource[] resources) {
+    private static void loadProperties(Properties prop, List<Resource> resources) {
         for (Resource resource : resources) {
             try {
                 PropertiesLoaderUtils.fillProperties(prop, new EncodedResource(resource, "UTF-8"));
@@ -61,7 +64,10 @@ public class ConfigurationLoader {
 
     public static void init() throws Exception {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resolver.getResources("file:" + InitializeConfigurationPath.getParamsRoot() + "/*.properties");
+        List<Resource> resources = new ArrayList<>();
+
+        resources.addAll(Arrays.asList(resolver.getResources("file:" + InitializeConfigurationPath.getParamsRoot() + "/*.properties")));
+        resources.addAll(Arrays.asList(resolver.getResources("file:" + InitializeConfigurationPath.getParamsRoot() + "/framework/*.properties")));
 
         loadProperties(prop, resources);
         prop.put("params.root", InitializeConfigurationPath.getParamsRoot());
