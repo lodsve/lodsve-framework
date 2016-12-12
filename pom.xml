@@ -777,6 +777,27 @@
             </dependency>
             <!-- dubbo end -->
 
+            <!-- other languages start -->
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>2.4.7</version>
+                <optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>org.jruby</groupId>
+                <artifactId>jruby</artifactId>
+                <version>1.7.26</version>
+                <optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>org.python</groupId>
+                <artifactId>jython-standalone</artifactId>
+                <version>2.7.1b3</version>
+                <optional>true</optional>
+            </dependency>
+            <!-- other languages end -->
+
             <!-- lodsve framework dependencies start -->
             <dependency>
                 <groupId>com.github.lodsve</groupId>
