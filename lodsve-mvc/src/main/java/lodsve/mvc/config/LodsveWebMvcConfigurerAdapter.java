@@ -1,5 +1,6 @@
 package lodsve.mvc.config;
 
+import lodsve.core.appllication.ApplicationProperties;
 import lodsve.mvc.convert.CustomMappingJackson2HttpMessageConverter;
 import lodsve.mvc.convert.CustomObjectMapper;
 import lodsve.mvc.convert.EnumCodeConverterFactory;
@@ -7,7 +8,7 @@ import lodsve.mvc.convert.StringDateConvertFactory;
 import lodsve.mvc.resolver.BindDataHandlerMethodArgumentResolver;
 import lodsve.mvc.resolver.ParseDataHandlerMethodArgumentResolver;
 import lodsve.mvc.resolver.WebResourceDataHandlerMethodArgumentResolver;
-import lodsve.properties.ApplicationProperties;
+import lodsve.properties.ServerProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
@@ -31,7 +32,9 @@ import java.util.List;
 @Component
 public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
     @Autowired
-    private ApplicationProperties properties;
+    private ServerProperties serverProperties;
+    @Autowired
+    private ApplicationProperties applicationProperties;
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
@@ -77,10 +80,10 @@ public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
                 .allowedHeaders("X-requested-with", "x-auth-token", "Content-Type")
                 .allowedMethods("POST", "GET", "OPTIONS", "DELETE")
                 .exposedHeaders("x-auth-token");
-        if (properties.isDevMode()) {
+        if (applicationProperties.isDevMode()) {
             corsRegistration.allowedOrigins("*");
         } else {
-            corsRegistration.allowedOrigins(properties.getFrontEndUrl(), properties.getServerUrl());
+            corsRegistration.allowedOrigins(serverProperties.getFrontEndUrl(), serverProperties.getServerUrl());
         }
     }
 }

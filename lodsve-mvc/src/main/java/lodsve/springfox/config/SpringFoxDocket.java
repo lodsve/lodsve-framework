@@ -1,7 +1,7 @@
 package lodsve.springfox.config;
 
 import lodsve.core.utils.StringUtils;
-import lodsve.properties.ApplicationProperties;
+import lodsve.properties.ServerProperties;
 import lodsve.properties.SpringFoxProperties;
 import lodsve.springfox.paths.SpringFoxPathProvider;
 import org.apache.commons.lang.ArrayUtils;
@@ -27,7 +27,7 @@ public class SpringFoxDocket extends Docket {
     @Autowired
     private SpringFoxProperties properties;
     @Autowired
-    private ApplicationProperties application;
+    private ServerProperties serverProperties;
 
     public SpringFoxDocket() {
         super(DocumentationType.SWAGGER_2);
@@ -59,7 +59,7 @@ public class SpringFoxDocket extends Docket {
     }
 
     private String getHost() {
-        String serverUrl = application.getServerUrl();
+        String serverUrl = serverProperties.getServerUrl();
         if (StringUtils.isBlank(serverUrl)) {
             return "localhost";
         }
