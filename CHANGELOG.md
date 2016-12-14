@@ -1,5 +1,18 @@
 # 更新日志
 
+## V2.5.7
+1. 将配置文件的模板集成到框架中，目录为lodsve-core/resources/config-template
+2. 添加maven发布自动close和release的插件
+3. mybatis可以自定义拦截器
+4. 是否是devMode的conditional
+5. 常用的脚本语言在JVM中执行的相关封装
+6. 修改关于conditional的webApplication的bug
+7. 配置文件中，*.properties和framework/*.properties都加载到SystemConfig中
+8. 修改config的目录结构
+9. 增加lombok，后续使用
+10. 移除dubbo基于注解的配置，使用xml的配置
+11. 修改profile的配置
+
 ## V2.5.6
 1. 前台传枚举的值或者code都支持反序列化
 
