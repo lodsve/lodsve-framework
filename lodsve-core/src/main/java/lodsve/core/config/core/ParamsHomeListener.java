@@ -1,11 +1,12 @@
 package lodsve.core.config.core;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import lodsve.core.config.loader.ini.IniLoader;
-import lodsve.core.config.loader.properties.ConfigurationLoader;
+import lodsve.core.config.ini.IniLoader;
+import lodsve.core.config.properties.ConfigurationLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 /**
  * 读取web.xml中设置的context-param[paramsHome].
@@ -13,7 +14,7 @@ import org.slf4j.LoggerFactory;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
  * @createTime 2015-1-5 10:00
- * @see InitConfigPath
+ * @see InitializeConfigurationPath
  */
 public class ParamsHomeListener implements ServletContextListener {
     private static final Logger logger = LoggerFactory.getLogger(ParamsHomeListener.class);
@@ -30,7 +31,7 @@ public class ParamsHomeListener implements ServletContextListener {
         String paramsHome = servletContextEvent.getServletContext().getInitParameter(PARAMS_HOME);
         logger.debug("get init parameter '{}' from web.xml is '{}'", PARAMS_HOME, paramsHome);
 
-        InitConfigPath.setWebXmlParamsHome(paramsHome);
+        InitializeConfigurationPath.setWebXmlParamsHome(paramsHome);
 
         try {
             ConfigurationLoader.init();

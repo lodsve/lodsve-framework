@@ -1,18 +1,15 @@
 package lodsve.core.config;
 
+import lodsve.core.config.properties.Configuration;
+import lodsve.core.config.properties.ConfigurationLoader;
+import lodsve.core.config.properties.PropertiesConfiguration;
+import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import lodsve.core.config.loader.properties.Configuration;
-import lodsve.core.config.loader.properties.ConfigurationLoader;
-import lodsve.core.config.loader.properties.PropertiesConfiguration;
-import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
+import java.util.*;
 
 /**
  * 系统配置文件.
@@ -177,8 +174,12 @@ public class SystemConfig {
         return configuration.getList(key, defaultValue);
     }
 
-    public static Resource getConfigFile(String fileName) {
-        return ConfigurationLoader.getConfigFile(fileName);
+    public static Resource getFileConfig(String fileName) {
+        return ConfigurationLoader.getFileConfig(fileName);
+    }
+
+    public static Resource getFrameworkConfig(String fileName) {
+        return ConfigurationLoader.getFrameworkConfig(fileName);
     }
 
     public static Map<String, String> getAllConfigs() {
@@ -188,7 +189,19 @@ public class SystemConfig {
     public static Configuration getFileConfiguration(String fileName) {
         Assert.hasText(fileName, "文件名不能为空！");
 
-        Resource resource = getConfigFile(fileName);
+        Resource resource = getFileConfig(fileName);
+
+        try {
+            return new PropertiesConfiguration(ConfigurationLoader.getConfigFileProperties(resource));
+        } catch (IOException e) {
+            throw new RuntimeException("加载配置文件发生IO异常");
+        }
+    }
+
+    public static Configuration getFrameworkConfiguration(String fileName) {
+        Assert.hasText(fileName, "文件名不能为空！");
+
+        Resource resource = getFrameworkConfig(fileName);
 
         try {
             return new PropertiesConfiguration(ConfigurationLoader.getConfigFileProperties(resource));

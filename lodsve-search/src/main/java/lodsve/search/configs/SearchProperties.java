@@ -1,6 +1,6 @@
 package lodsve.search.configs;
 
-import lodsve.core.config.auto.annotations.ConfigurationProperties;
+import lodsve.core.config.annotations.ConfigurationProperties;
 
 /**
  * 搜索的配置.

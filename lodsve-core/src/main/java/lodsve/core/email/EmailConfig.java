@@ -1,7 +1,8 @@
 package lodsve.core.email;
 
+import lodsve.core.config.annotations.ConfigurationProperties;
+
 import java.util.Map;
-import lodsve.core.config.auto.annotations.ConfigurationProperties;
 
 /**
  * 邮箱服务器的配置.

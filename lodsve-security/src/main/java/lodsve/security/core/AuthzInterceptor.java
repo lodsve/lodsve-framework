@@ -1,7 +1,6 @@
 package lodsve.security.core;
 
 import lodsve.security.annotation.NeedAuthz;
-import lodsve.security.exception.AuthException;
 import lodsve.security.service.Authz;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -43,13 +42,15 @@ public class AuthzInterceptor extends HandlerInterceptorAdapter {
         //判断是否有权限
         Account account = LoginAccountHolder.getCurrentAccount();
         if (account == null) {
-            throw new AuthException(105001, "not login！");
+            authz.ifNotLogin(request, response);
         }
 
         if (this.authz.authz(account, ac.value())) {
             return super.preHandle(request, response, handler);
         } else {
-            throw new AuthException(105002, "authz failure! user id is:{" + account.getId() + "}!");
+            authz.ifNotAuth(request, response, account);
         }
+
+        return super.preHandle(request, response, handler);
     }
 }

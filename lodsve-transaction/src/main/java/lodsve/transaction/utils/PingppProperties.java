@@ -1,6 +1,6 @@
 package lodsve.transaction.utils;
 
-import lodsve.core.config.auto.annotations.ConfigurationProperties;
+import lodsve.core.config.annotations.ConfigurationProperties;
 
 /**
  * 支付的一些配置.

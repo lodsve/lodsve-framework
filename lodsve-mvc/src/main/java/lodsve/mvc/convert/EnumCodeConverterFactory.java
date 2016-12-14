@@ -1,6 +1,5 @@
 package lodsve.mvc.convert;
 
-import com.google.common.base.Enums;
 import lodsve.core.bean.Codeable;
 import lodsve.core.utils.StringUtils;
 import org.springframework.core.convert.TypeDescriptor;
@@ -48,7 +47,7 @@ public class EnumCodeConverterFactory implements ConverterFactory<String, Enum<?
 
             T result;
             try {
-                result = Enums.stringConverter(enumType).convert(source);
+                result = Enum.valueOf(enumType, source);
             } catch (Exception e) {
                 result = null;
             }

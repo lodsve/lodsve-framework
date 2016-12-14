@@ -1,6 +1,6 @@
 package lodsve.validate.core;
 
-import lodsve.core.config.profile.ProfileConfig;
+import lodsve.core.config.ProfileConfig;
 import lodsve.core.utils.ObjectUtils;
 import lodsve.core.utils.StringUtils;
 import lodsve.validate.annotations.ValidateEntity;

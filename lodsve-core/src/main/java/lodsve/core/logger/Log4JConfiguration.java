@@ -1,6 +1,5 @@
 package lodsve.core.logger;
 
-import java.util.Properties;
 import lodsve.core.config.SystemConfig;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.InitializingBean;
@@ -8,6 +7,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
+
+import java.util.Properties;
 
 /**
  * log4j的配置.
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
 public class Log4JConfiguration implements InitializingBean {
 
     public void afterPropertiesSet() throws Exception {
-        Resource resource = SystemConfig.getConfigFile("log4j.properties");
+        Resource resource = SystemConfig.getFileConfig("log4j.properties");
 
         if (resource == null || !resource.exists()) {
             resource = new ClassPathResource("/META-INF/log4j.properties", Thread.currentThread().getContextClassLoader());

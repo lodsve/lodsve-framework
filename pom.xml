@@ -4,7 +4,7 @@
 
     <groupId>com.github.lodsve</groupId>
     <artifactId>lodsve-framework</artifactId>
-    <version>2.5.6</version>
+    <version>2.5.7</version>
     <packaging>pom</packaging>
     <name>lodsve framework</name>
     <description>工具类集合，封装了一系列开源项目，使更好更方便的进行Java Web开发</description>
@@ -21,6 +21,8 @@
         <module>lodsve-core</module>
         <!-- dubbo -->
         <module>lodsve-dubbo</module>
+        <!-- fastdfs -->
+        <module>lodsve-fs</module>
         <!-- mongodb -->
         <module>lodsve-mongodb</module>
         <!-- mvc -->
@@ -52,6 +54,7 @@
         <servlet.version>3.0.1</servlet.version>
         <mongodb.version>2.14.1</mongodb.version>
         <druid.version>1.0.19</druid.version>
+        <lombok.version>1.16.10</lombok.version>
     </properties>
 
     <organization>
@@ -130,6 +133,14 @@
             </snapshots>
         </repository>
     </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>
@@ -724,6 +735,14 @@
             </dependency>
             <!-- mybatis end -->
 
+            <!-- p6spy start -->
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            <!-- p6spy end -->
+
             <!-- pay start -->
             <dependency>
                 <groupId>Pingplusplus</groupId>
@@ -757,6 +776,27 @@
                 <scope>provided</scope>
             </dependency>
             <!-- dubbo end -->
+
+            <!-- other languages start -->
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>2.4.7</version>
+                <optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>org.jruby</groupId>
+                <artifactId>jruby</artifactId>
+                <version>1.7.26</version>
+                <optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>org.python</groupId>
+                <artifactId>jython-standalone</artifactId>
+                <version>2.7.1b3</version>
+                <optional>true</optional>
+            </dependency>
+            <!-- other languages end -->
 
             <!-- lodsve framework dependencies start -->
             <dependency>
@@ -874,6 +914,21 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.6.1</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>src/..</directory>
+                            <includes>
+                                <include>dependency-reduced-pom.xml</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -915,6 +970,18 @@
                             <charset>${project.build.sourceEncoding}</charset>
                             <encoding>${project.build.sourceEncoding}</encoding>
                             <docencoding>${project.build.sourceEncoding}</docencoding>
+                        </configuration>
+                    </plugin>
+                    <!-- 在maven仓库中自动close和release的插件 -->
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.5</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>oss-releases</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
                 </plugins>

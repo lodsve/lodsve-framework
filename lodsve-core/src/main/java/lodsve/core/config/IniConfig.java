@@ -1,14 +1,15 @@
 package lodsve.core.config;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import lodsve.core.config.loader.ini.IniLoader;
+import lodsve.core.config.ini.IniLoader;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * ini配置获取.

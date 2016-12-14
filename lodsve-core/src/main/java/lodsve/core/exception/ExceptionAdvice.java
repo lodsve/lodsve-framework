@@ -1,7 +1,7 @@
 package lodsve.core.exception;
 
 import lodsve.core.config.SystemConfig;
-import lodsve.core.config.loader.i18n.ResourceBundleHolder;
+import lodsve.core.config.i18n.ResourceBundleHolder;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
@@ -35,6 +35,9 @@ import java.util.List;
 @ControllerAdvice
 public class ExceptionAdvice {
     private static final Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
+    private static final ExceptionData DEFAULT_EXCEPTION_DATA = new ExceptionData(HttpStatus.BAD_REQUEST.value(), "发生未知的错误！");
+    private static final Integer ASSERT_ERROR_CODE = 199999;
+
     /**
      * 加载了所有的资源文件信息.
      */
@@ -55,7 +58,7 @@ public class ExceptionAdvice {
 
         // 2. 项目异常
         String folderPath = "error";
-        Resource resource = SystemConfig.getConfigFile(folderPath);
+        Resource resource = SystemConfig.getFileConfig(folderPath);
 
         try {
             resources.addAll(Arrays.asList(resolver.getResources("file:" + resource.getFile().getAbsolutePath() + "/*.properties")));
@@ -83,39 +86,44 @@ public class ExceptionAdvice {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ExceptionData handleException(Exception ex, NativeWebRequest webRequest) throws Exception {
-        HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-
-        ExceptionData exceptionData;
-        Throwable exception = getHasInfoException(ex);
-        if (exception == null) {
-            exceptionData = new ExceptionData(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
-        } else {
-            ExceptionInfo exceptionInfo = ((ApplicationException) exception).getInfo();
-            String message;
-            Integer code = exceptionInfo.getCode();
-            if (code != null) {
-                try {
-                    message = this.resourceBundleHolder.getResourceBundle(request.getLocale()).getString(code.toString());
-                    message = PropertyPlaceholderHelper.replace(message, message, exceptionInfo.getArgs());
-                } catch (Exception e) {
-                    logger.error("根据异常编码获取异常描述信息发生异常，errorCode：" + code);
-                    message = exceptionInfo.getMessage();
-                }
-            } else {
-                // 兼容以前的代码，初始版本只有message没有code
-                message = exceptionInfo.getMessage();
-            }
-
-            if (StringUtils.isEmpty(message)) {
-                message = "发生未知的错误";
-            }
-            exceptionData = new ExceptionData(code, message);
+        if (ex == null) {
+            return DEFAULT_EXCEPTION_DATA;
         }
 
-        logger.error("exception code:" + exceptionData.getCode() + ",exception message:" + exceptionData.getMessage(),
-                ex);
+        if (ex instanceof ApplicationException) {
+            // 框架定义的异常
+            return handleWebException(ex, webRequest);
+        } else if (ex instanceof IllegalArgumentException) {
+            // spring assert exception
+            return new ExceptionData(ASSERT_ERROR_CODE, ex.getMessage());
+        }
 
-        return exceptionData;
+        return new ExceptionData(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+    }
+
+    private ExceptionData handleWebException(Exception ex, NativeWebRequest webRequest) {
+        HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+        Throwable exception = getHasInfoException(ex);
+
+        ExceptionInfo exceptionInfo = ((ApplicationException) exception).getInfo();
+        String message;
+        Integer code = exceptionInfo.getCode();
+
+        try {
+            message = resourceBundleHolder.getResourceBundle(request.getLocale()).getString(code.toString());
+            message = PropertyPlaceholderHelper.replace(message, message, exceptionInfo.getArgs());
+        } catch (Exception e) {
+            logger.error("根据异常编码获取异常描述信息发生异常，errorCode：" + code);
+            message = exceptionInfo.getMessage();
+        }
+
+        if (StringUtils.isEmpty(message)) {
+            message = "发生未知的错误！";
+        }
+
+        logger.error(String.format("exception code:[%s],exception message: %s", code, message), ex);
+
+        return new ExceptionData(code, message);
     }
 
     private Throwable getHasInfoException(Throwable throwable) {
