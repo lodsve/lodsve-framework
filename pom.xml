@@ -972,6 +972,18 @@
                             <docencoding>${project.build.sourceEncoding}</docencoding>
                         </configuration>
                     </plugin>
+                    <!-- 在maven仓库中自动close和release的插件 -->
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.5</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>oss-releases</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
             <!-- 发布仓库 -->
