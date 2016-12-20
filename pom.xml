@@ -92,7 +92,7 @@
         <ant.version>1.7.0</ant.version>
         <spring.data.commons.version>1.10.2.RELEASE</spring.data.commons.version>
         <spring.data.redis.version>1.6.2.RELEASE</spring.data.redis.version>
-        <spring.data.mongodb.version>1.10.2.RELEASE</spring.data.mongodb.version>
+        <spring.data.mongodb.version>1.6.4.RELEASE</spring.data.mongodb.version>
         <spring.rabbit.version>1.6.4.RELEASE</spring.rabbit.version>
         <jedis.version>2.7.3</jedis.version>
         <springfox.version>2.4.0</springfox.version>
