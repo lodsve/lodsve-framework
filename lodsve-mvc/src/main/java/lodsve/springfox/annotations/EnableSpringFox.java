@@ -1,13 +1,10 @@
 package lodsve.springfox.annotations;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import lodsve.springfox.config.SpringFoxConfiguration;
 import org.springframework.context.annotation.Import;
 import springfox.documentation.spring.web.paths.RelativePathProvider;
+
+import java.lang.annotation.*;
 
 /**
  * 启用lodsve-mvc中得spring fox.
@@ -23,7 +20,7 @@ public @interface EnableSpringFox {
     /**
      * url路径前缀
      *
-     * @return
+     * @return 前缀
      */
     String prefix() default RelativePathProvider.ROOT;
 }

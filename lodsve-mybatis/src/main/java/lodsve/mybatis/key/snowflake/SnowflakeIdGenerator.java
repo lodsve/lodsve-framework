@@ -21,7 +21,7 @@ public class SnowflakeIdGenerator implements IDGenerator {
     private long lastTimestamp = -1L;
 
     @Override
-    public Long nextId(String sequenceName) {
+    public synchronized Long nextId(String sequenceName) {
         long timestamp = this.timeGen();
 
         if (this.lastTimestamp == timestamp) {
