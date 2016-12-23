@@ -3,6 +3,7 @@ package lodsve.springfox.annotations;
 import lodsve.springfox.config.SpringFoxConfiguration;
 import org.springframework.context.annotation.Import;
 import springfox.documentation.spring.web.paths.RelativePathProvider;
+import springfox.documentation.spring.web.plugins.Docket;
 
 import java.lang.annotation.*;
 
@@ -23,4 +24,11 @@ public @interface EnableSpringFox {
      * @return 前缀
      */
     String prefix() default RelativePathProvider.ROOT;
+
+    /**
+     * 设置分组
+     *
+     * @return 分组
+     */
+    String[] groups() default Docket.DEFAULT_GROUP_NAME;
 }
