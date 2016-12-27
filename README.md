@@ -36,6 +36,9 @@ My development tools, it encapsulates some open source projects, and better faci
         <type>pom</type>
         <scope>import</scope>
     </dependency>
+    
+## Documentation
+See the current [reference docs][].
 
 ## Check out sources
 `git clone git@github.com:lodsve/lodsve-framework.git`
@@ -67,6 +70,7 @@ The `Lodsve Framework` is released under version 2.0 of the [Apache License][].
 
 [Apache License]: http://www.apache.org/licenses/LICENSE-2.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
-[Blog]: http://sunhao.lodsve.com
+[Blog]: http://blog.lodsve.com
 [OSChina]: http://my.oschina.net/sunhaojava/blog
 [867885140]: http://wpa.qq.com/msgrd?v=3&uin=867885140&site=qq&menu=yes
+[reference docs]: http://www.lodsve.com/
