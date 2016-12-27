@@ -1,6 +1,8 @@
 package lodsve.transaction.config;
 
+import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
+import lodsve.transaction.utils.PingppProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,5 +21,6 @@ import org.springframework.context.annotation.Configuration;
         migration = "db/transaction"
 )
 @ComponentScan(basePackages = {"lodsve.transaction.action", "lodsve.transaction.channel", "lodsve.transaction.repository"})
+@EnableConfigurationProperties(PingppProperties.class)
 public class TransactionConfig {
 }

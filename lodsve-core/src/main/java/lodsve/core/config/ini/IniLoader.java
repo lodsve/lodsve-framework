@@ -1,6 +1,6 @@
 package lodsve.core.config.ini;
 
-import lodsve.core.config.core.InitializeConfigurationPath;
+import lodsve.core.config.core.ParamsHomeListener;
 import lodsve.core.utils.FileUtils;
 import lodsve.core.utils.StringUtils;
 import org.springframework.core.io.Resource;
@@ -47,16 +47,16 @@ public class IniLoader {
 
         String section = "";
         List<String> lineArrays = new ArrayList<>();
-        for(String line : lines){
-            if(isBlankLine(line)) {
+        for (String line : lines) {
+            if (isBlankLine(line)) {
                 continue;
             }
 
-            if(isCommentLine(line)) {
+            if (isCommentLine(line)) {
                 continue;
             }
 
-            if(isSectionLine(line)) {
+            if (isSectionLine(line)) {
                 putInValues(values, section, convertLinesToProperties(StringUtils.join(lineArrays, "\r\n")));
                 lineArrays.clear();
 
@@ -115,9 +115,9 @@ public class IniLoader {
      * @param lines 多行，以回车换行隔开(\r\n)
      * @return
      */
-    private static Properties convertLinesToProperties(String lines){
+    private static Properties convertLinesToProperties(String lines) {
         Properties prop = new Properties();
-        if(StringUtils.isEmpty(lines)) {
+        if (StringUtils.isEmpty(lines)) {
             return prop;
         }
 
@@ -131,18 +131,18 @@ public class IniLoader {
         return prop;
     }
 
-    private static void putInValues(Map<String, Map<String, String>> values, String section, Properties prop){
-        if(StringUtils.isEmpty(section)) {
+    private static void putInValues(Map<String, Map<String, String>> values, String section, Properties prop) {
+        if (StringUtils.isEmpty(section)) {
             return;
         }
 
         Map<String, String> sectionValues = values.get(section);
 
-        if(sectionValues == null)
+        if (sectionValues == null)
             sectionValues = new HashMap<>();
 
         Set<?> keys = prop.keySet();
-        for(Object key : keys){
+        for (Object key : keys) {
             sectionValues.put(key.toString(), prop.getProperty(key.toString()));
         }
 
@@ -151,7 +151,7 @@ public class IniLoader {
 
     public static void init() throws Exception {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resolver.getResources("file:" + InitializeConfigurationPath.getParamsRoot() + "/*.ini");
+        Resource[] resources = resolver.getResources("file:" + ParamsHomeListener.getParamsRoot() + "/*.ini");
 
         for (Resource res : resources) {
             load(values, res);

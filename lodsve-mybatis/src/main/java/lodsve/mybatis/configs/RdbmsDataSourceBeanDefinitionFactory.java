@@ -1,17 +1,18 @@
 package lodsve.mybatis.configs;
 
-import java.beans.PropertyDescriptor;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import lodsve.core.config.autoconfigure.AutoConfigurationCreator;
-import lodsve.core.config.annotations.ConfigurationProperties;
+import lodsve.core.autoconfigure.AutoConfigurationCreator;
+import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+
+import java.beans.PropertyDescriptor;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * 关系型数据库数据源.

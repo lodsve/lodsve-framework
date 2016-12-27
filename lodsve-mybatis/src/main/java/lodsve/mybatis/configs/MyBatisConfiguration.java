@@ -1,5 +1,6 @@
 package lodsve.mybatis.configs;
 
+import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.mybatis.type.TypeHandlerScanner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan("lodsve.mybatis.key")
+@EnableConfigurationProperties(RdbmsProperties.class)
 public class MyBatisConfiguration {
     @Bean
     public TypeHandlerScanner typeHandlerScanner() {

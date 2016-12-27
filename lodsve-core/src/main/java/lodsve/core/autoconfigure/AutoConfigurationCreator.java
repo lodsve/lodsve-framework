@@ -1,8 +1,8 @@
-package lodsve.core.config.autoconfigure;
+package lodsve.core.autoconfigure;
 
 import lodsve.core.config.SystemConfig;
-import lodsve.core.config.annotations.ConfigurationProperties;
-import lodsve.core.config.annotations.Required;
+import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.autoconfigure.annotations.Required;
 import lodsve.core.config.properties.Configuration;
 import lodsve.core.config.properties.ConfigurationLoader;
 import lodsve.core.config.properties.PropertiesConfiguration;
@@ -19,6 +19,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.util.Assert;
 
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
@@ -45,7 +46,7 @@ public class AutoConfigurationCreator {
     }
 
     private <T> T generateObject(String prefix, Class<T> clazz, Configuration configuration) throws Exception {
-        Object object = BeanUtils.instantiate(clazz);
+        T object = BeanUtils.instantiate(clazz);
         BeanWrapper beanWrapper = new BeanWrapperImpl(object);
 
         PropertyDescriptor[] descriptors = beanWrapper.getPropertyDescriptors();
@@ -61,13 +62,10 @@ public class AutoConfigurationCreator {
             Required required = typeDescriptor.getAnnotation(Required.class);
 
             String key = prefix + "." + name;
-            Object value;
-            if (isSimpleType(type)) {
-                value = getValueForSimpleType(key, type, configuration);
-            } else if (Map.class.equals(type)) {
-                value = getValueForMap(key, method, configuration);
-            } else {
-                value = generateObject(key, type, configuration);
+            Object value = getValue(type, key, method, configuration);
+
+            if (value == null) {
+                value = getValue(type, prefix + "." + getCamelName(name), method, configuration);
             }
 
             if (value != null) {
@@ -77,7 +75,21 @@ public class AutoConfigurationCreator {
             }
         }
 
-        return (T) object;
+        return object;
+    }
+
+    private Object getValue(Class<?> type, String key, Method method, Configuration configuration) throws Exception {
+        Object value;
+
+        if (isSimpleType(type)) {
+            value = getValueForSimpleType(key, type, configuration);
+        } else if (Map.class.equals(type)) {
+            value = getValueForMap(key, method, configuration);
+        } else {
+            value = generateObject(key, type, configuration);
+        }
+
+        return value;
     }
 
     private Configuration loadProp(String... configLocations) throws Exception {
@@ -141,6 +153,26 @@ public class AutoConfigurationCreator {
         }
 
         return map;
+    }
+
+    private String getCamelName(String name) {
+        Assert.hasText(name);
+
+        StringBuilder result = new StringBuilder();
+        if (name != null && name.length() > 0) {
+            for (int i = 0; i < name.length(); i++) {
+                String tmp = name.substring(i, i + 1);
+                //判断截获的字符是否是大写，大写字母的toUpperCase()还是大写的
+                if (tmp.equals(tmp.toUpperCase())) {
+                    //此字符是大写的
+                    result.append("_").append(tmp.toLowerCase());
+                } else {
+                    result.append(tmp);
+                }
+            }
+        }
+
+        return result.toString();
     }
 
     public static class Builder<T> {
