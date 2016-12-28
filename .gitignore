@@ -7,3 +7,5 @@ target
 *.classes
 *.jar
 *.war
+*.log
+dependency-reduced-pom.xml
