@@ -174,11 +174,11 @@ public class DefaultResourceBundleMessageSource extends AbstractMessageSource im
             String msg = getStringOrNull(bundle, code);
             if (msg != null) {
                 if (codeMap == null) {
-                    codeMap = new HashMap<String, Map<Locale, MessageFormat>>();
+                    codeMap = new HashMap<>();
                     this.cachedBundleMessageFormats.put(bundle, codeMap);
                 }
                 if (localeMap == null) {
-                    localeMap = new HashMap<Locale, MessageFormat>();
+                    localeMap = new HashMap<>();
                     codeMap.put(code, localeMap);
                 }
                 MessageFormat result = createMessageFormat(msg, locale);

@@ -1,5 +1,6 @@
 package lodsve.springfox.annotations;
 
+import lodsve.springfox.config.SpringFoxDocket;
 import lodsve.springfox.paths.SpringFoxPathProvider;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -16,6 +17,7 @@ import org.springframework.util.Assert;
  */
 public class SpringFoxRegistrar implements ImportBeanDefinitionRegistrar {
     private static final String PREFIX_ATTRIBUTE_NAME = "prefix";
+    private static final String GROUPS_ATTRIBUTE_NAME = "groups";
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
@@ -28,5 +30,13 @@ public class SpringFoxRegistrar implements ImportBeanDefinitionRegistrar {
         builder.addPropertyValue("prefix", prefix);
 
         registry.registerBeanDefinition(SpringFoxPathProvider.class.getName(), builder.getBeanDefinition());
+
+        String[] groups = attributes.getStringArray(GROUPS_ATTRIBUTE_NAME);
+        for (String group : groups) {
+            BeanDefinitionBuilder docket = BeanDefinitionBuilder.genericBeanDefinition(SpringFoxDocket.class);
+            docket.addConstructorArgValue(group);
+
+            registry.registerBeanDefinition(group + "Docket", docket.getBeanDefinition());
+        }
     }
 }

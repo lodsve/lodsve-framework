@@ -1,6 +1,7 @@
 package lodsve.amqp.configs;
 
 import lodsve.amqp.core.LodsveJackson2JsonMessageConverter;
+import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -21,6 +22,7 @@ import org.springframework.retry.support.RetryTemplate;
  */
 @Configuration
 @ComponentScan(basePackages = {"lodsve.amqp"})
+@EnableConfigurationProperties(RabbitProperties.class)
 public class RabbitConfiguration {
     @Autowired
     private RabbitProperties rabbitProperties;

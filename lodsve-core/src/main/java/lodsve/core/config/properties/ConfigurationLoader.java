@@ -1,6 +1,6 @@
 package lodsve.core.config.properties;
 
-import lodsve.core.config.core.InitializeConfigurationPath;
+import lodsve.core.config.core.ParamsHomeListener;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -53,23 +53,23 @@ public class ConfigurationLoader {
     public static Resource getFileConfig(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
-        return loader.getResource("file:" + InitializeConfigurationPath.getParamsRoot() + File.separator + "files" + File.separator + fileName);
+        return loader.getResource("file:" + ParamsHomeListener.getParamsRoot() + File.separator + "files" + File.separator + fileName);
     }
 
     public static Resource getFrameworkConfig(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
-        return loader.getResource("file:" + InitializeConfigurationPath.getParamsRoot() + File.separator + "framework" + File.separator + fileName);
+        return loader.getResource("file:" + ParamsHomeListener.getParamsRoot() + File.separator + "framework" + File.separator + fileName);
     }
 
     public static void init() throws Exception {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         List<Resource> resources = new ArrayList<>();
 
-        resources.addAll(Arrays.asList(resolver.getResources("file:" + InitializeConfigurationPath.getParamsRoot() + "/*.properties")));
-        resources.addAll(Arrays.asList(resolver.getResources("file:" + InitializeConfigurationPath.getParamsRoot() + "/framework/*.properties")));
+        resources.addAll(Arrays.asList(resolver.getResources("file:" + ParamsHomeListener.getParamsRoot() + "/*.properties")));
+        resources.addAll(Arrays.asList(resolver.getResources("file:" + ParamsHomeListener.getParamsRoot() + "/framework/*.properties")));
 
         loadProperties(prop, resources);
-        prop.put("params.root", InitializeConfigurationPath.getParamsRoot());
+        prop.put("params.root", ParamsHomeListener.getParamsRoot());
     }
 }

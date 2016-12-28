@@ -1,22 +1,18 @@
-package lodsve.core.config.autoconfigure;
+package lodsve.core.autoconfigure;
 
-import lodsve.core.config.annotations.ConfigurationProperties;
+import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Component;
 
 /**
- * .
+ * 在properties bean初始化前设置配置文件中的值.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/1/9 下午5:41
  */
-@Component
-@DependsOn({"messageSourceLoader"})
 public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProcessor {
     private static final Logger logger = LoggerFactory.getLogger(ConfigurationPropertiesBindingPostProcessor.class);
 

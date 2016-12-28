@@ -5,22 +5,24 @@ import lodsve.core.config.ini.IniLoader;
 import lodsve.core.config.properties.ConfigurationLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * .
+ * 非web应用时加载配置.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/5/5 下午2:53
  */
 @Component
 @ConditionalOnNotWebApplication
-public class WebApplicationLoader implements InitializingBean {
-    private static final Logger logger = LoggerFactory.getLogger(WebApplicationLoader.class);
+public class NotWebApplicationLoader implements BeanFactoryPostProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(NotWebApplicationLoader.class);
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         try {
             ConfigurationLoader.init();
             IniLoader.init();

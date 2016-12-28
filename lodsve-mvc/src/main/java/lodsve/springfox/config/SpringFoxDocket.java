@@ -1,18 +1,24 @@
 package lodsve.springfox.config;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
 import lodsve.core.utils.StringUtils;
 import lodsve.properties.ServerProperties;
 import lodsve.properties.SpringFoxProperties;
 import lodsve.springfox.paths.SpringFoxPathProvider;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import springfox.documentation.RequestHandler;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.ApiSelector;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.Field;
+import java.util.regex.Pattern;
 
 /**
  * 利用插件配置swagger的一些信息.
@@ -20,7 +26,6 @@ import javax.annotation.PostConstruct;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/3/24 上午9:30
  */
-@Component
 public class SpringFoxDocket extends Docket {
     @Autowired
     private SpringFoxPathProvider pathProvider;
@@ -29,17 +34,44 @@ public class SpringFoxDocket extends Docket {
     @Autowired
     private ServerProperties serverProperties;
 
-    public SpringFoxDocket() {
+    private String groupName;
+
+    public SpringFoxDocket(String groupName) {
         super(DocumentationType.SWAGGER_2);
+        this.groupName = groupName;
     }
 
     @PostConstruct
-    public void init() {
+    public void init() throws NoSuchFieldException, IllegalAccessException {
         apiInfo(apiInfo(properties));
         forCodeGeneration(true);
-        groupName(DEFAULT_GROUP_NAME);
+        groupName(groupName);
         pathProvider(pathProvider);
         host(getHost());
+
+        if (StringUtils.equals(DEFAULT_GROUP_NAME, groupName)) {
+            return;
+        }
+
+        // 设置apiSelector
+        Field apiSelector = this.getClass().getSuperclass().getDeclaredField("apiSelector");
+        apiSelector.setAccessible(true);
+        Predicate<String> pathSelector = ApiSelector.DEFAULT.getPathSelector();
+        pathSelector = Predicates.and(pathSelector, includePath());
+        apiSelector.set(this, new ApiSelector(combine(ApiSelector.DEFAULT.getRequestHandlerSelector(), pathSelector), pathSelector));
+    }
+
+    private Predicate<RequestHandler> combine(Predicate<RequestHandler> requestHandlerSelector, Predicate<String> pathSelector) {
+        return Predicates.and(requestHandlerSelector, transform(pathSelector));
+    }
+
+    private Predicate<RequestHandler> transform(final Predicate<String> pathSelector) {
+        return new Predicate<RequestHandler>() {
+            @Override
+            public boolean apply(RequestHandler input) {
+                return Iterables.any(input.getRequestMapping().getPatternsCondition().getPatterns(), pathSelector);
+            }
+        };
     }
 
     private ApiInfo apiInfo(SpringFoxProperties properties) {
@@ -74,5 +106,14 @@ public class SpringFoxDocket extends Docket {
         }
 
         return hostAndPath[0];
+    }
+
+    private Predicate<String> includePath() {
+        return new Predicate<String>() {
+            @Override
+            public boolean apply(String input) {
+                return Pattern.compile(String.format("/%s/.*", groupName)).matcher(input).matches();
+            }
+        };
     }
 }

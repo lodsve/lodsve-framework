@@ -1,6 +1,6 @@
 package lodsve.properties;
 
-import lodsve.core.config.annotations.ConfigurationProperties;
+import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 
 /**
  * 系统配置.

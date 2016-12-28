@@ -1,13 +1,6 @@
-package lodsve.core.config.annotations;
+package lodsve.core.autoconfigure.annotations;
 
-import org.springframework.stereotype.Component;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 配置.
@@ -19,7 +12,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Component
 public @interface ConfigurationProperties {
     /**
      * The name prefix of the properties that are valid to bind to this object.

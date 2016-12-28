@@ -64,7 +64,7 @@ public class MySQLIDGenerator implements IDGenerator {
     }
 
     @Override
-    public Long nextId(String sequenceName) {
+    public synchronized Long nextId(String sequenceName) {
         Assert.hasText(sequenceName);
 
         // 缓存中的

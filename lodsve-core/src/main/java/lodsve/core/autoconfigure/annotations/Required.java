@@ -1,4 +1,4 @@
-package lodsve.core.config.annotations;
+package lodsve.core.autoconfigure.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

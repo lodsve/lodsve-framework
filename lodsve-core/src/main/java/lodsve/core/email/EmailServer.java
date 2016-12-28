@@ -1,32 +1,19 @@
 package lodsve.core.email;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
-import javax.mail.Address;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
 import lodsve.core.utils.StringUtils;
 import lodsve.core.utils.ValidateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.*;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 /**
  * 发送邮件服务器.
@@ -42,7 +29,7 @@ public class EmailServer {
      * 邮箱服务器配置*
      */
     @Autowired
-    private EmailConfig emailConfig;
+    private EmailProperties emailProperties;
 
     /**
      * 发送普通邮件(单个接收人)
@@ -251,7 +238,7 @@ public class EmailServer {
     private EmailBean getEmailBean(String email) {
         String mailServiceDomainName = this.getMailServiceDomainName(email);
 
-        return emailConfig.getBeans().get(mailServiceDomainName);
+        return emailProperties.getBeans().get(mailServiceDomainName);
     }
 
     /**

@@ -1,5 +1,7 @@
 package lodsve.mvc.config;
 
+import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.properties.ServerProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,5 +13,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan(basePackages = {"lodsve.mvc"})
+@EnableConfigurationProperties(ServerProperties.class)
 public class WebMvcConfiguration {
 }

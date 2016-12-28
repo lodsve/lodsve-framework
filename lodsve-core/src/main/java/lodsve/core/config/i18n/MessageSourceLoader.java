@@ -1,6 +1,6 @@
 package lodsve.core.config.i18n;
 
-import lodsve.core.config.core.InitializeConfigurationPath;
+import lodsve.core.config.core.ParamsHomeListener;
 import lodsve.core.utils.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,14 +39,12 @@ public class MessageSourceLoader implements InitializingBean {
     }
 
     private Resource[] getResources() throws IOException {
-        String paramsRoot = InitializeConfigurationPath.getParamsRoot();
-
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] propertiesResources = resolver.getResources("file:" + paramsRoot + "/i18n/**/*.properties");
-        Resource[] htmlResources = resolver.getResources("file:" + paramsRoot + "/i18n/**/*.html");
-        Resource[] txtResources = resolver.getResources("file:" + paramsRoot + "/i18n/**/*.txt");
+        Resource[] propertiesResources = resolver.getResources("file:" + ParamsHomeListener.getParamsRoot() + "/i18n/**/*.properties");
+        Resource[] htmlResources = resolver.getResources("file:" + ParamsHomeListener.getParamsRoot() + "/i18n/**/*.html");
+        Resource[] txtResources = resolver.getResources("file:" + ParamsHomeListener.getParamsRoot() + "/i18n/**/*.txt");
 
-        List<Resource> resources = new ArrayList<Resource>();
+        List<Resource> resources = new ArrayList<>();
         resources.addAll(Arrays.asList(propertiesResources));
         resources.addAll(Arrays.asList(htmlResources));
         resources.addAll(Arrays.asList(txtResources));

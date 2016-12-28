@@ -14,6 +14,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class SpringFoxWebConfigurerAdapter extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/META-INF/resources/").setCachePeriod(31556926);
+        if (!registry.hasMappingForPattern("/webjars/springfox-swagger-ui/**")) {
+            registry.addResourceHandler("/webjars/springfox-swagger-ui/**").addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/").setCachePeriod(31556926);
+        }
+        if (!registry.hasMappingForPattern("/swagger-ui.html")) {
+            registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/swagger-ui.html").setCachePeriod(31556926);
+        }
     }
 }
