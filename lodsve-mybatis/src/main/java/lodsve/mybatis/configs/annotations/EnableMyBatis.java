@@ -1,8 +1,6 @@
 package lodsve.mybatis.configs.annotations;
 
 import lodsve.mybatis.configs.MyBatisConfigurationSelector;
-import lodsve.mybatis.pagination.PaginationInterceptor;
-import org.apache.ibatis.plugin.Interceptor;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -64,7 +62,7 @@ public @interface EnableMyBatis {
     /**
      * 加载插件
      *
-     * @return
+     * @return 插件
      */
-    Class<? extends Interceptor>[] plugins() default {PaginationInterceptor.class};
+    Plugin[] plugins();
 }

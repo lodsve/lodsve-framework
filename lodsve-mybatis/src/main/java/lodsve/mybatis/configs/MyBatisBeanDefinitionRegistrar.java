@@ -4,6 +4,7 @@ import com.p6spy.engine.spy.P6DataSource;
 import lodsve.core.config.ProfileConfig;
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
+import lodsve.mybatis.pagination.PaginationInterceptor;
 import lodsve.mybatis.type.TypeHandlerScanner;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.ibatis.plugin.Interceptor;
@@ -11,6 +12,8 @@ import org.flywaydb.core.Flyway;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -21,6 +24,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -63,8 +68,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         if (useFlyway) {
             beanDefinitions.putAll(findFlyWayBeanDefinitions(migration));
         }
-
-        beanDefinitions.putAll(findMyBatisBeanDefinitions(useFlyway, basePackages, enumsLocations, attributes.getClassArray(PLUGINS_ATTRIBUTE_NAME)));
+        beanDefinitions.putAll(findMyBatisBeanDefinitions(useFlyway, basePackages, enumsLocations, attributes.getAnnotationArray(PLUGINS_ATTRIBUTE_NAME)));
 
         registerBeanDefinitions(beanDefinitions, registry);
     }
@@ -99,7 +103,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         return beanDefinitions;
     }
 
-    private Map<String, BeanDefinition> findMyBatisBeanDefinitions(boolean useFlyway, String[] basePackages, String[] enumsLocations, Class<?>[] pluginClasses) {
+    private Map<String, BeanDefinition> findMyBatisBeanDefinitions(boolean useFlyway, String[] basePackages, String[] enumsLocations, AnnotationAttributes[] plugins) {
         Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
 
         BeanDefinitionBuilder sqlSessionFactoryBean = BeanDefinitionBuilder.genericBeanDefinition(SqlSessionFactoryBean.class);
@@ -111,15 +115,36 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         sqlSessionFactoryBean.addPropertyValue("configLocation", "classpath:/META-INF/mybatis/mybatis.xml");
         TypeHandlerScanner scanner = new TypeHandlerScanner();
         sqlSessionFactoryBean.addPropertyValue("typeHandlers", scanner.find(StringUtils.join(enumsLocations, ",")));
-        List<Interceptor> plugins = new ArrayList<>(pluginClasses.length);
-        for (Class<?> clazz : pluginClasses) {
-            if (!(Interceptor.class.isAssignableFrom(clazz))) {
-                continue;
+        List<Interceptor> plugins_ = new ArrayList<>(plugins.length);
+        List<Class<? extends Interceptor>> clazz = new ArrayList<>(plugins.length);
+        for (AnnotationAttributes plugin : plugins) {
+            Class<? extends Interceptor> pluginClass = plugin.getClass("value");
+            AnnotationAttributes[] params = plugin.getAnnotationArray("params");
+
+            clazz.add(pluginClass);
+            Interceptor interceptor = BeanUtils.instantiate(pluginClass);
+            BeanWrapper beanWrapper = new BeanWrapperImpl(interceptor);
+            for (AnnotationAttributes param : params) {
+                String key = param.getString("key");
+                String value = param.getString("value");
+
+                PropertyDescriptor descriptor = beanWrapper.getPropertyDescriptor(key);
+                Method method = descriptor.getWriteMethod();
+                method.setAccessible(true);
+                try {
+                    method.invoke(interceptor, value);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
-            plugins.add((Interceptor) BeanUtils.instantiate(clazz));
+            plugins_.add(interceptor);
         }
-        sqlSessionFactoryBean.addPropertyValue("plugins", plugins);
+        if (!clazz.contains(PaginationInterceptor.class)) {
+            plugins_.add(BeanUtils.instantiate(PaginationInterceptor.class));
+        }
+
+        sqlSessionFactoryBean.addPropertyValue("plugins", plugins_);
 
         BeanDefinitionBuilder scannerConfigurerBean = BeanDefinitionBuilder.genericBeanDefinition(MapperScannerConfigurer.class);
         scannerConfigurerBean.addPropertyValue("basePackage", StringUtils.join(basePackages, ","));
