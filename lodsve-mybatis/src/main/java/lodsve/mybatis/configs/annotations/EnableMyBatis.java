@@ -64,5 +64,5 @@ public @interface EnableMyBatis {
      *
      * @return 插件
      */
-    Plugin[] plugins();
+    Plugin[] plugins() default {@Plugin};
 }
