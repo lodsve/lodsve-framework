@@ -97,7 +97,7 @@
         <swagger.annotations.version>1.5.8</swagger.annotations.version>
         <mapstruct.version>1.0.0.Final</mapstruct.version>
         <aspectjweaver.version>1.6.8</aspectjweaver.version>
-        <jxl.version>2.6.3</jxl.version>
+        <jxl.version>2.6.12</jxl.version>
         <poi.version>20040302</poi.version>
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.6</slf4j.version>
