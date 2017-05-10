@@ -1,6 +1,7 @@
 package lodsve.mvc.config;
 
 import lodsve.core.appllication.ApplicationProperties;
+import lodsve.mvc.context.WebContextInterceptor;
 import lodsve.mvc.convert.CustomMappingJackson2HttpMessageConverter;
 import lodsve.mvc.convert.CustomObjectMapper;
 import lodsve.mvc.convert.EnumCodeConverterFactory;
@@ -16,10 +17,7 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.CorsRegistration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.List;
 
@@ -85,5 +83,10 @@ public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
         } else {
             corsRegistration.allowedOrigins(serverProperties.getFrontEndUrl(), serverProperties.getServerUrl());
         }
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new WebContextInterceptor());
     }
 }

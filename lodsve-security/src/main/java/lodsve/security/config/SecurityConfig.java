@@ -4,6 +4,7 @@ import lodsve.security.annotation.resolver.CurrentAccountResolver;
 import lodsve.security.core.AuthzInterceptor;
 import lodsve.security.core.LoginInterceptor;
 import lodsve.security.service.Authz;
+import lodsve.security.service.DefaultAuthzAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,11 +23,15 @@ import java.util.List;
 @Configuration
 @ComponentScan(basePackages = "lodsve.security")
 public class SecurityConfig extends WebMvcConfigurerAdapter {
-    @Autowired
+    @Autowired(required = false)
     private Authz authz;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        if (authz == null) {
+            authz = new DefaultAuthzAdapter();
+        }
+
         // 先执行 是否登录的拦截器
         registry.addInterceptor(new LoginInterceptor(authz));
         // 后执行 是否有权限的拦截器

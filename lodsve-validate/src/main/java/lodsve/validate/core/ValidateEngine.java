@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
@@ -35,14 +36,14 @@ import java.util.*;
 public class ValidateEngine implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(ValidateEngine.class);
 
+    //异常处理类,默认使用DefaultExceptionHandler
+    @Autowired(required = false)
+    private ExceptionHandler exceptionHandler;
+
     //是否开启验证引擎?默认是开启
     private boolean openValidate = ProfileConfig.getProfile("validator");
-    //放置验证注解和其对应的处理类
-    private List<BeanHandler> beanHandlers;
     //key-value(注解名称-beanHandler)
     private Map<String, BeanHandler> beanHandlerMap;
-    //异常处理类,默认使用DefaultExceptionHandler
-    private ExceptionHandler exceptionHandler = new DefaultExceptionHandler();
     //注解的集合(集合的名称)
     private List<String> annotations;
 
@@ -59,6 +60,22 @@ public class ValidateEngine implements InitializingBean {
     private static final String HANDLER_CLASS_SUFFIX = "Handler";
 
     /******************************************************验证引擎初始化--开始***********************************************************/
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (!this.openValidate) {
+            logger.debug("this web project is not open validate engine!");
+            return;
+        }
+
+        this.exceptionHandler = this.exceptionHandler == null ? new DefaultExceptionHandler() : this.exceptionHandler;
+
+        beanHandlerMap = new HashMap<>();
+        validateFields = new HashMap<>();
+        annotations = new ArrayList<>();
+
+        initValidateEngine();
+    }
 
     /**
      * 初始化验证引擎
@@ -104,29 +121,12 @@ public class ValidateEngine implements InitializingBean {
         }
 
         BeanHandler beanHandler = new BeanHandler(annotation.getSimpleName(), annotation, (ValidateHandler) BeanUtils.instantiate(handler));
-        beanHandlers.add(beanHandler);
 
         // 将beanHandlers中的注解-处理类放入beanHandlerMap中(并将注解中文名放入内存中-annotations)
         this.beanHandlerMap.put(annotation.getSimpleName(), beanHandler);
         // 将所有的注解放入内存中
         this.annotations.add(annotation.getSimpleName());
     }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        if (!this.openValidate) {
-            logger.debug("this web project is not open validate engine!");
-            return;
-        }
-
-        beanHandlers = new ArrayList<>();
-        beanHandlerMap = new HashMap<>();
-        validateFields = new HashMap<>();
-        annotations = new ArrayList<>();
-
-        initValidateEngine();
-    }
-
     /******************************************************验证引擎初始化--结束**************************************************************/
     /************************************************************神奇的分隔符***************************************************************/
     /*******************************************************验证引擎开始工作--开始***********************************************************/
@@ -276,20 +276,4 @@ public class ValidateEngine implements InitializingBean {
     /**
      * *************************************************验证引擎开始工作--结束*********************************************************
      */
-
-    public void setBeanHandlers(List<BeanHandler> beanHandlers) {
-        this.beanHandlers = beanHandlers;
-    }
-
-    public void setValidateFields(Map<String, List<Field>> validateFields) {
-        this.validateFields = validateFields;
-    }
-
-    public void setExceptionHandler(ExceptionHandler exceptionHandler) {
-        this.exceptionHandler = exceptionHandler;
-    }
-
-    public void setOpenValidate(boolean openValidate) {
-        this.openValidate = openValidate;
-    }
 }

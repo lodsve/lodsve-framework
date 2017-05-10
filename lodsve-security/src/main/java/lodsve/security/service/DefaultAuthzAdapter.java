@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author sunhao(sunhao.java@gmail.com)
  * @version 1.0 2016/11/19 上午11:06
  */
-public class AuthzAdapter implements Authz {
+public class DefaultAuthzAdapter implements Authz {
     @Override
     public boolean isLogin(HttpServletRequest request) {
         return false;
