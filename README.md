@@ -22,7 +22,6 @@ My development tools, it encapsulates some open source projects, and better faci
     - lodsve-search
     - lodsve-security
     - lodsve-test
-    - lodsve-transaction
     - lodsve-validate
     - lodsve-wechat
     - lodsve-workflow

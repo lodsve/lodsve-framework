@@ -37,8 +37,6 @@
         <module>lodsve-security</module>
         <!-- 单元测试 -->
         <module>lodsve-test</module>
-        <!-- 支付相关 -->
-        <module>lodsve-transaction</module>
         <!-- validate -->
         <module>lodsve-validate</module>
         <!-- wechat -->
@@ -814,14 +812,6 @@
                 <version>${p6spy.version}</version>
             </dependency>
             <!-- p6spy end -->
-
-            <!-- pay start -->
-            <dependency>
-                <groupId>Pingplusplus</groupId>
-                <artifactId>pingpp-java</artifactId>
-                <version>${pingpp.java.version}</version>
-            </dependency>
-            <!-- pay end -->
 
             <!-- dubbo start -->
             <dependency>
