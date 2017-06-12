@@ -1,6 +1,6 @@
 package lodsve.mybatis.configs.annotations;
 
-import lodsve.mybatis.pagination.PaginationInterceptor;
+import lodsve.mybatis.plugins.pagination.PaginationInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 
 import java.lang.annotation.*;

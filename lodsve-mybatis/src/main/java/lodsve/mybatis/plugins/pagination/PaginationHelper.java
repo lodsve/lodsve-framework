@@ -1,4 +1,4 @@
-package lodsve.mybatis.pagination;
+package lodsve.mybatis.plugins.pagination;
 
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.dialect.Dialect;

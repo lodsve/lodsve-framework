@@ -1,4 +1,4 @@
-package lodsve.mybatis.pagination;
+package lodsve.mybatis.plugins.pagination;
 
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;

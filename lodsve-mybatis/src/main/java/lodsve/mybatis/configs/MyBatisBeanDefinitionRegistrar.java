@@ -4,7 +4,7 @@ import com.p6spy.engine.spy.P6DataSource;
 import lodsve.core.config.ProfileConfig;
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
-import lodsve.mybatis.pagination.PaginationInterceptor;
+import lodsve.mybatis.plugins.pagination.PaginationInterceptor;
 import lodsve.mybatis.type.TypeHandlerScanner;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.ibatis.plugin.Interceptor;
@@ -129,10 +129,23 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
                 String value = param.getString("value");
 
                 PropertyDescriptor descriptor = beanWrapper.getPropertyDescriptor(key);
-                Method method = descriptor.getWriteMethod();
-                method.setAccessible(true);
+                Method writeMethod = descriptor.getWriteMethod();
+                Method readMethod = descriptor.getReadMethod();
+                writeMethod.setAccessible(true);
                 try {
-                    method.invoke(interceptor, value);
+                    Class<?> returnType = readMethod.getReturnType();
+                    Object value_ = value;
+                    if (Integer.class.equals(returnType) || int.class.equals(returnType)) {
+                        value_ = Integer.valueOf(value);
+                    } else if (Long.class.equals(returnType) || long.class.equals(returnType)) {
+                        value_ = Long.valueOf(value);
+                    } else if (Boolean.class.equals(returnType) || boolean.class.equals(returnType)) {
+                        value_ = Boolean.valueOf(value);
+                    } else if (Double.class.equals(returnType) || double.class.equals(returnType)) {
+                        value_ = Double.valueOf(value);
+                    }
+
+                    writeMethod.invoke(interceptor, value_);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
