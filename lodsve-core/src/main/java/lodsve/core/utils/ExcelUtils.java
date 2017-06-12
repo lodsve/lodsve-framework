@@ -102,7 +102,7 @@ public class ExcelUtils {
 
         List<T> result = new ArrayList<T>(data.size());
         for(Map<String, String> d : data) {
-            if(checkExcel != null && !checkExcel.check(d)) {
+            if(!checkExcel.check(d)) {
                 continue;
             }
             T entity = clazz.newInstance();
