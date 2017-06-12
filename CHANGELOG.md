@@ -1,5 +1,15 @@
 # 更新日志
 
+V2.5.8
+1. 修改readme中的博客地址
+2. 修改依赖的版本号
+3. 运行main方法支持spring
+4. 优化springfox的配置，springfox可以配置分组
+5. 增加同步取主键
+6. 重构配置文件加载
+7. 重构autoconfigure，使@ConfigurationProperties可以在@Configuration配置文件中通过@Autowired使用
+8. 修改license
+
 ## V2.5.7
 1. 将配置文件的模板集成到框架中，目录为lodsve-core/resources/config-template
 2. 添加maven发布自动close和release的插件
