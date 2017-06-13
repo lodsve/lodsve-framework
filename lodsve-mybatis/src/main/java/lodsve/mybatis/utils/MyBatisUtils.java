@@ -24,8 +24,14 @@ public final class MyBatisUtils {
     private MyBatisUtils() {
     }
 
-    public static DbType getDbType(Connection connection) throws SQLException {
-        String database = connection.getMetaData().getDatabaseProductName();
+    public static DbType getDbType(DataSource dataSource) {
+        String database;
+        try {
+            Connection connection = dataSource.getConnection();
+            database = connection.getMetaData().getDatabaseProductName();
+        } catch (SQLException e) {
+            throw new MyBatisException("can't find DbType!");
+        }
 
         if (StringUtils.equalsIgnoreCase(database, DbType.DB_MYSQL.getName())) {
             return DbType.DB_MYSQL;

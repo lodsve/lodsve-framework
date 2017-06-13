@@ -4,6 +4,9 @@ import com.p6spy.engine.spy.P6DataSource;
 import lodsve.core.config.ProfileConfig;
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
+import lodsve.mybatis.key.IDGenerator;
+import lodsve.mybatis.key.mysql.MySQLIDGenerator;
+import lodsve.mybatis.key.oracle.OracleIDGenerator;
 import lodsve.mybatis.plugins.pagination.PaginationInterceptor;
 import lodsve.mybatis.type.TypeHandlerScanner;
 import org.apache.commons.lang.ArrayUtils;
@@ -26,7 +29,11 @@ import org.springframework.util.ClassUtils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 动态创建mybatis的配置.
@@ -74,21 +81,37 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
     }
 
     private Map<String, BeanDefinition> generateDataSource(String dataSource) {
+        Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
+        BeanDefinition dsBeanDefinition = new RdbmsDataSourceBeanDefinitionFactory(dataSource).build();
+
+        // 生成IDGenerator
+        String driverClassName = (String) dsBeanDefinition.getPropertyValues().get("driverClassName");
+        Class<? extends IDGenerator> clazz;
+        if (StringUtils.contains(driverClassName, "mysql")) {
+            clazz = MySQLIDGenerator.class;
+        } else if (StringUtils.contains(driverClassName, "oracle")) {
+            clazz = OracleIDGenerator.class;
+        } else {
+            clazz = MySQLIDGenerator.class;
+        }
+
+        BeanDefinitionBuilder idGenerator = BeanDefinitionBuilder.genericBeanDefinition(clazz);
+        idGenerator.addConstructorArgReference(dataSource);
+        beanDefinitions.put(dataSource + "IdGenerator", idGenerator.getBeanDefinition());
+
         boolean p6spy = ProfileConfig.getProfile("p6spy");
         if (p6spy) {
-            Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
-
-            beanDefinitions.put("realDataSource", new RdbmsDataSourceBeanDefinitionFactory(dataSource).build());
+            beanDefinitions.put("realDataSource", dsBeanDefinition);
 
             BeanDefinitionBuilder p6spyDataSource = BeanDefinitionBuilder.genericBeanDefinition(P6DataSource.class);
             p6spyDataSource.addConstructorArgReference("realDataSource");
 
             beanDefinitions.put(dataSource, p6spyDataSource.getBeanDefinition());
-
-            return beanDefinitions;
+        } else {
+            beanDefinitions.put(dataSource, dsBeanDefinition);
         }
 
-        return Collections.singletonMap(dataSource, new RdbmsDataSourceBeanDefinitionFactory(dataSource).build());
+        return beanDefinitions;
     }
 
     private Map<String, BeanDefinition> findFlyWayBeanDefinitions(String migration) {

@@ -21,7 +21,7 @@ import java.sql.Statement;
 import java.util.Properties;
 
 /**
- * .
+ * mybatis性能监控.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version 1.0 2017/6/12 下午8:23
