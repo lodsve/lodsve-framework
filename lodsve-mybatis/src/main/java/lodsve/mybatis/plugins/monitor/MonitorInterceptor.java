@@ -1,8 +1,6 @@
 package lodsve.mybatis.plugins.monitor;
 
 import lodsve.mybatis.exception.MyBatisException;
-import lodsve.mybatis.utils.PluginUtils;
-import lodsve.mybatis.utils.SqlUtils;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.Interceptor;
@@ -77,13 +75,13 @@ public class MonitorInterceptor implements Interceptor {
         long timing = System.currentTimeMillis() - start;
 
         // 格式化 SQL 打印执行结果
-        Object target = PluginUtils.realTarget(invocation.getTarget());
+        Object target = realTarget(invocation.getTarget());
         MetaObject metaObject = SystemMetaObject.forObject(target);
         MappedStatement ms = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
         StringBuilder formatSql = new StringBuilder();
         formatSql.append(" Time：").append(timing);
         formatSql.append(" ms - ID：").append(ms.getId());
-        formatSql.append("\n Execute SQL：").append(SqlUtils.sqlFormat(originalSql, format)).append("\n");
+        formatSql.append("\n Execute SQL：").append(originalSql).append("\n");
         if (writeInLog) {
             if (maxTime >= 1 && timing > maxTime) {
                 logger.error(formatSql.toString());
@@ -97,6 +95,20 @@ public class MonitorInterceptor implements Interceptor {
             }
         }
         return result;
+    }
+
+    /**
+     * 获得真正的处理对象,可能多层代理.
+     *
+     * @param target 处理对象
+     * @return 真正的处理对象
+     */
+    private Object realTarget(Object target) {
+        if (Proxy.isProxyClass(target.getClass())) {
+            MetaObject metaObject = SystemMetaObject.forObject(target);
+            return realTarget(metaObject.getValue("h.target"));
+        }
+        return target;
     }
 
     @Override
