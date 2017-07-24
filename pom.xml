@@ -106,8 +106,8 @@
         <velocity.version>1.7</velocity.version>
         <freemaker.version>2.3.20</freemaker.version>
         <flyway.version>4.0.3</flyway.version>
-        <mybatis.version>3.2.5</mybatis.version>
-        <mybatis.spring.version>1.2.2</mybatis.spring.version>
+        <mybatis.version>3.4.4</mybatis.version>
+        <mybatis.spring.version>1.3.1</mybatis.spring.version>
         <p6spy.version>3.0.0</p6spy.version>
         <pingpp.java.version>2.1.7</pingpp.java.version>
         <dubbo.version>2.5.3</dubbo.version>
