@@ -11,7 +11,7 @@ import java.io.IOException;
 
 /**
  * Jackson反序列化枚举时，将code或者枚举value变成枚举.<br/>
- * {@link CustomObjectMapper#CustomObjectMapper()}
+ * {@link lodsve.mvc.json.CustomObjectMapper#CustomObjectMapper()}
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version 1.0 2016/11/3 下午2:56

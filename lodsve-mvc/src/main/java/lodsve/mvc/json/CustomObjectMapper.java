@@ -1,4 +1,4 @@
-package lodsve.mvc.convert;
+package lodsve.mvc.json;
 
 import com.fasterxml.jackson.core.Base64Variants;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.cfg.BaseSettings;
 import com.fasterxml.jackson.databind.introspect.BasicClassIntrospector;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import lodsve.mvc.convert.EnumDeserializer;
+import lodsve.mvc.convert.EnumSerializer;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;

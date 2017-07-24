@@ -9,7 +9,7 @@ import java.io.IOException;
 
 /**
  * Jackson序列化枚举时，将枚举变成{value: '', name: ''}.<br/>
- * {@link CustomObjectMapper#CustomObjectMapper()}
+ * {@link lodsve.mvc.json.CustomObjectMapper#CustomObjectMapper()}
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/6/24 下午9:31

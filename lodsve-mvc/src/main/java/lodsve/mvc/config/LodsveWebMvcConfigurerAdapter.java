@@ -2,10 +2,9 @@ package lodsve.mvc.config;
 
 import lodsve.core.appllication.ApplicationProperties;
 import lodsve.mvc.context.WebContextInterceptor;
-import lodsve.mvc.convert.CustomMappingJackson2HttpMessageConverter;
-import lodsve.mvc.convert.CustomObjectMapper;
 import lodsve.mvc.convert.EnumCodeConverterFactory;
 import lodsve.mvc.convert.StringDateConvertFactory;
+import lodsve.mvc.json.CustomObjectMapper;
 import lodsve.mvc.resolver.BindDataHandlerMethodArgumentResolver;
 import lodsve.mvc.resolver.ParseDataHandlerMethodArgumentResolver;
 import lodsve.mvc.resolver.WebResourceDataHandlerMethodArgumentResolver;
@@ -15,9 +14,14 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.List;
 
@@ -53,7 +57,7 @@ public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        CustomMappingJackson2HttpMessageConverter converter = new CustomMappingJackson2HttpMessageConverter();
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setObjectMapper(new CustomObjectMapper());
         converters.add(converter);
         converters.add(new ByteArrayHttpMessageConverter());
