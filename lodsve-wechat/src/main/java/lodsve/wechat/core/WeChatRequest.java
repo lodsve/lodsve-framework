@@ -8,14 +8,15 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import java.io.IOException;
-import java.util.Map;
 import lodsve.core.utils.StringUtils;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * 微信请求的封装,包括处理异常.
@@ -25,7 +26,7 @@ import org.springframework.web.client.RestTemplate;
  */
 public final class WeChatRequest {
     private static final Logger logger = LoggerFactory.getLogger(WeChatRequest.class);
-    private static final RestTemplate template = new RestTemplate();
+    private static final RestTemplate TEMPLATE = new RestTemplate();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     static {
@@ -64,7 +65,7 @@ public final class WeChatRequest {
 
         Map<String, Object> result;
         if (url.contains("oauth")) {
-            String returnValue = template.getForObject(url, String.class, params);
+            String returnValue = TEMPLATE.getForObject(url, String.class, params);
 
             try {
                 result = OBJECT_MAPPER.readValue(returnValue, new TypeReference<Map>() {
@@ -73,7 +74,7 @@ public final class WeChatRequest {
                 return null;
             }
         } else {
-            result = template.getForObject(url, Map.class, params);
+            result = TEMPLATE.getForObject(url, Map.class, params);
         }
 
         if (isError(result)) {
@@ -86,7 +87,7 @@ public final class WeChatRequest {
     public static <T> T post(String url, Object object, TypeReference<T> typeReference, Object... params) {
         Assert.hasText(url);
 
-        Map<String, Object> result = template.postForObject(url, object, Map.class, params);
+        Map<String, Object> result = TEMPLATE.postForObject(url, object, Map.class, params);
         if (isError(result)) {
             throw new RuntimeException((String) result.get("errmsg"));
         }
@@ -100,9 +101,9 @@ public final class WeChatRequest {
         }
 
         Object errcode = result.get("errcode");
-        String errcode_ = errcode == null ? StringUtils.EMPTY : errcode.toString();
+        String errcodeStr = errcode == null ? StringUtils.EMPTY : errcode.toString();
 
-        return !("".equals(errcode_) || "0".equals(errcode_));
+        return !("".equals(errcodeStr) || "0".equals(errcodeStr));
 
     }
 

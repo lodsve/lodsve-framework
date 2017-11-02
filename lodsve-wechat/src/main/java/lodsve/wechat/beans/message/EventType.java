@@ -10,18 +10,6 @@ public enum EventType {
     subscribe, unsubscribe, SCAN, LOCATION, CLICK, VIEW;
 
     public static EventType eval(String name) {
-        if ("subscribe".equals(name)) {
-            return subscribe;
-        } else if ("unsubscribe".equals(name)) {
-            return unsubscribe;
-        } else if ("SCAN".equals(name)) {
-            return SCAN;
-        } else if ("LOCATION".equals(name)) {
-            return LOCATION;
-        } else if ("CLICK".equals(name)) {
-            return CLICK;
-        } else {
-            return VIEW;
-        }
+        return EventType.valueOf(name);
     }
 }

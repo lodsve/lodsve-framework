@@ -3,9 +3,6 @@ package lodsve.wechat.api.base;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import lodsve.core.utils.EncryptUtils;
 import lodsve.core.utils.RandomUtils;
 import lodsve.core.utils.StringUtils;
@@ -17,6 +14,10 @@ import lodsve.wechat.core.WeChatUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 微信service.
@@ -45,11 +46,8 @@ public class WeChatService {
 
         String[] params = new String[]{properties.getToken(), timestamp, nonce};
         Arrays.sort(params);
-        if (signature.equalsIgnoreCase(Hashing.sha1().hashString(StringUtils.join(params), Charsets.UTF_8).toString())) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return signature.equalsIgnoreCase(Hashing.sha1().hashString(StringUtils.join(params), Charsets.UTF_8).toString());
     }
 
     public JsApiConfig jsApiConfig(String url) {

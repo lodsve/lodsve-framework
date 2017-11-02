@@ -19,6 +19,7 @@ import java.util.*;
  */
 @Component
 public class WeChatMenuService {
+    public static final int MENU_LENGTH = 3;
 
     /**
      * 创建菜单(会删除原来的菜单)
@@ -30,7 +31,7 @@ public class WeChatMenuService {
             return;
         }
 
-        if (menus.length > 3) {
+        if (menus.length > MENU_LENGTH) {
             throw new WeChatException(107001, "微信按钮个数限制小于等于3个");
         }
         for (Menu m : menus) {

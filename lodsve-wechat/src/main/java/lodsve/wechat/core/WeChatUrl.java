@@ -10,11 +10,11 @@ public final class WeChatUrl {
     /**
      * 获取access_token
      */
-    public static final String GET_ACCESS_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
+    static final String GET_ACCESS_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
     /**
      * 获取js_api_ticket
      */
-    public static final String GET_JSP_API_TICKET = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=jsapi";
+    static final String GET_JSP_API_TICKET = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=jsapi";
     /**
      * 获取微信服务器ip
      */
