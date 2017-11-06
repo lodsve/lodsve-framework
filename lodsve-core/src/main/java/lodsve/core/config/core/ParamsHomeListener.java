@@ -71,7 +71,9 @@ public class ParamsHomeListener implements ServletContextListener {
     private static final String PREFIX_CLASSPATH = "classpath:";
     private static final String PARAMS_HOME_NAME = "paramsHome";
 
-    // 配置文件路径
+    /**
+     * 配置文件路径
+     */
     private static String paramsRoot;
 
     public static String getParamsRoot() {

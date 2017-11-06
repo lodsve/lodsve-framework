@@ -20,9 +20,13 @@ import java.util.*;
  */
 public class ExcelUtils {
     private static final Logger logger = LoggerFactory.getLogger(ExcelUtils.class);
-    //成功
+    /**
+     * 成功
+     */
     public static final Integer STATUS_OK = Integer.valueOf(1);
-    //失败
+    /**
+     * 失败
+     */
     public static final Integer STATUS_NO = Integer.valueOf(0);
     /**
      * 私有化构造器
@@ -67,11 +71,11 @@ public class ExcelUtils {
         //行数
         int rowCounts = sheet.getRows() - 1;
         logger.debug("rowCounts:{}", rowCounts);
-        List<Map<String, String>> list = new ArrayList<Map<String, String>>(rowCounts - 1);
+        List<Map<String, String>> list = new ArrayList<>(rowCounts - 1);
 
         //双重for循环取出数据
         for(int i = 1; i < rowCounts + 1; i++){
-            Map<String, String> params = new HashMap<String, String>();
+            Map<String, String> params = new HashMap<>(excelColumnNames.size());
             //i,j i:行 j:列
             for(int j = 0; j < excelColumnNames.size(); j++){
                 Cell cell = sheet.getCell(j, i);

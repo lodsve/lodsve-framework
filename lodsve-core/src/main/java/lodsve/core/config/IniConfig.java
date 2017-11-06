@@ -100,7 +100,7 @@ public class IniConfig {
     public static Map<String, Map<String, String>> getFileConfig(Resource resource) {
         Assert.notNull(resource, "资源不能为空！");
 
-        Map<String, Map<String, String>> maps = new HashMap<String, Map<String, String>>();
+        Map<String, Map<String, String>> maps = new HashMap<>(16);
         try {
             maps.putAll(IniLoader.getIni(resource));
         } catch (Exception e) {

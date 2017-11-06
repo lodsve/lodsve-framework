@@ -14,6 +14,7 @@ public interface ScriptEngine {
      * 引擎初始化
      *
      * @param args 参数
+     * @throws ScriptException 脚本语言编译异常
      */
     void init(Object... args) throws ScriptException;
 
@@ -23,6 +24,7 @@ public interface ScriptEngine {
      * @param id         上下文中唯一标识
      * @param scriptText 脚本内容
      * @return 编译
+     * @throws ScriptException 脚本语言编译异常
      */
     boolean compile(String id, String scriptText) throws ScriptException;
 
@@ -66,6 +68,7 @@ public interface ScriptEngine {
      * @param method 方法名
      * @param args   参数
      * @return 执行结果
+     * @throws ScriptException 脚本语言编译异常
      */
     ScriptResult invoke(String id, String method, Object... args) throws ScriptException;
 }

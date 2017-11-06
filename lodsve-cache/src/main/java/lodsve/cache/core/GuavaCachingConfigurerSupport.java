@@ -1,12 +1,13 @@
 package lodsve.cache.core;
 
-import java.util.List;
 import lodsve.core.condition.ConditionalOnExpression;
 import lodsve.core.utils.StringParse;
 import lodsve.core.utils.StringUtils;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * guava.
@@ -21,15 +22,15 @@ public class GuavaCachingConfigurerSupport extends LodsveCachingConfigurerSuppor
     public CacheManager cacheManager() {
         GuavaCacheManager cacheManager = new GuavaCacheManager();
 
-        String cacheNames_ = cacheProperties.getCacheNames();
-        List<String> cacheNames = StringUtils.convert(cacheNames_, new StringParse<String>() {
+        String cacheNames = cacheProperties.getCacheNames();
+        List<String> cacheNameList = StringUtils.convert(cacheNames, new StringParse<String>() {
             @Override
             public String parse(String str) {
                 return str;
             }
         });
-        if (!cacheNames.isEmpty()) {
-            cacheManager.setCacheNames(cacheNames);
+        if (!cacheNameList.isEmpty()) {
+            cacheManager.setCacheNames(cacheNameList);
         }
 
         cacheManager.setCacheSpecification(cacheProperties.getGuava().getSpec());

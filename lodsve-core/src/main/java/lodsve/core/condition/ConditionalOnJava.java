@@ -16,15 +16,15 @@
 
 package lodsve.core.condition;
 
+import org.springframework.context.annotation.Conditional;
+import org.springframework.util.Assert;
+import org.springframework.util.ClassUtils;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import org.springframework.context.annotation.Conditional;
-import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
 
 /**
  * {@link Conditional} that matches based on the JVM version the application is running
@@ -127,6 +127,7 @@ public @interface ConditionalOnJava {
                     return this.value >= version.value;
                 case OLDER_THAN:
                     return this.value < version.value;
+                default:
             }
             throw new IllegalStateException("Unknown range " + range);
         }

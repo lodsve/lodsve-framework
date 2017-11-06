@@ -137,7 +137,7 @@ public class AutoConfigurationCreator {
             return null;
         }
 
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(16);
         Class<?> secondGenericClazz = GenericUtils.getGenericParameter(method, 1);
         Set<String> keys = configuration.subset(prefix).getKeys();
         for (String key : keys) {
@@ -148,8 +148,9 @@ public class AutoConfigurationCreator {
 
             String keyInMap = temp[0];
             Object object = generateObject(prefix + "." + keyInMap, secondGenericClazz, configuration);
-            if (object != null)
+            if (object != null) {
                 map.put(keyInMap, object);
+            }
         }
 
         return map;

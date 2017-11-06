@@ -83,10 +83,12 @@ public class CodeBuilder {
 
     private static Color getRandomColor(int fontColor, int backColor) {
         Random random = new Random();
-        if (fontColor > 255)
+        if (fontColor > 255) {
             fontColor = 255;
-        if (backColor > 255)
+        }
+        if (backColor > 255) {
             backColor = 255;
+        }
 
         int red = fontColor + random.nextInt(backColor - fontColor);
         int green = fontColor + random.nextInt(backColor - fontColor);

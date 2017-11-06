@@ -16,23 +16,23 @@ public class ParamsHolder {
     private ParamsHolder() {
     }
 
-    private static ThreadLocal<Map<String, Object>> paramsHolder = new ThreadLocal<>();
+    private static final ThreadLocal<Map<String, Object>> PARAMS_HOLDER = new ThreadLocal<>();
 
     public static void set(String key, Object object) {
         Assert.hasText(key);
 
-        Map<String, Object> params = paramsHolder.get();
+        Map<String, Object> params = PARAMS_HOLDER.get();
         if (params == null) {
-            params = new HashMap<>();
+            params = new HashMap<>(1);
         }
 
         params.put(key, object);
 
-        paramsHolder.set(params);
+        PARAMS_HOLDER.set(params);
     }
 
     public static <T> T get(String key) {
-        Map<String, Object> params = paramsHolder.get();
+        Map<String, Object> params = PARAMS_HOLDER.get();
         if (CollectionUtils.isEmpty(params)) {
             return null;
         }
@@ -40,11 +40,24 @@ public class ParamsHolder {
         return (T) params.get(key);
     }
 
+    public static void remove(String key) {
+        Map<String, Object> params = PARAMS_HOLDER.get();
+        if (CollectionUtils.isEmpty(params)) {
+            return;
+        }
+
+        params.remove(key);
+    }
+
+    public static void removes() {
+        PARAMS_HOLDER.remove();
+    }
+
     public static void sets(Map<String, Object> params) {
-        paramsHolder.set(params);
+        PARAMS_HOLDER.set(params);
     }
 
     public static Map<String, Object> gets() {
-        return paramsHolder.get();
+        return PARAMS_HOLDER.get();
     }
 }

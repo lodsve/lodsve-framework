@@ -462,7 +462,8 @@ abstract class AbstractConfiguration implements Configuration {
 		}
 	}
 
-	public Set<String> getKeys(String prefix) {
+	@Override
+    public Set<String> getKeys(String prefix) {
 		Set<String> keys = getKeys();
 		Set<String> prefixKeys = new HashSet<String>();
 		for (String key : keys) {

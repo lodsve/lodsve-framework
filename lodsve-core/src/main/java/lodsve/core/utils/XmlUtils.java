@@ -1,17 +1,5 @@
 package lodsve.core.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.parsers.DocumentBuilderFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -23,6 +11,19 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * xml工具类.
  *
@@ -30,7 +31,7 @@ import org.xml.sax.InputSource;
  * @version V1.0, 2015-11-18 13:58
  */
 public final class XmlUtils {
-    private static final SAXReader saxReader = new SAXReader();
+    private static final SAXReader SAX_READER = new SAXReader();
 
     private XmlUtils() {
     }
@@ -45,7 +46,7 @@ public final class XmlUtils {
         Assert.notNull(in);
 
         try {
-            return saxReader.read(in);
+            return SAX_READER.read(in);
         } catch (DocumentException e) {
             throw new RuntimeException("XML解析发生错误");
         }
@@ -231,7 +232,7 @@ public final class XmlUtils {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             org.w3c.dom.Document document = dbf.newDocumentBuilder().parse(source);
             NodeList childNodes = document.getElementsByTagName("xml").item(0).getChildNodes();
-            Map<String, String> requestMap = new HashMap<>();
+            Map<String, String> requestMap = new HashMap<>(childNodes.getLength());
             for (int i = 0; i < childNodes.getLength(); i++) {
                 Node item = childNodes.item(i);
                 requestMap.put(item.getNodeName(), item.getTextContent());

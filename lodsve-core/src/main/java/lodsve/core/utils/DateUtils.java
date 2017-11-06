@@ -67,8 +67,9 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * @return 给定时间的那天的最后时刻(em.2011-01-25 23:59:59...)
      */
     public static Date getEndOfDay(Date day) {
-        if (day == null)
+        if (day == null) {
             day = new Date();
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(day);
         calendar.set(Calendar.HOUR_OF_DAY, calendar.getMaximum(Calendar.HOUR_OF_DAY));
@@ -86,8 +87,9 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * @return 给定时间的那天的最后时刻(em.2011-01-25 00:00:00...)
      */
     public static Date getStartOfDay(Date day) {
-        if (day == null)
+        if (day == null) {
             day = new Date();
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(day);
         calendar.set(Calendar.HOUR_OF_DAY, calendar.getMinimum(Calendar.HOUR_OF_DAY));
@@ -105,8 +107,9 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * @return 给定时间的那个月的最后时刻(em.2011-01-31 23:59:59...)
      */
     public static Date getEndOfMonth(Date day) {
-        if (day == null)
+        if (day == null) {
             day = new Date();
+        }
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(day);
@@ -132,8 +135,9 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * @return 给定时间的那个月的开始时刻(em.2011-01-01 00:00:00...)
      */
     public static Date getStartOfMonth(Date day) {
-        if (day == null)
+        if (day == null) {
             day = new Date();
+        }
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(day);
@@ -155,8 +159,9 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * @return 给定时间的那天的最后时刻(em.2011-01-25 12:00:00...)
      */
     public static Date getNoonOfDay(Date day) {
-        if (day == null)
+        if (day == null) {
             day = new Date();
+        }
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(day);
@@ -184,12 +189,13 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * @return 前缀+(星期数)	ep.'星期三'
      */
     public static String getDayOfWeek(String prefix, Date date) {
-        final String dayNames[] = {"日", "一", "二", "三", "四", "五", "六"};
+        final String[] dayNames = {"日", "一", "二", "三", "四", "五", "六"};
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK) - 1;
-        if (dayOfWeek < 0)
+        if (dayOfWeek < 0) {
             dayOfWeek = 0;
+        }
 
         return prefix + dayNames[dayOfWeek];
     }
@@ -234,8 +240,9 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * @return 计算出来的日期(eg:2015-06-01 12:00 or 2015-06-03 12:00)<br>
      */
     public static Date intervalSomeDays(Date date, int days) {
-        if (date == null)
+        if (date == null) {
             return date;
+        }
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -247,13 +254,14 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
     /**
      * 获取间隔给定月数的日期 <br>
      *
-     * @param date 给定的日期(eg:2015-06-02 12:00)
+     * @param date   给定的日期(eg:2015-06-02 12:00)
      * @param months 间隔的月数，正数是给定时间往后，负数是给定时间往前(eg:-1 or 1)
      * @return 计算出来的日期(eg:2015-05-02 12:00 or 2015-07-02 12:00)<br>
      */
     public static Date intervalSomeMonths(Date date, int months) {
-        if (date == null)
+        if (date == null) {
             return date;
+        }
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -265,13 +273,14 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
     /**
      * 获取间隔给定月数的日期 <br>
      *
-     * @param date 给定的日期(eg:2015-06-02 12:00)
+     * @param date  给定的日期(eg:2015-06-02 12:00)
      * @param years 间隔的月数，正数是给定时间往后，负数是给定时间往前(eg:-1 or 1)
      * @return 计算出来的日期(eg:2014-06-02 12:00 or 2016-06-02 12:00)<br>
      */
     public static Date intervalSomeYears(Date date, int years) {
-        if (date == null)
+        if (date == null) {
             return date;
+        }
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

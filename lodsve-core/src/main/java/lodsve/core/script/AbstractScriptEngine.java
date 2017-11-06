@@ -148,5 +148,10 @@ public abstract class AbstractScriptEngine implements ScriptEngine {
         }
     }
 
+    /**
+     * 获取脚本语言名称
+     *
+     * @return 名称
+     */
     protected abstract String getScriptName();
 }

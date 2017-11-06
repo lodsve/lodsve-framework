@@ -21,28 +21,31 @@ import java.util.*;
  */
 @Component
 public class MessageConfig implements ApplicationContextAware {
-    //国际化资源文件处理类在spring上下文中的key
+    /**
+     * 国际化资源文件处理类在spring上下文中的key
+     */
     private static final String DEFAULT_MESSAGE_SOURCE = "messageSource";
 
     private static DefaultResourceBundleMessageSource bundleMessageSource = null;
-    private static final Object lockObject = new Object();
+    private static final Object LOCK_OBJECT = new Object();
     private static Map<Locale, Map<String, String>> allMessagesMap = new HashMap<>();
     private static ApplicationContext context;
 
     @PostConstruct
     public void init() {
-        synchronized (lockObject) {
+        synchronized (LOCK_OBJECT) {
             Object obj = context.getBean(DEFAULT_MESSAGE_SOURCE);
 
-            if (obj instanceof DefaultResourceBundleMessageSource)
+            if (obj instanceof DefaultResourceBundleMessageSource) {
                 bundleMessageSource = (DefaultResourceBundleMessageSource) obj;
-            else if (obj instanceof DelegatingMessageSource) {
+            } else if (obj instanceof DelegatingMessageSource) {
                 DelegatingMessageSource delegatingMessageSource = (DelegatingMessageSource) obj;
                 Object obj2 = delegatingMessageSource.getParentMessageSource();
-                if (obj2 instanceof DefaultResourceBundleMessageSource)
+                if (obj2 instanceof DefaultResourceBundleMessageSource) {
                     bundleMessageSource = (DefaultResourceBundleMessageSource) obj2;
-                else
+                } else {
                     throw new RuntimeException("can not find any messageSource what is DefaultResourceBundleMessageSource!");
+                }
             }
         }
     }
@@ -100,17 +103,19 @@ public class MessageConfig implements ApplicationContextAware {
      * @return
      */
     public static Map<String, String> getMessages(Locale locale) {
-        if (locale == null)
+        if (locale == null) {
             locale = Locale.getDefault();
+        }
 
         Map<String, String> allMessages = allMessagesMap.get(locale);
-        if (allMessages != null)
+        if (allMessages != null) {
             return allMessages;
+        }
 
         ResourceBundle bundle = bundleMessageSource.getResourceBundle(locale);
         Enumeration<String> keys = bundle.getKeys();
 
-        Map<String, String> messages = new HashMap<>();
+        Map<String, String> messages = new HashMap<>(16);
         for (; keys.hasMoreElements(); ) {
             String key = keys.nextElement();
             String message = bundle.getString(key);

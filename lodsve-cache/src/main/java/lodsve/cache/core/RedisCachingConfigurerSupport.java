@@ -1,6 +1,5 @@
 package lodsve.cache.core;
 
-import java.util.List;
 import lodsve.core.condition.ConditionalOnExpression;
 import lodsve.core.utils.StringParse;
 import lodsve.core.utils.StringUtils;
@@ -10,6 +9,8 @@ import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * redis.
@@ -27,15 +28,15 @@ public class RedisCachingConfigurerSupport extends LodsveCachingConfigurerSuppor
     @Override
     public CacheManager cacheManager() {
         RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
-        String cacheNames_ = cacheProperties.getCacheNames();
-        List<String> cacheNames = StringUtils.convert(cacheNames_, new StringParse<String>() {
+        String cacheNames = cacheProperties.getCacheNames();
+        List<String> cacheNameList = StringUtils.convert(cacheNames, new StringParse<String>() {
             @Override
             public String parse(String str) {
                 return str;
             }
         });
-        if (!cacheNames.isEmpty()) {
-            cacheManager.setCacheNames(cacheNames);
+        if (!cacheNameList.isEmpty()) {
+            cacheManager.setCacheNames(cacheNameList);
         }
 
         cacheManager.afterPropertiesSet();

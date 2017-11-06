@@ -88,15 +88,17 @@ public class LodsveMessageListenerAdapter extends MessageListenerAdapter {
     }
 
     private void setListMessageHeader(MessageProperties properties, Type t) {
-        if (!(t instanceof Class))
+        if (!(t instanceof Class)) {
             return;
+        }
 
         setMessageHeader(properties, AbstractJavaTypeMapper.DEFAULT_CONTENT_CLASSID_FIELD_NAME, ((Class<?>) t).getName());
     }
 
     private void setMapMessageHeader(MessageProperties properties, Type[] ts) {
-        if (ts.length != 2)
+        if (ts.length != 2) {
             return;
+        }
 
         // key
         setMessageHeader(properties, AbstractJavaTypeMapper.DEFAULT_KEY_CLASSID_FIELD_NAME, ((Class<?>) ts[0]).getName());

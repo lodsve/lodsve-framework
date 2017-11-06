@@ -155,11 +155,13 @@ class SubsetConfiguration extends AbstractConfiguration {
 		return getKeys().isEmpty();
 	}
 
-	public boolean containsKey(String key) {
+	@Override
+    public boolean containsKey(String key) {
 		return parent.containsKey(getParentKey(key));
 	}
 
-	public Object getProperty(String key) {
+	@Override
+    public Object getProperty(String key) {
 		return parent.getProperty(getParentKey(key));
 	}
 
@@ -168,7 +170,8 @@ class SubsetConfiguration extends AbstractConfiguration {
 		return getSubKeys(parent.getKeys(getParentKey(prefix)));
 	}
 
-	public Set<String> getKeys() {
+	@Override
+    public Set<String> getKeys() {
 		return getSubKeys(parent.getKeys(prefix));
 	}
 

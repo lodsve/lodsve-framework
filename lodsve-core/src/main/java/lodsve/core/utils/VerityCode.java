@@ -23,10 +23,12 @@ public class VerityCode extends HttpServlet{
      */
     public static final String VERITY_CODE_KEY = "verityCode";
 	
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doPost(request, response);
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("image/jpeg");
         // 设置页面不缓存
@@ -40,6 +42,7 @@ public class VerityCode extends HttpServlet{
         ImageIO.write(image, "JPEG", response.getOutputStream());
     }
 
+    @Override
     public void destroy() {
     }
 }

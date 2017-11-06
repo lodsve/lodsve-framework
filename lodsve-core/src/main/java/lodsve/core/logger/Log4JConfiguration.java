@@ -19,6 +19,7 @@ import java.util.Properties;
 @Component
 public class Log4JConfiguration implements InitializingBean {
 
+    @Override
     public void afterPropertiesSet() throws Exception {
         Resource resource = SystemConfig.getFileConfig("log4j.properties");
 

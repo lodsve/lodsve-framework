@@ -95,7 +95,8 @@ public class ResourceBundleHolder implements Serializable {
         File[] fileChildren = parentDir.listFiles();
         for (File file : fileChildren) {
             String fileName = file.getName();
-            if (fileName.startsWith(baseName) && (fileName.endsWith(SUFFIX_OF_PROPERTIES) || fileName.endsWith(SUFFIX_OF_TEXT) || fileName.endsWith(SUFFIX_OF_HTML))) {
+            boolean isConfigFile = fileName.startsWith(baseName) && (fileName.endsWith(SUFFIX_OF_PROPERTIES) || fileName.endsWith(SUFFIX_OF_TEXT) || fileName.endsWith(SUFFIX_OF_HTML));
+            if (isConfigFile) {
                 //匹配baseName的所有语言的properties文件
                 Locale locale;
                 try {
@@ -104,15 +105,17 @@ public class ResourceBundleHolder implements Serializable {
                     logger.warn("file '{}' can not get any locale, continue!", file.getAbsolutePath());
                     continue;
                 }
-                if (locale == null)
+                if (locale == null) {
                     logger.warn("get locale is null!");
+                }
 
                 Properties properties = this.getPropertiesFromFile(baseName, file);
 
-                if (properties != null)
+                if (properties != null) {
                     this.addProperties(properties, locale, order);
-                else
+                } else {
                     logger.warn("can not get any properties from given file '{}'!", file.getAbsolutePath());
+                }
             }
         }
     }
@@ -142,7 +145,8 @@ public class ResourceBundleHolder implements Serializable {
             Resource[] resources = resolver.getResources(parentFolder + "/" + baseName + "*.properties");
             for (Resource r1 : resources) {
                 String fileName = r1.getFilename();
-                if (fileName.startsWith(baseName) && (fileName.endsWith(SUFFIX_OF_PROPERTIES) || fileName.endsWith(SUFFIX_OF_TEXT) || fileName.endsWith(SUFFIX_OF_HTML))) {
+                boolean isConfigFile = fileName.startsWith(baseName) && (fileName.endsWith(SUFFIX_OF_PROPERTIES) || fileName.endsWith(SUFFIX_OF_TEXT) || fileName.endsWith(SUFFIX_OF_HTML));
+                if (isConfigFile) {
                     //匹配baseName的所有语言的properties文件
                     Locale locale;
                     try {
@@ -151,15 +155,17 @@ public class ResourceBundleHolder implements Serializable {
                         logger.warn("file '{}' can not get any locale, continue!", r1.getURL());
                         continue;
                     }
-                    if (locale == null)
+                    if (locale == null) {
                         logger.warn("get locale is null!");
+                    }
 
                     Properties properties = this.getPropertiesFromResource(baseName, r1);
 
-                    if (properties != null)
+                    if (properties != null) {
                         this.addProperties(properties, locale, order);
-                    else
+                    } else {
                         logger.warn("can not get any properties from given file '{}'!", r1.getURL());
+                    }
                 }
             }
         } catch (IOException e) {
@@ -180,22 +186,26 @@ public class ResourceBundleHolder implements Serializable {
         //只取local的信息(message.properties)
         localName = StringUtils.substring(localName, baseName.length() + 1);
 
-        if (logger.isDebugEnabled())
+        if (logger.isDebugEnabled()) {
             logger.debug("get local name for file '{}' is '{}'!", fileName, baseName);
+        }
 
         if (StringUtils.isEmpty(localName))
-            //message.properties(默认是中文环境)
+        //message.properties(默认是中文环境)
+        {
             return null;
+        }
 
-        String locals[] = localName.split("_");
+        String[] locals = localName.split("_");
         Locale locale = null;
 
         if (locals.length == 2) {
             locale = new Locale(locals[0], locals[1]);
         }
 
-        if (logger.isDebugEnabled())
+        if (logger.isDebugEnabled()) {
             logger.debug("get locale for file '{}' is '{}'!", fileName, locale);
+        }
 
         return locale;
     }
@@ -266,11 +276,11 @@ public class ResourceBundleHolder implements Serializable {
 
         //各种语言的property存储map
         if (propertiesMap == null) {
-            propertiesMap = new HashMap();
+            propertiesMap = new HashMap(16);
             this.bundledMap.put(locale, propertiesMap);
         }
         if (orderMap == null) {
-            orderMap = new HashMap();
+            orderMap = new HashMap(16);
             this.bundledOrderMap.put(locale, orderMap);
         }
 
@@ -292,14 +302,15 @@ public class ResourceBundleHolder implements Serializable {
 
             if (!destMap.containsKey(key)) {
                 //不存在的话就直接添加
-                destMap.put(key, src.get(key));     //存储值信息
-                orderMap.put(key, order);           //存储顺序的信息
+                destMap.put(key, src.get(key));
+                orderMap.put(key, order);
             } else {
                 //存在的话,则开始判断顺序
                 Integer oldOrder = (Integer) orderMap.get(key);
-                if (oldOrder == null)
+                if (oldOrder == null) {
                     //如果不存在order的值,则默认为最小的整数
                     oldOrder = Integer.MIN_VALUE;
+                }
 
                 //如果给定的order比已经存在的order大的话,则覆盖,否则跳过
                 if (order >= oldOrder) {

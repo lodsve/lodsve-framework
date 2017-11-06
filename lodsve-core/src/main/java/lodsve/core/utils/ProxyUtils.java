@@ -1,9 +1,10 @@
 package lodsve.core.utils;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Proxy;
 import org.springframework.aop.framework.AdvisedSupport;
 import org.springframework.util.ClassUtils;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Proxy;
 
 /**
  * 将代理类变成真实的类.
@@ -50,11 +51,11 @@ public class ProxyUtils {
         try {
             Field h = proxy.getClass().getSuperclass().getDeclaredField("h");
             h.setAccessible(true);
-            Object proxy_ = h.get(proxy);
-            Field f = proxy_.getClass().getDeclaredField("target");
+            Object proxyObject = h.get(proxy);
+            Field f = proxyObject.getClass().getDeclaredField("target");
             f.setAccessible(true);
 
-            return (T) f.get(proxy_);
+            return (T) f.get(proxyObject);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

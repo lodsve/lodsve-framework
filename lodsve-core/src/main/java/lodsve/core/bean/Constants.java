@@ -26,7 +26,9 @@ public class Constants {
      */
     public static final String DEFAULT_CONTEXT_PATH = "contextPath";
 
-    //格式化时间需要的常量
+    /**
+     * 格式化时间需要的常量
+     */
     public static final String DATEFORMAT_CHINESE_FORMAT = "yyyy年MM月dd日 HH时mm分";
     public static final String DATEFORMAT_DATE_FORMAT = "昨天{0}{1}时{2}分";
     public static final String DATEFORMAT_MORNING = "凌晨";

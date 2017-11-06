@@ -64,6 +64,7 @@ public class LodsveJackson2JsonMessageConverter extends Jackson2JsonMessageConve
         return jsonObjectMapper.readValue(contentAsString, jsonObjectMapper.constructType(targetClass));
     }
 
+    @Override
     public Jackson2JavaTypeMapper getJavaTypeMapper() {
         return new LodsveJackson2JavaTypeMapper();
     }

@@ -31,23 +31,27 @@ import java.util.regex.Pattern;
  * @createTime 2012-4-30 下午08:41:54
  */
 public class HTMLUtils {
-	
-	/**
-     * Default suffix of ommited character.
-     */
-    private static final String DEFAULT_SUFIX = "……";
+
     private static final String[] DEFAULT_ATTRS_TO_REMOVE = {"id", "name"};
     private static final String[] DEFAULT_TAGS_TO_REMOVE = {"script", "style"};
     private static final String[] DEFAULT_TAGS_TO_NOT_REMOVE_TAG_NAME = {"object", "embed", "param"};
     private static final Logger logger = LoggerFactory.getLogger(HTMLUtils.class);
     private static final String DEFAULT_ENCODING = "utf-8";
-	
-	private static DOMFragmentParser fragmentParser = new DOMFragmentParser();
+
+    private static DOMFragmentParser fragmentParser = new DOMFragmentParser();
+    private static final Pattern XML_PATTERN = Pattern.compile("(?s)<xml>(.*?)</xml>", Pattern.CASE_INSENSITIVE);
+    private static final Pattern STYLE_PATTERN = Pattern.compile("(?s)<style[^>]*>(.*?)</style>", Pattern.CASE_INSENSITIVE);
+    private static final Pattern SCRIPT_PATTERN = Pattern.compile("(?s)<script[^>]*>(.*?)</script>", Pattern.CASE_INSENSITIVE);
+    private static final Pattern TAGS_PATTERN = Pattern.compile("(?s)<[^>]+>", Pattern.CASE_INSENSITIVE);
+    private static final Pattern HTML_CHAR_PATTERN = Pattern.compile("&[\\w]+;", Pattern.CASE_INSENSITIVE);
+    private static final Pattern SPACE_PATTERN = Pattern.compile("(?s)[\\s]{2,}");
+    private static final Pattern FIST_LETTER_PATTERN = Pattern.compile("^[\\s]+");
 
     /**
      * 私有化构造器
      */
-    private HTMLUtils(){}
+    private HTMLUtils() {
+    }
 
     static {
         try {
@@ -62,30 +66,27 @@ public class HTMLUtils {
             // Specifies whether to ignore the character encoding specified within the <meta http-equiv='Content-Type' content='text/html;charset=...'> tag.
             fragmentParser.setFeature("http://cyberneko.org/html/features/scanner/ignore-specified-charset", false);
             fragmentParser.setFeature("http://cyberneko.org/html/features/insert-doctype", false);
-        } catch (SAXNotRecognizedException e) {
-            e.printStackTrace();
-        } catch (SAXNotSupportedException e) {
+        } catch (SAXNotRecognizedException | SAXNotSupportedException e) {
             e.printStackTrace();
         }
     }
-	
-	/**
-	 * 获取html中前length个字符，剩余字符用suffix代替，去除html标签
-	 * 
-	 * @param length		需要截取的长度
-	 * @param html			html文本
-	 * @param suffix		代替文本
-	 * @return
-	 */
-	public static String getRawText(final int length, final String html, final String suffix) {
+
+    /**
+     * 获取html中前length个字符，剩余字符用suffix代替，去除html标签
+     *
+     * @param length 需要截取的长度
+     * @param html   html文本
+     * @param suffix 代替文本
+     * @return
+     */
+    public static String getRawText(final int length, final String html, final String suffix) {
         if (StringUtils.isBlank(html)) {
             return StringUtils.EMPTY;
         }
 
         StringBuffer result = new StringBuffer(html.length());
         // remove XML tag.
-        Pattern pattern = Pattern.compile("(?s)<xml>(.*?)</xml>", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(html);
+        Matcher matcher = XML_PATTERN.matcher(html);
 
         while (matcher.find()) {
             matcher.appendReplacement(result, StringUtils.EMPTY);
@@ -93,8 +94,7 @@ public class HTMLUtils {
 
         matcher.appendTail(result);
         // style tag.
-        pattern = Pattern.compile("(?s)<style[^>]*>(.*?)</style>", Pattern.CASE_INSENSITIVE);
-        matcher = pattern.matcher(result.toString());
+        matcher = STYLE_PATTERN.matcher(result.toString());
         result.setLength(0);
 
         while (matcher.find()) {
@@ -103,8 +103,7 @@ public class HTMLUtils {
 
         matcher.appendTail(result);
         // script tag.
-        pattern = Pattern.compile("(?s)<script[^>]*>(.*?)</script>", Pattern.CASE_INSENSITIVE);
-        matcher = pattern.matcher(result.toString());
+        matcher = SCRIPT_PATTERN.matcher(result.toString());
         result.setLength(0);
 
         while (matcher.find()) {
@@ -113,8 +112,7 @@ public class HTMLUtils {
 
         matcher.appendTail(result);
         // all the tag.
-        pattern = Pattern.compile("(?s)<[^>]+>", Pattern.CASE_INSENSITIVE);
-        matcher = pattern.matcher(result.toString());
+        matcher = TAGS_PATTERN.matcher(result.toString());
         result.setLength(0);
 
         while (matcher.find()) {
@@ -123,8 +121,7 @@ public class HTMLUtils {
 
         matcher.appendTail(result);
         // remove HTML characters, such as: &xxx;
-        pattern = Pattern.compile("&[\\w]+;", Pattern.CASE_INSENSITIVE);
-        matcher = pattern.matcher(result.toString());
+        matcher = HTML_CHAR_PATTERN.matcher(result.toString());
         result.setLength(0);
 
         while (matcher.find()) {
@@ -133,8 +130,7 @@ public class HTMLUtils {
 
         matcher.appendTail(result);
         // replace multi-space character with single space.
-        pattern = Pattern.compile("(?s)[\\s]{2,}");
-        matcher = pattern.matcher(result.toString());
+        matcher = SPACE_PATTERN.matcher(result.toString());
         result.setLength(0);
 
         while (matcher.find()) {
@@ -143,8 +139,7 @@ public class HTMLUtils {
 
         matcher.appendTail(result);
         // first letter.
-        pattern = Pattern.compile("^[\\s]+");
-        matcher = pattern.matcher(result.toString());
+        matcher = FIST_LETTER_PATTERN.matcher(result.toString());
         result.setLength(0);
 
         if (matcher.find()) {
@@ -180,8 +175,8 @@ public class HTMLUtils {
             return ret.toString();
         }
     }
-	
-	/**
+
+    /**
      * Get raw text from html.
      *
      * @param length Length limit.
@@ -195,7 +190,7 @@ public class HTMLUtils {
     public static String getText(String html) {
         return getText(html, DEFAULT_ENCODING);
     }
-    
+
     /**
      * get pure text.
      *
@@ -222,7 +217,7 @@ public class HTMLUtils {
 
         return getText(is, encoding);
     }
-    
+
     /**
      * get pure text.
      *
@@ -241,7 +236,7 @@ public class HTMLUtils {
 
         return result.toString();
     }
-    
+
     /**
      * create the node.
      *
@@ -264,7 +259,7 @@ public class HTMLUtils {
 
         return node;
     }
-    
+
     /**
      * loop the child nodes.
      *
@@ -288,7 +283,7 @@ public class HTMLUtils {
             }
         }
     }
-    
+
     private static void setFragmentParserEncoding(String encoding) {
         if (StringUtils.isBlank(encoding)) {
             encoding = DEFAULT_ENCODING;
@@ -302,7 +297,7 @@ public class HTMLUtils {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * @param html
      * @param attributesToRemove
@@ -328,7 +323,7 @@ public class HTMLUtils {
 
         return cleanHtml(is, tagsToRemove, attributesToRemove, encoding);
     }
-    
+
     /**
      * clean html and use default settings.
      *
@@ -339,7 +334,7 @@ public class HTMLUtils {
     public static String cleanHtml(String html, String encoding) {
         return cleanHtml(html, null, null, encoding);
     }
-    
+
     /**
      * clean html and use default settings.
      *
@@ -368,7 +363,7 @@ public class HTMLUtils {
 
         return convertNodeToString(node);
     }
-    
+
     /**
      * convertNodeToString
      *
@@ -465,7 +460,7 @@ public class HTMLUtils {
 
         System.out.println(getRawText(3, test));
     }
-    
+
     public static String escape(String src) {
         int i;
         char j;
@@ -532,7 +527,7 @@ public class HTMLUtils {
     public static String replaceHtmlEntities(String htmlStr) {
         return htmlStr.replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"");
     }
-    
+
     /**
      * 提取出content中img内容.
      *
@@ -548,8 +543,10 @@ public class HTMLUtils {
             Matcher m = p.matcher(content);
 
             while (m.find()) {
-                if (m.group(1).indexOf("fckeditor") == -1)
-                    resultList.add(m.group(1));//获取被匹配的部分,并且去除fck的表情图片.
+                if (m.group(1).indexOf("fckeditor") == -1) {
+                    // 获取被匹配的部分,并且去除fck的表情图片.
+                    resultList.add(m.group(1));
+                }
             }
             return resultList;
         }

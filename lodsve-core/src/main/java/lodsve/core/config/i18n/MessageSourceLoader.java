@@ -28,13 +28,15 @@ public class MessageSourceLoader implements InitializingBean {
     @Autowired
     private ResourceBundleHolder resourceBundleHolder;
 
+    @Override
     public void afterPropertiesSet() throws Exception {
         Resource[] resources = getResources();
 
         for (Resource r : resources) {
             String filePath = r.getFile().getAbsolutePath();
-            if (StringUtils.indexOf(filePath, "_") == -1)
+            if (StringUtils.indexOf(filePath, "_") == -1) {
                 this.resourceBundleHolder.loadMessageResource(filePath, 1);
+            }
         }
     }
 

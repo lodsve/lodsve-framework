@@ -56,10 +56,12 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
      * @return
      */
     public static boolean contains(String[] strings, String string) {
-        if (strings == null || strings.length == 0)
+        if (strings == null || strings.length == 0) {
             return false;
-        if (string == null)
+        }
+        if (string == null) {
             return false;
+        }
 
         for (int i = 0; i < strings.length; i++) {
             if (strings[i].equals(string)) {
@@ -156,8 +158,9 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
         }
         StringTokenizer stk = new StringTokenizer(str, character);
         List<String> list = new ArrayList<>();
-        for (; stk.hasMoreTokens(); list.add(stk.nextToken()))
+        for (; stk.hasMoreTokens(); list.add(stk.nextToken())) {
             ;
+        }
 
         return list.toArray(new String[list.size()]);
     }
@@ -169,13 +172,15 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
      * @param strings
      * @return
      */
-    public static boolean contain(String string, String strings[]) {
-        if (strings == null)
+    public static boolean contain(String string, String[] strings) {
+        if (strings == null) {
             return false;
+        }
         for (int i = 0; i < strings.length; i++) {
             String s = strings[i];
-            if (string.equals(s))
+            if (string.equals(s)) {
                 return true;
+            }
         }
 
         return false;
@@ -323,8 +328,8 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
      */
     public static String subStringWithByte(String str, int length) throws UnsupportedEncodingException {
         byte[] bytes = str.getBytes("Unicode");
-        int n = 0; // 表示当前的字节数
-        int i = 2; // 要截取的字节数，从第3个字节开始
+        int n = 0;
+        int i = 2;
         for (; i < bytes.length && n < length; i++) {
             // 奇数位置，如3、5、7等，为UCS2编码中两个字节的第二个字节
             if (i % 2 == 1) {

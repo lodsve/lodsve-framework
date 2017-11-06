@@ -1,15 +1,16 @@
 package lodsve.core.event;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import lodsve.core.event.listener.AbstractEventListener;
 import lodsve.core.event.module.BaseEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 事件执行器.
@@ -56,8 +57,9 @@ public class EventExecutor {
             Map<Class<? extends BaseEvent>, List<AbstractEventListener>> eventListeners = isSync ? syncEventListeners : asyncEventListeners;
             for (Iterator<Class<? extends BaseEvent>> it = eventTypes.iterator(); it.hasNext(); ) {
                 Class<? extends BaseEvent> eventType = it.next();
-                if (eventType == null)
+                if (eventType == null) {
                     continue;
+                }
 
                 List<AbstractEventListener> listeners = eventListeners.get(eventType);
                 if (listeners == null) {
@@ -97,6 +99,7 @@ public class EventExecutor {
      */
     private void executeAsyncEvent(final List<AbstractEventListener> asyncListeners, final BaseEvent event) throws RuntimeException {
         new Thread() {
+            @Override
             public void run() {
                 execute(asyncListeners, event);
             }

@@ -20,6 +20,7 @@ public class DefaultResourceBundle extends ResourceBundle {
         this.locale = locale;
     }
 
+    @Override
     protected Object handleGetObject(String key) {
         Object result;
         if (locale == null) {
@@ -28,19 +29,23 @@ public class DefaultResourceBundle extends ResourceBundle {
         } else {
             //从具体语言中取值
             Map localeMap = (Map) this.bundleMap.get(locale);
-            if (localeMap == null)
+            if (localeMap == null) {
                 localeMap = this.defaultBundleMap;
+            }
 
             result = localeMap != null ? localeMap.get(key) : null;
 
             if (result == null)
                 //取不到值,则值默认为key
+            {
                 result = key;
+            }
         }
 
         return result;
     }
 
+    @Override
     public Enumeration<String> getKeys() {
         Set keys = this.defaultBundleMap.keySet();
 

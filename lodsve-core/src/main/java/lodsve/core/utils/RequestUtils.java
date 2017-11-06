@@ -58,8 +58,9 @@ public class RequestUtils {
         //所带参数的MAP
         Map params = request.getParameterMap();
         Iterator it = params.keySet().iterator();
-        if (it.hasNext())
+        if (it.hasNext()) {
             requestUrl.append("?");
+        }
         while (it.hasNext()) {
             String key = (String) it.next();
             String[] values = (String[]) params.get(key);
@@ -183,16 +184,18 @@ public class RequestUtils {
         }
 
         String[] ps = params.split("&");
-        Map<String, Object> paramsMap = new HashMap<>();
+        Map<String, Object> paramsMap = new HashMap<>(ps.length);
         for (String p : ps) {
             String[] tmp = p.split("=");
-            if (tmp.length <= 0)
+            if (tmp.length <= 0) {
                 continue;
+            }
 
-            if (tmp.length == 1)
+            if (tmp.length == 1) {
                 paramsMap.put(tmp[0], StringUtils.EMPTY);
-            else
+            } else {
                 paramsMap.put(tmp[0], tmp[1]);
+            }
         }
 
         return paramsMap;
@@ -213,14 +216,16 @@ public class RequestUtils {
         String[] ps = params.split("&");
         for (String p : ps) {
             String[] tmp = p.split("=");
-            if (tmp.length <= 0)
+            if (tmp.length <= 0) {
                 continue;
+            }
 
             if (key.equals(tmp[0])) {
-                if (tmp.length == 1)
+                if (tmp.length == 1) {
                     return StringUtils.EMPTY;
-                else
+                } else {
                     return tmp[1];
+                }
             }
         }
 
@@ -239,8 +244,9 @@ public class RequestUtils {
             return StringUtils.EMPTY;
         }
 
-        if (!url.contains("?"))
+        if (!url.contains("?")) {
             return StringUtils.EMPTY;
+        }
 
         String params = url.substring(url.indexOf("?") + 1);
         return getParam(params, key);

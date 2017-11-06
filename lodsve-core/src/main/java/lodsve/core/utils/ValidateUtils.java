@@ -11,32 +11,58 @@ import java.util.regex.Pattern;
  * @createTime 2012-7-12 下午04:09:14
  */
 public class ValidateUtils {
-	
-	//邮箱正则表达式
+
+	/**
+	 * 邮箱正则表达式
+	 */
 	private static final String REG_EMAIL = "^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)+$";
-	//固话正则表达式
+	/**
+	 * 固话正则表达式
+	 */
 	private static final String REG_PHONE = "\\d{3}-\\d{8}|\\d{4}-\\d{7}";
-	//手机号码正则表达式
+	/**
+	 * 手机号码正则表达式
+	 */
 	private static final String REG_MOBILE = "0{0,1}(13[4-9]|15[7-9]|15[0-2]|18[7-9])[0-9]{8}";
-	//url正则表达式
+	/**
+	 * url正则表达式
+	 */
 	private static final String REG_URL = "^((https|http|ftp|rtsp|mms)://)?[A-Za-z0-9]+\\.[A-Za-z0-9]+[\\/=\\?%\\-&_~`@\\':+!]*([^<>\\\"\\\"])*$";
-	//身份证号码正则表达式
+	/**
+	 * 身份证号码正则表达式
+	 */
 	private static final String REG_IDCARD = "\\d{15}|\\d{18}";
-	//是否是数字的正则表达式
+	/**
+	 * 是否是数字的正则表达式
+	 */
 	private static final String REG_NUMBER = "\\d+";
-	//邮编的正则表达式
+	/**
+	 * 邮编的正则表达式
+	 */
 	private static final String REG_ZIP = "^[1-9]\\d{5}$";
-	//QQ
+	/**
+	 * QQ
+	 */
 	private static final String REG_QQ = "[1-9]\\d{4,13}";
-	//整数
+	/**
+	 * 整数
+	 */
 	private static final String REG_INTEGER = "[-\\+]?\\d+";
-	//小数
+	/**
+	 * 小数
+	 */
 	private static final String REG_DOUBLE = "[-\\+]?\\d+(\\.\\d+)?";
-	//英文
+	/**
+	 * 英文
+	 */
 	private static final String REG_ENGLISH = "^[A-Za-z]+$";
-	//中文
+	/**
+	 * 中文
+	 */
 	private static final String REG_CHINESE = "^[\\u0391-\\uFFE5]+$";
-	//IP
+	/**
+	 * IP
+	 */
 	private static final String REG_IP = "(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])";
 
     /**
@@ -170,14 +196,14 @@ public class ValidateUtils {
 	/**
 	 * 判断是否是小数
 	 * 
-	 * @param double_
+	 * @param param
 	 * @return
 	 */
-	public static boolean isDouble(String double_){
+	public static boolean isDouble(String param){
 		Pattern patter = Pattern.compile(REG_DOUBLE, Pattern.CASE_INSENSITIVE);
-		Matcher matcher = patter.matcher(double_);
+		Matcher matcher = patter.matcher(param);
 		
-		return StringUtils.isNotEmpty(double_) && matcher.matches();
+		return StringUtils.isNotEmpty(param) && matcher.matches();
 	}
 	
 	/**

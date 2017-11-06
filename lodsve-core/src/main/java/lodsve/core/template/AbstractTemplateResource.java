@@ -52,5 +52,10 @@ public abstract class AbstractTemplateResource extends AbstractResource {
         return this.description;
     }
 
+    /**
+     * 渲染模板
+     *
+     * @return 渲染后的内容
+     */
     public abstract String renderTemplate();
 }

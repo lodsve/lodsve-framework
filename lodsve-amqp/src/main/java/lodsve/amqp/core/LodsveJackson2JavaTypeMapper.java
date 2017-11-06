@@ -16,7 +16,7 @@ import java.util.Map;
  * @version V1.0, 16/1/18 下午1:38
  */
 public class LodsveJackson2JavaTypeMapper extends DefaultJackson2JavaTypeMapper {
-    private static final ObjectMapper jsonObjectMapper = new ObjectMapper();
+    private static final ObjectMapper JSON_OBJECT_MAPPER = new ObjectMapper();
 
     @Override
     public JavaType toJavaType(MessageProperties properties) {
@@ -24,14 +24,14 @@ public class LodsveJackson2JavaTypeMapper extends DefaultJackson2JavaTypeMapper 
         String contentTypeId = retrieveHeader(properties, getContentClassIdFieldName());
         String keyTypeId = retrieveHeader(properties, getKeyClassIdFieldName());
 
-        if(StringUtils.isEmpty(contentTypeId)) {
-            return jsonObjectMapper.getTypeFactory().constructType(forName(classTypeId));
+        if (StringUtils.isEmpty(contentTypeId)) {
+            return JSON_OBJECT_MAPPER.getTypeFactory().constructType(forName(classTypeId));
         }
 
         if (StringUtils.isEmpty(keyTypeId)) {
-            return jsonObjectMapper.getTypeFactory().constructParametricType(forName(classTypeId), forName(contentTypeId));
+            return JSON_OBJECT_MAPPER.getTypeFactory().constructParametricType(forName(classTypeId), forName(contentTypeId));
         } else {
-            return jsonObjectMapper.getTypeFactory().constructParametricType(forName(classTypeId), forName(keyTypeId), forName(contentTypeId));
+            return JSON_OBJECT_MAPPER.getTypeFactory().constructParametricType(forName(classTypeId), forName(keyTypeId), forName(contentTypeId));
         }
     }
 
@@ -45,6 +45,7 @@ public class LodsveJackson2JavaTypeMapper extends DefaultJackson2JavaTypeMapper 
         return Object.class;
     }
 
+    @Override
     protected String retrieveHeader(MessageProperties properties, String headerName) {
         Map<String, Object> headers = properties.getHeaders();
         Object classIdFieldNameValue = headers.get(headerName);

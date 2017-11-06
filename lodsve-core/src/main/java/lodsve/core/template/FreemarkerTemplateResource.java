@@ -35,9 +35,9 @@ public class FreemarkerTemplateResource extends AbstractTemplateResource {
             Configuration conf = new Configuration();
             //设置编码
             conf.setEncoding(Locale.getDefault(), "UTF-8");
-            conf.setDirectoryForTemplateLoading(this.getFolder());	//加载freemarker模板文件
-            conf.setObjectWrapper(new DefaultObjectWrapper());	//设置对象包装器
-            conf.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);	//设计异常处理器
+            conf.setDirectoryForTemplateLoading(this.getFolder());
+            conf.setObjectWrapper(new DefaultObjectWrapper());
+            conf.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);
 
             Template template = conf.getTemplate(this.getFileName());
 
@@ -61,11 +61,11 @@ public class FreemarkerTemplateResource extends AbstractTemplateResource {
         return result;
     }
 
-    private File getFolder(){
+    private File getFolder() {
         return new File(super.template).getParentFile();
     }
 
-    private String getFileName(){
+    private String getFileName() {
         File file = new File(super.template);
 
         return FileUtils.getFileName(file) + "." + FileUtils.getFileExt(file);

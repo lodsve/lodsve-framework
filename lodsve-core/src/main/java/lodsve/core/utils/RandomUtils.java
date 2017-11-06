@@ -85,9 +85,15 @@ public class RandomUtils {
         final int maxNum = 62;
         char[] str = {};
 
-        if (lower) str = ArrayUtils.addAll(str, LETTER_LOWER.toCharArray());
-        if (upper) str = ArrayUtils.addAll(str, LETTER_UPPER.toCharArray());
-        if (digit) str = ArrayUtils.addAll(str, DIGIT.toCharArray());
+        if (lower) {
+            str = ArrayUtils.addAll(str, LETTER_LOWER.toCharArray());
+        }
+        if (upper) {
+            str = ArrayUtils.addAll(str, LETTER_UPPER.toCharArray());
+        }
+        if (digit) {
+            str = ArrayUtils.addAll(str, DIGIT.toCharArray());
+        }
 
         StringBuffer tempString = new StringBuffer(100);
         generateRandomNumberString(tempString, length, maxNum, str);

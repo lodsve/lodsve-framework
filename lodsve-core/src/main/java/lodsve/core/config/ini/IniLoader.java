@@ -33,15 +33,16 @@ public class IniLoader {
     }
 
     public static Map<String, Map<String, String>> getIni(Resource resource) throws Exception {
-        Map<String, Map<String, String>> maps = new HashMap<>();
+        Map<String, Map<String, String>> maps = new HashMap<>(16);
         load(maps, resource);
 
         return maps;
     }
 
     private static void load(Map<String, Map<String, String>> values, Resource resource) throws Exception {
-        if (resource == null)
+        if (resource == null) {
             return;
+        }
 
         List<String> lines = FileUtils.readLines(resource.getInputStream());
 
@@ -138,8 +139,9 @@ public class IniLoader {
 
         Map<String, String> sectionValues = values.get(section);
 
-        if (sectionValues == null)
-            sectionValues = new HashMap<>();
+        if (sectionValues == null) {
+            sectionValues = new HashMap<>(prop.size());
+        }
 
         Set<?> keys = prop.keySet();
         for (Object key : keys) {

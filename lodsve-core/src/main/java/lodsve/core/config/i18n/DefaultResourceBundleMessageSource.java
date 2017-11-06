@@ -68,6 +68,7 @@ public class DefaultResourceBundleMessageSource extends AbstractMessageSource im
         return (this.bundleClassLoader != null ? this.bundleClassLoader : this.beanClassLoader);
     }
 
+    @Override
     public void setBeanClassLoader(ClassLoader classLoader) {
         this.beanClassLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
     }
@@ -122,8 +123,9 @@ public class DefaultResourceBundleMessageSource extends AbstractMessageSource im
 
             bundle = doGetBundle(locale);
 
-            if (bundle != null)
+            if (bundle != null) {
                 this.cachedResourceBundles.put(locale, bundle);
+            }
 
             return bundle;
         }
@@ -174,11 +176,11 @@ public class DefaultResourceBundleMessageSource extends AbstractMessageSource im
             String msg = getStringOrNull(bundle, code);
             if (msg != null) {
                 if (codeMap == null) {
-                    codeMap = new HashMap<>();
+                    codeMap = new HashMap<>(16);
                     this.cachedBundleMessageFormats.put(bundle, codeMap);
                 }
                 if (localeMap == null) {
-                    localeMap = new HashMap<>();
+                    localeMap = new HashMap<>(16);
                     codeMap.put(code, localeMap);
                 }
                 MessageFormat result = createMessageFormat(msg, locale);

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 public class ApplicationContextListener implements ApplicationListener<ContextRefreshedEvent> {
     private static final Logger logger = LoggerFactory.getLogger(ApplicationContextListener.class);
 
+    @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         logger.info("the applicationContext is " + event.getApplicationContext());
 

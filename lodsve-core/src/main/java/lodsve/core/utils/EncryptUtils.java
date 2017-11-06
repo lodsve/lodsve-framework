@@ -21,7 +21,7 @@ import java.security.NoSuchAlgorithmException;
  * @createTime 2015-1-6 20:57
  */
 public class EncryptUtils {
-    private static char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     /**
      * 用MD5算法进行加密
@@ -129,11 +129,11 @@ public class EncryptUtils {
         }
     }
 
-    private static String bufferToHex(byte bytes[]) {
+    private static String bufferToHex(byte[] bytes) {
         return bufferToHex(bytes, 0, bytes.length);
     }
 
-    private static String bufferToHex(byte bytes[], int m, int n) {
+    private static String bufferToHex(byte[] bytes, int m, int n) {
         StringBuffer stringbuffer = new StringBuffer(2 * n);
         int k = m + n;
         for (int l = m; l < k; l++) {
@@ -143,8 +143,8 @@ public class EncryptUtils {
     }
 
     private static void appendHexPair(byte bt, StringBuffer stringbuffer) {
-        char c0 = hexDigits[(bt & 0xf0) >> 4];
-        char c1 = hexDigits[bt & 0xf];
+        char c0 = HEX_DIGITS[(bt & 0xf0) >> 4];
+        char c1 = HEX_DIGITS[bt & 0xf];
         stringbuffer.append(c0);
         stringbuffer.append(c1);
     }

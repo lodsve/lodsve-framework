@@ -8,9 +8,18 @@ package lodsve.core.email;
  */
 public class EmailBean {
     private String name;
-    private String smtp;                //smtp服务器名称
-    private int port;                    //端口号
-    private String description;        //描述
+    /**
+     * smtp服务器名称
+     */
+    private String smtp;
+    /**
+     * 端口号
+     */
+    private int port;
+    /**
+     * 描述
+     */
+    private String description;
 
     public EmailBean() {
     }

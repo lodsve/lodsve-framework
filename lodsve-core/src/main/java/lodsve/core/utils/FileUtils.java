@@ -379,23 +379,28 @@ public class FileUtils {
             return sizeLong;
         }
 
-        if (NumberUtils.isNumber(size))
+        if (NumberUtils.isNumber(size)) {
             return Long.valueOf(size);
+        }
 
         boolean check = false;
         for (String unit : LIST_FILE_SIZE_UNIT) {
             String reg = "[0-9.]{0,}(" + unit + ")$";
             check = size.matches(reg);
-            if (check) break;
+            if (check) {
+                break;
+            }
         }
 
-        if (!check)
+        if (!check) {
             return sizeLong;
+        }
 
         for (String unit : LIST_FILE_SIZE_UNIT) {
             String number = size.replaceAll(unit, "");
-            if (!NumberUtils.isNumber(number))
+            if (!NumberUtils.isNumber(number)) {
                 continue;
+            }
 
             Long d = Long.valueOf(number);
             if ("GB".equals(unit)) {
@@ -443,7 +448,7 @@ public class FileUtils {
         }
         Long size = 0L;
         if (file.isDirectory()) {
-            File files[] = file.listFiles();
+            File[] files = file.listFiles();
             for (int i = 0; i < files.length; i++) {
                 if (files[i].isDirectory()) {
                     size = size + getDirectorySize(files[i]);
@@ -490,8 +495,9 @@ public class FileUtils {
         List<File> files = new ArrayList<File>();
         File file = new File(directory);
         if (file.isDirectory()) {
-            //是文件夹
-            File[] underFiles = file.listFiles();       //获取文件夹下所有的文件或者文件夹
+            // 是文件夹
+            // 获取文件夹下所有的文件或者文件夹
+            File[] underFiles = file.listFiles();
             for (File uf : underFiles) {
                 if (!uf.isDirectory()) {
                     logger.debug("scan file '{}'!", uf.getName());
@@ -618,8 +624,9 @@ public class FileUtils {
      * @since Commons IO 1.1
      */
     public static List<String> readLines(InputStream in, String encoding) throws Exception {
-        if (in == null)
+        if (in == null) {
             return Collections.EMPTY_LIST;
+        }
 
         return IOUtils.readLines(in, encoding);
     }

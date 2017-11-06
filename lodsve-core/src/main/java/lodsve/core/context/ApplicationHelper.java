@@ -27,7 +27,9 @@ public class ApplicationHelper {
 
     private Set<ApplicationContext> apps = new HashSet<>();
 
-    //构造器私有，不可在外部进行初始化实例
+    /**
+     * 构造器私有，不可在外部进行初始化实例
+     */
     private ApplicationHelper() {
 
     }
@@ -47,15 +49,17 @@ public class ApplicationHelper {
             ApplicationContext app = (ApplicationContext) it.next();
             try {
                 result = app.getBean(clazz);
-                if (result != null)
+                if (result != null) {
                     return result;
+                }
             } catch (BeansException e) {
                 continue;
             }
         }
 
-        if (result == null)
+        if (result == null) {
             throw new NoSuchBeanDefinitionException(clazz.getName());
+        }
 
         return result;
     }
@@ -74,15 +78,17 @@ public class ApplicationHelper {
             ApplicationContext app = (ApplicationContext) it.next();
             try {
                 result = app.getBean(name);
-                if (result != null)
+                if (result != null) {
                     return result;
+                }
             } catch (BeansException e) {
                 continue;
             }
         } while (!it.hasNext());
 
-        if (result == null)
+        if (result == null) {
             throw new NoSuchBeanDefinitionException(name);
+        }
 
         return result;
     }
@@ -95,7 +101,7 @@ public class ApplicationHelper {
      */
     public <T> Map<String, T> getBeansByType(Class<T> clazz) {
         Iterator it = apps.iterator();
-        Map<String, T> results = new HashMap<>();
+        Map<String, T> results = new HashMap<>(16);
         while (it.hasNext()) {
             ApplicationContext app = (ApplicationContext) it.next();
             results.putAll(app.getBeansOfType(clazz));
@@ -110,8 +116,9 @@ public class ApplicationHelper {
     }
 
     public void addApplicationContext(ApplicationContext context) {
-        if (context == null)
+        if (context == null) {
             return;
+        }
         apps.add(context);
 
         if (context.getParent() != null) {
@@ -126,8 +133,9 @@ public class ApplicationHelper {
     }
 
     public String getRootPath() {
-        if (rootPath != null)
+        if (rootPath != null) {
             return rootPath;
+        }
         return "./webapp/";
     }
 

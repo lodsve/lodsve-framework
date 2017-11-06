@@ -1,9 +1,5 @@
 package lodsve.core.event.listener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lodsve.core.event.EventExecutor;
 import lodsve.core.event.module.BaseEvent;
 import org.slf4j.Logger;
@@ -11,6 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 事件监听器.
@@ -48,8 +49,15 @@ public abstract class AbstractEventListener implements InitializingBean {
     protected AbstractEventListener() {
     }
 
+    /**
+     * 处理事件
+     *
+     * @param baseEvent 事件
+     * @throws RuntimeException
+     */
     public abstract void handleEvent(BaseEvent baseEvent) throws RuntimeException;
 
+    @Override
     public void afterPropertiesSet() throws Exception {
         //注册事件监听
         if (syncEventListeners != null) {

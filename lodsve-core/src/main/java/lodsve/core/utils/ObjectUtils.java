@@ -73,10 +73,10 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
         if (obj2 == null || obj2.length < 1) {
             return false;
         }
-        List<Object> obj1_ = Arrays.asList(obj1);
-        List<Object> obj2_ = Arrays.asList(obj2);
+        List<Object> obj1List = Arrays.asList(obj1);
+        List<Object> obj2List = Arrays.asList(obj2);
 
-        return CollectionUtils.containsAny(obj1_, obj2_);
+        return CollectionUtils.containsAny(obj1List, obj2List);
     }
 
     /**
@@ -92,11 +92,12 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
 
     public static Map<String, Object> object2Map(Object obj) {
         try {
-            if (obj == null)
+            if (obj == null) {
                 return Collections.emptyMap();
+            }
 
             Field[] fields = getFields(obj);
-            Map<String, Object> map = new HashMap<String, Object>();
+            Map<String, Object> map = new HashMap<>(fields.length);
             for (Field f : fields) {
                 Object value = getFieldValue(obj, f.getName());
                 map.put(f.getName(), value);
@@ -161,11 +162,13 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
      * @param second
      */
     public static Object mergerObject(Object first, Object second) throws Exception {
-        if (first == null || second == null)
+        if (first == null || second == null) {
             return null;
+        }
 
-        if (!first.getClass().equals(second.getClass()))
+        if (!first.getClass().equals(second.getClass())) {
             return null;
+        }
 
         Class<?> clazz = first.getClass();
         Object result = BeanUtils.instantiate(clazz);

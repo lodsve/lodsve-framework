@@ -147,8 +147,9 @@ public class EmailServer {
         List<File> fs = new ArrayList<>();
         for (String fn : fileNames) {
             File f = new File(fn);
-            if (f.exists() && f.canRead())
+            if (f.exists() && f.canRead()) {
                 fs.add(f);
+            }
         }
 
         return this.sendAttachmentMail(username, password, title, content, receivers, fs);
