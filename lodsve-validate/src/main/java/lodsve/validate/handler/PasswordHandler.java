@@ -2,7 +2,7 @@ package lodsve.validate.handler;
 
 import lodsve.core.utils.StringUtils;
 import lodsve.validate.annotations.Password;
-import lodsve.validate.core.ValidateHandler;
+import lodsve.validate.core.AbstractValidateHandler;
 import lodsve.validate.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +19,14 @@ import java.util.regex.Pattern;
  * @version V1.0
  * @createTime 12-11-26 下午8:54
  */
-public class PasswordHandler extends ValidateHandler {
+public class PasswordHandler extends AbstractValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(PasswordHandler.class);
 
     public PasswordHandler() throws IOException {
         super();
     }
 
+    @Override
     protected ErrorMessage handle(Annotation annotation, Object value) {
         if (!(value instanceof String)) {
             logger.error("is not string!");
@@ -48,7 +49,9 @@ public class PasswordHandler extends ValidateHandler {
             boolean l = true;
             if (min < max)
                 //并且有长度的校验
+            {
                 l = (min <= length && max >= length);
+            }
 
             return getMessage(Password.class, getClass(), "pwd-regex-error", matcher.matches() && l, regex, value);
         }

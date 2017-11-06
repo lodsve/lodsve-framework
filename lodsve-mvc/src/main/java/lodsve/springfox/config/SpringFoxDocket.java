@@ -34,6 +34,7 @@ public class SpringFoxDocket extends Docket {
     @Autowired
     private ServerProperties serverProperties;
 
+    private static final int SCHEMA_HOST_PATH_LENGTH = 2;
     private String groupName;
 
     public SpringFoxDocket(String groupName) {
@@ -96,7 +97,7 @@ public class SpringFoxDocket extends Docket {
             return "localhost";
         }
         String[] schemaAndHostAndPath = serverUrl.split("://");
-        if (ArrayUtils.isEmpty(schemaAndHostAndPath) || 2 != ArrayUtils.getLength(schemaAndHostAndPath)) {
+        if (ArrayUtils.isEmpty(schemaAndHostAndPath) || SCHEMA_HOST_PATH_LENGTH != ArrayUtils.getLength(schemaAndHostAndPath)) {
             return "localhost";
         }
 

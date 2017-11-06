@@ -1,8 +1,5 @@
 package lodsve.mongodb.annotations;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import lodsve.core.template.ThymeleafTemplateResource;
 import lodsve.core.utils.StringUtils;
 import lodsve.mongodb.core.MongoDataSourceBeanDefinitionFactory;
@@ -16,6 +13,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 加载mongodb操作的一些bean.
@@ -52,7 +53,7 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
     }
 
     private Resource loadBeanDefinitions(String dataSource, String[] basePackage, String[] domainPackage) {
-        Map<String, Object> context = new HashMap<>();
+        Map<String, Object> context = new HashMap<>(3);
         context.put("dataSource", dataSource);
         context.put("basePackage", StringUtils.join(Arrays.asList(basePackage), ","));
         context.put("domainPackage", StringUtils.join(Arrays.asList(domainPackage), ","));

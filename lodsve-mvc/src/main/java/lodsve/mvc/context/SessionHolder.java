@@ -9,13 +9,17 @@ import javax.servlet.http.HttpSession;
  * @version 1.0 2017/5/8 下午2:37
  */
 public class SessionHolder {
-    private static ThreadLocal<HttpSession> sessionThreadLocal = new ThreadLocal<>();
+    private final static ThreadLocal<HttpSession> SESSION_THREAD_LOCAL = new ThreadLocal<>();
 
     public static void setSession(HttpSession session) {
-        sessionThreadLocal.set(session);
+        SESSION_THREAD_LOCAL.set(session);
     }
 
     public static HttpSession getSession() {
-        return sessionThreadLocal.get();
+        return SESSION_THREAD_LOCAL.get();
+    }
+
+    public static void removeSession() {
+        SESSION_THREAD_LOCAL.remove();
     }
 }

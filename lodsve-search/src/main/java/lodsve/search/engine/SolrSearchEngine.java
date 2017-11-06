@@ -1,7 +1,7 @@
 package lodsve.search.engine;
 
 import lodsve.core.utils.StringUtils;
-import lodsve.search.bean.SearchBean;
+import lodsve.search.bean.BaseSearchBean;
 import lodsve.search.exception.SolrException;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -41,8 +41,9 @@ public class SolrSearchEngine extends AbstractSearchEngine {
         }
 
         try {
-            if (solrServer == null)
+            if (solrServer == null) {
                 solrServer = new CommonsHttpSolrServer(server);
+            }
 
             return solrServer;
         } catch (MalformedURLException e) {
@@ -50,12 +51,13 @@ public class SolrSearchEngine extends AbstractSearchEngine {
         }
     }
 
-    public synchronized void doIndex(List<SearchBean> searchBeans) throws Exception {
+    @Override
+    public synchronized void doIndex(List<BaseSearchBean> BaseSearchBeans) throws Exception {
         SolrServer solrServer = getSolrServer();
         List<SolrInputDocument> sids = new ArrayList<SolrInputDocument>();
-        for (SearchBean sb : searchBeans) {
+        for (BaseSearchBean sb : BaseSearchBeans) {
             if (sb == null) {
-                logger.debug("give SearchBean is null!");
+                logger.debug("give BaseSearchBean is null!");
                 return;
             }
 
@@ -114,7 +116,9 @@ public class SolrSearchEngine extends AbstractSearchEngine {
                     String column = e.getKey();
                     File file = e.getValue();
 
-                    if (!Arrays.asList(doIndexFields).contains(column)) continue;
+                    if (!Arrays.asList(doIndexFields).contains(column)) {
+                        continue;
+                    }
 
                     String content = getFileContent(file);
 
@@ -130,7 +134,8 @@ public class SolrSearchEngine extends AbstractSearchEngine {
         solrServer.commit();
     }
 
-    public synchronized void deleteIndex(SearchBean bean) throws Exception {
+    @Override
+    public synchronized void deleteIndex(BaseSearchBean bean) throws Exception {
         if (bean == null) {
             logger.warn("Get search bean is empty!");
             return;
@@ -149,48 +154,52 @@ public class SolrSearchEngine extends AbstractSearchEngine {
         server.commit();
     }
 
-    public synchronized void deleteIndexs(List<SearchBean> beans) throws Exception {
+    @Override
+    public synchronized void deleteIndexs(List<BaseSearchBean> beans) throws Exception {
         if (beans == null) {
             logger.warn("Get beans is empty!");
             return;
         }
 
-        for (SearchBean bean : beans) {
+        for (BaseSearchBean bean : beans) {
             this.deleteIndex(bean);
         }
     }
 
-    public Page<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, Pageable pageable) throws Exception {
+    @Override
+    public Page<BaseSearchBean> doSearch(List<BaseSearchBean> beans, boolean isHighlighter, Pageable pageable) throws Exception {
         if (beans == null || beans.isEmpty()) {
             logger.debug("given search beans is empty!");
-            return new PageImpl<>(Collections.<SearchBean>emptyList(), null, 0);
+            return new PageImpl<>(Collections.<BaseSearchBean>emptyList(), null, 0);
         }
 
-        List<SearchBean> queryResults = new ArrayList<>();
+        List<BaseSearchBean> queryResults = new ArrayList<>();
 
-        StringBuffer query_ = new StringBuffer();
-        for (SearchBean bean : beans) {
+        StringBuffer querySB = new StringBuffer();
+        for (BaseSearchBean bean : beans) {
             //要进行检索的字段
             String[] doSearchFields = bean.getDoSearchFields();
-            if (doSearchFields == null || doSearchFields.length == 0)
+            if (doSearchFields == null || doSearchFields.length == 0) {
                 continue;
+            }
 
             for (int i = 0; i < doSearchFields.length; i++) {
                 String f = doSearchFields[i];
-                query_.append("(").append(f).append("_message:*").append(bean.getKeyword()).append("*").append(")");
+                querySB.append("(").append(f).append("_message:*").append(bean.getKeyword()).append("*").append(")");
 
-                if (i + 1 != doSearchFields.length)
-                    query_.append(" OR ");
+                if (i + 1 != doSearchFields.length) {
+                    querySB.append(" OR ");
+                }
             }
         }
 
-        if (StringUtils.isEmpty(query_.toString())) {
+        if (StringUtils.isEmpty(querySB.toString())) {
             logger.warn("query string is null!");
-            return new PageImpl<>(Collections.<SearchBean>emptyList(), null, 0);
+            return new PageImpl<>(Collections.<BaseSearchBean>emptyList(), null, 0);
         }
 
         SolrQuery query = new SolrQuery();
-        query.setQuery(query_.toString());
+        query.setQuery(querySB.toString());
         query.setStart(pageable.getPageNumber() * pageable.getPageSize());
         query.setRows(pageable.getPageSize());
         query.setFields("*", "score");
@@ -208,7 +217,7 @@ public class SolrSearchEngine extends AbstractSearchEngine {
         for (Iterator it = sd.iterator(); it.hasNext(); ) {
             SolrDocument doc = (SolrDocument) it.next();
             String indexType = doc.get("indexType").toString();
-            SearchBean result = super.getSearchBean(indexType, beans);
+            BaseSearchBean result = super.getBaseSearchBean(indexType, beans);
 
             try {
                 result.setId(doc.getFieldValue("pkId").toString());
@@ -227,15 +236,17 @@ public class SolrSearchEngine extends AbstractSearchEngine {
                     }
                 }
 
-                if (StringUtils.isEmpty(keyword))
+                if (StringUtils.isEmpty(keyword)) {
                     keyword = doc.getFieldValue("keyword").toString();
+                }
                 result.setKeyword(keyword);
 
                 //要进行检索的字段
                 String[] doSearchFields = result.getDoSearchFields();
-                if (doSearchFields == null || doSearchFields.length == 0)
+                if (doSearchFields == null || doSearchFields.length == 0) {
                     continue;
-                Map<String, String> extendValues = new HashMap<String, String>();
+                }
+                Map<String, String> extendValues = new HashMap<>(doSearchFields.length);
                 for (String field : doSearchFields) {
                     String value = doc.getFieldValue(field + "_message").toString();
                     if (isHighlighter) {
@@ -260,11 +271,13 @@ public class SolrSearchEngine extends AbstractSearchEngine {
         return new PageImpl<>(queryResults, pageable, sd.getNumFound());
     }
 
-    public synchronized void deleteIndexsByIndexType(Class<? extends SearchBean> clazz) throws Exception {
+    @Override
+    public synchronized void deleteIndexsByIndexType(Class<? extends BaseSearchBean> clazz) throws Exception {
         String indexType = getIndexType(BeanUtils.instantiate(clazz));
         this.deleteIndexsByIndexType(indexType);
     }
 
+    @Override
     public synchronized void deleteIndexsByIndexType(String indexType) throws Exception {
         SolrServer server = getSolrServer();
         UpdateResponse ur = server.deleteByQuery("indexType:" + indexType);
@@ -272,6 +285,7 @@ public class SolrSearchEngine extends AbstractSearchEngine {
         server.commit();
     }
 
+    @Override
     public synchronized void deleteAllIndexs() throws Exception {
         SolrServer server = getSolrServer();
         UpdateResponse ur = server.deleteByQuery("*:*");
@@ -279,8 +293,9 @@ public class SolrSearchEngine extends AbstractSearchEngine {
         server.commit();
     }
 
-    public void updateIndex(SearchBean searchBean) throws Exception {
-        this.updateIndexs(Collections.singletonList(searchBean));
+    @Override
+    public void updateIndex(BaseSearchBean BaseSearchBean) throws Exception {
+        this.updateIndexs(Collections.singletonList(BaseSearchBean));
     }
 
     /**
@@ -288,11 +303,12 @@ public class SolrSearchEngine extends AbstractSearchEngine {
      * 在solr中更新索引也就是创建索引(当有相同ID存在的时候,仅仅更新,否则新建)<br/>
      * {@link lodsve.search.engine.SolrSearchEngine#doIndex(java.util.List)}
      *
-     * @param searchBeans 需要更新的beans
+     * @param BaseSearchBeans 需要更新的beans
      * @throws Exception
      */
-    public void updateIndexs(List<SearchBean> searchBeans) throws Exception {
-        this.doIndex(searchBeans);
+    @Override
+    public void updateIndexs(List<BaseSearchBean> BaseSearchBeans) throws Exception {
+        this.doIndex(BaseSearchBeans);
     }
 
     public void setServer(String server) {

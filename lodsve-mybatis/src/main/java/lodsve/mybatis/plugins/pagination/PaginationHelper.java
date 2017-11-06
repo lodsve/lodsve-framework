@@ -150,8 +150,14 @@ public class PaginationHelper {
         return newBoundSql;
     }
 
-    /*
+    /**
      * 对SQL参数(?)设值
+     *
+     * @param ps
+     * @param mappedStatement
+     * @param boundSql
+     * @param parameterObject
+     * @throws SQLException
      */
     private static void setParameters(PreparedStatement ps, MappedStatement mappedStatement, BoundSql boundSql, Object parameterObject) throws SQLException {
         ParameterHandler parameterHandler = new DefaultParameterHandler(mappedStatement, parameterObject, boundSql);
@@ -199,6 +205,7 @@ public class PaginationHelper {
             this.boundSql = boundSql;
         }
 
+        @Override
         public BoundSql getBoundSql(Object parameterObject) {
             return boundSql;
         }

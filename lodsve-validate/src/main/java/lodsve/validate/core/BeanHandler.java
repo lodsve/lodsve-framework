@@ -10,12 +10,21 @@ import lodsve.core.utils.StringUtils;
  * @createTime 12-11-26 下午9:51
  */
 public class BeanHandler {
-    private String key;                                         //唯一标识
-    private Class annotation;                                  //注解
-    private ValidateHandler validateHandler;                 //其对应的处理类
+    /**
+     * 唯一标识
+     */
+    private String key;
+    /**
+     * 注解
+     */
+    private Class annotation;
+    /**
+     * 其对应的处理类
+     */
+    private AbstractValidateHandler validateHandler;
 
-    public BeanHandler(String key, Class annotation, ValidateHandler validateHandler) {
-        if(StringUtils.isEmpty(key)){
+    public BeanHandler(String key, Class annotation, AbstractValidateHandler validateHandler) {
+        if (StringUtils.isEmpty(key)) {
             this.key = StringUtils.substring(annotation.getSimpleName(), 0, annotation.getSimpleName().lastIndexOf("_"));
         } else {
             this.key = key;
@@ -24,7 +33,7 @@ public class BeanHandler {
         this.validateHandler = validateHandler;
     }
 
-    public BeanHandler(Class annotation, ValidateHandler validateHandler) {
+    public BeanHandler(Class annotation, AbstractValidateHandler validateHandler) {
         this.key = StringUtils.substring(annotation.getSimpleName(), 0, annotation.getSimpleName().lastIndexOf("_"));
         this.annotation = annotation;
         this.validateHandler = validateHandler;
@@ -46,11 +55,11 @@ public class BeanHandler {
         this.annotation = annotation;
     }
 
-    public ValidateHandler getValidateHandler() {
+    public AbstractValidateHandler getValidateHandler() {
         return validateHandler;
     }
 
-    public void setValidateHandler(ValidateHandler validateHandler) {
+    public void setValidateHandler(AbstractValidateHandler validateHandler) {
         this.validateHandler = validateHandler;
     }
 }

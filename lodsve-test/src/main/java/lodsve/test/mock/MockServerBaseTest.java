@@ -35,8 +35,9 @@ public class MockServerBaseTest extends PowerMockitoBaseTest {
 
     @AfterClass
     public static void stopServer() {
-        if (mockServer != null)
+        if (mockServer != null) {
             mockServer.stop();
+        }
         
         baseUrl = "";
     }

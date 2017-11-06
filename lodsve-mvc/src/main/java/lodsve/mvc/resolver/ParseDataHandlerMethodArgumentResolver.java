@@ -35,16 +35,16 @@ import java.util.Map;
  */
 public class ParseDataHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
     private static final Logger logger = LoggerFactory.getLogger(ParseDataHandlerMethodArgumentResolver.class);
-    private final static Map<String, StringParse> mappers = new HashMap<>();
-    public final static ClassPool classPool;
+    private final static Map<String, StringParse> MAPPERS = new HashMap<>();
+    public final static ClassPool CLASSPOOL;
 
     static {
         ClassPool parent = ClassPool.getDefault();
         ClassPool child = new ClassPool(parent);
         child.appendClassPath(new LoaderClassPath(ParseDataHandlerMethodArgumentResolver.class.getClassLoader()));
-        child.appendSystemPath(); // the same class path as the default one.
-        child.childFirstLookup = true; // changes the behavior of the child.
-        classPool = child;
+        child.appendSystemPath();
+        child.childFirstLookup = true;
+        CLASSPOOL = child;
     }
 
     @Override
@@ -78,14 +78,14 @@ public class ParseDataHandlerMethodArgumentResolver implements HandlerMethodArgu
         String delimiters = parse.delimiters();
 
         String parseObjKey = parameter.getContainingClass().getName() + "$" + parameter.getParameterName() + "$" + parameter.getParameterType().getName();
-        StringParse parseObj = this.mappers.get(parseObjKey);
+        StringParse parseObj = ParseDataHandlerMethodArgumentResolver.MAPPERS.get(parseObjKey);
         if (parseObj == null) {
             parseObj = this.generateParseClassBody(dest, parseObjKey);
         }
 
         List result = StringUtils.convert(valueInRequest, delimiters, parseObj);
 
-        if(CollectionUtils.isEmpty(result) && parse.required()) {
+        if (CollectionUtils.isEmpty(result) && parse.required()) {
             throw new RuntimeException("参数[" + parameter.getParameterName() + "]是必填的！");
         }
 
@@ -108,7 +108,7 @@ public class ParseDataHandlerMethodArgumentResolver implements HandlerMethodArgu
 
     private StringParse generateParseClassBody(Class<?> dest, String parseObjKey) {
         try {
-            ClassPool cp = classPool;
+            ClassPool cp = CLASSPOOL;
             //创建一个类
             CtClass ctClass = cp.makeClass("lodsve.core.utils.StringParse$" + System.currentTimeMillis());
             //创建一个接口(StringUtils.StringParse)
@@ -146,7 +146,7 @@ public class ParseDataHandlerMethodArgumentResolver implements HandlerMethodArgu
             ctClass.addMethod(parseMethod);
 
             StringParse obj = (StringParse) ctClass.toClass().newInstance();
-            this.mappers.put(parseObjKey, obj);
+            ParseDataHandlerMethodArgumentResolver.MAPPERS.put(parseObjKey, obj);
 
             return obj;
         } catch (Exception e) {

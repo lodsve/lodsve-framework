@@ -2,7 +2,7 @@ package lodsve.validate.handler;
 
 import lodsve.core.utils.ValidateUtils;
 import lodsve.validate.annotations.Chinese;
-import lodsve.validate.core.ValidateHandler;
+import lodsve.validate.core.AbstractValidateHandler;
 import lodsve.validate.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +19,14 @@ import static lodsve.core.utils.ValidateUtils.isChinese;
  * @version V1.0
  * @createTime 12-11-26 下午7:48
  */
-public class ChineseHandler extends ValidateHandler {
+public class ChineseHandler extends AbstractValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(ChineseHandler.class);
 
     public ChineseHandler() throws IOException {
         super();
     }
 
+    @Override
     public ErrorMessage handle(Annotation annotation, Object value) {
         Chinese c = (Chinese) annotation;
         int min = c.min();

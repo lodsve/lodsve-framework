@@ -23,6 +23,7 @@ public class DebugRequestListener implements ApplicationListener {
     @Autowired
     private ApplicationProperties applicationProperties;
 
+    @Override
     public void onApplicationEvent(ApplicationEvent event) {
         if (applicationProperties.isDevMode()) {
             if (!(event instanceof ServletRequestHandledEvent)) {

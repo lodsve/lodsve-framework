@@ -1,8 +1,9 @@
 package lodsve.workflow.domain;
 
-import java.util.List;
 import lodsve.core.utils.ListUtils;
 import org.apache.commons.collections.CollectionUtils;
+
+import java.util.List;
 
 /**
  * 工作流.
@@ -108,17 +109,17 @@ public class Workflow {
         }
 
         final String name = node.getName();
-        FlowNode _node = ListUtils.findOne(nodes, new ListUtils.Decide<FlowNode>() {
+        FlowNode checkNode = ListUtils.findOne(nodes, new ListUtils.Decide<FlowNode>() {
             @Override
             public boolean judge(FlowNode target) {
                 return name.equals(target.getNext());
             }
         });
 
-        if (_node == null) {
+        if (checkNode == null) {
             return node;
         } else {
-            return findStartNode(_node, nodes);
+            return findStartNode(checkNode, nodes);
         }
     }
 

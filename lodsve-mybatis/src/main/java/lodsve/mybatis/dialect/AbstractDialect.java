@@ -35,10 +35,12 @@ public abstract class AbstractDialect implements Dialect {
 
             return resultSet.next() && resultSet.getInt("count") > 0;
         } finally {
-            if (ps != null)
+            if (ps != null) {
                 ps.close();
-            if (resultSet != null)
+            }
+            if (resultSet != null) {
                 resultSet.close();
+            }
         }
     }
 

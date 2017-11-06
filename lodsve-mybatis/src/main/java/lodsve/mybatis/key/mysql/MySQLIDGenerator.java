@@ -43,12 +43,12 @@ public class MySQLIDGenerator implements IDGenerator {
     /**
      * cache for each sequence's next id
      **/
-    private Map<String, Long> NEXT_ID_CACHE = new HashMap<>();
+    private final static Map<String, Long> NEXT_ID_CACHE = new HashMap<>();
 
     /**
      * cache for each sequence's max id
      **/
-    private Map<String, Long> MAX_ID_CACHE = new HashMap<>();
+    private final static Map<String, Long> MAX_ID_CACHE = new HashMap<>();
 
     private DataSource dataSource;
 
@@ -58,10 +58,12 @@ public class MySQLIDGenerator implements IDGenerator {
 
     @Override
     public synchronized Long nextId(String sequenceName) {
-        if (NEXT_ID_CACHE.get(sequenceName) != null)
+        if (NEXT_ID_CACHE.get(sequenceName) != null) {
             this.nextId = NEXT_ID_CACHE.get(sequenceName);
-        if (MAX_ID_CACHE.get(sequenceName) != null)
+        }
+        if (MAX_ID_CACHE.get(sequenceName) != null) {
             this.maxId = MAX_ID_CACHE.get(sequenceName);
+        }
 
         if (this.maxId == this.nextId) {
             /*

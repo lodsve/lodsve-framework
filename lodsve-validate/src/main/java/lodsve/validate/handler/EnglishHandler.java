@@ -2,7 +2,7 @@ package lodsve.validate.handler;
 
 import lodsve.core.utils.ValidateUtils;
 import lodsve.validate.annotations.English;
-import lodsve.validate.core.ValidateHandler;
+import lodsve.validate.core.AbstractValidateHandler;
 import lodsve.validate.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +19,14 @@ import static lodsve.core.utils.ValidateUtils.isChinese;
  * @version V1.0
  * @createTime 12-11-26 下午8:24
  */
-public class EnglishHandler extends ValidateHandler {
+public class EnglishHandler extends AbstractValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(EnglishHandler.class);
 
     public EnglishHandler() throws IOException {
         super();
     }
 
+    @Override
     protected ErrorMessage handle(Annotation annotation, Object value) {
         English c = (English) annotation;
         int min = c.min();

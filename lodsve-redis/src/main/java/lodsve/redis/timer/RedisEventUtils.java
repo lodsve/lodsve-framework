@@ -15,18 +15,18 @@ import java.util.Map;
  */
 @Component
 public class RedisEventUtils {
-    private static Map<String, RedisEventHandler> handlers = new HashMap<>();
+    private final static Map<String, RedisEventHandler> HANDLERS = new HashMap<>();
 
     @Autowired
     public RedisEventUtils(List<RedisEventHandler> handlers) {
         for (RedisEventHandler bean : handlers) {
             RedisEventType type = bean.getEventType();
 
-            this.handlers.put(type.getType(), bean);
+            RedisEventUtils.HANDLERS.put(type.getType(), bean);
         }
     }
 
     public static RedisEventHandler getRedisEventHandler(String type) {
-        return handlers.get(type);
+        return HANDLERS.get(type);
     }
 }

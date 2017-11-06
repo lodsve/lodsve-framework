@@ -9,8 +9,9 @@ package lodsve.mybatis.dialect;
 public class OracleDialect extends AbstractDialect {
     @Override
     public String getPageSql(String sql, int offset, int limit) {
-        if (offset < 0 || limit < 0)
+        if (offset < 0 || limit < 0) {
             return sql;
+        }
 
         StringBuffer pageSql = new StringBuffer(" SELECT * FROM ( ");
         pageSql.append(" SELECT temp.* ,ROWNUM num FROM ( ");

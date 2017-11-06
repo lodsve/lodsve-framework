@@ -36,7 +36,7 @@ public class CustomObjectMapper extends ObjectMapper {
                 null, null, null,
                 Locale.getDefault(),
                 TimeZone.getDefault(),
-                Base64Variants.getDefaultVariant() // 2.1
+                Base64Variants.getDefaultVariant()
         );
 
         _serializationConfig = new SerializationConfig(baseSettings, _subtypeResolver, _mixInAnnotations);

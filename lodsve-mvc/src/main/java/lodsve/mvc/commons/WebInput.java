@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -28,13 +29,26 @@ public class WebInput {
     /**
      * Default command name used for binding command objects: "command"
      */
-    public static final String DEFAULT_COMMAND_NAME = "command";
+    private static final String DEFAULT_COMMAND_NAME = "command";
 
     private static final Logger log = LoggerFactory.getLogger(WebInput.class);
-    public static final String TIME_PATTERN = "yyyy-MM-dd HH:mm";
+    private static final String TIME_PATTERN = "yyyy-MM-dd HH:mm";
 
-    private static final Integer DEFAULT_INTEGER = Integer.valueOf(-1);
-    private static final Long DEFAULT_LONG = Long.valueOf(-1);
+    private static final List<String> YES = Arrays.asList("yes", "true", "1", "t");
+    private static final List<String> NO = Arrays.asList("no", "false", "0", "f");
+    /**
+     * yyyy-MM-dd hh:mm
+     */
+    private static final Pattern PATTERN_ONE = Pattern.compile("(\\d){2,4}[-](\\d){1,2}[-](\\d){1,2} (\\d){1,2}[:](\\d){1,2}");
+    /**
+     * yyyy-MM-dd
+     */
+    private static final Pattern PATTERN_TWO = Pattern.compile("(\\d){2,4}[-](\\d){1,2}[-](\\d){1,2}");
+    /**
+     * hh:mm yyyy-MM-dd
+     */
+    private static final Pattern PATTERN_THREE = Pattern.compile("(\\d){1,2}[:](\\d){1,2} (\\d){2,4}[-](\\d){1,2}[-](\\d){1,2}");
+
     /**
      * session的默认生命周期，是20分钟
      */
@@ -121,11 +135,11 @@ public class WebInput {
     }
 
     public double getDouble(String name, double defaultValue) {
-        double result = defaultValue;
+        double result;
         try {
             result = Double.parseDouble(this.request.getParameter(name));
         } catch (NumberFormatException e) {
-            return 0;
+            return defaultValue;
         }
 
         return result;
@@ -139,9 +153,9 @@ public class WebInput {
         }
         s = s.toLowerCase();
 
-        if ("yes".equals(s) || "true".equals(s) || "1".equals(s) || "t".equals(s)) {
+        if (YES.contains(s)) {
             result = true;
-        } else if ("no".equals(s) || "false".equals(s) || "0".equals(s) || "f".equals(s)) {
+        } else if (NO.contains(s)) {
             result = false;
         }
 
@@ -346,20 +360,14 @@ public class WebInput {
             log.debug("this url paramter is null!");
             return Constants.SIMPLE_DATE_FORMAT;
         }
-        //yyyy-MM-dd hh:mm
-        Pattern p1 = Pattern.compile("(\\d){2,4}[-](\\d){1,2}[-](\\d){1,2} (\\d){1,2}[:](\\d){1,2}");
-        //yyyy-MM-dd
-        Pattern p2 = Pattern.compile("(\\d){2,4}[-](\\d){1,2}[-](\\d){1,2}");
-        //hh:mm yyyy-MM-dd
-        Pattern p3 = Pattern.compile("(\\d){1,2}[:](\\d){1,2} (\\d){2,4}[-](\\d){1,2}[-](\\d){1,2}");
         for (String up : urlParams) {
-            if (p1.matcher(up).matches()) {
+            if (PATTERN_ONE.matcher(up).matches()) {
                 return Constants.SIMPLE_DATE_FORMAT;
             }
-            if (p2.matcher(up).matches()) {
+            if (PATTERN_TWO.matcher(up).matches()) {
                 return Constants.DATE_FORMAT;
             }
-            if (p3.matcher(up).matches()) {
+            if (PATTERN_THREE.matcher(up).matches()) {
                 return Constants.DATE_FORMAT_;
             }
         }

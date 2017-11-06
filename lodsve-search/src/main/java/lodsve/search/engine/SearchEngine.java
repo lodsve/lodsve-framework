@@ -1,6 +1,6 @@
 package lodsve.search.engine;
 
-import lodsve.search.bean.SearchBean;
+import lodsve.search.bean.BaseSearchBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,7 +21,7 @@ public interface SearchEngine {
      * @param searchBeans 对象
      * @throws Exception
      */
-    void doIndex(List<SearchBean> searchBeans) throws Exception;
+    void doIndex(List<BaseSearchBean> searchBeans) throws Exception;
 
     /**
      * 删除索引
@@ -29,7 +29,7 @@ public interface SearchEngine {
      * @param bean 对象
      * @throws Exception
      */
-    void deleteIndex(SearchBean bean) throws Exception;
+    void deleteIndex(BaseSearchBean bean) throws Exception;
 
     /**
      * 删除索引(删除多个)
@@ -37,7 +37,7 @@ public interface SearchEngine {
      * @param beans 对象
      * @throws Exception
      */
-    void deleteIndexs(List<SearchBean> beans) throws Exception;
+    void deleteIndexs(List<BaseSearchBean> beans) throws Exception;
 
     /**
      * 进行检索
@@ -48,7 +48,7 @@ public interface SearchEngine {
      * @return
      * @throws Exception
      */
-    Page<SearchBean> doSearch(SearchBean bean, boolean isHighlighter, Pageable pageable) throws Exception;
+    Page<BaseSearchBean> doSearch(BaseSearchBean bean, boolean isHighlighter, Pageable pageable) throws Exception;
 
     /**
      * 进行多个检索对象的检索
@@ -59,7 +59,7 @@ public interface SearchEngine {
      * @return
      * @throws Exception
      */
-    Page<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, Pageable pageable) throws Exception;
+    Page<BaseSearchBean> doSearch(List<BaseSearchBean> beans, boolean isHighlighter, Pageable pageable) throws Exception;
 
     /**
      * 删除某个类型的所有索引(考虑线程安全)
@@ -67,7 +67,7 @@ public interface SearchEngine {
      * @param clazz 索引类型
      * @throws Exception
      */
-    void deleteIndexsByIndexType(Class<? extends SearchBean> clazz) throws Exception;
+    void deleteIndexsByIndexType(Class<? extends BaseSearchBean> clazz) throws Exception;
 
     /**
      * 删除某个类型的所有索引(考虑线程安全)
@@ -90,7 +90,7 @@ public interface SearchEngine {
      * @param searchBean 需要更新的bean
      * @throws Exception
      */
-    void updateIndex(SearchBean searchBean) throws Exception;
+    void updateIndex(BaseSearchBean searchBean) throws Exception;
 
     /**
      * 批量更新索引
@@ -98,5 +98,5 @@ public interface SearchEngine {
      * @param searchBeans 需要更新的beans
      * @throws Exception
      */
-    void updateIndexs(List<SearchBean> searchBeans) throws Exception;
+    void updateIndexs(List<BaseSearchBean> searchBeans) throws Exception;
 }

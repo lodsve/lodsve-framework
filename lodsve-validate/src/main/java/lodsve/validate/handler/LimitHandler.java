@@ -1,7 +1,7 @@
 package lodsve.validate.handler;
 
 import lodsve.validate.annotations.Limit;
-import lodsve.validate.core.ValidateHandler;
+import lodsve.validate.core.AbstractValidateHandler;
 import lodsve.validate.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +19,14 @@ import java.util.Map;
  * @version V1.0
  * @createTime 12-11-26 下午8:39
  */
-public class LimitHandler extends ValidateHandler {
+public class LimitHandler extends AbstractValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(LimitHandler.class);
 
     public LimitHandler() throws IOException {
         super();
     }
 
+    @Override
     protected ErrorMessage handle(Annotation annotation, Object value) {
         int length = 0;
         if (value instanceof String) {
@@ -42,8 +43,9 @@ public class LimitHandler extends ValidateHandler {
             length = Array.getLength(value);
         }
 
-        if (logger.isDebugEnabled())
+        if (logger.isDebugEnabled()) {
             logger.debug("value's type is '{}', its length is '{}'", value.getClass().getCanonicalName(), length);
+        }
 
         Limit limit = (Limit) annotation;
         int min = limit.min();

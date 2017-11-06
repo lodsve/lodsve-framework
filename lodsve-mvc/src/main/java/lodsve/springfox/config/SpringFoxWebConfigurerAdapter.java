@@ -12,13 +12,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Component
 public class SpringFoxWebConfigurerAdapter extends WebMvcConfigurerAdapter {
+    private static final String SPRING_FOX_UI_MAPPING = "/webjars/springfox-swagger-ui/**";
+    private static final String SWAGGER_INDEX = "/swagger-ui.html";
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        if (!registry.hasMappingForPattern("/webjars/springfox-swagger-ui/**")) {
-            registry.addResourceHandler("/webjars/springfox-swagger-ui/**").addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/").setCachePeriod(31556926);
+        if (!registry.hasMappingForPattern(SPRING_FOX_UI_MAPPING)) {
+            registry.addResourceHandler(SPRING_FOX_UI_MAPPING).addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/").setCachePeriod(31556926);
         }
-        if (!registry.hasMappingForPattern("/swagger-ui.html")) {
-            registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/swagger-ui.html").setCachePeriod(31556926);
+        if (!registry.hasMappingForPattern(SWAGGER_INDEX)) {
+            registry.addResourceHandler(SWAGGER_INDEX).addResourceLocations("classpath:/META-INF/resources/swagger-ui.html").setCachePeriod(31556926);
         }
     }
 }

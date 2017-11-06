@@ -56,14 +56,14 @@ public enum DbType {
     /**
      * Description: <br>
      *
-     * @param eval_ String
+     * @param eval String
      * @return <br>
      */
-    public static DbType eval(String eval_) {
-        Assert.hasLength(eval_, "eval is required!");
+    public static DbType eval(String eval) {
+        Assert.hasLength(eval, "eval is required!");
 
         for (DbType dt : DbType.values()) {
-            if (eval_.equals(dt.getDbType())) {
+            if (eval.equals(dt.getDbType())) {
                 return dt;
             }
         }

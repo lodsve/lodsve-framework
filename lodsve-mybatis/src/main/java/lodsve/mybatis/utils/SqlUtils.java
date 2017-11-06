@@ -9,7 +9,7 @@ import lodsve.mybatis.utils.format.SqlFormatter;
  * @version 1.0 2017/6/12 下午8:27
  */
 public final class SqlUtils {
-    private final static SqlFormatter sqlFormatter = new SqlFormatter();
+    private final static SqlFormatter SQL_FORMATTER = new SqlFormatter();
 
     /**
      * 格式sql
@@ -20,7 +20,7 @@ public final class SqlUtils {
      */
     public static String sqlFormat(String boundSql, boolean format) {
         if (format) {
-            return sqlFormatter.format(boundSql);
+            return SQL_FORMATTER.format(boundSql);
         } else {
             return boundSql.replaceAll("[\\s]+", " ");
         }

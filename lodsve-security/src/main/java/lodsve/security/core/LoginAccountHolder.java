@@ -8,13 +8,17 @@ package lodsve.security.core;
  * @createTime 2014-12-7 16:50
  */
 public class LoginAccountHolder {
-    private static ThreadLocal<Account> accountThreadLocal = new ThreadLocal<>();
+    private final static ThreadLocal<Account> ACCOUNT_THREAD_LOCAL = new ThreadLocal<>();
 
     public static Account getCurrentAccount() {
-        return accountThreadLocal.get();
+        return ACCOUNT_THREAD_LOCAL.get();
     }
 
     public static void setCurrentAccount(Account account) {
-        accountThreadLocal.set(account);
+        ACCOUNT_THREAD_LOCAL.set(account);
+    }
+
+    public static void removeCurrentAccount() {
+        ACCOUNT_THREAD_LOCAL.remove();
     }
 }

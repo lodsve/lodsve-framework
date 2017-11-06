@@ -54,7 +54,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableMyBatis.class.getName(), false));
         Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableMyBatis.class.getName(), importingClassMetadata.getClassName()));
-        Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
+        Map<String, BeanDefinition> beanDefinitions = new HashMap<>(16);
 
         dataSource = attributes.getString(DATA_SOURCE_ATTRIBUTE_NAME);
         beanDefinitions.putAll(generateDataSource(dataSource));
@@ -81,7 +81,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
     }
 
     private Map<String, BeanDefinition> generateDataSource(String dataSource) {
-        Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
+        Map<String, BeanDefinition> beanDefinitions = new HashMap<>(16);
         BeanDefinition dsBeanDefinition = new RdbmsDataSourceBeanDefinitionFactory(dataSource).build();
 
         // 生成IDGenerator
@@ -115,7 +115,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
     }
 
     private Map<String, BeanDefinition> findFlyWayBeanDefinitions(String migration) {
-        Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
+        Map<String, BeanDefinition> beanDefinitions = new HashMap<>(16);
         BeanDefinitionBuilder flywayBean = BeanDefinitionBuilder.genericBeanDefinition(Flyway.class);
         flywayBean.setInitMethodName("migrate");
         flywayBean.addPropertyReference("dataSource", dataSource);
@@ -127,7 +127,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
     }
 
     private Map<String, BeanDefinition> findMyBatisBeanDefinitions(boolean useFlyway, String[] basePackages, String[] enumsLocations, AnnotationAttributes[] plugins) {
-        Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
+        Map<String, BeanDefinition> beanDefinitions = new HashMap<>(16);
 
         BeanDefinitionBuilder sqlSessionFactoryBean = BeanDefinitionBuilder.genericBeanDefinition(SqlSessionFactoryBean.class);
         if (useFlyway) {
@@ -138,7 +138,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         sqlSessionFactoryBean.addPropertyValue("configLocation", "classpath:/META-INF/mybatis/mybatis.xml");
         TypeHandlerScanner scanner = new TypeHandlerScanner();
         sqlSessionFactoryBean.addPropertyValue("typeHandlers", scanner.find(StringUtils.join(enumsLocations, ",")));
-        List<Interceptor> plugins_ = new ArrayList<>(plugins.length);
+        List<Interceptor> pluginsList = new ArrayList<>(plugins.length);
         List<Class<? extends Interceptor>> clazz = new ArrayList<>(plugins.length);
         for (AnnotationAttributes plugin : plugins) {
             Class<? extends Interceptor> pluginClass = plugin.getClass("value");
@@ -157,30 +157,30 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
                 writeMethod.setAccessible(true);
                 try {
                     Class<?> returnType = readMethod.getReturnType();
-                    Object value_ = value;
+                    Object valueObject = value;
                     if (Integer.class.equals(returnType) || int.class.equals(returnType)) {
-                        value_ = Integer.valueOf(value);
+                        valueObject = Integer.valueOf(value);
                     } else if (Long.class.equals(returnType) || long.class.equals(returnType)) {
-                        value_ = Long.valueOf(value);
+                        valueObject = Long.valueOf(value);
                     } else if (Boolean.class.equals(returnType) || boolean.class.equals(returnType)) {
-                        value_ = Boolean.valueOf(value);
+                        valueObject = Boolean.valueOf(value);
                     } else if (Double.class.equals(returnType) || double.class.equals(returnType)) {
-                        value_ = Double.valueOf(value);
+                        valueObject = Double.valueOf(value);
                     }
 
-                    writeMethod.invoke(interceptor, value_);
+                    writeMethod.invoke(interceptor, valueObject);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
-            plugins_.add(interceptor);
+            pluginsList.add(interceptor);
         }
         if (!clazz.contains(PaginationInterceptor.class)) {
-            plugins_.add(BeanUtils.instantiate(PaginationInterceptor.class));
+            pluginsList.add(BeanUtils.instantiate(PaginationInterceptor.class));
         }
 
-        sqlSessionFactoryBean.addPropertyValue("plugins", plugins_);
+        sqlSessionFactoryBean.addPropertyValue("plugins", pluginsList);
 
         BeanDefinitionBuilder scannerConfigurerBean = BeanDefinitionBuilder.genericBeanDefinition(MapperScannerConfigurer.class);
         scannerConfigurerBean.addPropertyValue("basePackage", StringUtils.join(basePackages, ","));

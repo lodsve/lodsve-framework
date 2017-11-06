@@ -42,7 +42,7 @@ public class BindDataHandlerMethodArgumentResolver implements HandlerMethodArgum
 
         //所有参数
         Enumeration<String> es = request.getParameterNames();
-        Map<String, String> paramsMap = new HashMap<String, String>();
+        Map<String, String> paramsMap = new HashMap<>(16);
         for (; es.hasMoreElements(); ) {
             String key = es.nextElement();
             String value = request.getParameter(key);

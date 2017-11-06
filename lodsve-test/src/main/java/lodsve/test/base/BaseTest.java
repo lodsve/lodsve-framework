@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:/META-INF/spring/*.xml")
-public abstract class GenericTest extends AbstractJUnit4SpringContextTests {
+public abstract class BaseTest extends AbstractJUnit4SpringContextTests {
     /**
      * 开始单元测试的时候先将applicationContext注入
      */

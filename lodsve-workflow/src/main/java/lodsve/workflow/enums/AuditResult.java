@@ -19,6 +19,7 @@ public enum AuditResult implements Codeable {
         this.title = title;
     }
 
+    @Override
     public String getCode() {
         return this.code;
     }

@@ -12,9 +12,9 @@ import java.util.*;
 
 /**
  * 构建索引以及检索使用到的一个抽象类<br/>.
- * 所有需要检索的类均继承这个类,实现{@link SearchBean#getDoSearchFields}和
- * {@link SearchBean#getDoIndexFields}和
- * {@link SearchBean#initPublicFields()}三个方法<br/>
+ * 所有需要检索的类均继承这个类,实现{@link BaseSearchBean#getDoSearchFields}和
+ * {@link BaseSearchBean#getDoIndexFields}和
+ * {@link BaseSearchBean#initPublicFields()}三个方法<br/>
  * <p>
  * eg:<br/>
  * <pre><code>
@@ -51,8 +51,8 @@ import java.util.*;
  * @version V1.0
  * @createTime 13-5-6 下午4:04
  */
-public abstract class SearchBean {
-    private static final Logger logger = LoggerFactory.getLogger(SearchBean.class);
+public abstract class BaseSearchBean {
+    private static final Logger logger = LoggerFactory.getLogger(BaseSearchBean.class);
 
     /**************************************以下 共有字段****************************************/
     /**
@@ -226,11 +226,12 @@ public abstract class SearchBean {
             return Collections.emptyMap();
         }
 
-        Map<String, String> extInfo = new HashMap<>();
+        Map<String, String> extInfo = new HashMap<>(doIndexFields.length);
         for (String f : doIndexFields) {
             String value = getValue(f);
-            if (StringUtils.isNotEmpty(value))
+            if (StringUtils.isNotEmpty(value)) {
                 extInfo.put(f, value);
+            }
         }
 
         return extInfo;
@@ -240,7 +241,6 @@ public abstract class SearchBean {
      * 获取一个对象中的某个字段的值,结果转化成string类型
      *
      * @param field 字段名称
-     * @param obj   对象
      * @return
      */
     private String getValue(String field) {
@@ -252,16 +252,17 @@ public abstract class SearchBean {
         String result = StringUtils.EMPTY;
         try {
             Object value = ObjectUtils.getFieldValue(object, field);
-            if (value == null)
+            if (value == null) {
                 result = StringUtils.EMPTY;
-            else if (value instanceof String)
+            } else if (value instanceof String) {
                 result = (String) value;
-            else if (value instanceof Collections || value instanceof Map)
+            } else if (value instanceof Collections || value instanceof Map) {
                 result = ToStringBuilder.reflectionToString(object);
-            else if (value instanceof Date)
+            } else if (value instanceof Date) {
                 result = DateUtils.formatDate((Date) value, DateUtils.DEFAULT_PATTERN);
-            else
+            } else {
                 result = value.toString();
+            }
 
         } catch (IllegalAccessException e) {
             logger.error("can not find a value for field '{}' in object class '{}'!", field, object.getClass());

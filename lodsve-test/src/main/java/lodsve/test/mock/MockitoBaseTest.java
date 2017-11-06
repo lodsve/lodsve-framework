@@ -5,7 +5,7 @@
  ****************************************************************************************/
 package lodsve.test.mock;
 
-import lodsve.test.base.GenericTest;
+import lodsve.test.base.BaseTest;
 import org.junit.Before;
 import org.mockito.MockitoAnnotations;
 
@@ -15,7 +15,7 @@ import org.mockito.MockitoAnnotations;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16-3-10 12:34
  */
-public class MockitoBaseTest extends GenericTest {
+public class MockitoBaseTest extends BaseTest {
     @Before
     public void init(){
         MockitoAnnotations.initMocks(this);

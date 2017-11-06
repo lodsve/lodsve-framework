@@ -19,7 +19,8 @@ import java.net.InetSocketAddress;
  */
 @Component
 public class FastdfsClient {
-    public static final String CONFIG_FILE_NAME = "fdfs_client.properties";
+    private static final String CONFIG_FILE_NAME = "fdfs_client.properties";
+    private static final Integer DEFAULT_HTTP_PORT = 80;
 
     private static TrackerServer trackerServer;
     private static StorageClient client;
@@ -57,10 +58,10 @@ public class FastdfsClient {
                 throw new FastDfsException(109001, "upload error!");
             }
 
-            String group_name = results[0];
-            String remote_filename = results[1];
+            String groupName = results[0];
+            String remoteFileName = results[1];
 
-            return group_name + StorageClient1.SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + remote_filename;
+            return groupName + StorageClient1.SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR + remoteFileName;
         } catch (Exception e) {
             throw new FastDfsException(109001, "upload error!");
         }
@@ -91,7 +92,7 @@ public class FastdfsClient {
     public String getUrl(String filePath) {
         InetSocketAddress inetSocketAddress = trackerServer.getInetSocketAddress();
         String fileUrl = "http://" + inetSocketAddress.getAddress().getHostAddress();
-        if (ClientGlobal.g_tracker_http_port != 80) {
+        if (ClientGlobal.g_tracker_http_port != DEFAULT_HTTP_PORT) {
             fileUrl += ":" + ClientGlobal.g_tracker_http_port;
         }
         fileUrl += "/" + filePath;

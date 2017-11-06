@@ -10,13 +10,17 @@ import java.util.Locale;
  * @createTime 13-6-22 下午3:11
  */
 public class LocaleHolder {
-    private static ThreadLocal<Locale> localeThreadLocal = new ThreadLocal<>();
+    private final static ThreadLocal<Locale> LOCALE_THREAD_LOCAL = new ThreadLocal<>();
 
     public static void setLocale(Locale locale){
-        localeThreadLocal.set(locale);
+        LOCALE_THREAD_LOCAL.set(locale);
     }
 
     public static Locale getLocale(){
-        return localeThreadLocal.get();
+        return LOCALE_THREAD_LOCAL.get();
+    }
+
+    public static void removeLocale() {
+        LOCALE_THREAD_LOCAL.remove();
     }
 }

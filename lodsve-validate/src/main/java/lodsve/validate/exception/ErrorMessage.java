@@ -1,6 +1,6 @@
 package lodsve.validate.exception;
 
-import lodsve.validate.core.ValidateHandler;
+import lodsve.validate.core.AbstractValidateHandler;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -16,10 +16,10 @@ public class ErrorMessage {
     private Field field;
     private Object value;
     private Class<? extends Annotation> annotation;
-    private Class<? extends ValidateHandler> handler;
+    private Class<? extends AbstractValidateHandler> handler;
     private String message;
 
-    public ErrorMessage(Class<? extends Annotation> annotation, Class<? extends ValidateHandler> handler, String message) {
+    public ErrorMessage(Class<? extends Annotation> annotation, Class<? extends AbstractValidateHandler> handler, String message) {
         this.annotation = annotation;
         this.handler = handler;
         this.message = message;
@@ -57,11 +57,11 @@ public class ErrorMessage {
         this.annotation = annotation;
     }
 
-    public Class<? extends ValidateHandler> getHandler() {
+    public Class<? extends AbstractValidateHandler> getHandler() {
         return handler;
     }
 
-    public void setHandler(Class<? extends ValidateHandler> handler) {
+    public void setHandler(Class<? extends AbstractValidateHandler> handler) {
         this.handler = handler;
     }
 

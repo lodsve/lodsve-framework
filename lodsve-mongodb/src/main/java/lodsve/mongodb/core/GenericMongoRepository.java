@@ -55,6 +55,7 @@ public class GenericMongoRepository<T, ID extends Serializable> implements Mongo
         this.mongoOperations = mongoOperations;
     }
 
+    @Override
     public <S extends T> S save(S entity) {
         Assert.notNull(entity, "Entity must not be null!");
 
@@ -67,6 +68,7 @@ public class GenericMongoRepository<T, ID extends Serializable> implements Mongo
         return entity;
     }
 
+    @Override
     public <S extends T> List<S> save(Iterable<S> entities) {
         Assert.notNull(entities, "The given Iterable of entities not be null!");
 
@@ -90,6 +92,7 @@ public class GenericMongoRepository<T, ID extends Serializable> implements Mongo
         return result;
     }
 
+    @Override
     public T findOne(ID id) {
         Assert.notNull(id, "The given id must not be null!");
         return mongoOperations.findById(id, entityInformation.getJavaType(), entityInformation.getCollectionName());
@@ -103,26 +106,31 @@ public class GenericMongoRepository<T, ID extends Serializable> implements Mongo
         return where(entityInformation.getIdAttribute()).is(id);
     }
 
+    @Override
     public boolean exists(ID id) {
         Assert.notNull(id, "The given id must not be null!");
         return mongoOperations.exists(getIdQuery(id), entityInformation.getJavaType(),
                 entityInformation.getCollectionName());
     }
 
+    @Override
     public long count() {
         return mongoOperations.getCollection(entityInformation.getCollectionName()).count();
     }
 
+    @Override
     public void delete(ID id) {
         Assert.notNull(id, "The given id must not be null!");
         mongoOperations.remove(getIdQuery(id), entityInformation.getJavaType(), entityInformation.getCollectionName());
     }
 
+    @Override
     public void delete(T entity) {
         Assert.notNull(entity, "The given entity must not be null!");
         delete(entityInformation.getId(entity));
     }
 
+    @Override
     public void delete(Iterable<? extends T> entities) {
         Assert.notNull(entities, "The given Iterable of entities not be null!");
 
@@ -131,14 +139,17 @@ public class GenericMongoRepository<T, ID extends Serializable> implements Mongo
         }
     }
 
+    @Override
     public void deleteAll() {
         mongoOperations.remove(new Query(), entityInformation.getCollectionName());
     }
 
+    @Override
     public List<T> findAll() {
         return findAll(new Query());
     }
 
+    @Override
     public Iterable<T> findAll(Iterable<ID> ids) {
         Set<ID> parameters = new HashSet<>(tryDetermineRealSizeOrReturn(ids, 10));
         for (ID id : ids) {
@@ -148,6 +159,7 @@ public class GenericMongoRepository<T, ID extends Serializable> implements Mongo
         return findAll(new Query(new Criteria(entityInformation.getIdAttribute()).in(parameters)));
     }
 
+    @Override
     public Page<T> findAll(final Pageable pageable) {
         Long count = count();
         List<T> list = findAll(new Query().with(pageable));
@@ -155,6 +167,7 @@ public class GenericMongoRepository<T, ID extends Serializable> implements Mongo
         return new PageImpl<>(list, pageable, count);
     }
 
+    @Override
     public List<T> findAll(Sort sort) {
         return findAll(new Query().with(sort));
     }

@@ -15,7 +15,7 @@ import java.lang.annotation.Annotation;
  * @version V1.0
  * @createTime 12-11-26 下午7:46
  */
-public abstract class ValidateHandler {
+public abstract class AbstractValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(DoubleHandler.class);
 
     /**
@@ -43,7 +43,7 @@ public abstract class ValidateHandler {
         return this.handle(annotation, value);
     }
 
-    protected ErrorMessage getMessage(Class<? extends Annotation> annotation, Class<? extends ValidateHandler> handler, String key, boolean result, Object... args) {
+    protected ErrorMessage getMessage(Class<? extends Annotation> annotation, Class<? extends AbstractValidateHandler> handler, String key, boolean result, Object... args) {
         if (result) {
             return null;
         }

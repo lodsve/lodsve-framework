@@ -29,6 +29,7 @@ public class RedisTimerListener implements MessageListener {
     private static final Logger logger = LoggerFactory.getLogger(RedisTimerListener.class);
     private static final String REDIS_KEY_SEPARATOR = "-";
     private static final String REDIS_KEY_PREFIX = "redisEvent" + REDIS_KEY_SEPARATOR;
+    private static final String REDIS_SPRING_SESSION_KEY_SEPARATOR = ":expired";
 
     @Autowired
     private ApplicationEventPublisher eventPublisher;
@@ -44,7 +45,7 @@ public class RedisTimerListener implements MessageListener {
             return;
         }
         String channel = new String(messageChannel);
-        if (!channel.endsWith(":expired")) {
+        if (!REDIS_SPRING_SESSION_KEY_SEPARATOR.endsWith(channel)) {
             return;
         }
         String body = new String(messageBody);

@@ -64,7 +64,7 @@ public class RdbmsDataSourceBeanDefinitionFactory {
         // 连接信息
         RdbmsProperties.RdbmsConnection connection = rdbmsProperties.getConnections().get(dataSourceName);
 
-        Map<String, String> properties = new HashMap<>();
+        Map<String, String> properties = new HashMap<>(16);
         properties.putAll(toMap(commons));
         properties.putAll(toMap(connection));
 
@@ -86,9 +86,9 @@ public class RdbmsDataSourceBeanDefinitionFactory {
     }
 
     private Map<String, String> toMap(Object object) {
-        Map<String, String> properties = new HashMap<>();
         BeanWrapper wrapper = new BeanWrapperImpl(object);
         PropertyDescriptor[] descriptors = wrapper.getPropertyDescriptors();
+        Map<String, String> properties = new HashMap<>(descriptors.length);
         for (PropertyDescriptor d : descriptors) {
             if (d.getWriteMethod() == null) {
                 continue;

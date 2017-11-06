@@ -67,7 +67,9 @@ public class ValidateConstants {
         return request != null ? request.getLocale() : Locale.getDefault();
     }
 
-    //框架中定义的注解
+    /**
+     * 框架中定义的注解
+     */
     public static final String[] VALIDATE_ANNOTATIONS = new String[]{
             "Chinese", "Double", "Email", "English", "IdCard", "Integer", "Ip", "Limit", "Mobile",
             "NotNull", "Number", "Password", "Qq", "Regex", "Telephone", "Url", "Zip"

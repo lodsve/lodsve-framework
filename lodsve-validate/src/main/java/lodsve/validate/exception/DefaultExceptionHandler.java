@@ -15,6 +15,7 @@ import java.util.List;
  * @createTime 12-12-2 上午1:11
  */
 public class DefaultExceptionHandler implements ExceptionHandler {
+    @Override
     public void doHandleException(List<ErrorMessage> messages) throws Exception {
         if (CollectionUtils.isEmpty(messages)) {
             return;

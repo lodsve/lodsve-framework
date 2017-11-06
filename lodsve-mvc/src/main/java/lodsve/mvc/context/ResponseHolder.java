@@ -9,13 +9,17 @@ import javax.servlet.http.HttpServletResponse;
  * @version 1.0 2017/5/8 下午2:37
  */
 public class ResponseHolder {
-    private static ThreadLocal<HttpServletResponse> responseThreadLocal = new ThreadLocal<>();
+    private final static ThreadLocal<HttpServletResponse> RESPONSE_THREAD_LOCAL = new ThreadLocal<>();
 
     public static void setResponse(HttpServletResponse response) {
-        responseThreadLocal.set(response);
+        RESPONSE_THREAD_LOCAL.set(response);
     }
 
     public static HttpServletResponse getResponse() {
-        return responseThreadLocal.get();
+        return RESPONSE_THREAD_LOCAL.get();
+    }
+
+    public static void removeResponse() {
+        RESPONSE_THREAD_LOCAL.remove();
     }
 }

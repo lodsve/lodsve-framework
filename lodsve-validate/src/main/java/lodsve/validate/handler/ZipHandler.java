@@ -2,7 +2,7 @@ package lodsve.validate.handler;
 
 import lodsve.core.utils.ValidateUtils;
 import lodsve.validate.annotations.Zip;
-import lodsve.validate.core.ValidateHandler;
+import lodsve.validate.core.AbstractValidateHandler;
 import lodsve.validate.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,16 +17,18 @@ import java.lang.annotation.Annotation;
  * @version V1.0
  * @createTime 12-11-26 下午9:50
  */
-public class ZipHandler extends ValidateHandler {
+public class ZipHandler extends AbstractValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(ZipHandler.class);
 
     public ZipHandler() throws IOException {
         super();
     }
 
+    @Override
     protected ErrorMessage handle(Annotation annotation, Object value) {
-        if (logger.isDebugEnabled())
+        if (logger.isDebugEnabled()) {
             logger.debug("annotation is '{}', value is '{}'!", annotation, value);
+        }
 
         return getMessage(Zip.class, getClass(), "zip-invalid", ValidateUtils.isZip((String) value));
     }

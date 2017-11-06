@@ -1,7 +1,7 @@
 package lodsve.search.engine;
 
 import lodsve.core.utils.StringUtils;
-import lodsve.search.bean.SearchBean;
+import lodsve.search.bean.BaseSearchBean;
 import lodsve.search.exception.LuceneException;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.SimpleAnalyzer;
@@ -47,11 +47,13 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
      */
     private Analyzer analyzer = new SimpleAnalyzer();
 
-    public synchronized void doIndex(List<SearchBean> searchBeans) throws Exception {
-        this.createOrUpdateIndex(searchBeans, true);
+    @Override
+    public synchronized void doIndex(List<BaseSearchBean> BaseSearchBeans) throws Exception {
+        this.createOrUpdateIndex(BaseSearchBeans, true);
     }
 
-    public synchronized void deleteIndex(SearchBean bean) throws Exception {
+    @Override
+    public synchronized void deleteIndex(BaseSearchBean bean) throws Exception {
         if (bean == null) {
             logger.warn("Get search bean is empty!");
             return;
@@ -72,27 +74,29 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         this.destroy(writer);
     }
 
-    public synchronized void deleteIndexs(List<SearchBean> beans) throws Exception {
+    @Override
+    public synchronized void deleteIndexs(List<BaseSearchBean> beans) throws Exception {
         if (beans == null) {
             logger.warn("Get beans is empty!");
             return;
         }
 
-        for (SearchBean bean : beans) {
+        for (BaseSearchBean bean : beans) {
             this.deleteIndex(bean);
         }
     }
 
-    public Page<SearchBean> doSearch(List<SearchBean> beans, boolean isHighlighter, Pageable pageable) throws Exception {
-        beans = mergerSearchBean(beans);
+    @Override
+    public Page<BaseSearchBean> doSearch(List<BaseSearchBean> beans, boolean isHighlighter, Pageable pageable) throws Exception {
+        beans = mergerBaseSearchBean(beans);
         if (beans == null || beans.isEmpty()) {
             logger.debug("given search beans is empty!");
-            return new PageImpl<>(Collections.<SearchBean>emptyList(), null, 0);
+            return new PageImpl<>(Collections.<BaseSearchBean>emptyList(), null, 0);
         }
 
         IndexSearcher[] searchers = new IndexSearcher[beans.size()];
         for (int i = 0; i < beans.size(); i++) {
-            SearchBean bean = beans.get(i);
+            BaseSearchBean bean = beans.get(i);
             String indexType = getIndexType(bean);
             IndexReader reader;
             try {
@@ -107,14 +111,17 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
 
         //使用MultiSearcher进行多域搜索
         MultiSearcher searcher = new MultiSearcher(searchers);
-        List<String> fieldNames = new ArrayList<>();             //查询的字段名
-        List<String> queryValue = new ArrayList<>();             //待查询字段的值
+        //查询的字段名
+        List<String> fieldNames = new ArrayList<>();
+        //待查询字段的值
+        List<String> queryValue = new ArrayList<>();
         List<BooleanClause.Occur> flags = new ArrayList<>();
-        for (SearchBean bean : beans) {
+        for (BaseSearchBean bean : beans) {
             //要进行检索的字段
             String[] doSearchFields = bean.getDoSearchFields();
-            if (doSearchFields == null || doSearchFields.length == 0)
-                return new PageImpl<>(Collections.<SearchBean>emptyList(), null, 0);
+            if (doSearchFields == null || doSearchFields.length == 0) {
+                return new PageImpl<>(Collections.<BaseSearchBean>emptyList(), null, 0);
+            }
 
             //默认字段
             if (StringUtils.isNotEmpty(bean.getKeyword())) {
@@ -145,14 +152,16 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             highlighter = new Highlighter(formatter, new QueryScorer(query));
         }
 
-        List<SearchBean> queryResults = new ArrayList<>();
+        List<BaseSearchBean> queryResults = new ArrayList<>();
         for (int i = begin; i < end; i++) {
             int docID = scoreDocs[i].doc;
             Document hitDoc = searcher.doc(docID);
             String indexType = hitDoc.get("indexType");
-            SearchBean result = super.getSearchBean(indexType, beans);
+            BaseSearchBean result = super.getBaseSearchBean(indexType, beans);
 
-            if (result == null) continue;
+            if (result == null) {
+                continue;
+            }
 
             result.setId(hitDoc.get("pkId"));
             result.setLink(hitDoc.get("link"));
@@ -162,27 +171,32 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             result.setIndexType(indexType);
 
             String keyword = StringUtils.EMPTY;
-            if (isHighlighter && highlighter != null)
+            if (isHighlighter && highlighter != null) {
                 keyword = highlighter.getBestFragment(analyzer, "keyword", hitDoc.get("keyword"));
+            }
 
-            if (StringUtils.isEmpty(keyword))
+            if (StringUtils.isEmpty(keyword)) {
                 keyword = hitDoc.get("keyword");
+            }
 
             result.setKeyword(keyword);
 
             //要进行检索的字段
             String[] doSearchFields = result.getDoSearchFields();
-            if (doSearchFields == null || doSearchFields.length == 0)
+            if (doSearchFields == null || doSearchFields.length == 0) {
                 continue;
+            }
 
-            Map<String, String> extendValues = new HashMap<>();
+            Map<String, String> extendValues = new HashMap<>(doSearchFields.length);
             for (String field : doSearchFields) {
                 String value = hitDoc.get(field);
-                if (isHighlighter && highlighter != null)
+                if (isHighlighter) {
                     value = highlighter.getBestFragment(analyzer, field, hitDoc.get(field));
+                }
 
-                if (StringUtils.isEmpty(value))
+                if (StringUtils.isEmpty(value)) {
                     value = hitDoc.get(field);
+                }
 
                 extendValues.put(field, value);
             }
@@ -195,18 +209,21 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         //关闭链接
         searcher.close();
         for (IndexSearcher indexSearcher : searchers) {
-            if (indexSearcher != null)
+            if (indexSearcher != null) {
                 indexSearcher.close();
+            }
         }
 
         return new PageImpl<>(queryResults, pageable, scoreDocs.length);
     }
 
-    public synchronized void deleteIndexsByIndexType(Class<? extends SearchBean> clazz) throws Exception {
+    @Override
+    public synchronized void deleteIndexsByIndexType(Class<? extends BaseSearchBean> clazz) throws Exception {
         String indexType = getIndexType(BeanUtils.instantiate(clazz));
         this.deleteIndexsByIndexType(indexType);
     }
 
+    @Override
     public synchronized void deleteIndexsByIndexType(String indexType) throws Exception {
         //传入readOnly的参数,默认是只读的
         IndexReader reader = IndexReader.open(this.getIndexDir(indexType), false);
@@ -215,6 +232,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         logger.debug("the rows of delete index is '{}'! index type is '{}'!", result, indexType);
     }
 
+    @Override
     public synchronized void deleteAllIndexs() throws Exception {
         File indexFolder = new File(this.indexPath);
         if (indexFolder == null || !indexFolder.isDirectory()) {
@@ -225,7 +243,9 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
 
         File[] children = indexFolder.listFiles();
         for (File child : children) {
-            if (child == null || !child.isDirectory()) continue;
+            if (child == null || !child.isDirectory()) {
+                continue;
+            }
 
             String indexType = child.getName();
             logger.debug("Get indexType is '{}'!", indexType);
@@ -234,41 +254,43 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         }
     }
 
-    public void updateIndex(SearchBean searchBean) throws Exception {
-        this.updateIndexs(Collections.singletonList(searchBean));
+    @Override
+    public void updateIndex(BaseSearchBean BaseSearchBean) throws Exception {
+        this.updateIndexs(Collections.singletonList(BaseSearchBean));
     }
 
-    public void updateIndexs(List<SearchBean> searchBeans) throws Exception {
-        this.createOrUpdateIndex(searchBeans, false);
+    @Override
+    public void updateIndexs(List<BaseSearchBean> BaseSearchBeans) throws Exception {
+        this.createOrUpdateIndex(BaseSearchBeans, false);
     }
 
     /**
      * 创建或者更新索引
      *
-     * @param searchBeans 需要创建或者更新的对象
+     * @param BaseSearchBeans 需要创建或者更新的对象
      * @param isCreate    是否是创建索引;true创建索引,false更新索引
      * @throws Exception
      */
-    private synchronized void createOrUpdateIndex(List<SearchBean> searchBeans, boolean isCreate) throws Exception {
-        if (searchBeans == null || searchBeans.isEmpty()) {
+    private synchronized void createOrUpdateIndex(List<BaseSearchBean> BaseSearchBeans, boolean isCreate) throws Exception {
+        if (BaseSearchBeans == null || BaseSearchBeans.isEmpty()) {
             logger.debug("do no index!");
             return;
         }
 
         Directory indexDir = null;
         IndexWriter writer = null;
-        for (Iterator<SearchBean> it = searchBeans.iterator(); it.hasNext(); ) {
-            SearchBean sb = it.next();
+        for (Iterator<BaseSearchBean> it = BaseSearchBeans.iterator(); it.hasNext(); ) {
+            BaseSearchBean sb = it.next();
             String indexType = getIndexType(sb);
             if (sb == null) {
-                logger.debug("give SearchBean is null!");
+                logger.debug("give BaseSearchBean is null!");
                 return;
             }
-            boolean anotherSearchBean = indexDir != null && !indexType.equals(((FSDirectory) indexDir).getFile().getName());
-            if (indexDir == null || anotherSearchBean) {
+            boolean anotherBaseSearchBean = indexDir != null && !indexType.equals(((FSDirectory) indexDir).getFile().getName());
+            if (indexDir == null || anotherBaseSearchBean) {
                 indexDir = this.getIndexDir(indexType);
             }
-            if (writer == null || anotherSearchBean) {
+            if (writer == null || anotherBaseSearchBean) {
                 this.destroy(writer);
                 writer = this.getWriter(indexDir);
             }
@@ -289,40 +311,40 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             if (StringUtils.isEmpty(owerId)) {
                 throw new LuceneException(104009, "you must give a owerId");
             }
-            Field owerId_ = new Field("owerId", owerId, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
-            doc.add(owerId_);
+            Field owerIdField = new Field("owerId", owerId, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+            doc.add(owerIdField);
 
             String owerName = sb.getOwerName();
             if (StringUtils.isEmpty(owerName)) {
                 throw new LuceneException(104010, "you must give a owerName");
             }
-            Field owerName_ = new Field("owerName", owerName, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
-            doc.add(owerName_);
+            Field owerNameField = new Field("owerName", owerName, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+            doc.add(owerNameField);
 
             String link = sb.getLink();
             if (StringUtils.isEmpty(link)) {
                 throw new LuceneException(104011, "you must give a link");
             }
-            Field link_ = new Field("link", link, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
-            doc.add(link_);
+            Field linkField = new Field("link", link, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+            doc.add(linkField);
 
             String keyword = sb.getKeyword();
             if (StringUtils.isEmpty(keyword)) {
                 throw new LuceneException(104012, "you must give a keyword");
             }
-            Field keyword_ = new Field("keyword", keyword, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
-            doc.add(keyword_);
+            Field keywordField = new Field("keyword", keyword, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+            doc.add(keywordField);
 
             String createDate = sb.getCreateDate();
             if (StringUtils.isEmpty(createDate)) {
                 throw new LuceneException(104013, "you must give a createDate");
             }
-            Field createDate_ = new Field("createDate", createDate, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
-            doc.add(createDate_);
+            Field createDateField = new Field("createDate", createDate, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+            doc.add(createDateField);
 
             //索引类型字段
-            Field indexType_ = new Field("indexType", indexType, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
-            doc.add(indexType_);
+            Field indexTypeField = new Field("indexType", indexType, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+            doc.add(indexTypeField);
 
             //进行索引的字段
             String[] doIndexFields = sb.getDoIndexFields();
@@ -347,7 +369,9 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
                     String column = e.getKey();
                     File file = e.getValue();
 
-                    if (!Arrays.asList(doIndexFields).contains(column)) continue;
+                    if (!Arrays.asList(doIndexFields).contains(column)) {
+                        continue;
+                    }
 
                     String content = getFileContent(file);
 
@@ -356,10 +380,11 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
                 }
             }
 
-            if (isCreate)
+            if (isCreate) {
                 writer.addDocument(doc);
-            else
+            } else {
                 writer.updateDocument(new Term("pkId", sb.getId()), doc);
+            }
 
             writer.optimize();
         }
@@ -378,12 +403,12 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         }
     }
 
-    private List<SearchBean> mergerSearchBean(List<SearchBean> beans) {
-        List<SearchBean> beans_ = new ArrayList<>();
+    private List<BaseSearchBean> mergerBaseSearchBean(List<BaseSearchBean> beans) {
+        List<BaseSearchBean> beanList = new ArrayList<>();
         if (beans == null || beans.isEmpty()) {
-            return beans_;
+            return beanList;
         }
-        for (SearchBean bean : beans) {
+        for (BaseSearchBean bean : beans) {
             IndexReader reader = null;
             try {
                 Directory dir = getIndexDir(bean.getIndexType());
@@ -392,11 +417,12 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
 
             }
 
-            if (reader != null)
-                beans_.add(bean);
+            if (reader != null) {
+                beanList.add(bean);
+            }
         }
 
-        return beans_;
+        return beanList;
     }
 
     private IndexWriter getWriter(Directory indexDir) throws IOException {
@@ -404,8 +430,9 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     }
 
     private void destroy(IndexWriter writer) throws Exception {
-        if (writer != null)
+        if (writer != null) {
             writer.close();
+        }
     }
 
     private IndexReader getReader(Directory dir) {

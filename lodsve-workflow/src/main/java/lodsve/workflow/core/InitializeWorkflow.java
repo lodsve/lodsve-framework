@@ -68,11 +68,11 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         }
     }
 
-    private List<FormUrl> resovleUrls(List<Element> urls_, Workflow workflow) {
+    private List<FormUrl> resovleUrls(List<Element> urls, Workflow workflow) {
         // 有且仅有一个
-        Assert.isTrue(CollectionUtils.isNotEmpty(urls_));
+        Assert.isTrue(CollectionUtils.isNotEmpty(urls));
 
-        Element element = urls_.get(0);
+        Element element = urls.get(0);
 
         FormUrl updateFormUrl = new FormUrl();
         FormUrl viewFormUrl = new FormUrl();
@@ -155,14 +155,14 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         }
         if (StringUtils.isNotBlank(clazz)) {
             // 判断class
-            Class<?> _clazz;
+            Class<?> clazzForName;
             try {
-                _clazz = ClassUtils.forName(clazz, Thread.currentThread().getContextClassLoader());
+                clazzForName = ClassUtils.forName(clazz, Thread.currentThread().getContextClassLoader());
             } catch (ClassNotFoundException e) {
                 throw new InitializeWorkflowException(108001, String.format("解析流程处理类出现问题！流程名：%s, 处理类：%s", title, clazz), title, bean);
             }
 
-            return (HandlerInterceptor) BeanUtils.instantiate(_clazz);
+            return (HandlerInterceptor) BeanUtils.instantiate(clazzForName);
         }
 
         throw new InitializeWorkflowException(108002, "handler节点属性bean或者class必须二选一!");
@@ -174,26 +174,26 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
             final String to = node.getNext();
 
             // 校验code是否唯一
-            List<FlowNode> _nodes = ListUtils.findMore(nodes, new ListUtils.Decide<FlowNode>() {
+            List<FlowNode> nodeList = ListUtils.findMore(nodes, new ListUtils.Decide<FlowNode>() {
                 @Override
                 public boolean judge(FlowNode target) {
                     return name.equals(target.getName());
                 }
             });
 
-            if (_nodes.size() > 1) {
+            if (nodeList.size() > 1) {
                 throw new InitializeWorkflowException(108003, "节点【" + node.getName() + "】的code【" + name + "】存在重复！", node.getName(), name);
             }
 
             // 检查to节点是否存在
-            FlowNode _node = ListUtils.findOne(nodes, new ListUtils.Decide<FlowNode>() {
+            FlowNode checkNode = ListUtils.findOne(nodes, new ListUtils.Decide<FlowNode>() {
                 @Override
                 public boolean judge(FlowNode target) {
                     return to.equals(target.getName()) || "end".equals(to);
                 }
             });
 
-            if (_node == null) {
+            if (checkNode == null) {
                 throw new InitializeWorkflowException(108004, "节点【" + node.getName() + "】的下一节点【" + name + "】不存在，请检查！", node.getName(), name);
             }
         }
@@ -232,8 +232,8 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         }
 
         // 处理url节点
-        List<Element> urls_ = XmlUtils.getChildren(root, Constants.TAG_URLS);
-        List<FormUrl> urls = resovleUrls(urls_, workflow);
+        List<Element> urlEles = XmlUtils.getChildren(root, Constants.TAG_URLS);
+        List<FormUrl> urls = resovleUrls(urlEles, workflow);
 
         if (needSave) {
             formUrlRepository.saveFormUrls(urls);
@@ -296,14 +296,14 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
         this.applicationReadyEvent = applicationReadyEvent;
 
         ResourcePatternResolver loader = new PathMatchingResourcePatternResolver();
-        Resource[] _resources;
+        Resource[] resourceArray;
         try {
-            _resources = loader.getResources(Constants.DEFAULT_WORKFLOW_XML_PATH);
+            resourceArray = loader.getResources(Constants.DEFAULT_WORKFLOW_XML_PATH);
         } catch (IOException e) {
             throw new InitializeWorkflowException(108006, "获取工作流配置文件列表失败");
         }
 
-        resources.addAll(Arrays.asList(_resources));
+        resources.addAll(Arrays.asList(resourceArray));
 
         try {
             init();

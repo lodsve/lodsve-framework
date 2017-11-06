@@ -7,7 +7,7 @@ import lius.index.pdf.PdfIndexer;
 import lius.index.powerpoint.PPTIndexer;
 import lius.index.txt.TXTIndexer;
 import lius.index.xml.XmlFileIndexer;
-import lodsve.search.bean.SearchBean;
+import lodsve.search.bean.BaseSearchBean;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,10 +57,11 @@ public abstract class AbstractSearchEngine implements SearchEngine {
         this.htmlSuffix = htmlSuffix;
     }
 
-    public Page<SearchBean> doSearch(SearchBean bean, boolean isHighlighter, Pageable pageable) throws Exception {
+    @Override
+    public Page<BaseSearchBean> doSearch(BaseSearchBean bean, boolean isHighlighter, Pageable pageable) throws Exception {
         if (bean == null) {
             logger.debug("given search bean is empty!");
-            return new PageImpl<>(Collections.<SearchBean>emptyList(), null, 0);
+            return new PageImpl<>(Collections.<BaseSearchBean>emptyList(), null, 0);
         }
 
         return doSearch(Collections.singletonList(bean), isHighlighter, pageable);
@@ -72,25 +73,25 @@ public abstract class AbstractSearchEngine implements SearchEngine {
      * @param bean
      * @return
      */
-    protected String getIndexType(SearchBean bean) {
+    protected String getIndexType(BaseSearchBean bean) {
         return StringUtils.isNotEmpty(bean.getIndexType()) ? bean.getIndexType() : bean.getClass().getSimpleName();
     }
 
     /**
-     * 根据indexType从SearchBean的集合中获取对应的bean
+     * 根据indexType从BaseSearchBean的集合中获取对应的bean
      *
      * @param indexType
      * @param beans
      * @return
      */
-    protected SearchBean getSearchBean(String indexType, List<SearchBean> beans) {
-        SearchBean result = null;
+    protected BaseSearchBean getBaseSearchBean(String indexType, List<BaseSearchBean> beans) {
+        BaseSearchBean result = null;
         if (StringUtils.isEmpty(indexType) || beans == null || beans.isEmpty()) {
             logger.debug("indexType is null or beans is null!");
             return result;
         }
 
-        for (SearchBean b : beans) {
+        for (BaseSearchBean b : beans) {
             if (indexType.equals(b.getIndexType())) {
                 result = BeanUtils.instantiate(b.getClass());
                 break;
@@ -133,8 +134,9 @@ public abstract class AbstractSearchEngine implements SearchEngine {
     }
 
     protected String getFileContent(File file) {
-        if (file == null || !file.exists())
+        if (file == null || !file.exists()) {
             return StringUtils.EMPTY;
+        }
 
         FileInputStream is;
         try {
@@ -145,8 +147,9 @@ public abstract class AbstractSearchEngine implements SearchEngine {
         }
 
         Indexer indexer = this.getFileIndexer(file.getName());
-        if (indexer == null)
+        if (indexer == null) {
             return StringUtils.EMPTY;
+        }
 
         indexer.setStreamToIndex(is);
         return indexer.getContent();

@@ -36,15 +36,23 @@ import java.util.*;
 public class ValidateEngine implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(ValidateEngine.class);
 
-    //异常处理类,默认使用DefaultExceptionHandler
+    /**
+     * 异常处理类,默认使用DefaultExceptionHandler
+     */
     @Autowired(required = false)
     private ExceptionHandler exceptionHandler;
 
-    //是否开启验证引擎?默认是开启
+    /**
+     * 是否开启验证引擎?默认是开启
+     */
     private boolean openValidate = ProfileConfig.getProfile("validator");
-    //key-value(注解名称-beanHandler)
+    /**
+     * key-value(注解名称-beanHandler)
+     */
     private Map<String, BeanHandler> beanHandlerMap;
-    //注解的集合(集合的名称)
+    /**
+     * 注解的集合(集合的名称)
+     */
     private List<String> annotations;
 
     /**
@@ -52,11 +60,17 @@ public class ValidateEngine implements InitializingBean {
      */
     private Map<String, List<Field>> validateFields;
 
-    //验证引擎的注解所在classpath下的包路径
+    /**
+     * 验证引擎的注解所在classpath下的包路径
+     */
     private static final String ANNOTATION_PATH = "lodsve.validate.annotations";
-    //验证引擎的注解对应的处理类所在classpath下的包路径
+    /**
+     * 验证引擎的注解对应的处理类所在classpath下的包路径
+     */
     private static final String VALIDATE_HANDLER_PATH = "lodsve.validate.handler";
-    //处理类的后缀名(类名)
+    /**
+     * 处理类的后缀名(类名)
+     */
     private static final String HANDLER_CLASS_SUFFIX = "Handler";
 
     /******************************************************验证引擎初始化--开始***********************************************************/
@@ -70,9 +84,9 @@ public class ValidateEngine implements InitializingBean {
 
         this.exceptionHandler = this.exceptionHandler == null ? new DefaultExceptionHandler() : this.exceptionHandler;
 
-        beanHandlerMap = new HashMap<>();
-        validateFields = new HashMap<>();
-        annotations = new ArrayList<>();
+        beanHandlerMap = new HashMap<>(16);
+        validateFields = new HashMap<>(16);
+        annotations = new ArrayList<>(16);
 
         initValidateEngine();
     }
@@ -115,12 +129,12 @@ public class ValidateEngine implements InitializingBean {
             return;
         }
 
-        if (annotation == null || handler == null || !ValidateHandler.class.equals(handler.getSuperclass())) {
+        if (annotation == null || handler == null || !AbstractValidateHandler.class.equals(handler.getSuperclass())) {
             logger.error("no annotation or handler!");
             return;
         }
 
-        BeanHandler beanHandler = new BeanHandler(annotation.getSimpleName(), annotation, (ValidateHandler) BeanUtils.instantiate(handler));
+        BeanHandler beanHandler = new BeanHandler(annotation.getSimpleName(), annotation, (AbstractValidateHandler) BeanUtils.instantiate(handler));
 
         // 将beanHandlers中的注解-处理类放入beanHandlerMap中(并将注解中文名放入内存中-annotations)
         this.beanHandlerMap.put(annotation.getSimpleName(), beanHandler);
@@ -216,7 +230,7 @@ public class ValidateEngine implements InitializingBean {
                 continue;
             }
 
-            ValidateHandler handler = bh.getValidateHandler();
+            AbstractValidateHandler handler = bh.getValidateHandler();
             if (handler == null) {
                 logger.error("handler is null for annotation '{}'", a);
                 continue;

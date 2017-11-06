@@ -6,7 +6,7 @@
 package lodsve.test.mock;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import lodsve.test.base.GenericTest;
+import lodsve.test.base.BaseTest;
 import org.junit.FixMethodOrder;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -25,6 +25,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class
 })
-public class DbUnitBaseTest extends GenericTest {
+public class DbUnitBaseTest extends BaseTest {
 
 }

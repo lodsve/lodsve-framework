@@ -20,6 +20,20 @@ import java.util.regex.Pattern;
  * @createTime 2014-12-18 15:28
  */
 public class StringDateConvertFactory implements ConverterFactory<String, Date>, ConditionalConverter {
+    /**
+     * yyyy-MM-dd hh:mm
+     */
+    private static final Pattern PATTERN_ONE = Pattern.compile("(\\d){2,4}[-](\\d){1,2}[-](\\d){1,2} (\\d){1,2}[:](\\d){1,2}");
+    /**
+     * yyyy-MM-dd
+     */
+    private static final Pattern PATTERN_TWO = Pattern.compile("(\\d){2,4}[-](\\d){1,2}[-](\\d){1,2}");
+    /**
+     * hh:mm yyyy-MM-dd
+     */
+    private static final Pattern PATTERN_THREE = Pattern.compile("(\\d){1,2}[:](\\d){1,2} (\\d){2,4}[-](\\d){1,2}[-](\\d){1,2}");
+
+
     @Override
     public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
         Class<?> clazz = targetType.getType();
@@ -56,20 +70,14 @@ public class StringDateConvertFactory implements ConverterFactory<String, Date>,
             if (StringUtils.isEmpty(source)) {
                 return "yyyy-MM-dd HH:mm";
             }
-            //yyyy-MM-dd hh:mm
-            Pattern p1 = Pattern.compile("(\\d){2,4}[-](\\d){1,2}[-](\\d){1,2} (\\d){1,2}[:](\\d){1,2}");
-            //yyyy-MM-dd
-            Pattern p2 = Pattern.compile("(\\d){2,4}[-](\\d){1,2}[-](\\d){1,2}");
-            //hh:mm yyyy-MM-dd
-            Pattern p3 = Pattern.compile("(\\d){1,2}[:](\\d){1,2} (\\d){2,4}[-](\\d){1,2}[-](\\d){1,2}");
 
-            if (p1.matcher(source).matches()) {
+            if (PATTERN_ONE.matcher(source).matches()) {
                 return "yyyy-MM-dd HH:mm";
             }
-            if (p2.matcher(source).matches()) {
+            if (PATTERN_TWO.matcher(source).matches()) {
                 return "yyyy-MM-dd";
             }
-            if (p3.matcher(source).matches()) {
+            if (PATTERN_THREE.matcher(source).matches()) {
                 return "HH:mm yyyy-MM-dd";
             }
 

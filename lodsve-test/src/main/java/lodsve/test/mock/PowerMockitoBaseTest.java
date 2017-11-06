@@ -5,7 +5,7 @@
  ****************************************************************************************/
 package lodsve.test.mock;
 
-import lodsve.test.base.GenericTest;
+import lodsve.test.base.BaseTest;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -17,6 +17,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * @version V1.0, 16-3-10 12:34
  */
 @RunWith(PowerMockRunner.class)
-public class PowerMockitoBaseTest extends GenericTest {
+public class PowerMockitoBaseTest extends BaseTest {
 
 }

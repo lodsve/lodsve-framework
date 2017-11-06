@@ -12,7 +12,6 @@ import java.util.Map;
  */
 @ConfigurationProperties(prefix = "lodsve.mongo", locations = "file:${params.root}/framework/mongo.properties")
 public class MongoProperties {
-    //default
     private int maxpoolsize;
     private Map<String, MongoConnection> project;
 
@@ -36,7 +35,6 @@ public class MongoProperties {
         private String url;
         private String username;
         private String password;
-        //custom
         private int maxpoolsize;
 
         public String getUrl() {

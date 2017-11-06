@@ -34,6 +34,7 @@ public interface Dialect {
      * @param tableName  表名
      * @param dataSource 数据源
      * @return
+     * @throws Exception
      */
     boolean existTable(String tableName, DataSource dataSource) throws Exception;
 }

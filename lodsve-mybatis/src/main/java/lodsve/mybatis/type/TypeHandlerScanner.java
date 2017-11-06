@@ -1,10 +1,5 @@
 package lodsve.mybatis.type;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtConstructor;
@@ -27,6 +22,12 @@ import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * 扫描所有的MyBatis的TypeHandler.
  *
@@ -48,8 +49,8 @@ public class TypeHandlerScanner {
         ClassPool parent = ClassPool.getDefault();
         ClassPool child = new ClassPool(parent);
         child.appendClassPath(new LoaderClassPath(TypeHandlerScanner.class.getClassLoader()));
-        child.appendSystemPath(); // the same class path as the default one.
-        child.childFirstLookup = true; // changes the behavior of the child.
+        child.appendSystemPath();
+        child.childFirstLookup = true;
         pool = child;
     }
 
@@ -96,7 +97,7 @@ public class TypeHandlerScanner {
             //创建一个TypeHandler类
             CtClass typeHandler = pool.makeClass(enumClazz.getSimpleName() + "$TypeHandler$" + System.currentTimeMillis());
             //添加EnumCodeTypeHandler父类(不包含泛型)
-            CtClass enumCodeTypeHandler = pool.get(EnumCodeTypeHandler.class.getName());
+            CtClass enumCodeTypeHandler = pool.get(AbstractEnumCodeTypeHandler.class.getName());
             typeHandler.setSuperclass(enumCodeTypeHandler);
 
             //创建构造器

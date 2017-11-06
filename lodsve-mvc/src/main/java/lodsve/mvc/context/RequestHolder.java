@@ -9,13 +9,17 @@ import javax.servlet.http.HttpServletRequest;
  * @version 1.0 2017/5/8 下午2:37
  */
 public class RequestHolder {
-    private static ThreadLocal<HttpServletRequest> requestThreadLocal = new ThreadLocal<>();
+    private final static ThreadLocal<HttpServletRequest> REQUEST_THREAD_LOCAL = new ThreadLocal<>();
 
     public static void setRequest(HttpServletRequest request) {
-        requestThreadLocal.set(request);
+        REQUEST_THREAD_LOCAL.set(request);
     }
 
     public static HttpServletRequest getRequest() {
-        return requestThreadLocal.get();
+        return REQUEST_THREAD_LOCAL.get();
+    }
+
+    public static void removeRequest() {
+        REQUEST_THREAD_LOCAL.remove();
     }
 }

@@ -18,11 +18,11 @@ import java.sql.SQLException;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/6/25 下午7:29
  */
-public abstract class EnumCodeTypeHandler<T extends Enum<?> & Codeable> extends BaseTypeHandler<T> {
-    private static final Logger logger = LoggerFactory.getLogger(EnumCodeTypeHandler.class);
+public abstract class AbstractEnumCodeTypeHandler<T extends Enum<?> & Codeable> extends BaseTypeHandler<T> {
+    private static final Logger logger = LoggerFactory.getLogger(AbstractEnumCodeTypeHandler.class);
     private T[] enums;
 
-    public EnumCodeTypeHandler(Class<T> clazz) {
+    public AbstractEnumCodeTypeHandler(Class<T> clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException("enum type can't be null!");
         }
