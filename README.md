@@ -1,4 +1,4 @@
-![LOGO](resources/logo.png "lodsve-framework")
+![LOGO](http://lodsve.github.io/lodsve-framework/imgs/logo.png "lodsve-framework")
 
 ## lodsve-framework
 My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web development.
@@ -64,8 +64,8 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 The `Lodsve Framework` is released under version 2.0 of the [Mozilla Public License][].
 
 ## Donate
-![AliPay](resources/alipay.png "支付宝")
-![WeChat](resources/wechat.jpg "微信")
+![AliPay](http://lodsve.github.io/lodsve-framework/imgs/alipay.png "支付宝")
+![WeChat](http://lodsve.github.io/lodsve-framework/imgs/wechat.jpg "微信")
 
 [Mozilla Public License]: http://opensource.org/licenses/MPL-2.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
