@@ -72,4 +72,4 @@ The `Lodsve Framework` is released under version 2.0 of the [Mozilla Public Lice
 [Blog]: http://blog.lodsve.com
 [OSChina]: http://my.oschina.net/sunhaojava/blog
 [867885140]: http://wpa.qq.com/msgrd?v=3&uin=867885140&site=qq&menu=yes
-[reference docs]: http://www.lodsve.com/
+[reference docs]: http://lodsve.github.io/lodsve-framework/
