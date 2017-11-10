@@ -1,6 +1,20 @@
 # 更新日志
 
-V2.5.8
+## V2.5.9
+1. 根据ali-check对项目的一些代码进行合适的修改
+2. 忽略spring-data中的spring版本
+3. 修改lodsve-redis中包扫描路径
+4. 升级mybatis版本
+5. 删除dto convert
+6. 添加mybatis性能监控、执行语句监控
+7. 修改以前引入插件的一个bug、并且优化
+8. 根据数据源自动加载主键自增长工具
+9. 修改mysql自增长id生成工具
+10. 删除支付
+11. 增加一些线程共享变量
+12. 优化lodsve-validate代码
+
+## V2.5.8
 1. 修改readme中的博客地址
 2. 修改依赖的版本号
 3. 运行main方法支持spring
