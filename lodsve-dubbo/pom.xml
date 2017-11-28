@@ -26,7 +26,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.github.sgroschupf</groupId>
+            <groupId>com.101tec</groupId>
             <artifactId>zkclient</artifactId>
         </dependency>
         <dependency>

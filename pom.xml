@@ -111,8 +111,8 @@
         <p6spy.version>3.0.0</p6spy.version>
         <pingpp.java.version>2.1.7</pingpp.java.version>
         <dubbo.version>2.5.3</dubbo.version>
-        <zkclient.version>0.1</zkclient.version>
-        <netty.version>3.2.10.Final</netty.version>
+        <zkclient.version>0.2</zkclient.version>
+        <netty.version>3.2.5.Final</netty.version>
         <groovy.version>2.4.7</groovy.version>
         <jruby.version>1.7.26</jruby.version>
         <jyphon.version>2.7.1b3</jyphon.version>
@@ -844,7 +844,7 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>com.github.sgroschupf</groupId>
+                <groupId>com.101tec</groupId>
                 <artifactId>zkclient</artifactId>
                 <version>${zkclient.version}</version>
             </dependency>
