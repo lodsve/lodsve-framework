@@ -1,6 +1,5 @@
 package lodsve.core.config.properties;
 
-import lodsve.core.config.core.ParamsHomeListener;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -15,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+
+import static lodsve.core.config.core.ParamsHome.PARAMS_ROOT;
+import static lodsve.core.config.core.ParamsHome.coveredWithExtResource;
 
 /**
  * 配置文件解析.
@@ -53,23 +55,27 @@ public class ConfigurationLoader {
     public static Resource getFileConfig(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
-        return loader.getResource("file:" + ParamsHomeListener.getParamsRoot() + File.separator + "files" + File.separator + fileName);
+        return loader.getResource("file:" + PARAMS_ROOT + File.separator + "files" + File.separator + fileName);
     }
 
     public static Resource getFrameworkConfig(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
-        return loader.getResource("file:" + ParamsHomeListener.getParamsRoot() + File.separator + "framework" + File.separator + fileName);
+        return loader.getResource("file:" + PARAMS_ROOT + File.separator + "framework" + File.separator + fileName);
     }
 
     public static void init() throws Exception {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         List<Resource> resources = new ArrayList<>();
 
-        resources.addAll(Arrays.asList(resolver.getResources("file:" + ParamsHomeListener.getParamsRoot() + "/*.properties")));
-        resources.addAll(Arrays.asList(resolver.getResources("file:" + ParamsHomeListener.getParamsRoot() + "/framework/*.properties")));
+        resources.addAll(Arrays.asList(resolver.getResources("file:" + PARAMS_ROOT + "/*.properties")));
+        resources.addAll(Arrays.asList(resolver.getResources("file:" + PARAMS_ROOT + "/framework/*.properties")));
 
         loadProperties(prop, resources);
-        prop.put("params.root", ParamsHomeListener.getParamsRoot());
+
+        // 获取覆盖的值
+        coveredWithExtResource(prop);
+
+        prop.put("params.root", PARAMS_ROOT);
     }
 }

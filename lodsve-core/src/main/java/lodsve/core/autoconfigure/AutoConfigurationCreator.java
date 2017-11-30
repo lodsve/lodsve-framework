@@ -1,8 +1,9 @@
 package lodsve.core.autoconfigure;
 
-import lodsve.core.config.SystemConfig;
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 import lodsve.core.autoconfigure.annotations.Required;
+import lodsve.core.config.SystemConfig;
+import lodsve.core.config.core.ParamsHome;
 import lodsve.core.config.properties.Configuration;
 import lodsve.core.config.properties.ConfigurationLoader;
 import lodsve.core.config.properties.PropertiesConfiguration;
@@ -24,7 +25,12 @@ import org.springframework.util.Assert;
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * 自动装配生成器.
@@ -105,6 +111,8 @@ public class AutoConfigurationCreator {
             PropertiesLoaderUtils.fillProperties(prop, new EncodedResource(resource, "UTF-8"));
         }
 
+        // 获取覆盖的值
+        ParamsHome.coveredWithExtResource(prop);
         return new PropertiesConfiguration(prop);
     }
 
