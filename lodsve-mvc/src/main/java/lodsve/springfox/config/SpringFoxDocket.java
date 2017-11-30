@@ -82,12 +82,9 @@ public class SpringFoxDocket extends Docket {
 
         return new ApiInfo(
                 properties.getTitle(),
-                properties.getDescription(),
-                properties.getVersion(),
-                properties.getTermsOfServiceUrl(),
-                new Contact(properties.getContact().getName(), properties.getContact().getUrl(), properties.getContact().getEmail()),
-                properties.getLicense(),
-                properties.getLicenseUrl()
+                properties.getDescription(), StringUtils.EMPTY, StringUtils.EMPTY,
+                new Contact(StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY),
+                StringUtils.EMPTY, StringUtils.EMPTY
         );
     }
 

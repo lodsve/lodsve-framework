@@ -4,11 +4,6 @@ $(function () {
             var urlMatches = /(.*)\/swagger-ui.html.*/.exec(window.location.href);
             return urlMatches[1];
         },
-        "securityConfig": function (cb) {
-            $.getJSON(this.baseUrl() + "/configuration/security", function (data) {
-                cb(data);
-            });
-        },
         "uiConfig": function (cb) {
             $.getJSON(this.baseUrl() + "/configuration/ui", function (data) {
                 cb(data);
@@ -26,8 +21,6 @@ $(function () {
             onComplete: function (swaggerApi, swaggerUi) {
                 // 设置网页标题
                 document.title = swaggerApi.info.title
-
-                initializeSpringfox();
 
                 if (window.SwaggerTranslator) {
                     window.SwaggerTranslator.translate();
@@ -73,29 +66,6 @@ $(function () {
                 console.log.apply(console, arguments);
             }
         }
-
-        function oAuthIsDefined(security) {
-            return security.clientId
-                && security.clientSecret
-                && security.appName
-                && security.realm;
-        }
-
-        function initializeSpringfox() {
-            var security = {};
-            window.springfox.securityConfig(function (data) {
-                security = data;
-                window.apiKeyVehicle = security.apiKeyVehicle || 'query';
-                window.apiKeyName = security.apiKeyName || 'api_key';
-                if (security.apiKey) {
-                    $('#input_apiKey').val(security.apiKey);
-                    addApiKeyAuthorization();
-                }
-                if (typeof initOAuth == "function" && oAuthIsDefined(security)) {
-                    initOAuth(security);
-                }
-            });
-        }
     });
 
     $('#select_baseUrl').change(function () {
@@ -118,7 +88,6 @@ $(function () {
         $('#input_baseUrl').hide();
 
         $.getJSON(relativeLocation + "/swagger-resources", function (data) {
-
             var $urlDropdown = $('#select_baseUrl');
             $urlDropdown.empty();
             $.each(data, function (i, resource) {
