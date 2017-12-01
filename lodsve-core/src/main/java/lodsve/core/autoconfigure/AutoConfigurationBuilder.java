@@ -11,6 +11,8 @@ import lodsve.core.utils.GenericUtils;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.core.utils.StringUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -23,6 +25,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.util.Assert;
 
 import java.beans.PropertyDescriptor;
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -38,20 +41,31 @@ import java.util.Set;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016-1-26 14:17
  */
-public class AutoConfigurationCreator {
+public class AutoConfigurationBuilder {
+    private static final Logger logger = LoggerFactory.getLogger(AutoConfigurationBuilder.class);
+
     private static final List<? extends Class<? extends Serializable>> SIMPLE_CLASS = Arrays.asList(Boolean.class, boolean.class, Long.class, long.class,
             Integer.class, int.class, String.class, Double.class, double.class);
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
 
-    private AutoConfigurationCreator() {
+    private static final Map<Class<?>, Object> CLASS_OBJECT_MAPPING = new HashMap<>(16);
+
+    private AutoConfigurationBuilder() {
     }
 
-    private <T> T generateConfigurationBean(Class<T> clazz, ConfigurationProperties annotation) throws Exception {
+    @SuppressWarnings("unchecked")
+    private <T> T generateConfigurationBean(Class<T> clazz, ConfigurationProperties annotation) {
         Configuration configuration = loadProp(annotation.locations());
-        return generateObject(annotation.prefix(), clazz, configuration);
+        T object = (T) CLASS_OBJECT_MAPPING.get(clazz);
+        if (object == null) {
+            object = generateObject(annotation.prefix(), clazz, configuration);
+            CLASS_OBJECT_MAPPING.put(clazz, object);
+        }
+
+        return object;
     }
 
-    private <T> T generateObject(String prefix, Class<T> clazz, Configuration configuration) throws Exception {
+    private <T> T generateObject(String prefix, Class<T> clazz, Configuration configuration) {
         T object = BeanUtils.instantiate(clazz);
         BeanWrapper beanWrapper = new BeanWrapperImpl(object);
 
@@ -84,7 +98,7 @@ public class AutoConfigurationCreator {
         return object;
     }
 
-    private Object getValue(Class<?> type, String key, Method method, Configuration configuration) throws Exception {
+    private Object getValue(Class<?> type, String key, Method method, Configuration configuration) {
         Object value;
 
         if (isSimpleType(type)) {
@@ -98,7 +112,7 @@ public class AutoConfigurationCreator {
         return value;
     }
 
-    private Configuration loadProp(String... configLocations) throws Exception {
+    private Configuration loadProp(String... configLocations) {
         if (ArrayUtils.isEmpty(configLocations)) {
             return new PropertiesConfiguration(ConfigurationLoader.getConfigProperties());
         }
@@ -108,7 +122,17 @@ public class AutoConfigurationCreator {
             location = PropertyPlaceholderHelper.replacePlaceholder(location, true, SystemConfig.getAllConfigs());
 
             Resource resource = this.resourceLoader.getResource(location);
-            PropertiesLoaderUtils.fillProperties(prop, new EncodedResource(resource, "UTF-8"));
+            if (!resource.exists()) {
+                continue;
+            }
+
+            try {
+                PropertiesLoaderUtils.fillProperties(prop, new EncodedResource(resource, "UTF-8"));
+            } catch (IOException e) {
+                if (logger.isErrorEnabled()) {
+                    logger.error(String.format("fill properties with file '%s' error!", resource.getFilename()));
+                }
+            }
         }
 
         // 获取覆盖的值
@@ -140,7 +164,7 @@ public class AutoConfigurationCreator {
         return null;
     }
 
-    private Map<String, Object> getValueForMap(String prefix, Method method, Configuration configuration) throws Exception {
+    private Map<String, Object> getValueForMap(String prefix, Method method, Configuration configuration) {
         if (!Map.class.equals(method.getReturnType()) || !String.class.equals(GenericUtils.getGenericParameter0(method))) {
             return null;
         }
@@ -185,7 +209,7 @@ public class AutoConfigurationCreator {
     }
 
     public static class Builder<T> {
-        private AutoConfigurationCreator creator = new AutoConfigurationCreator();
+        private AutoConfigurationBuilder builder = new AutoConfigurationBuilder();
         private Class<T> clazz;
         private ConfigurationProperties annotation;
 
@@ -199,8 +223,17 @@ public class AutoConfigurationCreator {
             return this;
         }
 
-        public T build() throws Exception {
-            return creator.generateConfigurationBean(clazz, annotation);
+        public T build() {
+            // check
+            if (clazz == null) {
+                throw new IllegalArgumentException("clazz is required!");
+            }
+
+            if (annotation == null) {
+                throw new IllegalArgumentException("annotation is required!");
+            }
+
+            return builder.generateConfigurationBean(clazz, annotation);
         }
     }
 }

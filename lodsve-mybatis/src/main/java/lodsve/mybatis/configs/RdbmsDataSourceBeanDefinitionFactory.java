@@ -1,9 +1,7 @@
 package lodsve.mybatis.configs;
 
-import lodsve.core.autoconfigure.AutoConfigurationCreator;
+import lodsve.core.autoconfigure.AutoConfigurationBuilder;
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -21,7 +19,6 @@ import java.util.Map;
  * @version V1.0, 16/1/21 下午4:00
  */
 public class RdbmsDataSourceBeanDefinitionFactory {
-    public static final Logger logger = LoggerFactory.getLogger(RdbmsDataSourceBeanDefinitionFactory.class);
     public static final String DRUID_DATA_SOURCE_CLASS = "com.alibaba.druid.pool.DruidDataSource";
     public static final String DBCP_DATA_SOURCE_CLASS = "org.apache.commons.dbcp.BasicDataSource";
 
@@ -31,17 +28,11 @@ public class RdbmsDataSourceBeanDefinitionFactory {
     public RdbmsDataSourceBeanDefinitionFactory(String dataSourceName) {
         this.dataSourceName = dataSourceName;
 
-        AutoConfigurationCreator.Builder<RdbmsProperties> builder = new AutoConfigurationCreator.Builder<>();
+        AutoConfigurationBuilder.Builder<RdbmsProperties> builder = new AutoConfigurationBuilder.Builder<>();
         builder.setAnnotation(RdbmsProperties.class.getAnnotation(ConfigurationProperties.class));
         builder.setClazz(RdbmsProperties.class);
 
-        try {
-            rdbmsProperties = builder.build();
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            e.printStackTrace();
-            this.rdbmsProperties = new RdbmsProperties();
-        }
+        rdbmsProperties = builder.build();
     }
 
     public BeanDefinition build() {

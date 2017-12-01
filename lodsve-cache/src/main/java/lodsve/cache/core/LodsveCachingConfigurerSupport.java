@@ -1,6 +1,6 @@
 package lodsve.cache.core;
 
-import lodsve.core.autoconfigure.AutoConfigurationCreator;
+import lodsve.core.autoconfigure.AutoConfigurationBuilder;
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 import lodsve.core.config.SystemConfig;
 import lodsve.core.utils.PropertyPlaceholderHelper;
@@ -18,8 +18,8 @@ public class LodsveCachingConfigurerSupport extends CachingConfigurerSupport {
     protected CacheProperties cacheProperties;
 
     @PostConstruct
-    public void init() throws Exception {
-        AutoConfigurationCreator.Builder<CacheProperties> builder = new AutoConfigurationCreator.Builder<>();
+    public void init() {
+        AutoConfigurationBuilder.Builder<CacheProperties> builder = new AutoConfigurationBuilder.Builder<>();
         builder.setAnnotation(CacheProperties.class.getAnnotation(ConfigurationProperties.class));
         builder.setClazz(CacheProperties.class);
 

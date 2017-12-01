@@ -15,7 +15,7 @@ public class ConfigurationPropertiesBindingPostProcessorRegistrar implements Imp
     /**
      * The bean name of the {@link ConfigurationPropertiesBindingPostProcessor}.
      */
-    public static final String BINDER_BEAN_NAME = ConfigurationPropertiesBindingPostProcessor.class.getName();
+    private static final String BINDER_BEAN_NAME = ConfigurationPropertiesBindingPostProcessor.class.getName();
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {

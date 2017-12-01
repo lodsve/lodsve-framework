@@ -1,6 +1,7 @@
 package lodsve.core.utils;
 
 import org.springframework.aop.framework.AdvisedSupport;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Field;
@@ -20,6 +21,7 @@ public class ProxyUtils {
      * @return
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     public static <T> T getTarget(T proxy) {
         if (Proxy.isProxyClass(proxy.getClass())) {
             return getJdkDynamicProxyTargetObject(proxy);
@@ -27,7 +29,7 @@ public class ProxyUtils {
             return getCglibProxyTargetObject(proxy);
         }
 
-        return proxy;
+        return (T) AopUtils.getTargetClass(proxy);
     }
 
     @SuppressWarnings("unchecked")
