@@ -13,7 +13,7 @@ My development tools, it encapsulates some open source projects, and better faci
     - lodsve-amqp
     - lodsve-cache
     - lodsve-core
-    - lodsve-fs
+    - lodsve-dfs
     - lodsve-mongodb
     - lodsve-mvc
     - lodsve-mybatis

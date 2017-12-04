@@ -10,9 +10,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>lodsve-fs</artifactId>
+    <artifactId>lodsve-dfs</artifactId>
     <packaging>jar</packaging>
-    <name>lodsve fs</name>
+    <name>lodsve dfs</name>
     <description>文件服务器FastDFS客户端</description>
 
     <dependencies>

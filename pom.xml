@@ -20,7 +20,7 @@
         <!-- 基础 -->
         <module>lodsve-core</module>
         <!-- fastdfs -->
-        <module>lodsve-fs</module>
+        <module>lodsve-dfs</module>
         <!-- mongodb -->
         <module>lodsve-mongodb</module>
         <!-- mvc -->
@@ -870,7 +870,7 @@
             </dependency>
             <dependency>
                 <groupId>com.github.lodsve</groupId>
-                <artifactId>lodsve-fs</artifactId>
+                <artifactId>lodsve-dfs</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
