@@ -8,10 +8,10 @@ import org.springframework.amqp.core.Queue;
 import java.util.Collections;
 
 /**
- * 队列.
+ * .
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2014-9-26 14:02
+ * @author sunhao(sunhao.java @ gmail.com)
+ * @version 1.0 2017/12/7 11:18
  */
 public class QueueBinding extends Binding {
     public QueueBinding(FanoutExchange exchange, Queue queue) {
