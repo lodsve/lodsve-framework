@@ -70,14 +70,14 @@ public class ApplicationHelper {
      * @param name the name of the bean to retrieve
      * @return an instance of the bean
      */
-    public Object getBean(String name) {
-        Object result = null;
+    public <T> T getBean(String name) {
+        T result = null;
         Iterator it = apps.iterator();
 
         do {
             ApplicationContext app = (ApplicationContext) it.next();
             try {
-                result = app.getBean(name);
+                result = (T) app.getBean(name);
                 if (result != null) {
                     return result;
                 }
