@@ -1,5 +1,6 @@
 package lodsve.core.config.ini;
 
+import lodsve.core.config.core.ParamsHome;
 import lodsve.core.utils.FileUtils;
 import lodsve.core.utils.StringUtils;
 import org.springframework.core.io.Resource;
@@ -16,12 +17,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import static lodsve.core.config.core.ParamsHome.PARAMS_ROOT;
-
 /**
  * 解析ini文件.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
  * @createTime 2014-12-31 14:25
  */
@@ -34,23 +33,28 @@ public class IniLoader {
      */
     private static final String COMMENT_CHARS = "#;";
 
-    public static Map<String, Map<String, String>> getIni() throws Exception {
+    public static Map<String, Map<String, String>> getIni() {
         return values;
     }
 
-    public static Map<String, Map<String, String>> getIni(Resource resource) throws Exception {
+    public static Map<String, Map<String, String>> getIni(Resource resource) {
         Map<String, Map<String, String>> maps = new HashMap<>(16);
         load(maps, resource);
 
         return maps;
     }
 
-    private static void load(Map<String, Map<String, String>> values, Resource resource) throws Exception {
+    private static void load(Map<String, Map<String, String>> values, Resource resource) {
         if (resource == null) {
             return;
         }
 
-        List<String> lines = FileUtils.readLines(resource.getInputStream());
+        List<String> lines;
+        try {
+            lines = FileUtils.readLines(resource.getInputStream());
+        } catch (Exception e) {
+            return;
+        }
 
         String section = "";
         List<String> lineArrays = new ArrayList<>();
@@ -157,9 +161,14 @@ public class IniLoader {
         values.put(section, sectionValues);
     }
 
-    public static void init() throws Exception {
+    public static void init() {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resolver.getResources("file:" + PARAMS_ROOT + "/*.ini");
+        Resource[] resources;
+        try {
+            resources = resolver.getResources("file:" + ParamsHome.getInstance().getParamsRoot() + "/*.ini");
+        } catch (IOException e) {
+            return;
+        }
 
         for (Resource res : resources) {
             load(values, res);

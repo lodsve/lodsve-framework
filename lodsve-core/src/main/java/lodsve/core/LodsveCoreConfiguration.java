@@ -13,5 +13,5 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties({EmailProperties.class, ApplicationProperties.class})
-public class CoreConfiguration {
+public class LodsveCoreConfiguration {
 }

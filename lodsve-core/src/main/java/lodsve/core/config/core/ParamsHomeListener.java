@@ -50,7 +50,7 @@ import static lodsve.core.config.core.ParamsHome.PARAMS_HOME_NAME;
  * 如果在classpath下,可以加上前缀classpath:you params home<br/>
  * 如果在文件系统中,可加前缀system:或者不加也行
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
  * @createTime 2015-1-5 10:00
  */
@@ -59,7 +59,7 @@ public class ParamsHomeListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        ParamsHome.cleanParamsRoot();
+        ParamsHome.getInstance().cleanParamsRoot();
     }
 
     @Override
@@ -67,13 +67,9 @@ public class ParamsHomeListener implements ServletContextListener {
         String paramsHome = servletContextEvent.getServletContext().getInitParameter(PARAMS_HOME_NAME);
         logger.debug("get init parameter '{}' from web.xml is '{}'", PARAMS_HOME_NAME, paramsHome);
 
-        ParamsHome.getParamsRoot();
+        ParamsHome.getInstance().init(paramsHome);
 
-        try {
-            ConfigurationLoader.init();
-            IniLoader.init();
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
+        ConfigurationLoader.init();
+        IniLoader.init();
     }
 }

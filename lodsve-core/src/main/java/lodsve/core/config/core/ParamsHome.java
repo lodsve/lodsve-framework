@@ -17,11 +17,12 @@ import java.util.Properties;
 /**
  * 初始化ParamsHome路径.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2017/11/30 下午6:48
  */
 public class ParamsHome {
     private static final Logger logger = LoggerFactory.getLogger(ParamsHome.class);
+    private static ParamsHome instance = new ParamsHome();
 
     private static final String ROOT_PARAM_KEY = "config.root";
     /**
@@ -49,19 +50,24 @@ public class ParamsHome {
     /**
      * 配置文件路径
      */
-    public static String PARAMS_ROOT = null;
+    private static String PARAMS_ROOT = null;
 
-    static void getParamsRoot() {
-        if (StringUtils.isBlank(PARAMS_ROOT)) {
-            init(StringUtils.EMPTY);
-        }
+    /**
+     * 构造器私有，不可在外部进行初始化实例
+     */
+    private ParamsHome() {
+
     }
 
-    static void cleanParamsRoot() {
+    public String getParamsRoot() {
+        return PARAMS_ROOT;
+    }
+
+    public void cleanParamsRoot() {
         PARAMS_ROOT = null;
     }
 
-    private static void init(String webXmlParamsHome) {
+    protected void init(String webXmlParamsPath) {
         //1.默认是环境变量
         String paramsPath = System.getenv(ENV_PARAM_PATH);
 
@@ -72,7 +78,7 @@ public class ParamsHome {
 
         //3.在web.xml中配置的
         if (StringUtils.isEmpty(paramsPath)) {
-            paramsPath = webXmlParamsHome;
+            paramsPath = webXmlParamsPath;
         }
 
         if (StringUtils.isEmpty(paramsPath)) {
@@ -166,7 +172,7 @@ public class ParamsHome {
         }
     }
 
-    public static void coveredWithExtResource(Properties systemProperties) {
+    public void coveredWithExtResource(Properties systemProperties) {
         if (EXT_PARAMS_PROPERTIES.isEmpty()) {
             return;
         }
@@ -179,5 +185,9 @@ public class ParamsHome {
                 systemProperties.put(key, value);
             }
         }
+    }
+
+    public static ParamsHome getInstance() {
+        return instance;
     }
 }

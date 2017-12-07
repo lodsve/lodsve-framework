@@ -1,5 +1,6 @@
 package lodsve.core.config.properties;
 
+import lodsve.core.config.core.ParamsHome;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -15,13 +16,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import static lodsve.core.config.core.ParamsHome.PARAMS_ROOT;
-import static lodsve.core.config.core.ParamsHome.coveredWithExtResource;
-
 /**
  * 配置文件解析.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 14-8-17 下午9:44
  */
 public class ConfigurationLoader {
@@ -30,7 +28,7 @@ public class ConfigurationLoader {
     private ConfigurationLoader() {
     }
 
-    public static Properties getConfigFileProperties(Resource... resources) throws IOException {
+    public static Properties getConfigFileProperties(Resource... resources) {
         Properties prop = new Properties();
 
         loadProperties(prop, Arrays.asList(resources));
@@ -55,27 +53,31 @@ public class ConfigurationLoader {
     public static Resource getFileConfig(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
-        return loader.getResource("file:" + PARAMS_ROOT + File.separator + "files" + File.separator + fileName);
+        return loader.getResource("file:" + ParamsHome.getInstance().getParamsRoot() + File.separator + "files" + File.separator + fileName);
     }
 
     public static Resource getFrameworkConfig(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
-        return loader.getResource("file:" + PARAMS_ROOT + File.separator + "framework" + File.separator + fileName);
+        return loader.getResource("file:" + ParamsHome.getInstance().getParamsRoot() + File.separator + "framework" + File.separator + fileName);
     }
 
-    public static void init() throws Exception {
+    public static void init() {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         List<Resource> resources = new ArrayList<>();
 
-        resources.addAll(Arrays.asList(resolver.getResources("file:" + PARAMS_ROOT + "/*.properties")));
-        resources.addAll(Arrays.asList(resolver.getResources("file:" + PARAMS_ROOT + "/framework/*.properties")));
+        try {
+            resources.addAll(Arrays.asList(resolver.getResources("file:" + ParamsHome.getInstance().getParamsRoot() + "/*.properties")));
+            resources.addAll(Arrays.asList(resolver.getResources("file:" + ParamsHome.getInstance().getParamsRoot() + "/framework/*.properties")));
+        } catch (IOException e) {
+            return;
+        }
 
         loadProperties(prop, resources);
 
         // 获取覆盖的值
-        coveredWithExtResource(prop);
+        ParamsHome.getInstance().coveredWithExtResource(prop);
 
-        prop.put("params.root", PARAMS_ROOT);
+        prop.put("params.root", ParamsHome.getInstance().getParamsRoot());
     }
 }

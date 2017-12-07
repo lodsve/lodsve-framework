@@ -136,7 +136,7 @@ public class AutoConfigurationBuilder {
         }
 
         // 获取覆盖的值
-        ParamsHome.coveredWithExtResource(prop);
+        ParamsHome.getInstance().coveredWithExtResource(prop);
         return new PropertiesConfiguration(prop);
     }
 
@@ -198,7 +198,7 @@ public class AutoConfigurationBuilder {
                 //判断截获的字符是否是大写，大写字母的toUpperCase()还是大写的
                 if (tmp.equals(tmp.toUpperCase())) {
                     //此字符是大写的
-                    result.append("_").append(tmp.toLowerCase());
+                    result.append("-").append(tmp.toLowerCase());
                 } else {
                     result.append(tmp);
                 }

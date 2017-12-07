@@ -6,15 +6,18 @@ import lodsve.core.config.properties.PropertiesConfiguration;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * 系统配置文件.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 14-8-17 下午10:29
  */
 public class SystemConfig {
@@ -191,11 +194,7 @@ public class SystemConfig {
 
         Resource resource = getFileConfig(fileName);
 
-        try {
-            return new PropertiesConfiguration(ConfigurationLoader.getConfigFileProperties(resource));
-        } catch (IOException e) {
-            throw new RuntimeException("加载配置文件发生IO异常");
-        }
+        return new PropertiesConfiguration(ConfigurationLoader.getConfigFileProperties(resource));
     }
 
     public static Configuration getFrameworkConfiguration(String fileName) {
@@ -203,10 +202,6 @@ public class SystemConfig {
 
         Resource resource = getFrameworkConfig(fileName);
 
-        try {
-            return new PropertiesConfiguration(ConfigurationLoader.getConfigFileProperties(resource));
-        } catch (IOException e) {
-            throw new RuntimeException("加载配置文件发生IO异常");
-        }
+        return new PropertiesConfiguration(ConfigurationLoader.getConfigFileProperties(resource));
     }
 }
