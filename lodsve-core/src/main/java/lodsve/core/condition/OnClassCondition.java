@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,7 @@
 
 package lodsve.core.condition;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
+import lodsve.core.condition.ConditionMessage.Style;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.Ordered;
@@ -28,10 +24,15 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * {@link Condition} that checks for the presence or absence of specific classes.
+ * {@link Condition} that checks for the
+ * presence or absence of specific classes.
  *
  * @author Phillip Webb
  * @see ConditionalOnClass
@@ -43,61 +44,50 @@ class OnClassCondition extends SpringBootCondition {
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context,
                                             AnnotatedTypeMetadata metadata) {
-
-        StringBuilder matchMessage = new StringBuilder();
-
-        MultiValueMap<String, Object> onClasses = getAttributes(metadata,
-                ConditionalOnClass.class);
+        ClassLoader classLoader = context.getClassLoader();
+        ConditionMessage matchMessage = ConditionMessage.empty();
+        List<String> onClasses = getCandidates(metadata, ConditionalOnClass.class);
         if (onClasses != null) {
-            List<String> missing = getMatchingClasses(onClasses, MatchType.MISSING,
-                    context);
+            List<String> missing = getMatches(onClasses, MatchType.MISSING, classLoader);
             if (!missing.isEmpty()) {
                 return ConditionOutcome
-                        .noMatch("required @ConditionalOnClass classes not found: "
-                                + StringUtils.collectionToCommaDelimitedString(missing));
+                        .noMatch(ConditionMessage.forCondition(ConditionalOnClass.class)
+                                .didNotFind("required class", "required classes")
+                                .items(Style.QUOTE, missing));
             }
-            matchMessage.append("@ConditionalOnClass classes found: ")
-                    .append(StringUtils.collectionToCommaDelimitedString(
-                            getMatchingClasses(onClasses, MatchType.PRESENT, context)));
+            matchMessage = matchMessage.andCondition(ConditionalOnClass.class)
+                    .found("required class", "required classes").items(Style.QUOTE,
+                            getMatches(onClasses, MatchType.PRESENT, classLoader));
         }
-
-        MultiValueMap<String, Object> onMissingClasses = getAttributes(metadata,
+        List<String> onMissingClasses = getCandidates(metadata,
                 ConditionalOnMissingClass.class);
         if (onMissingClasses != null) {
-            List<String> present = getMatchingClasses(onMissingClasses, MatchType.PRESENT,
-                    context);
+            List<String> present = getMatches(onMissingClasses, MatchType.PRESENT,
+                    classLoader);
             if (!present.isEmpty()) {
-                return ConditionOutcome
-                        .noMatch("required @ConditionalOnMissing classes found: "
-                                + StringUtils.collectionToCommaDelimitedString(present));
+                return ConditionOutcome.noMatch(
+                        ConditionMessage.forCondition(ConditionalOnMissingClass.class)
+                                .found("unwanted class", "unwanted classes")
+                                .items(Style.QUOTE, present));
             }
-            matchMessage.append(matchMessage.length() == 0 ? "" : " ");
-            matchMessage.append("@ConditionalOnMissing classes not found: ")
-                    .append(StringUtils.collectionToCommaDelimitedString(
-                            getMatchingClasses(onMissingClasses, MatchType.MISSING,
-                                    context)));
+            matchMessage = matchMessage.andCondition(ConditionalOnMissingClass.class)
+                    .didNotFind("unwanted class", "unwanted classes").items(Style.QUOTE,
+                            getMatches(onMissingClasses, MatchType.MISSING, classLoader));
         }
-
-        return ConditionOutcome.match(matchMessage.toString());
+        return ConditionOutcome.match(matchMessage);
     }
 
-    private MultiValueMap<String, Object> getAttributes(AnnotatedTypeMetadata metadata,
-                                                        Class<?> annotationType) {
-        return metadata.getAllAnnotationAttributes(annotationType.getName(), true);
-    }
-
-    private List<String> getMatchingClasses(MultiValueMap<String, Object> attributes,
-                                            MatchType matchType, ConditionContext context) {
-        List<String> matches = new LinkedList<String>();
-        addAll(matches, attributes.get("value"));
-        addAll(matches, attributes.get("name"));
-        Iterator<String> iterator = matches.iterator();
-        while (iterator.hasNext()) {
-            if (!matchType.matches(iterator.next(), context)) {
-                iterator.remove();
-            }
+    private List<String> getCandidates(AnnotatedTypeMetadata metadata,
+                                       Class<?> annotationType) {
+        MultiValueMap<String, Object> attributes = metadata
+                .getAllAnnotationAttributes(annotationType.getName(), true);
+        List<String> candidates = new ArrayList<String>();
+        if (attributes == null) {
+            return Collections.emptyList();
         }
-        return matches;
+        addAll(candidates, attributes.get("value"));
+        addAll(candidates, attributes.get("name"));
+        return candidates;
     }
 
     private void addAll(List<String> list, List<Object> itemsToAdd) {
@@ -108,23 +98,62 @@ class OnClassCondition extends SpringBootCondition {
         }
     }
 
+    private List<String> getMatches(Collection<String> candidates, MatchType matchType,
+                                    ClassLoader classLoader) {
+        List<String> matches = new ArrayList<String>(candidates.size());
+        for (String candidate : candidates) {
+            if (matchType.matches(candidate, classLoader)) {
+                matches.add(candidate);
+            }
+        }
+        return matches;
+    }
+
     private enum MatchType {
 
         PRESENT {
             @Override
-            public boolean matches(String className, ConditionContext context) {
-                return ClassUtils.isPresent(className, context.getClassLoader());
+            public boolean matches(String className, ClassLoader classLoader) {
+                return isPresent(className, classLoader);
             }
+
         },
 
         MISSING {
             @Override
-            public boolean matches(String className, ConditionContext context) {
-                return !ClassUtils.isPresent(className, context.getClassLoader());
+            public boolean matches(String className, ClassLoader classLoader) {
+                return !isPresent(className, classLoader);
             }
+
         };
 
-        public abstract boolean matches(String className, ConditionContext context);
+        private static boolean isPresent(String className, ClassLoader classLoader) {
+            if (classLoader == null) {
+                classLoader = ClassUtils.getDefaultClassLoader();
+            }
+            try {
+                forName(className, classLoader);
+                return true;
+            } catch (Throwable ex) {
+                return false;
+            }
+        }
+
+        private static Class<?> forName(String className, ClassLoader classLoader)
+                throws ClassNotFoundException {
+            if (classLoader != null) {
+                return classLoader.loadClass(className);
+            }
+            return Class.forName(className);
+        }
+
+        public abstract boolean matches(String className, ClassLoader classLoader);
+
+    }
+
+    private interface OutcomesResolver {
+
+        ConditionOutcome[] resolveOutcomes();
 
     }
 

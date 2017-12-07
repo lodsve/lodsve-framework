@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2015 the original author or authors.
+ * Copyright 2012-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package lodsve.core.condition;
 
+import lodsve.core.condition.rule.Rule;
 import org.springframework.context.annotation.Conditional;
 
 import java.lang.annotation.Documented;
@@ -25,23 +26,28 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * {@link Conditional} that matches based on the availability of a JNDI
- * {@link javax.naming.InitialContext} and the ability to lookup specific locations.
+ * {@link org.springframework.context.annotation.Conditional} that only matches when all the rules return true
+ * application context.
  *
- * @author Phillip Webb
- * @since 1.2.0
+ * @author Dave Syer
  */
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Conditional(OnJndiCondition.class)
-public @interface ConditionalOnJndi {
+@Conditional(OnRuleCondition.class)
+public @interface ConditionalOnRules {
+    /**
+     * the rules, must extends from {@link lodsve.core.condition.rule.Rule}
+     *
+     * @return rules
+     */
+    Class<? extends Rule>[] rules();
 
-	/**
-	 * JNDI Locations, one of which must exist. If no locations are specific the condition
-	 * matches solely based on the presence of an {@link javax.naming.InitialContext}.
-	 * @return the JNDI locations
-	 */
-	String[] value() default {};
-
+    /**
+     * if true, all the rules must return true, then conditional is true!
+     * if false, one of the rules return true, then conditional is true!
+     *
+     * @return true/false
+     */
+    boolean allRulesPassed() default true;
 }

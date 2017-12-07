@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,6 @@
 
 package lodsve.core.condition;
 
-import java.util.Map;
-
 import lodsve.core.condition.ConditionalOnJava.JavaVersion;
 import lodsve.core.condition.ConditionalOnJava.Range;
 import org.springframework.context.annotation.Condition;
@@ -25,6 +23,8 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.type.AnnotatedTypeMetadata;
+
+import java.util.Map;
 
 /**
  * {@link Condition} that checks for a required version of Java.
@@ -37,28 +37,28 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 @Order(Ordered.HIGHEST_PRECEDENCE + 20)
 class OnJavaCondition extends SpringBootCondition {
 
-    private static final JavaVersion JVM_VERSION = JavaVersion.getJavaVersion();
+	private static final JavaVersion JVM_VERSION = JavaVersion.getJavaVersion();
 
-    @Override
-    public ConditionOutcome getMatchOutcome(ConditionContext context,
-                                            AnnotatedTypeMetadata metadata) {
-        Map<String, Object> attributes = metadata
-                .getAnnotationAttributes(ConditionalOnJava.class.getName());
-        Range range = (Range) attributes.get("range");
-        JavaVersion version = (JavaVersion) attributes.get("value");
-        return getMatchOutcome(range, JVM_VERSION, version);
-    }
+	@Override
+	public ConditionOutcome getMatchOutcome(ConditionContext context,
+			AnnotatedTypeMetadata metadata) {
+		Map<String, Object> attributes = metadata
+				.getAnnotationAttributes(ConditionalOnJava.class.getName());
+		Range range = (Range) attributes.get("range");
+		JavaVersion version = (JavaVersion) attributes.get("value");
+		return getMatchOutcome(range, JVM_VERSION, version);
+	}
 
-    protected ConditionOutcome getMatchOutcome(Range range, JavaVersion runningVersion,
-                                               JavaVersion version) {
-        boolean match = runningVersion.isWithin(range, version);
-        return new ConditionOutcome(match, getMessage(range, runningVersion, version));
-    }
+	protected ConditionOutcome getMatchOutcome(Range range, JavaVersion runningVersion,
+			JavaVersion version) {
+		boolean match = runningVersion.isWithin(range, version);
+		String expected = String.format(
+				range == Range.EQUAL_OR_NEWER ? "(%s or newer)" : "(older than %s)",
+				version);
+		ConditionMessage message = ConditionMessage
+				.forCondition(ConditionalOnJava.class, expected)
+				.foundExactly(runningVersion);
+		return new ConditionOutcome(match, message);
+	}
 
-    private String getMessage(Range range, JavaVersion runningVersion,
-                              JavaVersion version) {
-        String expected = String.format(
-                range == Range.EQUAL_OR_NEWER ? "%s or newer" : "older than %s", version);
-        return "Required JVM version " + expected + " found " + runningVersion;
-    }
 }

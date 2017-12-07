@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,51 +37,46 @@ import org.springframework.web.context.support.StandardServletEnvironment;
 @Order(Ordered.HIGHEST_PRECEDENCE + 20)
 class OnWebApplicationCondition extends SpringBootCondition {
 
-    private static final String WEB_CONTEXT_CLASS = "org.springframework.web.context."
-            + "support.GenericWebApplicationContext";
+	private static final String WEB_CONTEXT_CLASS = "org.springframework.web.context."
+			+ "support.GenericWebApplicationContext";
 
-    @Override
-    public ConditionOutcome getMatchOutcome(ConditionContext context,
-                                            AnnotatedTypeMetadata metadata) {
-        boolean webApplicationRequired = metadata
-                .isAnnotated(ConditionalOnWebApplication.class.getName());
-        ConditionOutcome webApplication = isWebApplication(context, metadata);
+	@Override
+	public ConditionOutcome getMatchOutcome(ConditionContext context,
+			AnnotatedTypeMetadata metadata) {
+		boolean required = metadata
+				.isAnnotated(ConditionalOnWebApplication.class.getName());
+		ConditionOutcome outcome = isWebApplication(context, metadata, required);
+		if (required && !outcome.isMatch()) {
+			return ConditionOutcome.noMatch(outcome.getConditionMessage());
+		}
+		if (!required && outcome.isMatch()) {
+			return ConditionOutcome.noMatch(outcome.getConditionMessage());
+		}
+		return ConditionOutcome.match(outcome.getConditionMessage());
+	}
 
-        if (webApplicationRequired && !webApplication.isMatch()) {
-            return ConditionOutcome.noMatch(webApplication.getMessage());
-        }
-
-        if (!webApplicationRequired && webApplication.isMatch()) {
-            return ConditionOutcome.noMatch(webApplication.getMessage());
-        }
-
-        return ConditionOutcome.match(webApplication.getMessage());
-    }
-
-    private ConditionOutcome isWebApplication(ConditionContext context,
-                                              AnnotatedTypeMetadata metadata) {
-
-        if (!ClassUtils.isPresent(WEB_CONTEXT_CLASS, context.getClassLoader())) {
-            return ConditionOutcome.noMatch("web application classes not found");
-        }
-
-        if (context.getBeanFactory() != null) {
-            String[] scopes = context.getBeanFactory().getRegisteredScopeNames();
-            if (ObjectUtils.containsElement(scopes, "session")) {
-                return ConditionOutcome.match("found web application 'session' scope");
-            }
-        }
-
-        if (context.getEnvironment() instanceof StandardServletEnvironment) {
-            return ConditionOutcome
-                    .match("found web application StandardServletEnvironment");
-        }
-
-        if (context.getResourceLoader() instanceof WebApplicationContext) {
-            return ConditionOutcome.match("found web application WebApplicationContext");
-        }
-
-        return ConditionOutcome.noMatch("not a web application");
-    }
+	private ConditionOutcome isWebApplication(ConditionContext context,
+			AnnotatedTypeMetadata metadata, boolean required) {
+		ConditionMessage.Builder message = ConditionMessage.forCondition(
+				ConditionalOnWebApplication.class, required ? "(required)" : "");
+		if (!ClassUtils.isPresent(WEB_CONTEXT_CLASS, context.getClassLoader())) {
+			return ConditionOutcome
+					.noMatch(message.didNotFind("web application classes").atAll());
+		}
+		if (context.getBeanFactory() != null) {
+			String[] scopes = context.getBeanFactory().getRegisteredScopeNames();
+			if (ObjectUtils.containsElement(scopes, "session")) {
+				return ConditionOutcome.match(message.foundExactly("'session' scope"));
+			}
+		}
+		if (context.getEnvironment() instanceof StandardServletEnvironment) {
+			return ConditionOutcome
+					.match(message.foundExactly("StandardServletEnvironment"));
+		}
+		if (context.getResourceLoader() instanceof WebApplicationContext) {
+			return ConditionOutcome.match(message.foundExactly("WebApplicationContext"));
+		}
+		return ConditionOutcome.noMatch(message.because("not a web application"));
+	}
 
 }

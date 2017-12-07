@@ -17,7 +17,7 @@ import java.util.Map;
  * @version 1.0 2016/12/8 下午5:56
  */
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class OnPropertyConditional extends SpringBootCondition implements ConfigurationCondition {
+public class OnPropertyCondition extends SpringBootCondition implements ConfigurationCondition {
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
         if (!metadata.isAnnotated(ConditionalOnProperty.class.getName())) {
