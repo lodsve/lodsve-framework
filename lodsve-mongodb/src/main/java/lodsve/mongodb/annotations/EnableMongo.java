@@ -28,18 +28,10 @@ public @interface EnableMongo {
     String dataSource();
 
     /**
-     * 含有{@link org.springframework.stereotype.Repository }注解的dao类所在的包路径
-     *
-     * @return
-     * @see org.springframework.stereotype.Repository
-     */
-    String[] basePackage() default {};
-
-    /**
      * 含有{@link org.springframework.data.mongodb.core.mapping.Document }注解的dao类所在的包路径
      *
      * @return
      * @see org.springframework.data.mongodb.core.mapping.Document
      */
-    String[] domainPackage() default {};
+    String[] domainPackages() default {};
 }

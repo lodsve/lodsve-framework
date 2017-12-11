@@ -1,8 +1,8 @@
 package lodsve.mongodb.config;
 
 import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.mongodb.core.MongoRepositoryBeanPostProcessor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
 
@@ -13,11 +13,15 @@ import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
  * @version V1.0, 16/1/21 下午10:15
  */
 @Configuration
-@ComponentScan("lodsve.mongodb")
 @EnableConfigurationProperties(MongoProperties.class)
 public class MongoConfiguration {
     @Bean
     public DefaultMongoTypeMapper defaultMongoTypeMapper() {
         return new DefaultMongoTypeMapper();
+    }
+
+    @Bean
+    public MongoRepositoryBeanPostProcessor beanPostProcessor() {
+        return new MongoRepositoryBeanPostProcessor();
     }
 }

@@ -10,17 +10,15 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
 import org.springframework.data.mongodb.repository.support.MongoRepositoryFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 /**
- * dynamic inject {@link MongoEntityInformation} into the repository which extends from {@link GenericMongoRepository}.<br/>
+ * dynamic inject {@link MongoEntityInformation} into the repository which extends from {@link LodsveMongoRepository}.<br/>
  * by the first generic info of the repository.means the domain class which has an annontation {@link org.springframework.data.mongodb.core.mapping.Document}.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016-1-22 15:03
  */
-@Component
 public class MongoRepositoryBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware {
     private ApplicationContext context;
 
@@ -31,7 +29,7 @@ public class MongoRepositoryBeanPostProcessor implements BeanPostProcessor, Appl
             return bean;
         }
         Class<?> supperClass = bean.getClass().getSuperclass();
-        if (!GenericMongoRepository.class.equals(supperClass)) {
+        if (!LodsveMongoRepository.class.equals(supperClass)) {
             return bean;
         }
 

@@ -1,5 +1,6 @@
 package lodsve.mongodb.annotations;
 
+import lodsve.core.bean.BeanRegisterUtils;
 import lodsve.core.utils.StringUtils;
 import lodsve.mongodb.core.MongoDataSourceBeanDefinitionFactory;
 import org.apache.commons.lang.ArrayUtils;
@@ -22,6 +23,7 @@ import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexCreator;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
+import org.springframework.data.mongodb.repository.support.MongoRepositoryFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
@@ -43,10 +45,10 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
     private static final String INDEX_HELPER_BEAN_NAME = "indexCreationHelper";
     private static final String CUSTOM_EDITOR_CONFIGURER_BEAN_NAME = "customEditorConfigurer";
     private static final String MONGO_TEMPLATE_BEAN_NAME_SUBFIX = "MongoTemplate";
+    private static final String MONGO_REPOSITORY_FACTORY_BEAN_NAME_SUBFIX = "MongoRepositoryFactory";
 
     private static final String DATA_SOURCE_ATTRIBUTE_NAME = "dataSource";
-    private static final String BASE_PACKAGE_ATTRIBUTE_NAME = "basePackage";
-    private static final String DOMAIN_PACKAGE_ATTRIBUTE_NAME = "domainPackage";
+    private static final String DOMAIN_PACKAGES_ATTRIBUTE_NAME = "domainPackages";
 
     private static final Map<String, BeanDefinition> BEAN_DEFINITION_MAP = new HashMap<>(16);
 
@@ -55,29 +57,37 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableMongo.class.getName(), false));
         Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableMongo.class.getName(), importingClassMetadata.getClassName()));
 
-        // 注册数据源
-        String dataSource = attributes.getString(DATA_SOURCE_ATTRIBUTE_NAME);
-        registry.registerBeanDefinition(dataSource, new MongoDataSourceBeanDefinitionFactory(dataSource).build());
-
-        String[] basePackage = attributes.getStringArray(BASE_PACKAGE_ATTRIBUTE_NAME);
-        String[] domainPackage = attributes.getStringArray(DOMAIN_PACKAGE_ATTRIBUTE_NAME);
-
-        if (ArrayUtils.isEmpty(basePackage)) {
-            basePackage = findDefaultPackage(importingClassMetadata);
-        }
+        String[] domainPackage = attributes.getStringArray(DOMAIN_PACKAGES_ATTRIBUTE_NAME);
         if (ArrayUtils.isEmpty(domainPackage)) {
             domainPackage = findDefaultPackage(importingClassMetadata);
         }
 
+        String dataSource = attributes.getString(DATA_SOURCE_ATTRIBUTE_NAME);
         String converterId = dataSource + MAPPING_CONVERTER_BEAN_NAME_SUBFIX;
         String contextId = converterId + "." + MAPPING_CONTEXT_BEAN_NAME;
         String templateId = dataSource + MONGO_TEMPLATE_BEAN_NAME_SUBFIX;
+        String repositoryFactoryId = dataSource + MONGO_REPOSITORY_FACTORY_BEAN_NAME_SUBFIX;
 
-        initMongoMappingContext(converterId, domainPackage);
+        initMongoDataSource(dataSource);
+        initMongoMappingContext(contextId, domainPackage);
         initMappingContextIsNewStrategyFactory(contextId);
         initMappingConverter(dataSource, contextId, converterId);
         initMongoPersistentEntityIndexCreator(contextId, dataSource);
         initMongoTemplate(converterId, dataSource, templateId);
+        initMongoRepositoryFactory(repositoryFactoryId, templateId);
+
+        BeanRegisterUtils.registerBeans(BEAN_DEFINITION_MAP, registry);
+    }
+
+    private void initMongoDataSource(String dataSource) {
+        BEAN_DEFINITION_MAP.put(dataSource, new MongoDataSourceBeanDefinitionFactory(dataSource).build());
+    }
+
+    private void initMongoRepositoryFactory(String id, String templateId) {
+        BeanDefinitionBuilder mongoRepositoryFactory = BeanDefinitionBuilder.genericBeanDefinition(MongoRepositoryFactory.class);
+        mongoRepositoryFactory.addConstructorArgReference(templateId);
+
+        BEAN_DEFINITION_MAP.put(id, mongoRepositoryFactory.getBeanDefinition());
     }
 
     private void initMappingConverter(String dataSource, String contextId, String converterId) {
@@ -156,10 +166,6 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
         builder.addPropertyValue("customEditors", customEditors);
 
         return builder;
-    }
-
-    private void initMongoRepository(){
-
     }
 
     private String[] findDefaultPackage(AnnotationMetadata importingClassMetadata) {

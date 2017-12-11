@@ -1,6 +1,7 @@
 package lodsve.mybatis.configs;
 
 import com.p6spy.engine.spy.P6DataSource;
+import lodsve.core.bean.BeanRegisterUtils;
 import lodsve.core.config.ProfileConfig;
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
@@ -31,7 +32,6 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -77,7 +77,7 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         }
         beanDefinitions.putAll(findMyBatisBeanDefinitions(useFlyway, basePackages, enumsLocations, attributes.getAnnotationArray(PLUGINS_ATTRIBUTE_NAME)));
 
-        registerBeanDefinitions(beanDefinitions, registry);
+        BeanRegisterUtils.registerBeans(beanDefinitions, registry);
     }
 
     private Map<String, BeanDefinition> generateDataSource(String dataSource) {
@@ -191,20 +191,6 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
         beanDefinitions.put(dataSource + "MapperScannerConfigurer", scannerConfigurerBean.getBeanDefinition());
 
         return beanDefinitions;
-    }
-
-    private void registerBeanDefinitions(Map<String, BeanDefinition> beanDefinitions, BeanDefinitionRegistry registry) {
-        for (Iterator<Map.Entry<String, BeanDefinition>> it = beanDefinitions.entrySet().iterator(); it.hasNext(); ) {
-            Map.Entry<String, BeanDefinition> entry = it.next();
-            String beanName = entry.getKey();
-            BeanDefinition bean = entry.getValue();
-
-            if (registry.containsBeanDefinition(beanName)) {
-                continue;
-            }
-
-            registry.registerBeanDefinition(beanName, bean);
-        }
     }
 
     private String[] findDefaultPackage(AnnotationMetadata annotationMetadata) {

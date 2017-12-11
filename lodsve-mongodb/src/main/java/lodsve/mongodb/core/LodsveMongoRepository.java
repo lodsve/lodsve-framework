@@ -43,7 +43,7 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
  * @author Christoph Strobl
  * @author Thomas Darimont
  */
-public class GenericMongoRepository<T, ID extends Serializable> implements MongoRepository<T, ID> {
+public class LodsveMongoRepository<T, ID extends Serializable> implements MongoRepository<T, ID> {
     private MongoEntityInformation<T, ID> entityInformation;
     private MongoOperations mongoOperations;
 
@@ -51,7 +51,7 @@ public class GenericMongoRepository<T, ID extends Serializable> implements Mongo
         this.entityInformation = entityInformation;
     }
 
-    public GenericMongoRepository(MongoOperations mongoOperations) {
+    public LodsveMongoRepository(MongoOperations mongoOperations) {
         this.mongoOperations = mongoOperations;
     }
 
