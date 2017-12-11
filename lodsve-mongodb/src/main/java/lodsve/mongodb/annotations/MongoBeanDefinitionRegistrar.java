@@ -10,9 +10,13 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.beans.factory.support.ManagedSet;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.AnnotationAttributes;
+import org.springframework.core.env.Environment;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.data.annotation.Persistent;
@@ -24,6 +28,10 @@ import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexCre
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.support.MongoRepositoryFactory;
+import org.springframework.data.repository.config.RepositoryConfigurationDelegate;
+import org.springframework.data.repository.config.RepositoryConfigurationExtension;
+import org.springframework.data.repository.config.RepositoryConfigurationSourceSupport;
+import org.springframework.data.repository.config.RepositoryConfigurationUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
@@ -37,7 +45,7 @@ import java.util.Set;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/1/21 下午10:15
  */
-public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
+public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar, ResourceLoaderAware, EnvironmentAware {
     private static final String MAPPING_CONTEXT_BEAN_NAME = "mongoMappingContext";
     private static final String MAPPING_CONVERTER_BEAN_NAME_SUBFIX = "MappingConverter";
     private static final String IS_NEW_STRATEGY_FACTORY_BEAN_NAME = "isNewStrategyFactory";
@@ -47,19 +55,28 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
     private static final String MONGO_TEMPLATE_BEAN_NAME_SUBFIX = "MongoTemplate";
     private static final String MONGO_REPOSITORY_FACTORY_BEAN_NAME_SUBFIX = "MongoRepositoryFactory";
 
+    private ResourceLoader resourceLoader;
+    private Environment environment;
+
     private static final String DATA_SOURCE_ATTRIBUTE_NAME = "dataSource";
     private static final String DOMAIN_PACKAGES_ATTRIBUTE_NAME = "domainPackages";
+    private static final String BASE_PACKAGES_ATTRIBUTE_NAME = "basePackages";
 
     private static final Map<String, BeanDefinition> BEAN_DEFINITION_MAP = new HashMap<>(16);
 
     @Override
-    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-        AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableMongo.class.getName(), false));
-        Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableMongo.class.getName(), importingClassMetadata.getClassName()));
+    public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
+        AnnotationAttributes attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(EnableMongo.class.getName(), false));
+        Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableMongo.class.getName(), metadata.getClassName()));
 
         String[] domainPackage = attributes.getStringArray(DOMAIN_PACKAGES_ATTRIBUTE_NAME);
         if (ArrayUtils.isEmpty(domainPackage)) {
-            domainPackage = findDefaultPackage(importingClassMetadata);
+            domainPackage = findDefaultPackage(metadata);
+        }
+
+        String[] basePackages = attributes.getStringArray(BASE_PACKAGES_ATTRIBUTE_NAME);
+        if (ArrayUtils.isEmpty(basePackages)) {
+            domainPackage = findDefaultPackage(metadata);
         }
 
         String dataSource = attributes.getString(DATA_SOURCE_ATTRIBUTE_NAME);
@@ -75,8 +92,18 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
         initMongoPersistentEntityIndexCreator(contextId, dataSource);
         initMongoTemplate(converterId, dataSource, templateId);
         initMongoRepositoryFactory(repositoryFactoryId, templateId);
+        initMongoRepository(templateId, metadata, registry);
 
         BeanRegisterUtils.registerBeans(BEAN_DEFINITION_MAP, registry);
+    }
+
+    private void initMongoRepository(String templateId, AnnotationMetadata annotationMetadata, BeanDefinitionRegistry registry) {
+        RepositoryConfigurationSourceSupport configurationSource = new LodsveAnnotationRepositoryConfigurationSource(annotationMetadata, EnableMongo.class, resourceLoader, environment);
+        RepositoryConfigurationExtension extension = new LodsveMongoRepositoryConfigurationExtension(templateId);
+        RepositoryConfigurationUtils.exposeRegistration(extension, registry, configurationSource);
+
+        RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configurationSource, resourceLoader, environment);
+        delegate.registerRepositoriesIn(registry, extension);
     }
 
     private void initMongoDataSource(String dataSource) {
@@ -177,5 +204,15 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
             e.printStackTrace();
             return new String[0];
         }
+    }
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+    @Override
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
     }
 }
