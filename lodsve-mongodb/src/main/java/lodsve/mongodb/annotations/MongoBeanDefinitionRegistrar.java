@@ -3,6 +3,8 @@ package lodsve.mongodb.annotations;
 import lodsve.core.bean.BeanRegisterUtils;
 import lodsve.core.utils.StringUtils;
 import lodsve.mongodb.core.MongoDataSourceBeanDefinitionFactory;
+import lodsve.mongodb.repository.LodsveAnnotationRepositoryConfigurationSource;
+import lodsve.mongodb.repository.LodsveMongoRepositoryConfigurationExtension;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.CustomEditorConfigurer;
@@ -28,9 +30,9 @@ import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexCre
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.support.MongoRepositoryFactory;
+import org.springframework.data.repository.config.AnnotationRepositoryConfigurationSource;
 import org.springframework.data.repository.config.RepositoryConfigurationDelegate;
 import org.springframework.data.repository.config.RepositoryConfigurationExtension;
-import org.springframework.data.repository.config.RepositoryConfigurationSourceSupport;
 import org.springframework.data.repository.config.RepositoryConfigurationUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
@@ -98,7 +100,7 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
     }
 
     private void initMongoRepository(String templateId, AnnotationMetadata annotationMetadata, BeanDefinitionRegistry registry) {
-        RepositoryConfigurationSourceSupport configurationSource = new LodsveAnnotationRepositoryConfigurationSource(annotationMetadata, EnableMongo.class, resourceLoader, environment);
+        AnnotationRepositoryConfigurationSource configurationSource = new LodsveAnnotationRepositoryConfigurationSource(annotationMetadata, EnableMongo.class, resourceLoader, environment);
         RepositoryConfigurationExtension extension = new LodsveMongoRepositoryConfigurationExtension(templateId);
         RepositoryConfigurationUtils.exposeRegistration(extension, registry, configurationSource);
 

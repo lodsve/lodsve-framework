@@ -1,6 +1,7 @@
 package lodsve.mongodb.annotations;
 
 import lodsve.mongodb.config.MongoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;
@@ -42,4 +43,15 @@ public @interface EnableMongo {
      * @see org.springframework.stereotype.Repository
      */
     String[] basePackages() default {};
+
+    /**
+     * Specifies which types are eligible for component scanning. Further narrows the set of candidate components from
+     * everything in {@link #basePackages()} to everything in the base packages that matches the given filter or filters.
+     */
+    ComponentScan.Filter[] includeFilters() default {};
+
+    /**
+     * Specifies which types are not eligible for component scanning.
+     */
+    ComponentScan.Filter[] excludeFilters() default {};
 }

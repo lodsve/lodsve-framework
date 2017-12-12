@@ -1,4 +1,4 @@
-package lodsve.mongodb.annotations;
+package lodsve.mongodb.repository;
 
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
