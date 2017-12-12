@@ -128,7 +128,7 @@ public class ParamsHome {
         }
     }
 
-    private static boolean isDevMode() {
+    private boolean isDevMode() {
         String filePath = PARAMS_ROOT + File.separator + "framework" + File.separator + "application.properties";
         Resource resource = new FileSystemResource(filePath);
         if (!resource.exists()) {
