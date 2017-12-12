@@ -1,0 +1,2 @@
+org.springframework.context.annotation.Configuration=\
+  lodsve.security.config.SecurityConfiguration

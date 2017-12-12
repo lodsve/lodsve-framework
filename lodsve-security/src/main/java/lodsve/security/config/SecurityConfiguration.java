@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Configuration
 @ComponentScan(basePackages = "lodsve.security")
-public class SecurityConfig extends WebMvcConfigurerAdapter {
+public class SecurityConfiguration extends WebMvcConfigurerAdapter {
     @Autowired(required = false)
     private Authz authz;
 
