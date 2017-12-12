@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -21,7 +22,7 @@ import java.util.Locale;
 /**
  * 验证框架的静态常量类.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
  * @createTime 12-12-2 上午1:01
  */
@@ -62,8 +63,12 @@ public class ValidateConstants {
     }
 
     private static Locale getLocale() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (requestAttributes == null || !(requestAttributes instanceof ServletRequestAttributes)) {
+            return Locale.getDefault();
+        }
 
+        HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
         return request != null ? request.getLocale() : Locale.getDefault();
     }
 

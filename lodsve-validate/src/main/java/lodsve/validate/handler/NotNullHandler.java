@@ -11,7 +11,7 @@ import java.lang.annotation.Annotation;
 /**
  * 不为空验证处理类.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
  * @createTime 12-11-26 下午8:51
  */

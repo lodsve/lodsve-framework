@@ -11,7 +11,7 @@ import java.lang.annotation.Annotation;
 /**
  * 所有验证条件的处理类必须继承这个抽象类,以实现各自的验证方法.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
  * @createTime 12-11-26 下午7:46
  */
@@ -35,8 +35,8 @@ public abstract class AbstractValidateHandler {
      * @return
      */
     public ErrorMessage validate(Annotation annotation, Object value) {
-        if (annotation == null || value == null) {
-            logger.error("given null annotation! or null value!");
+        if (annotation == null) {
+            logger.error("given null annotation!");
             return null;
         }
 
