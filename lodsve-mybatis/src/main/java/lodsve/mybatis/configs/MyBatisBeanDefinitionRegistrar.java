@@ -1,14 +1,9 @@
 package lodsve.mybatis.configs;
 
 import lodsve.core.bean.BeanRegisterUtils;
-import lodsve.mybatis.datasource.MyBatisConfigutaionBuilder;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 动态创建mybatis的配置.
@@ -20,9 +15,8 @@ public class MyBatisBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
-        Map<String, BeanDefinition> beanDefinitions = new HashMap<>(16);
-        MyBatisConfigutaionBuilder.Builder builder = new MyBatisConfigutaionBuilder.Builder();
-        beanDefinitions.putAll(builder.setMetadata(metadata).build());
-        BeanRegisterUtils.registerBeans(beanDefinitions, registry);
+        MyBatisConfigurationBuilder.Builder builder = new MyBatisConfigurationBuilder.Builder();
+
+        BeanRegisterUtils.registerBeans(builder.setMetadata(metadata).build(), registry);
     }
 }

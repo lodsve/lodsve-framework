@@ -1,6 +1,7 @@
 package lodsve.mybatis.configs.annotations;
 
 import lodsve.mybatis.configs.MyBatisConfigurationSelector;
+import lodsve.mybatis.datasource.annotations.DataSource;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

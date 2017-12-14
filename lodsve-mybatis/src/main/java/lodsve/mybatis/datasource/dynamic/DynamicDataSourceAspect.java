@@ -1,5 +1,7 @@
-package lodsve.mybatis.datasource;
+package lodsve.mybatis.datasource.dynamic;
 
+import lodsve.core.utils.StringUtils;
+import lodsve.mybatis.datasource.annotations.DataSourceProvider;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -17,9 +19,9 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 public class DynamicDataSourceAspect {
-    @Around("@annotation(lodsve.mybatis.datasource.DataSourceProvider)")
+    @Around("@annotation(lodsve.mybatis.datasource.annotations.DataSourceProvider)")
     public Object around(ProceedingJoinPoint point) throws Throwable {
-        String dataSource = "";
+        String dataSource = StringUtils.EMPTY;
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
         Method method = methodSignature.getMethod();
         if (method.isAnnotationPresent(DataSourceProvider.class)) {

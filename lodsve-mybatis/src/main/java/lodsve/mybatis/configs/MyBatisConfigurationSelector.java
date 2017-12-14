@@ -1,6 +1,7 @@
 package lodsve.mybatis.configs;
 
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
+import lodsve.mybatis.datasource.DataSourceTransactionManagementConfiguration;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;

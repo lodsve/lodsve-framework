@@ -1,4 +1,4 @@
-package lodsve.mybatis.datasource;
+package lodsve.mybatis.datasource.dynamic;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 

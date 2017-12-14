@@ -1,4 +1,4 @@
-package lodsve.mybatis.datasource;
+package lodsve.mybatis.datasource.builder;
 
 import lodsve.core.autoconfigure.AutoConfigurationBuilder;
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
@@ -18,12 +18,12 @@ import java.util.Map;
  */
 public abstract class AbstractDataSource<T> {
     static final String DRUID_DATA_SOURCE_CLASS = "com.alibaba.druid.pool.DruidDataSource";
-    static final String DBCP_DATA_SOURCE_CLASS = "org.apache.commons.dbcp.BasicDataSource";
+    private static final String DBCP_DATA_SOURCE_CLASS = "org.apache.commons.dbcp.BasicDataSource";
 
     private String dataSourceName;
     RdbmsProperties rdbmsProperties;
 
-    public AbstractDataSource(String dataSourceName) {
+    AbstractDataSource(String dataSourceName) {
         this.dataSourceName = dataSourceName;
 
         AutoConfigurationBuilder.Builder<RdbmsProperties> builder = new AutoConfigurationBuilder.Builder<>();
@@ -56,7 +56,7 @@ public abstract class AbstractDataSource<T> {
         return properties;
     }
 
-    Map<String, String> toMap(Object object) {
+    private Map<String, String> toMap(Object object) {
         BeanWrapper wrapper = new BeanWrapperImpl(object);
         PropertyDescriptor[] descriptors = wrapper.getPropertyDescriptors();
         Map<String, String> properties = new HashMap<>(descriptors.length);
@@ -74,5 +74,10 @@ public abstract class AbstractDataSource<T> {
         return properties;
     }
 
+    /**
+     * 创建数据源
+     *
+     * @return 数据源
+     */
     abstract T build();
 }

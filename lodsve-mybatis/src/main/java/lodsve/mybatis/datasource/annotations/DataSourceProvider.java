@@ -1,4 +1,4 @@
-package lodsve.mybatis.datasource;
+package lodsve.mybatis.datasource.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

@@ -1,4 +1,4 @@
-package lodsve.mybatis.datasource;
+package lodsve.mybatis.datasource.builder;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;

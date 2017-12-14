@@ -1,4 +1,4 @@
-package lodsve.mybatis.datasource;
+package lodsve.mybatis.datasource.dynamic;
 
 /**
  * 多数据源保存选择的数据源.
@@ -13,11 +13,11 @@ public class DataSourceHolder {
         return DATAS_SOURCE.get();
     }
 
-    public static void set(String dataSource) {
+    static void set(String dataSource) {
         DATAS_SOURCE.set(dataSource);
     }
 
-    public static void clear() {
+    static void clear() {
         DATAS_SOURCE.remove();
     }
 }

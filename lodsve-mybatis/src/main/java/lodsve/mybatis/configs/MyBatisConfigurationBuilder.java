@@ -1,7 +1,10 @@
-package lodsve.mybatis.datasource;
+package lodsve.mybatis.configs;
 
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
+import lodsve.mybatis.datasource.builder.RdbmsDataSourceBeanDefinitionFactory;
+import lodsve.mybatis.datasource.builder.RdbmsDataSourceFactory;
+import lodsve.mybatis.datasource.dynamic.DynamicDataSource;
 import lodsve.mybatis.exception.MyBatisException;
 import lodsve.mybatis.key.IDGenerator;
 import lodsve.mybatis.key.mysql.MySQLIDGenerator;
@@ -36,7 +39,7 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version 1.0 2017/12/14 下午4:42
  */
-public class MyBatisConfigutaionBuilder {
+public class MyBatisConfigurationBuilder {
     private static final String BASE_PACKAGES_ATTRIBUTE_NAME = "basePackages";
     private static final String ENUMS_LOCATIONS_ATTRIBUTE_NAME = "enumsLocations";
     private static final String PLUGINS_ATTRIBUTE_NAME = "plugins";
@@ -49,7 +52,7 @@ public class MyBatisConfigutaionBuilder {
     private AnnotationAttributes attributes;
     private AnnotationMetadata metadata;
 
-    private MyBatisConfigutaionBuilder(AnnotationMetadata metadata) {
+    private MyBatisConfigurationBuilder(AnnotationMetadata metadata) {
         this.metadata = metadata;
 
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(EnableMyBatis.class.getName(), false));
@@ -208,7 +211,7 @@ public class MyBatisConfigutaionBuilder {
 
         public Map<String, BeanDefinition> build() {
             Map<String, BeanDefinition> beanDefinitions = new HashMap<>(16);
-            MyBatisConfigutaionBuilder builder = new MyBatisConfigutaionBuilder(metadata);
+            MyBatisConfigurationBuilder builder = new MyBatisConfigurationBuilder(metadata);
 
             beanDefinitions.putAll(builder.generateDataSource());
             beanDefinitions.putAll(builder.findMyBatisBeanDefinitions());
