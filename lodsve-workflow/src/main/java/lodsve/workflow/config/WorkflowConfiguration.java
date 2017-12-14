@@ -1,6 +1,7 @@
 package lodsve.workflow.config;
 
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
+import lodsve.mybatis.datasource.annotations.DataSource;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,11 +13,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableMyBatis(
-        dataSource = "workflow",
+        dataSource = @DataSource("workflow"),
         basePackages = "lodsve.workflow.repository",
-        enumsLocations = "lodsve.workflow.enums",
-        useFlyway = true,
-        migration = "db/workflow"
+        enumsLocations = "lodsve.workflow.enums"
 )
 @ComponentScan("lodsve.workflow")
 public class WorkflowConfiguration {
