@@ -17,11 +17,11 @@ import java.lang.annotation.*;
 @Import(MyBatisConfigurationSelector.class)
 public @interface EnableMyBatis {
     /**
-     * 数据源名
+     * 数据源名,多数据源
      *
      * @return
      */
-    String dataSource();
+    DataSource[] dataSource();
 
     /**
      * 是否支持事务
@@ -44,20 +44,6 @@ public @interface EnableMyBatis {
      * @return
      */
     String[] enumsLocations() default {};
-
-    /**
-     * 是否使用flyway
-     *
-     * @return
-     */
-    boolean useFlyway() default false;
-
-    /**
-     * flyway的脚本文件所在路径
-     *
-     * @return
-     */
-    String migration() default "db/migration";
 
     /**
      * 加载插件

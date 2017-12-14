@@ -52,10 +52,6 @@ public class MySQLIDGenerator implements IDGenerator {
 
     private DataSource dataSource;
 
-    public MySQLIDGenerator(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
     @Override
     public synchronized Long nextId(String sequenceName) {
         if (NEXT_ID_CACHE.get(sequenceName) != null) {
@@ -141,5 +137,9 @@ public class MySQLIDGenerator implements IDGenerator {
      */
     public void setCacheSize(int cacheSize) {
         this.cacheSize = cacheSize;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }

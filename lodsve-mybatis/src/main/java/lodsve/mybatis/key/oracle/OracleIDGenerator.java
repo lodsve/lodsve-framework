@@ -17,10 +17,6 @@ import java.sql.SQLException;
 public class OracleIDGenerator implements IDGenerator {
     private DataSource dataSource;
 
-    public OracleIDGenerator(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
     @Override
     public synchronized Long nextId(String sequenceName) {
         Assert.hasText(sequenceName);
@@ -32,5 +28,9 @@ public class OracleIDGenerator implements IDGenerator {
         } catch (SQLException e) {
             throw new MyBatisException(102003, e.getMessage());
         }
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }
