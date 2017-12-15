@@ -21,13 +21,13 @@ public class Log4JConfiguration implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Resource resource = SystemConfig.getFileConfig("log4j.properties");
-
-        if (resource == null || !resource.exists()) {
-            resource = new ClassPathResource("/META-INF/log4j.properties", Thread.currentThread().getContextClassLoader());
-        }
+        Resource resource = new ClassPathResource("/META-INF/log4j.properties", Thread.currentThread().getContextClassLoader());
 
         if (!resource.exists()) {
+            resource = SystemConfig.getFileConfig("log4j.properties");
+        }
+
+        if (resource == null || !resource.exists()) {
             throw new RuntimeException("配置文件'log4j.properties'找不到！");
         }
 
