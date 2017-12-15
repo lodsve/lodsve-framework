@@ -52,13 +52,13 @@ public class MyBatisConfigurationBuilder {
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(EnableMyBatis.class.getName(), false));
         Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableMyBatis.class.getName(), metadata.getClassName()));
         this.attributes = attributes;
-        this.useFlyway = attributes.getBoolean(Contants.USE_FLYWAY_ATTRIBUTE_NAME);
-        this.migration = attributes.getString(Contants.MIGRATION_ATTRIBUTE_NAME);
+        this.useFlyway = attributes.getBoolean(Constant.USE_FLYWAY_ATTRIBUTE_NAME);
+        this.migration = attributes.getString(Constant.MIGRATION_ATTRIBUTE_NAME);
     }
 
     private Map<String, BeanDefinition> generateDataSource() {
         Map<String, BeanDefinition> beanDefinitions = new HashMap<>(16);
-        AnnotationAttributes[] dataSources = attributes.getAnnotationArray(Contants.DATA_SOURCE_ATTRIBUTE_NAME);
+        AnnotationAttributes[] dataSources = attributes.getAnnotationArray(Constant.DATA_SOURCE_ATTRIBUTE_NAME);
         if (null == dataSources || dataSources.length == 0) {
             throw new MyBatisException(102005, "can't find any datasource!");
         }
@@ -75,21 +75,21 @@ public class MyBatisConfigurationBuilder {
         dynamicDataSource.addPropertyValue("targetDataSources", dataSourceObjects);
         dynamicDataSource.addPropertyReference("defaultTargetDataSource", defaultDataSourceKey);
 
-        beanDefinitions.put(Contants.DATA_SOURCE_BEAN_NAME, dynamicDataSource.getBeanDefinition());
+        beanDefinitions.put(Constant.DATA_SOURCE_BEAN_NAME, dynamicDataSource.getBeanDefinition());
 
         // 生成IDGenerator
         String driverClassName = (String) defaultDataSource.getPropertyValues().get("driverClassName");
         Class<? extends IDGenerator> clazz;
-        if (StringUtils.contains(driverClassName, Contants.MYSQL)) {
+        if (StringUtils.contains(driverClassName, Constant.MYSQL)) {
             clazz = MySQLIDGenerator.class;
-        } else if (StringUtils.contains(driverClassName, Contants.ORACLE)) {
+        } else if (StringUtils.contains(driverClassName, Constant.ORACLE)) {
             clazz = OracleIDGenerator.class;
         } else {
             clazz = MySQLIDGenerator.class;
         }
 
         BeanDefinitionBuilder idGenerator = BeanDefinitionBuilder.genericBeanDefinition(clazz);
-        idGenerator.addPropertyReference("dataSource", Contants.DATA_SOURCE_BEAN_NAME);
+        idGenerator.addPropertyReference("dataSource", Constant.DATA_SOURCE_BEAN_NAME);
         beanDefinitions.put("idGenerator", idGenerator.getBeanDefinition());
 
         return beanDefinitions;
@@ -103,18 +103,18 @@ public class MyBatisConfigurationBuilder {
 
         BeanDefinitionBuilder flywayBean = BeanDefinitionBuilder.genericBeanDefinition(Flyway.class);
         flywayBean.setInitMethodName("migrate");
-        flywayBean.addPropertyReference("dataSource", Contants.DATA_SOURCE_BEAN_NAME);
+        flywayBean.addPropertyReference("dataSource", Constant.DATA_SOURCE_BEAN_NAME);
         flywayBean.addPropertyValue("locations", migration);
 
-        beanDefinitions.put(Contants.FLYWAY_BEAN_NAME, flywayBean.getBeanDefinition());
+        beanDefinitions.put(Constant.FLYWAY_BEAN_NAME, flywayBean.getBeanDefinition());
 
         return beanDefinitions;
     }
 
     private Map<String, BeanDefinition> findMyBatisBeanDefinitions() {
-        String[] enumsLocations = attributes.getStringArray(Contants.ENUMS_LOCATIONS_ATTRIBUTE_NAME);
-        String[] basePackages = attributes.getStringArray(Contants.BASE_PACKAGES_ATTRIBUTE_NAME);
-        AnnotationAttributes[] plugins = attributes.getAnnotationArray(Contants.PLUGINS_ATTRIBUTE_NAME);
+        String[] enumsLocations = attributes.getStringArray(Constant.ENUMS_LOCATIONS_ATTRIBUTE_NAME);
+        String[] basePackages = attributes.getStringArray(Constant.BASE_PACKAGES_ATTRIBUTE_NAME);
+        AnnotationAttributes[] plugins = attributes.getAnnotationArray(Constant.PLUGINS_ATTRIBUTE_NAME);
 
         if (ArrayUtils.isEmpty(enumsLocations)) {
             enumsLocations = findDefaultPackage(metadata);
@@ -128,10 +128,10 @@ public class MyBatisConfigurationBuilder {
         BeanDefinitionBuilder sqlSessionFactoryBean = BeanDefinitionBuilder.genericBeanDefinition(SqlSessionFactoryBean.class);
 
         if (useFlyway) {
-            sqlSessionFactoryBean.addDependsOn(Contants.FLYWAY_BEAN_NAME);
+            sqlSessionFactoryBean.addDependsOn(Constant.FLYWAY_BEAN_NAME);
         }
 
-        sqlSessionFactoryBean.addPropertyReference("dataSource", Contants.DATA_SOURCE_BEAN_NAME);
+        sqlSessionFactoryBean.addPropertyReference("dataSource", Constant.DATA_SOURCE_BEAN_NAME);
         sqlSessionFactoryBean.addPropertyValue("mapperLocations", "classpath*:/META-INF/mybatis/**/*Mapper.xml");
         sqlSessionFactoryBean.addPropertyValue("configLocation", "classpath:/META-INF/mybatis/mybatis.xml");
         TypeHandlerScanner scanner = new TypeHandlerScanner();
@@ -223,7 +223,6 @@ public class MyBatisConfigurationBuilder {
     }
 
     private static class DataSourceBean {
-        private String firstDataSourceName;
         private Map<String, javax.sql.DataSource> dataSourceObjects;
         private String defaultDataSourceKey;
         private BeanDefinition defaultDataSource;
@@ -236,17 +235,11 @@ public class MyBatisConfigurationBuilder {
             for (int i = 0; i < dataSources.length; i++) {
                 AnnotationAttributes attr = dataSources[i];
 
-                if (i == 0) {
-                    firstDataSourceName = attr.getString(Contants.DATA_SOURCE_NAME_ATTRIBUTE_NAME);
-                }
-
-                String name = attr.getString(Contants.DATA_SOURCE_NAME_ATTRIBUTE_NAME);
-                boolean isDefault = attr.getBoolean(Contants.DATA_SOURCE_DEFAULT_ATTRIBUTE_NAME);
-
+                String name = attr.getString(Constant.DATA_SOURCE_NAME_ATTRIBUTE_NAME);
                 BeanDefinition dsBeanDefinition = new RdbmsDataSourceBeanDefinitionFactory(name).build();
 
-                if (isDefault) {
-                    defaultDataSourceKey = name;
+                if (i == 0) {
+                    defaultDataSourceKey = attr.getString(Constant.DATA_SOURCE_NAME_ATTRIBUTE_NAME);
                     defaultDataSource = dsBeanDefinition;
                 }
 
@@ -256,11 +249,11 @@ public class MyBatisConfigurationBuilder {
         }
 
         String getDefaultDataSourceKey() {
-            return StringUtils.isNotBlank(defaultDataSourceKey) ? defaultDataSourceKey : firstDataSourceName;
+            return defaultDataSourceKey;
         }
 
         BeanDefinition getDefaultDataSource() {
-            return defaultDataSource != null ? defaultDataSource : new RdbmsDataSourceBeanDefinitionFactory(firstDataSourceName).build();
+            return defaultDataSource;
         }
 
         Map<String, BeanDefinition> getBeanDefinitions() {

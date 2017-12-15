@@ -2,7 +2,7 @@ package lodsve.mybatis.datasource.builder;
 
 import lodsve.core.autoconfigure.AutoConfigurationBuilder;
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
-import lodsve.mybatis.configs.Contants;
+import lodsve.mybatis.configs.Constant;
 import lodsve.mybatis.configs.RdbmsProperties;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -45,9 +45,9 @@ public abstract class AbstractDataSource<T> {
         properties.putAll(toMap(commons));
         properties.putAll(toMap(connection));
 
-        if (Contants.DRUID_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
+        if (Constant.DRUID_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
             properties.putAll(toMap(druid));
-        } else if (Contants.DBCP_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
+        } else if (Constant.DBCP_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
             properties.putAll(toMap(dbcp));
         }
 

@@ -1,6 +1,6 @@
 package lodsve.mybatis.datasource.builder;
 
-import lodsve.mybatis.configs.Contants;
+import lodsve.mybatis.configs.Constant;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 
@@ -40,7 +40,7 @@ public class RdbmsDataSourceBeanDefinitionFactory extends AbstractDataSource<Bea
 
     private void setCustomProperties(BeanDefinitionBuilder beanDefinitionBuilder, String dataSourceClassName) {
         //1.druid
-        if (Contants.DRUID_DATA_SOURCE_CLASS.equals(dataSourceClassName)) {
+        if (Constant.DRUID_DATA_SOURCE_CLASS.equals(dataSourceClassName)) {
             // init method
             beanDefinitionBuilder.setInitMethodName("init");
             // destroy method

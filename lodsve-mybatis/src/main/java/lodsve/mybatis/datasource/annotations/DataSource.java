@@ -13,11 +13,4 @@ public @interface DataSource {
      * @return
      */
     String value();
-
-    /**
-     * 是否是默认数据源,如果多个是默认数据源则选择最后一个作为默认数据源
-     *
-     * @return
-     */
-    boolean isDefault() default false;
 }

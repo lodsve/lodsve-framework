@@ -18,7 +18,7 @@ import java.lang.annotation.*;
 @Import(MyBatisConfigurationSelector.class)
 public @interface EnableMyBatis {
     /**
-     * 数据源名,多数据源
+     * 数据源名,多数据源,第一个数据源为默认值
      *
      * @return
      */
