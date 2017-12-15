@@ -2,12 +2,11 @@ package lodsve.core.logger;
 
 import lodsve.core.config.SystemConfig;
 import org.apache.log4j.PropertyConfigurator;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -16,11 +15,9 @@ import java.util.Properties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/5/26 下午2:44
  */
-@Component
-public class Log4JConfiguration implements InitializingBean {
+public class Log4JConfiguration {
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    public static void init() {
         Resource resource = new ClassPathResource("/META-INF/log4j.properties", Thread.currentThread().getContextClassLoader());
 
         if (!resource.exists()) {
@@ -31,7 +28,12 @@ public class Log4JConfiguration implements InitializingBean {
             throw new RuntimeException("配置文件'log4j.properties'找不到！");
         }
 
-        Properties prop = PropertiesLoaderUtils.loadProperties(resource);
+        Properties prop = null;
+        try {
+            prop = PropertiesLoaderUtils.loadProperties(resource);
+        } catch (IOException e) {
+            System.err.println("no log4j configuration file!");
+        }
 
         PropertyConfigurator.configure(prop);
     }

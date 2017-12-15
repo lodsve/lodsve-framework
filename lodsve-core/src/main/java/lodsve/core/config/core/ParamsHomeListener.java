@@ -2,8 +2,7 @@ package lodsve.core.config.core;
 
 import lodsve.core.config.ini.IniLoader;
 import lodsve.core.config.properties.ConfigurationLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lodsve.core.logger.Log4JConfiguration;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -55,8 +54,6 @@ import static lodsve.core.config.core.ParamsHome.PARAMS_HOME_NAME;
  * @createTime 2015-1-5 10:00
  */
 public class ParamsHomeListener implements ServletContextListener {
-    private static final Logger logger = LoggerFactory.getLogger(ParamsHomeListener.class);
-
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         ParamsHome.getInstance().cleanParamsRoot();
@@ -64,8 +61,10 @@ public class ParamsHomeListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+        Log4JConfiguration.init();
+
         String paramsHome = servletContextEvent.getServletContext().getInitParameter(PARAMS_HOME_NAME);
-        logger.debug("get init parameter '{}' from web.xml is '{}'", PARAMS_HOME_NAME, paramsHome);
+        System.out.println(String.format("get init parameter '%s' from web.xml is '%s'", PARAMS_HOME_NAME, paramsHome));
 
         ParamsHome.getInstance().init(paramsHome);
 
