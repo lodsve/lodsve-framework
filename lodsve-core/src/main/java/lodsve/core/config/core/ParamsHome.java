@@ -1,8 +1,6 @@
 package lodsve.core.config.core;
 
 import lodsve.core.utils.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -21,7 +19,6 @@ import java.util.Properties;
  * @version 1.0 2017/11/30 下午6:48
  */
 public class ParamsHome {
-    private static final Logger logger = LoggerFactory.getLogger(ParamsHome.class);
     private static ParamsHome instance = new ParamsHome();
 
     private static final String ROOT_PARAM_KEY = "config.root";
@@ -85,17 +82,17 @@ public class ParamsHome {
             throw new RuntimeException("读取配置文件错误！需要设置环境变量[PARAMS_HOME]或者容器启动参数[params.home]或者web.xml参数，并且环境变量 > 容器启动参数 > web.xml中配置!");
         }
 
-        logger.debug(String.format("解析得到的paramsPath为【%s】", paramsPath));
+        System.out.println(String.format("解析得到的paramsPath为【%s】", paramsPath));
 
         //判断路径是否含有classpath或者file
         if (StringUtils.indexOf(paramsPath, PREFIX_CLASSPATH) == 0) {
             paramsPath = StringUtils.removeStart(paramsPath, PREFIX_CLASSPATH);
-            Resource resource = new ClassPathResource(paramsPath, ParamsHomeListener.class.getClassLoader());
+            Resource resource = new ClassPathResource(paramsPath, ParamsHome.class.getClassLoader());
 
             try {
                 paramsPath = resource.getURL().getPath();
             } catch (IOException e) {
-                logger.error(e.getMessage(), e);
+                System.err.println(e.getMessage());
                 throw new RuntimeException("解析配置文件路径异常!");
             }
         } else if (StringUtils.indexOf(paramsPath, PREFIX_SYSTEM) == 0) {
@@ -120,7 +117,7 @@ public class ParamsHome {
         }
 
         PARAMS_ROOT = paramsPath + File.separator + root;
-        logger.debug("获取到的配置文件路径为:'{}'", PARAMS_ROOT);
+        System.out.println(String.format("获取到的配置文件路径为:'%s'", PARAMS_ROOT));
 
         // 获取devMode的值
         if (isDevMode()) {
@@ -150,15 +147,11 @@ public class ParamsHome {
             return;
         }
 
-        if (logger.isDebugEnabled()) {
-            logger.debug(String.format("获取到%s路径为'{%s}'!", EXT_PARAMS_FILE_NAME, filePath));
-        }
+        System.out.println(String.format("获取到%s路径为'{%s}'!", EXT_PARAMS_FILE_NAME, filePath));
 
         Resource resource = new FileSystemResource(filePath);
         if (!resource.exists()) {
-            if (logger.isWarnEnabled()) {
-                logger.warn(String.format("找不到外部文件'[%s]'!", filePath));
-            }
+            System.err.println(String.format("找不到外部文件'[%s]'!", filePath));
             return;
         }
 
@@ -166,9 +159,7 @@ public class ParamsHome {
             PropertiesLoaderUtils.fillProperties(EXT_PARAMS_PROPERTIES, new EncodedResource(resource, "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
-            if (logger.isErrorEnabled()) {
-                logger.error(String.format("读取路径为'%s'的文件失败！失败原因是'%s'!", filePath, e.getMessage()));
-            }
+            System.err.println(String.format("读取路径为'%s'的文件失败！失败原因是'%s'!", filePath, e.getMessage()));
         }
     }
 

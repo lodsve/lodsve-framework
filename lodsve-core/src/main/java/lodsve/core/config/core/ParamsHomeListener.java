@@ -61,12 +61,13 @@ public class ParamsHomeListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        Log4JConfiguration.init();
-
         String paramsHome = servletContextEvent.getServletContext().getInitParameter(PARAMS_HOME_NAME);
         System.out.println(String.format("get init parameter '%s' from web.xml is '%s'", PARAMS_HOME_NAME, paramsHome));
 
         ParamsHome.getInstance().init(paramsHome);
+
+        // 配置log4j
+        Log4JConfiguration.init();
 
         ConfigurationLoader.init();
         IniLoader.init();
