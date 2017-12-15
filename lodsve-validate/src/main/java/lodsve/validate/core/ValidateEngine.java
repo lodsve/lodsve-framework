@@ -152,6 +152,7 @@ public class ValidateEngine implements InitializingBean {
      * @throws Exception
      */
     @Around("@annotation(lodsve.validate.core.NeedValidate)")
+    @SuppressWarnings("unchecked")
     public Object validate(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         if (!this.openValidate) {
             logger.debug("this web project is not open validate engine!");

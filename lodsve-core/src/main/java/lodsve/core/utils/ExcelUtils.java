@@ -23,11 +23,11 @@ public class ExcelUtils {
     /**
      * 成功
      */
-    public static final Integer STATUS_OK = Integer.valueOf(1);
+    public static final Integer STATUS_OK = 1;
     /**
      * 失败
      */
-    public static final Integer STATUS_NO = Integer.valueOf(0);
+    public static final Integer STATUS_NO = 0;
     /**
      * 私有化构造器
      */
@@ -53,18 +53,11 @@ public class ExcelUtils {
         try {
             //拿到excel
             workbook = Workbook.getWorkbook(is);
-        } catch (BiffException e) {
+        } catch (BiffException | IOException e) {
             logger.error(e.getMessage(), e);
-            return Collections.EMPTY_LIST;
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-            return Collections.EMPTY_LIST;
-        }
-        logger.debug("workbook:{}", workbook);
-
-        if (workbook == null) {
             return Collections.emptyList();
         }
+        logger.debug("workbook:{}", workbook);
 
         //第一个sheet
         Sheet sheet = workbook.getSheet(0);
@@ -101,7 +94,7 @@ public class ExcelUtils {
      */
     public static <T> List<T> makeData(List<Map<String, String>> data, Class<T> clazz, List<String> excelColumnNames, CheckExcel checkExcel) throws Exception {
         if(data == null || data.isEmpty() || clazz == null || checkExcel == null) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         List<T> result = new ArrayList<T>(data.size());

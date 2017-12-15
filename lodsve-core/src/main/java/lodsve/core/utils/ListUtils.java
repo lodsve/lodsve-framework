@@ -76,7 +76,7 @@ public class ListUtils {
         return result;
     }
 
-    public static <T> T findOne(Collection<T> targets, Decide decide) {
+    public static <T> T findOne(Collection<T> targets, Decide<T> decide) {
         if (CollectionUtils.isEmpty(targets)) {
             return null;
         }
@@ -90,7 +90,7 @@ public class ListUtils {
         return null;
     }
 
-    public static <T> List<T> findMore(Collection<T> targets, Decide decide) {
+    public static <T> List<T> findMore(Collection<T> targets, Decide<T> decide) {
         List<T> result = new ArrayList<>();
 
         if (CollectionUtils.isEmpty(targets)) {

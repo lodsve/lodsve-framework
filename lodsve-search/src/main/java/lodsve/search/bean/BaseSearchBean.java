@@ -204,7 +204,7 @@ public abstract class BaseSearchBean {
      * @return
      */
     public Map<String, File> getFileMap() {
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
     /**************************************以上 可能需要继承的方法****************************************/
 

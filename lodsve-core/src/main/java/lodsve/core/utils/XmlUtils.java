@@ -81,6 +81,7 @@ public final class XmlUtils {
      * @param tagName 子元素
      * @return
      */
+    @SuppressWarnings("unchecked")
     public static List<Element> getChildren(Element element, String tagName) {
         Assert.notNull(element);
         Assert.hasText(tagName);
@@ -108,6 +109,7 @@ public final class XmlUtils {
      * @param element 元素
      * @return
      */
+    @SuppressWarnings("unchecked")
     public static List<Element> getChildren(Element element) {
         Assert.notNull(element);
 

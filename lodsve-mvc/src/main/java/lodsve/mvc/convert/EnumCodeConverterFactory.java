@@ -22,6 +22,7 @@ public class EnumCodeConverterFactory implements ConverterFactory<String, Enum<?
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends Enum<?>> Converter<String, T> getConverter(Class<T> targetType) {
         if (!Codeable.class.isAssignableFrom(targetType)) {
             return null;

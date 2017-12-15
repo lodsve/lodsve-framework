@@ -18,6 +18,7 @@ import java.io.IOException;
  */
 public class EnumDeserializer extends JsonDeserializer<Enum> {
     @Override
+    @SuppressWarnings("unchecked")
     public Enum deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         String value = p.getValueAsString();
         if (StringUtils.isBlank(value)) {
@@ -57,6 +58,7 @@ public class EnumDeserializer extends JsonDeserializer<Enum> {
         return Enum.class;
     }
 
+    @SuppressWarnings("unchecked")
     private <T extends Enum<T>> Class<T> getType(JsonParser p) throws IOException {
         Object object = p.getCurrentValue();
         Class<?> clazz = object.getClass();

@@ -29,9 +29,9 @@ public class LodsveJackson2JavaTypeMapper extends DefaultJackson2JavaTypeMapper 
         }
 
         if (StringUtils.isEmpty(keyTypeId)) {
-            return JSON_OBJECT_MAPPER.getTypeFactory().constructParametricType(forName(classTypeId), forName(contentTypeId));
+            return JSON_OBJECT_MAPPER.getTypeFactory().constructParametrizedType(forName(classTypeId), forName(classTypeId), forName(contentTypeId));
         } else {
-            return JSON_OBJECT_MAPPER.getTypeFactory().constructParametricType(forName(classTypeId), forName(keyTypeId), forName(contentTypeId));
+            return JSON_OBJECT_MAPPER.getTypeFactory().constructParametrizedType(forName(classTypeId), forName(keyTypeId), forName(contentTypeId));
         }
     }
 

@@ -41,6 +41,7 @@ public class IpUtils {
      * @return
      * @throws java.io.IOException
      */
+    @SuppressWarnings("unchecked")
     public static Map<String, String> getAllInfo(String ip) {
         if (StringUtils.isEmpty(ip)) {
             logger.error("ip is null!!!");

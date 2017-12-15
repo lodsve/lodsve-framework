@@ -185,6 +185,7 @@ public class SystemConfig {
         return ConfigurationLoader.getFrameworkConfig(fileName);
     }
 
+    @SuppressWarnings("unchecked")
     public static Map<String, String> getAllConfigs() {
         return new HashMap<>((Map) properties);
     }

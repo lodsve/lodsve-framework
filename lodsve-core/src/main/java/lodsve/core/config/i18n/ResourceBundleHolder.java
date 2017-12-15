@@ -265,6 +265,7 @@ public class ResourceBundleHolder implements Serializable {
      * @param locale
      * @param order
      */
+    @SuppressWarnings("unchecked")
     private void addProperties(final Map src, Locale locale, final int order) {
         if (locale == null) {
             mergePropertiesToMap(defaultBundleMap, defaultBundleOrderMap, src, order);

@@ -114,6 +114,7 @@ public class DefaultResourceBundleMessageSource extends AbstractMessageSource im
      * @return the resulting ResourceBundle, or <code>null</code> if none
      *         found for the given basename and Locale
      */
+    @SuppressWarnings("unchecked")
     public ResourceBundle getResourceBundle(Locale locale) {
         synchronized (this.cachedResourceBundles) {
             ResourceBundle bundle = (ResourceBundle) this.cachedResourceBundles.get(locale);

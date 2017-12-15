@@ -300,6 +300,7 @@ public class WebInput {
      * @param <T>
      * @return
      */
+    @SuppressWarnings("unchecked")
     public <T> T getBean(Class<T> beanClass) {
         Object command = BeanUtils.instantiate(beanClass);
         try {

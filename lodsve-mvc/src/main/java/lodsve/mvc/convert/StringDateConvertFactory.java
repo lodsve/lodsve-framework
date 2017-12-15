@@ -41,6 +41,7 @@ public class StringDateConvertFactory implements ConverterFactory<String, Date>,
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends Date> Converter<String, T> getConverter(Class<T> targetType) {
         return new String2Date();
     }

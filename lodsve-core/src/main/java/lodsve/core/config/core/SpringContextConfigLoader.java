@@ -26,7 +26,7 @@ public class SpringContextConfigLoader {
     }
 
     @Bean
-    public PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
+    public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
         PropertySourcesPlaceholderConfigurer placeholderConfigurer = new PropertySourcesPlaceholderConfigurer();
         placeholderConfigurer.setFileEncoding("UTF-8");
 

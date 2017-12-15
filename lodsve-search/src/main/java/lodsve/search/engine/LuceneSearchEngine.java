@@ -133,7 +133,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             }
         }
 
-        Query query = MultiFieldQueryParser.parse(Version.LUCENE_CURRENT, queryValue.toArray(new String[]{}), fieldNames.toArray(new String[]{}),
+        Query query = MultiFieldQueryParser.parse(Version.LUCENE_30, queryValue.toArray(new String[]{}), fieldNames.toArray(new String[]{}),
                 flags.toArray(new BooleanClause.Occur[]{}), analyzer);
 
         logger.debug("make query string is '{}'!", query.toString());
@@ -171,7 +171,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             result.setIndexType(indexType);
 
             String keyword = StringUtils.EMPTY;
-            if (isHighlighter && highlighter != null) {
+            if (isHighlighter) {
                 keyword = highlighter.getBestFragment(analyzer, "keyword", hitDoc.get("keyword"));
             }
 
@@ -235,13 +235,17 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     @Override
     public synchronized void deleteAllIndexs() throws Exception {
         File indexFolder = new File(this.indexPath);
-        if (indexFolder == null || !indexFolder.isDirectory()) {
+        if (!indexFolder.isDirectory()) {
             //不存在或者不是文件夹
             logger.debug("indexPath is not a folder! indexPath: '{}'!", indexPath);
             return;
         }
 
         File[] children = indexFolder.listFiles();
+        if (children == null || children.length == 0) {
+            return;
+        }
+
         for (File child : children) {
             if (child == null || !child.isDirectory()) {
                 continue;
@@ -255,31 +259,31 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     }
 
     @Override
-    public void updateIndex(BaseSearchBean BaseSearchBean) throws Exception {
-        this.updateIndexs(Collections.singletonList(BaseSearchBean));
+    public void updateIndex(BaseSearchBean searchBean) throws Exception {
+        this.updateIndexs(Collections.singletonList(searchBean));
     }
 
     @Override
-    public void updateIndexs(List<BaseSearchBean> BaseSearchBeans) throws Exception {
-        this.createOrUpdateIndex(BaseSearchBeans, false);
+    public void updateIndexs(List<BaseSearchBean> searchBean) throws Exception {
+        this.createOrUpdateIndex(searchBean, false);
     }
 
     /**
      * 创建或者更新索引
      *
      * @param BaseSearchBeans 需要创建或者更新的对象
-     * @param isCreate    是否是创建索引;true创建索引,false更新索引
+     * @param isCreate        是否是创建索引;true创建索引,false更新索引
      * @throws Exception
      */
-    private synchronized void createOrUpdateIndex(List<BaseSearchBean> BaseSearchBeans, boolean isCreate) throws Exception {
-        if (BaseSearchBeans == null || BaseSearchBeans.isEmpty()) {
+    private synchronized void createOrUpdateIndex(List<BaseSearchBean> searchBean, boolean isCreate) throws Exception {
+        if (searchBean == null || searchBean.isEmpty()) {
             logger.debug("do no index!");
             return;
         }
 
         Directory indexDir = null;
         IndexWriter writer = null;
-        for (Iterator<BaseSearchBean> it = BaseSearchBeans.iterator(); it.hasNext(); ) {
+        for (Iterator<BaseSearchBean> it = searchBean.iterator(); it.hasNext(); ) {
             BaseSearchBean sb = it.next();
             String indexType = getIndexType(sb);
             if (sb == null) {
@@ -305,7 +309,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             Field idField = new Field("pkId", id, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
             doc.add(idField);
 
-            logger.debug("create id index for '{}', value is '{}'! index is '{}'!", new Object[]{"pkId", id, idField});
+            logger.debug("create id index for '{}', value is '{}'! index is '{}'!", "pkId", id, idField);
 
             String owerId = sb.getOwerId();
             if (StringUtils.isEmpty(owerId)) {
@@ -359,24 +363,24 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
                     Field extInfoField = new Field(field, fieldValue, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
                     doc.add(extInfoField);
                 }
-            }
 
-            //进行索引的文件字段
-            Map<String, File> files = sb.getFileMap();
-            if (files != null && !files.isEmpty()) {
-                for (Iterator<Map.Entry<String, File>> i = files.entrySet().iterator(); i.hasNext(); ) {
-                    Map.Entry<String, File> e = i.next();
-                    String column = e.getKey();
-                    File file = e.getValue();
+                //进行索引的文件字段
+                Map<String, File> files = sb.getFileMap();
+                if (files != null && !files.isEmpty()) {
+                    for (Iterator<Map.Entry<String, File>> i = files.entrySet().iterator(); i.hasNext(); ) {
+                        Map.Entry<String, File> e = i.next();
+                        String column = e.getKey();
+                        File file = e.getValue();
 
-                    if (!Arrays.asList(doIndexFields).contains(column)) {
-                        continue;
+                        if (!Arrays.asList(doIndexFields).contains(column)) {
+                            continue;
+                        }
+
+                        String content = getFileContent(file);
+
+                        Field extInfoField = new Field(column, content, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+                        doc.add(extInfoField);
                     }
-
-                    String content = getFileContent(file);
-
-                    Field extInfoField = new Field(column, content, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
-                    doc.add(extInfoField);
                 }
             }
 
@@ -413,7 +417,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             try {
                 Directory dir = getIndexDir(bean.getIndexType());
                 reader = getReader(dir);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
 
             }
 

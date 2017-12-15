@@ -46,6 +46,7 @@ public class DefaultResourceBundle extends ResourceBundle {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Enumeration<String> getKeys() {
         Set keys = this.defaultBundleMap.keySet();
 

@@ -96,7 +96,7 @@
         <mapstruct.version>1.0.0.Final</mapstruct.version>
         <aspectjweaver.version>1.6.8</aspectjweaver.version>
         <jxl.version>2.6.12</jxl.version>
-        <poi.version>20040302</poi.version>
+        <poi.version>2.5-final-20040302</poi.version>
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.6</slf4j.version>
         <jcl.over.slf4j.version>1.7.0</jcl.over.slf4j.version>
@@ -116,6 +116,7 @@
         <maven.compiler.target>1.7</maven.compiler.target>
         <maven.source.plugin.version>2.4</maven.source.plugin.version>
         <maven.clean.plugin.version>2.6.1</maven.clean.plugin.version>
+        <maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
         <maven.gpg.plugin.version>1.5</maven.gpg.plugin.version>
         <maven.javadoc.plugin.version>2.10.3</maven.javadoc.plugin.version>
         <nexus.staging.maven.plugin.version>1.6.5</nexus.staging.maven.plugin.version>
@@ -718,7 +719,7 @@
             </dependency>
             <dependency>
                 <groupId>poi</groupId>
-                <artifactId>poi-2.5-final</artifactId>
+                <artifactId>poi</artifactId>
                 <version>${poi.version}</version>
             </dependency>
             <!-- 操作excel end -->
@@ -969,6 +970,16 @@
                             </includes>
                         </fileset>
                     </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven.jar.plugin.version}</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>true</addMavenDescriptor>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>

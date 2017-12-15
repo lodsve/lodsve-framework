@@ -56,22 +56,26 @@ public class GenericUtils {
         return getGenericParameter(method, 0);
     }
 
+    @SuppressWarnings("unchecked")
     private static <T> Class<T> getGenericParameter(ParameterizedType type, int index) {
         Type param = type.getActualTypeArguments()[index];
         if (param instanceof Class) {
-            return (Class) param;
+            return (Class<T>) param;
         }
         return null;
     }
 
+    @SafeVarargs
     public static Set<Field> getAnnotatedFields(Class clazz, Class<? extends Annotation>... annotations) {
         return doInAnnotatedFields(clazz, new SetFieldExtractor(), annotations);
     }
 
+    @SafeVarargs
     public static Field getAnnotatedField(Class clazz, Class<? extends Annotation>... annotations) {
         return doInAnnotatedFields(clazz, new SingleFieldExtractor(), annotations);
     }
 
+    @SafeVarargs
     public static <T> T doInAnnotatedFields(Class clazz, FieldExtractor<T> extractor, Class<? extends Annotation>... annotations) {
         for (Field field : clazz.getDeclaredFields()) {
             int hit = 0;
@@ -96,7 +100,7 @@ public class GenericUtils {
     }
 
     private static class SetFieldExtractor implements FieldExtractor<Set<Field>> {
-        Set<Field> result = new HashSet<Field>();
+        Set<Field> result = new HashSet<>();
 
         @Override
         public boolean extractNext(Field field) {

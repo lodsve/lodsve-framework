@@ -77,7 +77,7 @@
         </dependency>
         <dependency>
             <groupId>poi</groupId>
-            <artifactId>poi-2.5-final</artifactId>
+            <artifactId>poi</artifactId>
         </dependency>
         <dependency>
             <groupId>jaxen</groupId>
@@ -109,15 +109,6 @@
                     </compilerArguments>
                     <source>1.5</source>
                     <target>1.5</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <addMavenDescriptor>true</addMavenDescriptor>
-                    </archive>
                 </configuration>
             </plugin>
         </plugins>
