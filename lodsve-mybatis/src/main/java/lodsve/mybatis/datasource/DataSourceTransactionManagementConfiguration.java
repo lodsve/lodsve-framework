@@ -1,6 +1,8 @@
 package lodsve.mybatis.datasource;
 
+import lodsve.mybatis.configs.Contants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 @EnableTransactionManagement
 public class DataSourceTransactionManagementConfiguration implements TransactionManagementConfigurer {
     @Autowired
+    @Qualifier(Contants.DATA_SOURCE_BEAN_NAME)
     private javax.sql.DataSource dataSource;
 
     @Bean

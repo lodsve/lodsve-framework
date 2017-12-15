@@ -19,5 +19,5 @@ public @interface DataSource {
      *
      * @return
      */
-    boolean isDefault() default true;
+    boolean isDefault() default false;
 }

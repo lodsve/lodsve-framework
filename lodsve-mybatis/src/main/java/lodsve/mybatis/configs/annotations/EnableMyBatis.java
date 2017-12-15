@@ -47,6 +47,20 @@ public @interface EnableMyBatis {
     String[] enumsLocations() default {};
 
     /**
+     * 是否使用flyway
+     *
+     * @return
+     */
+    boolean useFlyway() default false;
+
+    /**
+     * flyway的脚本文件所在路径
+     *
+     * @return
+     */
+    String migration() default "META-INF/flyway";
+
+    /**
      * 加载插件
      *
      * @return 插件

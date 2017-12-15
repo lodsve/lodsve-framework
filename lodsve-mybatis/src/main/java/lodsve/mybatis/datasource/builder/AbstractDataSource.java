@@ -2,6 +2,7 @@ package lodsve.mybatis.datasource.builder;
 
 import lodsve.core.autoconfigure.AutoConfigurationBuilder;
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.mybatis.configs.Contants;
 import lodsve.mybatis.configs.RdbmsProperties;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -17,9 +18,6 @@ import java.util.Map;
  * @version 1.0 2017/12/14 下午8:35
  */
 public abstract class AbstractDataSource<T> {
-    static final String DRUID_DATA_SOURCE_CLASS = "com.alibaba.druid.pool.DruidDataSource";
-    private static final String DBCP_DATA_SOURCE_CLASS = "org.apache.commons.dbcp.BasicDataSource";
-
     private String dataSourceName;
     RdbmsProperties rdbmsProperties;
 
@@ -47,9 +45,9 @@ public abstract class AbstractDataSource<T> {
         properties.putAll(toMap(commons));
         properties.putAll(toMap(connection));
 
-        if (DRUID_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
+        if (Contants.DRUID_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
             properties.putAll(toMap(druid));
-        } else if (DBCP_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
+        } else if (Contants.DBCP_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
             properties.putAll(toMap(dbcp));
         }
 
