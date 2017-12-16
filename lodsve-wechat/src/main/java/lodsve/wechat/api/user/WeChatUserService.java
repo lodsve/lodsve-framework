@@ -1,11 +1,6 @@
 package lodsve.wechat.api.user;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lodsve.core.utils.StringUtils;
 import lodsve.wechat.beans.User;
 import lodsve.wechat.beans.UserQuery;
@@ -15,6 +10,12 @@ import lodsve.wechat.core.WeChatUrl;
 import lodsve.wechat.enums.Lang;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 微信用户操作.
@@ -90,6 +91,7 @@ public class WeChatUserService {
      * @param nextOpenId 第一个拉取的OPENID，不填默认从头开始拉取
      * @return 关注者openId
      */
+    @SuppressWarnings("unchecked")
     public List<String> listSubscribe(String nextOpenId) {
         String url = String.format(WeChatUrl.LIST_SUBSCRIBER, WeChat.accessToken(), StringUtils.isEmpty(nextOpenId) ? StringUtils.EMPTY : nextOpenId);
         Map<String, Object> result = WeChatRequest.get(url, new TypeReference<Map<String, Object>>() {

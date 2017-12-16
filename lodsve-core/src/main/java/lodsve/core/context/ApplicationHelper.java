@@ -42,7 +42,7 @@ public class ApplicationHelper {
      * @return an instance of the single bean matching the required type
      */
     public <T> T getBean(Class<T> clazz) {
-        T result = null;
+        T result;
         Iterator it = apps.iterator();
 
         while (it.hasNext()) {
@@ -52,16 +52,11 @@ public class ApplicationHelper {
                 if (result != null) {
                     return result;
                 }
-            } catch (BeansException e) {
-                continue;
+            } catch (BeansException ignored) {
             }
         }
 
-        if (result == null) {
-            throw new NoSuchBeanDefinitionException(clazz.getName());
-        }
-
-        return result;
+        throw new NoSuchBeanDefinitionException(clazz.getName());
     }
 
     /**
@@ -70,6 +65,7 @@ public class ApplicationHelper {
      * @param name the name of the bean to retrieve
      * @return an instance of the bean
      */
+    @SuppressWarnings("unchecked")
     public <T> T getBean(String name) {
         T result = null;
         Iterator it = apps.iterator();
@@ -81,16 +77,11 @@ public class ApplicationHelper {
                 if (result != null) {
                     return result;
                 }
-            } catch (BeansException e) {
-                continue;
+            } catch (BeansException ignored) {
             }
         } while (!it.hasNext());
 
-        if (result == null) {
-            throw new NoSuchBeanDefinitionException(name);
-        }
-
-        return result;
+        throw new NoSuchBeanDefinitionException(name);
     }
 
     /**

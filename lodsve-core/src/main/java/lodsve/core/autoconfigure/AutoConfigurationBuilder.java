@@ -2,11 +2,11 @@ package lodsve.core.autoconfigure;
 
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 import lodsve.core.autoconfigure.annotations.Required;
-import lodsve.core.config.SystemConfig;
-import lodsve.core.config.core.ParamsHome;
-import lodsve.core.config.properties.Configuration;
-import lodsve.core.config.properties.ConfigurationLoader;
-import lodsve.core.config.properties.PropertiesConfiguration;
+import lodsve.core.properties.Env;
+import lodsve.core.properties.configuration.Configuration;
+import lodsve.core.properties.configuration.ConfigurationLoader;
+import lodsve.core.properties.configuration.PropertiesConfiguration;
+import lodsve.core.properties.core.ParamsHome;
 import lodsve.core.utils.GenericUtils;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.core.utils.StringUtils;
@@ -119,7 +119,7 @@ public class AutoConfigurationBuilder {
 
         Properties prop = new Properties();
         for (String location : configLocations) {
-            location = PropertyPlaceholderHelper.replacePlaceholder(location, true, SystemConfig.getAllConfigs());
+            location = PropertyPlaceholderHelper.replacePlaceholder(location, true, Env.getAllConfigs());
 
             Resource resource = this.resourceLoader.getResource(location);
             if (!resource.exists()) {

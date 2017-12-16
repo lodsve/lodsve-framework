@@ -536,14 +536,14 @@ public class HTMLUtils {
      */
     public static List getImageUrls(String content) {
         if (StringUtils.isNotEmpty(content)) {
-            List resultList = new ArrayList();
+            List<String> resultList = new ArrayList<>();
             String regxp = "src=\"([^\"]+)\"";
 
             Pattern p = Pattern.compile(regxp);
             Matcher m = p.matcher(content);
 
             while (m.find()) {
-                if (m.group(1).indexOf("fckeditor") == -1) {
+                if (!m.group(1).contains("fckeditor")) {
                     // 获取被匹配的部分,并且去除fck的表情图片.
                     resultList.add(m.group(1));
                 }

@@ -31,6 +31,7 @@ public class ParamsHolder {
         PARAMS_HOLDER.set(params);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T get(String key) {
         Map<String, Object> params = PARAMS_HOLDER.get();
         if (CollectionUtils.isEmpty(params)) {

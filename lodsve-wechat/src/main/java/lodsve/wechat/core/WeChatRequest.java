@@ -60,6 +60,7 @@ public final class WeChatRequest {
         OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T get(String url, TypeReference<T> typeReference, Object... params) {
         Assert.hasText(url);
 
@@ -84,6 +85,7 @@ public final class WeChatRequest {
         return evalMap(result, typeReference);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T post(String url, Object object, TypeReference<T> typeReference, Object... params) {
         Assert.hasText(url);
 

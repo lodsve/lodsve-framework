@@ -50,7 +50,7 @@ public class RequestUtils {
      * @return URL(未encoding)
      */
     public static String getRequestUrl(HttpServletRequest request, boolean needParams) {
-        StringBuffer requestUrl = new StringBuffer(request.getServletPath());
+        StringBuilder requestUrl = new StringBuilder(request.getServletPath());
         if (!needParams) {
             return requestUrl.toString();
         }
@@ -99,8 +99,6 @@ public class RequestUtils {
             String[] values = (String[]) params.get(key);
             if (values != null && values.length > 0) {
                 urlParams.add(values[0]);
-            } else {
-
             }
         }
 
@@ -180,7 +178,7 @@ public class RequestUtils {
      */
     public static Map<String, Object> getParams(String params) {
         if (StringUtils.isEmpty(params)) {
-            return Collections.EMPTY_MAP;
+            return Collections.emptyMap();
         }
 
         String[] ps = params.split("&");

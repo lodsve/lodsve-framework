@@ -2,7 +2,7 @@ package lodsve.core.appllication.conditional;
 
 import lodsve.core.condition.ConditionOutcome;
 import lodsve.core.condition.SpringBootCondition;
-import lodsve.core.config.SystemConfig;
+import lodsve.core.properties.Env;
 import lodsve.core.utils.StringUtils;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.ConfigurationCondition;
@@ -24,7 +24,7 @@ public class OnDevelopmentConditional extends SpringBootCondition implements Con
             return ConditionOutcome.match(StringUtils.EMPTY);
         }
 
-        boolean isDevMode = SystemConfig.getBoolean("application.devMode", false);
+        boolean isDevMode = Env.getBoolean("application.devMode", false);
 
         if (!isDevMode) {
             return ConditionOutcome.noMatch("this is not dev-mode!");

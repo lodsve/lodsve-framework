@@ -1,12 +1,11 @@
 package lodsve.mongodb.core;
 
-import com.mongodb.MongoURI;
+import com.mongodb.MongoClientURI;
 import lodsve.core.autoconfigure.AutoConfigurationBuilder;
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 import lodsve.mongodb.config.MongoProperties;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.util.StringUtils;
 
 /**
@@ -32,13 +31,10 @@ public class MongoDataSourceBeanDefinitionFactory {
     }
 
     public BeanDefinition build() {
-        BeanDefinitionBuilder mongoURIBean = BeanDefinitionBuilder.genericBeanDefinition(MongoURI.class);
+        BeanDefinitionBuilder mongoURIBean = BeanDefinitionBuilder.genericBeanDefinition(MongoClientURI.class);
         mongoURIBean.addConstructorArgValue(getMongoUri());
 
-        BeanDefinitionBuilder mongoDbFactoryBean = BeanDefinitionBuilder.genericBeanDefinition(SimpleMongoDbFactory.class);
-        mongoDbFactoryBean.addConstructorArgValue(mongoURIBean.getBeanDefinition());
-
-        return mongoDbFactoryBean.getBeanDefinition();
+        return mongoURIBean.getBeanDefinition();
     }
 
     private String getMongoUri() {

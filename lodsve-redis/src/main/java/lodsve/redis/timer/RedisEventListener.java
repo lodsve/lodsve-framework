@@ -3,7 +3,6 @@ package lodsve.redis.timer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
@@ -13,7 +12,6 @@ import java.io.Serializable;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/9/28 下午4:27
  */
-@Component
 public class RedisEventListener implements ApplicationListener<RedisEvent> {
     private static final Logger logger = LoggerFactory.getLogger(RedisEventListener.class);
 

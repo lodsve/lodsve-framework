@@ -1,9 +1,10 @@
 package lodsve.test.base;
 
-import lodsve.core.context.ApplicationHelper;
-import org.junit.Before;
+import lodsve.core.properties.profile.ProfileInitializer;
+import lodsve.test.core.LodsveTestExecutionListener;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -14,13 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @version V1.0, 12-7-10 下午9:27
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:/META-INF/spring/*.xml")
-public abstract class BaseTest extends AbstractJUnit4SpringContextTests {
-    /**
-     * 开始单元测试的时候先将applicationContext注入
-     */
-    @Before
-    public void initTest() {
-        ApplicationHelper.getInstance().addApplicationContext(applicationContext);
-    }
+@ContextConfiguration(classes = TestConfiguration.class, initializers = ProfileInitializer.class)
+@TestExecutionListeners(LodsveTestExecutionListener.class)
+public class BaseTest extends AbstractJUnit4SpringContextTests {
 }

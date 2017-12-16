@@ -1,6 +1,6 @@
 package lodsve.core.condition;
 
-import lodsve.core.config.SystemConfig;
+import lodsve.core.properties.Env;
 import lodsve.core.utils.StringUtils;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.ConfigurationCondition;
@@ -28,7 +28,7 @@ public class OnPropertyCondition extends SpringBootCondition implements Configur
         String key = attributes.get("key").toString();
         String value = attributes.get("value").toString();
 
-        String realValue = SystemConfig.getString(key);
+        String realValue = Env.getString(key);
 
         if (!value.equals(realValue)) {
             return ConditionOutcome.noMatch(String.format("@ConditionalOnProperties's key:[%s], found value:[%s], not match given value:[%s]!", key, realValue, value));

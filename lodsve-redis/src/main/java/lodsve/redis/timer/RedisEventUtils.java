@@ -1,7 +1,6 @@
 package lodsve.redis.timer;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/9/29 下午12:53
  */
-@Component
 public class RedisEventUtils {
     private final static Map<String, RedisEventHandler> HANDLERS = new HashMap<>();
 

@@ -36,7 +36,7 @@ import java.util.Map;
 public class ParseDataHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
     private static final Logger logger = LoggerFactory.getLogger(ParseDataHandlerMethodArgumentResolver.class);
     private final static Map<String, StringParse> MAPPERS = new HashMap<>();
-    public final static ClassPool CLASSPOOL;
+    private final static ClassPool CLASSPOOL;
 
     static {
         ClassPool parent = ClassPool.getDefault();
@@ -59,6 +59,7 @@ public class ParseDataHandlerMethodArgumentResolver implements HandlerMethodArgu
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         Parse parse = parameter.getParameterAnnotation(Parse.class);
         Class<?> dest = parse.dest();
@@ -121,7 +122,7 @@ public class ParseDataHandlerMethodArgumentResolver implements HandlerMethodArgu
                     "	return null;" +
                     "}", ctClass);
             //方法体
-            StringBuffer body = new StringBuffer();
+            StringBuilder body = new StringBuilder();
             body.append("{\n");
             String destClass = "";
             if (Integer.class.equals(dest)) {

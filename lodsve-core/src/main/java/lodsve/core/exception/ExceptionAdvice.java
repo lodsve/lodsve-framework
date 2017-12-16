@@ -1,7 +1,7 @@
 package lodsve.core.exception;
 
-import lodsve.core.config.SystemConfig;
-import lodsve.core.config.i18n.ResourceBundleHolder;
+import lodsve.core.properties.Env;
+import lodsve.core.properties.i18n.ResourceBundleHolder;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
@@ -58,7 +58,7 @@ public class ExceptionAdvice {
 
         // 2. 项目异常
         String folderPath = "error";
-        Resource resource = SystemConfig.getFileConfig(folderPath);
+        Resource resource = Env.getFileConfig(folderPath);
 
         try {
             resources.addAll(Arrays.asList(resolver.getResources("file:" + resource.getFile().getAbsolutePath() + "/*.properties")));

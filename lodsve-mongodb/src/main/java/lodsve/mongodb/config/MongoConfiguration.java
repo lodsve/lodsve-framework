@@ -3,7 +3,9 @@ package lodsve.mongodb.config;
 import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.mongodb.core.MongoRepositoryBeanPostProcessor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
 
 /**
@@ -14,6 +16,8 @@ import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
  */
 @Configuration
 @EnableConfigurationProperties(MongoProperties.class)
+@EnableAspectJAutoProxy
+@ComponentScan("lodsve.mongodb.connection")
 public class MongoConfiguration {
     @Bean
     public DefaultMongoTypeMapper defaultMongoTypeMapper() {

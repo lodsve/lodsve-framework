@@ -5,6 +5,7 @@ import lodsve.mybatis.type.TypeHandlerScanner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * message-mybatis配置包扫描路径.
@@ -13,8 +14,9 @@ import org.springframework.context.annotation.Configuration;
  * @version V1.0, 16/1/19 下午10:21
  */
 @Configuration
-@ComponentScan("lodsve.mybatis.key")
+@ComponentScan({"lodsve.mybatis.key", "lodsve.mybatis.datasource"})
 @EnableConfigurationProperties(RdbmsProperties.class)
+@EnableAspectJAutoProxy
 public class MyBatisConfiguration {
     @Bean
     public TypeHandlerScanner typeHandlerScanner() {

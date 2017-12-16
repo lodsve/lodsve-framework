@@ -489,7 +489,7 @@ public class FileUtils {
     public static List<File> getFileUnderDirectory(String directory, String extName) {
         if (StringUtils.isEmpty(directory) || !new File(directory).exists()) {
             logger.error("given no path or not exist!");
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         List<File> files = new ArrayList<File>();
@@ -625,7 +625,7 @@ public class FileUtils {
      */
     public static List<String> readLines(InputStream in, String encoding) throws Exception {
         if (in == null) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         return IOUtils.readLines(in, encoding);

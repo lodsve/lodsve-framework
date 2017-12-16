@@ -1,9 +1,6 @@
 package lodsve.wechat.api.message;
 
 import com.alibaba.fastjson.util.TypeUtils;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import lodsve.wechat.beans.message.EventType;
 import lodsve.wechat.beans.message.MsgType;
 import lodsve.wechat.beans.message.receive.Receive;
@@ -13,6 +10,10 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 处理微信的消息/事件.
@@ -28,6 +29,7 @@ public class WeChatReceiveHandler implements ApplicationContextAware {
     private List<MsgHandler> msgHandlers = new ArrayList<>();
     private List<EventHandler> eventHandlers = new ArrayList<>();
 
+    @SuppressWarnings("unchecked")
     public Reply handle(Map<String, String> params) {
         Reply reply = null;
         if (params.containsKey(EVENT)) {

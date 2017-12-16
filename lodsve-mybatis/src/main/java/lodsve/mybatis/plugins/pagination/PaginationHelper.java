@@ -45,6 +45,7 @@ public class PaginationHelper {
      * @param <T>
      * @return
      */
+    @SuppressWarnings("unchecked")
     protected static <T> T findObjectFromParameter(Object parameter, Class<T> target) {
         if (parameter == null || target == null) {
             return null;
@@ -126,8 +127,6 @@ public class PaginationHelper {
 
     protected static String getPageSql(String sql, MappedStatement mappedStatement, int start, int num) throws SQLException {
         Assert.hasText(sql, "sql is required!");
-        Assert.notNull(start, "start is required!");
-        Assert.notNull(num, "num is required!");
 
         Dialect dialect = MyBatisUtils.getDialect(mappedStatement.getConfiguration().getEnvironment().getDataSource().getConnection());
         return dialect.getPageSql(sql, start, num);
