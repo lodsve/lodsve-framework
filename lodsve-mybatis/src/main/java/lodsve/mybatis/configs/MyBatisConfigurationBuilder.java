@@ -2,8 +2,7 @@ package lodsve.mybatis.configs;
 
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
-import lodsve.mybatis.datasource.builder.RdbmsDataSourceBeanDefinitionFactory;
-import lodsve.mybatis.datasource.builder.RdbmsDataSourceFactory;
+import lodsve.mybatis.datasource.builder.RdbmsDataSourceBeanDefinitionBuilder;
 import lodsve.mybatis.datasource.dynamic.DynamicDataSource;
 import lodsve.mybatis.exception.MyBatisException;
 import lodsve.mybatis.key.IDGenerator;
@@ -67,14 +66,12 @@ public class MyBatisConfigurationBuilder {
         DataSourceBean dataSourceBean = new DataSourceBean(dataSources);
         String defaultDataSourceKey = dataSourceBean.getDefaultDataSourceKey();
         BeanDefinition defaultDataSource = dataSourceBean.getDefaultDataSource();
-        Map<String, javax.sql.DataSource> dataSourceObjects = dataSourceBean.getDataSourceObjects();
         beanDefinitions.putAll(dataSourceBean.getBeanDefinitions());
 
         // 动态数据源
         BeanDefinitionBuilder dynamicDataSource = BeanDefinitionBuilder.genericBeanDefinition(DynamicDataSource.class);
-        dynamicDataSource.addPropertyValue("targetDataSources", dataSourceObjects);
-        dynamicDataSource.addPropertyReference("defaultTargetDataSource", defaultDataSourceKey);
-
+        dynamicDataSource.addConstructorArgValue(dataSourceBean.getDataSourceNames());
+        dynamicDataSource.addConstructorArgValue(defaultDataSourceKey);
         beanDefinitions.put(Constant.DATA_SOURCE_BEAN_NAME, dynamicDataSource.getBeanDefinition());
 
         // 生成IDGenerator
@@ -223,20 +220,20 @@ public class MyBatisConfigurationBuilder {
     }
 
     private static class DataSourceBean {
-        private Map<String, javax.sql.DataSource> dataSourceObjects;
         private String defaultDataSourceKey;
         private BeanDefinition defaultDataSource;
         private Map<String, BeanDefinition> beanDefinitions;
+        private List<String> dataSourceNames;
 
         DataSourceBean(AnnotationAttributes[] dataSources) {
-            dataSourceObjects = new HashMap<>(dataSources.length);
             beanDefinitions = new HashMap<>(dataSources.length);
+            dataSourceNames = new ArrayList<>(dataSources.length);
 
             for (int i = 0; i < dataSources.length; i++) {
                 AnnotationAttributes attr = dataSources[i];
 
                 String name = attr.getString(Constant.DATA_SOURCE_NAME_ATTRIBUTE_NAME);
-                BeanDefinition dsBeanDefinition = new RdbmsDataSourceBeanDefinitionFactory(name).build();
+                BeanDefinition dsBeanDefinition = new RdbmsDataSourceBeanDefinitionBuilder(name).build();
 
                 if (i == 0) {
                     defaultDataSourceKey = attr.getString(Constant.DATA_SOURCE_NAME_ATTRIBUTE_NAME);
@@ -244,7 +241,7 @@ public class MyBatisConfigurationBuilder {
                 }
 
                 beanDefinitions.put(name, dsBeanDefinition);
-                dataSourceObjects.put(name, new RdbmsDataSourceFactory(name).build());
+                dataSourceNames.add(name);
             }
         }
 
@@ -260,9 +257,8 @@ public class MyBatisConfigurationBuilder {
             return beanDefinitions;
         }
 
-        Map<String, javax.sql.DataSource> getDataSourceObjects() {
-            return dataSourceObjects;
+        List<String> getDataSourceNames() {
+            return dataSourceNames;
         }
-
     }
 }

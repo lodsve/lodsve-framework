@@ -6,6 +6,8 @@ import lodsve.mybatis.configs.Constant;
 import lodsve.mybatis.configs.RdbmsProperties;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 
 import java.beans.PropertyDescriptor;
 import java.util.HashMap;
@@ -17,11 +19,11 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version 1.0 2017/12/14 下午8:35
  */
-public abstract class AbstractDataSource<T> {
+public class RdbmsDataSourceBeanDefinitionBuilder {
     private String dataSourceName;
-    RdbmsProperties rdbmsProperties;
+    private RdbmsProperties rdbmsProperties;
 
-    AbstractDataSource(String dataSourceName) {
+    public RdbmsDataSourceBeanDefinitionBuilder(String dataSourceName) {
         this.dataSourceName = dataSourceName;
 
         AutoConfigurationBuilder.Builder<RdbmsProperties> builder = new AutoConfigurationBuilder.Builder<>();
@@ -31,7 +33,22 @@ public abstract class AbstractDataSource<T> {
         rdbmsProperties = builder.build();
     }
 
-    Map<String, String> getProperties() {
+    /**
+     * 创建数据源
+     *
+     * @return 数据源
+     */
+    public BeanDefinition build() {
+        String dataSourceClassName = rdbmsProperties.getDataSourceClass();
+        BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(dataSourceClassName);
+
+        setDataSourceProperty(beanDefinitionBuilder);
+        setCustomProperties(beanDefinitionBuilder, dataSourceClassName);
+
+        return beanDefinitionBuilder.getBeanDefinition();
+    }
+
+    private Map<String, String> getProperties() {
         // 通用配置
         RdbmsProperties.DataSourceSetting commons = rdbmsProperties.getCommons();
         // dbcp配置
@@ -72,10 +89,23 @@ public abstract class AbstractDataSource<T> {
         return properties;
     }
 
-    /**
-     * 创建数据源
-     *
-     * @return 数据源
-     */
-    abstract T build();
+    private void setDataSourceProperty(BeanDefinitionBuilder dataSourceBuilder) {
+        setDataSourceProperty(dataSourceBuilder, getProperties());
+    }
+
+    private void setDataSourceProperty(BeanDefinitionBuilder dataSourceBuilder, Map<String, String> properties) {
+        for (Map.Entry<String, String> entry : properties.entrySet()) {
+            dataSourceBuilder.addPropertyValue(entry.getKey(), entry.getValue());
+        }
+    }
+
+    private void setCustomProperties(BeanDefinitionBuilder beanDefinitionBuilder, String dataSourceClassName) {
+        //1.druid
+        if (Constant.DRUID_DATA_SOURCE_CLASS.equals(dataSourceClassName)) {
+            // init method
+            beanDefinitionBuilder.setInitMethodName("init");
+            // destroy method
+            beanDefinitionBuilder.setDestroyMethodName("close");
+        }
+    }
 }
