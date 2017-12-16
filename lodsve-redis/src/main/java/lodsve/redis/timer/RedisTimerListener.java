@@ -4,13 +4,11 @@ import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -24,7 +22,6 @@ import java.util.concurrent.TimeUnit;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/9/28 下午4:11
  */
-@Component
 public class RedisTimerListener implements MessageListener {
     private static final Logger logger = LoggerFactory.getLogger(RedisTimerListener.class);
     private static final String REDIS_KEY_SEPARATOR = "-";
@@ -33,9 +30,11 @@ public class RedisTimerListener implements MessageListener {
 
     @Autowired
     private ApplicationEventPublisher eventPublisher;
-    @Autowired
-    @Qualifier("redisTimerRedisTemplate")
     private RedisTemplate<String, Object> redisTemplate;
+
+    public RedisTimerListener(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @Override
     public void onMessage(Message message, byte[] pattern) {

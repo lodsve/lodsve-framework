@@ -7,19 +7,25 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
 
 /**
- * .
+ * redis数据源注册.
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/1/23 下午11:20
  */
 public class RedisBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
-    public static final String DATASOURCE_NAME_ATTRIBUTE_NAME = "name";
+    private static final String DATASOURCE_NAME_ATTRIBUTE_NAME = "name";
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(annotationMetadata.getAnnotationAttributes(EnableRedis.class.getName(), false));
-        String name = attributes.getString(DATASOURCE_NAME_ATTRIBUTE_NAME);
+        String[] names = attributes.getStringArray(DATASOURCE_NAME_ATTRIBUTE_NAME);
 
-        beanDefinitionRegistry.registerBeanDefinition(name, new RedisDataSourceBeanDefinitionFactory(name).build());
+        for (String name : names) {
+            if (beanDefinitionRegistry.containsBeanDefinition(name)) {
+                continue;
+            }
+
+            beanDefinitionRegistry.registerBeanDefinition(name, new RedisDataSourceBeanDefinitionFactory(name).build());
+        }
     }
 }

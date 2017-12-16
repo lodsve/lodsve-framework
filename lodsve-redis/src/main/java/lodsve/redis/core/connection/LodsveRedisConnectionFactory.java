@@ -1,10 +1,8 @@
 package lodsve.redis.core.connection;
 
 import lodsve.core.utils.StringUtils;
-import lodsve.redis.core.config.RedisProperties;
+import lodsve.redis.core.properties.RedisProperties;
 import lodsve.redis.exception.RedisException;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -18,7 +16,7 @@ public class LodsveRedisConnectionFactory extends JedisConnectionFactory {
     private static final String URL_PREFIX = "redis://";
     private RedisProperties settings;
 
-    public LodsveRedisConnectionFactory(String dataSourceName, RedisProperties redisProperties) {
+    LodsveRedisConnectionFactory(String dataSourceName, RedisProperties redisProperties) {
         settings = redisProperties;
         RedisProperties.ProjectSetting redisSetting = settings.getProject().get(dataSourceName);
 
@@ -61,31 +59,5 @@ public class LodsveRedisConnectionFactory extends JedisConnectionFactory {
         config.setTestWhileIdle(props.isTestWhileIdle());
 
         return config;
-    }
-
-    public static class Builder {
-        private String project;
-        private RedisProperties redisProperties;
-
-        public Builder setRedisProperties(RedisProperties redisProperties) {
-            this.redisProperties = redisProperties;
-            return this;
-        }
-
-        public Builder setProject(String project) {
-            this.project = project;
-            return this;
-        }
-
-        public RedisConnectionFactory build() {
-            RedisConnectionFactory factory = new LodsveRedisConnectionFactory(project, redisProperties);
-            try {
-                ((InitializingBean) factory).afterPropertiesSet();
-            } catch (Exception e) {
-                throw new IllegalArgumentException("this RedisConnectionFactory is not Spring's InitializingBean!");
-            }
-
-            return factory;
-        }
     }
 }

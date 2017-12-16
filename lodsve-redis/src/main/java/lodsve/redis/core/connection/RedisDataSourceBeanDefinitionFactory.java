@@ -2,7 +2,7 @@ package lodsve.redis.core.connection;
 
 import lodsve.core.autoconfigure.AutoConfigurationBuilder;
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
-import lodsve.redis.core.config.RedisProperties;
+import lodsve.redis.core.properties.RedisProperties;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 

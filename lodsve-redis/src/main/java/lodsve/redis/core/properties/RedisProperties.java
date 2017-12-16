@@ -1,4 +1,4 @@
-package lodsve.redis.core.config;
+package lodsve.redis.core.properties;
 
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 
