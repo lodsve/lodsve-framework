@@ -1,5 +1,6 @@
 package lodsve.mongodb.annotations;
 
+import lodsve.core.datasource.DataSource;
 import lodsve.mongodb.config.MongoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
@@ -26,7 +27,7 @@ public @interface EnableMongo {
      *
      * @return
      */
-    String dataSource();
+    DataSource[] dataSource();
 
     /**
      * 含有{@link org.springframework.data.mongodb.core.mapping.Document }注解的dao类所在的包路径

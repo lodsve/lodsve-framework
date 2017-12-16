@@ -15,6 +15,7 @@
  */
 package lodsve.mongodb.core;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -45,14 +46,11 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
  */
 public class LodsveMongoRepository<T, ID extends Serializable> implements MongoRepository<T, ID> {
     private MongoEntityInformation<T, ID> entityInformation;
-    private MongoOperations mongoOperations;
+    @Autowired
+    protected MongoOperations mongoOperations;
 
     public void setEntityInformation(MongoEntityInformation<T, ID> entityInformation) {
         this.entityInformation = entityInformation;
-    }
-
-    public LodsveMongoRepository(MongoOperations mongoOperations) {
-        this.mongoOperations = mongoOperations;
     }
 
     @Override
