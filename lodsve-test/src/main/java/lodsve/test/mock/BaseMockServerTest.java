@@ -18,7 +18,7 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
  * @version V1.0, 16-3-10 12:34
  */
 @PowerMockIgnore("javax.net.ssl.*")
-public class MockServerBaseTest extends PowerMockitoBaseTest {
+public class BaseMockServerTest extends BasePowerMockitoTest {
     protected static ClientAndServer mockServer;
     /**
      * 基础url，如http://localhost:8080
@@ -38,7 +38,7 @@ public class MockServerBaseTest extends PowerMockitoBaseTest {
         if (mockServer != null) {
             mockServer.stop();
         }
-        
+
         baseUrl = "";
     }
 }

@@ -25,6 +25,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @TestExecutionListeners({
         DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class
 })
-public class DbUnitBaseTest extends BaseTest {
+public class BaseDbUnitTest extends BaseTest {
 
 }
