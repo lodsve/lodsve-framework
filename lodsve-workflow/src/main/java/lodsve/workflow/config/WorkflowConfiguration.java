@@ -1,7 +1,7 @@
 package lodsve.workflow.config;
 
+import lodsve.core.datasource.DataSource;
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
-import lodsve.mybatis.datasource.annotations.DataSource;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 

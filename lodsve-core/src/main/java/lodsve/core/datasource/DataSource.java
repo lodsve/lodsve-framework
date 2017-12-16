@@ -1,4 +1,4 @@
-package lodsve.mybatis.datasource.annotations;
+package lodsve.core.datasource;
 
 /**
  * 数据源.
