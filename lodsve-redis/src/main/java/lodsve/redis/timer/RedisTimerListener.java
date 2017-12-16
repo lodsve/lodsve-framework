@@ -26,7 +26,7 @@ public class RedisTimerListener implements MessageListener {
     private static final Logger logger = LoggerFactory.getLogger(RedisTimerListener.class);
     private static final String REDIS_KEY_SEPARATOR = "-";
     private static final String REDIS_KEY_PREFIX = "redisEvent" + REDIS_KEY_SEPARATOR;
-    private static final String REDIS_SPRING_SESSION_KEY_SEPARATOR = ":expired";
+    private static final String REDIS_KEY_WORD = "__keyevent";
 
     @Autowired
     private ApplicationEventPublisher eventPublisher;
@@ -44,7 +44,7 @@ public class RedisTimerListener implements MessageListener {
             return;
         }
         String channel = new String(messageChannel);
-        if (!REDIS_SPRING_SESSION_KEY_SEPARATOR.endsWith(channel)) {
+        if (!channel.contains(REDIS_KEY_WORD)) {
             return;
         }
         String body = new String(messageBody);
@@ -85,7 +85,7 @@ public class RedisTimerListener implements MessageListener {
      * @param ttl  失效时长(单位:秒)
      * @param type 事件类型
      */
-    public void store(Serializable key, long ttl, RedisEventType type) {
+    public void store(Serializable key, int ttl, RedisEventType type) {
         Assert.notNull(key, "key不能为空!");
         Assert.notNull(type, "type不能为空!");
 
