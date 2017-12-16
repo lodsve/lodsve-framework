@@ -1,9 +1,9 @@
-package lodsve.core.config.core;
+package lodsve.core.properties.core;
 
-import lodsve.core.config.i18n.DefaultResourceBundleMessageSource;
-import lodsve.core.config.i18n.ResourceBundleHolder;
-import lodsve.core.config.ini.IniLoader;
-import lodsve.core.config.properties.ConfigurationLoader;
+import lodsve.core.properties.i18n.DefaultResourceBundleMessageSource;
+import lodsve.core.properties.i18n.ResourceBundleHolder;
+import lodsve.core.properties.ini.IniLoader;
+import lodsve.core.properties.configuration.ConfigurationLoader;
 import lodsve.core.utils.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
-package lodsve.core.config;
+package lodsve.core.properties;
 
-import lodsve.core.config.ini.IniLoader;
+import lodsve.core.properties.ini.IniLoader;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +18,8 @@ import java.util.Set;
  * @version V1.0
  * @createTime 2014-12-31 14:19
  */
-public class IniConfig {
-    private static final Logger logger = LoggerFactory.getLogger(IniConfig.class);
+public class Ini {
+    private static final Logger logger = LoggerFactory.getLogger(Ini.class);
     private static Map<String, Map<String, String>> inis;
 
     static {

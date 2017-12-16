@@ -1,4 +1,4 @@
-package lodsve.core.config.i18n;
+package lodsve.core.properties.i18n;
 
 import java.util.*;
 

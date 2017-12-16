@@ -1,6 +1,6 @@
-package lodsve.core.config.properties;
+package lodsve.core.properties.configuration;
 
-import lodsve.core.config.core.ParamsHome;
+import lodsve.core.properties.core.ParamsHome;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;

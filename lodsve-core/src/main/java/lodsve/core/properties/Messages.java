@@ -1,6 +1,6 @@
-package lodsve.core.config;
+package lodsve.core.properties;
 
-import lodsve.core.config.i18n.DefaultResourceBundleMessageSource;
+import lodsve.core.properties.i18n.DefaultResourceBundleMessageSource;
 import lodsve.core.utils.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -20,7 +20,7 @@ import java.util.*;
  * @createTime 2012-3-14 下午07:59:37
  */
 @Component
-public class MessageConfig implements ApplicationContextAware {
+public class Messages implements ApplicationContextAware {
     /**
      * 国际化资源文件处理类在spring上下文中的key
      */

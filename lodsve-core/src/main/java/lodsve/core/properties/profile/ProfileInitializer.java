@@ -1,7 +1,7 @@
-package lodsve.core.config.profile;
+package lodsve.core.properties.profile;
 
-import lodsve.core.config.SystemConfig;
-import lodsve.core.config.properties.Configuration;
+import lodsve.core.properties.Env;
+import lodsve.core.properties.configuration.Configuration;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -20,7 +20,7 @@ public class ProfileInitializer implements ApplicationContextInitializer<Configu
     public void initialize(ConfigurableApplicationContext applicationContext) {
         ConfigurableEnvironment configEnv = applicationContext.getEnvironment();
 
-        Configuration profileConfig = SystemConfig.getFrameworkConfiguration("profiles.properties");
+        Configuration profileConfig = Env.getFrameworkConfiguration("profiles.properties");
         Set<String> profiles = profileConfig.subset("profiles").getKeys();
 
         if (CollectionUtils.isEmpty(profiles)) {

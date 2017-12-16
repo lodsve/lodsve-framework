@@ -1,4 +1,4 @@
-package lodsve.core.config.core;
+package lodsve.core.properties.core;
 
 import lodsve.core.utils.StringUtils;
 import org.springframework.core.io.ClassPathResource;
@@ -64,7 +64,7 @@ public class ParamsHome {
         PARAMS_ROOT = null;
     }
 
-    protected void init(String webXmlParamsPath) {
+    public void init(String webXmlParamsPath) {
         //1.默认是环境变量
         String paramsPath = System.getenv(ENV_PARAM_PATH);
 

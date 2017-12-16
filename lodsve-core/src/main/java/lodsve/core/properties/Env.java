@@ -1,8 +1,8 @@
-package lodsve.core.config;
+package lodsve.core.properties;
 
-import lodsve.core.config.properties.Configuration;
-import lodsve.core.config.properties.ConfigurationLoader;
-import lodsve.core.config.properties.PropertiesConfiguration;
+import lodsve.core.properties.configuration.Configuration;
+import lodsve.core.properties.configuration.ConfigurationLoader;
+import lodsve.core.properties.configuration.PropertiesConfiguration;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
@@ -20,7 +20,7 @@ import java.util.Set;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 14-8-17 下午10:29
  */
-public class SystemConfig {
+public class Env {
     private static Configuration configuration;
     private static Properties properties;
 

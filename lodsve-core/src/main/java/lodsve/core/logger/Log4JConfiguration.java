@@ -1,6 +1,6 @@
 package lodsve.core.logger;
 
-import lodsve.core.config.SystemConfig;
+import lodsve.core.properties.Env;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -21,7 +21,7 @@ public class Log4JConfiguration {
         Resource resource = new ClassPathResource("/META-INF/log4j.properties", Thread.currentThread().getContextClassLoader());
 
         if (!resource.exists()) {
-            resource = SystemConfig.getFileConfig("log4j.properties");
+            resource = Env.getFileConfig("log4j.properties");
         }
 
         if (resource == null || !resource.exists()) {

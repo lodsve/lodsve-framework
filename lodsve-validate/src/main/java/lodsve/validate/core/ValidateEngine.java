@@ -1,6 +1,6 @@
 package lodsve.validate.core;
 
-import lodsve.core.config.ProfileConfig;
+import lodsve.core.properties.Profiles;
 import lodsve.core.utils.ObjectUtils;
 import lodsve.core.utils.StringUtils;
 import lodsve.validate.annotations.ValidateEntity;
@@ -22,7 +22,11 @@ import org.springframework.util.ClassUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 验证引擎核心组件.
@@ -45,7 +49,7 @@ public class ValidateEngine implements InitializingBean {
     /**
      * 是否开启验证引擎?默认是开启
      */
-    private boolean openValidate = ProfileConfig.getProfile("validator");
+    private boolean openValidate = Profiles.getProfile("validator");
     /**
      * key-value(注解名称-beanHandler)
      */

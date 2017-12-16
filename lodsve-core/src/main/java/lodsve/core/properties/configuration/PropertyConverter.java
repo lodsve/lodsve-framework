@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package lodsve.core.config.properties;
+package lodsve.core.properties.configuration;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;

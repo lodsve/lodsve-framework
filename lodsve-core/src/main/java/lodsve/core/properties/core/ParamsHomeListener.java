@@ -1,13 +1,13 @@
-package lodsve.core.config.core;
+package lodsve.core.properties.core;
 
-import lodsve.core.config.ini.IniLoader;
-import lodsve.core.config.properties.ConfigurationLoader;
+import lodsve.core.properties.ini.IniLoader;
+import lodsve.core.properties.configuration.ConfigurationLoader;
 import lodsve.core.logger.Log4JConfiguration;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import static lodsve.core.config.core.ParamsHome.PARAMS_HOME_NAME;
+import static lodsve.core.properties.core.ParamsHome.PARAMS_HOME_NAME;
 
 /**
  * 读取web.xml中设置的context-param[paramsHome].
@@ -69,6 +69,7 @@ public class ParamsHomeListener implements ServletContextListener {
         // 配置log4j
         Log4JConfiguration.init();
 
+        // 配置文件
         ConfigurationLoader.init();
         IniLoader.init();
     }
