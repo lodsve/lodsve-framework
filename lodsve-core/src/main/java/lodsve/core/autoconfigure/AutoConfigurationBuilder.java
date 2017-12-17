@@ -3,10 +3,10 @@ package lodsve.core.autoconfigure;
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 import lodsve.core.autoconfigure.annotations.Required;
 import lodsve.core.properties.Env;
-import lodsve.core.properties.configuration.Configuration;
-import lodsve.core.properties.configuration.ConfigurationLoader;
-import lodsve.core.properties.configuration.PropertiesConfiguration;
 import lodsve.core.properties.core.ParamsHome;
+import lodsve.core.properties.env.Configuration;
+import lodsve.core.properties.env.EnvLoader;
+import lodsve.core.properties.env.PropertiesConfiguration;
 import lodsve.core.utils.GenericUtils;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.core.utils.StringUtils;
@@ -26,7 +26,6 @@ import org.springframework.util.Assert;
 
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
-import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,13 +43,16 @@ import java.util.Set;
 public class AutoConfigurationBuilder {
     private static final Logger logger = LoggerFactory.getLogger(AutoConfigurationBuilder.class);
 
-    private static final List<? extends Class<? extends Serializable>> SIMPLE_CLASS = Arrays.asList(Boolean.class, boolean.class, Long.class, long.class,
-            Integer.class, int.class, String.class, Double.class, double.class);
+    private static final List<?> SIMPLE_CLASS = Arrays.asList(Boolean.class, boolean.class, Long.class, long.class,
+            Integer.class, int.class, String.class, Double.class, double.class, Resource.class);
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
 
     private static final Map<Class<?>, Object> CLASS_OBJECT_MAPPING = new HashMap<>(16);
+    private static final Map<String, String> SYSTEM_FRAMEWORK_ENVS = new HashMap<>(16);
 
     private AutoConfigurationBuilder() {
+        SYSTEM_FRAMEWORK_ENVS.putAll(Env.getEnvs());
+        SYSTEM_FRAMEWORK_ENVS.putAll(Env.getSystemEnvs());
     }
 
     @SuppressWarnings("unchecked")
@@ -114,12 +116,12 @@ public class AutoConfigurationBuilder {
 
     private Configuration loadProp(String... configLocations) {
         if (ArrayUtils.isEmpty(configLocations)) {
-            return new PropertiesConfiguration(ConfigurationLoader.getConfigProperties());
+            return new PropertiesConfiguration(EnvLoader.getEnvs());
         }
 
         Properties prop = new Properties();
         for (String location : configLocations) {
-            location = PropertyPlaceholderHelper.replacePlaceholder(location, true, Env.getAllConfigs());
+            location = PropertyPlaceholderHelper.replacePlaceholder(location, true, Env.getEnvs());
 
             Resource resource = this.resourceLoader.getResource(location);
             if (!resource.exists()) {
@@ -145,23 +147,7 @@ public class AutoConfigurationBuilder {
     }
 
     private Object getValueForSimpleType(String key, Class<?> type, Configuration configuration) {
-        try {
-            if (Boolean.class.equals(type) || boolean.class.equals(type)) {
-                return configuration.getBoolean(key);
-            } else if (Long.class.equals(type) || long.class.equals(type)) {
-                return configuration.getLong(key);
-            } else if (Integer.class.equals(type) || int.class.equals(type)) {
-                return configuration.getInt(key);
-            } else if (String.class.equals(type)) {
-                return configuration.getString(key);
-            } else if (Double.class.equals(type) || double.class.equals(type)) {
-                return configuration.getDouble(key);
-            }
-        } catch (Exception e) {
-            return null;
-        }
-
-        return null;
+        return evalValue(configuration.getString(key), type);
     }
 
     private Map<String, Object> getValueForMap(String prefix, Method method, Configuration configuration) {
@@ -206,6 +192,30 @@ public class AutoConfigurationBuilder {
         }
 
         return result.toString();
+    }
+
+    private Object evalValue(String value, Class<?> type) {
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
+
+        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true, SYSTEM_FRAMEWORK_ENVS);
+
+        if (Boolean.class.equals(type) || boolean.class.equals(type)) {
+            return Boolean.valueOf(text);
+        } else if (Long.class.equals(type) || long.class.equals(type)) {
+            return Long.valueOf(text);
+        } else if (Integer.class.equals(type) || int.class.equals(type)) {
+            return Integer.valueOf(text);
+        } else if (String.class.equals(type)) {
+            return text;
+        } else if (Double.class.equals(type) || double.class.equals(type)) {
+            return Double.valueOf(text);
+        } else if (Resource.class.equals(type)) {
+            return resourceLoader.getResource(text);
+        }
+
+        return text;
     }
 
     public static class Builder<T> {

@@ -1,9 +1,9 @@
 package lodsve.core.properties.core;
 
+import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.i18n.DefaultResourceBundleMessageSource;
 import lodsve.core.properties.i18n.ResourceBundleHolder;
 import lodsve.core.properties.ini.IniLoader;
-import lodsve.core.properties.configuration.ConfigurationLoader;
 import lodsve.core.utils.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import java.util.Properties;
 
 /**
- * .
+ * spring context.
  *
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/1/14 下午8:49
@@ -30,13 +30,13 @@ public class SpringContextConfigLoader {
         PropertySourcesPlaceholderConfigurer placeholderConfigurer = new PropertySourcesPlaceholderConfigurer();
         placeholderConfigurer.setFileEncoding("UTF-8");
 
-        Properties properties = ConfigurationLoader.getConfigProperties();
+        Properties properties = EnvLoader.getEnvs();
         if (properties.isEmpty()) {
             ParamsHome.getInstance().init(StringUtils.EMPTY);
-            ConfigurationLoader.init();
+            EnvLoader.init();
             IniLoader.init();
 
-            properties = ConfigurationLoader.getConfigProperties();
+            properties = EnvLoader.getEnvs();
         }
 
         placeholderConfigurer.setProperties(properties);

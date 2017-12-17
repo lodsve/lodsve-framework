@@ -58,7 +58,7 @@ public class ExceptionAdvice {
 
         // 2. 项目异常
         String folderPath = "error";
-        Resource resource = Env.getFileConfig(folderPath);
+        Resource resource = Env.getFileEnv(folderPath);
 
         try {
             resources.addAll(Arrays.asList(resolver.getResources("file:" + resource.getFile().getAbsolutePath() + "/*.properties")));
@@ -111,7 +111,7 @@ public class ExceptionAdvice {
 
         try {
             message = resourceBundleHolder.getResourceBundle(request.getLocale()).getString(code.toString());
-            message = PropertyPlaceholderHelper.replace(message, message, exceptionInfo.getArgs());
+            message = PropertyPlaceholderHelper.replaceNumholder(message, message, exceptionInfo.getArgs());
         } catch (Exception e) {
             logger.error("根据异常编码获取异常描述信息发生异常，errorCode：" + code);
             message = exceptionInfo.getMessage();

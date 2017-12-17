@@ -1,8 +1,8 @@
 package lodsve.core.properties;
 
-import lodsve.core.properties.configuration.Configuration;
-import lodsve.core.properties.configuration.ConfigurationLoader;
-import lodsve.core.properties.configuration.PropertiesConfiguration;
+import lodsve.core.properties.env.Configuration;
+import lodsve.core.properties.env.EnvLoader;
+import lodsve.core.properties.env.PropertiesConfiguration;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
@@ -22,15 +22,15 @@ import java.util.Set;
  */
 public class Env {
     private static Configuration configuration;
-    private static Properties properties;
+    private static Properties env;
 
     static {
         init();
     }
 
     private static void init() {
-        properties = ConfigurationLoader.getConfigProperties();
-        configuration = new PropertiesConfiguration(properties);
+        env = EnvLoader.getEnvs();
+        configuration = new PropertiesConfiguration(env);
     }
 
     public static Configuration subset(String prefix) {
@@ -177,32 +177,34 @@ public class Env {
         return configuration.getList(key, defaultValue);
     }
 
-    public static Resource getFileConfig(String fileName) {
-        return ConfigurationLoader.getFileConfig(fileName);
-    }
-
-    public static Resource getFrameworkConfig(String fileName) {
-        return ConfigurationLoader.getFrameworkConfig(fileName);
+    public static Resource getFileEnv(String fileName) {
+        return EnvLoader.getFileEnv(fileName);
     }
 
     @SuppressWarnings("unchecked")
-    public static Map<String, String> getAllConfigs() {
-        return new HashMap<>((Map) properties);
+    public static Map<String, String> getEnvs() {
+        return new HashMap<>((Map) env);
     }
 
-    public static Configuration getFileConfiguration(String fileName) {
-        Assert.hasText(fileName, "文件名不能为空！");
+    public static Map<String, String> getSystemEnvs() {
+        Map<String, String> globalProperties = new HashMap<>(16);
 
-        Resource resource = getFileConfig(fileName);
+        Map<String, String> env = System.getenv();
+        Properties properties = System.getProperties();
 
-        return new PropertiesConfiguration(ConfigurationLoader.getConfigFileProperties(resource));
+        globalProperties.putAll(env);
+        for (Object key : properties.keySet()) {
+            globalProperties.put(key.toString(), properties.getProperty(key.toString()));
+        }
+
+        return globalProperties;
     }
 
-    public static Configuration getFrameworkConfiguration(String fileName) {
+    public static Configuration getFrameworkEnv(String fileName) {
         Assert.hasText(fileName, "文件名不能为空！");
 
-        Resource resource = getFrameworkConfig(fileName);
+        Resource resource = EnvLoader.getFrameworkEnv(fileName);
 
-        return new PropertiesConfiguration(ConfigurationLoader.getConfigFileProperties(resource));
+        return new PropertiesConfiguration(EnvLoader.getFileEnvs(resource));
     }
 }

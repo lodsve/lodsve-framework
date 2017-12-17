@@ -59,7 +59,7 @@ public class ValidateConstants {
     public static String getMessage(String key, Object... args) {
         String message = resourceBundleHolder.getResourceBundle(getLocale()).getString(key);
 
-        return PropertyPlaceholderHelper.replace(message, message, args);
+        return PropertyPlaceholderHelper.replaceNumholder(message, message, args);
     }
 
     private static Locale getLocale() {

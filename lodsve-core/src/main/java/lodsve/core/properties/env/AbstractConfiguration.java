@@ -1,4 +1,4 @@
-package lodsve.core.properties.configuration;
+package lodsve.core.properties.env;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;

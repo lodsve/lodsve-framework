@@ -25,7 +25,7 @@ public class LuceneConfiguration {
     @Bean
     public SearchEngine searchEngine() {
         LuceneSearchEngine searchEngine = new LuceneSearchEngine();
-        searchEngine.setAnalyzer(new PaodingAnalyzer());
+        searchEngine.setAnalyzer(new PaodingAnalyzer(properties.getPaodingAnalyzerFile()));
         searchEngine.setHtmlPrefix(properties.getPrefix());
         searchEngine.setHtmlSuffix(properties.getSuffix());
         searchEngine.setIndexPath(properties.getIndex());

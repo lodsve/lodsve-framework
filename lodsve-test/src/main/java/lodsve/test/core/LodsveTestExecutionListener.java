@@ -2,8 +2,8 @@ package lodsve.test.core;
 
 import lodsve.core.context.ApplicationHelper;
 import lodsve.core.logger.Log4JConfiguration;
-import lodsve.core.properties.configuration.ConfigurationLoader;
 import lodsve.core.properties.core.ParamsHome;
+import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.ini.IniLoader;
 import lodsve.core.utils.StringUtils;
 import org.springframework.test.context.TestContext;
@@ -24,7 +24,7 @@ public class LodsveTestExecutionListener implements TestExecutionListener {
         Log4JConfiguration.init();
 
         // 配置文件
-        ConfigurationLoader.init();
+        EnvLoader.init();
         IniLoader.init();
 
         ApplicationHelper.getInstance().addApplicationContext(testContext.getApplicationContext());

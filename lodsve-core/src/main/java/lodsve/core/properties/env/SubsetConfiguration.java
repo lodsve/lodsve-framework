@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package lodsve.core.properties.configuration;
+package lodsve.core.properties.env;
 
 import java.util.HashSet;
 import java.util.Set;

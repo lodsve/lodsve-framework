@@ -21,7 +21,7 @@ public class Log4JConfiguration {
         Resource resource = new ClassPathResource("/META-INF/log4j.properties", Thread.currentThread().getContextClassLoader());
 
         if (!resource.exists()) {
-            resource = Env.getFileConfig("log4j.properties");
+            resource = Env.getFileEnv("log4j.properties");
         }
 
         if (resource == null || !resource.exists()) {

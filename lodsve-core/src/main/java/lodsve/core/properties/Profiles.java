@@ -1,6 +1,6 @@
 package lodsve.core.properties;
 
-import lodsve.core.properties.configuration.Configuration;
+import lodsve.core.properties.env.Configuration;
 import org.springframework.util.Assert;
 
 /**
@@ -13,7 +13,7 @@ public class Profiles {
     private static Configuration profileConfig;
 
     static {
-        Configuration frameworkConfigurationProfiles = Env.getFrameworkConfiguration("profiles.properties");
+        Configuration frameworkConfigurationProfiles = Env.getFrameworkEnv("profiles.properties");
         profileConfig = frameworkConfigurationProfiles.subset("profiles");
     }
 

@@ -126,8 +126,8 @@ public class PropertyPlaceholderHelper {
      * @param args         参数
      * @return
      */
-    public static String replace(String formatString, Object... args) {
-        String result = replace(formatString, StringUtils.EMPTY, args);
+    public static String replaceNumholder(String formatString, Object... args) {
+        String result = replaceNumholder(formatString, StringUtils.EMPTY, args);
 
         return StringUtils.isEmpty(result) ? formatString : result;
     }
@@ -140,49 +140,35 @@ public class PropertyPlaceholderHelper {
      * @param args         参数
      * @return
      */
-    public static String replace(String formatString, String defaultValue, Object... args) {
+    public static String replaceNumholder(String formatString, String defaultValue, Object... args) {
         if (StringUtils.isEmpty(formatString)) {
             logger.error("the formatString, args, defaultValue is required! please check given paramters are all right!");
             return StringUtils.EMPTY;
         }
 
-        /**
-         * 第一个'{'的位置
-         */
+        // 第一个'{'的位置
         int firstLeftBrace = formatString.indexOf(LEFT_BRACE);
-        /**
-         * 最后一个'}'的位置
-         */
+        // 最后一个'}'的位置
         int lastRightBrace = formatString.lastIndexOf(RIGTH_BRACE);
 
         if (firstLeftBrace == -1 || lastRightBrace == -1) {
             return defaultValue == null ? formatString : defaultValue;
         }
 
-        /**
-         * 第一个'{'后面的那个数字
-         */
+        // 第一个'{'后面的那个数字
         String first = formatString.substring(firstLeftBrace + 1, firstLeftBrace + 2);
-        /**
-         * 最后一个'}'后面的那个数字
-         */
+        // 最后一个'}'后面的那个数字
         String last = formatString.substring(lastRightBrace - 1, lastRightBrace);
 
-        /**
-         * 第一个序号和最后一个序号
-         */
+        // 第一个序号和最后一个序号
         int firstSequence = Integer.parseInt(first);
         int lastSequence = Integer.parseInt(last);
 
-        /**
-         * {0}{1}...的个数与给定的值个数不一致，或者{0}{1}...不是按照这样递增的，那么返回错误,
-         * 否则进行替换
-         */
+        // {0}{1}...的个数与给定的值个数不一致，或者{0}{1}...不是按照这样递增的，那么返回错误,
+        // 否则进行替换
         if (!((lastSequence - firstSequence + 1) < 0 || (lastSequence - firstSequence + 1) != args.length)) {
-            /**
-             * 替换规则：
-             * 给定值的第一个值替换{0}，以此类推
-             */
+            // 替换规则：
+            // 给定值的第一个值替换{0}，以此类推
             for (int j = 0; j < args.length; j++) {
                 formatString = formatString.replace("{" + j + "}", args[j] + "");
             }

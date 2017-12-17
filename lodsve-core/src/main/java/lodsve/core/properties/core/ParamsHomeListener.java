@@ -1,8 +1,8 @@
 package lodsve.core.properties.core;
 
-import lodsve.core.properties.ini.IniLoader;
-import lodsve.core.properties.configuration.ConfigurationLoader;
 import lodsve.core.logger.Log4JConfiguration;
+import lodsve.core.properties.env.EnvLoader;
+import lodsve.core.properties.ini.IniLoader;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -70,7 +70,7 @@ public class ParamsHomeListener implements ServletContextListener {
         Log4JConfiguration.init();
 
         // 配置文件
-        ConfigurationLoader.init();
+        EnvLoader.init();
         IniLoader.init();
     }
 }

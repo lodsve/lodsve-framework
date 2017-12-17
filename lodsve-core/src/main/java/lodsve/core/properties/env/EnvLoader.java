@@ -1,4 +1,4 @@
-package lodsve.core.properties.configuration;
+package lodsve.core.properties.env;
 
 import lodsve.core.properties.core.ParamsHome;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -22,13 +22,13 @@ import java.util.Properties;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 14-8-17 下午9:44
  */
-public class ConfigurationLoader {
-    private static Properties prop = new Properties();
+public class EnvLoader {
+    private static Properties env = new Properties();
 
-    private ConfigurationLoader() {
+    private EnvLoader() {
     }
 
-    public static Properties getConfigFileProperties(Resource... resources) {
+    public static Properties getFileEnvs(Resource... resources) {
         Properties prop = new Properties();
 
         loadProperties(prop, Arrays.asList(resources));
@@ -36,8 +36,8 @@ public class ConfigurationLoader {
         return prop;
     }
 
-    public static Properties getConfigProperties() {
-        return prop;
+    public static Properties getEnvs() {
+        return env;
     }
 
     private static void loadProperties(Properties prop, List<Resource> resources) {
@@ -50,13 +50,13 @@ public class ConfigurationLoader {
         }
     }
 
-    public static Resource getFileConfig(String fileName) {
+    public static Resource getFileEnv(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
         return loader.getResource("file:" + ParamsHome.getInstance().getParamsRoot() + File.separator + "files" + File.separator + fileName);
     }
 
-    public static Resource getFrameworkConfig(String fileName) {
+    public static Resource getFrameworkEnv(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
         return loader.getResource("file:" + ParamsHome.getInstance().getParamsRoot() + File.separator + "framework" + File.separator + fileName);
@@ -73,11 +73,11 @@ public class ConfigurationLoader {
             return;
         }
 
-        loadProperties(prop, resources);
+        loadProperties(env, resources);
 
         // 获取覆盖的值
-        ParamsHome.getInstance().coveredWithExtResource(prop);
+        ParamsHome.getInstance().coveredWithExtResource(env);
 
-        prop.put("params.root", ParamsHome.getInstance().getParamsRoot());
+        env.put("params.root", ParamsHome.getInstance().getParamsRoot());
     }
 }

@@ -1,6 +1,7 @@
 package lodsve.search.configs;
 
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
+import org.springframework.core.io.Resource;
 
 /**
  * 搜索的配置.
@@ -18,6 +19,10 @@ public class SearchProperties {
      * solr服务器地址
      */
     private String server;
+    /**
+     * 庖丁解词的配置文件位置
+     */
+    private Resource paodingAnalyzerFile;
     /**
      * 高亮前缀
      */
@@ -41,6 +46,14 @@ public class SearchProperties {
 
     public void setServer(String server) {
         this.server = server;
+    }
+
+    public Resource getPaodingAnalyzerFile() {
+        return paodingAnalyzerFile;
+    }
+
+    public void setPaodingAnalyzerFile(Resource paodingAnalyzerFile) {
+        this.paodingAnalyzerFile = paodingAnalyzerFile;
     }
 
     public String getPrefix() {

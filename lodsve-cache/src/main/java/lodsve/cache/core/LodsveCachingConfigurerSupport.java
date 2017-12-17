@@ -2,8 +2,6 @@ package lodsve.cache.core;
 
 import lodsve.core.autoconfigure.AutoConfigurationBuilder;
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
-import lodsve.core.properties.Env;
-import lodsve.core.utils.PropertyPlaceholderHelper;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 
 import javax.annotation.PostConstruct;
@@ -24,9 +22,5 @@ public class LodsveCachingConfigurerSupport extends CachingConfigurerSupport {
         builder.setClazz(CacheProperties.class);
 
         cacheProperties = builder.build();
-    }
-
-    String replaceValue(String value) {
-        return PropertyPlaceholderHelper.replacePlaceholder(value, false, Env.getAllConfigs());
     }
 }

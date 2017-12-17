@@ -18,7 +18,7 @@ public class EhcacheCachingConfigurerSupport extends LodsveCachingConfigurerSupp
     public CacheManager cacheManager() {
         EhCacheCacheManager cacheManager = new EhCacheCacheManager();
 
-        net.sf.ehcache.CacheManager manager = net.sf.ehcache.CacheManager.create(replaceValue(cacheProperties.getEhcache().getConfiguration()));
+        net.sf.ehcache.CacheManager manager = net.sf.ehcache.CacheManager.create(cacheProperties.getEhcache().getConfiguration());
         cacheManager.setCacheManager(manager);
         cacheManager.afterPropertiesSet();
 
