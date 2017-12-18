@@ -8,6 +8,7 @@ import lodsve.core.properties.env.Configuration;
 import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.env.PropertiesConfiguration;
 import lodsve.core.utils.GenericUtils;
+import lodsve.core.utils.NumberUtils;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.core.utils.StringUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -27,8 +28,10 @@ import org.springframework.util.Assert;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -37,15 +40,16 @@ import java.util.Set;
 /**
  * 自动装配生成器.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 2016-1-26 14:17
  */
 public class AutoConfigurationBuilder {
     private static final Logger logger = LoggerFactory.getLogger(AutoConfigurationBuilder.class);
 
     private static final List<?> SIMPLE_CLASS = Arrays.asList(Boolean.class, boolean.class, Long.class, long.class,
-            Integer.class, int.class, String.class, Double.class, double.class, Resource.class);
+            Integer.class, int.class, String.class, Double.class, double.class, Resource.class, Properties.class);
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
+    private Configuration configuration;
 
     private static final Map<Class<?>, Object> CLASS_OBJECT_MAPPING = new HashMap<>(16);
     private static final Map<String, String> SYSTEM_FRAMEWORK_ENVS = new HashMap<>(16);
@@ -57,17 +61,17 @@ public class AutoConfigurationBuilder {
 
     @SuppressWarnings("unchecked")
     private <T> T generateConfigurationBean(Class<T> clazz, ConfigurationProperties annotation) {
-        Configuration configuration = loadProp(annotation.locations());
+        loadProp(annotation.locations());
         T object = (T) CLASS_OBJECT_MAPPING.get(clazz);
         if (object == null) {
-            object = generateObject(annotation.prefix(), clazz, configuration);
+            object = generateObject(annotation.prefix(), clazz);
             CLASS_OBJECT_MAPPING.put(clazz, object);
         }
 
         return object;
     }
 
-    private <T> T generateObject(String prefix, Class<T> clazz, Configuration configuration) {
+    private <T> T generateObject(String prefix, Class<T> clazz) {
         T object = BeanUtils.instantiate(clazz);
         BeanWrapper beanWrapper = new BeanWrapperImpl(object);
 
@@ -79,16 +83,11 @@ public class AutoConfigurationBuilder {
 
             String name = descriptor.getName();
             Class<?> type = descriptor.getPropertyType();
-            Method method = descriptor.getReadMethod();
+            Method readMethod = descriptor.getReadMethod();
             TypeDescriptor typeDescriptor = beanWrapper.getPropertyTypeDescriptor(name);
             Required required = typeDescriptor.getAnnotation(Required.class);
 
-            String key = prefix + "." + name;
-            Object value = getValue(type, key, method, configuration);
-
-            if (value == null) {
-                value = getValue(type, prefix + "." + getCamelName(name), method, configuration);
-            }
+            Object value = getValue(type, prefix, name, readMethod);
 
             if (value != null) {
                 beanWrapper.setPropertyValue(name, value);
@@ -100,23 +99,65 @@ public class AutoConfigurationBuilder {
         return object;
     }
 
-    private Object getValue(Class<?> type, String key, Method method, Configuration configuration) {
+    private Object getValue(Class<?> type, String prefix, String name, Method readMethod) {
+        String key = prefix;
+        String camelName = name;
+        if (StringUtils.isNotBlank(name)) {
+            key += ("." + name);
+            camelName = getCamelName(name);
+        }
         Object value;
 
         if (isSimpleType(type)) {
-            value = getValueForSimpleType(key, type, configuration);
+            value = getValueForSimpleType(key, type);
         } else if (Map.class.equals(type)) {
-            value = getValueForMap(key, method, configuration);
+            value = getValueForMap(key, readMethod);
+        } else if (type.isArray()) {
+            value = getValueForArray(key, type, readMethod);
         } else {
-            value = generateObject(key, type, configuration);
+            value = generateObject(key, type);
+        }
+
+        if (!name.equals(camelName) && value == null) {
+            value = getValue(type, prefix, getCamelName(name), readMethod);
         }
 
         return value;
     }
 
-    private Configuration loadProp(String... configLocations) {
+    private Object getValueForArray(String prefix, Class<?> type, Method readMethod) {
+        Configuration subset = configuration.subset(prefix);
+        Set<String> keys = subset.getKeys();
+        Class clazz = type.getComponentType();
+
+        List<Object> list = new ArrayList<>(keys.size());
+        int size = getArraySize(keys);
+        for (int i = 0; i < size; i++) {
+            String key = prefix + "." + i;
+
+            list.add(getValue(clazz, key, StringUtils.EMPTY, readMethod));
+        }
+
+        return list.toArray(new Object[list.size()]);
+    }
+
+    private int getArraySize(Set<String> keys) {
+        Set<String> realKeyIndexs = new HashSet<>();
+        for (String key : keys) {
+            if (StringUtils.isBlank(key)) {
+                continue;
+            }
+            // 取第一位
+            String first = StringUtils.mid(key, 0, 1);
+            realKeyIndexs.add(first);
+        }
+
+        return realKeyIndexs.size();
+    }
+
+    private void loadProp(String... configLocations) {
         if (ArrayUtils.isEmpty(configLocations)) {
-            return new PropertiesConfiguration(EnvLoader.getEnvs());
+            configuration = new PropertiesConfiguration(EnvLoader.getEnvs());
         }
 
         Properties prop = new Properties();
@@ -139,24 +180,25 @@ public class AutoConfigurationBuilder {
 
         // 获取覆盖的值
         ParamsHome.getInstance().coveredWithExtResource(prop);
-        return new PropertiesConfiguration(prop);
+        prop.putAll(Env.getSystemEnvs());
+        configuration = new PropertiesConfiguration(prop);
     }
 
     private boolean isSimpleType(Class<?> type) {
         return SIMPLE_CLASS.contains(type);
     }
 
-    private Object getValueForSimpleType(String key, Class<?> type, Configuration configuration) {
+    private Object getValueForSimpleType(String key, Class<?> type) {
         return evalValue(configuration.getString(key), type);
     }
 
-    private Map<String, Object> getValueForMap(String prefix, Method method, Configuration configuration) {
-        if (!Map.class.equals(method.getReturnType()) || !String.class.equals(GenericUtils.getGenericParameter0(method))) {
+    private Map<String, Object> getValueForMap(String prefix, Method readMethod) {
+        if (!Map.class.equals(readMethod.getReturnType()) || !String.class.equals(GenericUtils.getGenericParameter0(readMethod))) {
             return null;
         }
 
         Map<String, Object> map = new HashMap<>(16);
-        Class<?> secondGenericClazz = GenericUtils.getGenericParameter(method, 1);
+        Class<?> secondGenericClazz = GenericUtils.getGenericParameter(readMethod, 1);
         Set<String> keys = configuration.subset(prefix).getKeys();
         for (String key : keys) {
             String[] temp = StringUtils.split(key, ".");
@@ -165,7 +207,7 @@ public class AutoConfigurationBuilder {
             }
 
             String keyInMap = temp[0];
-            Object object = generateObject(prefix + "." + keyInMap, secondGenericClazz, configuration);
+            Object object = generateObject(prefix + "." + keyInMap, secondGenericClazz);
             if (object != null) {
                 map.put(keyInMap, object);
             }
@@ -182,7 +224,7 @@ public class AutoConfigurationBuilder {
             for (int i = 0; i < name.length(); i++) {
                 String tmp = name.substring(i, i + 1);
                 //判断截获的字符是否是大写，大写字母的toUpperCase()还是大写的
-                if (tmp.equals(tmp.toUpperCase())) {
+                if (!NumberUtils.isNumber(tmp) && tmp.equals(tmp.toUpperCase())) {
                     //此字符是大写的
                     result.append("-").append(tmp.toLowerCase());
                 } else {
@@ -213,6 +255,15 @@ public class AutoConfigurationBuilder {
             return Double.valueOf(text);
         } else if (Resource.class.equals(type)) {
             return resourceLoader.getResource(text);
+        } else if (Properties.class.equals(type)) {
+            try {
+                return PropertiesLoaderUtils.loadProperties(resourceLoader.getResource(text));
+            } catch (IOException e) {
+                if (logger.isErrorEnabled()) {
+                    logger.error(String.format("file '{%s}' not found!", text));
+                }
+                return null;
+            }
         }
 
         return text;
