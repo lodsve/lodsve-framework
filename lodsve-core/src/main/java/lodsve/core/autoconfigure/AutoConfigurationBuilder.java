@@ -5,7 +5,6 @@ import lodsve.core.autoconfigure.annotations.Required;
 import lodsve.core.properties.Env;
 import lodsve.core.properties.core.ParamsHome;
 import lodsve.core.properties.env.Configuration;
-import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.env.PropertiesConfiguration;
 import lodsve.core.utils.GenericUtils;
 import lodsve.core.utils.NumberUtils;
@@ -49,14 +48,12 @@ public class AutoConfigurationBuilder {
     private static final List<?> SIMPLE_CLASS = Arrays.asList(Boolean.class, boolean.class, Long.class, long.class,
             Integer.class, int.class, String.class, Double.class, double.class, Resource.class, Properties.class);
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
-    private Configuration configuration;
 
     private static final Map<Class<?>, Object> CLASS_OBJECT_MAPPING = new HashMap<>(16);
-    private static final Map<String, String> SYSTEM_FRAMEWORK_ENVS = new HashMap<>(16);
+    private static Configuration configuration;
+    private static final Map<String, String> configurations = new HashMap<>();
 
     private AutoConfigurationBuilder() {
-        SYSTEM_FRAMEWORK_ENVS.putAll(Env.getEnvs());
-        SYSTEM_FRAMEWORK_ENVS.putAll(Env.getSystemEnvs());
     }
 
     @SuppressWarnings("unchecked")
@@ -106,6 +103,16 @@ public class AutoConfigurationBuilder {
             key += ("." + name);
             camelName = getCamelName(name);
         }
+        Object value = getValueForType(key, type, readMethod);
+
+        if (value == null) {
+            value = getValueForType(prefix + "." + camelName, type, readMethod);
+        }
+
+        return value;
+    }
+
+    private Object getValueForType(String key, Class<?> type, Method readMethod) {
         Object value;
 
         if (isSimpleType(type)) {
@@ -116,10 +123,6 @@ public class AutoConfigurationBuilder {
             value = getValueForArray(key, type, readMethod);
         } else {
             value = generateObject(key, type);
-        }
-
-        if (!name.equals(camelName) && value == null) {
-            value = getValue(type, prefix, getCamelName(name), readMethod);
         }
 
         return value;
@@ -155,12 +158,20 @@ public class AutoConfigurationBuilder {
         return realKeyIndexs.size();
     }
 
+    @SuppressWarnings("unchecked")
     private void loadProp(String... configLocations) {
+        Properties prop = new Properties();
+        prop.putAll(Env.getSystemEnvs());
+        prop.putAll(Env.getEnvs());
+
         if (ArrayUtils.isEmpty(configLocations)) {
-            configuration = new PropertiesConfiguration(EnvLoader.getEnvs());
+            ParamsHome.getInstance().coveredWithExtResource(prop);
+            configuration = new PropertiesConfiguration(prop);
+            configurations.putAll((Map) prop);
+            return;
         }
 
-        Properties prop = new Properties();
+
         for (String location : configLocations) {
             location = PropertyPlaceholderHelper.replacePlaceholder(location, true, Env.getEnvs());
 
@@ -180,8 +191,8 @@ public class AutoConfigurationBuilder {
 
         // 获取覆盖的值
         ParamsHome.getInstance().coveredWithExtResource(prop);
-        prop.putAll(Env.getSystemEnvs());
         configuration = new PropertiesConfiguration(prop);
+        configurations.putAll((Map) prop);
     }
 
     private boolean isSimpleType(Class<?> type) {
@@ -241,7 +252,7 @@ public class AutoConfigurationBuilder {
             return null;
         }
 
-        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true, SYSTEM_FRAMEWORK_ENVS);
+        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true, configurations);
 
         if (Boolean.class.equals(type) || boolean.class.equals(type)) {
             return Boolean.valueOf(text);
