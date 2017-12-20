@@ -1,4 +1,4 @@
-package lodsve.properties;
+package lodsve.springfox.properties;
 
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 

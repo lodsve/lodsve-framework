@@ -32,7 +32,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.lodsve</groupId>
-            <artifactId>lodsve-mvc</artifactId>
+            <artifactId>lodsve-web</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -23,8 +23,6 @@
         <module>lodsve-dfs</module>
         <!-- mongodb -->
         <module>lodsve-mongodb</module>
-        <!-- mvc -->
-        <module>lodsve-mvc</module>
         <!-- mybatis -->
         <module>lodsve-mybatis</module>
         <!-- redis -->
@@ -37,6 +35,8 @@
         <module>lodsve-test</module>
         <!-- validate -->
         <module>lodsve-validate</module>
+        <!--web-->
+        <module>lodsve-web</module>
         <!-- wechat -->
         <module>lodsve-wechat</module>
         <!-- workflow -->
@@ -872,11 +872,6 @@
             </dependency>
             <dependency>
                 <groupId>com.github.lodsve</groupId>
-                <artifactId>lodsve-mvc</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.lodsve</groupId>
                 <artifactId>lodsve-mybatis</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -909,6 +904,11 @@
             <dependency>
                 <groupId>com.github.lodsve</groupId>
                 <artifactId>lodsve-validate</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.lodsve</groupId>
+                <artifactId>lodsve-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -8,7 +8,7 @@ import lodsve.mvc.json.CustomObjectMapper;
 import lodsve.mvc.resolver.BindDataHandlerMethodArgumentResolver;
 import lodsve.mvc.resolver.ParseDataHandlerMethodArgumentResolver;
 import lodsve.mvc.resolver.WebResourceDataHandlerMethodArgumentResolver;
-import lodsve.properties.ServerProperties;
+import lodsve.mvc.properties.ServerProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;

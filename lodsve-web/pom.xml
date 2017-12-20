@@ -10,9 +10,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>lodsve-mvc</artifactId>
+    <artifactId>lodsve-web</artifactId>
     <packaging>jar</packaging>
-    <name>lodsve mvc</name>
+    <name>lodsve web</name>
     <description>spring-mvc和swagger相关封装</description>
 
     <dependencies>
