@@ -5,7 +5,7 @@ import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 /**
  * 搜索的配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 2016/1/20 12:39
  */
 @ConfigurationProperties(prefix = "lodsve.search", locations = "file:${params.root}/framework/search.properties")
@@ -18,6 +18,10 @@ public class SearchProperties {
      * solr服务器地址
      */
     private String server;
+    /**
+     * solr 6.6.0使用的哪个core
+     */
+    private String core;
     /**
      * 高亮前缀
      */
@@ -41,6 +45,14 @@ public class SearchProperties {
 
     public void setServer(String server) {
         this.server = server;
+    }
+
+    public String getCore() {
+        return core;
+    }
+
+    public void setCore(String core) {
+        this.core = core;
     }
 
     public String getPrefix() {

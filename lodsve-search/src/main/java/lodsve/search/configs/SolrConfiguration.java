@@ -1,5 +1,6 @@
 package lodsve.search.configs;
 
+import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.search.engine.SearchEngine;
 import lodsve.search.engine.SolrSearchEngine;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,22 +11,18 @@ import org.springframework.context.annotation.ComponentScan;
 /**
  * solr配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 2016/1/20 12:33
  */
 @Configurable
 @ComponentScan("lodsve.search")
+@EnableConfigurationProperties(SearchProperties.class)
 public class SolrConfiguration {
     @Autowired
     private SearchProperties properties;
 
     @Bean
     public SearchEngine searchEngine() {
-        SolrSearchEngine searchEngine = new SolrSearchEngine();
-        searchEngine.setHtmlPrefix(properties.getPrefix());
-        searchEngine.setHtmlSuffix(properties.getSuffix());
-        searchEngine.setServer(properties.getServer());
-
-        return searchEngine;
+        return new SolrSearchEngine(properties.getServer(), properties.getCore(), properties.getPrefix(), properties.getSuffix());
     }
 }

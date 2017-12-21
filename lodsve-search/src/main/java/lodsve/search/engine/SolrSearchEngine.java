@@ -4,8 +4,7 @@ import lodsve.core.utils.StringUtils;
 import lodsve.search.bean.BaseSearchBean;
 import lodsve.search.exception.SolrException;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServer;
-import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
@@ -18,47 +17,40 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 /**
  * 基于solr实现的搜索引擎.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
  * @createTime 13-5-5 下午9:36
  */
 public class SolrSearchEngine extends AbstractSearchEngine {
     private static final Logger logger = LoggerFactory.getLogger(SolrSearchEngine.class);
-    private String server = "http://localhost:8080/solr";
-    private static SolrServer solrServer = null;
+    private HttpSolrClient solrClient;
 
-    private SolrServer getSolrServer() {
-        if (StringUtils.isEmpty(server)) {
-            logger.error("null solr server path!");
-            throw new SolrException(104001, "Give a null solr server path");
+    public SolrSearchEngine(String server, String core, String htmlPrefix, String htmlSuffix) {
+        super.setHtmlPrefix(htmlPrefix);
+        super.setHtmlSuffix(htmlSuffix);
+
+        if (StringUtils.isNotBlank(core)) {
+            server += (StringUtils.endsWith(server, "/") ? "" : "/" + core);
         }
 
-        try {
-            if (solrServer == null) {
-                solrServer = new CommonsHttpSolrServer(server);
-            }
+        HttpSolrClient.Builder builder = new HttpSolrClient.Builder();
+        builder.withBaseSolrUrl(server);
 
-            return solrServer;
-        } catch (MalformedURLException e) {
-            throw new SolrException(104002, "Connect to solr server error use server '" + server + "'", server);
-        }
+        this.solrClient = builder.build();
     }
 
     @Override
     public synchronized void doIndex(List<BaseSearchBean> BaseSearchBeans) throws Exception {
-        SolrServer solrServer = getSolrServer();
-        List<SolrInputDocument> sids = new ArrayList<SolrInputDocument>();
+        List<SolrInputDocument> sids = new ArrayList<>();
         for (BaseSearchBean sb : BaseSearchBeans) {
             if (sb == null) {
                 logger.debug("give BaseSearchBean is null!");
@@ -108,15 +100,21 @@ public class SolrSearchEngine extends AbstractSearchEngine {
             if (doIndexFields != null && doIndexFields.length > 0) {
                 for (String f : doIndexFields) {
                     //匹配动态字段
-                    sid.addField(f + "_message", values.get(f));
+                    sid.addField(f + "_lodsve", values.get(f));
                 }
             }
 
             sids.add(sid);
         }
 
-        solrServer.add(sids);
-        solrServer.commit();
+        UpdateResponse response = solrClient.add(sids);
+        if (logger.isDebugEnabled()) {
+            logger.debug(String.format("Add doc size '%d', result: '%d', Qtime: '%d'", sids.size(), response.getStatus(), response.getQTime()));
+        }
+        UpdateResponse commit = solrClient.commit();
+        if (logger.isDebugEnabled()) {
+            logger.debug(String.format("commit doc to index result: '%d' Qtime: '%d'", commit.getStatus(), commit.getQTime()));
+        }
     }
 
     @Override
@@ -133,10 +131,12 @@ public class SolrSearchEngine extends AbstractSearchEngine {
             return;
         }
 
-        SolrServer server = getSolrServer();
-        UpdateResponse ur = server.deleteByQuery("pkId:" + id);
-        logger.debug("delete all indexs! UpdateResponse is '{}'! execute for '{}'ms!", ur, ur.getElapsedTime());
-        server.commit();
+        UpdateResponse response = solrClient.deleteById(id);
+        solrClient.commit();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug(String.format("delete id '%s', result: '%d' Qtime: '%d'", id, response.getStatus(), response.getQTime()));
+        }
     }
 
     @Override
@@ -160,7 +160,7 @@ public class SolrSearchEngine extends AbstractSearchEngine {
 
         List<BaseSearchBean> queryResults = new ArrayList<>();
 
-        StringBuffer querySB = new StringBuffer();
+        StringBuilder querySB = new StringBuilder();
         for (BaseSearchBean bean : beans) {
             //要进行检索的字段
             String[] doSearchFields = bean.getDoSearchFields();
@@ -170,7 +170,7 @@ public class SolrSearchEngine extends AbstractSearchEngine {
 
             for (int i = 0; i < doSearchFields.length; i++) {
                 String f = doSearchFields[i];
-                querySB.append("(").append(f).append("_message:*").append(bean.getKeyword()).append("*").append(")");
+                querySB.append("(").append(f).append("_lodsve:*").append(bean.getKeyword()).append("*").append(")");
 
                 if (i + 1 != doSearchFields.length) {
                     querySB.append(" OR ");
@@ -196,11 +196,10 @@ public class SolrSearchEngine extends AbstractSearchEngine {
             query.setParam("hl.fl", "*");
         }
 
-        QueryResponse response = getSolrServer().query(query);
+        QueryResponse response = solrClient.query(query);
         SolrDocumentList sd = response.getResults();
 
-        for (Iterator it = sd.iterator(); it.hasNext(); ) {
-            SolrDocument doc = (SolrDocument) it.next();
+        for (SolrDocument doc : sd) {
             String indexType = doc.get("indexType").toString();
             BaseSearchBean result = super.getBaseSearchBean(indexType, beans);
 
@@ -233,10 +232,10 @@ public class SolrSearchEngine extends AbstractSearchEngine {
                 }
                 Map<String, String> extendValues = new HashMap<>(doSearchFields.length);
                 for (String field : doSearchFields) {
-                    String value = doc.getFieldValue(field + "_message").toString();
+                    String value = doc.getFieldValue(field + "_lodsve").toString();
                     if (isHighlighter) {
                         String id = (String) doc.getFieldValue("id");
-                        List temp = response.getHighlighting().get(id).get(field + "_message");
+                        List temp = response.getHighlighting().get(id).get(field + "_lodsve");
                         if (temp != null && !temp.isEmpty()) {
                             value = temp.get(0).toString();
                         }
@@ -264,18 +263,16 @@ public class SolrSearchEngine extends AbstractSearchEngine {
 
     @Override
     public synchronized void deleteIndexsByIndexType(String indexType) throws Exception {
-        SolrServer server = getSolrServer();
-        UpdateResponse ur = server.deleteByQuery("indexType:" + indexType);
+        UpdateResponse ur = solrClient.deleteByQuery("indexType:" + indexType);
         logger.debug("delete all indexs! UpdateResponse is '{}'! execute for '{}'ms!", ur, ur.getElapsedTime());
-        server.commit();
+        solrClient.commit();
     }
 
     @Override
     public synchronized void deleteAllIndexs() throws Exception {
-        SolrServer server = getSolrServer();
-        UpdateResponse ur = server.deleteByQuery("*:*");
+        UpdateResponse ur = solrClient.deleteByQuery("*:*");
         logger.debug("delete all indexs! UpdateResponse is '{}'! execute for '{}'ms!", ur, ur.getElapsedTime());
-        server.commit();
+        solrClient.commit();
     }
 
     @Override
@@ -294,24 +291,5 @@ public class SolrSearchEngine extends AbstractSearchEngine {
     @Override
     public void updateIndexs(List<BaseSearchBean> BaseSearchBeans) throws Exception {
         this.doIndex(BaseSearchBeans);
-    }
-
-    public void setServer(String server) {
-        this.server = server;
-    }
-
-    /**
-     * 计算共有多少页
-     *
-     * @param num       每页显示的条数
-     * @param totalSize 数据库中共有多少条
-     * @return
-     */
-    private int getPageSize(int num, int totalSize) {
-        if ((totalSize % num) == 0) {
-            return (totalSize / num);
-        } else {
-            return (totalSize / num + 1);
-        }
     }
 }

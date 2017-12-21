@@ -31,7 +31,7 @@ public abstract class AbstractSearchEngine implements SearchEngine {
      */
     private String htmlSuffix = "</p>";
 
-    public String getHtmlPrefix() {
+    String getHtmlPrefix() {
         return htmlPrefix;
     }
 
@@ -39,7 +39,7 @@ public abstract class AbstractSearchEngine implements SearchEngine {
         this.htmlPrefix = htmlPrefix;
     }
 
-    public String getHtmlSuffix() {
+    String getHtmlSuffix() {
         return htmlSuffix;
     }
 
@@ -63,7 +63,7 @@ public abstract class AbstractSearchEngine implements SearchEngine {
      * @param bean
      * @return
      */
-    protected String getIndexType(BaseSearchBean bean) {
+    String getIndexType(BaseSearchBean bean) {
         return StringUtils.isNotEmpty(bean.getIndexType()) ? bean.getIndexType() : bean.getClass().getSimpleName();
     }
 
@@ -74,13 +74,13 @@ public abstract class AbstractSearchEngine implements SearchEngine {
      * @param beans
      * @return
      */
-    protected BaseSearchBean getBaseSearchBean(String indexType, List<BaseSearchBean> beans) {
-        BaseSearchBean result = null;
+    BaseSearchBean getBaseSearchBean(String indexType, List<BaseSearchBean> beans) {
         if (StringUtils.isEmpty(indexType) || beans == null || beans.isEmpty()) {
             logger.debug("indexType is null or beans is null!");
-            return result;
+            return null;
         }
 
+        BaseSearchBean result = null;
         for (BaseSearchBean b : beans) {
             if (indexType.equals(b.getIndexType())) {
                 result = BeanUtils.instantiate(b.getClass());

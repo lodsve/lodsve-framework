@@ -78,7 +78,7 @@
         <fastjson.version>1.2.0</fastjson.version>
         <javassist.version>3.20.0-GA</javassist.version>
         <lucene.version>3.6.2</lucene.version>
-        <solr.version>3.1.0</solr.version>
+        <solr.version>6.6.0</solr.version>
         <tm-extractors.version>0.4</tm-extractors.version>
         <nekohtml.version>1.9.6.2</nekohtml.version>
         <xerces.version>2.9.1</xerces.version>
