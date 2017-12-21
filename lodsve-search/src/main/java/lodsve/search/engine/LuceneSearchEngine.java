@@ -4,16 +4,20 @@ import lodsve.core.utils.StringUtils;
 import lodsve.search.bean.BaseSearchBean;
 import lodsve.search.exception.LuceneException;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.SimpleAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.MultiReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queryParser.MultiFieldQueryParser;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.MultiSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.highlight.Highlighter;
@@ -21,7 +25,6 @@ import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -31,10 +34,10 @@ import org.springframework.data.domain.Pageable;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +57,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     /**
      * 分词器
      */
-    private Analyzer analyzer = new SimpleAnalyzer(Version.LUCENE_36);
+    private Analyzer analyzer = new StandardAnalyzer();
 
     @Override
     public synchronized void doIndex(List<BaseSearchBean> BaseSearchBeans) throws Exception {
@@ -103,23 +106,16 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             return new PageImpl<>(Collections.<BaseSearchBean>emptyList(), null, 0);
         }
 
-        IndexSearcher[] searchers = new IndexSearcher[beans.size()];
+        IndexReader[] readers = new IndexReader[beans.size()];
         for (int i = 0; i < beans.size(); i++) {
             BaseSearchBean bean = beans.get(i);
             String indexType = getIndexType(bean);
-            IndexReader reader;
-            try {
-                reader = IndexReader.open(this.getIndexDir(indexType));
-            } catch (Exception e) {
-                logger.warn("this folder is not a index directory!");
-                continue;
-            }
-            IndexSearcher searcher = reader != null ? new IndexSearcher(reader) : null;
-            searchers[i] = searcher;
+
+            readers[i] = DirectoryReader.open(getIndexDir(indexType));
         }
 
         //使用MultiSearcher进行多域搜索
-        MultiSearcher searcher = new MultiSearcher(searchers);
+        MultiReader multiReader = new MultiReader(readers);
         //查询的字段名
         List<String> fieldNames = new ArrayList<>();
         //待查询字段的值
@@ -142,14 +138,15 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             }
         }
 
-        Query query = MultiFieldQueryParser.parse(Version.LUCENE_36,
+        Query query = MultiFieldQueryParser.parse(
                 queryValue.toArray(new String[queryValue.size()]),
                 fieldNames.toArray(new String[fieldNames.size()]),
                 flags.toArray(new BooleanClause.Occur[flags.size()]), analyzer);
 
         logger.debug("make query string is '{}'!", query.toString());
 
-        ScoreDoc[] scoreDocs = searcher.search(query, 1000000).scoreDocs;
+        IndexSearcher indexSearcher = new IndexSearcher(multiReader);
+        ScoreDoc[] scoreDocs = indexSearcher.search(query, Integer.MAX_VALUE).scoreDocs;
 
         //查询起始记录位置
         int begin = pageable.getPageNumber() * (pageable.getPageSize());
@@ -166,7 +163,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         List<BaseSearchBean> queryResults = new ArrayList<>();
         for (int i = begin; i < end; i++) {
             int docID = scoreDocs[i].doc;
-            Document hitDoc = searcher.doc(docID);
+            Document hitDoc = indexSearcher.doc(docID);
             String indexType = hitDoc.get("indexType");
             BaseSearchBean result = super.getBaseSearchBean(indexType, beans);
 
@@ -218,10 +215,9 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         }
 
         //关闭链接
-        searcher.close();
-        for (IndexSearcher indexSearcher : searchers) {
-            if (indexSearcher != null) {
-                indexSearcher.close();
+        for (IndexReader reader : readers) {
+            if (reader != null) {
+                reader.close();
             }
         }
 
@@ -237,9 +233,11 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     @Override
     public synchronized void deleteIndexsByIndexType(String indexType) throws Exception {
         //传入readOnly的参数,默认是只读的
-        IndexReader reader = IndexReader.open(this.getIndexDir(indexType), false);
-        int result = reader.deleteDocuments(new Term("indexType", indexType));
-        reader.close();
+        IndexWriterConfig config = new IndexWriterConfig(analyzer);
+        IndexWriter indexWriter = new IndexWriter(getIndexDir(indexType), config);
+
+        long result = indexWriter.deleteDocuments(new Term("indexType", indexType));
+        indexWriter.close();
         logger.debug("the rows of delete index is '{}'! index type is '{}'!", result, indexType);
     }
 
@@ -294,14 +292,13 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
 
         Directory indexDir = null;
         IndexWriter writer = null;
-        for (Iterator<BaseSearchBean> it = searchBean.iterator(); it.hasNext(); ) {
-            BaseSearchBean sb = it.next();
+        for (BaseSearchBean sb : searchBean) {
             String indexType = getIndexType(sb);
             if (sb == null) {
                 logger.debug("give BaseSearchBean is null!");
                 return;
             }
-            boolean anotherBaseSearchBean = indexDir != null && !indexType.equals(((FSDirectory) indexDir).getFile().getName());
+            boolean anotherBaseSearchBean = indexDir != null && !indexType.equals(((FSDirectory) indexDir).getDirectory().toString());
             if (indexDir == null || anotherBaseSearchBean) {
                 indexDir = this.getIndexDir(indexType);
             }
@@ -317,7 +314,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             String id = sb.getId();
 
             //主键的索引,不作为搜索字段,并且也不进行分词
-            Field idField = new Field("pkId", id, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+            StringField idField = new StringField("pkId", id, Field.Store.YES);
             doc.add(idField);
 
             logger.debug("create id index for '{}', value is '{}'! index is '{}'!", "pkId", id, idField);
@@ -326,39 +323,39 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             if (StringUtils.isEmpty(owerId)) {
                 throw new LuceneException(104009, "you must give a owerId");
             }
-            Field owerIdField = new Field("owerId", owerId, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+            StringField owerIdField = new StringField("owerId", owerId, Field.Store.YES);
             doc.add(owerIdField);
 
             String owerName = sb.getOwerName();
             if (StringUtils.isEmpty(owerName)) {
                 throw new LuceneException(104010, "you must give a owerName");
             }
-            Field owerNameField = new Field("owerName", owerName, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+            TextField owerNameField = new TextField("owerName", owerName, Field.Store.YES);
             doc.add(owerNameField);
 
             String link = sb.getLink();
             if (StringUtils.isEmpty(link)) {
                 throw new LuceneException(104011, "you must give a link");
             }
-            Field linkField = new Field("link", link, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+            TextField linkField = new TextField("link", link, Field.Store.YES);
             doc.add(linkField);
 
             String keyword = sb.getKeyword();
             if (StringUtils.isEmpty(keyword)) {
                 throw new LuceneException(104012, "you must give a keyword");
             }
-            Field keywordField = new Field("keyword", keyword, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+            TextField keywordField = new TextField("keyword", keyword, Field.Store.YES);
             doc.add(keywordField);
 
             String createDate = sb.getCreateDate();
             if (StringUtils.isEmpty(createDate)) {
                 throw new LuceneException(104013, "you must give a createDate");
             }
-            Field createDateField = new Field("createDate", createDate, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+            StringField createDateField = new StringField("createDate", createDate, Field.Store.YES);
             doc.add(createDateField);
 
             //索引类型字段
-            Field indexTypeField = new Field("indexType", indexType, Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+            StringField indexTypeField = new StringField("indexType", indexType, Field.Store.YES);
             doc.add(indexTypeField);
 
             //进行索引的字段
@@ -371,7 +368,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
                         continue;
                     }
 
-                    Field extInfoField = new Field(field, fieldValue, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
+                    TextField extInfoField = new TextField(field, fieldValue, Field.Store.YES);
                     doc.add(extInfoField);
                 }
             }
@@ -382,7 +379,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
                 writer.updateDocument(new Term("pkId", sb.getId()), doc);
             }
 
-            writer.optimize();
+            writer.commit();
         }
 
         this.destroy(writer);
@@ -390,13 +387,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     }
 
     private Directory getIndexDir(String suffix) throws Exception {
-        File indexDir = new File(indexPath + File.separator + suffix);
-        try {
-            return FSDirectory.open(indexDir);
-        } catch (IOException e) {
-            logger.warn("index directory '{}' is not a index directory!", indexDir.getAbsolutePath());
-            return null;
-        }
+        return FSDirectory.open(Paths.get(indexPath, suffix));
     }
 
     private List<BaseSearchBean> mergerBaseSearchBean(List<BaseSearchBean> beans) {
@@ -422,7 +413,10 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     }
 
     private IndexWriter getWriter(Directory indexDir) throws IOException {
-        return new IndexWriter(indexDir, analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
+        IndexWriterConfig writerConfig = new IndexWriterConfig(analyzer);
+        writerConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+
+        return new IndexWriter(indexDir, writerConfig);
     }
 
     private void destroy(IndexWriter writer) throws Exception {
@@ -431,15 +425,8 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         }
     }
 
-    private IndexReader getReader(Directory dir) {
-        IndexReader reader = null;
-        try {
-            reader = IndexReader.open(dir);
-        } catch (Exception e) {
-            logger.warn("this folder '{}' is not a index directory!", dir);
-        }
-
-        return reader;
+    private IndexReader getReader(Directory dir) throws IOException {
+        return DirectoryReader.open(dir);
     }
 
     public void setIndexPath(String indexPath) {
