@@ -15,13 +15,13 @@ My development tools, it encapsulates some open source projects, and better faci
     - lodsve-core
     - lodsve-dfs
     - lodsve-mongodb
-    - lodsve-mvc
     - lodsve-mybatis
     - lodsve-redis
     - lodsve-search
     - lodsve-security
     - lodsve-test
     - lodsve-validate
+    - lodsve-web
     - lodsve-wechat
     - lodsve-workflow
 
