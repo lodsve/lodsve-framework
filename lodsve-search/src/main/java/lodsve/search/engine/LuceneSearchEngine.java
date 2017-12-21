@@ -34,6 +34,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -387,7 +388,14 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     }
 
     private Directory getIndexDir(String suffix) throws Exception {
-        return FSDirectory.open(Paths.get(indexPath, suffix));
+        Path path = Paths.get(indexPath, suffix);
+        File file = path.toFile();
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                throw new LuceneException("create lucene index folder error!");
+            }
+        }
+        return FSDirectory.open(path);
     }
 
     private List<BaseSearchBean> mergerBaseSearchBean(List<BaseSearchBean> beans) {
