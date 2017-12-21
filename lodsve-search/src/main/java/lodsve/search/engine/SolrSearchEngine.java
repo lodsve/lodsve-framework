@@ -18,9 +18,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.io.File;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 基于solr实现的搜索引擎.
@@ -105,25 +109,6 @@ public class SolrSearchEngine extends AbstractSearchEngine {
                 for (String f : doIndexFields) {
                     //匹配动态字段
                     sid.addField(f + "_message", values.get(f));
-                }
-            }
-
-            //进行索引的文件字段
-            Map<String, File> files = sb.getFileMap();
-            if (files != null && !files.isEmpty()) {
-                for (Iterator<Map.Entry<String, File>> i = files.entrySet().iterator(); i.hasNext(); ) {
-                    Map.Entry<String, File> e = i.next();
-                    String column = e.getKey();
-                    File file = e.getValue();
-
-                    if (!Arrays.asList(doIndexFields).contains(column)) {
-                        continue;
-                    }
-
-                    String content = getFileContent(file);
-
-                    //匹配动态字段
-                    sid.addField(column + "_message", content);
                 }
             }
 

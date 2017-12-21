@@ -11,7 +11,11 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
-import org.apache.lucene.search.*;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MultiSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
@@ -27,12 +31,17 @@ import org.springframework.data.domain.Pageable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 基于lucene实现的索引引擎.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
  * @createTime 13-5-5 上午10:38
  */
@@ -45,7 +54,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     /**
      * 分词器
      */
-    private Analyzer analyzer = new SimpleAnalyzer();
+    private Analyzer analyzer = new SimpleAnalyzer(Version.LUCENE_36);
 
     @Override
     public synchronized void doIndex(List<BaseSearchBean> BaseSearchBeans) throws Exception {
@@ -133,8 +142,10 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             }
         }
 
-        Query query = MultiFieldQueryParser.parse(Version.LUCENE_30, queryValue.toArray(new String[]{}), fieldNames.toArray(new String[]{}),
-                flags.toArray(new BooleanClause.Occur[]{}), analyzer);
+        Query query = MultiFieldQueryParser.parse(Version.LUCENE_36,
+                queryValue.toArray(new String[queryValue.size()]),
+                fieldNames.toArray(new String[fieldNames.size()]),
+                flags.toArray(new BooleanClause.Occur[flags.size()]), analyzer);
 
         logger.debug("make query string is '{}'!", query.toString());
 
@@ -271,8 +282,8 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     /**
      * 创建或者更新索引
      *
-     * @param BaseSearchBeans 需要创建或者更新的对象
-     * @param isCreate        是否是创建索引;true创建索引,false更新索引
+     * @param searchBean 需要创建或者更新的对象
+     * @param isCreate   是否是创建索引;true创建索引,false更新索引
      * @throws Exception
      */
     private synchronized void createOrUpdateIndex(List<BaseSearchBean> searchBean, boolean isCreate) throws Exception {
@@ -362,25 +373,6 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
 
                     Field extInfoField = new Field(field, fieldValue, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
                     doc.add(extInfoField);
-                }
-
-                //进行索引的文件字段
-                Map<String, File> files = sb.getFileMap();
-                if (files != null && !files.isEmpty()) {
-                    for (Iterator<Map.Entry<String, File>> i = files.entrySet().iterator(); i.hasNext(); ) {
-                        Map.Entry<String, File> e = i.next();
-                        String column = e.getKey();
-                        File file = e.getValue();
-
-                        if (!Arrays.asList(doIndexFields).contains(column)) {
-                            continue;
-                        }
-
-                        String content = getFileContent(file);
-
-                        Field extInfoField = new Field(column, content, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS);
-                        doc.add(extInfoField);
-                    }
                 }
             }
 

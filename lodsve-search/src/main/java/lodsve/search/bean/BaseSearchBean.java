@@ -7,8 +7,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 构建索引以及检索使用到的一个抽象类<br/>.
@@ -196,17 +198,6 @@ public abstract class BaseSearchBean {
      */
     public abstract String getIndexType();
     /**************************************以上 抽象方法****************************************/
-
-    /**************************************以下 可能需要继承的方法****************************************/
-    /**
-     * 获取对象中文件域，K(字段名)-V(文件)
-     *
-     * @return
-     */
-    public Map<String, File> getFileMap() {
-        return Collections.emptyMap();
-    }
-    /**************************************以上 可能需要继承的方法****************************************/
 
     /**************************************以下 公共方法****************************************/
     /**

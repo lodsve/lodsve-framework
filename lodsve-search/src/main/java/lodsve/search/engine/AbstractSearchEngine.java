@@ -1,14 +1,7 @@
 package lodsve.search.engine;
 
-import lius.index.Indexer;
-import lius.index.excel.ExcelIndexer;
-import lius.index.msword.WordIndexer;
-import lius.index.pdf.PdfIndexer;
-import lius.index.powerpoint.PPTIndexer;
-import lius.index.txt.TXTIndexer;
-import lius.index.xml.XmlFileIndexer;
-import lodsve.search.bean.BaseSearchBean;
 import lodsve.core.utils.StringUtils;
+import lodsve.search.bean.BaseSearchBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -16,9 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
 
@@ -99,59 +89,5 @@ public abstract class AbstractSearchEngine implements SearchEngine {
         }
 
         return result;
-    }
-
-    /**
-     * 根据文件名称获取文件lius的索引
-     *
-     * @param fileName
-     * @return
-     */
-    protected Indexer getFileIndexer(String fileName) {
-        if (StringUtils.isEmpty(fileName)) {
-            logger.warn("fileName is empty!");
-            return null;
-        }
-
-        Indexer indexer;
-        if (fileName.endsWith(".doc")) {
-            indexer = new WordIndexer();
-        } else if (fileName.endsWith(".xls")) {
-            indexer = new ExcelIndexer();
-        } else if (fileName.endsWith(".pdf")) {
-            indexer = new PdfIndexer();
-        } else if (fileName.endsWith(".txt")) {
-            indexer = new TXTIndexer();
-        } else if (fileName.endsWith(".ppt")) {
-            indexer = new PPTIndexer();
-        } else if (fileName.endsWith(".xml")) {
-            indexer = new XmlFileIndexer();
-        } else {
-            indexer = null;
-        }
-
-        return indexer;
-    }
-
-    protected String getFileContent(File file) {
-        if (file == null || !file.exists()) {
-            return StringUtils.EMPTY;
-        }
-
-        FileInputStream is;
-        try {
-            is = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            logger.error(e.getMessage(), e);
-            return StringUtils.EMPTY;
-        }
-
-        Indexer indexer = this.getFileIndexer(file.getName());
-        if (indexer == null) {
-            return StringUtils.EMPTY;
-        }
-
-        indexer.setStreamToIndex(is);
-        return indexer.getContent();
     }
 }

@@ -3,7 +3,6 @@ package lodsve.search.configs;
 import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.search.engine.LuceneSearchEngine;
 import lodsve.search.engine.SearchEngine;
-import net.paoding.analysis.analyzer.PaodingAnalyzer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +24,6 @@ public class LuceneConfiguration {
     @Bean
     public SearchEngine searchEngine() {
         LuceneSearchEngine searchEngine = new LuceneSearchEngine();
-        searchEngine.setAnalyzer(new PaodingAnalyzer(properties.getPaodingAnalyzerFile()));
         searchEngine.setHtmlPrefix(properties.getPrefix());
         searchEngine.setHtmlSuffix(properties.getSuffix());
         searchEngine.setIndexPath(properties.getIndex());
