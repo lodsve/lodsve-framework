@@ -23,6 +23,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.util.Assert;
+import org.springframework.util.ClassUtils;
 
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
@@ -45,8 +46,9 @@ import java.util.Set;
 public class AutoConfigurationBuilder {
     private static final Logger logger = LoggerFactory.getLogger(AutoConfigurationBuilder.class);
 
-    private static final List<?> SIMPLE_CLASS = Arrays.asList(Boolean.class, boolean.class, Long.class, long.class,
-            Integer.class, int.class, String.class, Double.class, double.class, Resource.class, Properties.class);
+    private static final List<?> COMMON_TYPES = Arrays.asList(Boolean.class, boolean.class, Long.class, long.class,
+            Integer.class, int.class, String.class, Double.class, double.class, Resource.class, Properties.class,
+            Class.class);
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
 
     private static final Map<Class<?>, Object> CLASS_OBJECT_MAPPING = new HashMap<>(16);
@@ -196,7 +198,7 @@ public class AutoConfigurationBuilder {
     }
 
     private boolean isSimpleType(Class<?> type) {
-        return SIMPLE_CLASS.contains(type);
+        return COMMON_TYPES.contains(type);
     }
 
     private Object getValueForSimpleType(String key, Class<?> type) {
@@ -273,7 +275,15 @@ public class AutoConfigurationBuilder {
                 if (logger.isErrorEnabled()) {
                     logger.error(String.format("file '{%s}' not found!", text));
                 }
-                return null;
+            }
+        } else if (Class.class.equals(type)) {
+            try {
+                return ClassUtils.forName(text, AutoConfigurationBuilder.class.getClassLoader());
+            } catch (ClassNotFoundException e) {
+                if (logger.isErrorEnabled()) {
+                    logger.error(String.format("class '{%s}' not found!", text));
+                }
+                return Void.class;
             }
         }
 
