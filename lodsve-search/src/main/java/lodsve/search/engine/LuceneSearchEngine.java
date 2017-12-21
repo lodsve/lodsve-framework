@@ -339,21 +339,21 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             if (StringUtils.isEmpty(owerName)) {
                 throw new LuceneException(104010, "you must give a owerName");
             }
-            TextField owerNameField = new TextField("owerName", owerName, Field.Store.YES);
+            StringField owerNameField = new StringField("owerName", owerName, Field.Store.YES);
             doc.add(owerNameField);
 
             String link = sb.getLink();
             if (StringUtils.isEmpty(link)) {
                 throw new LuceneException(104011, "you must give a link");
             }
-            TextField linkField = new TextField("link", link, Field.Store.YES);
+            StringField linkField = new StringField("link", link, Field.Store.YES);
             doc.add(linkField);
 
             String keyword = sb.getKeyword();
             if (StringUtils.isEmpty(keyword)) {
                 throw new LuceneException(104012, "you must give a keyword");
             }
-            TextField keywordField = new TextField("keyword", keyword, Field.Store.YES);
+            StringField keywordField = new StringField("keyword", keyword, Field.Store.YES);
             doc.add(keywordField);
 
             String createDate = sb.getCreateDate();
