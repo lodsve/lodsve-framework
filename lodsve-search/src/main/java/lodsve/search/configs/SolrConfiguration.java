@@ -1,8 +1,11 @@
 package lodsve.search.configs;
 
 import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.core.condition.ConditionalOnMissingBean;
+import lodsve.core.utils.StringUtils;
 import lodsve.search.engine.SearchEngine;
 import lodsve.search.engine.SolrSearchEngine;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +25,25 @@ public class SolrConfiguration {
     private SearchProperties properties;
 
     @Bean
-    public SearchEngine searchEngine() {
-        return new SolrSearchEngine(properties.getServer(), properties.getCore(), properties.getPrefix(), properties.getSuffix());
+    @ConditionalOnMissingBean
+    public HttpSolrClient solrClient() {
+        String core = properties.getSolr().getCore();
+        String server = properties.getSolr().getServer();
+
+        if (StringUtils.isNotBlank(core)) {
+            server += (StringUtils.endsWith(server, "/") ? "" : "/" + core);
+        }
+
+        HttpSolrClient.Builder builder = new HttpSolrClient.Builder();
+        builder.withBaseSolrUrl(server);
+
+        return builder.build();
+    }
+
+    @Bean
+    public SearchEngine searchEngine(HttpSolrClient solrClient) {
+        SearchProperties.Solr solr = properties.getSolr();
+
+        return new SolrSearchEngine(solrClient, solr.getPrefix(), solr.getSuffix());
     }
 }

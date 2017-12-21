@@ -34,18 +34,11 @@ public class SolrSearchEngine extends AbstractSearchEngine {
     private static final Logger logger = LoggerFactory.getLogger(SolrSearchEngine.class);
     private HttpSolrClient solrClient;
 
-    public SolrSearchEngine(String server, String core, String htmlPrefix, String htmlSuffix) {
+    public SolrSearchEngine(HttpSolrClient solrClient, String htmlPrefix, String htmlSuffix) {
         super.setHtmlPrefix(htmlPrefix);
         super.setHtmlSuffix(htmlSuffix);
 
-        if (StringUtils.isNotBlank(core)) {
-            server += (StringUtils.endsWith(server, "/") ? "" : "/" + core);
-        }
-
-        HttpSolrClient.Builder builder = new HttpSolrClient.Builder();
-        builder.withBaseSolrUrl(server);
-
-        this.solrClient = builder.build();
+        this.solrClient = solrClient;
     }
 
     @Override

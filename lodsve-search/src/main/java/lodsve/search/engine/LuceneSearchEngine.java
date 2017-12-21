@@ -58,7 +58,15 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     /**
      * 分词器
      */
-    private Analyzer analyzer = new StandardAnalyzer();
+    private Analyzer analyzer;
+
+    public LuceneSearchEngine(String indexPath, Analyzer analyzer, String htmlPrefix, String htmlSuffix) {
+        super.setHtmlPrefix(htmlPrefix);
+        super.setHtmlSuffix(htmlSuffix);
+
+        this.indexPath = indexPath;
+        this.analyzer = analyzer == null ? new StandardAnalyzer() : analyzer;
+    }
 
     @Override
     public synchronized void doIndex(List<BaseSearchBean> BaseSearchBeans) throws Exception {
@@ -436,13 +444,4 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     private IndexReader getReader(Directory dir) throws IOException {
         return DirectoryReader.open(dir);
     }
-
-    public void setIndexPath(String indexPath) {
-        this.indexPath = indexPath;
-    }
-
-    public void setAnalyzer(Analyzer analyzer) {
-        this.analyzer = analyzer;
-    }
-
 }
