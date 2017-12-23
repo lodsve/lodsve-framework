@@ -1,7 +1,7 @@
 package lodsve.cache.properties;
 
-import lodsve.core.utils.StringUtils;
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.utils.StringUtils;
 import org.springframework.core.io.Resource;
 
 /**
@@ -42,6 +42,7 @@ public class CacheProperties {
 
     public static class Ehcache {
         private Resource configuration;
+        private EhcacheCache[] cache;
 
         public Resource getConfiguration() {
             return configuration;
@@ -49,6 +50,71 @@ public class CacheProperties {
 
         public void setConfiguration(Resource configuration) {
             this.configuration = configuration;
+        }
+
+        public EhcacheCache[] getCache() {
+            return cache;
+        }
+
+        public void setCache(EhcacheCache[] cache) {
+            this.cache = cache;
+        }
+
+        public static class EhcacheCache {
+            private String name;
+            private long maxElementsInMemory = 10000;
+            private boolean eternal = false;
+            private long timeToIdleSeconds = 300;
+            private long timeToLiveSeconds = 600;
+            private boolean overflowToDisk = true;
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public long getMaxElementsInMemory() {
+                return maxElementsInMemory;
+            }
+
+            public void setMaxElementsInMemory(long maxElementsInMemory) {
+                this.maxElementsInMemory = maxElementsInMemory;
+            }
+
+            public boolean getEternal() {
+                return eternal;
+            }
+
+            public void setEternal(boolean eternal) {
+                this.eternal = eternal;
+            }
+
+            public long getTimeToIdleSeconds() {
+                return timeToIdleSeconds;
+            }
+
+            public void setTimeToIdleSeconds(long timeToIdleSeconds) {
+                this.timeToIdleSeconds = timeToIdleSeconds;
+            }
+
+            public long getTimeToLiveSeconds() {
+                return timeToLiveSeconds;
+            }
+
+            public void setTimeToLiveSeconds(long timeToLiveSeconds) {
+                this.timeToLiveSeconds = timeToLiveSeconds;
+            }
+
+            public boolean getOverflowToDisk() {
+                return overflowToDisk;
+            }
+
+            public void setOverflowToDisk(boolean overflowToDisk) {
+                this.overflowToDisk = overflowToDisk;
+            }
         }
     }
 

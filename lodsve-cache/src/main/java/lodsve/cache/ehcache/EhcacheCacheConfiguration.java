@@ -3,6 +3,7 @@ package lodsve.cache.ehcache;
 import lodsve.cache.properties.CacheProperties;
 import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
 import net.sf.ehcache.Cache;
+import net.sf.ehcache.config.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -13,7 +14,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * ehcache.
@@ -27,8 +27,6 @@ import java.util.List;
 public class EhcacheCacheConfiguration {
     @Autowired
     private CacheProperties cacheProperties;
-    @Autowired
-    private List<Cache> caches;
 
     @Bean
     public CacheManager cacheManager() throws IOException {
@@ -40,8 +38,19 @@ public class EhcacheCacheConfiguration {
         }
 
         net.sf.ehcache.CacheManager manager = net.sf.ehcache.CacheManager.create(configResource.getInputStream());
-        for (Cache cache : caches) {
-            manager.addCache(cache);
+
+        CacheProperties.Ehcache.EhcacheCache[] caches = cacheProperties.getEhcache().getCache();
+
+        for (CacheProperties.Ehcache.EhcacheCache cache : caches) {
+            CacheConfiguration configuration = new CacheConfiguration();
+            configuration.setName(cache.getName());
+            configuration.setMaxEntriesLocalHeap(cache.getMaxElementsInMemory());
+            configuration.setEternal(cache.getEternal());
+            configuration.setTimeToIdleSeconds(cache.getTimeToIdleSeconds());
+            configuration.setTimeToLiveSeconds(cache.getTimeToLiveSeconds());
+            configuration.setOverflowToDisk(cache.getOverflowToDisk());
+
+            manager.addCache(new Cache(configuration));
         }
 
         cacheManager.setCacheManager(manager);
