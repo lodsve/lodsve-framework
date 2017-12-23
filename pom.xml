@@ -618,6 +618,10 @@
                         <groupId>org.spockframework</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -629,6 +633,10 @@
                         <groupId>org.spockframework</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -638,6 +646,10 @@
                 <exclusions>
                     <exclusion>
                         <groupId>org.spockframework</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
                 </exclusions>
