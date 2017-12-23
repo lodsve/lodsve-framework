@@ -138,7 +138,7 @@ public class AutoConfigurationBuilder {
         List<Object> list = new ArrayList<>(keys.size());
         int size = getArraySize(keys);
         for (int i = 0; i < size; i++) {
-            String key = prefix + "." + i;
+            String key = prefix + ".[" + i + "]";
 
             list.add(getValue(clazz, key, StringUtils.EMPTY, readMethod));
         }
@@ -153,7 +153,7 @@ public class AutoConfigurationBuilder {
                 continue;
             }
             // 取第一位
-            String first = StringUtils.mid(key, 0, 1);
+            String first = StringUtils.mid(key, 1, 1);
             realKeyIndexs.add(first);
         }
 
