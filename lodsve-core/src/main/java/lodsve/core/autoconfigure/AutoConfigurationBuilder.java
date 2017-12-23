@@ -122,7 +122,10 @@ public class AutoConfigurationBuilder {
         } else if (Map.class.equals(type)) {
             value = getValueForMap(key, readMethod);
         } else if (type.isArray()) {
-            value = getValueForArray(key, type, readMethod);
+            value = getValueForArray(key, type.getComponentType(), readMethod);
+        } else if (List.class.isAssignableFrom(type) || Set.class.isAssignableFrom(type)) {
+            Class<?> clazz = GenericUtils.getGenericParameter0(readMethod);
+            value = getValueForCollection(key, clazz, type, readMethod);
         } else {
             value = generateObject(key, type);
         }
@@ -130,20 +133,34 @@ public class AutoConfigurationBuilder {
         return value;
     }
 
+    private Object getValueForCollection(String prefix, Class<?> param, Class<?> type, Method readMethod) {
+        Object result = getValuesForCollectionOrArray(prefix, param, readMethod);
+        if (List.class.isAssignableFrom(type)) {
+            return result;
+        }
+
+        return new HashSet((List) result);
+    }
+
     private Object getValueForArray(String prefix, Class<?> type, Method readMethod) {
+        List<Object> list = getValuesForCollectionOrArray(prefix, type, readMethod);
+
+        return list.toArray(new Object[list.size()]);
+    }
+
+    private List<Object> getValuesForCollectionOrArray(String prefix, Class<?> type, Method readMethod) {
         Configuration subset = configuration.subset(prefix);
         Set<String> keys = subset.getKeys();
-        Class clazz = type.getComponentType();
 
         List<Object> list = new ArrayList<>(keys.size());
         int size = getArraySize(keys);
         for (int i = 0; i < size; i++) {
             String key = prefix + ".[" + i + "]";
 
-            list.add(getValue(clazz, key, StringUtils.EMPTY, readMethod));
+            list.add(getValue(type, key, StringUtils.EMPTY, readMethod));
         }
 
-        return list.toArray(new Object[list.size()]);
+        return list;
     }
 
     private int getArraySize(Set<String> keys) {
