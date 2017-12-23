@@ -1,7 +1,8 @@
-package lodsve.cache.core;
+package lodsve.cache.properties;
 
 import lodsve.core.utils.StringUtils;
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
+import org.springframework.core.io.Resource;
 
 /**
  * cache配置.
@@ -12,8 +13,8 @@ import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 @ConfigurationProperties(prefix = "lodsve.cache", locations = "file:${params.root}/framework/cache.properties")
 public class CacheProperties {
     private Ehcache ehcache = new Ehcache();
-    private String cacheNames = StringUtils.EMPTY;
     private Guava guava = new Guava();
+    private Redis redis = new Redis();
 
     public Ehcache getEhcache() {
         return ehcache;
@@ -23,12 +24,12 @@ public class CacheProperties {
         this.ehcache = ehcache;
     }
 
-    public String getCacheNames() {
-        return cacheNames;
+    public Redis getRedis() {
+        return redis;
     }
 
-    public void setCacheNames(String cacheNames) {
-        this.cacheNames = cacheNames;
+    public void setRedis(Redis redis) {
+        this.redis = redis;
     }
 
     public Guava getGuava() {
@@ -40,13 +41,13 @@ public class CacheProperties {
     }
 
     public static class Ehcache {
-        private String configuration = StringUtils.EMPTY;
+        private Resource configuration;
 
-        public String getConfiguration() {
+        public Resource getConfiguration() {
             return configuration;
         }
 
-        public void setConfiguration(String configuration) {
+        public void setConfiguration(Resource configuration) {
             this.configuration = configuration;
         }
     }
@@ -54,7 +55,7 @@ public class CacheProperties {
     /**
      * Guava specific cache properties.
      */
-    public static class Guava {
+    public static class Guava extends Common {
         private String spec = StringUtils.EMPTY;
 
         public String getSpec() {
@@ -65,5 +66,21 @@ public class CacheProperties {
             this.spec = spec;
         }
 
+    }
+
+    public static class Redis extends Common {
+
+    }
+
+    public static class Common {
+        private String cacheNames = StringUtils.EMPTY;
+
+        public String getCacheNames() {
+            return cacheNames;
+        }
+
+        public void setCacheNames(String cacheNames) {
+            this.cacheNames = cacheNames;
+        }
     }
 }

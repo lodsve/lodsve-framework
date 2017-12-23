@@ -1,41 +1,37 @@
 package lodsve.cache.annotations;
 
-import java.util.ArrayList;
-import java.util.List;
-import lodsve.cache.configs.WithRedisCacheConfiguration;
-import lodsve.cache.configs.WithoutRedisCacheConfiguration;
+import lodsve.cache.ehcache.EhcacheCacheConfiguration;
+import lodsve.cache.guava.GuavaCacheConfiguration;
+import lodsve.cache.redis.RedisCacheConfiguration;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.Assert;
 
 /**
- * 根据{@link EnableCache}中的{@link CacheMode}类型判断启用哪个缓存.
+ * Cache ImportSelector.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2016/1/19 15:10
- * @see EnableCache
- * @see CacheMode
+ * @version 1.0 2017/12/23 下午3:55
  */
-public class CacheConfigurationSelector implements ImportSelector {
-    public static final String CACHE_MODE_ATTRIBUTE_NAME = "cache";
+public class CacheImportSelector implements ImportSelector {
+    private static final String CACHE_MODE_ATTRIBUTE_NAME = "cache";
 
     @Override
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableCache.class.getName(), false));
         Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableCache.class.getName(), importingClassMetadata.getClassName()));
 
-        List<String> imports = new ArrayList<>();
-
         CacheMode cacheMode = attributes.getEnum(CACHE_MODE_ATTRIBUTE_NAME);
-        CacheModeHolder.setCacheMode(cacheMode);
 
-        if (CacheMode.REDIS == cacheMode) {
-            imports.add(WithRedisCacheConfiguration.class.getName());
-        } else {
-            imports.add(WithoutRedisCacheConfiguration.class.getName());
+        if (cacheMode == CacheMode.EHCAHE) {
+            return new String[]{EhcacheCacheConfiguration.class.getName()};
+        } else if (cacheMode == CacheMode.GUAVA) {
+            return new String[]{GuavaCacheConfiguration.class.getName()};
+        } else if (cacheMode == CacheMode.REDIS) {
+            return new String[]{RedisCacheConfiguration.class.getName()};
         }
 
-        return imports.toArray(new String[imports.size()]);
+        return new String[0];
     }
 }
