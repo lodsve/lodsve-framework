@@ -31,9 +31,19 @@ public class EventPublisher {
      *
      * @param baseEvent
      */
-    public void publish(BaseEvent baseEvent){
+    public void publish(BaseEvent baseEvent) {
         logger.debug("****************execute module '{}' start!", baseEvent);
         eventExecutor.executeEvent(baseEvent);
         logger.debug("****************execute module '{}' stop!", baseEvent);
+    }
+
+    /**
+     * 解析中文名
+     *
+     * @param event 事件
+     * @return 中文名
+     */
+    public String evalName(Class<? extends BaseEvent> event) {
+        return eventExecutor.evalName(event);
     }
 }
