@@ -45,7 +45,7 @@ See the current [reference docs][].
 `git clone git@github.com:lodsve/lodsve-demo.git`
 
 ## Check out the configurations
-`git clone git@github.com:lodsve/lodsve-configs.git`
+`cd lodsve-core/src/main/resources/META-INF/config-template`
 
 ## Import sources into your IDE
 Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
@@ -57,7 +57,7 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 ## Contact me
 1. Email: sunhao.java@gmail.com
 2. QQ: [867885140][]
-3. Blog: [Blog][] [OSChina][]
+3. Blog: [Blog_Create_By_Hexo][] [OSChina][]
 
 ## License
 The `Lodsve Framework` is released under version 2.0 of the [Mozilla Public License][].
@@ -68,7 +68,7 @@ The `Lodsve Framework` is released under version 2.0 of the [Mozilla Public Lice
 
 [Mozilla Public License]: http://opensource.org/licenses/MPL-2.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
-[Blog]: http://blog.lodsve.com
+[Blog_Create_By_Hexo]: http://www.lodsve.com
 [OSChina]: http://my.oschina.net/sunhaojava/blog
 [867885140]: http://wpa.qq.com/msgrd?v=3&uin=867885140&site=qq&menu=yes
 [reference docs]: http://lodsve.github.io/lodsve-framework/
