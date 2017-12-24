@@ -1,5 +1,27 @@
 # 更新日志
 
+## V2.5.10
+1. ~~lodsve-dubbo~~: 删除
+2. lodsve-mvc: 
+    - 包名修改为lodsve-web
+    - 解决对静态资源访问的问题
+3. lodsve-springfox:
+    - 参数简化
+    - 显示网页标题及页面描述
+4. lodsve-core：
+    - 配置文件可以在开发环境中进行覆盖，详见 #1
+    - 配置文件支持自动装配数组、List、Set、Properties、Class等类型，详见 #6
+    - 资源文件类名修改
+    - 更新condition
+    - fix some bugs
+5. lodsve-mybatis、lodsve-redis、lodsve-mongodb
+    - 都支持多数据源，详见 #8
+6. lodsve-cache:
+    - 优化代码
+7. lodsve-search:
+    - 升级Lucene和solr到V6.6.0
+    - 删除分词，可以在项目中配置
+
 ## V2.5.9
 1. 根据ali-check对项目的一些代码进行合适的修改
 2. 忽略spring-data中的spring版本
