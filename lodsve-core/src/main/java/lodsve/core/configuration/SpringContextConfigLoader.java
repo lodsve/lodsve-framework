@@ -1,5 +1,6 @@
-package lodsve.core.properties.core;
+package lodsve.core.configuration;
 
+import lodsve.core.properties.init.ParamsHome;
 import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.i18n.DefaultResourceBundleMessageSource;
 import lodsve.core.properties.i18n.ResourceBundleHolder;

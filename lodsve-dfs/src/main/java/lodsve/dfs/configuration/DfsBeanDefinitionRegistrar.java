@@ -2,7 +2,7 @@ package lodsve.dfs.configuration;
 
 import lodsve.dfs.annotations.EnableDfs;
 import lodsve.dfs.enums.DfsType;
-import lodsve.dfs.service.FsService;
+import lodsve.dfs.service.DfsService;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
@@ -25,7 +25,7 @@ public class DfsBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar
         Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableDfs.class.getName(), annotationMetadata.getClassName()));
 
         DfsType type = attributes.getEnum(VALUE_ATTRIBUTE_NAME);
-        Class<? extends FsService> clazz = type != null ? type.getImplClazz() : null;
+        Class<? extends DfsService> clazz = type != null ? type.getImplClazz() : null;
 
         if (clazz == null) {
             return;

@@ -187,10 +187,10 @@ public class Env {
     }
 
     public static Map<String, String> getSystemEnvs() {
-        Map<String, String> globalProperties = new HashMap<>(16);
-
         Map<String, String> env = System.getenv();
         Properties properties = System.getProperties();
+
+        Map<String, String> globalProperties = new HashMap<>(env.size() + properties.size());
 
         globalProperties.putAll(env);
         for (Object key : properties.keySet()) {

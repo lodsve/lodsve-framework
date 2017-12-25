@@ -3,7 +3,7 @@ package lodsve.core.autoconfigure;
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 import lodsve.core.autoconfigure.annotations.Required;
 import lodsve.core.properties.Env;
-import lodsve.core.properties.core.ParamsHome;
+import lodsve.core.properties.init.ParamsHome;
 import lodsve.core.properties.env.Configuration;
 import lodsve.core.properties.env.PropertiesConfiguration;
 import lodsve.core.utils.GenericUtils;

@@ -1,6 +1,6 @@
 package lodsve.core.properties.i18n;
 
-import lodsve.core.properties.core.ParamsHome;
+import lodsve.core.properties.init.ParamsHome;
 import lodsve.core.utils.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;

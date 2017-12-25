@@ -1,6 +1,6 @@
 package lodsve.dfs.enums;
 
-import lodsve.dfs.service.FsService;
+import lodsve.dfs.service.DfsService;
 import lodsve.dfs.service.impl.FastDfsServiceImpl;
 import lodsve.dfs.service.impl.GoogleFsServiceImpl;
 import lodsve.dfs.service.impl.TFsServiceImpl;
@@ -25,13 +25,13 @@ public enum DfsType {
      */
     GOOGLE_FS(GoogleFsServiceImpl.class);
 
-    private Class<? extends FsService> implClazz;
+    private Class<? extends DfsService> implClazz;
 
-    DfsType(Class<? extends FsService> implClazz) {
+    DfsType(Class<? extends DfsService> implClazz) {
         this.implClazz = implClazz;
     }
 
-    public Class<? extends FsService> getImplClazz() {
+    public Class<? extends DfsService> getImplClazz() {
         return implClazz;
     }
 }

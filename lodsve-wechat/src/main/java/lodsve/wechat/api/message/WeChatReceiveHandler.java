@@ -7,6 +7,7 @@ import lodsve.wechat.beans.message.receive.Receive;
 import lodsve.wechat.beans.message.receive.event.Event;
 import lodsve.wechat.beans.message.reply.Reply;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -18,16 +19,18 @@ import java.util.Map;
 /**
  * 处理微信的消息/事件.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/2/23 下午11:24
  */
 @Component
-public class WeChatReceiveHandler implements ApplicationContextAware {
+public class WeChatReceiveHandler {
     private static final String EVENT = "Event";
     private static final String MSG_TYPE = "MsgType";
 
-    private List<MsgHandler> msgHandlers = new ArrayList<>();
-    private List<EventHandler> eventHandlers = new ArrayList<>();
+    @Autowired
+    private List<MsgHandler> msgHandlers;
+    @Autowired
+    private List<EventHandler> eventHandlers;
 
     @SuppressWarnings("unchecked")
     public Reply handle(Map<String, String> params) {
@@ -56,11 +59,5 @@ public class WeChatReceiveHandler implements ApplicationContextAware {
             }
         }
         return reply;
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        msgHandlers.addAll(applicationContext.getBeansOfType(MsgHandler.class).values());
-        eventHandlers.addAll(applicationContext.getBeansOfType(EventHandler.class).values());
     }
 }

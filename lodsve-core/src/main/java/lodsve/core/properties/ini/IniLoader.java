@@ -1,6 +1,6 @@
 package lodsve.core.properties.ini;
 
-import lodsve.core.properties.core.ParamsHome;
+import lodsve.core.properties.init.ParamsHome;
 import lodsve.core.utils.FileUtils;
 import lodsve.core.utils.StringUtils;
 import org.springframework.core.io.Resource;

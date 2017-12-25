@@ -1,7 +1,7 @@
 package lodsve.dfs.annotations;
 
+import lodsve.dfs.configuration.DfsBeanDefinitionRegistrar;
 import lodsve.dfs.configuration.DfsConfiguration;
-import lodsve.dfs.configuration.FsBeanDefinitionRegistrar;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.type.AnnotationMetadata;
 
@@ -14,6 +14,6 @@ import org.springframework.core.type.AnnotationMetadata;
 public class DfsConfigurationSelector implements ImportSelector {
     @Override
     public String[] selectImports(AnnotationMetadata annotationMetadata) {
-        return new String[]{DfsConfiguration.class.getName(), FsBeanDefinitionRegistrar.class.getName()};
+        return new String[]{DfsConfiguration.class.getName(), DfsBeanDefinitionRegistrar.class.getName()};
     }
 }

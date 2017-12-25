@@ -1,4 +1,4 @@
-package lodsve.core.properties.core;
+package lodsve.core.properties.init;
 
 import lodsve.core.utils.StringUtils;
 import org.springframework.core.io.ClassPathResource;

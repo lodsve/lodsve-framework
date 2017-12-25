@@ -2,7 +2,7 @@ package lodsve.test.core;
 
 import lodsve.core.context.ApplicationHelper;
 import lodsve.core.logger.Log4JConfiguration;
-import lodsve.core.properties.core.ParamsHome;
+import lodsve.core.properties.init.ParamsHome;
 import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.ini.IniLoader;
 import lodsve.core.utils.StringUtils;
