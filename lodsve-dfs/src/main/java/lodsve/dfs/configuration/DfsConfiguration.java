@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0 2017-12-4-0004 11:18
  */
 @Configuration
-@EnableConfigurationProperties(FsProperties.class)
-public class FsConfiguration {
+@EnableConfigurationProperties(DfsProperties.class)
+public class DfsConfiguration {
 }

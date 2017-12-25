@@ -10,9 +10,9 @@ import com.alibaba.fastdfs.TrackerClient;
 import com.alibaba.fastdfs.TrackerServer;
 import lodsve.core.utils.FileUtils;
 import lodsve.core.utils.StringUtils;
-import lodsve.dfs.configuration.FsProperties;
+import lodsve.dfs.configuration.DfsProperties;
 import lodsve.dfs.exception.FastDfsException;
-import lodsve.dfs.service.FsService;
+import lodsve.dfs.service.DfsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
@@ -27,10 +27,10 @@ import java.net.InetSocketAddress;
  * @author sunhao(sunhao.java@gmail.com)
  * @version 1.0 2017-12-4-0004 11:05
  */
-public class FastDfsServiceImpl implements FsService {
+public class FastDfsServiceImpl implements DfsService {
 
     @Autowired
-    private FsProperties fsProperties;
+    private DfsProperties fsProperties;
 
     private static final Integer DEFAULT_HTTP_PORT = 80;
     private static TrackerServer trackerServer;
@@ -38,7 +38,7 @@ public class FastDfsServiceImpl implements FsService {
 
     @PostConstruct
     private void init() throws IOException, FsException {
-        FastDfsConfig config = fsProperties.getFastDFS();
+        FastDfsConfig config = fsProperties.getFastDfs();
         if (config == null) {
             throw new FastDfsException(109004, "fastdfs config is not exist!!");
         }

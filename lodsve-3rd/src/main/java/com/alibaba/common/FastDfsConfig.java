@@ -13,7 +13,7 @@ public class FastDfsConfig {
     private int trackerHttpPort = 80;
     private boolean antiStealToken = false;
     private String secretKey;
-    private String server;
+    private String[] servers;
 
     public int getConnectTimeout() {
         return connectTimeout;
@@ -63,11 +63,11 @@ public class FastDfsConfig {
         this.secretKey = secretKey;
     }
 
-    public String getServer() {
-        return server;
+    public String[] getServers() {
+        return servers;
     }
 
-    public void setServer(String server) {
-        this.server = server;
+    public void setServers(String[] servers) {
+        this.servers = servers;
     }
 }

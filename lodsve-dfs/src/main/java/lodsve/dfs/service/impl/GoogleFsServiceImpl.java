@@ -1,6 +1,6 @@
 package lodsve.dfs.service.impl;
 
-import lodsve.dfs.service.FsService;
+import lodsve.dfs.service.DfsService;
 
 import java.io.File;
 
@@ -10,7 +10,7 @@ import java.io.File;
  * @author sunhao(sunhao.java@gmail.com)
  * @version 1.0 2017-12-4-0004 13:21
  */
-public class GoogleFsServiceImpl implements FsService {
+public class GoogleFsServiceImpl implements DfsService {
     @Override
     public String upload(byte[] fileBytes, String suffix) {
         return null;

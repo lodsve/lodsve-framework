@@ -11,7 +11,7 @@ import lodsve.dfs.service.impl.TFsServiceImpl;
  * @author sunhao(sunhao.java@gmail.com)
  * @version 1.0 2017-12-4-0004 10:41
  */
-public enum FsType {
+public enum DfsType {
     /**
      * fast_dfs
      */
@@ -27,7 +27,7 @@ public enum FsType {
 
     private Class<? extends FsService> implClazz;
 
-    FsType(Class<? extends FsService> implClazz) {
+    DfsType(Class<? extends FsService> implClazz) {
         this.implClazz = implClazz;
     }
 

@@ -8,7 +8,7 @@ import java.io.File;
  * @author sunhao(sunhao.java@gmail.com)
  * @version 1.0 2017-12-4-0004 10:51
  */
-public interface FsService {
+public interface DfsService {
     /**
      * 上传文件
      *

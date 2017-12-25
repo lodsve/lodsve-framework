@@ -42,8 +42,7 @@ public class ClientGlobal {
      *
      * @param config config
      */
-    public static void init(FastDfsConfig config) throws IOException, FsException {
-        IniFileReader iniReader;
+    public static void init(FastDfsConfig config) throws FsException {
         String[] szTrackerServers;
         String[] parts;
 
@@ -64,8 +63,7 @@ public class ClientGlobal {
             g_charset = "ISO8859-1";
         }
 
-        // TODO 将来自动装配配置会支持数组
-        szTrackerServers = config.getServer().split(";");
+        szTrackerServers = config.getServers();
         if (szTrackerServers == null) {
             throw new FsException("item \"tracker_server\" in \"/spring-config/fdfs_client.conf\" not found");
         }
