@@ -14,4 +14,11 @@
     <packaging>jar</packaging>
     <name>lodsve 3rd</name>
     <description>依赖的第三方包</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

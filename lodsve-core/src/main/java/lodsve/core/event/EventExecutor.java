@@ -38,7 +38,7 @@ public class EventExecutor implements InitializingBean {
      */
     private static final Logger logger = LoggerFactory.getLogger(EventExecutor.class);
 
-    @Autowired
+    @Autowired(required = false)
     private List<EventListener> eventListeners;
 
     /**
@@ -150,6 +150,10 @@ public class EventExecutor implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        if (eventListeners == null) {
+            return;
+        }
+
         for (EventListener listener : eventListeners) {
             Class<? extends EventListener> clazz = listener.getClass();
             List<SyncEvent> syncEvents = new ArrayList<>(16);

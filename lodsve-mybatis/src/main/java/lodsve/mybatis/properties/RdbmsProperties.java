@@ -1,4 +1,4 @@
-package lodsve.mybatis.configs;
+package lodsve.mybatis.properties;
 
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 

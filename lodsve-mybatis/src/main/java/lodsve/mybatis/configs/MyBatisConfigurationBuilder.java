@@ -1,5 +1,7 @@
 package lodsve.mybatis.configs;
 
+import com.p6spy.engine.spy.P6DataSource;
+import lodsve.core.properties.Profiles;
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
 import lodsve.mybatis.datasource.builder.RdbmsDataSourceBeanDefinitionBuilder;
@@ -8,6 +10,7 @@ import lodsve.mybatis.exception.MyBatisException;
 import lodsve.mybatis.key.IDGenerator;
 import lodsve.mybatis.key.mysql.MySQLIDGenerator;
 import lodsve.mybatis.key.oracle.OracleIDGenerator;
+import lodsve.mybatis.p6spy.LodsveP6OptionsSource;
 import lodsve.mybatis.plugins.pagination.PaginationInterceptor;
 import lodsve.mybatis.type.TypeHandlerScanner;
 import org.apache.commons.lang.ArrayUtils;
@@ -72,7 +75,23 @@ public class MyBatisConfigurationBuilder {
         BeanDefinitionBuilder dynamicDataSource = BeanDefinitionBuilder.genericBeanDefinition(DynamicDataSource.class);
         dynamicDataSource.addConstructorArgValue(dataSourceBean.getDataSourceNames());
         dynamicDataSource.addConstructorArgValue(defaultDataSourceKey);
-        beanDefinitions.put(Constant.DATA_SOURCE_BEAN_NAME, dynamicDataSource.getBeanDefinition());
+
+        boolean p6spy = Profiles.getProfile("p6spy");
+        if (p6spy) {
+            // 使用p6spy
+            beanDefinitions.put(Constant.REAL_DATA_SOURCE_BEAN_NAME, dynamicDataSource.getBeanDefinition());
+
+            BeanDefinitionBuilder p6spyDataSource = BeanDefinitionBuilder.genericBeanDefinition(P6DataSource.class);
+            p6spyDataSource.addConstructorArgReference(Constant.REAL_DATA_SOURCE_BEAN_NAME);
+
+            beanDefinitions.put(Constant.DATA_SOURCE_BEAN_NAME, p6spyDataSource.getBeanDefinition());
+
+            // 初始化配置
+            LodsveP6OptionsSource.init();
+        } else {
+            beanDefinitions.put(Constant.DATA_SOURCE_BEAN_NAME, dynamicDataSource.getBeanDefinition());
+        }
+
 
         // 生成IDGenerator
         String driverClassName = (String) defaultDataSource.getPropertyValues().get("driverClassName");
