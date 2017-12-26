@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.lodsve</groupId>
         <artifactId>lodsve-framework</artifactId>
-        <version>2.5.10</version>
+        <version>2.5.11-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -16,11 +16,7 @@
     <description>mongodb相关封装</description>
 
     <dependencies>
-        <dependency>
-            <groupId>com.github.lodsve</groupId>
-            <artifactId>lodsve-core</artifactId>
-        </dependency>
-
+        <!-- required dependency -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
@@ -44,6 +40,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
+        </dependency>
+
+        <!-- lodsve -->
+        <dependency>
+            <groupId>com.github.lodsve</groupId>
+            <artifactId>lodsve-core</artifactId>
         </dependency>
     </dependencies>
 </project>

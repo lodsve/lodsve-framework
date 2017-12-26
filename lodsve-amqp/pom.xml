@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.lodsve</groupId>
         <artifactId>lodsve-framework</artifactId>
-        <version>2.5.10</version>
+        <version>2.5.11-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -16,14 +16,16 @@
     <description>amqp相关封装</description>
 
     <dependencies>
-        <dependency>
-            <groupId>com.github.lodsve</groupId>
-            <artifactId>lodsve-core</artifactId>
-        </dependency>
-
+        <!-- required dependency -->
         <dependency>
             <groupId>org.springframework.amqp</groupId>
             <artifactId>spring-rabbit</artifactId>
+        </dependency>
+
+        <!-- lodsve -->
+        <dependency>
+            <groupId>com.github.lodsve</groupId>
+            <artifactId>lodsve-core</artifactId>
         </dependency>
     </dependencies>
 </project>
