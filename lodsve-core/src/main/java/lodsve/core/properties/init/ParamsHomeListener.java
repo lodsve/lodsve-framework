@@ -66,11 +66,11 @@ public class ParamsHomeListener implements ServletContextListener {
 
         ParamsHome.getInstance().init(paramsHome);
 
-        // 配置log4j
-        Log4JConfiguration.init();
-
         // 配置文件
         EnvLoader.init();
         IniLoader.init();
+
+        // 配置log4j
+        Log4JConfiguration.init();
     }
 }
