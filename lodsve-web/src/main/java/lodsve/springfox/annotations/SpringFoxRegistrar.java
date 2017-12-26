@@ -1,5 +1,7 @@
 package lodsve.springfox.annotations;
 
+import lodsve.core.properties.Env;
+import lodsve.core.properties.Profiles;
 import lodsve.springfox.config.SpringFoxDocket;
 import lodsve.springfox.paths.SpringFoxPathProvider;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -12,7 +14,7 @@ import org.springframework.util.Assert;
 /**
  * 用来注册spring fox路径处理器.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/3/24 上午9:52
  */
 public class SpringFoxRegistrar implements ImportBeanDefinitionRegistrar {
@@ -21,6 +23,12 @@ public class SpringFoxRegistrar implements ImportBeanDefinitionRegistrar {
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+        Boolean enableSpringfox = Profiles.getProfile("springfox");
+
+        if (!enableSpringfox) {
+            return;
+        }
+
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableSpringFox.class.getName(), false));
         Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableSpringFox.class.getName(), importingClassMetadata.getClassName()));
 
