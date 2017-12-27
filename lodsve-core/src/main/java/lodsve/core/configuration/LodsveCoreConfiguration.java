@@ -1,6 +1,6 @@
 package lodsve.core.configuration;
 
-import lodsve.core.appllication.ApplicationProperties;
+import lodsve.core.application.ApplicationProperties;
 import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.core.email.EmailProperties;
 import org.springframework.context.annotation.ComponentScan;

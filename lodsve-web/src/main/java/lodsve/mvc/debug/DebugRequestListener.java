@@ -1,6 +1,6 @@
 package lodsve.mvc.debug;
 
-import lodsve.core.appllication.ApplicationProperties;
+import lodsve.core.application.ApplicationProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

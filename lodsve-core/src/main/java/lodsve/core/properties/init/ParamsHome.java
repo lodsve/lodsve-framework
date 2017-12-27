@@ -40,7 +40,7 @@ public class ParamsHome {
     private static final String EXT_PARAMS_FILE_NAME = "ext.params.file";
 
     private static final String ROOT_PARAM_FILE_NAME = "root.properties";
-    private static final String PREFIX_SYSTEM = "system:";
+    private static final String PREFIX_FILE = "file:";
     private static final String PREFIX_CLASSPATH = "classpath:";
     private static final Properties EXT_PARAMS_PROPERTIES = new Properties();
 
@@ -95,8 +95,8 @@ public class ParamsHome {
                 System.err.println(e.getMessage());
                 throw new RuntimeException("解析配置文件路径异常!");
             }
-        } else if (StringUtils.indexOf(paramsPath, PREFIX_SYSTEM) == 0) {
-            paramsPath = StringUtils.removeStart(paramsPath, PREFIX_SYSTEM);
+        } else if (StringUtils.indexOf(paramsPath, PREFIX_FILE) == 0) {
+            paramsPath = StringUtils.removeStart(paramsPath, PREFIX_FILE);
         }
 
         Resource paramsResource = new FileSystemResource(paramsPath + File.separator + ROOT_PARAM_FILE_NAME);
@@ -116,7 +116,7 @@ public class ParamsHome {
             throw new RuntimeException("配置文件中没有rootKey:[" + ROOT_PARAM_KEY + "]");
         }
 
-        PARAMS_ROOT = paramsPath + File.separator + root;
+        PARAMS_ROOT = org.springframework.util.StringUtils.cleanPath(paramsPath + File.separator + root);
         System.out.println(String.format("获取到的配置文件路径为:'%s'", PARAMS_ROOT));
 
         // 获取devMode的值

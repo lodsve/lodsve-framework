@@ -1,6 +1,6 @@
 package lodsve.mvc.config;
 
-import lodsve.core.appllication.ApplicationProperties;
+import lodsve.core.application.ApplicationProperties;
 import lodsve.mvc.context.WebContextInterceptor;
 import lodsve.mvc.convert.EnumCodeConverterFactory;
 import lodsve.mvc.convert.StringDateConvertFactory;

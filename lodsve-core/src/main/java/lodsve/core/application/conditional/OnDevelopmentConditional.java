@@ -1,4 +1,4 @@
-package lodsve.core.appllication.conditional;
+package lodsve.core.application.conditional;
 
 import lodsve.core.condition.ConditionOutcome;
 import lodsve.core.condition.SpringBootCondition;
