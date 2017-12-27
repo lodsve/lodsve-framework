@@ -3,7 +3,7 @@
  transmission in whole or in part, in any form or by any means, electronic, mechanical <br>
  or otherwise, is prohibited without the prior written consent of the copyright owner. <br>
  ****************************************************************************************/
-package lodsve.test.mock;
+package lodsve.test.mock.mockito;
 
 import lodsve.test.base.BaseTest;
 import org.junit.Before;

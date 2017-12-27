@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @version V1.0, 12-7-10 下午9:27
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestConfiguration.class, initializers = ProfileInitializer.class)
+@ContextConfiguration(locations = "classpath*:/META-INF/spring/*.xml", initializers = ProfileInitializer.class)
 @TestExecutionListeners(LodsveTestExecutionListener.class)
 public class BaseTest extends AbstractJUnit4SpringContextTests {
 }

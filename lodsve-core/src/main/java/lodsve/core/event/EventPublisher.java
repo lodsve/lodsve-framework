@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
  * @version V1.0
  * @createTime 13-4-27 上午4:57
  */
-@Component
 public class EventPublisher {
     /**
      * Logger.

@@ -20,12 +20,12 @@ public class LodsveTestExecutionListener implements TestExecutionListener {
     @Override
     public void beforeTestClass(TestContext testContext) throws Exception {
         ParamsHome.getInstance().init(StringUtils.EMPTY);
-        // 配置log4j
-        Log4JConfiguration.init();
-
         // 配置文件
         EnvLoader.init();
         IniLoader.init();
+
+        // 配置log4j
+        Log4JConfiguration.init();
 
         ApplicationHelper.getInstance().addApplicationContext(testContext.getApplicationContext());
     }
