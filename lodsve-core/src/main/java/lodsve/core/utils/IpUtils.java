@@ -1,6 +1,6 @@
 package lodsve.core.utils;
 
-import com.alibaba.fastjson.JSONObject;
+import lodsve.core.json.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * 操作ip的工具类.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0 13-12-10 下午11:37
  */
 public class IpUtils {
@@ -23,7 +23,7 @@ public class IpUtils {
     /**
      * 默认的识别IP的地址(第三方运营商)
      */
-    private static final String REQUEST_URL = "http://ip.taobao.com/base/getIpInfo.php?ip=%s";
+    private static final String REQUEST_URL = "http://ip.taobao.com/service/getIpInfo.php?ip=%s";
 
     /**
      * 私有化构造器
@@ -56,11 +56,12 @@ public class IpUtils {
             return Collections.emptyMap();
         }
 
-        JSONObject object = JSONObject.parseObject(message);
-        Integer result = object.getInteger("code");
-        if (result != null && Integer.valueOf(0).equals(result)) {
+        Map<String, Object> object = JsonUtils.toMap(message);
+
+        Object result = object.get("code");
+        if (result != null && "0".equals(result.toString())) {
             logger.debug("get from '{}' success!", REQUEST_URL);
-            return (Map<String, String>) object.getObject("data", Map.class);
+            return (Map<String, String>) object.get("data");
         } else {
             logger.error("get from '{}' failure!", REQUEST_URL);
             return Collections.emptyMap();
