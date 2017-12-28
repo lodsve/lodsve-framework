@@ -25,7 +25,7 @@ public class ParamsHome {
     /**
      * 容器启动参数
      */
-    private static final String JVM_PARAM_PATH = "params.home";
+    public static final String JVM_PARAM_PATH = "params.home";
     /**
      * 环境变量
      */
