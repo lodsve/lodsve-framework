@@ -1,7 +1,5 @@
-package lodsve.core.test.context;
+package lodsve.core.context;
 
-import lodsve.core.context.ApplicationHelper;
-import lodsve.core.context.SpringSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

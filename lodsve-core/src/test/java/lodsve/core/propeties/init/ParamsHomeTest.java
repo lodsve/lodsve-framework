@@ -1,6 +1,7 @@
 package lodsve.core.propeties.init;
 
 import lodsve.core.properties.init.ParamsHome;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -14,6 +15,6 @@ public class ParamsHomeTest {
     @Test
     public void test01() {
         ParamsHome.getInstance().init("classpath:/META-INF/config-template");
-        System.out.println(ParamsHome.getInstance().getParamsRoot());
+        Assert.assertNotNull(ParamsHome.getInstance().getParamsRoot());
     }
 }

@@ -10,7 +10,7 @@
 
     <context:component-scan base-package="lodsve.core.script"/>
 
-    <bean class="lodsve.core.test.context.DemoService">
+    <bean class="lodsve.core.context.DemoService">
         <property name="sayWhat" value="Hello World!Sun.Hao!"/>
     </bean>
 
