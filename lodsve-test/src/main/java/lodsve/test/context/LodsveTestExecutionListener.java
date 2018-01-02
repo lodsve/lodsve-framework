@@ -1,4 +1,4 @@
-package lodsve.test.core;
+package lodsve.test.context;
 
 import lodsve.core.context.ApplicationHelper;
 import lodsve.core.logger.Log4JConfiguration;
@@ -9,8 +9,6 @@ import lodsve.core.utils.StringUtils;
 import lodsve.test.base.ParamsPath;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
-
-import java.lang.reflect.Method;
 
 /**
  * Lodsve TestExecutionListener.
@@ -56,8 +54,11 @@ public class LodsveTestExecutionListener implements TestExecutionListener {
     }
 
     private void initPath(TestContext testContext) {
+        if (System.getProperties().keySet().contains(ParamsHome.JVM_PARAM_PATH)) {
+            return;
+        }
+
         Class<?> clazz = testContext.getTestClass();
-        Method method = testContext.getTestMethod();
 
         ParamsPath paramsPath;
         if (clazz.isAnnotationPresent(ParamsPath.class)) {

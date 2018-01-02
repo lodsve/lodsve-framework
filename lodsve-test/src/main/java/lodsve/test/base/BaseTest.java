@@ -1,7 +1,7 @@
 package lodsve.test.base;
 
 import lodsve.core.properties.profile.ProfileInitializer;
-import lodsve.test.core.LodsveTestExecutionListener;
+import lodsve.test.context.LodsveTestExecutionListener;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
