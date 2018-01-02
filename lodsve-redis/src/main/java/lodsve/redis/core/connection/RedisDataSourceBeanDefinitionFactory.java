@@ -1,7 +1,6 @@
 package lodsve.redis.core.connection;
 
 import lodsve.core.autoconfigure.AutoConfigurationBuilder;
-import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 import lodsve.redis.core.properties.RedisProperties;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -18,11 +17,8 @@ public class RedisDataSourceBeanDefinitionFactory {
 
     public RedisDataSourceBeanDefinitionFactory(String dataSourceName) {
         this.dataSourceName = dataSourceName;
-        AutoConfigurationBuilder.Builder<RedisProperties> builder = new AutoConfigurationBuilder.Builder<>();
-        builder.setAnnotation(RedisProperties.class.getAnnotation(ConfigurationProperties.class));
-        builder.setClazz(RedisProperties.class);
 
-        this.redisProperties = builder.build();
+        this.redisProperties = new AutoConfigurationBuilder.Builder<>(RedisProperties.class).build();
     }
 
     public BeanDefinition build() {

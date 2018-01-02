@@ -4,7 +4,6 @@ import com.p6spy.engine.common.P6Util;
 import com.p6spy.engine.spy.P6ModuleManager;
 import com.p6spy.engine.spy.option.P6OptionsSource;
 import lodsve.core.autoconfigure.AutoConfigurationBuilder;
-import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 import lodsve.core.properties.Env;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.mybatis.properties.P6spyProperties;
@@ -27,11 +26,7 @@ public class LodsveP6OptionsSource implements P6OptionsSource {
     private final Map<String, String> options;
 
     public static void init() {
-        AutoConfigurationBuilder.Builder<P6spyProperties> builder = new AutoConfigurationBuilder.Builder<>();
-        builder.setAnnotation(P6spyProperties.class.getAnnotation(ConfigurationProperties.class));
-        builder.setClazz(P6spyProperties.class);
-
-        P6spyProperties properties = builder.build();
+        P6spyProperties properties = new AutoConfigurationBuilder.Builder<>(P6spyProperties.class).build();
 
         config = properties.getConfig();
         if (config == null || !config.exists()) {

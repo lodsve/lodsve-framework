@@ -70,6 +70,43 @@ public class AutoConfigurationBuilder {
         return object;
     }
 
+    @SuppressWarnings("unchecked")
+    private void loadProp(String... configLocations) {
+        Properties prop = new Properties();
+        prop.putAll(Env.getSystemEnvs());
+        prop.putAll(Env.getEnvs());
+
+        if (ArrayUtils.isEmpty(configLocations)) {
+            ParamsHome.getInstance().coveredWithExtResource(prop);
+            configuration = new PropertiesConfiguration(prop);
+            configurations.putAll((Map) prop);
+            return;
+        }
+
+
+        for (String location : configLocations) {
+            location = PropertyPlaceholderHelper.replacePlaceholder(location, true, Env.getEnvs());
+
+            Resource resource = this.resourceLoader.getResource(location);
+            if (!resource.exists()) {
+                continue;
+            }
+
+            try {
+                PropertiesLoaderUtils.fillProperties(prop, new EncodedResource(resource, "UTF-8"));
+            } catch (IOException e) {
+                if (logger.isErrorEnabled()) {
+                    logger.error(String.format("fill properties with file '%s' error!", resource.getFilename()));
+                }
+            }
+        }
+
+        // 获取覆盖的值
+        ParamsHome.getInstance().coveredWithExtResource(prop);
+        configuration = new PropertiesConfiguration(prop);
+        configurations.putAll((Map) prop);
+    }
+
     private <T> T generateObject(String prefix, Class<T> clazz) {
         T object = BeanUtils.instantiate(clazz);
         BeanWrapper beanWrapper = new BeanWrapperImpl(object);
@@ -117,7 +154,7 @@ public class AutoConfigurationBuilder {
     private Object getValueForType(String key, Class<?> type, Method readMethod) {
         Object value;
 
-        if (isSimpleType(type)) {
+        if (COMMON_TYPES.contains(type)) {
             value = getValueForSimpleType(key, type);
         } else if (Map.class.equals(type)) {
             value = getValueForMap(key, readMethod);
@@ -131,6 +168,75 @@ public class AutoConfigurationBuilder {
         }
 
         return value;
+    }
+
+    private Object getValueForSimpleType(String key, Class<?> type) {
+        return evalValue(configuration.getString(key), type);
+    }
+
+    private Object evalValue(String value, Class<?> type) {
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
+
+        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true, configurations);
+
+        if (Boolean.class.equals(type) || boolean.class.equals(type)) {
+            return Boolean.valueOf(text);
+        } else if (Long.class.equals(type) || long.class.equals(type)) {
+            return Long.valueOf(text);
+        } else if (Integer.class.equals(type) || int.class.equals(type)) {
+            return Integer.valueOf(text);
+        } else if (String.class.equals(type)) {
+            return text;
+        } else if (Double.class.equals(type) || double.class.equals(type)) {
+            return Double.valueOf(text);
+        } else if (Resource.class.equals(type)) {
+            return resourceLoader.getResource(text);
+        } else if (Properties.class.equals(type)) {
+            try {
+                return PropertiesLoaderUtils.loadProperties(resourceLoader.getResource(text));
+            } catch (IOException e) {
+                if (logger.isErrorEnabled()) {
+                    logger.error(String.format("file '{%s}' not found!", text));
+                }
+            }
+        } else if (Class.class.equals(type)) {
+            try {
+                return ClassUtils.forName(text, AutoConfigurationBuilder.class.getClassLoader());
+            } catch (ClassNotFoundException e) {
+                if (logger.isErrorEnabled()) {
+                    logger.error(String.format("class '{%s}' not found!", text));
+                }
+                return Void.class;
+            }
+        }
+
+        return text;
+    }
+
+    private Map<String, Object> getValueForMap(String prefix, Method readMethod) {
+        if (!Map.class.equals(readMethod.getReturnType()) || !String.class.equals(GenericUtils.getGenericParameter0(readMethod))) {
+            return null;
+        }
+
+        Map<String, Object> map = new HashMap<>(16);
+        Class<?> secondGenericClazz = GenericUtils.getGenericParameter(readMethod, 1);
+        Set<String> keys = configuration.subset(prefix).getKeys();
+        for (String key : keys) {
+            String[] temp = StringUtils.split(key, ".");
+            if (temp.length < 2) {
+                continue;
+            }
+
+            String keyInMap = temp[0];
+            Object object = generateObject(prefix + "." + keyInMap, secondGenericClazz);
+            if (object != null) {
+                map.put(keyInMap, object);
+            }
+        }
+
+        return map;
     }
 
     private Object getValueForCollection(String prefix, Class<?> param, Class<?> type, Method readMethod) {
@@ -177,75 +283,6 @@ public class AutoConfigurationBuilder {
         return realKeyIndexs.size();
     }
 
-    @SuppressWarnings("unchecked")
-    private void loadProp(String... configLocations) {
-        Properties prop = new Properties();
-        prop.putAll(Env.getSystemEnvs());
-        prop.putAll(Env.getEnvs());
-
-        if (ArrayUtils.isEmpty(configLocations)) {
-            ParamsHome.getInstance().coveredWithExtResource(prop);
-            configuration = new PropertiesConfiguration(prop);
-            configurations.putAll((Map) prop);
-            return;
-        }
-
-
-        for (String location : configLocations) {
-            location = PropertyPlaceholderHelper.replacePlaceholder(location, true, Env.getEnvs());
-
-            Resource resource = this.resourceLoader.getResource(location);
-            if (!resource.exists()) {
-                continue;
-            }
-
-            try {
-                PropertiesLoaderUtils.fillProperties(prop, new EncodedResource(resource, "UTF-8"));
-            } catch (IOException e) {
-                if (logger.isErrorEnabled()) {
-                    logger.error(String.format("fill properties with file '%s' error!", resource.getFilename()));
-                }
-            }
-        }
-
-        // 获取覆盖的值
-        ParamsHome.getInstance().coveredWithExtResource(prop);
-        configuration = new PropertiesConfiguration(prop);
-        configurations.putAll((Map) prop);
-    }
-
-    private boolean isSimpleType(Class<?> type) {
-        return COMMON_TYPES.contains(type);
-    }
-
-    private Object getValueForSimpleType(String key, Class<?> type) {
-        return evalValue(configuration.getString(key), type);
-    }
-
-    private Map<String, Object> getValueForMap(String prefix, Method readMethod) {
-        if (!Map.class.equals(readMethod.getReturnType()) || !String.class.equals(GenericUtils.getGenericParameter0(readMethod))) {
-            return null;
-        }
-
-        Map<String, Object> map = new HashMap<>(16);
-        Class<?> secondGenericClazz = GenericUtils.getGenericParameter(readMethod, 1);
-        Set<String> keys = configuration.subset(prefix).getKeys();
-        for (String key : keys) {
-            String[] temp = StringUtils.split(key, ".");
-            if (temp.length < 2) {
-                continue;
-            }
-
-            String keyInMap = temp[0];
-            Object object = generateObject(prefix + "." + keyInMap, secondGenericClazz);
-            if (object != null) {
-                map.put(keyInMap, object);
-            }
-        }
-
-        return map;
-    }
-
     private String getCamelName(String name) {
         Assert.hasText(name);
 
@@ -266,60 +303,12 @@ public class AutoConfigurationBuilder {
         return result.toString();
     }
 
-    private Object evalValue(String value, Class<?> type) {
-        if (StringUtils.isBlank(value)) {
-            return null;
-        }
-
-        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true, configurations);
-
-        if (Boolean.class.equals(type) || boolean.class.equals(type)) {
-            return Boolean.valueOf(text);
-        } else if (Long.class.equals(type) || long.class.equals(type)) {
-            return Long.valueOf(text);
-        } else if (Integer.class.equals(type) || int.class.equals(type)) {
-            return Integer.valueOf(text);
-        } else if (String.class.equals(type)) {
-            return text;
-        } else if (Double.class.equals(type) || double.class.equals(type)) {
-            return Double.valueOf(text);
-        } else if (Resource.class.equals(type)) {
-            return resourceLoader.getResource(text);
-        } else if (Properties.class.equals(type)) {
-            try {
-                return PropertiesLoaderUtils.loadProperties(resourceLoader.getResource(text));
-            } catch (IOException e) {
-                if (logger.isErrorEnabled()) {
-                    logger.error(String.format("file '{%s}' not found!", text));
-                }
-            }
-        } else if (Class.class.equals(type)) {
-            try {
-                return ClassUtils.forName(text, AutoConfigurationBuilder.class.getClassLoader());
-            } catch (ClassNotFoundException e) {
-                if (logger.isErrorEnabled()) {
-                    logger.error(String.format("class '{%s}' not found!", text));
-                }
-                return Void.class;
-            }
-        }
-
-        return text;
-    }
-
     public static class Builder<T> {
         private AutoConfigurationBuilder builder = new AutoConfigurationBuilder();
         private Class<T> clazz;
-        private ConfigurationProperties annotation;
 
-        public Builder<T> setClazz(Class<T> clazz) {
+        public Builder(Class<T> clazz) {
             this.clazz = clazz;
-            return this;
-        }
-
-        public Builder<T> setAnnotation(ConfigurationProperties annotation) {
-            this.annotation = annotation;
-            return this;
         }
 
         public T build() {
@@ -327,6 +316,8 @@ public class AutoConfigurationBuilder {
             if (clazz == null) {
                 throw new IllegalArgumentException("clazz is required!");
             }
+
+            ConfigurationProperties annotation = clazz.getAnnotation(ConfigurationProperties.class);
 
             if (annotation == null) {
                 throw new IllegalArgumentException("annotation is required!");

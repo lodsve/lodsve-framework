@@ -31,7 +31,7 @@ import static lodsve.core.properties.init.ParamsHome.PARAMS_HOME_NAME;
  * 配置listener[应该配置在web.xml中的所有listener之前，优先加载]
  * <pre>
  *  &lt;listener&gt;
- *      &lt;listener-class&gt;message.config.init.ParamsHomeListener&lt;/listener-class&gt;
+ *      &lt;listener-class&gt;lodsve.core.properties.init.ParamsHomeListener&lt;/listener-class&gt;
  *  &lt;/listener&gt;
  * </pre>
  * </li>
@@ -39,7 +39,7 @@ import static lodsve.core.properties.init.ParamsHome.PARAMS_HOME_NAME;
  * </li>
  * <li>
  * 容器启动参数<br/>
- * {@code -params.home=your params home }
+ * {@code -Dparams.home=your params home }
  * </li>
  * <li>
  * 环境变量<br/>
@@ -47,7 +47,7 @@ import static lodsve.core.properties.init.ParamsHome.PARAMS_HOME_NAME;
  * </li>
  * </ol>
  * 如果在classpath下,可以加上前缀classpath:you params home<br/>
- * 如果在文件系统中,可加前缀system:或者不加也行
+ * 如果在文件系统中,可加前缀file:或者不加也行
  *
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0

@@ -8,7 +8,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 /**
  * 在properties bean初始化前设置配置文件中的值.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/1/9 下午5:41
  */
 public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProcessor {
@@ -22,10 +22,7 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
             return bean;
         }
 
-        AutoConfigurationBuilder.Builder builder = new AutoConfigurationBuilder.Builder();
-        builder.setClazz(bean.getClass());
-        builder.setAnnotation(annotation);
-        return builder.build();
+        return new AutoConfigurationBuilder.Builder(bean.getClass()).build();
     }
 
     @Override
