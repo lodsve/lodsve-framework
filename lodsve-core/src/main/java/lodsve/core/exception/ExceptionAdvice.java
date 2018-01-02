@@ -6,6 +6,7 @@ import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -29,7 +30,7 @@ import java.util.List;
 /**
  * 异常处理,返回前端类似于<code>{"code": 10001,"message": "test messages"}</code>的json数据.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 15/8/14 上午9:48
  */
 @ControllerAdvice
@@ -61,7 +62,16 @@ public class ExceptionAdvice {
         Resource resource = Env.getFileEnv(folderPath);
 
         try {
-            resources.addAll(Arrays.asList(resolver.getResources("file:" + resource.getFile().getAbsolutePath() + "/*.properties")));
+            String pathToUse;
+            if (resource instanceof ClassPathResource) {
+                pathToUse = ((ClassPathResource) resource).getPath() + "/*.properties";
+            } else if (resource instanceof FileSystemResource) {
+                pathToUse = resource.getFile().getAbsolutePath() + "/*.properties";
+            } else {
+                pathToUse = resource.getURL().getPath() + "/*.properties";
+            }
+
+            resources.addAll(Arrays.asList(resolver.getResources(pathToUse)));
         } catch (IOException e) {
             logger.error("resolver resource:'{" + resource + "}' is error!", e);
             e.printStackTrace();

@@ -165,7 +165,7 @@ public class IniLoader {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource[] resources;
         try {
-            resources = resolver.getResources("file:" + ParamsHome.getInstance().getParamsRoot() + "/*.ini");
+            resources = resolver.getResources(ParamsHome.getInstance().getParamsRoot() + "/*.ini");
         } catch (IOException e) {
             return;
         }

@@ -53,13 +53,13 @@ public class EnvLoader {
     public static Resource getFileEnv(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
-        return loader.getResource("file:" + ParamsHome.getInstance().getParamsRoot() + File.separator + "files" + File.separator + fileName);
+        return loader.getResource(ParamsHome.getInstance().getParamsRoot() + File.separator + "files" + File.separator + fileName);
     }
 
     public static Resource getFrameworkEnv(String fileName) {
         ResourceLoader loader = new DefaultResourceLoader();
 
-        return loader.getResource("file:" + ParamsHome.getInstance().getParamsRoot() + File.separator + "framework" + File.separator + fileName);
+        return loader.getResource(ParamsHome.getInstance().getParamsRoot() + File.separator + "framework" + File.separator + fileName);
     }
 
     public static void init() {
@@ -67,8 +67,8 @@ public class EnvLoader {
         List<Resource> resources = new ArrayList<>();
 
         try {
-            resources.addAll(Arrays.asList(resolver.getResources("file:" + ParamsHome.getInstance().getParamsRoot() + "/*.properties")));
-            resources.addAll(Arrays.asList(resolver.getResources("file:" + ParamsHome.getInstance().getParamsRoot() + "/framework/*.properties")));
+            resources.addAll(Arrays.asList(resolver.getResources(ParamsHome.getInstance().getParamsRoot() + "/*.properties")));
+            resources.addAll(Arrays.asList(resolver.getResources(ParamsHome.getInstance().getParamsRoot() + "/framework/*.properties")));
         } catch (IOException e) {
             return;
         }

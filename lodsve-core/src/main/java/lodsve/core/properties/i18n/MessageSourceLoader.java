@@ -42,9 +42,9 @@ public class MessageSourceLoader implements InitializingBean {
 
     private Resource[] getResources() throws IOException {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] propertiesResources = resolver.getResources("file:" + ParamsHome.getInstance().getParamsRoot() + "/i18n/**/*.properties");
-        Resource[] htmlResources = resolver.getResources("file:" + ParamsHome.getInstance().getParamsRoot() + "/i18n/**/*.html");
-        Resource[] txtResources = resolver.getResources("file:" + ParamsHome.getInstance().getParamsRoot() + "/i18n/**/*.txt");
+        Resource[] propertiesResources = resolver.getResources(ParamsHome.getInstance().getParamsRoot() + "/i18n/**/*.properties");
+        Resource[] htmlResources = resolver.getResources(ParamsHome.getInstance().getParamsRoot() + "/i18n/**/*.html");
+        Resource[] txtResources = resolver.getResources(ParamsHome.getInstance().getParamsRoot() + "/i18n/**/*.txt");
 
         List<Resource> resources = new ArrayList<>();
         resources.addAll(Arrays.asList(propertiesResources));
