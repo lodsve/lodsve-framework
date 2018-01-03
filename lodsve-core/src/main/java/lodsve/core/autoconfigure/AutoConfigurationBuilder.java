@@ -2,10 +2,11 @@ package lodsve.core.autoconfigure;
 
 import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
 import lodsve.core.autoconfigure.annotations.Required;
+import lodsve.core.io.support.LodsveResourceLoader;
 import lodsve.core.properties.Env;
-import lodsve.core.properties.init.ParamsHome;
 import lodsve.core.properties.env.Configuration;
 import lodsve.core.properties.env.PropertiesConfiguration;
+import lodsve.core.properties.init.ParamsHome;
 import lodsve.core.utils.GenericUtils;
 import lodsve.core.utils.NumberUtils;
 import lodsve.core.utils.PropertyPlaceholderHelper;
@@ -17,7 +18,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.core.convert.TypeDescriptor;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.EncodedResource;
@@ -28,14 +28,7 @@ import org.springframework.util.ClassUtils;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 自动装配生成器.
@@ -49,7 +42,7 @@ public class AutoConfigurationBuilder {
     private static final List<?> COMMON_TYPES = Arrays.asList(Boolean.class, boolean.class, Long.class, long.class,
             Integer.class, int.class, String.class, Double.class, double.class, Resource.class, Properties.class,
             Class.class);
-    private ResourceLoader resourceLoader = new DefaultResourceLoader();
+    private ResourceLoader resourceLoader = new LodsveResourceLoader();
 
     private static final Map<Class<?>, Object> CLASS_OBJECT_MAPPING = new HashMap<>(16);
     private static Configuration configuration;
