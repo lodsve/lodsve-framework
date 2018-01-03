@@ -1,11 +1,11 @@
 package lodsve.core.properties.env;
 
+import lodsve.core.io.support.LodsvePathMatchingResourcePatternResolver;
+import lodsve.core.io.support.LodsveResourceLoader;
 import lodsve.core.properties.init.ParamsHome;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.EncodedResource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
@@ -51,19 +51,19 @@ public class EnvLoader {
     }
 
     public static Resource getFileEnv(String fileName) {
-        ResourceLoader loader = new DefaultResourceLoader();
+        ResourceLoader loader = new LodsveResourceLoader();
 
         return loader.getResource(ParamsHome.getInstance().getParamsRoot() + File.separator + "files" + File.separator + fileName);
     }
 
     public static Resource getFrameworkEnv(String fileName) {
-        ResourceLoader loader = new DefaultResourceLoader();
+        ResourceLoader loader = new LodsveResourceLoader();
 
         return loader.getResource(ParamsHome.getInstance().getParamsRoot() + File.separator + "framework" + File.separator + fileName);
     }
 
     public static void init() {
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        ResourcePatternResolver resolver = new LodsvePathMatchingResourcePatternResolver();
         List<Resource> resources = new ArrayList<>();
 
         try {

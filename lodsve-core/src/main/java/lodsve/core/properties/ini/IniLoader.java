@@ -1,21 +1,16 @@
 package lodsve.core.properties.ini;
 
+import lodsve.core.io.support.LodsvePathMatchingResourcePatternResolver;
 import lodsve.core.properties.init.ParamsHome;
 import lodsve.core.utils.FileUtils;
 import lodsve.core.utils.StringUtils;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 解析ini文件.
@@ -162,7 +157,7 @@ public class IniLoader {
     }
 
     public static void init() {
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        ResourcePatternResolver resolver = new LodsvePathMatchingResourcePatternResolver();
         Resource[] resources;
         try {
             resources = resolver.getResources(ParamsHome.getInstance().getParamsRoot() + "/*.ini");

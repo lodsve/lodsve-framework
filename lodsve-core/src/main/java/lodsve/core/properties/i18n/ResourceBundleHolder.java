@@ -1,5 +1,6 @@
 package lodsve.core.properties.i18n;
 
+import lodsve.core.io.support.LodsvePathMatchingResourcePatternResolver;
 import lodsve.core.utils.FileUtils;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
@@ -7,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.EncodedResource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
@@ -122,7 +122,7 @@ public class ResourceBundleHolder implements Serializable {
 
     private void loadMessageResourcesFromClasspath(String baseFilePath, int order) {
         // 类路径下的文件
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        ResourcePatternResolver resolver = new LodsvePathMatchingResourcePatternResolver();
 
         Resource r = resolver.getResource(baseFilePath);
         if (!r.exists() || !r.isReadable()) {

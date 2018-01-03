@@ -47,6 +47,7 @@ import static lodsve.core.properties.init.ParamsHome.PARAMS_HOME_NAME;
  * </li>
  * </ol>
  * 如果在classpath下,可以加上前缀classpath:you params home<br/>
+ * 如果在zookeeper中,加上前缀zookeeper:you params home<br/>
  * 如果在文件系统中,可加前缀file:或者不加也行
  *
  * @author sunhao(sunhao.java @ gmail.com)

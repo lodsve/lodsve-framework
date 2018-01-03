@@ -187,5 +187,10 @@
             <artifactId>gson</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 </project>

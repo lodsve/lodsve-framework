@@ -1,5 +1,7 @@
 package lodsve.core.exception;
 
+import lodsve.core.io.ZookeeperResource;
+import lodsve.core.io.support.LodsvePathMatchingResourcePatternResolver;
 import lodsve.core.properties.Env;
 import lodsve.core.properties.i18n.ResourceBundleHolder;
 import lodsve.core.utils.PropertyPlaceholderHelper;
@@ -9,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -46,7 +47,7 @@ public class ExceptionAdvice {
 
     @PostConstruct
     public void init() throws IOException {
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        ResourcePatternResolver resolver = new LodsvePathMatchingResourcePatternResolver();
 
         // 1. 框架异常
         List<Resource> resources = new ArrayList<>();
@@ -67,6 +68,8 @@ public class ExceptionAdvice {
                 pathToUse = ((ClassPathResource) resource).getPath() + "/*.properties";
             } else if (resource instanceof FileSystemResource) {
                 pathToUse = resource.getFile().getAbsolutePath() + "/*.properties";
+            } else if (resource instanceof ZookeeperResource) {
+                pathToUse = ((ZookeeperResource) resource).getPath() + "/*.properties";
             } else {
                 pathToUse = resource.getURL().getPath() + "/*.properties";
             }

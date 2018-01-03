@@ -91,6 +91,7 @@
         <spring.data.redis.version>1.6.2.RELEASE</spring.data.redis.version>
         <spring.data.mongodb.version>1.6.4.RELEASE</spring.data.mongodb.version>
         <spring.rabbit.version>1.7.5.RELEASE</spring.rabbit.version>
+        <zkclient.version>0.10</zkclient.version>
         <jedis.version>2.7.3</jedis.version>
         <springfox.version>2.4.0</springfox.version>
         <swagger.annotations.version>1.5.8</swagger.annotations.version>
@@ -699,6 +700,14 @@
                 <version>${spring.rabbit.version}</version>
             </dependency>
             <!-- rabbit end -->
+
+            <!-- zookeeper driver zkclient start -->
+            <dependency>
+                <groupId>com.101tec</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>${zkclient.version}</version>
+            </dependency>
+            <!-- zookeeper driver zkclient end -->
 
             <!-- spring fox start -->
             <dependency>

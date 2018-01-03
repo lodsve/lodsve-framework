@@ -1,7 +1,7 @@
 package lodsve.core.properties.init;
 
+import lodsve.core.io.support.LodsveResourceLoader;
 import lodsve.core.utils.StringUtils;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.EncodedResource;
@@ -42,6 +42,7 @@ public class ParamsHome {
     private static final String ROOT_PARAM_FILE_NAME = "root.properties";
     private static final String PREFIX_FILE = "file:";
     private static final String PREFIX_CLASSPATH = "classpath:";
+    private static final String PREFIX_ZOOKEEPER = "zookeeper:";
     private static final Properties EXT_PARAMS_PROPERTIES = new Properties();
 
     /**
@@ -83,7 +84,8 @@ public class ParamsHome {
         }
 
         if (!StringUtils.startsWith(paramsPath, PREFIX_FILE) &&
-                !StringUtils.startsWith(paramsPath, PREFIX_CLASSPATH)) {
+                !StringUtils.startsWith(paramsPath, PREFIX_CLASSPATH) &&
+                !StringUtils.startsWith(paramsPath, PREFIX_ZOOKEEPER)) {
             // 没有前缀的情况下，默认是file:
             paramsPath = PREFIX_FILE + paramsPath;
         }
@@ -91,7 +93,7 @@ public class ParamsHome {
         System.out.println(String.format("解析得到的paramsPath为【%s】", paramsPath));
 
         String rootPropertiesPath = paramsPath + File.separator + ROOT_PARAM_FILE_NAME;
-        Resource paramsResource = new DefaultResourceLoader().getResource(rootPropertiesPath);
+        Resource paramsResource = new LodsveResourceLoader().getResource(org.springframework.util.StringUtils.cleanPath(rootPropertiesPath));
 
         Properties properties;
         try {
