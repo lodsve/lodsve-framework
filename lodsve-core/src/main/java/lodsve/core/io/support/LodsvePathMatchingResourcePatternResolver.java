@@ -44,6 +44,9 @@ public class LodsvePathMatchingResourcePatternResolver extends PathMatchingResou
         Resource[] rootDirResources = getResources(rootDirPath);
         Set<Resource> result = new LinkedHashSet<>(16);
         for (Resource rootDirResource : rootDirResources) {
+            if(!rootDirResource.exists()) {
+                continue;
+            }
             result.addAll(doFindPathMatchingZookeeperResources(rootDirResource, subPattern));
         }
 

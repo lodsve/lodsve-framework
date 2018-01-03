@@ -69,12 +69,12 @@ public class ExceptionAdvice {
             } else if (resource instanceof FileSystemResource) {
                 pathToUse = resource.getFile().getAbsolutePath() + "/*.properties";
             } else if (resource instanceof ZookeeperResource) {
-                pathToUse = ((ZookeeperResource) resource).getPath() + "/*.properties";
+                pathToUse = "zookeeper:" + ((ZookeeperResource) resource).getPath() + "/*.properties";
             } else {
                 pathToUse = resource.getURL().getPath() + "/*.properties";
             }
 
-            resources.addAll(Arrays.asList(resolver.getResources(pathToUse)));
+            resources.addAll(Arrays.asList(resolver.getResources(org.springframework.util.StringUtils.cleanPath(pathToUse))));
         } catch (IOException e) {
             logger.error("resolver resource:'{" + resource + "}' is error!", e);
             e.printStackTrace();
