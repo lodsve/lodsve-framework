@@ -582,14 +582,6 @@
             </dependency>
             <!-- html,xml处理 end -->
 
-            <!-- 图片EXIF信息处理 start -->
-            <dependency>
-                <groupId>com.drewnoakes</groupId>
-                <artifactId>metadata-extractor</artifactId>
-                <version>${metadata.extractor.version}</version>
-            </dependency>
-            <!-- 图片EXIF信息处理 end -->
-
             <!-- 拼音 start -->
             <dependency>
                 <groupId>com.belerweb</groupId>

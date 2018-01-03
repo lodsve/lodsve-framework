@@ -113,11 +113,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.drewnoakes</groupId>
-            <artifactId>metadata-extractor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>com.belerweb</groupId>
             <artifactId>pinyin4j</artifactId>
             <optional>true</optional>
