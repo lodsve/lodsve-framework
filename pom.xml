@@ -522,6 +522,10 @@
                         <groupId>org.apache.velocity</groupId>
                         <artifactId>velocity-tools</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.zookeeper</groupId>
+                        <artifactId>zookeeper</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
