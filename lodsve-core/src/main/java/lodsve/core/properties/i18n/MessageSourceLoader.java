@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * i18n资源文件加载器
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 13-4-15 下午10:19
  */
 @Component
@@ -40,17 +40,33 @@ public class MessageSourceLoader implements InitializingBean {
         }
     }
 
-    private Resource[] getResources() throws IOException {
+    private Resource[] getResources() {
+
         ResourcePatternResolver resolver = new LodsvePathMatchingResourcePatternResolver();
-        Resource[] propertiesResources = resolver.getResources(ParamsHome.getInstance().getParamsRoot() + "/i18n/**/*.properties");
-        Resource[] htmlResources = resolver.getResources(ParamsHome.getInstance().getParamsRoot() + "/i18n/**/*.html");
-        Resource[] txtResources = resolver.getResources(ParamsHome.getInstance().getParamsRoot() + "/i18n/**/*.txt");
+        Resource[] propertiesResources;
+        try {
+            propertiesResources = resolver.getResources(ParamsHome.getInstance().getParamsRoot() + "/i18n/**/*.properties");
+        } catch (IOException e) {
+            propertiesResources = new Resource[0];
+        }
+        Resource[] htmlResources;
+        try {
+            htmlResources = resolver.getResources(ParamsHome.getInstance().getParamsRoot() + "/i18n/**/*.html");
+        } catch (IOException e) {
+            htmlResources = new Resource[0];
+        }
+        Resource[] txtResources;
+        try {
+            txtResources = resolver.getResources(ParamsHome.getInstance().getParamsRoot() + "/i18n/**/*.txt");
+        } catch (IOException e) {
+            txtResources = new Resource[0];
+        }
 
         List<Resource> resources = new ArrayList<>();
         resources.addAll(Arrays.asList(propertiesResources));
         resources.addAll(Arrays.asList(htmlResources));
         resources.addAll(Arrays.asList(txtResources));
 
-        return resources.toArray(new Resource[]{});
+        return resources.toArray(new Resource[resources.size()]);
     }
 }
