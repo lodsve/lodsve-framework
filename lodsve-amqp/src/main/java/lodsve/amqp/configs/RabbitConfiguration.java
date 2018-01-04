@@ -29,7 +29,6 @@ import org.springframework.retry.support.RetryTemplate;
  * @version V1.0, 2016-01-15 12:00
  */
 @Configuration
-@ComponentScan(basePackages = {"lodsve.amqp"})
 @EnableConfigurationProperties(RabbitProperties.class)
 public class RabbitConfiguration {
 

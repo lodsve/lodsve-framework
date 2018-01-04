@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 修改Jackson反序列化时对泛型的处理.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/1/18 下午1:38
  */
 public class LodsveJackson2JavaTypeMapper extends DefaultJackson2JavaTypeMapper {
@@ -31,7 +31,7 @@ public class LodsveJackson2JavaTypeMapper extends DefaultJackson2JavaTypeMapper 
         if (StringUtils.isEmpty(keyTypeId)) {
             return JSON_OBJECT_MAPPER.getTypeFactory().constructParametrizedType(forName(classTypeId), forName(classTypeId), forName(contentTypeId));
         } else {
-            return JSON_OBJECT_MAPPER.getTypeFactory().constructParametrizedType(forName(classTypeId), forName(keyTypeId), forName(contentTypeId));
+            return JSON_OBJECT_MAPPER.getTypeFactory().constructParametrizedType(forName(classTypeId), null, forName(keyTypeId), forName(contentTypeId));
         }
     }
 
