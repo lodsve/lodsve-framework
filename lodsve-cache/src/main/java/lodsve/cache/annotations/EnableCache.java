@@ -1,5 +1,6 @@
 package lodsve.cache.annotations;
 
+import lodsve.core.configuration.EnableLodsve;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;
@@ -19,6 +20,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@EnableLodsve
 @Import({CacheImportSelector.class})
 public @interface EnableCache {
     /**

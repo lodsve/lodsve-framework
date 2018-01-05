@@ -1,5 +1,6 @@
 package lodsve.mongodb.annotations;
 
+import lodsve.core.configuration.EnableLodsve;
 import lodsve.core.datasource.DataSource;
 import lodsve.mongodb.config.MongoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,6 +21,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@EnableLodsve
 @Import({MongoConfiguration.class, MongoBeanDefinitionRegistrar.class})
 public @interface EnableMongo {
     /**

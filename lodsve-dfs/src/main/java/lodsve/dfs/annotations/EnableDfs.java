@@ -1,5 +1,6 @@
 package lodsve.dfs.annotations;
 
+import lodsve.core.configuration.EnableLodsve;
 import lodsve.dfs.enums.DfsType;
 import org.springframework.context.annotation.Import;
 
@@ -20,6 +21,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Documented
 @Inherited
+@EnableLodsve
 @Import(DfsConfigurationSelector.class)
 public @interface EnableDfs {
 

@@ -1,5 +1,6 @@
 package lodsve.redis.core.annotations;
 
+import lodsve.core.configuration.EnableLodsve;
 import lodsve.redis.core.config.RedisConfiguration;
 import org.springframework.context.annotation.Import;
 
@@ -18,6 +19,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@EnableLodsve
 @Import({RedisConfiguration.class, RedisImportSelector.class})
 public @interface EnableRedis {
     /**

@@ -5,7 +5,6 @@ import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotationMetadata;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,12 +14,17 @@ import java.util.List;
  * @version 1.0 2017/12/12 12:53
  */
 public class LodsveExtConfigurationLoader implements ImportSelector {
+    private static boolean isInit = false;
+
     @Override
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
-        List<String> configs = new ArrayList<>(16);
-        configs.addAll(getConfigurations());
+        if (isInit) {
+            return new String[0];
+        }
 
-        return configs.toArray(new String[configs.size()]);
+        isInit = true;
+        List<String> imports = getConfigurations();
+        return imports.toArray(new String[imports.size()]);
     }
 
     private List<String> getConfigurations() {

@@ -1,5 +1,6 @@
 package lodsve.springfox.annotations;
 
+import lodsve.core.configuration.EnableLodsve;
 import lodsve.springfox.config.SpringFoxConfiguration;
 import org.springframework.context.annotation.Import;
 import springfox.documentation.spring.web.paths.RelativePathProvider;
@@ -16,6 +17,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Documented
+@EnableLodsve
 @Import({SpringFoxRegistrar.class, SpringFoxConfiguration.class})
 public @interface EnableSpringFox {
     /**

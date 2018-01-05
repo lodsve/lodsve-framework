@@ -1,5 +1,6 @@
 package lodsve.mybatis.configs.annotations;
 
+import lodsve.core.configuration.EnableLodsve;
 import lodsve.core.datasource.DataSource;
 import lodsve.mybatis.configs.MyBatisConfigurationSelector;
 import org.springframework.context.annotation.Import;
@@ -19,6 +20,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@EnableLodsve
 @Import(MyBatisConfigurationSelector.class)
 public @interface EnableMyBatis {
     /**

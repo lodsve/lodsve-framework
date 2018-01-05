@@ -1,6 +1,7 @@
 package lodsve.amqp.annotations;
 
 import lodsve.amqp.configs.RabbitConfiguration;
+import lodsve.core.configuration.EnableLodsve;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;
@@ -20,6 +21,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Documented
 @Inherited
+@EnableLodsve
 @Import(RabbitConfiguration.class)
 public @interface EnableAmqp {
 }
