@@ -76,6 +76,17 @@ public class ZookeeperResource extends AbstractResource {
         return createSession().exists(path);
     }
 
+    @Override
+    public String getFilename() {
+        String[] paths = StringUtils.split(path, "/");
+        return paths.length < 1 ? path : paths[paths.length - 1];
+    }
+
+    @Override
+    public boolean isReadable() {
+        return true;
+    }
+
     public List<String> listChildren() {
         return createSession().getChildren(path);
     }

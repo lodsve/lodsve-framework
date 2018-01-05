@@ -1,6 +1,6 @@
 package lodsve.core.properties;
 
-import lodsve.core.properties.i18n.DefaultResourceBundleMessageSource;
+import lodsve.core.properties.message.DefaultResourceBundleMessageSource;
 import lodsve.core.utils.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -93,7 +93,7 @@ public class Messages implements ApplicationContextAware {
      * @return
      */
     public static String getMessage(String code) {
-        return context.getMessage(code, Collections.emptyList().toArray(new String[0]), StringUtils.EMPTY, Locale.getDefault());
+        return context.getMessage(code, new Object[0], StringUtils.EMPTY, Locale.getDefault());
     }
 
     /**

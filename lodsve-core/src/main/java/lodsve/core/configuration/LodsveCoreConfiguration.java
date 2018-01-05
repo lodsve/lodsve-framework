@@ -8,8 +8,8 @@ import lodsve.core.email.EmailProperties;
 import lodsve.core.event.EventExecutor;
 import lodsve.core.event.EventPublisher;
 import lodsve.core.properties.env.EnvLoader;
-import lodsve.core.properties.i18n.DefaultResourceBundleMessageSource;
-import lodsve.core.properties.i18n.ResourceBundleHolder;
+import lodsve.core.properties.message.DefaultResourceBundleMessageSource;
+import lodsve.core.properties.message.ResourceBundleHolder;
 import lodsve.core.properties.ini.IniLoader;
 import lodsve.core.properties.init.ParamsHome;
 import lodsve.core.utils.StringUtils;
@@ -76,10 +76,10 @@ public class LodsveCoreConfiguration {
     }
 
     @Bean
-    public DefaultResourceBundleMessageSource messageSource() {
+    public DefaultResourceBundleMessageSource messageSource(ResourceBundleHolder resourceBundleHolder) {
         DefaultResourceBundleMessageSource messageSource = new DefaultResourceBundleMessageSource();
         messageSource.setAlwaysUseMessageFormat(true);
-        messageSource.setResourceBundleHolder(resourceBundleHolder());
+        messageSource.setResourceBundleHolder(resourceBundleHolder);
 
         return messageSource;
     }

@@ -1,8 +1,7 @@
-package lodsve.core.properties.i18n;
+package lodsve.core.properties.message;
 
 import lodsve.core.io.support.LodsvePathMatchingResourcePatternResolver;
 import lodsve.core.properties.init.ParamsHome;
-import lodsve.core.utils.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -33,10 +32,7 @@ public class MessageSourceLoader implements InitializingBean {
         Resource[] resources = getResources();
 
         for (Resource r : resources) {
-            String filePath = r.getFile().getAbsolutePath();
-            if (StringUtils.indexOf(filePath, "_") == -1) {
-                this.resourceBundleHolder.loadMessageResource(filePath, 1);
-            }
+            this.resourceBundleHolder.loadMessageResource(r);
         }
     }
 

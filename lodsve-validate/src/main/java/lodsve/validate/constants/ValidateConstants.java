@@ -1,8 +1,7 @@
 package lodsve.validate.constants;
 
-import lodsve.core.properties.i18n.ResourceBundleHolder;
+import lodsve.core.properties.message.ResourceBundleHolder;
 import lodsve.core.utils.PropertyPlaceholderHelper;
-import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -42,17 +41,7 @@ public class ValidateConstants {
         }
 
         for (Resource r : resources) {
-            String filePath;
-            try {
-                filePath = r.getURL().toString();
-            } catch (IOException e) {
-                continue;
-            }
-            String fileName = r.getFilename();
-
-            if (!StringUtils.contains(fileName, "_")) {
-                resourceBundleHolder.loadMessageResource(filePath, 1);
-            }
+            resourceBundleHolder.loadMessageResource(r);
         }
     }
 

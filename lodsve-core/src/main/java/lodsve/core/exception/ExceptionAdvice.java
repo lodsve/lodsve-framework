@@ -3,7 +3,7 @@ package lodsve.core.exception;
 import lodsve.core.io.ZookeeperResource;
 import lodsve.core.io.support.LodsvePathMatchingResourcePatternResolver;
 import lodsve.core.properties.Env;
-import lodsve.core.properties.i18n.ResourceBundleHolder;
+import lodsve.core.properties.message.ResourceBundleHolder;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class ExceptionAdvice {
     private ResourceBundleHolder resourceBundleHolder = new ResourceBundleHolder();
 
     @PostConstruct
-    public void init() throws IOException {
+    public void init() {
         ResourcePatternResolver resolver = new LodsvePathMatchingResourcePatternResolver();
 
         // 1. 框架异常
@@ -81,17 +81,7 @@ public class ExceptionAdvice {
         }
 
         for (Resource r : resources) {
-            String filePath;
-            String fileName = r.getFilename();
-            if (r instanceof FileSystemResource) {
-                filePath = r.getFile().getAbsolutePath();
-            } else {
-                filePath = r.getURL().toString();
-            }
-
-            if (!StringUtils.contains(fileName, "_")) {
-                this.resourceBundleHolder.loadMessageResource(filePath, 1);
-            }
+            this.resourceBundleHolder.loadMessageResource(r);
         }
     }
 
