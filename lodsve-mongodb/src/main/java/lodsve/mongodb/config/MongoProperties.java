@@ -1,6 +1,6 @@
 package lodsve.mongodb.config;
 
-import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
 
 import java.util.Map;
 

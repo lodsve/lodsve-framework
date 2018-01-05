@@ -1,6 +1,6 @@
 package lodsve.mybatis.properties;
 
-import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
 import org.springframework.core.io.Resource;
 
 /**

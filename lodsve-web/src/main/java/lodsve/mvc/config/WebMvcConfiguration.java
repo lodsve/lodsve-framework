@@ -1,6 +1,6 @@
 package lodsve.mvc.config;
 
-import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.mvc.properties.ServerProperties;
 import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.context.annotation.Bean;

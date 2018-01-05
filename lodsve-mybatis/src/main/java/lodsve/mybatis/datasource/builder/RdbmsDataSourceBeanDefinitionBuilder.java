@@ -1,6 +1,6 @@
 package lodsve.mybatis.datasource.builder;
 
-import lodsve.core.autoconfigure.AutoConfigurationBuilder;
+import lodsve.core.properties.autoconfigure.AutoConfigurationBuilder;
 import lodsve.mybatis.configs.Constant;
 import lodsve.mybatis.properties.RdbmsProperties;
 import org.springframework.beans.BeanWrapper;

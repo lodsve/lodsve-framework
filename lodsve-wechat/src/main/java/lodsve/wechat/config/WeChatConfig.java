@@ -1,6 +1,6 @@
 package lodsve.wechat.config;
 
-import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 

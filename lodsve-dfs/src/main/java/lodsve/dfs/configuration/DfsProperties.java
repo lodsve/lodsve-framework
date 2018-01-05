@@ -1,7 +1,7 @@
 package lodsve.dfs.configuration;
 
 import com.alibaba.common.FastDfsConfig;
-import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
 
 /**
  * 配置.

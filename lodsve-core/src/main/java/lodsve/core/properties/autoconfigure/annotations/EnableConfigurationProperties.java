@@ -1,9 +1,13 @@
-package lodsve.core.autoconfigure.annotations;
+package lodsve.core.properties.autoconfigure.annotations;
 
-import lodsve.core.autoconfigure.EnableConfigurationPropertiesImportSelector;
+import lodsve.core.properties.autoconfigure.EnableConfigurationPropertiesImportSelector;
 import org.springframework.context.annotation.Import;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 启用配置.

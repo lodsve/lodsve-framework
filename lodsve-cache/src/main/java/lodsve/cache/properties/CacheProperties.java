@@ -1,6 +1,6 @@
 package lodsve.cache.properties;
 
-import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
 import lodsve.core.utils.StringUtils;
 import org.springframework.core.io.Resource;
 

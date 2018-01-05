@@ -1,4 +1,4 @@
-package lodsve.core.autoconfigure.annotations;
+package lodsve.core.properties.autoconfigure.annotations;
 
 import java.lang.annotation.*;
 

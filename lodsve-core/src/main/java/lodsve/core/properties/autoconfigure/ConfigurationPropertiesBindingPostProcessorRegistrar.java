@@ -1,4 +1,4 @@
-package lodsve.core.autoconfigure;
+package lodsve.core.properties.autoconfigure;
 
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

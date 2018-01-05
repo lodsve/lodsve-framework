@@ -1,9 +1,9 @@
-package lodsve.core.autoconfigure;
+package lodsve.core.properties.autoconfigure;
 
-import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
-import lodsve.core.autoconfigure.annotations.Required;
 import lodsve.core.io.support.LodsveResourceLoader;
 import lodsve.core.properties.Env;
+import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.properties.autoconfigure.annotations.Required;
 import lodsve.core.properties.env.Configuration;
 import lodsve.core.properties.env.PropertiesConfiguration;
 import lodsve.core.properties.init.ParamsHome;
@@ -28,7 +28,14 @@ import org.springframework.util.ClassUtils;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  * 自动装配生成器.

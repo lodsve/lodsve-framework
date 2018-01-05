@@ -1,7 +1,7 @@
 package lodsve.mongodb.core;
 
 import com.mongodb.MongoClientURI;
-import lodsve.core.autoconfigure.AutoConfigurationBuilder;
+import lodsve.core.properties.autoconfigure.AutoConfigurationBuilder;
 import lodsve.mongodb.config.MongoProperties;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;

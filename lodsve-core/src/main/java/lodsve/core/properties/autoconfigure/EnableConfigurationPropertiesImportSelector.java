@@ -1,7 +1,7 @@
-package lodsve.core.autoconfigure;
+package lodsve.core.properties.autoconfigure;
 
-import lodsve.core.autoconfigure.annotations.ConfigurationProperties;
-import lodsve.core.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
