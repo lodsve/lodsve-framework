@@ -28,14 +28,7 @@ import org.springframework.util.ClassUtils;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 自动装配生成器.
@@ -144,7 +137,9 @@ public class AutoConfigurationBuilder {
         }
         Object value = getValueForType(key, type, readMethod);
 
-        if (value == null) {
+        if (value == null || (value instanceof Collection && ((Collection) value).isEmpty()) ||
+                (value instanceof Map && ((Map) value).isEmpty()) ||
+                (value.getClass().isArray() && ArrayUtils.isEmpty((Object[]) value))) {
             value = getValueForType(prefix + "." + camelName, type, readMethod);
         }
 
@@ -240,12 +235,9 @@ public class AutoConfigurationBuilder {
     }
 
     private Object getValueForCollection(String prefix, Class<?> param, Class<?> type, Method readMethod) {
-        Object result = getValuesForCollectionOrArray(prefix, param, readMethod);
-        if (List.class.isAssignableFrom(type)) {
-            return result;
-        }
+        List<Object> result = getValuesForCollectionOrArray(prefix, param, readMethod);
 
-        return new HashSet((List) result);
+        return List.class.isAssignableFrom(type) ? result : new HashSet(result);
     }
 
     private Object getValueForArray(String prefix, Class<?> type, Method readMethod) {
