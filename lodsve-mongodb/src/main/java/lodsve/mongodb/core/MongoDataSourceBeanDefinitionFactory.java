@@ -1,7 +1,7 @@
 package lodsve.mongodb.core;
 
 import com.mongodb.MongoClientURI;
-import lodsve.core.properties.autoconfigure.AutoConfigurationBuilder;
+import lodsve.core.properties.autoconfigure.PropertiesConfigurationFactory;
 import lodsve.mongodb.config.MongoProperties;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -22,7 +22,7 @@ public class MongoDataSourceBeanDefinitionFactory {
     public MongoDataSourceBeanDefinitionFactory(String dataSourceName) {
         this.dataSourceName = dataSourceName;
 
-        this.mongoProperties = new AutoConfigurationBuilder.Builder<>(MongoProperties.class).build();
+        this.mongoProperties = new PropertiesConfigurationFactory.Builder<>(MongoProperties.class).build();
     }
 
     public BeanDefinition build() {

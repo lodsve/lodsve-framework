@@ -8,7 +8,7 @@ import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 2016-01-15 12:00
  */
-@ConfigurationProperties(prefix = "lodsve.rabbit", locations = "file:${params.root}/framework/rabbit.properties")
+@ConfigurationProperties(prefix = "lodsve.rabbit", locations = "${params.root}/framework/rabbit.properties")
 public class RabbitProperties {
     private String address;
     private String username;

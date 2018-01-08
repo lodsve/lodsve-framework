@@ -10,7 +10,7 @@ import java.util.List;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 15/10/10 下午10:01
  */
-@ConfigurationProperties(prefix = "server", locations = "file:${params.root}/framework/server.properties")
+@ConfigurationProperties(prefix = "server", locations = "${params.root}/framework/server.properties")
 public class ServerProperties {
     /**
      * 前台URL

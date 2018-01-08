@@ -1,6 +1,6 @@
 package lodsve.mybatis.datasource.builder;
 
-import lodsve.core.properties.autoconfigure.AutoConfigurationBuilder;
+import lodsve.core.properties.autoconfigure.PropertiesConfigurationFactory;
 import lodsve.mybatis.configs.Constant;
 import lodsve.mybatis.properties.RdbmsProperties;
 import org.springframework.beans.BeanWrapper;
@@ -25,7 +25,7 @@ public class RdbmsDataSourceBeanDefinitionBuilder {
     public RdbmsDataSourceBeanDefinitionBuilder(String dataSourceName) {
         this.dataSourceName = dataSourceName;
 
-        rdbmsProperties = new AutoConfigurationBuilder.Builder<>(RdbmsProperties.class).build();
+        rdbmsProperties = new PropertiesConfigurationFactory.Builder<>(RdbmsProperties.class).build();
     }
 
     /**

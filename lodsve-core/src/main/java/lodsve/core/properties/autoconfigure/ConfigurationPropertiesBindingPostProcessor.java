@@ -22,7 +22,7 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
             return bean;
         }
 
-        return new AutoConfigurationBuilder.Builder(bean.getClass()).build();
+        return new PropertiesConfigurationFactory.Builder(bean.getClass()).build();
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.p6spy.engine.common.P6Util;
 import com.p6spy.engine.spy.P6ModuleManager;
 import com.p6spy.engine.spy.option.P6OptionsSource;
 import lodsve.core.properties.Env;
-import lodsve.core.properties.autoconfigure.AutoConfigurationBuilder;
+import lodsve.core.properties.autoconfigure.PropertiesConfigurationFactory;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.mybatis.properties.P6spyProperties;
 import org.springframework.core.io.Resource;
@@ -26,7 +26,7 @@ public class LodsveP6OptionsSource implements P6OptionsSource {
     private final Map<String, String> options;
 
     public static void init() {
-        P6spyProperties properties = new AutoConfigurationBuilder.Builder<>(P6spyProperties.class).build();
+        P6spyProperties properties = new PropertiesConfigurationFactory.Builder<>(P6spyProperties.class).build();
 
         config = properties.getConfig();
         if (config == null || !config.exists()) {

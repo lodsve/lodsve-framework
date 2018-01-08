@@ -1,10 +1,12 @@
 package lodsve.core.utils;
 
 import lodsve.core.io.ZookeeperResource;
+import lodsve.core.io.support.LodsveResourceLoader;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
@@ -16,7 +18,13 @@ import java.io.IOException;
  * @version 1.0 2018/1/6 上午1:34
  */
 public final class ResourceUtils {
+    private static final ResourceLoader RESOURCE_LOADER = new LodsveResourceLoader();
+
     private ResourceUtils() {
+    }
+
+    public static Resource getResource(String path) {
+        return RESOURCE_LOADER.getResource(path);
     }
 
     public static String getPath(Resource resource) {

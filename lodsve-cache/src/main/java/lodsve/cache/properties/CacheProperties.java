@@ -10,7 +10,7 @@ import org.springframework.core.io.Resource;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/1/14 下午9:24
  */
-@ConfigurationProperties(prefix = "lodsve.cache", locations = "file:${params.root}/framework/cache.properties")
+@ConfigurationProperties(prefix = "lodsve.cache", locations = "${params.root}/framework/cache.properties")
 public class CacheProperties {
     private Ehcache ehcache = new Ehcache();
     private Guava guava = new Guava();

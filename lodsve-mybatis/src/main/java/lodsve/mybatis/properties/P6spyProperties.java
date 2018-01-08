@@ -9,7 +9,7 @@ import org.springframework.core.io.Resource;
  * @author sunhao(sunhao.java@gmail.com)
  * @version 1.0 2017/12/25 下午11:53
  */
-@ConfigurationProperties(prefix = "lodsve.p6spy", locations = "file:${params.root}/framework/spy.properties")
+@ConfigurationProperties(prefix = "lodsve.p6spy", locations = "${params.root}/framework/spy.properties")
 public class P6spyProperties {
     /**
      * spy配置

@@ -20,6 +20,7 @@ package lodsve.core.properties.env;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -58,7 +59,7 @@ import java.util.Set;
  * methods allow to iterate over the contained properties or to create a subset
  * configuration.
  * </p>
- * 
+ *
  * @author Commons Configuration team
  * @version $Id: Configuration.java 1534064 2013-10-21 08:44:33Z henning $
  */
@@ -69,21 +70,21 @@ public interface Configuration {
      * Configuration that starts with the specified prefix. The prefix is
      * removed from the keys in the subset. For example, if the configuration
      * contains the following properties:
-     *
+     * <p>
      * <pre>
      *    prefix.number = 1
      *    prefix.string = Apache
      *    prefixed.foo = bar
      *    prefix = Jakarta</pre>
-     *
+     * <p>
      * the Configuration returned by {@code subset("prefix")} will contain
      * the properties:
-     *
+     * <p>
      * <pre>
      *    number = 1
      *    string = Apache
      *    = Jakarta</pre>
-     *
+     * <p>
      * (The key for the value "Jakarta" is an empty string)
      * <p>
      * Since the subset is a decorator and not a modified copy of the initial
@@ -92,40 +93,36 @@ public interface Configuration {
      *
      * @param prefix The prefix used to select the properties.
      * @return a subset configuration
-     *
      * @see SubsetConfiguration
      */
     Configuration subset(String prefix);
 
-	/**
-	 * Check if the configuration contains the specified key.
-	 * 
-	 * @param key
-	 *            the key whose presence in this configuration is to be tested
-	 * 
-	 * @return {@code true} if the configuration contains a value for this key,
-	 *         {@code false} otherwise
-	 */
-	boolean containsKey(String key);
+    /**
+     * Check if the configuration contains the specified key.
+     *
+     * @param key the key whose presence in this configuration is to be tested
+     * @return {@code true} if the configuration contains a value for this key,
+     * {@code false} otherwise
+     */
+    boolean containsKey(String key);
 
-	/**
-	 * Gets a property from the configuration. This is the most basic get method
-	 * for retrieving values of properties. In a typical implementation of the
-	 * {@code Configuration} interface the other get methods (that return
-	 * specific data types) will internally make use of this method. On this
-	 * level variable substitution is not yet performed. The returned object is
-	 * an internal representation of the property value for the passed in key.
-	 * It is owned by the {@code Configuration} object. So a caller should not
-	 * modify this object. It cannot be guaranteed that this object will stay
-	 * constant over time (i.e. further update operations on the configuration
-	 * may change its internal state).
-	 * 
-	 * @param key
-	 *            property to retrieve
-	 * @return the value to which this configuration maps the specified key, or
-	 *         null if the configuration contains no mapping for this key.
-	 */
-	Object getProperty(String key);
+    /**
+     * Gets a property from the configuration. This is the most basic get method
+     * for retrieving values of properties. In a typical implementation of the
+     * {@code Configuration} interface the other get methods (that return
+     * specific data types) will internally make use of this method. On this
+     * level variable substitution is not yet performed. The returned object is
+     * an internal representation of the property value for the passed in key.
+     * It is owned by the {@code Configuration} object. So a caller should not
+     * modify this object. It cannot be guaranteed that this object will stay
+     * constant over time (i.e. further update operations on the configuration
+     * may change its internal state).
+     *
+     * @param key property to retrieve
+     * @return the value to which this configuration maps the specified key, or
+     * null if the configuration contains no mapping for this key.
+     */
+    Object getProperty(String key);
 
     /**
      * Get the set of the keys contained in the configuration that match the
@@ -159,438 +156,333 @@ public interface Configuration {
      * @return An Iterator.
      */
     Set<String> getKeys();
-    
-	/**
-	 * Get a list of properties associated with the given configuration key.
-	 * This method expects the given key to have an arbitrary number of String
-	 * values, each of which is of the form {code key=value}. These strings are
-	 * split at the equals sign, and the key parts will become keys of the
-	 * returned {@code Properties} object, the value parts become values.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @return The associated properties if key is found.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a
-	 *             String/List.
-	 * 
-	 * @throws IllegalArgumentException
-	 *             if one of the tokens is malformed (does not contain an equals
-	 *             sign).
-	 */
-	Properties getProperties(String key);
 
-	/**
-	 * Get a boolean associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @return The associated boolean.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Boolean.
-	 */
-	boolean getBoolean(String key);
+    /**
+     * Get a list of properties associated with the given configuration key.
+     * This method expects the given key to have an arbitrary number of String
+     * values, each of which is of the form {code key=value}. These strings are
+     * split at the equals sign, and the key parts will become keys of the
+     * returned {@code Properties} object, the value parts become values.
+     *
+     * @param key The configuration key.
+     * @return The associated properties if key is found.
+     * @throws ConversionException      is thrown if the key maps to an object that is not a
+     *                                  String/List.
+     * @throws IllegalArgumentException if one of the tokens is malformed (does not contain an equals
+     *                                  sign).
+     */
+    Properties getProperties(String key);
 
-	/**
-	 * Get a boolean associated with the given configuration key. If the key
-	 * doesn't map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated boolean.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Boolean.
-	 */
-	boolean getBoolean(String key, boolean defaultValue);
+    /**
+     * Get a boolean associated with the given configuration key.
+     *
+     * @param key The configuration key.
+     * @return The associated boolean.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Boolean.
+     */
+    boolean getBoolean(String key);
 
-	/**
-	 * Get a {@link Boolean} associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated boolean if key is found and has valid format,
-	 *         default value otherwise.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Boolean.
-	 */
-	Boolean getBoolean(String key, Boolean defaultValue);
+    /**
+     * Get a boolean associated with the given configuration key. If the key
+     * doesn't map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated boolean.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Boolean.
+     */
+    boolean getBoolean(String key, boolean defaultValue);
 
-	/**
-	 * Get a byte associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @return The associated byte.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Byte.
-	 */
-	byte getByte(String key);
+    /**
+     * Get a {@link Boolean} associated with the given configuration key.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated boolean if key is found and has valid format,
+     * default value otherwise.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Boolean.
+     */
+    Boolean getBoolean(String key, Boolean defaultValue);
 
-	/**
-	 * Get a byte associated with the given configuration key. If the key
-	 * doesn't map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated byte.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Byte.
-	 */
-	byte getByte(String key, byte defaultValue);
+    /**
+     * Get a byte associated with the given configuration key.
+     *
+     * @param key The configuration key.
+     * @return The associated byte.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Byte.
+     */
+    byte getByte(String key);
 
-	/**
-	 * Get a {@link Byte} associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated byte if key is found and has valid format, default
-	 *         value otherwise.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Byte.
-	 */
-	Byte getByte(String key, Byte defaultValue);
+    /**
+     * Get a byte associated with the given configuration key. If the key
+     * doesn't map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated byte.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Byte.
+     */
+    byte getByte(String key, byte defaultValue);
 
-	/**
-	 * Get a double associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @return The associated double.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Double.
-	 */
-	double getDouble(String key);
+    /**
+     * Get a {@link Byte} associated with the given configuration key.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated byte if key is found and has valid format, default
+     * value otherwise.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Byte.
+     */
+    Byte getByte(String key, Byte defaultValue);
 
-	/**
-	 * Get a double associated with the given configuration key. If the key
-	 * doesn't map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated double.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Double.
-	 */
-	double getDouble(String key, double defaultValue);
+    /**
+     * Get a double associated with the given configuration key.
+     *
+     * @param key The configuration key.
+     * @return The associated double.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Double.
+     */
+    double getDouble(String key);
 
-	/**
-	 * Get a {@link Double} associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated double if key is found and has valid format,
-	 *         default value otherwise.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Double.
-	 */
-	Double getDouble(String key, Double defaultValue);
+    /**
+     * Get a double associated with the given configuration key. If the key
+     * doesn't map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated double.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Double.
+     */
+    double getDouble(String key, double defaultValue);
 
-	/**
-	 * Get a float associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @return The associated float.
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Float.
-	 */
-	float getFloat(String key);
+    /**
+     * Get a {@link Double} associated with the given configuration key.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated double if key is found and has valid format,
+     * default value otherwise.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Double.
+     */
+    Double getDouble(String key, Double defaultValue);
 
-	/**
-	 * Get a float associated with the given configuration key. If the key
-	 * doesn't map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated float.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Float.
-	 */
-	float getFloat(String key, float defaultValue);
+    /**
+     * Get a float associated with the given configuration key.
+     *
+     * @param key The configuration key.
+     * @return The associated float.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Float.
+     */
+    float getFloat(String key);
 
-	/**
-	 * Get a {@link Float} associated with the given configuration key. If the
-	 * key doesn't map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated float if key is found and has valid format,
-	 *         default value otherwise.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Float.
-	 */
-	Float getFloat(String key, Float defaultValue);
+    /**
+     * Get a float associated with the given configuration key. If the key
+     * doesn't map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated float.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Float.
+     */
+    float getFloat(String key, float defaultValue);
 
-	/**
-	 * Get a int associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @return The associated int.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Integer.
-	 */
-	int getInt(String key);
+    /**
+     * Get a {@link Float} associated with the given configuration key. If the
+     * key doesn't map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated float if key is found and has valid format,
+     * default value otherwise.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Float.
+     */
+    Float getFloat(String key, Float defaultValue);
 
-	/**
-	 * Get a int associated with the given configuration key. If the key doesn't
-	 * map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated int.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Integer.
-	 */
-	int getInt(String key, int defaultValue);
+    /**
+     * Get a int associated with the given configuration key.
+     *
+     * @param key The configuration key.
+     * @return The associated int.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Integer.
+     */
+    int getInt(String key);
 
-	/**
-	 * Get an {@link Integer} associated with the given configuration key. If
-	 * the key doesn't map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated int if key is found and has valid format, default
-	 *         value otherwise.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Integer.
-	 */
-	Integer getInteger(String key, Integer defaultValue);
+    /**
+     * Get a int associated with the given configuration key. If the key doesn't
+     * map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated int.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Integer.
+     */
+    int getInt(String key, int defaultValue);
 
-	/**
-	 * Get a long associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @return The associated long.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Long.
-	 */
-	long getLong(String key);
+    /**
+     * Get an {@link Integer} associated with the given configuration key. If
+     * the key doesn't map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated int if key is found and has valid format, default
+     * value otherwise.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Integer.
+     */
+    Integer getInteger(String key, Integer defaultValue);
 
-	/**
-	 * Get a long associated with the given configuration key. If the key
-	 * doesn't map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated long.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Long.
-	 */
-	long getLong(String key, long defaultValue);
+    /**
+     * Get a long associated with the given configuration key.
+     *
+     * @param key The configuration key.
+     * @return The associated long.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Long.
+     */
+    long getLong(String key);
 
-	/**
-	 * Get a {@link Long} associated with the given configuration key. If the
-	 * key doesn't map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated long if key is found and has valid format, default
-	 *         value otherwise.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Long.
-	 */
-	Long getLong(String key, Long defaultValue);
+    /**
+     * Get a long associated with the given configuration key. If the key
+     * doesn't map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated long.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Long.
+     */
+    long getLong(String key, long defaultValue);
 
-	/**
-	 * Get a short associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @return The associated short.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Short.
-	 */
-	short getShort(String key);
+    /**
+     * Get a {@link Long} associated with the given configuration key. If the
+     * key doesn't map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated long if key is found and has valid format, default
+     * value otherwise.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Long.
+     */
+    Long getLong(String key, Long defaultValue);
 
-	/**
-	 * Get a short associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated short.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Short.
-	 */
-	short getShort(String key, short defaultValue);
+    /**
+     * Get a short associated with the given configuration key.
+     *
+     * @param key The configuration key.
+     * @return The associated short.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Short.
+     */
+    short getShort(String key);
 
-	/**
-	 * Get a {@link Short} associated with the given configuration key. If the
-	 * key doesn't map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated short if key is found and has valid format,
-	 *         default value otherwise.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a Short.
-	 */
-	Short getShort(String key, Short defaultValue);
+    /**
+     * Get a short associated with the given configuration key.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated short.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Short.
+     */
+    short getShort(String key, short defaultValue);
 
-	/**
-	 * Get a {@link java.math.BigDecimal} associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @return The associated BigDecimal if key is found and has valid format
-	 */
-	BigDecimal getBigDecimal(String key);
+    /**
+     * Get a {@link Short} associated with the given configuration key. If the
+     * key doesn't map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated short if key is found and has valid format,
+     * default value otherwise.
+     * @throws ConversionException is thrown if the key maps to an object that is not a Short.
+     */
+    Short getShort(String key, Short defaultValue);
 
-	/**
-	 * Get a {@link java.math.BigDecimal} associated with the given configuration key. If
-	 * the key doesn't map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * 
-	 * @return The associated BigDecimal if key is found and has valid format,
-	 *         default value otherwise.
-	 */
-	BigDecimal getBigDecimal(String key, BigDecimal defaultValue);
+    /**
+     * Get a {@link java.math.BigDecimal} associated with the given configuration key.
+     *
+     * @param key The configuration key.
+     * @return The associated BigDecimal if key is found and has valid format
+     */
+    BigDecimal getBigDecimal(String key);
 
-	/**
-	 * Get a {@link java.math.BigInteger} associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * 
-	 * @return The associated BigInteger if key is found and has valid format
-	 */
-	BigInteger getBigInteger(String key);
+    /**
+     * Get a {@link java.math.BigDecimal} associated with the given configuration key. If
+     * the key doesn't map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated BigDecimal if key is found and has valid format,
+     * default value otherwise.
+     */
+    BigDecimal getBigDecimal(String key, BigDecimal defaultValue);
 
-	/**
-	 * Get a {@link java.math.BigInteger} associated with the given configuration key. If
-	 * the key doesn't map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * 
-	 * @return The associated BigInteger if key is found and has valid format,
-	 *         default value otherwise.
-	 */
-	BigInteger getBigInteger(String key, BigInteger defaultValue);
+    /**
+     * Get a {@link java.math.BigInteger} associated with the given configuration key.
+     *
+     * @param key The configuration key.
+     * @return The associated BigInteger if key is found and has valid format
+     */
+    BigInteger getBigInteger(String key);
 
-	/**
-	 * Get a string associated with the given configuration key.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @return The associated string.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a String.
-	 */
-	String getString(String key);
+    /**
+     * Get a {@link java.math.BigInteger} associated with the given configuration key. If
+     * the key doesn't map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated BigInteger if key is found and has valid format,
+     * default value otherwise.
+     */
+    BigInteger getBigInteger(String key, BigInteger defaultValue);
 
-	/**
-	 * Get a string associated with the given configuration key. If the key
-	 * doesn't map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated string if key is found and has valid format,
-	 *         default value otherwise.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a String.
-	 */
-	String getString(String key, String defaultValue);
+    /**
+     * Get a string associated with the given configuration key.
+     *
+     * @param key The configuration key.
+     * @return The associated string.
+     * @throws ConversionException is thrown if the key maps to an object that is not a String.
+     */
+    String getString(String key);
 
-	/**
-	 * Get an array of strings associated with the given configuration key. If
-	 * the key doesn't map to an existing object an empty array is returned
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @return The associated string array if key is found.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a
-	 *             String/List of Strings.
-	 */
-	String[] getStringArray(String key);
+    /**
+     * Get a string associated with the given configuration key. If the key
+     * doesn't map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated string if key is found and has valid format,
+     * default value otherwise.
+     * @throws ConversionException is thrown if the key maps to an object that is not a String.
+     */
+    String getString(String key, String defaultValue);
 
-	/**
-	 * Get a List of strings associated with the given configuration key. If the
-	 * key doesn't map to an existing object an empty List is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @return The associated List.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a List.
-	 */
-	List<Object> getList(String key);
+    /**
+     * Get an array of strings associated with the given configuration key. If
+     * the key doesn't map to an existing object an empty array is returned
+     *
+     * @param key The configuration key.
+     * @return The associated string array if key is found.
+     * @throws ConversionException is thrown if the key maps to an object that is not a
+     *                             String/List of Strings.
+     */
+    String[] getStringArray(String key);
 
-	/**
-	 * Get a List of strings associated with the given configuration key. If the
-	 * key doesn't map to an existing object, the default value is returned.
-	 * 
-	 * @param key
-	 *            The configuration key.
-	 * @param defaultValue
-	 *            The default value.
-	 * @return The associated List of strings.
-	 * 
-	 * @throws ConversionException
-	 *             is thrown if the key maps to an object that is not a List.
-	 */
-	List<Object> getList(String key, List<?> defaultValue);
+    /**
+     * Get a List of strings associated with the given configuration key. If the
+     * key doesn't map to an existing object an empty List is returned.
+     *
+     * @param key The configuration key.
+     * @return The associated List.
+     * @throws ConversionException is thrown if the key maps to an object that is not a List.
+     */
+    List<Object> getList(String key);
+
+    /**
+     * Get a List of strings associated with the given configuration key. If the
+     * key doesn't map to an existing object, the default value is returned.
+     *
+     * @param key          The configuration key.
+     * @param defaultValue The default value.
+     * @return The associated List of strings.
+     * @throws ConversionException is thrown if the key maps to an object that is not a List.
+     */
+    List<Object> getList(String key, List<?> defaultValue);
+
+    Map<String, Object> getStore();
 }

@@ -8,7 +8,7 @@ import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 16/2/21 下午4:58
  */
-@ConfigurationProperties(prefix = "lodsve.wechat")
+@ConfigurationProperties(prefix = "lodsve.wechat", locations = "${params.root}/framework/wechat.properties")
 public class WeChatProperties {
     /**
      * 应用ID

@@ -10,7 +10,7 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 2016-1-27 09:20
  */
-@ConfigurationProperties(prefix = "lodsve.rdbms", locations = "file:${params.root}/framework/rdbms.properties")
+@ConfigurationProperties(prefix = "lodsve.rdbms", locations = "${params.root}/framework/rdbms.properties")
 public class RdbmsProperties {
     /**
      * 数据源类型

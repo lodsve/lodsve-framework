@@ -10,7 +10,7 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0, 15/9/8 下午3:49
  */
-@ConfigurationProperties(prefix = "lodsve.redis", locations = "file:${params.root}/framework/redis.properties")
+@ConfigurationProperties(prefix = "lodsve.redis", locations = "${params.root}/framework/redis.properties")
 public class RedisProperties {
     private Pool pool;
     private Map<String, ProjectSetting> project;

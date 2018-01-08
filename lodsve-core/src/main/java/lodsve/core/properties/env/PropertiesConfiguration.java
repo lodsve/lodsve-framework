@@ -72,4 +72,9 @@ public class PropertiesConfiguration extends AbstractConfiguration {
             store.put(key, list);
         }
     }
+
+    @Override
+    public Map<String, Object> getStore() {
+        return store;
+    }
 }

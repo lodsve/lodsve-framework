@@ -9,7 +9,7 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 2016/1/20 12:39
  */
-@ConfigurationProperties(prefix = "lodsve.search", locations = "file:${params.root}/framework/search.properties")
+@ConfigurationProperties(prefix = "lodsve.search", locations = "${params.root}/framework/search.properties")
 public class SearchProperties {
     private Solr solr;
     private Lucene lucene;

@@ -1,16 +1,12 @@
 package lodsve.core.properties.autoconfigure;
 
-import lodsve.core.io.support.LodsveResourceLoader;
 import lodsve.core.properties.Env;
 import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
 import lodsve.core.properties.autoconfigure.annotations.Required;
 import lodsve.core.properties.env.Configuration;
 import lodsve.core.properties.env.PropertiesConfiguration;
 import lodsve.core.properties.init.ParamsHome;
-import lodsve.core.utils.GenericUtils;
-import lodsve.core.utils.NumberUtils;
-import lodsve.core.utils.PropertyPlaceholderHelper;
-import lodsve.core.utils.StringUtils;
+import lodsve.core.utils.*;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +15,13 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 import java.beans.PropertyDescriptor;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -36,73 +32,49 @@ import java.util.*;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 2016-1-26 14:17
  */
-public class AutoConfigurationBuilder {
-    private static final Logger logger = LoggerFactory.getLogger(AutoConfigurationBuilder.class);
+public class PropertiesConfigurationFactory {
+    private static final Logger logger = LoggerFactory.getLogger(PropertiesConfigurationFactory.class);
 
     private static final List<?> COMMON_TYPES = Arrays.asList(Boolean.class, boolean.class, Long.class, long.class,
             Integer.class, int.class, String.class, Double.class, double.class, Resource.class, Properties.class,
-            Class.class);
-    private ResourceLoader resourceLoader = new LodsveResourceLoader();
+            Class.class, File.class);
+
+    private Properties propertySource;
+    private Object target;
+    private String targetName;
+    private Configuration configuration;
+
+    private void setPropertySource(Properties propertySource) {
+        Assert.notNull(propertySource);
+        this.propertySource = propertySource;
+        configuration = new PropertiesConfiguration(propertySource);
+
+    }
+
+    public void setTargetName(String targetName) {
+        this.targetName = targetName;
+    }
 
     private static final Map<Class<?>, Object> CLASS_OBJECT_MAPPING = new HashMap<>(16);
-    private static Configuration configuration;
-    private static final Map<String, String> configurations = new HashMap<>();
 
-    private AutoConfigurationBuilder() {
+
+    private PropertiesConfigurationFactory(Object target) {
+        this.target = target;
     }
 
     @SuppressWarnings("unchecked")
-    private <T> T generateConfigurationBean(Class<T> clazz, ConfigurationProperties annotation) {
-        loadProp(annotation.locations());
-        T object = (T) CLASS_OBJECT_MAPPING.get(clazz);
+    private void bindToTarget() {
+        Object object = CLASS_OBJECT_MAPPING.get(target.getClass());
         if (object == null) {
-            object = generateObject(annotation.prefix(), clazz);
-            CLASS_OBJECT_MAPPING.put(clazz, object);
+            generateObject(targetName, target);
+            CLASS_OBJECT_MAPPING.put(target.getClass(), target);
         }
 
-        return object;
+        target = object;
     }
 
-    @SuppressWarnings("unchecked")
-    private void loadProp(String... configLocations) {
-        Properties prop = new Properties();
-        prop.putAll(Env.getSystemEnvs());
-        prop.putAll(Env.getEnvs());
-
-        if (ArrayUtils.isEmpty(configLocations)) {
-            ParamsHome.getInstance().coveredWithExtResource(prop);
-            configuration = new PropertiesConfiguration(prop);
-            configurations.putAll((Map) prop);
-            return;
-        }
-
-
-        for (String location : configLocations) {
-            location = PropertyPlaceholderHelper.replacePlaceholder(location, true, Env.getEnvs());
-
-            Resource resource = this.resourceLoader.getResource(location);
-            if (!resource.exists()) {
-                continue;
-            }
-
-            try {
-                PropertiesLoaderUtils.fillProperties(prop, new EncodedResource(resource, "UTF-8"));
-            } catch (IOException e) {
-                if (logger.isErrorEnabled()) {
-                    logger.error(String.format("fill properties with file '%s' error!", resource.getFilename()));
-                }
-            }
-        }
-
-        // 获取覆盖的值
-        ParamsHome.getInstance().coveredWithExtResource(prop);
-        configuration = new PropertiesConfiguration(prop);
-        configurations.putAll((Map) prop);
-    }
-
-    private <T> T generateObject(String prefix, Class<T> clazz) {
-        T object = BeanUtils.instantiate(clazz);
-        BeanWrapper beanWrapper = new BeanWrapperImpl(object);
+    private void generateObject(String prefix, Object target) {
+        BeanWrapper beanWrapper = new BeanWrapperImpl(target);
 
         PropertyDescriptor[] descriptors = beanWrapper.getPropertyDescriptors();
         for (PropertyDescriptor descriptor : descriptors) {
@@ -124,8 +96,6 @@ public class AutoConfigurationBuilder {
                 throw new RuntimeException(String.format("property [%s]'s value can't be null!please check your config!", name));
             }
         }
-
-        return object;
     }
 
     private Object getValue(Class<?> type, String prefix, String name, Method readMethod) {
@@ -159,22 +129,28 @@ public class AutoConfigurationBuilder {
             Class<?> clazz = GenericUtils.getGenericParameter0(readMethod);
             value = getValueForCollection(key, clazz, type, readMethod);
         } else {
-            value = generateObject(key, type);
+            value = BeanUtils.instantiate(type);
+            bindToSubTarget(value, key);
         }
 
         return value;
     }
 
-    private Object getValueForSimpleType(String key, Class<?> type) {
-        return evalValue(configuration.getString(key), type);
+    private void bindToSubTarget(Object target, String targetName) {
+        PropertiesConfigurationFactory factory = new PropertiesConfigurationFactory(target);
+        factory.setTargetName(targetName);
+        factory.setPropertySource(propertySource);
+        factory.bindToTarget();
     }
 
-    private Object evalValue(String value, Class<?> type) {
+    @SuppressWarnings("unchecked")
+    private Object getValueForSimpleType(String key, Class<?> type) {
+        String value = configuration.getString(key);
         if (StringUtils.isBlank(value)) {
             return null;
         }
 
-        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true, configurations);
+        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true, (Map) propertySource);
 
         if (Boolean.class.equals(type) || boolean.class.equals(type)) {
             return Boolean.valueOf(text);
@@ -187,23 +163,30 @@ public class AutoConfigurationBuilder {
         } else if (Double.class.equals(type) || double.class.equals(type)) {
             return Double.valueOf(text);
         } else if (Resource.class.equals(type)) {
-            return resourceLoader.getResource(text);
+            return ResourceUtils.getResource(text);
+        } else if (File.class.equals(type)) {
+            try {
+                return ResourceUtils.getResource(text).getFile();
+            } catch (IOException e) {
+                return null;
+            }
         } else if (Properties.class.equals(type)) {
             try {
-                return PropertiesLoaderUtils.loadProperties(resourceLoader.getResource(text));
+                return PropertiesLoaderUtils.loadProperties(ResourceUtils.getResource(text));
             } catch (IOException e) {
                 if (logger.isErrorEnabled()) {
                     logger.error(String.format("file '{%s}' not found!", text));
                 }
+                return null;
             }
         } else if (Class.class.equals(type)) {
             try {
-                return ClassUtils.forName(text, AutoConfigurationBuilder.class.getClassLoader());
+                return ClassUtils.forName(text, PropertiesConfigurationFactory.class.getClassLoader());
             } catch (ClassNotFoundException e) {
                 if (logger.isErrorEnabled()) {
                     logger.error(String.format("class '{%s}' not found!", text));
                 }
-                return Void.class;
+                return null;
             }
         }
 
@@ -217,6 +200,7 @@ public class AutoConfigurationBuilder {
 
         Map<String, Object> map = new HashMap<>(16);
         Class<?> secondGenericClazz = GenericUtils.getGenericParameter(readMethod, 1);
+        Assert.notNull(secondGenericClazz, "If use Map, must provider generic info!");
         Set<String> keys = configuration.subset(prefix).getKeys();
         for (String key : keys) {
             String[] temp = StringUtils.split(key, ".");
@@ -225,15 +209,19 @@ public class AutoConfigurationBuilder {
             }
 
             String keyInMap = temp[0];
-            Object object = generateObject(prefix + "." + keyInMap, secondGenericClazz);
-            if (object != null) {
-                map.put(keyInMap, object);
+
+            Object target = BeanUtils.instantiate(secondGenericClazz);
+            bindToSubTarget(target, prefix + "." + keyInMap);
+
+            if (target != null) {
+                map.put(keyInMap, target);
             }
         }
 
         return map;
     }
 
+    @SuppressWarnings("unchecked")
     private Object getValueForCollection(String prefix, Class<?> param, Class<?> type, Method readMethod) {
         List<Object> result = getValuesForCollectionOrArray(prefix, param, readMethod);
 
@@ -296,7 +284,6 @@ public class AutoConfigurationBuilder {
     }
 
     public static class Builder<T> {
-        private AutoConfigurationBuilder builder = new AutoConfigurationBuilder();
         private Class<T> clazz;
 
         public Builder(Class<T> clazz) {
@@ -315,7 +302,49 @@ public class AutoConfigurationBuilder {
                 throw new IllegalArgumentException("annotation is required!");
             }
 
-            return builder.generateConfigurationBean(clazz, annotation);
+            T target = BeanUtils.instantiate(clazz);
+            loadProp(annotation.locations());
+
+            PropertiesConfigurationFactory factory = new PropertiesConfigurationFactory(target);
+            factory.setPropertySource(loadProp(annotation.locations()));
+            factory.setTargetName(annotation.prefix());
+
+            factory.bindToTarget();
+
+            return target;
+        }
+
+        private Properties loadProp(String... configLocations) {
+            Properties prop = new Properties();
+            prop.putAll(Env.getSystemEnvs());
+            prop.putAll(Env.getEnvs());
+
+            if (ArrayUtils.isEmpty(configLocations)) {
+                ParamsHome.getInstance().coveredWithExtResource(prop);
+                return prop;
+            }
+
+
+            for (String location : configLocations) {
+                location = PropertyPlaceholderHelper.replacePlaceholder(location, true, Env.getEnvs());
+
+                Resource resource = ResourceUtils.getResource(location);
+                if (!resource.exists()) {
+                    continue;
+                }
+
+                try {
+                    PropertiesLoaderUtils.fillProperties(prop, new EncodedResource(resource, "UTF-8"));
+                } catch (IOException e) {
+                    if (logger.isErrorEnabled()) {
+                        logger.error(String.format("fill properties with file '%s' error!", resource.getFilename()));
+                    }
+                }
+            }
+
+            // 获取覆盖的值
+            ParamsHome.getInstance().coveredWithExtResource(prop);
+            return prop;
         }
     }
 }
