@@ -13,7 +13,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 /**
  * 是否是开发模式.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2016/12/12 下午3:00
  */
 @Order(Ordered.LOWEST_PRECEDENCE)
@@ -24,7 +24,12 @@ public class OnDevelopmentConditional extends SpringBootCondition implements Con
             return ConditionOutcome.match(StringUtils.EMPTY);
         }
 
-        boolean isDevMode = Env.getBoolean("application.devMode", false);
+        Boolean isDevMode = Env.getBoolean("application.devMode", null);
+        if (null == isDevMode) {
+            isDevMode = Env.getBoolean("application.dev-mode", null);
+        }
+
+        isDevMode = null == isDevMode ? false : isDevMode;
 
         if (!isDevMode) {
             return ConditionOutcome.noMatch("this is not dev-mode!");
