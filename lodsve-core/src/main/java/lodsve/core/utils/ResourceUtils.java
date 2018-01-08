@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * resource utils.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2018/1/6 上午1:34
  */
 public final class ResourceUtils {
@@ -59,6 +59,7 @@ public final class ResourceUtils {
 
     public static String getContent(Resource resource, String fileEncoding) {
         Assert.notNull(resource);
+        Assert.isTrue(resource.exists());
 
         try {
             return IOUtils.toString(resource.getInputStream(), StringUtils.isBlank(fileEncoding) ? "UTF-8" : fileEncoding);

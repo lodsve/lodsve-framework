@@ -1,15 +1,13 @@
 package lodsve.core.exception;
 
-import lodsve.core.io.ZookeeperResource;
 import lodsve.core.io.support.LodsvePathMatchingResourcePatternResolver;
 import lodsve.core.properties.Env;
 import lodsve.core.properties.message.ResourceBundleHolder;
 import lodsve.core.utils.PropertyPlaceholderHelper;
+import lodsve.core.utils.ResourceUtils;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.http.HttpStatus;
@@ -63,16 +61,7 @@ public class ExceptionAdvice {
         Resource resource = Env.getFileEnv(folderPath);
 
         try {
-            String pathToUse;
-            if (resource instanceof ClassPathResource) {
-                pathToUse = ((ClassPathResource) resource).getPath() + "/*.properties";
-            } else if (resource instanceof FileSystemResource) {
-                pathToUse = resource.getFile().getAbsolutePath() + "/*.properties";
-            } else if (resource instanceof ZookeeperResource) {
-                pathToUse = "zookeeper:" + ((ZookeeperResource) resource).getPath() + "/*.properties";
-            } else {
-                pathToUse = resource.getURL().getPath() + "/*.properties";
-            }
+            String pathToUse = ResourceUtils.getPath(resource) + "/*.properties";
 
             resources.addAll(Arrays.asList(resolver.getResources(org.springframework.util.StringUtils.cleanPath(pathToUse))));
         } catch (IOException e) {
@@ -88,7 +77,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ExceptionData handleException(Exception ex, NativeWebRequest webRequest) throws Exception {
+    public ExceptionData handleException(Exception ex, NativeWebRequest webRequest) {
         if (ex == null) {
             return DEFAULT_EXCEPTION_DATA;
         }

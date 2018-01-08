@@ -37,12 +37,12 @@ public class ResourceBundleHolder implements Serializable {
     /**
      * 存放资源名称与值，不包含locale信息.
      */
-    private Map defaultBundleMap = new HashMap();
+    private Map<String, Object> defaultBundleMap = new HashMap<>();
 
     /**
      * 存放每个locale对应的资源信息.
      */
-    private Map<Locale, Map> bundledMap = new HashMap<>();
+    private Map<Locale, Map<String, Object>> bundledMap = new HashMap<>();
 
     public void loadMessageResource(Resource resource) {
         if (!resource.exists() || !resource.isReadable()) {
@@ -119,17 +119,17 @@ public class ResourceBundleHolder implements Serializable {
      * @param locale
      */
     @SuppressWarnings("unchecked")
-    private void addProperties(Map src, Locale locale) {
+    private void addProperties(Properties src, Locale locale) {
         if (locale == null) {
             mergePropertiesToMap(defaultBundleMap, src);
             locale = Locale.CHINA;
         }
 
-        Map propertiesMap = this.bundledMap.get(locale);
+        Map<String, Object> propertiesMap = this.bundledMap.get(locale);
 
         //各种语言的property存储map
         if (propertiesMap == null) {
-            propertiesMap = new HashMap(16);
+            propertiesMap = new HashMap<>(16);
             this.bundledMap.put(locale, propertiesMap);
         }
 
@@ -143,7 +143,7 @@ public class ResourceBundleHolder implements Serializable {
      * @param destMap 目标Map.
      * @param src     资源.
      */
-    private void mergePropertiesToMap(Map<String, Object> destMap, Map src) {
+    private void mergePropertiesToMap(Map<String, Object> destMap, Properties src) {
         for (Object keyObj : src.keySet()) {
             String key = keyObj.toString();
 

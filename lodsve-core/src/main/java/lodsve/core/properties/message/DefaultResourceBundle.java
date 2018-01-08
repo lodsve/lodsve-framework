@@ -5,16 +5,16 @@ import java.util.*;
 /**
  * 扩展的资源绑定.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 13-4-17 下午10:44
  */
 public class DefaultResourceBundle extends ResourceBundle {
 
-    private Map defaultBundleMap;
-    private Map bundleMap;
+    private Map<String, Object> defaultBundleMap;
+    private Map<Locale, Map<String, Object>> bundleMap;
     private Locale locale;
 
-    public DefaultResourceBundle(Map defaultBundleMap, Map bundleMap, Locale locale) {
+    public DefaultResourceBundle(Map<String, Object> defaultBundleMap, Map<Locale, Map<String, Object>> bundleMap, Locale locale) {
         this.defaultBundleMap = defaultBundleMap;
         this.bundleMap = bundleMap;
         this.locale = locale;
@@ -28,16 +28,15 @@ public class DefaultResourceBundle extends ResourceBundle {
             result = this.defaultBundleMap.get(key);
         } else {
             //从具体语言中取值
-            Map localeMap = (Map) this.bundleMap.get(locale);
+            Map<String, Object> localeMap = this.bundleMap.get(locale);
             if (localeMap == null) {
                 localeMap = this.defaultBundleMap;
             }
 
             result = localeMap != null ? localeMap.get(key) : null;
 
-            if (result == null)
-                //取不到值,则值默认为key
-            {
+            //取不到值,则值默认为key
+            if (result == null) {
                 result = key;
             }
         }
@@ -48,7 +47,7 @@ public class DefaultResourceBundle extends ResourceBundle {
     @Override
     @SuppressWarnings("unchecked")
     public Enumeration<String> getKeys() {
-        Set keys = this.defaultBundleMap.keySet();
+        Set<String> keys = this.defaultBundleMap.keySet();
 
         return Collections.enumeration(keys);
     }
