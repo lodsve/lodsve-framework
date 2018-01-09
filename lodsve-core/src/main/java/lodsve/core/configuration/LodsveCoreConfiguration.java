@@ -1,12 +1,10 @@
 package lodsve.core.configuration;
 
-import lodsve.core.application.ApplicationProperties;
 import lodsve.core.condition.ConditionalOnClass;
 import lodsve.core.context.ApplicationContextListener;
 import lodsve.core.email.EmailProperties;
 import lodsve.core.event.EventExecutor;
 import lodsve.core.event.EventPublisher;
-import lodsve.core.event.listener.EventListener;
 import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.ini.IniLoader;
@@ -15,7 +13,6 @@ import lodsve.core.properties.message.DefaultResourceBundleMessageSource;
 import lodsve.core.properties.message.ResourceBundleHolder;
 import lodsve.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +20,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
 
 import javax.mail.MessagingException;
-import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 

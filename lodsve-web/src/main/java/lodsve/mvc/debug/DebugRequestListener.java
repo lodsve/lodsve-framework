@@ -1,6 +1,6 @@
 package lodsve.mvc.debug;
 
-import lodsve.core.application.ApplicationProperties;
+import lodsve.core.configuration.ApplicationProperties;
 import lodsve.mvc.properties.ServerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

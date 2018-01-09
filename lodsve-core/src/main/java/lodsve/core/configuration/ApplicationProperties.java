@@ -1,4 +1,4 @@
-package lodsve.core.application;
+package lodsve.core.configuration;
 
 import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
 

@@ -1,4 +1,4 @@
-package lodsve.core.application.conditional;
+package lodsve.core.condition;
 
 import org.springframework.context.annotation.Conditional;
 

@@ -1,7 +1,5 @@
-package lodsve.core.application.conditional;
+package lodsve.core.condition;
 
-import lodsve.core.condition.ConditionOutcome;
-import lodsve.core.condition.SpringBootCondition;
 import lodsve.core.properties.Env;
 import lodsve.core.utils.StringUtils;
 import org.springframework.context.annotation.ConditionContext;
