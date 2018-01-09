@@ -2,12 +2,12 @@ package lodsve.core.utils;
 
 import org.apache.commons.lang.ArrayUtils;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 随机生成数字或者字符串的工具类.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
  * @createTime 2012-4-24 下午08:25:57
  */
@@ -44,8 +44,9 @@ public class RandomUtils {
             max *= 10;
         }
 
+        ThreadLocalRandom random = ThreadLocalRandom.current();
         while (returnRandom <= min) {
-            returnRandom = (long) (Math.random() * max);
+            returnRandom = random.nextInt() * max;
         }
 
         return Long.toString(returnRandom);
@@ -75,7 +76,7 @@ public class RandomUtils {
      * 生成随机字符串
      *
      * @param length 生成的密码的总长度
-     * @return 字符串(大小写字母+数字)
+     * @return 字符串(大小写字母 + 数字)
      */
     public static String randomString(int length, boolean lower, boolean upper, boolean digit) {
         if (length < 1) {
@@ -105,14 +106,14 @@ public class RandomUtils {
      * 生成随机字符串
      *
      * @param length 生成的密码的总长度
-     * @return 字符串(大小写字母+数字)
+     * @return 字符串(大小写字母 + 数字)
      */
     public static synchronized String randomString(int length) {
         if (length < 1) {
             return StringUtils.EMPTY;
         }
 
-        Random randGen = new Random();
+        ThreadLocalRandom random = ThreadLocalRandom.current();
         char[] numbersAndLetters = ArrayUtils.addAll(null, DIGIT.toCharArray());
         numbersAndLetters = ArrayUtils.addAll(numbersAndLetters, LETTER_LOWER.toCharArray());
         numbersAndLetters = ArrayUtils.addAll(numbersAndLetters, DIGIT.toCharArray());
@@ -120,13 +121,13 @@ public class RandomUtils {
 
         char[] randBuffer = new char[length];
         for (int i = 0; i < randBuffer.length; i++) {
-            randBuffer[i] = numbersAndLetters[randGen.nextInt(72)];
+            randBuffer[i] = numbersAndLetters[random.nextInt(72)];
         }
         return new String(randBuffer);
     }
 
     private static void generateRandomNumberString(StringBuffer tempString, int length, int maxNum, char[] str) {
-        Random random = new Random();
+        ThreadLocalRandom random = ThreadLocalRandom.current();
         int i, count = 0;
         while (count < length) {
             /**
