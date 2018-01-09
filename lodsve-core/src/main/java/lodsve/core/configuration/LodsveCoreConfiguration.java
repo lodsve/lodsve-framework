@@ -6,6 +6,7 @@ import lodsve.core.context.ApplicationContextListener;
 import lodsve.core.email.EmailProperties;
 import lodsve.core.event.EventExecutor;
 import lodsve.core.event.EventPublisher;
+import lodsve.core.event.listener.EventListener;
 import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.ini.IniLoader;
@@ -13,13 +14,18 @@ import lodsve.core.properties.init.ParamsHome;
 import lodsve.core.properties.message.DefaultResourceBundleMessageSource;
 import lodsve.core.properties.message.ResourceBundleHolder;
 import lodsve.core.utils.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
 
 import javax.mail.MessagingException;
+import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
 
 /**
  * 配置core模块的properties.
@@ -34,15 +40,34 @@ import java.util.Properties;
         "lodsve.core.properties"
 })
 public class LodsveCoreConfiguration {
+    @Autowired
+    private ApplicationProperties applicationProperties;
+
+    @Bean
+    public ThreadPoolExecutorFactoryBean threadPoolExecutorFactoryBean() {
+        ApplicationProperties.ThreadConfig config = applicationProperties.getThread();
+
+        ThreadPoolExecutorFactoryBean threadPoolExecutorFactoryBean = new ThreadPoolExecutorFactoryBean();
+        threadPoolExecutorFactoryBean.setCorePoolSize(config.getCorePoolSize());
+        threadPoolExecutorFactoryBean.setMaxPoolSize(config.getMaxPoolSize());
+        threadPoolExecutorFactoryBean.setAllowCoreThreadTimeOut(config.isAllowCoreThreadTimeOut());
+        threadPoolExecutorFactoryBean.setExposeUnconfigurableExecutor(config.isExposeUnconfigurableExecutor());
+        threadPoolExecutorFactoryBean.setKeepAliveSeconds(config.getKeepAliveSeconds());
+        threadPoolExecutorFactoryBean.setQueueCapacity(config.getQueueCapacity());
+
+        return threadPoolExecutorFactoryBean;
+    }
+
     @Bean
     public ApplicationContextListener applicationContextListener() {
         return new ApplicationContextListener();
     }
 
     @Bean
-    public EventExecutor eventExecutor() throws Exception {
-        EventExecutor eventExecutor = new EventExecutor();
-        eventExecutor.afterPropertiesSet();
+    public EventExecutor eventExecutor(ExecutorService executorService) throws Exception {
+        EventExecutor eventExecutor = new EventExecutor(executorService);
+
+        //eventExecutor.afterPropertiesSet();
         return eventExecutor;
     }
 

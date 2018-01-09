@@ -5,29 +5,19 @@ import lodsve.core.event.annotations.Events;
 import lodsve.core.event.annotations.SyncEvent;
 import lodsve.core.event.listener.EventListener;
 import lodsve.core.event.module.BaseEvent;
-import org.python.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 事件执行器.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
  * @createTime 13-4-27 上午4:57
  */
@@ -37,6 +27,7 @@ public class EventExecutor implements InitializingBean {
      */
     private static final Logger logger = LoggerFactory.getLogger(EventExecutor.class);
 
+    private ExecutorService executorService;
     @Autowired(required = false)
     private List<EventListener> eventListeners;
 
@@ -55,6 +46,10 @@ public class EventExecutor implements InitializingBean {
     private Map<Class<? extends BaseEvent>, String> operationEvents = new HashMap<>();
 
     private final Object REGISTER_LOCK_OBJECT = new Object();
+
+    public EventExecutor(ExecutorService executorService) {
+        this.executorService = executorService;
+    }
 
     /**
      * 注册监听服务
@@ -123,18 +118,15 @@ public class EventExecutor implements InitializingBean {
      * @param event          异步事件
      */
     private void executeAsyncEvent(final List<EventListener> asyncListeners, final BaseEvent event) throws RuntimeException {
-        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("demo-pool-%d").build();
-        ExecutorService singleThreadPool = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
-
-        singleThreadPool.execute(new Runnable() {
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
                 execute(asyncListeners, event);
             }
         });
-        singleThreadPool.shutdown();
     }
 
+    @SuppressWarnings("unchecked")
     private void execute(List<EventListener> listeners, BaseEvent event) {
         for (EventListener listener : listeners) {
             logger.debug("execute module '{}' use listener '{}'!", event, listener);
@@ -171,7 +163,7 @@ public class EventExecutor implements InitializingBean {
                 if (event == null) {
                     continue;
                 }
-                registerListener(event.event(), listener, event.name(), false);
+                registerListener(event.event(), listener, event.name(), true);
             }
 
             for (AsyncEvent event : asyncEvents) {
