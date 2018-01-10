@@ -9,5 +9,6 @@ package lodsve.cache.annotations;
 public enum CacheMode {
     REDIS,
     GUAVA,
-    EHCAHE
+    EHCAHE,
+    MEMCACHED
 }

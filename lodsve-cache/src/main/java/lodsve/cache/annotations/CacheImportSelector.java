@@ -2,6 +2,7 @@ package lodsve.cache.annotations;
 
 import lodsve.cache.ehcache.EhcacheCacheConfiguration;
 import lodsve.cache.guava.GuavaCacheConfiguration;
+import lodsve.cache.memcached.MemcachedCacheConfiguration;
 import lodsve.cache.redis.RedisCacheConfiguration;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.annotation.AnnotationAttributes;
@@ -11,7 +12,7 @@ import org.springframework.util.Assert;
 /**
  * Cache ImportSelector.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2017/12/23 下午3:55
  */
 public class CacheImportSelector implements ImportSelector {
@@ -30,6 +31,8 @@ public class CacheImportSelector implements ImportSelector {
             return new String[]{GuavaCacheConfiguration.class.getName()};
         } else if (cacheMode == CacheMode.REDIS) {
             return new String[]{RedisCacheConfiguration.class.getName()};
+        } else if (cacheMode == CacheMode.MEMCACHED) {
+            return new String[]{MemcachedCacheConfiguration.class.getName()};
         }
 
         return new String[0];

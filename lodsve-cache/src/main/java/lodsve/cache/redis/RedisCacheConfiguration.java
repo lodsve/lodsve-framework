@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Redis.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2017/12/23 上午12:23
  */
 @Configuration
@@ -52,7 +52,6 @@ public class RedisCacheConfiguration {
                 cacheManager.setCacheNames(cacheNameList);
             }
 
-            cacheManager.afterPropertiesSet();
             return cacheManager;
         }
     }

@@ -29,13 +29,8 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.google.code.simple-spring-memcached</groupId>
+            <groupId>net.spy</groupId>
             <artifactId>spymemcached</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>opensymphony</groupId>
-            <artifactId>oscache</artifactId>
             <optional>true</optional>
         </dependency>
 

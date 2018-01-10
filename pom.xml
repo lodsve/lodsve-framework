@@ -70,8 +70,7 @@
         <commons-codec.version>1.9</commons-codec.version>
         <javax.cache.version>1.0.0</javax.cache.version>
         <ehcache.version>2.5.7</ehcache.version>
-        <spymemcached.version>2.8.4</spymemcached.version>
-        <oscache.version>2.0.2</oscache.version>
+        <spymemcached.version>2.12.3</spymemcached.version>
         <javamail.version>1.4.4</javamail.version>
         <persistence.version>1.0</persistence.version>
         <jackson.version>2.5.4</jackson.version>
@@ -363,14 +362,9 @@
                 <version>${ehcache.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.google.code.simple-spring-memcached</groupId>
+                <groupId>net.spy</groupId>
                 <artifactId>spymemcached</artifactId>
                 <version>${spymemcached.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>opensymphony</groupId>
-                <artifactId>oscache</artifactId>
-                <version>${oscache.version}</version>
             </dependency>
             <!-- ehcache,memcached,oscache end -->
 

@@ -7,7 +7,7 @@ import org.springframework.core.io.Resource;
 /**
  * cache配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/1/14 下午9:24
  */
 @ConfigurationProperties(prefix = "lodsve.cache", locations = "${params.root}/framework/cache.properties")
@@ -15,6 +15,7 @@ public class CacheProperties {
     private Ehcache ehcache = new Ehcache();
     private Guava guava = new Guava();
     private Redis redis = new Redis();
+    private Memcached memcached = new Memcached();
 
     public Ehcache getEhcache() {
         return ehcache;
@@ -38,6 +39,14 @@ public class CacheProperties {
 
     public void setGuava(Guava guava) {
         this.guava = guava;
+    }
+
+    public Memcached getMemcached() {
+        return memcached;
+    }
+
+    public void setMemcached(Memcached memcached) {
+        this.memcached = memcached;
     }
 
     public static class Ehcache {
@@ -136,6 +145,48 @@ public class CacheProperties {
 
     public static class Redis extends Common {
 
+    }
+
+    public static class Memcached {
+        private String server;
+        private CacheConfig[] cache = new CacheConfig[]{new CacheConfig()};
+
+        public String getServer() {
+            return server;
+        }
+
+        public void setServer(String server) {
+            this.server = server;
+        }
+
+        public CacheConfig[] getCache() {
+            return cache;
+        }
+
+        public void setCache(CacheConfig[] cache) {
+            this.cache = cache;
+        }
+
+        public static class CacheConfig {
+            private String name = "default";
+            private int expire = 100;
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public int getExpire() {
+                return expire;
+            }
+
+            public void setExpire(int expire) {
+                this.expire = expire;
+            }
+        }
     }
 
     public static class Common {

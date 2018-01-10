@@ -54,7 +54,6 @@ public class EhcacheCacheConfiguration {
         }
 
         cacheManager.setCacheManager(manager);
-        cacheManager.afterPropertiesSet();
 
         return cacheManager;
     }
