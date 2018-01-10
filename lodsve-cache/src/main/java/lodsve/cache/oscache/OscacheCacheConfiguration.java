@@ -45,7 +45,7 @@ public class OscacheCacheConfiguration {
         CacheProperties.Oscahce oscahce = cacheProperties.getOscahce();
         Resource resource = oscahce.getConfiguration();
         if (resource == null || !resource.exists()) {
-            resource = new ClassPathResource("/META-INF/oscache.xml", Thread.currentThread().getContextClassLoader());
+            resource = new ClassPathResource("/META-INF/oscache.properties", Thread.currentThread().getContextClassLoader());
         }
 
         Properties properties = new Properties();
