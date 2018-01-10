@@ -16,6 +16,7 @@ public class CacheProperties {
     private Guava guava = new Guava();
     private Redis redis = new Redis();
     private Memcached memcached = new Memcached();
+    private Oscahce oscahce = new Oscahce();
 
     public Ehcache getEhcache() {
         return ehcache;
@@ -47,6 +48,14 @@ public class CacheProperties {
 
     public void setMemcached(Memcached memcached) {
         this.memcached = memcached;
+    }
+
+    public Oscahce getOscahce() {
+        return oscahce;
+    }
+
+    public void setOscahce(Oscahce oscahce) {
+        this.oscahce = oscahce;
     }
 
     public static class Ehcache {
@@ -166,26 +175,26 @@ public class CacheProperties {
         public void setCache(CacheConfig[] cache) {
             this.cache = cache;
         }
+    }
 
-        public static class CacheConfig {
-            private String name = "default";
-            private int expire = 100;
+    public static class Oscahce{
+        private Resource configuration;
+        private CacheConfig[] cache = new CacheConfig[]{new CacheConfig()};
 
-            public String getName() {
-                return name;
-            }
+        public Resource getConfiguration() {
+            return configuration;
+        }
 
-            public void setName(String name) {
-                this.name = name;
-            }
+        public void setConfiguration(Resource configuration) {
+            this.configuration = configuration;
+        }
 
-            public int getExpire() {
-                return expire;
-            }
+        public CacheConfig[] getCache() {
+            return cache;
+        }
 
-            public void setExpire(int expire) {
-                this.expire = expire;
-            }
+        public void setCache(CacheConfig[] cache) {
+            this.cache = cache;
         }
     }
 
@@ -198,6 +207,27 @@ public class CacheProperties {
 
         public void setCacheNames(String cacheNames) {
             this.cacheNames = cacheNames;
+        }
+    }
+
+    public static class CacheConfig {
+        private String name = "default";
+        private int expire = 100;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getExpire() {
+            return expire;
+        }
+
+        public void setExpire(int expire) {
+            this.expire = expire;
         }
     }
 }
