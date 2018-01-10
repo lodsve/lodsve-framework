@@ -10,5 +10,6 @@ public enum CacheMode {
     REDIS,
     GUAVA,
     EHCAHE,
-    MEMCACHED
+    MEMCACHED,
+    OSCACHE
 }

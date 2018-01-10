@@ -73,6 +73,7 @@
         <ehcache.version>2.5.7</ehcache.version>
         <spymemcached.version>2.12.3</spymemcached.version>
         <jmemcached.version>1.0.0</jmemcached.version>
+        <oscache.version>2.4.1</oscache.version>
         <javamail.version>1.4.4</javamail.version>
         <persistence.version>1.0</persistence.version>
         <jackson.version>2.5.4</jackson.version>
@@ -378,6 +379,11 @@
                 <groupId>com.thimbleware.jmemcached</groupId>
                 <artifactId>jmemcached-core</artifactId>
                 <version>${jmemcached.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>opensymphony</groupId>
+                <artifactId>oscache</artifactId>
+                <version>${oscache.version}</version>
             </dependency>
             <!-- ehcache,memcached,oscache end -->
 

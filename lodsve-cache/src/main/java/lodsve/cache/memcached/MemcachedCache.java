@@ -1,7 +1,7 @@
 package lodsve.cache.memcached;
 
 import net.spy.memcached.MemcachedClient;
-import org.springframework.cache.Cache;
+import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.cache.support.SimpleValueWrapper;
 
 import java.util.concurrent.Future;
@@ -13,15 +13,29 @@ import java.util.concurrent.TimeUnit;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 2018-1-10-0010 10:06
  */
-public class MemcachedCache implements Cache {
+public class MemcachedCache extends AbstractValueAdaptingCache {
     private final String name;
     private final MemcachedClient memcachedClient;
     private final int expire;
 
     public MemcachedCache(String name, int expire, MemcachedClient memcachedClient) {
+        super(true);
         this.name = name;
         this.memcachedClient = memcachedClient;
         this.expire = expire;
+    }
+
+    @Override
+    protected Object lookup(Object key) {
+        Object value = null;
+        Future future = memcachedClient.asyncGet(decorateKey(key));
+        try {
+            value = future.get(expire, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            future.cancel(true);
+        }
+
+        return value;
     }
 
     @Override
@@ -35,35 +49,6 @@ public class MemcachedCache implements Cache {
     }
 
     @Override
-    public ValueWrapper get(Object key) {
-        ValueWrapper wrapper = null;
-        Object value = memcachedClient.get(decorateKey(key));
-        if (value != null) {
-            wrapper = new SimpleValueWrapper(value);
-        }
-        return wrapper;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T get(Object key, Class<T> type) {
-        T value;
-        Future future = memcachedClient.asyncGet(decorateKey(key));
-        try {
-            value = (T) future.get(expire, TimeUnit.MILLISECONDS);
-        } catch (Exception e) {
-            future.cancel(true);
-            value = null;
-        }
-
-        if (value != null && type != null && !type.isInstance(value)) {
-            throw new IllegalStateException("Cached value is not of required type [" + type.getName() + "]: " + value);
-        }
-
-        return value;
-    }
-
-    @Override
     public void put(Object key, Object value) {
         memcachedClient.add(decorateKey(key), expire, value);
     }
@@ -74,9 +59,9 @@ public class MemcachedCache implements Cache {
             return new SimpleValueWrapper(null);
         }
 
-        ValueWrapper wrapper = get(key);
-        if (wrapper != null) {
-            return wrapper;
+        Object object = lookup(key);
+        if (object != null) {
+            return new SimpleValueWrapper(object);
         }
 
         put(key, value);
