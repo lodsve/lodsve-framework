@@ -1,6 +1,5 @@
 package lodsve.test.context;
 
-import lodsve.core.context.ApplicationHelper;
 import lodsve.core.logger.Log4JConfiguration;
 import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.ini.IniLoader;
@@ -29,8 +28,6 @@ public class LodsveTestExecutionListener implements TestExecutionListener {
 
         // 配置log4j
         Log4JConfiguration.init();
-
-        ApplicationHelper.getInstance().addApplicationContext(testContext.getApplicationContext());
     }
 
     @Override
