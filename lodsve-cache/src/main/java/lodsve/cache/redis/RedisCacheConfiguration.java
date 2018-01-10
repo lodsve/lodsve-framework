@@ -77,7 +77,6 @@ public class RedisCacheConfiguration {
             template.setKeySerializer(jackson2JsonRedisSerializer);
             template.setValueSerializer(jackson2JsonRedisSerializer);
 
-            template.afterPropertiesSet();
             return template;
         }
     }

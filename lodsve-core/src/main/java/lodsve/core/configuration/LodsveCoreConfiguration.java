@@ -61,10 +61,7 @@ public class LodsveCoreConfiguration {
 
     @Bean
     public EventExecutor eventExecutor(ExecutorService executorService) throws Exception {
-        EventExecutor eventExecutor = new EventExecutor(executorService);
-
-        //eventExecutor.afterPropertiesSet();
-        return eventExecutor;
+        return new EventExecutor(executorService);
     }
 
     @Bean
