@@ -76,6 +76,11 @@
             <artifactId>mockserver-core</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.thimbleware.jmemcached</groupId>
+            <artifactId>jmemcached-core</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <!-- lodsve -->
         <dependency>

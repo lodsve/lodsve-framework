@@ -71,6 +71,7 @@
         <javax.cache.version>1.0.0</javax.cache.version>
         <ehcache.version>2.5.7</ehcache.version>
         <spymemcached.version>2.12.3</spymemcached.version>
+        <jmemcached.version>1.0.0</jmemcached.version>
         <javamail.version>1.4.4</javamail.version>
         <persistence.version>1.0</persistence.version>
         <jackson.version>2.5.4</jackson.version>
@@ -365,6 +366,11 @@
                 <groupId>net.spy</groupId>
                 <artifactId>spymemcached</artifactId>
                 <version>${spymemcached.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thimbleware.jmemcached</groupId>
+                <artifactId>jmemcached-core</artifactId>
+                <version>${jmemcached.version}</version>
             </dependency>
             <!-- ehcache,memcached,oscache end -->
 
