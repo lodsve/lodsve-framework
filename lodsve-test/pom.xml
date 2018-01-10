@@ -81,6 +81,10 @@
             <artifactId>jmemcached-core</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.github.kstyrc</groupId>
+            <artifactId>embedded-redis</artifactId>
+        </dependency>
 
         <!-- lodsve -->
         <dependency>

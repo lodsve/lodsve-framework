@@ -16,17 +16,22 @@ import java.util.concurrent.Executors;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-public final class JMemcachedServer implements MemcachedServer {
+/**
+ * 内嵌式Memcached.
+ *
+ * @author sunhao(sunhao.java @ gmail.com)
+ * @version V1.0, 2018-1-10-0010 13:32
+ */
+public final class JMemcachedServer {
 
     private static Logger logger = LoggerFactory.getLogger(JMemcachedServer.class);
 
-    public static final long DEFAULT_STARTUP_TIMEOUT = 10000;
+    private static final long DEFAULT_STARTUP_TIMEOUT = 10000;
     private static final int DEFAULT_STORAGE_CAPACITY = 1000;
     private static final long DEFAULT_STORAGE_MEMORY_CAPACITY = 10000;
 
     private MemCacheDaemon<LocalCacheElement> memcacheDaemon;
 
-    @Override
     public void start(final String host, final int port) {
         logger.debug("Starting memcache...");
 
@@ -36,7 +41,7 @@ public final class JMemcachedServer implements MemcachedServer {
             @Override
             public void run() {
                 CacheStorage<Key, LocalCacheElement> storage = ConcurrentLinkedHashMap.create(ConcurrentLinkedHashMap
-                    .EvictionPolicy.FIFO, DEFAULT_STORAGE_CAPACITY, DEFAULT_STORAGE_MEMORY_CAPACITY);
+                        .EvictionPolicy.FIFO, DEFAULT_STORAGE_CAPACITY, DEFAULT_STORAGE_MEMORY_CAPACITY);
                 memcacheDaemon = new MemCacheDaemon<>();
                 memcacheDaemon.setCache(new CacheImpl(storage));
                 memcacheDaemon.setAddr(new InetSocketAddress(host, port));
@@ -55,7 +60,6 @@ public final class JMemcachedServer implements MemcachedServer {
         }
     }
 
-    @Override
     public void clean() {
         if (memcacheDaemon != null) {
             logger.debug("Cleaning memcache...");

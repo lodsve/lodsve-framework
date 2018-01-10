@@ -1,4 +1,4 @@
-package lodsve.test.mock.memcached;
+package lodsve.test.mock.redis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,24 +6,20 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.support.AbstractTestExecutionListener;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.util.Assert;
+import redis.embedded.RedisServer;
+
+import java.io.IOException;
 
 /**
- * 内嵌式Memcached.
+ * 内嵌式redis.
  *
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 2018-1-10-0010 13:32
  */
-public class JMemcachedTestExecutionListener extends AbstractTestExecutionListener {
-    private static final Logger logger = LoggerFactory.getLogger(JMemcachedTestExecutionListener.class);
-    public static final String MEMCACHED_HOST = "127.0.0.1";
+public class MockRedisTestExecutionListener extends AbstractTestExecutionListener {
+    private static final Logger logger = LoggerFactory.getLogger(MockRedisTestExecutionListener.class);
 
-    private static boolean initialized;
-    private JMemcachedServer server;
-
-    public JMemcachedTestExecutionListener() {
-        this.server = new JMemcachedServer();
-    }
+    private RedisServer server = null;
 
     @Override
     public void beforeTestClass(TestContext testContext) {
@@ -45,20 +41,21 @@ public class JMemcachedTestExecutionListener extends AbstractTestExecutionListen
     }
 
     private void startServer(TestContext testContext) {
-        EmbeddedMemcached embeddedMemcached = AnnotationUtils.findAnnotation(testContext.getTestClass(), EmbeddedMemcached.class);
+        EmbeddedRedis embeddedRedis = AnnotationUtils.findAnnotation(testContext.getTestClass(), EmbeddedRedis.class);
+        int port = embeddedRedis.port();
 
-        Assert.notNull(embeddedMemcached, "EmbeddedMemcachedTestExecutionListener must be used with @EmbeddedMemcached on " + testContext.getTestClass());
-
-        int port = embeddedMemcached.port();
-        Assert.isTrue(port > 0, "@EmbeddedMemcached port must not be > 0");
-
-        if (!initialized) {
-            server.start(MEMCACHED_HOST, port);
-            initialized = true;
+        try {
+            server = new RedisServer(port);
+            server.start();
+        } catch (IOException e) {
+            if (logger.isErrorEnabled()) {
+                logger.error(e.getMessage(), e);
+            }
         }
     }
 
     private void cleanServer() {
-        server.clean();
+        server.stop();
+        server = null;
     }
 }

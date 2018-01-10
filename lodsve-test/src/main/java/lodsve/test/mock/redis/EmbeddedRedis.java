@@ -1,4 +1,4 @@
-package lodsve.test.mock.memcached;
+package lodsve.test.mock.redis;
 
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -6,7 +6,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import java.lang.annotation.*;
 
 /**
- * 内嵌式Memcached.
+ * 内嵌式redis.
  *
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 2018-1-10-0010 13:32
@@ -15,12 +15,12 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Inherited
 @Documented
-@TestExecutionListeners({JMemcachedTestExecutionListener.class, DependencyInjectionTestExecutionListener.class})
-public @interface EmbeddedMemcached {
+@TestExecutionListeners({MockRedisTestExecutionListener.class, DependencyInjectionTestExecutionListener.class})
+public @interface EmbeddedRedis {
     /**
-     * Memcached 端口
+     * redis 端口
      *
      * @return 端口
      */
-    int port() default 11211;
+    int port() default 6379;
 }
