@@ -175,6 +175,27 @@ public class CacheProperties {
         public void setCache(CacheConfig[] cache) {
             this.cache = cache;
         }
+
+        public static class CacheConfig {
+            private String name = "default";
+            private int expire = 100;
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public int getExpire() {
+                return expire;
+            }
+
+            public void setExpire(int expire) {
+                this.expire = expire;
+            }
+        }
     }
 
     public static class Oscahce{
@@ -196,6 +217,27 @@ public class CacheProperties {
         public void setCache(CacheConfig[] cache) {
             this.cache = cache;
         }
+
+        public static class CacheConfig {
+            private String name = "default";
+            private int expire = 100;
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public int getExpire() {
+                return expire;
+            }
+
+            public void setExpire(int expire) {
+                this.expire = expire;
+            }
+        }
     }
 
     public static class Common {
@@ -207,27 +249,6 @@ public class CacheProperties {
 
         public void setCacheNames(String cacheNames) {
             this.cacheNames = cacheNames;
-        }
-    }
-
-    public static class CacheConfig {
-        private String name = "default";
-        private int expire = 100;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getExpire() {
-            return expire;
-        }
-
-        public void setExpire(int expire) {
-            this.expire = expire;
         }
     }
 }

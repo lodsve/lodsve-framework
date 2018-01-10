@@ -1,7 +1,7 @@
 package lodsve.cache.oscache;
 
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
-import lodsve.cache.properties.CacheProperties.CacheConfig;
+import lodsve.cache.properties.CacheProperties.Oscahce.CacheConfig;
 import org.springframework.cache.Cache;
 import org.springframework.cache.transaction.AbstractTransactionSupportingCacheManager;
 import org.springframework.util.CollectionUtils;

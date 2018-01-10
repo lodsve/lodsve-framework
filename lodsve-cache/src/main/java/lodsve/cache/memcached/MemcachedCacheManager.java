@@ -1,6 +1,6 @@
 package lodsve.cache.memcached;
 
-import lodsve.cache.properties.CacheProperties.CacheConfig;
+import lodsve.cache.properties.CacheProperties.Memcached.CacheConfig;
 import net.spy.memcached.MemcachedClient;
 import org.springframework.cache.Cache;
 import org.springframework.cache.transaction.AbstractTransactionSupportingCacheManager;

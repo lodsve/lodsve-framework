@@ -2,8 +2,6 @@ package lodsve.cache.oscache;
 
 import com.opensymphony.oscache.base.NeedsRefreshException;
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.cache.support.SimpleValueWrapper;
 
@@ -14,8 +12,6 @@ import org.springframework.cache.support.SimpleValueWrapper;
  * @version V1.0, 2018-1-10-0010 16:27
  */
 public class OscacheCache extends AbstractValueAdaptingCache {
-    private static final Logger logger = LoggerFactory.getLogger(OscacheCache.class);
-
     private final String name;
     private final GeneralCacheAdministrator admin;
     private final int expire;
@@ -29,13 +25,11 @@ public class OscacheCache extends AbstractValueAdaptingCache {
 
     @Override
     protected Object lookup(Object key) {
-        Object value = null;
+        Object value;
         try {
             value = admin.getFromCache(key.toString(), expire);
         } catch (NeedsRefreshException e) {
-            if (logger.isErrorEnabled()) {
-                logger.error(e.getMessage(), e);
-            }
+            value = null;
         }
         return value;
     }
