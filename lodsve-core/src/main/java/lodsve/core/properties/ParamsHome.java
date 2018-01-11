@@ -1,4 +1,4 @@
-package lodsve.core.properties.init;
+package lodsve.core.properties;
 
 import lodsve.core.io.support.LodsveResourceLoader;
 import lodsve.core.utils.StringUtils;

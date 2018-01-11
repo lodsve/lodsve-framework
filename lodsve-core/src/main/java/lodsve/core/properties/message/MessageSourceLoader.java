@@ -1,7 +1,7 @@
 package lodsve.core.properties.message;
 
 import lodsve.core.io.support.LodsvePathMatchingResourcePatternResolver;
-import lodsve.core.properties.init.ParamsHome;
+import lodsve.core.properties.ParamsHome;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

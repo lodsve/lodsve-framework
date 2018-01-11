@@ -2,7 +2,7 @@ package lodsve.core.properties.env;
 
 import lodsve.core.io.support.LodsvePathMatchingResourcePatternResolver;
 import lodsve.core.io.support.LodsveResourceLoader;
-import lodsve.core.properties.init.ParamsHome;
+import lodsve.core.properties.ParamsHome;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.EncodedResource;

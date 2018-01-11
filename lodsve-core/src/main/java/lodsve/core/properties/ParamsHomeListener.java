@@ -1,4 +1,4 @@
-package lodsve.core.properties.init;
+package lodsve.core.properties;
 
 import lodsve.core.logger.Log4JConfiguration;
 import lodsve.core.properties.env.EnvLoader;
@@ -7,7 +7,7 @@ import lodsve.core.properties.ini.IniLoader;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import static lodsve.core.properties.init.ParamsHome.PARAMS_HOME_NAME;
+import static lodsve.core.properties.ParamsHome.PARAMS_HOME_NAME;
 
 /**
  * 读取web.xml中设置的context-param[paramsHome].

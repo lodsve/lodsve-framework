@@ -3,7 +3,7 @@ package lodsve.test.context;
 import lodsve.core.logger.Log4JConfiguration;
 import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.ini.IniLoader;
-import lodsve.core.properties.init.ParamsHome;
+import lodsve.core.properties.ParamsHome;
 import lodsve.core.utils.StringUtils;
 import lodsve.test.base.ParamsPath;
 import org.springframework.test.context.TestContext;

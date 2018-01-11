@@ -1,6 +1,6 @@
 package lodsve.core.propeties.init;
 
-import lodsve.core.properties.init.ParamsHome;
+import lodsve.core.properties.ParamsHome;
 import org.junit.Assert;
 import org.junit.Test;
 

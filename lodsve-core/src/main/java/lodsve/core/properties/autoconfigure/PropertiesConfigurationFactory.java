@@ -5,7 +5,7 @@ import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
 import lodsve.core.properties.autoconfigure.annotations.Required;
 import lodsve.core.properties.env.Configuration;
 import lodsve.core.properties.env.PropertiesConfiguration;
-import lodsve.core.properties.init.ParamsHome;
+import lodsve.core.properties.ParamsHome;
 import lodsve.core.utils.*;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
