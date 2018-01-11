@@ -68,12 +68,6 @@ public class ServerProperties {
         }
 
         public void setExcludeUrl(List<String> excludeUrl) {
-            excludeUrl.add(".*/v2/api-docs");
-            excludeUrl.add(".*/swagger-resources");
-            excludeUrl.add(".*/configuration/ui");
-            excludeUrl.add(".*/webjars/.*");
-            excludeUrl.add(".*/swagger-ui.html");
-
             this.excludeUrl = excludeUrl;
         }
 
