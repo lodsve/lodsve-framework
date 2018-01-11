@@ -34,20 +34,29 @@ public class LodsveBannerPrinter implements WebApplicationInitializer, Ordered {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         String version = LodsveVersion.getVersion();
-        StringBuilder blank = new StringBuilder("");
-        if (LODSVE_TITLE.length() + version.length() < LINE_WIDTH) {
-            for (int i = 0; i < LINE_WIDTH - LODSVE_TITLE.length() - version.length(); i++) {
-                blank.append(" ");
-            }
-        }
+        StringBuilder blank1 = new StringBuilder("");
+        fillBlank(LINE_WIDTH, LODSVE_TITLE.length() + version.length(), blank1);
+
+        String builter = "Author: " + LodsveVersion.getBuilter();
+        StringBuilder blank2 = new StringBuilder("");
+        fillBlank(LINE_WIDTH, LODSVE_DESCRIPTION.length() + builter.length(), blank2);
 
         System.out.println("\n\n\n");
         for (String line : BANNER) {
             System.out.println(line);
         }
-        System.out.println("\n" + AnsiOutput.toString(AnsiColor.BLUE, LODSVE_DESCRIPTION));
-        System.out.println(AnsiOutput.toString(AnsiColor.GREEN, LODSVE_TITLE, AnsiColor.DEFAULT, blank.toString(), AnsiStyle.FAINT, version));
+
+        System.out.println("\n" + AnsiOutput.toString(AnsiColor.BLUE, LODSVE_DESCRIPTION, AnsiColor.DEFAULT, blank2.toString(), AnsiStyle.FAINT, builter));
+        System.out.println(AnsiOutput.toString(AnsiColor.GREEN, LODSVE_TITLE, AnsiColor.DEFAULT, blank1.toString(), AnsiStyle.FAINT, version));
         System.out.println("\n\n\n");
+    }
+
+    private void fillBlank(int maxLength, int nowLength, StringBuilder blank) {
+        if (nowLength < maxLength) {
+            for (int i = 0; i < maxLength - nowLength; i++) {
+                blank.append(" ");
+            }
+        }
     }
 
     @Override
