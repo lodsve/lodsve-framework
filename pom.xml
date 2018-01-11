@@ -1003,6 +1003,11 @@
                 <configuration>
                     <archive>
                         <addMavenDescriptor>true</addMavenDescriptor>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
                     </archive>
                 </configuration>
             </plugin>
