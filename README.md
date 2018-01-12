@@ -51,6 +51,18 @@ See the current [reference docs][].
 Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 > **Note:** Per the prerequisites above, ensure that you have JDK 7 and Maven 3.3.X configured properly in your IDE.
 
+1. Config your Git 
+    
+        git config --global user.name "your name"
+        git config --global user.email "your email"
+        git config --global core.autocrlf false
+        git config --global core.safecrlf true
+2. Config your IDE
+    - Eclipse: Open Settings-General-Workspace, modify `New text file line delimiter` as `Unix`
+    - Eclipse: Open Settings-General-Workspace, modify `Text file encoding` as `UTF-8`
+    - IDE: Open Setting-Editor-Code Style, modify `line delimiter` as `Unix and OS X(\n)`
+    - IDE: Open Setting-Editor-File encoding, modify all `Encoding` as `UTF-8` and `with NO BOM`
+
 ## Change History
 [CHANGELOG][]
 
