@@ -1,13 +1,15 @@
 package lodsve.core;
 
-import lodsve.core.ansi.AnsiColor;
-import lodsve.core.ansi.AnsiOutput;
-import lodsve.core.ansi.AnsiStyle;
-import org.springframework.core.Ordered;
-import org.springframework.web.WebApplicationInitializer;
+import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
+import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.HandlesTypes;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 模仿spring-boot打印出banner.
@@ -15,52 +17,37 @@ import javax.servlet.ServletException;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2018/1/11 下午10:13
  */
-public class LodsveBannerPrinter implements WebApplicationInitializer, Ordered {
-    private static final String[] BANNER = new String[]{
-            "$$\\                      $$\\                                ",
-            "$$ |                     $$ |                               ",
-            "$$ |      $$$$$$\\   $$$$$$$ | $$$$$$$\\ $$\\    $$\\  $$$$$$\\  ",
-            "$$ |     $$  __$$\\ $$  __$$ |$$  _____|\\$$\\  $$  |$$  __$$\\ ",
-            "$$ |     $$ /  $$ |$$ /  $$ |\\$$$$$$\\   \\$$\\$$  / $$$$$$$$ |",
-            "$$ |     $$ |  $$ |$$ |  $$ | \\____$$\\   \\$$$  /  $$   ____|",
-            "$$$$$$$$\\\\$$$$$$  |\\$$$$$$$ |$$$$$$$  |   \\$  /   \\$$$$$$$\\ ",
-            "\\________|\\______/  \\_______|\\_______/     \\_/     \\_______|"
-    };
-
-    private static final int LINE_WIDTH = BANNER[0].length();
-    private static final String LODSVE_DESCRIPTION = "Let our development of Spring very easy!";
-    private static final String LODSVE_TITLE = " :: Lodsve Frameowrk :: ";
+@HandlesTypes(Banner.class)
+public class LodsveBannerPrinter implements ServletContainerInitializer {
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        String version = LodsveVersion.getVersion();
-        StringBuilder blank1 = new StringBuilder("");
-        fillBlank(LINE_WIDTH, LODSVE_TITLE.length() + version.length(), blank1);
-
-        String builter = "Author: " + LodsveVersion.getBuilter();
-        StringBuilder blank2 = new StringBuilder("");
-        fillBlank(LINE_WIDTH, LODSVE_DESCRIPTION.length() + builter.length(), blank2);
-
-        System.out.println("\n\n\n");
-        for (String line : BANNER) {
-            System.out.println(line);
+    public void onStartup(Set<Class<?>> classSet, ServletContext servletContext) throws ServletException {
+        if (classSet == null) {
+            servletContext.log("No Banner in classpath to print!");
+            return;
         }
 
-        System.out.println("\n" + AnsiOutput.toString(AnsiColor.BLUE, LODSVE_DESCRIPTION, AnsiColor.DEFAULT, blank2.toString(), AnsiStyle.FAINT, builter));
-        System.out.println(AnsiOutput.toString(AnsiColor.GREEN, LODSVE_TITLE, AnsiColor.DEFAULT, blank1.toString(), AnsiStyle.FAINT, version));
-        System.out.println("\n\n\n");
-    }
-
-    private void fillBlank(int maxLength, int nowLength, StringBuilder blank) {
-        if (nowLength < maxLength) {
-            for (int i = 0; i < maxLength - nowLength; i++) {
-                blank.append(" ");
+        List<Banner> banners = new ArrayList<>(classSet.size());
+        for (Class<?> clazz : classSet) {
+            if (!clazz.isInterface() && !Modifier.isAbstract(clazz.getModifiers()) && Banner.class.isAssignableFrom(clazz)) {
+                try {
+                    banners.add((Banner) clazz.newInstance());
+                } catch (Throwable ex) {
+                    throw new ServletException("Failed to instantiate Banner class", ex);
+                }
             }
         }
-    }
 
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
+        if (banners.isEmpty()) {
+            servletContext.log("No Banner in classpath to print!");
+            return;
+        }
+
+        AnnotationAwareOrderComparator.sort(banners);
+        servletContext.log("banners detected on classpath: " + banners);
+
+        for (Banner banner : banners) {
+            banner.print(System.out);
+        }
     }
 }

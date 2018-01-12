@@ -26,7 +26,7 @@ public final class LodsveVersion {
         return getManifestAttr("Built-By");
     }
 
-    public static String getManifestAttr(String name) {
+    private static String getManifestAttr(String name) {
         InputStream inputStream = null;
         try {
             ClassLoader classLoader = LodsveVersion.class.getClassLoader();
