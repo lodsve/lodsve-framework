@@ -69,8 +69,8 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     }
 
     @Override
-    public synchronized void doIndex(List<BaseSearchBean> BaseSearchBeans) throws Exception {
-        this.createOrUpdateIndex(BaseSearchBeans, true);
+    public synchronized void doIndex(List<BaseSearchBean> baseSearchBeans) throws Exception {
+        this.createOrUpdateIndex(baseSearchBeans, true);
     }
 
     @Override

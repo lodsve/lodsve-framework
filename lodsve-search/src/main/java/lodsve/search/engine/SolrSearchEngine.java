@@ -42,9 +42,9 @@ public class SolrSearchEngine extends AbstractSearchEngine {
     }
 
     @Override
-    public synchronized void doIndex(List<BaseSearchBean> BaseSearchBeans) throws Exception {
+    public synchronized void doIndex(List<BaseSearchBean> baseSearchBeans) throws Exception {
         List<SolrInputDocument> sids = new ArrayList<>();
-        for (BaseSearchBean sb : BaseSearchBeans) {
+        for (BaseSearchBean sb : baseSearchBeans) {
             if (sb == null) {
                 logger.debug("give BaseSearchBean is null!");
                 return;
@@ -269,8 +269,8 @@ public class SolrSearchEngine extends AbstractSearchEngine {
     }
 
     @Override
-    public void updateIndex(BaseSearchBean BaseSearchBean) throws Exception {
-        this.updateIndexs(Collections.singletonList(BaseSearchBean));
+    public void updateIndex(BaseSearchBean baseSearchBeans) throws Exception {
+        this.updateIndexs(Collections.singletonList(baseSearchBeans));
     }
 
     /**
@@ -278,11 +278,11 @@ public class SolrSearchEngine extends AbstractSearchEngine {
      * 在solr中更新索引也就是创建索引(当有相同ID存在的时候,仅仅更新,否则新建)<br/>
      * {@link lodsve.search.engine.SolrSearchEngine#doIndex(java.util.List)}
      *
-     * @param BaseSearchBeans 需要更新的beans
+     * @param baseSearchBeans 需要更新的beans
      * @throws Exception
      */
     @Override
-    public void updateIndexs(List<BaseSearchBean> BaseSearchBeans) throws Exception {
-        this.doIndex(BaseSearchBeans);
+    public void updateIndexs(List<BaseSearchBean> baseSearchBeans) throws Exception {
+        this.doIndex(baseSearchBeans);
     }
 }

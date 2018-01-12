@@ -66,6 +66,19 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 ## Change History
 [CHANGELOG][]
 
+## About version
+I will release a new version at 27th every month.
+
+Version No like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
+
+- `MAJOR` version when I make incompatible API changes,
+- `MINOR` version when I add functionality in a backwards-compatible manner, and
+- `PATCH` version when I make backwards-compatible bug fixes.
+- `RELEASE` means a stable release version.
+- `ALPHA` means internal version.
+- `BETA` means just for testing.
+
+
 ## Contact me
 1. Email: sunhao.java@gmail.com
 2. QQ: [867885140][]
