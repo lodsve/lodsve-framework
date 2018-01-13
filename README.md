@@ -36,6 +36,11 @@ My development tools, it encapsulates some open source projects, and better faci
         <scope>import</scope>
     </dependency>
     
+## Newest version
+Now the newest version is `2.6.1-RELEASE`.
+
+You can also find the newest version in maven central: `http://repo1.maven.org/maven2/com/lodsve/lodsve-framework/`.
+    
 ## Documentation
 See the current [reference docs][].
 
@@ -67,7 +72,7 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 ## Change History
 [CHANGELOG][]
 
-## About version
+## About release
 I will release a new version at 27th every month.
 
 Version No like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
