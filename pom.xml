@@ -13,6 +13,8 @@
     <modules>
         <!-- 第三方库依赖 -->
         <module>lodsve-3rd</module>
+        <!-- all -->
+        <module>lodsve-all</module>
         <!-- amqp -->
         <module>lodsve-amqp</module>
         <!-- 缓存 -->
@@ -117,6 +119,7 @@
         <jruby.version>1.7.26</jruby.version>
         <jyphon.version>2.7.1b3</jyphon.version>
 
+        <maven.shade.plugin.version>3.0.0</maven.shade.plugin.version>
         <maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
@@ -942,11 +945,6 @@
             </dependency>
             <dependency>
                 <groupId>com.github.lodsve</groupId>
-                <artifactId>lodsve-transaction</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.lodsve</groupId>
                 <artifactId>lodsve-validate</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -970,6 +968,33 @@
     </dependencyManagement>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>${maven.shade.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <!-- 创建源码jar -->
+                                <createSourcesJar>true</createSourcesJar>
+                                <artifactSet>
+                                    <includes>
+                                        <include>${project.groupId}:*:*</include>
+                                    </includes>
+                                </artifactSet>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <!-- 编译 -->
             <plugin>

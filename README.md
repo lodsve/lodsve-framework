@@ -10,6 +10,7 @@ My development tools, it encapsulates some open source projects, and better faci
 1. Base on some open source framework. It encapsulates some classes and methods to make more convenient for developers.
 2. It consists of the following modules:
     - lodsve-3rd
+    - lodsve-all
     - lodsve-amqp
     - lodsve-cache
     - lodsve-core
