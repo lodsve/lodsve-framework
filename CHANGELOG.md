@@ -1,5 +1,35 @@
 # 更新日志
 
+## 2.6.0-RELEASE
+修改GroupId，重新上传构建，并且定义新的发布规则及版本号
+1. lodsve-3d: 无
+2. lodsve-all: 新增所有子模块的聚合
+3. lodsve-amqp: fixed bugs
+4. lodsve-cache: 
+    - 优化部分代码
+    - 新增支持oscache、memcached
+5. lodsve-core:
+    - fixed bugs
+    - 重构自动配置
+    - 模仿spring-boot打印banner
+    - 配置文件支持读取zookeeper
+    - 整理优化一些代码
+6. lodsve-dfs: 无
+7. lodsve-mongodb: 无
+8. lodsve-mybatis: 支持p6spy
+9. lodsve-redis: 无
+10. lodsve-search: 无
+11. lodsve-security: 无
+12. lodsve-test:
+    - 支持embedded memcached、embedded redis
+    - 使用@ParamsPath可以为单元测试注入配置文件路径
+13. lodsve-validate: 无
+14. lodsve-web:
+    - fixed bugs
+    - 禁用springfox时，不注册相关bean
+15. lodsve-wechat: 无
+16. lodsve-workflow: 无
+
 ## V2.5.10
 1. ~~lodsve-dubbo~~: 删除
 2. lodsve-mvc: 

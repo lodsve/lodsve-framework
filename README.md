@@ -83,7 +83,7 @@ Version No like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
 ## Contact me
 1. Email: sunhao.java@gmail.com
 2. QQ: [867885140][]
-3. Blog: [Blog_Create_By_Hexo][] [OSChina][]
+3. Blog: [Blog][] [OSChina][]
 
 ## License
 The `Lodsve Framework` is released under version 2.0 of the [Mozilla Public License][].
@@ -94,7 +94,7 @@ The `Lodsve Framework` is released under version 2.0 of the [Mozilla Public Lice
 
 [Mozilla Public License]: http://opensource.org/licenses/MPL-2.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
-[Blog_Create_By_Hexo]: http://www.lodsve.com
+[Blog]: http://www.lodsve.com
 [OSChina]: http://my.oschina.net/sunhaojava/blog
 [867885140]: http://wpa.qq.com/msgrd?v=3&uin=867885140&site=qq&menu=yes
 [reference docs]: http://lodsve.github.io/lodsve-framework/
