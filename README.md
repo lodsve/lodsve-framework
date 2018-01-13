@@ -29,7 +29,7 @@ My development tools, it encapsulates some open source projects, and better faci
 ## How To Use
 
     <dependency>
-        <groupId>com.github.lodsve</groupId>
+        <groupId>com.lodsve</groupId>
         <artifactId>lodsve-framework</artifactId>
         <version>${lodsve.version}</version>
         <type>pom</type>

@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>lodsve-framework</artifactId>
-        <groupId>com.github.lodsve</groupId>
+        <groupId>com.lodsve</groupId>
         <version>2.5.11-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -16,63 +16,63 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-3rd</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-amqp</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-cache</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-dfs</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-mongodb</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-mybatis</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-redis</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-search</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-security</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-test</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-validate</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-wechat</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.lodsve</groupId>
+            <groupId>com.lodsve</groupId>
             <artifactId>lodsve-workflow</artifactId>
         </dependency>
     </dependencies>
