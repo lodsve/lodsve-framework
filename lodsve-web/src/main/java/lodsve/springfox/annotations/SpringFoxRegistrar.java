@@ -1,6 +1,5 @@
 package lodsve.springfox.annotations;
 
-import lodsve.core.properties.Env;
 import lodsve.core.properties.Profiles;
 import lodsve.springfox.config.SpringFoxDocket;
 import lodsve.springfox.paths.SpringFoxPathProvider;
