@@ -1,8 +1,9 @@
 package lodsve.mvc.config;
 
 import lodsve.core.configuration.ApplicationProperties;
+import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.mvc.debug.DebugRequestListener;
-import lodsve.properties.WebProperties;
+import lodsve.mvc.properties.ServerProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.context.annotation.Bean;
@@ -19,11 +20,12 @@ import java.util.Map;
  * @version V1.0, 16/1/28 上午10:58
  */
 @Configuration
+@EnableConfigurationProperties(ServerProperties.class)
 public class WebMvcConfiguration {
     @Autowired
     private ApplicationProperties applicationProperties;
     @Autowired
-    private WebProperties properties;
+    private ServerProperties properties;
 
     @Bean
     public DefaultServletHttpRequestHandler defaultServletHttpRequestHandler() {

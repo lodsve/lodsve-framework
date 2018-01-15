@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lodsve.cache.properties.CacheProperties;
+import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.core.utils.StringUtils;
 import lodsve.redis.core.annotations.EnableRedis;
 import lodsve.redis.core.connection.LodsveRedisConnectionFactory;
@@ -29,6 +30,7 @@ import java.util.List;
  */
 @Configuration
 @EnableCaching
+@EnableConfigurationProperties(CacheProperties.class)
 public class RedisCacheConfiguration {
 
     @Configuration

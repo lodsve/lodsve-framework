@@ -43,6 +43,7 @@ public class PropertiesConfigurationFactory {
     private Object target;
     private String targetName;
     private Configuration configuration;
+    private boolean readCache = true;
 
     private void setPropertySource(Properties propertySource) {
         Assert.notNull(propertySource);
@@ -55,6 +56,10 @@ public class PropertiesConfigurationFactory {
         this.targetName = targetName;
     }
 
+    public void setReadCache(boolean readCache) {
+        this.readCache = readCache;
+    }
+
     private static final Map<Class<?>, Object> CLASS_OBJECT_MAPPING = new HashMap<>(16);
 
 
@@ -64,10 +69,17 @@ public class PropertiesConfigurationFactory {
 
     @SuppressWarnings("unchecked")
     private void bindToTarget() {
+        if (!readCache) {
+            generateObject(targetName, target);
+            return;
+        }
+
         Object object = CLASS_OBJECT_MAPPING.get(target.getClass());
         if (object == null) {
             generateObject(targetName, target);
             CLASS_OBJECT_MAPPING.put(target.getClass(), target);
+
+            return;
         }
 
         target = object;
@@ -107,9 +119,11 @@ public class PropertiesConfigurationFactory {
         }
         Object value = getValueForType(key, type, readMethod);
 
-        if (value == null || (value instanceof Collection && ((Collection) value).isEmpty()) ||
+        boolean isNull = value == null || (value instanceof Collection && ((Collection) value).isEmpty()) ||
                 (value instanceof Map && ((Map) value).isEmpty()) ||
-                (value.getClass().isArray() && ArrayUtils.isEmpty((Object[]) value))) {
+                (value.getClass().isArray() && ArrayUtils.isEmpty((Object[]) value));
+
+        if (isNull) {
             value = getValueForType(prefix + "." + camelName, type, readMethod);
         }
 
@@ -140,6 +154,7 @@ public class PropertiesConfigurationFactory {
         PropertiesConfigurationFactory factory = new PropertiesConfigurationFactory(target);
         factory.setTargetName(targetName);
         factory.setPropertySource(propertySource);
+        factory.setReadCache(false);
         factory.bindToTarget();
     }
 
@@ -203,18 +218,31 @@ public class PropertiesConfigurationFactory {
         Assert.notNull(secondGenericClazz, "If use Map, must provider generic info!");
         Set<String> keys = configuration.subset(prefix).getKeys();
         for (String key : keys) {
-            String[] temp = StringUtils.split(key, ".");
-            if (temp.length < 2) {
-                continue;
+            String keyInMap;
+            Object value;
+            if (COMMON_TYPES.contains(secondGenericClazz)) {
+                keyInMap = key;
+                if (map.containsKey(keyInMap)) {
+                    continue;
+                }
+                value = getValueForSimpleType(prefix + "." + key, secondGenericClazz);
+            } else {
+                String[] temp = StringUtils.split(key, ".");
+                if (temp.length < 2) {
+                    continue;
+                }
+                keyInMap = temp[0];
+                if (map.containsKey(keyInMap)) {
+                    continue;
+                }
+
+                value = BeanUtils.instantiate(secondGenericClazz);
+                bindToSubTarget(value, prefix + "." + keyInMap);
             }
 
-            String keyInMap = temp[0];
 
-            Object target = BeanUtils.instantiate(secondGenericClazz);
-            bindToSubTarget(target, prefix + "." + keyInMap);
-
-            if (target != null) {
-                map.put(keyInMap, target);
+            if (value != null) {
+                map.put(keyInMap, value);
             }
         }
 

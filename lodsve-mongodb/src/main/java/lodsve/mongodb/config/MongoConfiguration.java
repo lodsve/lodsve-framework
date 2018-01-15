@@ -1,5 +1,6 @@
 package lodsve.mongodb.config;
 
+import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.mongodb.core.MongoRepositoryBeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,6 +16,7 @@ import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
  */
 @Configuration
 @EnableAspectJAutoProxy
+@EnableConfigurationProperties(MongoProperties.class)
 @ComponentScan("lodsve.mongodb.connection")
 public class MongoConfiguration {
     @Bean

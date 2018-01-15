@@ -4,9 +4,9 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import lodsve.core.utils.StringUtils;
-import lodsve.properties.SpringFoxProperties;
-import lodsve.properties.WebProperties;
+import lodsve.mvc.properties.ServerProperties;
 import lodsve.springfox.paths.SpringFoxPathProvider;
+import lodsve.springfox.properties.SpringFoxProperties;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import springfox.documentation.RequestHandler;
@@ -30,7 +30,9 @@ public class SpringFoxDocket extends Docket {
     @Autowired
     private SpringFoxPathProvider pathProvider;
     @Autowired
-    private WebProperties properties;
+    private SpringFoxProperties springFoxProperties;
+    @Autowired
+    private ServerProperties serverProperties;
 
     private static final int SCHEMA_HOST_PATH_LENGTH = 2;
     private String groupName;
@@ -42,7 +44,7 @@ public class SpringFoxDocket extends Docket {
 
     @PostConstruct
     public void init() throws NoSuchFieldException, IllegalAccessException {
-        apiInfo(apiInfo(properties.getSpringfox()));
+        apiInfo(apiInfo(springFoxProperties));
         forCodeGeneration(true);
         groupName(groupName);
         pathProvider(pathProvider);
@@ -87,7 +89,7 @@ public class SpringFoxDocket extends Docket {
     }
 
     private String getHost() {
-        String serverUrl = properties.getServer().getServerUrl();
+        String serverUrl = serverProperties.getServerUrl();
         if (StringUtils.isBlank(serverUrl)) {
             return "localhost";
         }

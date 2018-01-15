@@ -1,7 +1,6 @@
 package lodsve.mvc.debug;
 
-import lodsve.properties.ServerProperties;
-import lodsve.properties.WebProperties;
+import lodsve.mvc.properties.ServerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -24,9 +23,9 @@ public class DebugRequestListener implements ApplicationListener<ServletRequestH
     private static final List<String> DEFAULT_EXCLUDE_URL = new ArrayList<>();
 
     private boolean debugMode;
-    private WebProperties properties;
+    private ServerProperties properties;
 
-    public DebugRequestListener(boolean debugMode, WebProperties properties) {
+    public DebugRequestListener(boolean debugMode, ServerProperties properties) {
         this.debugMode = debugMode;
         this.properties = properties;
 
@@ -53,7 +52,7 @@ public class DebugRequestListener implements ApplicationListener<ServletRequestH
         long time = event.getProcessingTimeMillis();
         String method = event.getMethod();
 
-        if (properties.getServer().getDebug().getExcludeAddress().contains(client)) {
+        if (properties.getDebug().getExcludeAddress().contains(client)) {
             return;
         }
         for (Pattern pattern : PATTERNS) {
@@ -61,9 +60,9 @@ public class DebugRequestListener implements ApplicationListener<ServletRequestH
                 return;
             }
         }
-        if (time > properties.getServer().getDebug().getMaxProcessingTime()) {
+        if (time > properties.getDebug().getMaxProcessingTime()) {
             if (logger.isWarnEnabled()) {
-                logger.warn(String.format("The request '%s' from '%s' with method '%s' execute '%d' more than max time '%d'!Please check it!", url, client, method, time, properties.getServer().getDebug().getMaxProcessingTime()));
+                logger.warn(String.format("The request '%s' from '%s' with method '%s' execute '%d' more than max time '%d'!Please check it!", url, client, method, time, properties.getDebug().getMaxProcessingTime()));
             }
         }
 
@@ -77,7 +76,7 @@ public class DebugRequestListener implements ApplicationListener<ServletRequestH
     }
 
     private void initPattern() {
-        ServerProperties.Debug debug = properties.getServer().getDebug();
+        ServerProperties.Debug debug = properties.getDebug();
         List<String> excludeUrl = debug.getExcludeUrl();
         excludeUrl.addAll(DEFAULT_EXCLUDE_URL);
         for (String url : excludeUrl) {

@@ -5,10 +5,10 @@ import lodsve.mvc.context.WebContextInterceptor;
 import lodsve.mvc.convert.EnumCodeConverterFactory;
 import lodsve.mvc.convert.StringDateConvertFactory;
 import lodsve.mvc.json.CustomObjectMapper;
+import lodsve.mvc.properties.ServerProperties;
 import lodsve.mvc.resolver.BindDataHandlerMethodArgumentResolver;
 import lodsve.mvc.resolver.ParseDataHandlerMethodArgumentResolver;
 import lodsve.mvc.resolver.WebResourceDataHandlerMethodArgumentResolver;
-import lodsve.properties.WebProperties;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -26,10 +26,10 @@ import java.util.List;
  * @version V1.0, 15/8/15 下午1:22
  */
 public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
-    private WebProperties properties;
+    private ServerProperties properties;
     private ApplicationProperties applicationProperties;
 
-    public LodsveWebMvcConfigurerAdapter(WebProperties properties, ApplicationProperties applicationProperties) {
+    public LodsveWebMvcConfigurerAdapter(ServerProperties properties, ApplicationProperties applicationProperties) {
         this.properties = properties;
         this.applicationProperties = applicationProperties;
     }
@@ -81,7 +81,7 @@ public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
         if (applicationProperties.isDevMode()) {
             corsRegistration.allowedOrigins("*");
         } else {
-            corsRegistration.allowedOrigins(properties.getServer().getFrontEndUrl(), properties.getServer().getServerUrl());
+            corsRegistration.allowedOrigins(properties.getFrontEndUrl(), properties.getServerUrl());
         }
     }
 

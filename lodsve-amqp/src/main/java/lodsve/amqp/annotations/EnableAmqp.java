@@ -1,20 +1,17 @@
 package lodsve.amqp.annotations;
 
 import lodsve.amqp.configs.RabbitConfiguration;
+import lodsve.amqp.configs.RabbitProperties;
 import lodsve.core.configuration.EnableLodsve;
+import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * rabbit mq base configuration.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 2016-01-19 14:27
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -22,6 +19,7 @@ import java.lang.annotation.Target;
 @Documented
 @Inherited
 @EnableLodsve
+@EnableConfigurationProperties(RabbitProperties.class)
 @Import(RabbitConfiguration.class)
 public @interface EnableAmqp {
 }

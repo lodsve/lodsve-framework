@@ -1,7 +1,6 @@
 package lodsve.webservice;
 
-import lodsve.properties.WebProperties;
-import lodsve.properties.WebServiceProperties;
+import lodsve.webservice.properties.WebServiceProperties;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.ClassUtils;
@@ -20,7 +19,7 @@ import java.util.Map;
  */
 public class LodsveWebserviceInitializer implements WebApplicationInitializer, InitializingBean {
     private static ServletContext servletContext;
-    private WebProperties properties;
+    private WebServiceProperties properties;
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
@@ -35,18 +34,18 @@ public class LodsveWebserviceInitializer implements WebApplicationInitializer, I
 
         CXFServlet servlet = new CXFServlet();
         ServletRegistration.Dynamic dynamic = servletContext.addServlet("CXFServlet", servlet);
-        String path = properties.getWebservice().getPath();
+        String path = properties.getPath();
         String urlMapping = (path.endsWith("/") ? path + "*" : path + "/*");
         dynamic.addMapping(urlMapping);
 
-        WebServiceProperties.Servlet servletProperties = this.properties.getWebservice().getServlet();
+        WebServiceProperties.Servlet servletProperties = this.properties.getServlet();
         dynamic.setLoadOnStartup(servletProperties.getLoadOnStartup());
         for (Map.Entry<String, String> entry : servletProperties.getInit().entrySet()) {
             dynamic.setInitParameter(entry.getKey(), entry.getValue());
         }
     }
 
-    public void setProperties(WebProperties properties) {
+    public void setProperties(WebServiceProperties properties) {
         this.properties = properties;
     }
 }

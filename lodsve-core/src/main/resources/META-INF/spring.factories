@@ -1,6 +1,2 @@
 org.springframework.context.annotation.Configuration=\
   lodsve.core.configuration.LodsveCoreConfiguration
-
-lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties=\
-  lodsve.core.configuration.ApplicationProperties,\
-  lodsve.core.email.EmailProperties

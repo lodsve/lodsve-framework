@@ -1,4 +1,6 @@
-package lodsve.properties;
+package lodsve.mvc.properties;
+
+import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
 
 import java.util.List;
 
@@ -8,6 +10,7 @@ import java.util.List;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 15/10/10 下午10:01
  */
+@ConfigurationProperties(prefix = "lodsve.server", locations = "${params.root}/framework/server.properties")
 public class ServerProperties {
     /**
      * 前台URL

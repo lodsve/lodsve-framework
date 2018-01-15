@@ -5,16 +5,12 @@ import lodsve.core.datasource.DataSource;
 import lodsve.mybatis.configs.MyBatisConfigurationSelector;
 import org.springframework.context.annotation.Import;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 通过注解的方式启动mybatis的配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/1/19 下午8:01
  */
 @Target(ElementType.TYPE)

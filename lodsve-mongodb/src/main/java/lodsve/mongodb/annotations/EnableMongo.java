@@ -6,16 +6,12 @@ import lodsve.mongodb.config.MongoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 启用mongodb.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/1/21 下午10:14
  */
 @Target(ElementType.TYPE)

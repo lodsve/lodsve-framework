@@ -1,2 +1,0 @@
-lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties=\
-  lodsve.wechat.config.WeChatProperties
