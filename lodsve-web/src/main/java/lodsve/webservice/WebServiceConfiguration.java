@@ -2,6 +2,7 @@ package lodsve.webservice;
 
 import lodsve.core.condition.ConditionalOnClass;
 import org.apache.cxf.transport.servlet.CXFServlet;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
@@ -14,5 +15,9 @@ import org.springframework.context.annotation.ImportResource;
 @ConditionalOnClass(CXFServlet.class)
 @Configuration
 @ImportResource({"classpath*:META-INF/cxf/cxf.xml", "classpath*:META-INF/cxf/cxf-servlet.xml"})
-public class WebserviceConfiguration {
+public class WebServiceConfiguration {
+    @Bean
+    public WebServiceBeanFactoryPostProcessor webServiceBeanFactoryPostProcessor() {
+        return new WebServiceBeanFactoryPostProcessor();
+    }
 }

@@ -16,15 +16,6 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @EnableLodsve
-@Import({WebserviceConfiguration.class, WebserviceBeanDefinitionRegistrar.class})
+@Import({WebServiceConfiguration.class})
 public @interface EnableWebService {
-    WebService[] value() default {};
-
-    public @interface WebService {
-        Class<?> clazz() default Object.class;
-
-        String id() default "";
-
-        String address();
-    }
 }

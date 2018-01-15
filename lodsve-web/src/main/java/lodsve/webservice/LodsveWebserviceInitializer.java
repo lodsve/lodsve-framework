@@ -4,9 +4,9 @@ import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.WebApplicationInitializer;
 
-import javax.servlet.ServletRegistration.Dynamic;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration.Dynamic;
 
 /**
  * Lodsve Webservice Initializer.
