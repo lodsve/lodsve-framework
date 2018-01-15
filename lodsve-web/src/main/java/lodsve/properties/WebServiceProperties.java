@@ -1,6 +1,5 @@
-package lodsve.webservice;
+package lodsve.properties;
 
-import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
 import org.springframework.util.Assert;
 
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import java.util.Map;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/1/23 下午8:50
  */
-@ConfigurationProperties(prefix = "lodsve.webservice", locations = "${params.root}/framework/webservice.properties")
 public class WebServiceProperties {
 
     /**

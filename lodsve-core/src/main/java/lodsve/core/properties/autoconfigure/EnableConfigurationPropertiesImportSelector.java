@@ -8,8 +8,10 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.Assert;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
@@ -19,7 +21,7 @@ import java.util.List;
 /**
  * 启用ConfigurationProperties.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2016/12/27 上午11:37
  */
 public class EnableConfigurationPropertiesImportSelector implements ImportSelector {
@@ -61,6 +63,19 @@ public class EnableConfigurationPropertiesImportSelector implements ImportSelect
                         result.add((Class<?>) value);
                     }
                 }
+            }
+
+            List<String> names = SpringFactoriesLoader.loadFactoryNames(EnableConfigurationProperties.class, Thread.currentThread().getContextClassLoader());
+            for (String name : names) {
+                Class<?> clazz;
+                try {
+                    clazz = ClassUtils.forName(name, Thread.currentThread().getContextClassLoader());
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                    continue;
+                }
+
+                result.add(clazz);
             }
             return result;
         }

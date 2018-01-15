@@ -5,7 +5,6 @@ import lodsve.amqp.core.LodsveJackson2JsonMessageConverter;
 import lodsve.amqp.core.RabbitUtils;
 import lodsve.core.condition.ConditionalOnMissingBean;
 import lodsve.core.condition.ConditionalOnSingleCandidate;
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
@@ -28,7 +27,6 @@ import org.springframework.retry.support.RetryTemplate;
  * @version V1.0, 2016-01-15 12:00
  */
 @Configuration
-@EnableConfigurationProperties(RabbitProperties.class)
 public class RabbitConfiguration {
 
     @Bean

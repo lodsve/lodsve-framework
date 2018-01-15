@@ -1,6 +1,5 @@
 package lodsve.search.configs;
 
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.search.engine.LuceneSearchEngine;
 import lodsve.search.engine.SearchEngine;
 import org.apache.lucene.analysis.Analyzer;
@@ -18,7 +17,6 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @Configurable
 @ComponentScan("lodsve.search")
-@EnableConfigurationProperties(SearchProperties.class)
 public class LuceneConfiguration {
     @Autowired
     private SearchProperties properties;

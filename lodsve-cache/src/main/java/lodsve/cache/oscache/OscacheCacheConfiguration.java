@@ -2,7 +2,6 @@ package lodsve.cache.oscache;
 
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 import lodsve.cache.properties.CacheProperties;
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -24,7 +23,6 @@ import java.util.Properties;
  */
 @Configuration
 @EnableCaching
-@EnableConfigurationProperties(CacheProperties.class)
 public class OscacheCacheConfiguration {
     @Autowired
     private CacheProperties cacheProperties;

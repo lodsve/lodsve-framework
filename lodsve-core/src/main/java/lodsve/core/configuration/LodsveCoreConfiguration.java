@@ -2,10 +2,8 @@ package lodsve.core.configuration;
 
 import lodsve.core.condition.ConditionalOnClass;
 import lodsve.core.context.ApplicationContextListener;
-import lodsve.core.email.EmailProperties;
 import lodsve.core.event.EventExecutor;
 import lodsve.core.event.EventPublisher;
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.ini.IniLoader;
 import lodsve.core.properties.ParamsHome;
@@ -30,7 +28,6 @@ import java.util.concurrent.ExecutorService;
  * @version 1.0 2016/12/27 下午3:07
  */
 @Configuration
-@EnableConfigurationProperties({ApplicationProperties.class})
 @ComponentScan({
         "lodsve.core.exception",
         "lodsve.core.properties"
@@ -103,7 +100,6 @@ public class LodsveCoreConfiguration {
     }
 
     @Configuration
-    @EnableConfigurationProperties(EmailProperties.class)
     @ConditionalOnClass(MessagingException.class)
     @ComponentScan("lodsve.core.email")
     public static class LodsveMail {

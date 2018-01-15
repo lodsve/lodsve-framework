@@ -1,7 +1,6 @@
 package lodsve.search.configs;
 
 import lodsve.core.condition.ConditionalOnMissingBean;
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.core.utils.StringUtils;
 import lodsve.search.engine.SearchEngine;
 import lodsve.search.engine.SolrSearchEngine;
@@ -19,7 +18,6 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @Configurable
 @ComponentScan("lodsve.search")
-@EnableConfigurationProperties(SearchProperties.class)
 public class SolrConfiguration {
     @Autowired
     private SearchProperties properties;

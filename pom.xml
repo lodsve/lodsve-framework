@@ -13,8 +13,6 @@
     <modules>
         <!-- 第三方库依赖 -->
         <module>lodsve-3rd</module>
-        <!-- all -->
-        <module>lodsve-all</module>
         <!-- amqp -->
         <module>lodsve-amqp</module>
         <!-- 缓存 -->
@@ -968,33 +966,6 @@
     </dependencyManagement>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>${maven.shade.plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>shade</goal>
-                            </goals>
-                            <configuration>
-                                <!-- 创建源码jar -->
-                                <createSourcesJar>true</createSourcesJar>
-                                <artifactSet>
-                                    <includes>
-                                        <include>${project.groupId}:*:*</include>
-                                    </includes>
-                                </artifactSet>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <!-- 编译 -->
             <plugin>

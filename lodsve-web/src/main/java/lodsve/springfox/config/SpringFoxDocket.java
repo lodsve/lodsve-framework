@@ -4,8 +4,8 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import lodsve.core.utils.StringUtils;
-import lodsve.mvc.properties.ServerProperties;
-import lodsve.springfox.properties.SpringFoxProperties;
+import lodsve.properties.SpringFoxProperties;
+import lodsve.properties.WebProperties;
 import lodsve.springfox.paths.SpringFoxPathProvider;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +23,14 @@ import java.util.regex.Pattern;
 /**
  * 利用插件配置swagger的一些信息.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/3/24 上午9:30
  */
 public class SpringFoxDocket extends Docket {
     @Autowired
     private SpringFoxPathProvider pathProvider;
     @Autowired
-    private SpringFoxProperties properties;
-    @Autowired
-    private ServerProperties serverProperties;
+    private WebProperties properties;
 
     private static final int SCHEMA_HOST_PATH_LENGTH = 2;
     private String groupName;
@@ -44,7 +42,7 @@ public class SpringFoxDocket extends Docket {
 
     @PostConstruct
     public void init() throws NoSuchFieldException, IllegalAccessException {
-        apiInfo(apiInfo(properties));
+        apiInfo(apiInfo(properties.getSpringfox()));
         forCodeGeneration(true);
         groupName(groupName);
         pathProvider(pathProvider);
@@ -89,7 +87,7 @@ public class SpringFoxDocket extends Docket {
     }
 
     private String getHost() {
-        String serverUrl = serverProperties.getServerUrl();
+        String serverUrl = properties.getServer().getServerUrl();
         if (StringUtils.isBlank(serverUrl)) {
             return "localhost";
         }

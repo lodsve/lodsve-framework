@@ -1,13 +1,11 @@
 package lodsve.mvc.config;
 
 import lodsve.core.configuration.ApplicationProperties;
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.mvc.debug.DebugRequestListener;
-import lodsve.mvc.properties.ServerProperties;
+import lodsve.properties.WebProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler;
@@ -21,12 +19,11 @@ import java.util.Map;
  * @version V1.0, 16/1/28 上午10:58
  */
 @Configuration
-@EnableConfigurationProperties(ServerProperties.class)
 public class WebMvcConfiguration {
     @Autowired
     private ApplicationProperties applicationProperties;
     @Autowired
-    private ServerProperties serverProperties;
+    private WebProperties properties;
 
     @Bean
     public DefaultServletHttpRequestHandler defaultServletHttpRequestHandler() {
@@ -45,11 +42,11 @@ public class WebMvcConfiguration {
 
     @Bean
     public DebugRequestListener debugRequestListener() {
-        return new DebugRequestListener(applicationProperties.isDevMode(), serverProperties);
+        return new DebugRequestListener(applicationProperties.isDevMode(), properties);
     }
 
     @Bean
     public LodsveWebMvcConfigurerAdapter lodsveWebMvcConfigurerAdapter() {
-        return new LodsveWebMvcConfigurerAdapter(serverProperties, applicationProperties);
+        return new LodsveWebMvcConfigurerAdapter(properties, applicationProperties);
     }
 }

@@ -1,9 +1,8 @@
 package lodsve.webservice;
 
 import lodsve.core.condition.ConditionalOnClass;
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.properties.WebProperties;
 import org.apache.cxf.transport.servlet.CXFServlet;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
@@ -16,7 +15,6 @@ import org.springframework.context.annotation.ImportResource;
  */
 @ConditionalOnClass(CXFServlet.class)
 @Configuration
-@EnableConfigurationProperties(WebServiceProperties.class)
 @ImportResource({"classpath*:META-INF/cxf/cxf.xml", "classpath*:META-INF/cxf/cxf-servlet.xml"})
 public class WebServiceConfiguration {
 
@@ -26,7 +24,7 @@ public class WebServiceConfiguration {
     }
 
     @Bean
-    public LodsveWebserviceInitializer lodsveWebserviceInitializer(WebServiceProperties properties) {
+    public LodsveWebserviceInitializer lodsveWebserviceInitializer(WebProperties properties) {
         LodsveWebserviceInitializer initializingBean = new LodsveWebserviceInitializer();
         initializingBean.setProperties(properties);
 

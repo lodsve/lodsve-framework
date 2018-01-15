@@ -1,7 +1,5 @@
 package lodsve.mybatis.configs;
 
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
-import lodsve.mybatis.properties.RdbmsProperties;
 import lodsve.mybatis.type.TypeHandlerScanner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,7 +14,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  */
 @Configuration
 @ComponentScan({"lodsve.mybatis.key", "lodsve.mybatis.datasource"})
-@EnableConfigurationProperties(RdbmsProperties.class)
 @EnableAspectJAutoProxy
 public class MyBatisConfiguration {
     @Bean

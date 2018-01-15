@@ -1,7 +1,6 @@
 package lodsve.cache.guava;
 
 import lodsve.cache.properties.CacheProperties;
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
 import lodsve.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -21,7 +20,6 @@ import java.util.List;
  */
 @Configuration
 @EnableCaching
-@EnableConfigurationProperties(CacheProperties.class)
 public class GuavaCacheConfiguration {
     @Autowired
     private CacheProperties cacheProperties;

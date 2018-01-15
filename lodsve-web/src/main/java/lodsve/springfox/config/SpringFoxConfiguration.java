@@ -1,7 +1,5 @@
 package lodsve.springfox.config;
 
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
-import lodsve.springfox.properties.SpringFoxProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -17,6 +15,5 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @ComponentScan(basePackages = {"lodsve.springfox"})
 @Profile("springfox")
-@EnableConfigurationProperties(SpringFoxProperties.class)
 public class SpringFoxConfiguration {
 }

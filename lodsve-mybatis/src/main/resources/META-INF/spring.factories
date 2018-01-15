@@ -1,0 +1,3 @@
+lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties=\
+  lodsve.mybatis.properties.P6spyProperties,\
+  lodsve.mybatis.properties.RdbmsProperties

@@ -1,0 +1,2 @@
+lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties=\
+  lodsve.mongodb.config.MongoProperties
