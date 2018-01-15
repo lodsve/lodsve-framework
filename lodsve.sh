@@ -17,10 +17,10 @@ help(){
 ./shell/logo.sh
 case "$1" in
   'versions')
-    bin/versions.sh
+    shell/versions.sh $2
 	;;
   'deploy')
-    bin/deploy.sh
+    shell/deploy.sh $2
 	;;
   *)
     help
