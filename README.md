@@ -35,8 +35,20 @@ My development tools, it encapsulates some open source projects, and better faci
         <scope>import</scope>
     </dependency>
     
+## About release
+I will release a new stable version at `27th every month`. And publish a snapshot version every `Tuesday night`!
+
+Version No. like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
+
+- `MAJOR` version when I make incompatible API changes,
+- `MINOR` version when I add functionality in a backwards-compatible manner, and
+- `PATCH` version when I make backwards-compatible bug fixes.
+- `RELEASE` means a stable release version.
+- `ALPHA` means internal version.
+- `BETA` means just for testing.    
+    
 ## Newest version
-Now the newest version is `2.6.1-RELEASE`.
+Now the newest and stable version is `2.6.1-RELEASE`.
 
 You can also find the newest version in maven central: `http://repo1.maven.org/maven2/com/lodsve/lodsve-framework/`.
     
@@ -70,19 +82,6 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 
 ## Change History
 [CHANGELOG][]
-
-## About release
-I will release a new version at 27th every month.
-
-Version No like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
-
-- `MAJOR` version when I make incompatible API changes,
-- `MINOR` version when I add functionality in a backwards-compatible manner, and
-- `PATCH` version when I make backwards-compatible bug fixes.
-- `RELEASE` means a stable release version.
-- `ALPHA` means internal version.
-- `BETA` means just for testing.
-
 
 ## Contact me
 1. Email: sunhao.java@gmail.com
