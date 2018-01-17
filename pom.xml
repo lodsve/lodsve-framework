@@ -119,6 +119,7 @@
         <jruby.version>1.7.26</jruby.version>
         <jyphon.version>2.7.1b3</jyphon.version>
 
+        <lodsve.maven.plugins.version>2.6.1-RELEASE</lodsve.maven.plugins.version>
         <maven.shade.plugin.version>3.0.0</maven.shade.plugin.version>
         <maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
         <maven.compiler.source>1.7</maven.compiler.source>
@@ -208,14 +209,6 @@
         </repository>
     </repositories>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-        </dependency>
-    </dependencies>
-
     <dependencyManagement>
         <dependencies>
             <!-- 单元测试 start -->
@@ -293,6 +286,14 @@
                 <version>${servlet.version}</version>
             </dependency>
             <!-- servlet end -->
+
+            <!-- lombok start -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <!-- lombok start -->
 
             <!-- apache commons start -->
             <dependency>
@@ -978,7 +979,7 @@
                         <dependency>
                             <groupId>com.lodsve</groupId>
                             <artifactId>lodsve-maven-plugins</artifactId>
-                            <version>${project.version}</version>
+                            <version>${lodsve.maven.plugins.version}</version>
                         </dependency>
                     </dependencies>
                     <executions>
