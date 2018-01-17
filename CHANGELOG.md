@@ -1,5 +1,17 @@
 # 更新日志
 
+## 2.6.2-SNAPSHOT
+1. 添加一些脚本
+2. 添加webservice的支持
+    - @EnableWebService
+    - 必须在AppConfig中配置，不能再AppWebConfig中配置
+    - 服务的bean的class上加上注解@WebService、@AddressProvider("/test").其中@AddressProvider不是必须的，如果不加这个注解，默认的路径为beanName
+    - 其他配置在webservice.properties中配置
+    - 修改lodsve-all使用的shade插件
+
+## 2.6.1-RELEASE
+修改maven-deploy时的一个问题，lodsve-all没有文件，生成javadoc会报错
+
 ## 2.6.0-RELEASE
 修改GroupId，重新上传构建，并且定义新的发布规则及版本号
 1. lodsve-3d: 无
