@@ -1069,7 +1069,6 @@
                         </manifestEntries>
                         <addMavenDescriptor>true</addMavenDescriptor>
                         <manifest>
-                            <!--<addClasspath>true</addClasspath>-->
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                         </manifest>
