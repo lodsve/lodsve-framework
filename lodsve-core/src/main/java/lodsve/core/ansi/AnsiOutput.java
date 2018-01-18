@@ -85,4 +85,11 @@ public class AnsiOutput {
     private static boolean isEnabled() {
         return (System.console() == null) && !(OPERATING_SYSTEM_NAME.contains("win"));
     }
+
+    public static String encode(AnsiElement element) {
+        if (isEnabled()) {
+            return ENCODE_START + element + ENCODE_END;
+        }
+        return "";
+    }
 }

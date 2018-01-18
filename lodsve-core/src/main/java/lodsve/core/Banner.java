@@ -12,7 +12,7 @@ public interface Banner {
     /**
      * 打印banner
      *
-     * @param printStream
+     * @param out out
      */
-    void print(PrintStream printStream);
+    void print(PrintStream out);
 }
