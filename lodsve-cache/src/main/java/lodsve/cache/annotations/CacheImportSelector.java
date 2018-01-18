@@ -1,10 +1,5 @@
 package lodsve.cache.annotations;
 
-import lodsve.cache.ehcache.EhcacheCacheConfiguration;
-import lodsve.cache.guava.GuavaCacheConfiguration;
-import lodsve.cache.memcached.MemcachedCacheConfiguration;
-import lodsve.cache.oscache.OscacheCacheConfiguration;
-import lodsve.cache.redis.RedisCacheConfiguration;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
@@ -26,18 +21,6 @@ public class CacheImportSelector implements ImportSelector {
 
         CacheMode cacheMode = attributes.getEnum(CACHE_MODE_ATTRIBUTE_NAME);
 
-        if (cacheMode == CacheMode.EHCAHE) {
-            return new String[]{EhcacheCacheConfiguration.class.getName()};
-        } else if (cacheMode == CacheMode.GUAVA) {
-            return new String[]{GuavaCacheConfiguration.class.getName()};
-        } else if (cacheMode == CacheMode.REDIS) {
-            return new String[]{RedisCacheConfiguration.class.getName()};
-        } else if (cacheMode == CacheMode.MEMCACHED) {
-            return new String[]{MemcachedCacheConfiguration.class.getName()};
-        } else if (cacheMode == CacheMode.OSCACHE) {
-            return new String[]{OscacheCacheConfiguration.class.getName()};
-        }
-
-        return new String[0];
+        return new String[]{cacheMode.getCacheConfig().getName()};
     }
 }
