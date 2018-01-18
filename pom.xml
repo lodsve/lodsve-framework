@@ -130,6 +130,8 @@
         <maven.gpg.plugin.version>1.5</maven.gpg.plugin.version>
         <maven.javadoc.plugin.version>2.10.3</maven.javadoc.plugin.version>
         <nexus.staging.maven.plugin.version>1.6.5</nexus.staging.maven.plugin.version>
+
+        <manifest.built.name>Sun.Hao</manifest.built.name>
     </properties>
 
     <organization>
@@ -1062,9 +1064,12 @@
                 <version>${maven.jar.plugin.version}</version>
                 <configuration>
                     <archive>
+                        <manifestEntries>
+                            <Built-By>${manifest.built.name}</Built-By>
+                        </manifestEntries>
                         <addMavenDescriptor>true</addMavenDescriptor>
                         <manifest>
-                            <addClasspath>true</addClasspath>
+                            <!--<addClasspath>true</addClasspath>-->
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                         </manifest>
