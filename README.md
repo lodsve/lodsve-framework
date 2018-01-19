@@ -90,7 +90,7 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 3. Blog: [Blog][] [OSChina][]
 
 ## License
-The `Lodsve Framework` is released under version 3.0 of the [GNU GENERAL PUBLIC LICENSE][].
+The `Lodsve Framework` is released under version 3.0 of the [GNU General Public License][].
 
 ## Donate
 ![AliPay](https://doc.lodsve.com/images/alipay.png "支付宝")
