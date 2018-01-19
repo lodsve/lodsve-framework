@@ -20,25 +20,11 @@ package com.p6spy.engine.spy;
 
 import com.p6spy.engine.common.P6LogQuery;
 import com.p6spy.engine.common.P6Util;
-import com.p6spy.engine.spy.option.EnvironmentVariables;
-import com.p6spy.engine.spy.option.P6OptionChangedListener;
-import com.p6spy.engine.spy.option.P6OptionsRepository;
-import com.p6spy.engine.spy.option.P6OptionsSource;
-import com.p6spy.engine.spy.option.SpyDotProperties;
-import com.p6spy.engine.spy.option.SystemProperties;
+import com.p6spy.engine.spy.option.*;
 
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanRegistrationException;
-import javax.management.MalformedObjectNameException;
-import javax.management.NotCompliantMBeanException;
+import javax.management.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ServiceLoader;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class P6ModuleManager {
@@ -47,9 +33,9 @@ public class P6ModuleManager {
      * 修改以引入外部的配置
      * add by SUNHAO 2017-12-25
      */
-    private static final List<P6OptionsSource> optionsSources = new ArrayList<>(16);
-    private final Map<Class<? extends P6LoadableOptions>, P6LoadableOptions> allOptions = new HashMap<>();
-    private final List<P6Factory> factories = new CopyOnWriteArrayList<>();
+    private static final List<P6OptionsSource> OPTIONS_SOURCES = new ArrayList<>(16);
+    private final Map<Class<? extends P6LoadableOptions>, P6LoadableOptions> allOptions = new HashMap<Class<? extends P6LoadableOptions>, P6LoadableOptions>();
+    private final List<P6Factory> factories = new CopyOnWriteArrayList<P6Factory>();
     private final P6MBeansRegistry mBeansRegistry = new P6MBeansRegistry();
 
     private final P6OptionsRepository optionsRepository = new P6OptionsRepository();
@@ -71,7 +57,15 @@ public class P6ModuleManager {
             instance = new P6ModuleManager();
             P6LogQuery.initialize();
 
-        } catch (IOException | InstanceNotFoundException | MBeanRegistrationException | NotCompliantMBeanException | MalformedObjectNameException e) {
+        } catch (IOException e) {
+            handleInitEx(e);
+        } catch (MBeanRegistrationException e) {
+            handleInitEx(e);
+        } catch (InstanceNotFoundException e) {
+            handleInitEx(e);
+        } catch (MalformedObjectNameException e) {
+            handleInitEx(e);
+        } catch (NotCompliantMBeanException e) {
             handleInitEx(e);
         }
     }
@@ -81,13 +75,13 @@ public class P6ModuleManager {
      * add by SUNHAO 2017-12-25
      */
     private static void loadP6OptionsSources() throws IOException {
-        optionsSources.add(new SpyDotProperties());
-        optionsSources.add(new EnvironmentVariables());
-        optionsSources.add(new SystemProperties());
+        OPTIONS_SOURCES.add(new SpyDotProperties());
+        OPTIONS_SOURCES.add(new EnvironmentVariables());
+        OPTIONS_SOURCES.add(new SystemProperties());
 
         ServiceLoader<P6OptionsSource> p6OptionsSources = ServiceLoader.load(P6OptionsSource.class);
         for (P6OptionsSource optionsSource : p6OptionsSources) {
-            optionsSources.add(optionsSource);
+            OPTIONS_SOURCES.add(optionsSource);
         }
     }
 
@@ -97,7 +91,7 @@ public class P6ModuleManager {
             return;
         }
 
-        for (P6OptionsSource optionsSource : instance.optionsSources) {
+        for (P6OptionsSource optionsSource : P6ModuleManager.OPTIONS_SOURCES) {
             optionsSource.preDestroy(instance);
         }
 
@@ -115,12 +109,12 @@ public class P6ModuleManager {
     /**
      * Used on the class load only (only once!)
      *
-     * @throws java.io.IOException
-     * @throws javax.management.NotCompliantMBeanException
-     * @throws javax.management.MBeanRegistrationException
-     * @throws javax.management.InstanceAlreadyExistsException
-     * @throws javax.management.MalformedObjectNameException
-     * @throws javax.management.InstanceNotFoundException
+     * @throws IOException
+     * @throws NotCompliantMBeanException
+     * @throws MBeanRegistrationException
+     * @throws InstanceAlreadyExistsException
+     * @throws MalformedObjectNameException
+     * @throws InstanceNotFoundException
      */
     private P6ModuleManager() throws IOException,
             MBeanRegistrationException, NotCompliantMBeanException,
@@ -146,7 +140,7 @@ public class P6ModuleManager {
 
         mBeansRegistry.registerMBeans(allOptions.values());
 
-        for (P6OptionsSource optionsSource : optionsSources) {
+        for (P6OptionsSource optionsSource : OPTIONS_SOURCES) {
             optionsSource.postInit(this);
         }
 
@@ -154,8 +148,7 @@ public class P6ModuleManager {
     }
 
 
-    protected synchronized P6LoadableOptions registerModule(P6Factory factory) /*throws InstanceAlreadyExistsException,
-      MBeanRegistrationException, NotCompliantMBeanException, MalformedObjectNameException*/ {
+    private synchronized P6LoadableOptions registerModule(P6Factory factory) {
 
         // re-register is not supported - skip silently
         for (P6Factory registeredFactory : factories) {
@@ -179,7 +172,7 @@ public class P6ModuleManager {
      * Returns loaded options. These are loaded in the right order:
      * <ul>
      * <li>default values</li>
-     * <li>based on the order defined in the {@link #optionsSources}</li>
+     * <li>based on the order defined in the {@link #OPTIONS_SOURCES}</li>
      * </ul>
      *
      * @param options
@@ -190,7 +183,7 @@ public class P6ModuleManager {
         options.load(options.getDefaults());
 
         // load the rest in the right order then
-        for (P6OptionsSource optionsSource : optionsSources) {
+        for (P6OptionsSource optionsSource : OPTIONS_SOURCES) {
             Map<String, String> toLoad = optionsSource.getOptions();
             if (null != toLoad) {
                 options.load(toLoad);
@@ -250,7 +243,7 @@ public class P6ModuleManager {
     }
 
     /**
-     * Reloads the {@link com.p6spy.engine.spy.P6ModuleManager}. <br>
+     * Reloads the {@link P6ModuleManager}. <br>
      * <br>
      * The idea is that whoever initiates this one causes it to start with the clean table. No
      * previously set values are kept (even those set manually - via jmx will be forgotten).

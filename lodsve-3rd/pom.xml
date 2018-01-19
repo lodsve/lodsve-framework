@@ -16,6 +16,12 @@
     <description>依赖的第三方包</description>
 
     <dependencies>
+        <!-- required dependency -->
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+        </dependency>
+
         <!-- optional dependency -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -23,4 +29,29 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>p6spy:p6spy</include>
+                        </includes>
+                    </artifactSet>
+                    <filters>
+                        <filter>
+                            <artifact>p6spy:p6spy</artifact>
+                            <excludes>
+                                <exclude>com/p6spy/engine/spy/appender/FileLogger</exclude>
+                                <exclude>com/p6spy/engine/spy/P6ModuleManager</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

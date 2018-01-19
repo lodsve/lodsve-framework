@@ -83,6 +83,30 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.lodsve</groupId>
+                        <artifactId>lodsve-maven-plugins</artifactId>
+                        <version>${lodsve.maven.plugins.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <!-- 创建源码jar -->
+                    <createSourcesJar>true</createSourcesJar>
+                    <artifactSet>
+                        <includes>
+                            <include>${project.groupId}:*:*</include>
+                        </includes>
+                    </artifactSet>
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                        <transformer implementation="lodsve.maven.plugin.shade.SpringFactoriesResourceTransformer"/>
+                        <transformer implementation="lodsve.maven.plugin.shade.RegexAppendingTransformer">
+                            <regex>META-INF/error/.*.properties</regex>
+                        </transformer>
+                    </transformers>
+                </configuration>
             </plugin>
         </plugins>
     </build>
