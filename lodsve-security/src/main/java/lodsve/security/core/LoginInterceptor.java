@@ -1,7 +1,7 @@
 package lodsve.security.core;
 
-import lodsve.security.annotation.NeedLogin;
-import lodsve.security.service.Authz;
+import lodsve.security.annotation.Authn;
+import lodsve.security.service.Authorization;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -18,10 +18,10 @@ import java.lang.reflect.Method;
  * @createTime 2014-12-7 16:46
  */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
-    private Authz authz;
+    private Authorization authorization;
 
-    public LoginInterceptor(Authz authz) {
-        this.authz = authz;
+    public LoginInterceptor(Authorization authorization) {
+        this.authorization = authorization;
     }
 
     @Override
@@ -34,18 +34,18 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         Method method = handlerMethod.getMethod();
 
         //获取注解
-        NeedLogin login = method.getAnnotation(NeedLogin.class);
+        Authn login = method.getAnnotation(Authn.class);
         if (login == null) {
             //不需要
             return super.preHandle(request, response, handler);
         }
 
-        boolean isLogin = this.authz.isLogin(request);
+        boolean isLogin = authorization.isLogin(request);
         if (isLogin) {
-            LoginAccountHolder.setCurrentAccount(this.authz.getCurrentUser(request));
+            LoginAccountHolder.setCurrentAccount(authorization.getCurrentUser(request));
             return super.preHandle(request, response, handler);
         } else {
-            authz.ifNotLogin(request, response);
+            authorization.ifNotLogin(request, response);
         }
 
         return super.preHandle(request, response, handler);

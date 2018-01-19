@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  * @version V1.0
  * @createTime 2014-12-7 14:00
  */
-public interface Authz {
+public interface Authorization {
     /**
      * 是否登录
      *
