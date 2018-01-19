@@ -14,6 +14,7 @@
     <packaging>jar</packaging>
     <name>lodsve validate</name>
     <description>后端校验</description>
+    <url>https://github.com/lodsve/lodsve-framework</url>
 
     <dependencies>
         <!-- required dependency -->

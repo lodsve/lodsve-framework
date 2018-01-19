@@ -14,6 +14,7 @@
     <packaging>jar</packaging>
     <name>lodsve web</name>
     <description>spring-mvc和swagger相关封装</description>
+    <url>https://github.com/lodsve/lodsve-framework</url>
 
     <dependencies>
         <!-- required dependency -->

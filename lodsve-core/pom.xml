@@ -14,6 +14,7 @@
     <packaging>jar</packaging>
     <name>lodsve core</name>
     <description>基础包</description>
+    <url>https://github.com/lodsve/lodsve-framework</url>
 
     <dependencies>
         <!-- required dependency -->

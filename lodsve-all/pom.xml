@@ -14,6 +14,7 @@
     <packaging>jar</packaging>
     <name>lodsve all</name>
     <description>lodsve全部聚合</description>
+    <url>https://github.com/lodsve/lodsve-framework</url>
 
     <dependencies>
         <dependency>

@@ -13,6 +13,7 @@
     <artifactId>lodsve-workflow</artifactId>
     <packaging>jar</packaging>
     <name>lodsve workflow</name>
+    <url>https://github.com/lodsve/lodsve-framework</url>
 
     <dependencies>
         <!-- required dependency -->

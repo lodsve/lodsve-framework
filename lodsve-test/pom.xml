@@ -14,6 +14,7 @@
     <packaging>jar</packaging>
     <name>lodsve test</name>
     <description>单元测试</description>
+    <url>https://github.com/lodsve/lodsve-framework</url>
 
     <dependencies>
         <!-- required dependency -->
