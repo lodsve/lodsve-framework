@@ -47,7 +47,7 @@ public class AutoConfigurationBuilderTest {
         BeanWrapper beanWrapper = new BeanWrapperImpl(demo);
 
         Set<String> keys = subset.getKeys();
-        List list = new ArrayList<>(keys.size());
+        List<Object> list = new ArrayList<>(keys.size());
         int size = keys.size();
         for (int i = 0; i < size; i++) {
             String key = prefix + "." + i;
