@@ -17,7 +17,7 @@
 
 package lodsve.amqp.configs;
 
-import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 
 /**
  * rabbit mq base properties.

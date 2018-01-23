@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.properties.autoconfigure;
+package lodsve.core.properties.relaxedbind;
 
-import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -39,7 +39,7 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
             return bean;
         }
 
-        return new PropertiesConfigurationFactory.Builder(bean.getClass()).build();
+        return new RelaxedBindFactory.Builder(bean.getClass()).build();
     }
 
     @Override

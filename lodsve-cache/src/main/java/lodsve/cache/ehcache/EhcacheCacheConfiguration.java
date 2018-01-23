@@ -18,7 +18,7 @@
 package lodsve.cache.ehcache;
 
 import lodsve.cache.properties.CacheProperties;
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.config.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;

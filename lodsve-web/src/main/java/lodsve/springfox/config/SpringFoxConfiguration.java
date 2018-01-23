@@ -17,7 +17,7 @@
 
 package lodsve.springfox.config;
 
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.springfox.properties.SpringFoxProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.properties.autoconfigure;
+package lodsve.core.properties.relaxedbind;
 
-import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

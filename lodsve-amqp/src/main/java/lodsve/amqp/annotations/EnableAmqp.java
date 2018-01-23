@@ -20,7 +20,7 @@ package lodsve.amqp.annotations;
 import lodsve.amqp.configs.RabbitConfiguration;
 import lodsve.amqp.configs.RabbitProperties;
 import lodsve.core.configuration.EnableLodsve;
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

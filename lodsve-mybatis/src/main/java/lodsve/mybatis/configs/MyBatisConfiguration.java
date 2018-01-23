@@ -17,7 +17,7 @@
 
 package lodsve.mybatis.configs;
 
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.mybatis.properties.P6spyProperties;
 import lodsve.mybatis.properties.RdbmsProperties;
 import lodsve.mybatis.type.TypeHandlerScanner;

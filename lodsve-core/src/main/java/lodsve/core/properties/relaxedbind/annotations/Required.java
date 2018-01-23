@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.properties.autoconfigure.annotations;
+package lodsve.core.properties.relaxedbind.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

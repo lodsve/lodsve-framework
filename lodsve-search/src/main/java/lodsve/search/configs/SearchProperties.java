@@ -17,7 +17,7 @@
 
 package lodsve.search.configs;
 
-import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 
 /**

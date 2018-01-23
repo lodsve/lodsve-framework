@@ -18,7 +18,7 @@
 package lodsve.dfs.configuration;
 
 import org.csource.common.FastDfsConfig;
-import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 
 /**
  * 配置.

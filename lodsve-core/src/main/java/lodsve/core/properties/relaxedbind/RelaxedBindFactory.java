@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.properties.autoconfigure;
+package lodsve.core.properties.relaxedbind;
 
 import lodsve.core.properties.Env;
-import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
-import lodsve.core.properties.autoconfigure.annotations.Required;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.Required;
 import lodsve.core.properties.env.Configuration;
 import lodsve.core.properties.env.PropertiesConfiguration;
 import lodsve.core.properties.ParamsHome;
@@ -49,8 +49,8 @@ import java.util.*;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 2016-1-26 14:17
  */
-public class PropertiesConfigurationFactory {
-    private static final Logger logger = LoggerFactory.getLogger(PropertiesConfigurationFactory.class);
+public class RelaxedBindFactory {
+    private static final Logger logger = LoggerFactory.getLogger(RelaxedBindFactory.class);
 
     private static final List<?> COMMON_TYPES = Arrays.asList(Boolean.class, boolean.class, Long.class, long.class,
             Integer.class, int.class, String.class, Double.class, double.class, Resource.class, Properties.class,
@@ -80,7 +80,7 @@ public class PropertiesConfigurationFactory {
     private static final Map<Class<?>, Object> CLASS_OBJECT_MAPPING = new HashMap<>(16);
 
 
-    private PropertiesConfigurationFactory(Object target) {
+    private RelaxedBindFactory(Object target) {
         this.target = target;
     }
 
@@ -168,7 +168,7 @@ public class PropertiesConfigurationFactory {
     }
 
     private void bindToSubTarget(Object target, String targetName) {
-        PropertiesConfigurationFactory factory = new PropertiesConfigurationFactory(target);
+        RelaxedBindFactory factory = new RelaxedBindFactory(target);
         factory.setTargetName(targetName);
         factory.setPropertySource(propertySource);
         factory.setReadCache(false);
@@ -213,7 +213,7 @@ public class PropertiesConfigurationFactory {
             }
         } else if (Class.class.equals(type)) {
             try {
-                return ClassUtils.forName(text, PropertiesConfigurationFactory.class.getClassLoader());
+                return ClassUtils.forName(text, RelaxedBindFactory.class.getClassLoader());
             } catch (ClassNotFoundException e) {
                 if (logger.isErrorEnabled()) {
                     logger.error(String.format("class '{%s}' not found!", text));
@@ -350,7 +350,7 @@ public class PropertiesConfigurationFactory {
             T target = BeanUtils.instantiate(clazz);
             loadProp(annotation.locations());
 
-            PropertiesConfigurationFactory factory = new PropertiesConfigurationFactory(target);
+            RelaxedBindFactory factory = new RelaxedBindFactory(target);
             factory.setPropertySource(loadProp(annotation.locations()));
             factory.setTargetName(annotation.prefix());
 

@@ -17,7 +17,7 @@
 
 package lodsve.springfox.properties;
 
-import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 
 /**
  * 配置springfox的相关参数.

@@ -15,32 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.properties.autoconfigure.annotations;
+package lodsve.core.properties.relaxedbind.annotations;
 
-import lodsve.core.properties.autoconfigure.EnableConfigurationPropertiesImportSelector;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
- * 启用配置.
+ * 配置.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2016/12/27 上午11:36
+ * @version V1.0, 15/12/30 上午9:28
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(EnableConfigurationPropertiesImportSelector.class)
-public @interface EnableConfigurationProperties {
+@Inherited
+public @interface ConfigurationProperties {
     /**
-     * 声明需要注册到spring上下文的properties类，否则不能使用@Autowired
+     * The name prefix of the properties that are valid to bind to this object.
      *
-     * @return properties类
+     * @return the name prefix of the properties to bind
      */
-    Class<?>[] value() default {};
+    String prefix() default "";
+
+    /**
+     * Optionally provide explicit resource locations to bind to. By default the
+     * configuration at these specified locations will be merged with the default
+     * configuration.
+     *
+     * @return the path (or paths) of resources to bind to
+     */
+    String[] locations() default {};
 }

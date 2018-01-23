@@ -17,7 +17,7 @@
 
 package lodsve.mybatis.datasource.builder;
 
-import lodsve.core.properties.autoconfigure.PropertiesConfigurationFactory;
+import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import lodsve.mybatis.configs.Constant;
 import lodsve.mybatis.properties.RdbmsProperties;
 import org.springframework.beans.BeanWrapper;
@@ -42,7 +42,7 @@ public class RdbmsDataSourceBeanDefinitionBuilder {
     public RdbmsDataSourceBeanDefinitionBuilder(String dataSourceName) {
         this.dataSourceName = dataSourceName;
 
-        rdbmsProperties = new PropertiesConfigurationFactory.Builder<>(RdbmsProperties.class).build();
+        rdbmsProperties = new RelaxedBindFactory.Builder<>(RdbmsProperties.class).build();
     }
 
     /**

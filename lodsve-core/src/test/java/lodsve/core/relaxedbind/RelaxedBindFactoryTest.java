@@ -1,4 +1,4 @@
-package lodsve.core.autoconfigure;
+package lodsve.core.relaxedbind;
 
 import lodsve.core.properties.env.Configuration;
 import lodsve.core.properties.env.PropertiesConfiguration;
@@ -20,7 +20,7 @@ import java.util.Set;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2017/12/18 11:20
  */
-public class AutoConfigurationBuilderTest {
+public class RelaxedBindFactoryTest {
     @Test
     public void test1() {
         BeanWrapper beanWrapper = new BeanWrapperImpl(Demo.class);

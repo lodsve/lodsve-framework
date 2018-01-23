@@ -17,7 +17,7 @@
 
 package lodsve.dfs.configuration;
 
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**

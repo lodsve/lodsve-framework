@@ -18,7 +18,7 @@
 package lodsve.mvc.config;
 
 import lodsve.core.configuration.ApplicationProperties;
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.mvc.debug.DebugRequestListener;
 import lodsve.mvc.properties.ServerProperties;
 import org.springframework.beans.factory.annotation.Autowired;

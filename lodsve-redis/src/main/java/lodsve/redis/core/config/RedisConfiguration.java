@@ -17,7 +17,7 @@
 
 package lodsve.redis.core.config;
 
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.redis.core.properties.RedisProperties;
 import org.springframework.context.annotation.Configuration;
 

@@ -17,7 +17,7 @@
 
 package lodsve.webservice.properties;
 
-import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import org.springframework.util.Assert;
 
 import java.util.HashMap;
