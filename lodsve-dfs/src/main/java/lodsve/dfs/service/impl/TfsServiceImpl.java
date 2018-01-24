@@ -27,7 +27,7 @@ import java.io.File;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2017-12-4-0004 13:20
  */
-public class TFsServiceImpl implements DfsService {
+public class TfsServiceImpl implements DfsService {
     @Override
     public String upload(byte[] fileBytes, String suffix) {
         return null;

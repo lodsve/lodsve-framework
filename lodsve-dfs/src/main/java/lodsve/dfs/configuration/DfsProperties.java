@@ -23,12 +23,15 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 /**
  * 配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2017-12-4-0004 10:46
  */
-@ConfigurationProperties(prefix = "lodsve.dfs", locations = "${params.root}/framework/dfs_client.properties")
+@ConfigurationProperties(prefix = "lodsve.dfs", locations = "${params.root}/framework/dfs.properties")
 public class DfsProperties {
     private FastDfsConfig fastDfs;
+    private TfsConfig tfs;
+    private GoogleFsConfig google;
+    private NormalFsConfig normal;
 
     public FastDfsConfig getFastDfs() {
         return fastDfs;
@@ -36,5 +39,47 @@ public class DfsProperties {
 
     public void setFastDfs(FastDfsConfig fastDfs) {
         this.fastDfs = fastDfs;
+    }
+
+    public TfsConfig getTfs() {
+        return tfs;
+    }
+
+    public void setTfs(TfsConfig tfs) {
+        this.tfs = tfs;
+    }
+
+    public GoogleFsConfig getGoogle() {
+        return google;
+    }
+
+    public void setGoogle(GoogleFsConfig google) {
+        this.google = google;
+    }
+
+    public NormalFsConfig getNormal() {
+        return normal;
+    }
+
+    public void setNormal(NormalFsConfig normal) {
+        this.normal = normal;
+    }
+
+    public static class TfsConfig {
+    }
+
+    public static class GoogleFsConfig {
+    }
+
+    public static class NormalFsConfig {
+        private String store;
+
+        public String getStore() {
+            return store;
+        }
+
+        public void setStore(String store) {
+            this.store = store;
+        }
     }
 }

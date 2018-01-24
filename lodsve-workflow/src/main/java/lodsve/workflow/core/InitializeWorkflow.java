@@ -290,7 +290,7 @@ public class InitializeWorkflow implements ApplicationListener<ContextRefreshedE
 
         String xmlMd5 = "";
         if (file != null) {
-            xmlMd5 = EncryptUtils.getFileMD5String(file);
+            xmlMd5 = EncryptUtils.getFileMD5(file);
         }
 
         return xmlMd5;
