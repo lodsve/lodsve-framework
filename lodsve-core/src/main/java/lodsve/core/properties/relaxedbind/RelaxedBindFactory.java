@@ -99,7 +99,7 @@ public class RelaxedBindFactory {
             return;
         }
 
-        target = object;
+        BeanUtils.copyProperties(object, target);
     }
 
     private void generateObject(String prefix, Object target) {

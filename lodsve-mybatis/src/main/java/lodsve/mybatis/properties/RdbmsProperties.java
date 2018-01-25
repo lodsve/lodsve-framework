@@ -91,7 +91,6 @@ public class RdbmsProperties {
     }
 
     public static class DataSourceSetting {
-        private String driverClassName;
         private Integer initialSize;
         private Integer maxActive;
         private Integer minIdle;
@@ -102,14 +101,6 @@ public class RdbmsProperties {
         private Boolean testOnReturn;
         private Boolean testWhileIdle;
         private String validationQuery;
-
-        public String getDriverClassName() {
-            return driverClassName;
-        }
-
-        public void setDriverClassName(String driverClassName) {
-            this.driverClassName = driverClassName;
-        }
 
         public Integer getInitialSize() {
             return initialSize;
@@ -217,9 +208,18 @@ public class RdbmsProperties {
     }
 
     public static class RdbmsConnection {
+        private String driverClassName;
         private String url;
         private String username;
         private String password;
+
+        public String getDriverClassName() {
+            return driverClassName;
+        }
+
+        public void setDriverClassName(String driverClassName) {
+            this.driverClassName = driverClassName;
+        }
 
         public String getUrl() {
             return url;
