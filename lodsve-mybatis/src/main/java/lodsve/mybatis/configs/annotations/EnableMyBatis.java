@@ -18,7 +18,6 @@
 package lodsve.mybatis.configs.annotations;
 
 import lodsve.core.configuration.EnableLodsve;
-import lodsve.core.datasource.DataSource;
 import lodsve.mybatis.configs.MyBatisConfigurationSelector;
 import org.springframework.context.annotation.Import;
 
@@ -41,7 +40,7 @@ public @interface EnableMyBatis {
      *
      * @return
      */
-    DataSource[] dataSource();
+    String[] dataSource();
 
     /**
      * 是否支持事务
@@ -49,6 +48,20 @@ public @interface EnableMyBatis {
      * @return
      */
     boolean supportTransaction() default false;
+
+    /**
+     * mybatis mapper文件
+     *
+     * @return resource
+     */
+    String[] mapperLocations() default "classpath*:/META-INF/mybatis/**/*Mapper.xml";
+
+    /**
+     * mybatis 配置文件
+     *
+     * @return resource
+     */
+    String configLocation() default "classpath:/META-INF/mybatis/mybatis.xml";
 
     /**
      * 含有{@link org.springframework.stereotype.Repository }注解的dao类所在的包路径,可以多个
@@ -78,11 +91,4 @@ public @interface EnableMyBatis {
      * @return
      */
     String migration() default "META-INF/flyway";
-
-    /**
-     * 加载插件
-     *
-     * @return 插件
-     */
-    Plugin[] plugins() default {@Plugin};
 }

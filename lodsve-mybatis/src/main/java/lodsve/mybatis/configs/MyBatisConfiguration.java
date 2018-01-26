@@ -18,27 +18,56 @@
 package lodsve.mybatis.configs;
 
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
-import lodsve.mybatis.properties.P6spyProperties;
+import lodsve.mybatis.enums.DbType;
+import lodsve.mybatis.key.IDGenerator;
+import lodsve.mybatis.key.mysql.MySQLIDGenerator;
+import lodsve.mybatis.key.oracle.OracleIDGenerator;
+import lodsve.mybatis.key.snowflake.SnowflakeIdGenerator;
+import lodsve.mybatis.properties.P6SpyProperties;
 import lodsve.mybatis.properties.RdbmsProperties;
 import lodsve.mybatis.type.TypeHandlerScanner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import lodsve.mybatis.utils.Constants;
+import lodsve.mybatis.utils.MyBatisUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.*;
+
+import javax.sql.DataSource;
 
 /**
  * message-mybatis配置包扫描路径.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/1/19 下午10:21
  */
 @Configuration
-@EnableConfigurationProperties({RdbmsProperties.class, P6spyProperties.class})
+@EnableConfigurationProperties({RdbmsProperties.class, P6SpyProperties.class})
 @ComponentScan({"lodsve.mybatis.key", "lodsve.mybatis.datasource"})
 @EnableAspectJAutoProxy
 public class MyBatisConfiguration {
+    @Autowired
+    @Qualifier(Constants.DATA_SOURCE_BEAN_NAME)
+    private DataSource dataSource;
+
     @Bean
     public TypeHandlerScanner typeHandlerScanner() {
         return new TypeHandlerScanner();
+    }
+
+    @Bean(name = Constants.ID_GENERATOR_BANE_NAME)
+    public IDGenerator idGenerator() {
+        DbType type = MyBatisUtils.getDbType(dataSource);
+        switch (type) {
+            case DB_MYSQL:
+                MySQLIDGenerator mySQLIDGenerator = new MySQLIDGenerator();
+                mySQLIDGenerator.setDataSource(dataSource);
+                return mySQLIDGenerator;
+            case DB_ORACLE:
+                OracleIDGenerator oracleIDGenerator = new OracleIDGenerator();
+                oracleIDGenerator.setDataSource(dataSource);
+                return oracleIDGenerator;
+            default:
+                return new SnowflakeIdGenerator();
+        }
     }
 }

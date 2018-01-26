@@ -19,6 +19,7 @@ package lodsve.mybatis.configs;
 
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
 import lodsve.mybatis.datasource.DataSourceTransactionManagementConfiguration;
+import lodsve.mybatis.utils.Constants;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
@@ -40,7 +41,7 @@ public class MyBatisConfigurationSelector implements ImportSelector {
         imports.add(MyBatisConfiguration.class.getName());
 
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableMyBatis.class.getName(), false));
-        boolean supportTransaction = attributes.getBoolean(Constant.SUPPORT_TRANSACTION_ATTRIBUTE_NAME);
+        boolean supportTransaction = attributes.getBoolean(Constants.SUPPORT_TRANSACTION_ATTRIBUTE_NAME);
         if (supportTransaction) {
             imports.add(DataSourceTransactionManagementConfiguration.class.getName());
         }

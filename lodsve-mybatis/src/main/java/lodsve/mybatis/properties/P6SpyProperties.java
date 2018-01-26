@@ -17,21 +17,22 @@
 
 package lodsve.mybatis.properties;
 
+import lodsve.core.io.support.LodsveResourceLoader;
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import org.springframework.core.io.Resource;
 
 /**
  * Spy Properties.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2017/12/25 下午11:53
  */
-@ConfigurationProperties(prefix = "lodsve.p6spy", locations = "${params.root}/framework/spy.properties")
-public class P6spyProperties {
+@ConfigurationProperties(prefix = "lodsve.p6spy", locations = "${params.root}/framework/p6spy.properties")
+public class P6SpyProperties {
     /**
      * spy配置
      */
-    private Resource config;
+    private Resource config = new LodsveResourceLoader().getResource("classpath:/META-INF/p6spy/spy.properties");
 
     public Resource getConfig() {
         return config;

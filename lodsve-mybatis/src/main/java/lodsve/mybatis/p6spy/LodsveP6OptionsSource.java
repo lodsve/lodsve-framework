@@ -23,7 +23,7 @@ import com.p6spy.engine.spy.option.P6OptionsSource;
 import lodsve.core.properties.Env;
 import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import lodsve.core.utils.PropertyPlaceholderHelper;
-import lodsve.mybatis.properties.P6spyProperties;
+import lodsve.mybatis.properties.P6SpyProperties;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
@@ -43,7 +43,7 @@ public class LodsveP6OptionsSource implements P6OptionsSource {
     private final Map<String, String> options;
 
     public static void init() {
-        P6spyProperties properties = new RelaxedBindFactory.Builder<>(P6spyProperties.class).build();
+        P6SpyProperties properties = new RelaxedBindFactory.Builder<>(P6SpyProperties.class).build();
 
         config = properties.getConfig();
         if (config == null || !config.exists()) {

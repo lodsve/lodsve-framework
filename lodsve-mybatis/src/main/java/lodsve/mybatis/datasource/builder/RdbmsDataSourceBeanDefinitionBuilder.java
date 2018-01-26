@@ -18,7 +18,7 @@
 package lodsve.mybatis.datasource.builder;
 
 import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
-import lodsve.mybatis.configs.Constant;
+import lodsve.mybatis.utils.Constants;
 import lodsve.mybatis.properties.RdbmsProperties;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -74,9 +74,9 @@ public class RdbmsDataSourceBeanDefinitionBuilder {
         properties.putAll(toMap(commons));
         properties.putAll(toMap(connection));
 
-        if (Constant.DRUID_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
+        if (Constants.DRUID_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
             properties.putAll(toMap(druid));
-        } else if (Constant.DBCP_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
+        } else if (Constants.DBCP_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
             properties.putAll(toMap(dbcp));
         }
 
@@ -113,7 +113,7 @@ public class RdbmsDataSourceBeanDefinitionBuilder {
 
     private void setCustomProperties(BeanDefinitionBuilder beanDefinitionBuilder, String dataSourceClassName) {
         //1.druid
-        if (Constant.DRUID_DATA_SOURCE_CLASS.equals(dataSourceClassName)) {
+        if (Constants.DRUID_DATA_SOURCE_CLASS.equals(dataSourceClassName)) {
             // init method
             beanDefinitionBuilder.setInitMethodName("init");
             // destroy method
