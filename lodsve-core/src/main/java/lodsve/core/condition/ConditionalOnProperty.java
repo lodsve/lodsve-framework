@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 /**
  * conditional property是否匹配给定的值.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2016/12/8 下午5:55
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
@@ -15,6 +15,13 @@ import java.lang.annotation.*;
 @Documented
 @Conditional(OnPropertyCondition.class)
 public @interface ConditionalOnProperty {
+    /**
+     * relaxed bind class name
+     *
+     * @return relaxed bind class name
+     */
+    Class<?> clazz() default Object.class;
+
     /**
      * properties的key
      *
