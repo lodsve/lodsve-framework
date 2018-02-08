@@ -127,7 +127,7 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
     }
 
     private void initMongoDataSource(AnnotationAttributes attributes) {
-        AnnotationAttributes[] dataSources = attributes.getAnnotationArray(DATA_SOURCE_ATTRIBUTE_NAME);
+        String[] dataSources = attributes.getStringArray(DATA_SOURCE_ATTRIBUTE_NAME);
         if (null == dataSources || dataSources.length == 0) {
             throw new CannotGetMongoDbConnectionException("can't find any datasource!");
         }
@@ -135,9 +135,7 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
         String defaultMongoURIBeanName = "";
         List<String> mongoURIBeanNames = new ArrayList<>(dataSources.length);
         for (int i = 0; i < dataSources.length; i++) {
-            AnnotationAttributes attr = dataSources[i];
-
-            String name = attr.getString("value");
+            String name = dataSources[i];
             BeanDefinition dsBeanDefinition = new MongoDataSourceBeanDefinitionFactory(name).build();
 
             if (i == 0) {
