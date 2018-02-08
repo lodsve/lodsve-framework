@@ -18,6 +18,7 @@
 package lodsve.mybatis.datasource.builder;
 
 import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
+import lodsve.mybatis.properties.DruidProperties;
 import lodsve.mybatis.utils.Constants;
 import lodsve.mybatis.properties.RdbmsProperties;
 import org.springframework.beans.BeanWrapper;
@@ -32,7 +33,7 @@ import java.util.Map;
 /**
  * 创建数据源.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2017/12/14 下午8:35
  */
 public class RdbmsDataSourceBeanDefinitionBuilder {
@@ -65,8 +66,6 @@ public class RdbmsDataSourceBeanDefinitionBuilder {
         RdbmsProperties.DataSourceSetting commons = rdbmsProperties.getCommons();
         // dbcp配置
         RdbmsProperties.DbcpSetting dbcp = rdbmsProperties.getDbcp();
-        // druid配置
-        RdbmsProperties.DruidSetting druid = rdbmsProperties.getDruid();
         // 连接信息
         RdbmsProperties.RdbmsConnection connection = rdbmsProperties.getConnections().get(dataSourceName);
 
@@ -74,9 +73,7 @@ public class RdbmsDataSourceBeanDefinitionBuilder {
         properties.putAll(toMap(commons));
         properties.putAll(toMap(connection));
 
-        if (Constants.DRUID_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
-            properties.putAll(toMap(druid));
-        } else if (Constants.DBCP_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
+        if (Constants.DBCP_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
             properties.putAll(toMap(dbcp));
         }
 
@@ -118,6 +115,10 @@ public class RdbmsDataSourceBeanDefinitionBuilder {
             beanDefinitionBuilder.setInitMethodName("init");
             // destroy method
             beanDefinitionBuilder.setDestroyMethodName("close");
+
+            DruidProperties druidProperties = new RelaxedBindFactory.Builder<>(DruidProperties.class).build();
+            String filters = druidProperties.getFilters();
+            beanDefinitionBuilder.addPropertyValue("filters", filters);
         }
     }
 }

@@ -42,10 +42,6 @@ public class RdbmsProperties {
      */
     private DbcpSetting dbcp;
     /**
-     * druid数据源的配置
-     */
-    private DruidSetting druid;
-    /**
      * 连接信息
      */
     private Map<String, RdbmsConnection> connections;
@@ -72,14 +68,6 @@ public class RdbmsProperties {
 
     public void setDbcp(DbcpSetting dbcp) {
         this.dbcp = dbcp;
-    }
-
-    public DruidSetting getDruid() {
-        return druid;
-    }
-
-    public void setDruid(DruidSetting druid) {
-        this.druid = druid;
     }
 
     public Map<String, RdbmsConnection> getConnections() {
@@ -192,18 +180,6 @@ public class RdbmsProperties {
 
         public void setMaxIdle(Integer maxIdle) {
             this.maxIdle = maxIdle;
-        }
-    }
-
-    public static class DruidSetting {
-        private String filters;
-
-        public String getFilters() {
-            return filters;
-        }
-
-        public void setFilters(String filters) {
-            this.filters = filters;
         }
     }
 

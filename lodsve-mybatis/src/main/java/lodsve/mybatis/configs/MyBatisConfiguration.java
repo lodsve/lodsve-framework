@@ -17,12 +17,17 @@
 
 package lodsve.mybatis.configs;
 
+import com.alibaba.druid.support.http.StatViewServlet;
+import lodsve.core.condition.ConditionalOnClass;
+import lodsve.core.condition.ConditionalOnWebApplication;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
+import lodsve.mybatis.druid.DruidInitializer;
 import lodsve.mybatis.enums.DbType;
 import lodsve.mybatis.key.IDGenerator;
 import lodsve.mybatis.key.mysql.MySQLIDGenerator;
 import lodsve.mybatis.key.oracle.OracleIDGenerator;
 import lodsve.mybatis.key.snowflake.SnowflakeIdGenerator;
+import lodsve.mybatis.properties.DruidProperties;
 import lodsve.mybatis.properties.P6SpyProperties;
 import lodsve.mybatis.properties.RdbmsProperties;
 import lodsve.mybatis.type.TypeHandlerScanner;
@@ -30,7 +35,10 @@ import lodsve.mybatis.utils.Constants;
 import lodsve.mybatis.utils.MyBatisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import javax.sql.DataSource;
 
@@ -41,7 +49,7 @@ import javax.sql.DataSource;
  * @version V1.0, 16/1/19 下午10:21
  */
 @Configuration
-@EnableConfigurationProperties({RdbmsProperties.class, P6SpyProperties.class})
+@EnableConfigurationProperties({RdbmsProperties.class, P6SpyProperties.class, DruidProperties.class})
 @ComponentScan({"lodsve.mybatis.key", "lodsve.mybatis.datasource"})
 @EnableAspectJAutoProxy
 public class MyBatisConfiguration {
@@ -69,5 +77,15 @@ public class MyBatisConfiguration {
             default:
                 return new SnowflakeIdGenerator();
         }
+    }
+
+    @Bean
+    @ConditionalOnClass(StatViewServlet.class)
+    @ConditionalOnWebApplication
+    public DruidInitializer druidInitializer(DruidProperties properties) {
+        DruidInitializer initializingBean = new DruidInitializer();
+        initializingBean.setDruidProperties(properties);
+
+        return initializingBean;
     }
 }
