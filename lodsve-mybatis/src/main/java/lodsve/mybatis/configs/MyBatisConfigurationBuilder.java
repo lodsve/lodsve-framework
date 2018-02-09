@@ -17,17 +17,8 @@
 
 package lodsve.mybatis.configs;
 
-import com.p6spy.engine.spy.P6DataSource;
-import lodsve.core.properties.Profiles;
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.configs.annotations.EnableMyBatis;
-import lodsve.mybatis.datasource.builder.RdbmsDataSourceBeanDefinitionBuilder;
-import lodsve.mybatis.datasource.dynamic.DynamicDataSource;
-import lodsve.mybatis.exception.MyBatisException;
-import lodsve.mybatis.key.IDGenerator;
-import lodsve.mybatis.key.mysql.MySQLIDGenerator;
-import lodsve.mybatis.key.oracle.OracleIDGenerator;
-import lodsve.mybatis.p6spy.LodsveP6OptionsSource;
 import lodsve.mybatis.type.TypeHandlerScanner;
 import lodsve.mybatis.utils.Constants;
 import org.apache.commons.lang.ArrayUtils;
@@ -42,9 +33,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -67,59 +56,6 @@ public class MyBatisConfigurationBuilder {
         this.attributes = attributes;
         this.useFlyway = attributes.getBoolean(Constants.USE_FLYWAY_ATTRIBUTE_NAME);
         this.migration = attributes.getString(Constants.MIGRATION_ATTRIBUTE_NAME);
-    }
-
-    private Map<String, BeanDefinition> generateDataSource() {
-        Map<String, BeanDefinition> beanDefinitions = new HashMap<>(16);
-        String[] dataSources = attributes.getStringArray(Constants.DATA_SOURCE_ATTRIBUTE_NAME);
-        if (null == dataSources || dataSources.length == 0) {
-            throw new MyBatisException(102005, "can't find any datasource!");
-        }
-
-        // 组装一些信息
-        DataSourceBean dataSourceBean = new DataSourceBean(dataSources);
-        String defaultDataSourceKey = dataSourceBean.getDefaultDataSourceKey();
-        BeanDefinition defaultDataSource = dataSourceBean.getDefaultDataSource();
-        beanDefinitions.putAll(dataSourceBean.getBeanDefinitions());
-
-        // 动态数据源
-        BeanDefinitionBuilder dynamicDataSource = BeanDefinitionBuilder.genericBeanDefinition(DynamicDataSource.class);
-        dynamicDataSource.addConstructorArgValue(dataSourceBean.getDataSourceNames());
-        dynamicDataSource.addConstructorArgValue(defaultDataSourceKey);
-
-        boolean p6spy = Profiles.getProfile("p6spy");
-        if (p6spy) {
-            // 使用p6spy
-            beanDefinitions.put(Constants.REAL_DATA_SOURCE_BEAN_NAME, dynamicDataSource.getBeanDefinition());
-
-            BeanDefinitionBuilder p6spyDataSource = BeanDefinitionBuilder.genericBeanDefinition(P6DataSource.class);
-            p6spyDataSource.addConstructorArgReference(Constants.REAL_DATA_SOURCE_BEAN_NAME);
-
-            beanDefinitions.put(Constants.DATA_SOURCE_BEAN_NAME, p6spyDataSource.getBeanDefinition());
-
-            // 初始化配置
-            LodsveP6OptionsSource.init();
-        } else {
-            beanDefinitions.put(Constants.DATA_SOURCE_BEAN_NAME, dynamicDataSource.getBeanDefinition());
-        }
-
-
-        // 生成IDGenerator
-        String driverClassName = (String) defaultDataSource.getPropertyValues().get("driverClassName");
-        Class<? extends IDGenerator> clazz;
-        if (StringUtils.contains(driverClassName, Constants.MYSQL)) {
-            clazz = MySQLIDGenerator.class;
-        } else if (StringUtils.contains(driverClassName, Constants.ORACLE)) {
-            clazz = OracleIDGenerator.class;
-        } else {
-            clazz = MySQLIDGenerator.class;
-        }
-
-        BeanDefinitionBuilder idGenerator = BeanDefinitionBuilder.genericBeanDefinition(clazz);
-        idGenerator.addPropertyReference("dataSource", Constants.DATA_SOURCE_BEAN_NAME);
-        beanDefinitions.put(Constants.ID_GENERATOR_BANE_NAME, idGenerator.getBeanDefinition());
-
-        return beanDefinitions;
     }
 
     private Map<String, BeanDefinition> findFlyWayBeanDefinitions() {
@@ -199,52 +135,10 @@ public class MyBatisConfigurationBuilder {
             Map<String, BeanDefinition> beanDefinitions = new HashMap<>(16);
             MyBatisConfigurationBuilder builder = new MyBatisConfigurationBuilder(metadata);
 
-            beanDefinitions.putAll(builder.generateDataSource());
             beanDefinitions.putAll(builder.findFlyWayBeanDefinitions());
             beanDefinitions.putAll(builder.findMyBatisBeanDefinitions());
 
             return beanDefinitions;
-        }
-    }
-
-    private static class DataSourceBean {
-        private String defaultDataSourceKey;
-        private BeanDefinition defaultDataSource;
-        private Map<String, BeanDefinition> beanDefinitions;
-        private List<String> dataSourceNames;
-
-        DataSourceBean(String[] dataSources) {
-            beanDefinitions = new HashMap<>(dataSources.length);
-            dataSourceNames = new ArrayList<>(dataSources.length);
-
-            for (int i = 0; i < dataSources.length; i++) {
-                String name = dataSources[i];
-                BeanDefinition dsBeanDefinition = new RdbmsDataSourceBeanDefinitionBuilder(name).build();
-
-                if (i == 0) {
-                    defaultDataSourceKey = name;
-                    defaultDataSource = dsBeanDefinition;
-                }
-
-                beanDefinitions.put(name, dsBeanDefinition);
-                dataSourceNames.add(name);
-            }
-        }
-
-        String getDefaultDataSourceKey() {
-            return defaultDataSourceKey;
-        }
-
-        BeanDefinition getDefaultDataSource() {
-            return defaultDataSource;
-        }
-
-        Map<String, BeanDefinition> getBeanDefinitions() {
-            return beanDefinitions;
-        }
-
-        List<String> getDataSourceNames() {
-            return dataSourceNames;
         }
     }
 }
