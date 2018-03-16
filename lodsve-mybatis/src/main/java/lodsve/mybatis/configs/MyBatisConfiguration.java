@@ -23,6 +23,7 @@ import lodsve.core.condition.ConditionalOnProperty;
 import lodsve.core.condition.ConditionalOnWebApplication;
 import lodsve.core.io.support.LodsvePathMatchingResourcePatternResolver;
 import lodsve.core.io.support.LodsveResourceLoader;
+import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.datasource.dynamic.DynamicDataSourceAspect;
@@ -43,11 +44,11 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.flywaydb.core.Flyway;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.*;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
@@ -66,8 +67,15 @@ import java.util.List;
  */
 @Configuration
 @EnableConfigurationProperties({RdbmsProperties.class, P6SpyProperties.class, DruidProperties.class, MyBatisProperties.class})
+@ComponentScan({"lodsve.mybatis.key", "lodsve.mybatis.datasource"})
 @EnableAspectJAutoProxy
 public class MyBatisConfiguration {
+    private MyBatisProperties myBatisProperties;
+
+    public MyBatisConfiguration() {
+        this.myBatisProperties = new RelaxedBindFactory.Builder<>(MyBatisProperties.class).build();
+    }
+
     @Bean
     public DynamicDataSourceAspect dynamicDataSourceAspect() {
         return new DynamicDataSourceAspect();
@@ -102,7 +110,7 @@ public class MyBatisConfiguration {
 
     @Bean(name = Constants.FLYWAY_BEAN_NAME, initMethod = "migrate")
     @ConditionalOnProperty(clazz = MyBatisProperties.class, key = "enableFlyway", value = "true")
-    public Flyway flyway(@Qualifier(Constants.DATA_SOURCE_BEAN_NAME) DataSource dataSource, MyBatisProperties myBatisProperties) {
+    public Flyway flyway(@Qualifier(Constants.DATA_SOURCE_BEAN_NAME) DataSource dataSource) {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
         flyway.setLocations(myBatisProperties.getMigration());
@@ -113,18 +121,18 @@ public class MyBatisConfiguration {
     @Bean(name = Constants.MYBATIS_SQL_SESSION_FACTORY_BANE_NAME)
     @DependsOn(Constants.FLYWAY_BEAN_NAME)
     @ConditionalOnProperty(clazz = MyBatisProperties.class, key = "enableFlyway", value = "true")
-    public SqlSessionFactory sqlSessionFactoryBean(@Qualifier(Constants.DATA_SOURCE_BEAN_NAME) DataSource dataSource, MyBatisProperties myBatisProperties) throws Exception {
-        return makeSqlSessionFactoryBean(dataSource, myBatisProperties).getObject();
+    public SqlSessionFactory sqlSessionFactoryBean(@Qualifier(Constants.DATA_SOURCE_BEAN_NAME) DataSource dataSource) throws Exception {
+        return makeSqlSessionFactoryBean(dataSource).getObject();
     }
 
     @Bean(name = Constants.MYBATIS_SQL_SESSION_FACTORY_BANE_NAME)
     @ConditionalOnProperty(clazz = MyBatisProperties.class, key = "enableFlyway", value = "false")
-    public SqlSessionFactory noFlywaySqlSessionFactoryBean(@Qualifier(Constants.DATA_SOURCE_BEAN_NAME) DataSource dataSource, MyBatisProperties myBatisProperties) throws Exception {
-        return makeSqlSessionFactoryBean(dataSource, myBatisProperties).getObject();
+    public SqlSessionFactory noFlywaySqlSessionFactoryBean(@Qualifier(Constants.DATA_SOURCE_BEAN_NAME) DataSource dataSource) throws Exception {
+        return makeSqlSessionFactoryBean(dataSource).getObject();
     }
 
     @Bean(name = Constants.MAPPER_SCANNER_CONFIGURER_BANE_NAME)
-    public MapperScannerConfigurer mapperScannerConfigurer(MyBatisProperties myBatisProperties) {
+    public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setBasePackage(StringUtils.join(myBatisProperties.getBasePackages(), ","));
         mapperScannerConfigurer.setAnnotationClass(Repository.class);
@@ -133,7 +141,7 @@ public class MyBatisConfiguration {
         return mapperScannerConfigurer;
     }
 
-    private SqlSessionFactoryBean makeSqlSessionFactoryBean(DataSource dataSource, MyBatisProperties myBatisProperties) throws IOException {
+    private SqlSessionFactoryBean makeSqlSessionFactoryBean(DataSource dataSource) throws IOException {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setMapperLocations(getResources(myBatisProperties.getMapperLocations()));

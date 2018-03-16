@@ -23,16 +23,18 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
 /**
  * aop动态切换数据源.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2017/12/14 下午6:16
  */
 @Aspect
+@Component
 public class DynamicDataSourceAspect {
     @Around("@annotation(lodsve.mybatis.datasource.annotations.DataSourceProvider)")
     public Object around(ProceedingJoinPoint point) throws Throwable {
@@ -45,12 +47,9 @@ public class DynamicDataSourceAspect {
             dataSource = annotation.value();
         }
 
-        DataSourceHolder.set(dataSource);
-
-        try {
+        try (DataSourceHolder dsh = DataSourceHolder.getInstance()) {
+            dsh.set(dataSource);
             return point.proceed();
-        } finally {
-            DataSourceHolder.clear();
         }
     }
 }

@@ -34,7 +34,7 @@ import java.util.Map;
 /**
  * 动态数据源.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2017/12/14 下午6:23
  */
 public class DynamicDataSource extends AbstractRoutingDataSource implements BeanFactoryAware {
@@ -50,7 +50,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Bean
 
     @Override
     protected Object determineCurrentLookupKey() {
-        return DataSourceHolder.get();
+        return DataSourceHolder.getInstance().get();
     }
 
     @Override
