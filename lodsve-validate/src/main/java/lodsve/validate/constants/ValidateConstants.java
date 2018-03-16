@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2018  Sun.Hao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package lodsve.validate.constants;
 
 import lodsve.core.properties.message.ResourceBundleHolder;
@@ -34,9 +51,9 @@ public class ValidateConstants {
 
         List<Resource> resources = new ArrayList<>();
         try {
-            resources.addAll(Arrays.asList(resolver.getResources("classpath:/META-INF/message/*.properties")));
+            resources.addAll(Arrays.asList(resolver.getResources("classpath:/META-INF/error/*.properties")));
         } catch (IOException e) {
-            logger.error("resolver resource:'{classpath:/META-INF/message/*.properties}' is error!", e);
+            logger.error("resolver resource:'{classpath:/META-INF/error/*.properties}' is error!", e);
             e.printStackTrace();
         }
 

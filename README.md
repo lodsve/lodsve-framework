@@ -1,4 +1,4 @@
-![LOGO](http://lodsve.github.io/lodsve-framework/imgs/logo.png "lodsve-framework")
+![LOGO](https://doc.lodsve.com/images/logo.png "lodsve-framework")
 
 ## lodsve-framework
 My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web development.
@@ -36,6 +36,23 @@ My development tools, it encapsulates some open source projects, and better faci
         <scope>import</scope>
     </dependency>
     
+## About release
+I will release a new stable version at `27th every month`. And publish a snapshot version every `Tuesday night`!
+
+Version No. like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
+
+- `MAJOR` version when I make incompatible API changes,
+- `MINOR` version when I add functionality in a backwards-compatible manner, and
+- `PATCH` version when I make backwards-compatible bug fixes.
+- `RELEASE` means a stable release version.
+- `ALPHA` means internal version.
+- `BETA` means just for testing.    
+    
+## Newest version
+Now the newest and stable version is `2.6.1-RELEASE`.
+
+You can also find the newest version in maven central: `http://repo1.maven.org/maven2/com/lodsve/lodsve-framework/`.
+    
 ## Documentation
 See the current [reference docs][].
 
@@ -67,32 +84,19 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 ## Change History
 [CHANGELOG][]
 
-## About version
-I will release a new version at 27th every month.
-
-Version No like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
-
-- `MAJOR` version when I make incompatible API changes,
-- `MINOR` version when I add functionality in a backwards-compatible manner, and
-- `PATCH` version when I make backwards-compatible bug fixes.
-- `RELEASE` means a stable release version.
-- `ALPHA` means internal version.
-- `BETA` means just for testing.
-
-
 ## Contact me
 1. Email: sunhao.java@gmail.com
 2. QQ: [867885140][]
 3. Blog: [Blog][] [OSChina][]
 
 ## License
-The `Lodsve Framework` is released under version 2.0 of the [Mozilla Public License][].
+The `Lodsve Framework` is released under version 3.0 of the [GNU General Public License][].
 
 ## Donate
-![AliPay](http://lodsve.github.io/lodsve-framework/imgs/alipay.png "支付宝")
-![WeChat](http://lodsve.github.io/lodsve-framework/imgs/wechat.jpg "微信")
+![AliPay](https://doc.lodsve.com/images/alipay.png "支付宝")
+![WeChat](https://doc.lodsve.com/images/wechat.jpg "微信")
 
-[Mozilla Public License]: http://opensource.org/licenses/MPL-2.0
+[GNU GENERAL PUBLIC LICENSE]: https://opensource.org/licenses/GPL-3.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
 [Blog]: http://www.lodsve.com
 [OSChina]: http://my.oschina.net/sunhaojava/blog

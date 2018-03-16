@@ -6,13 +6,14 @@
     <parent>
         <groupId>com.lodsve</groupId>
         <artifactId>lodsve-framework</artifactId>
-        <version>2.6.1-RELEASE</version>
+        <version>2.6.4-RELEASE</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>lodsve-workflow</artifactId>
     <packaging>jar</packaging>
     <name>lodsve workflow</name>
+    <url>https://github.com/lodsve/lodsve-framework</url>
 
     <dependencies>
         <!-- required dependency -->

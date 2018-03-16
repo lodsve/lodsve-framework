@@ -1,12 +1,29 @@
+/*
+ * Copyright (C) 2018  Sun.Hao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package lodsve.mybatis.p6spy;
 
 import com.p6spy.engine.common.P6Util;
 import com.p6spy.engine.spy.P6ModuleManager;
 import com.p6spy.engine.spy.option.P6OptionsSource;
 import lodsve.core.properties.Env;
-import lodsve.core.properties.autoconfigure.PropertiesConfigurationFactory;
+import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import lodsve.core.utils.PropertyPlaceholderHelper;
-import lodsve.mybatis.properties.P6spyProperties;
+import lodsve.mybatis.properties.P6SpyProperties;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
@@ -26,7 +43,7 @@ public class LodsveP6OptionsSource implements P6OptionsSource {
     private final Map<String, String> options;
 
     public static void init() {
-        P6spyProperties properties = new PropertiesConfigurationFactory.Builder<>(P6spyProperties.class).build();
+        P6SpyProperties properties = new RelaxedBindFactory.Builder<>(P6SpyProperties.class).build();
 
         config = properties.getConfig();
         if (config == null || !config.exists()) {

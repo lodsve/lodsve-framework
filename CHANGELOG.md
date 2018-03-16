@@ -1,5 +1,36 @@
 # 更新日志
 
+## 2.6.4-RELEASE
+1. 多数据源支持多个数据库
+2. @ConditionalOnProperty 可以使用RelaxedBind
+3. 优化mybatis、druid的配置
+4. 简化mongodb注解
+5. fix bug
+
+## 2.6.3-SNAPSHOT
+1. 修改autoconfiguration-->relaxedbind
+2. 修改PropertiesConfigurationFactory-->RelaxedBindFactory
+3. 解决运行maven出现警告
+4. 规范maven pom的写法
+5. 添加copyright
+6. 重构security
+7. 3rd包使用shade插件去修改p6spy中的代码
+8. 实现Ordered接口确保banner第一个被打印出来
+9. 优化cache部分代码
+10. 添加Windows下批处理文件
+
+## 2.6.2-SNAPSHOT
+1. 添加一些脚本
+2. 添加webservice的支持
+    - @EnableWebService
+    - 必须在AppConfig中配置，不能再AppWebConfig中配置
+    - 服务的bean的class上加上注解@WebService、@AddressProvider("/test").其中@AddressProvider不是必须的，如果不加这个注解，默认的路径为beanName
+    - 其他配置在webservice.properties中配置
+    - 修改lodsve-all使用的shade插件
+
+## 2.6.1-RELEASE
+修改maven-deploy时的一个问题，lodsve-all没有文件，生成javadoc会报错
+
 ## 2.6.0-RELEASE
 修改GroupId，重新上传构建，并且定义新的发布规则及版本号
 1. lodsve-3d: 无

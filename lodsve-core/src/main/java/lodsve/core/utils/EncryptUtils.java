@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2018  Sun.Hao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package lodsve.core.utils;
 
 import sun.misc.BASE64Decoder;
@@ -16,7 +33,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * 加密工具类.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
  * @createTime 2015-1-6 20:57
  */
@@ -59,7 +76,7 @@ public class EncryptUtils {
      *
      * @param cipherText 密文，需要解密的字符串
      * @return base64解密后的结果
-     * @throws IOException
+     * @throws IOException IOException
      */
     public static String decodeBase64(String cipherText) throws IOException {
         BASE64Decoder encoder = new BASE64Decoder();
@@ -71,7 +88,7 @@ public class EncryptUtils {
      *
      * @param plainText   明文
      * @param encryptType 加密类型
-     * @return
+     * @return md5
      */
     private static String encode(String plainText, EncryptType encryptType) {
         String dstr = null;
@@ -89,19 +106,21 @@ public class EncryptUtils {
      * 加密类型
      */
     private enum EncryptType {
+        /**
+         * md5
+         */
         MD5, SHA
     }
 
     /**
      * 获取文件MD5值
      *
-     * @param file
-     * @return
-     * @throws IOException
+     * @param file 文件
+     * @return 文件MD5值
      */
-    public static String getFileMD5String(File file) {
+    public static String getFileMD5(File file) {
         try {
-            return getFileMD5String(new FileInputStream(file));
+            return getFileMD5(new FileInputStream(file));
         } catch (FileNotFoundException e) {
             return "";
         }
@@ -110,11 +129,10 @@ public class EncryptUtils {
     /**
      * 获取文件MD5值
      *
-     * @param in
-     * @return
-     * @throws IOException
+     * @param in 文件流
+     * @return 文件流MD5值
      */
-    public static String getFileMD5String(FileInputStream in) {
+    public static String getFileMD5(FileInputStream in) {
         try {
             // 获得MD5摘要算法的 MessageDigest 对象
             MessageDigest messagedigest = MessageDigest.getInstance("MD5");
@@ -126,6 +144,24 @@ public class EncryptUtils {
             return bufferToHex(messagedigest.digest());
         } catch (Exception e) {
             return StringUtils.EMPTY;
+        }
+    }
+
+    /**
+     * 获取文件MD5值
+     *
+     * @param fileBytes 文件流
+     * @return 文件流MD5值
+     */
+    public static String getFileMD5(byte[] fileBytes) {
+        try {
+            // 获得MD5摘要算法的 MessageDigest 对象
+            MessageDigest messagedigest = MessageDigest.getInstance("MD5");
+
+            messagedigest.update(fileBytes);
+            return bufferToHex(messagedigest.digest());
+        } catch (Exception e) {
+            return "";
         }
     }
 

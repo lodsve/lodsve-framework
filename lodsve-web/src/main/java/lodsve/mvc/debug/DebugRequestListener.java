@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2018  Sun.Hao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package lodsve.mvc.debug;
 
 import lodsve.mvc.properties.ServerProperties;
@@ -23,11 +40,11 @@ public class DebugRequestListener implements ApplicationListener<ServletRequestH
     private static final List<String> DEFAULT_EXCLUDE_URL = new ArrayList<>();
 
     private boolean debugMode;
-    private ServerProperties serverProperties;
+    private ServerProperties properties;
 
-    public DebugRequestListener(boolean debugMode, ServerProperties serverProperties) {
+    public DebugRequestListener(boolean debugMode, ServerProperties properties) {
         this.debugMode = debugMode;
-        this.serverProperties = serverProperties;
+        this.properties = properties;
 
         DEFAULT_EXCLUDE_URL.add(".*/v2/api-docs");
         DEFAULT_EXCLUDE_URL.add(".*/swagger-resources");
@@ -52,7 +69,7 @@ public class DebugRequestListener implements ApplicationListener<ServletRequestH
         long time = event.getProcessingTimeMillis();
         String method = event.getMethod();
 
-        if (serverProperties.getDebug().getExcludeAddress().contains(client)) {
+        if (properties.getDebug().getExcludeAddress().contains(client)) {
             return;
         }
         for (Pattern pattern : PATTERNS) {
@@ -60,9 +77,9 @@ public class DebugRequestListener implements ApplicationListener<ServletRequestH
                 return;
             }
         }
-        if (time > serverProperties.getDebug().getMaxProcessingTime()) {
+        if (time > properties.getDebug().getMaxProcessingTime()) {
             if (logger.isWarnEnabled()) {
-                logger.warn(String.format("The request '%s' from '%s' with method '%s' execute '%d' more than max time '%d'!Please check it!", url, client, method, time, serverProperties.getDebug().getMaxProcessingTime()));
+                logger.warn(String.format("The request '%s' from '%s' with method '%s' execute '%d' more than max time '%d'!Please check it!", url, client, method, time, properties.getDebug().getMaxProcessingTime()));
             }
         }
 
@@ -76,7 +93,7 @@ public class DebugRequestListener implements ApplicationListener<ServletRequestH
     }
 
     private void initPattern() {
-        ServerProperties.Debug debug = serverProperties.getDebug();
+        ServerProperties.Debug debug = properties.getDebug();
         List<String> excludeUrl = debug.getExcludeUrl();
         excludeUrl.addAll(DEFAULT_EXCLUDE_URL);
         for (String url : excludeUrl) {

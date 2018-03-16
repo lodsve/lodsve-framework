@@ -1,16 +1,27 @@
+/*
+ * Copyright (C) 2018  Sun.Hao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package lodsve.core;
 
 import lodsve.core.ansi.AnsiColor;
 import lodsve.core.ansi.AnsiOutput;
 import lodsve.core.ansi.AnsiStyle;
-import org.springframework.core.Ordered;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.util.StreamUtils;
 
-import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.charset.Charset;
 
 /**
  * 默认的banner.
@@ -18,7 +29,7 @@ import java.nio.charset.Charset;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2018/1/12 下午6:31
  */
-public class LodsveBanner implements Banner, Ordered {
+public class LodsveBanner implements Banner {
     private static final String[] BANNER = new String[]{
             "$$\\                      $$\\                                ",
             "$$ |                     $$ |                               ",
@@ -34,16 +45,8 @@ public class LodsveBanner implements Banner, Ordered {
     private static final String LODSVE_DESCRIPTION = "Let our development of Spring very easy!";
     private static final String LODSVE_TITLE = " :: Lodsve Frameowrk :: ";
 
-    private static final String DEFAULT_BANNER_TEXT_NAME = "banner.txt";
-
     @Override
-    public void print(PrintStream printStream) {
-        Resource resource = textBanner();
-        if (resource != null) {
-            printTextBanner(resource, printStream);
-            return;
-        }
-
+    public void print(PrintStream out) {
         String version = LodsveVersion.getVersion();
         StringBuilder blank1 = new StringBuilder("");
         fillBlank(LINE_WIDTH, LODSVE_TITLE.length() + version.length(), blank1);
@@ -57,9 +60,9 @@ public class LodsveBanner implements Banner, Ordered {
             System.out.println(line);
         }
 
-        System.out.println("\n" + AnsiOutput.toString(AnsiColor.BLUE, LODSVE_DESCRIPTION, AnsiColor.DEFAULT, blank2.toString(), AnsiStyle.FAINT, builter));
-        System.out.println(AnsiOutput.toString(AnsiColor.GREEN, LODSVE_TITLE, AnsiColor.DEFAULT, blank1.toString(), AnsiStyle.FAINT, version));
-        System.out.println("\n\n\n");
+        out.println("\n" + AnsiOutput.toString(AnsiColor.BLUE, LODSVE_DESCRIPTION, AnsiColor.DEFAULT, blank2.toString(), AnsiStyle.FAINT, builter));
+        out.println(AnsiOutput.toString(AnsiColor.GREEN, LODSVE_TITLE, AnsiColor.DEFAULT, blank1.toString(), AnsiStyle.FAINT, version));
+        out.println("\n\n\n");
     }
 
     private void fillBlank(int maxLength, int nowLength, StringBuilder blank) {
@@ -67,31 +70,6 @@ public class LodsveBanner implements Banner, Ordered {
             for (int i = 0; i < maxLength - nowLength; i++) {
                 blank.append(" ");
             }
-        }
-    }
-
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
-    }
-
-    private Resource textBanner() {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        Resource resource = new ClassPathResource(DEFAULT_BANNER_TEXT_NAME, classLoader);
-
-        if (!resource.exists()) {
-            return null;
-        }
-
-        return resource;
-    }
-
-    private void printTextBanner(Resource resource, PrintStream printStream) {
-        try {
-            String banner = StreamUtils.copyToString(resource.getInputStream(), Charset.forName("UTF-8"));
-            printStream.println(banner);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

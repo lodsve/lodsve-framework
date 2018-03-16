@@ -1,13 +1,30 @@
+/*
+ * Copyright (C) 2018  Sun.Hao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package lodsve.dfs.service.impl;
 
-import com.alibaba.common.FastDfsConfig;
-import com.alibaba.common.FsException;
-import com.alibaba.fastdfs.ClientGlobal;
-import com.alibaba.fastdfs.StorageClient;
-import com.alibaba.fastdfs.StorageClient1;
-import com.alibaba.fastdfs.StorageServer;
-import com.alibaba.fastdfs.TrackerClient;
-import com.alibaba.fastdfs.TrackerServer;
+import org.csource.common.FastDfsConfig;
+import org.csource.common.FsException;
+import org.csource.fastdfs.ClientGlobal;
+import org.csource.fastdfs.StorageClient;
+import org.csource.fastdfs.StorageClient1;
+import org.csource.fastdfs.StorageServer;
+import org.csource.fastdfs.TrackerClient;
+import org.csource.fastdfs.TrackerServer;
 import lodsve.core.utils.FileUtils;
 import lodsve.core.utils.StringUtils;
 import lodsve.dfs.configuration.DfsProperties;

@@ -5,4 +5,7 @@
         <!-- [是否 启用 数据中 A_column 自动映射 到 java类中驼峰命名的属性 default:fasle] -->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
+    <plugins>
+        <plugin interceptor="lodsve.mybatis.plugins.pagination.PaginationInterceptor"/>
+    </plugins>
 </configuration>

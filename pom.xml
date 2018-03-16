@@ -4,7 +4,7 @@
 
     <groupId>com.lodsve</groupId>
     <artifactId>lodsve-framework</artifactId>
-    <version>2.6.1-RELEASE</version>
+    <version>2.6.4-RELEASE</version>
     <packaging>pom</packaging>
     <name>lodsve framework</name>
     <description>工具类集合，封装了一系列开源项目，使更好更方便的进行Java Web开发</description>
@@ -13,7 +13,7 @@
     <modules>
         <!-- 第三方库依赖 -->
         <module>lodsve-3rd</module>
-        <!-- all -->
+        <!-- all modules -->
         <module>lodsve-all</module>
         <!-- amqp -->
         <module>lodsve-amqp</module>
@@ -95,6 +95,8 @@
         <spring.data.redis.version>1.6.2.RELEASE</spring.data.redis.version>
         <spring.data.mongodb.version>1.6.4.RELEASE</spring.data.mongodb.version>
         <spring.rabbit.version>1.7.5.RELEASE</spring.rabbit.version>
+        <amqp.client.version>4.0.3</amqp.client.version>
+        <amqp.http.client.version>1.1.1.RELEASE</amqp.http.client.version>
         <zkclient.version>0.10</zkclient.version>
         <jedis.version>2.7.3</jedis.version>
         <springfox.version>2.4.0</springfox.version>
@@ -114,13 +116,16 @@
         <flyway.version>4.0.3</flyway.version>
         <mybatis.version>3.4.4</mybatis.version>
         <mybatis.spring.version>1.3.1</mybatis.spring.version>
+        <p6spy.version>3.6.0</p6spy.version>
         <pingpp.java.version>2.1.7</pingpp.java.version>
         <groovy.version>2.4.7</groovy.version>
         <jruby.version>1.7.26</jruby.version>
         <jyphon.version>2.7.1b3</jyphon.version>
 
+        <lodsve.maven.plugins.version>2.6.1-RELEASE</lodsve.maven.plugins.version>
         <maven.shade.plugin.version>3.0.0</maven.shade.plugin.version>
-        <maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
+        <maven.dependency.plugin.version>2.8</maven.dependency.plugin.version>
+        <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <maven.source.plugin.version>2.4</maven.source.plugin.version>
@@ -129,6 +134,8 @@
         <maven.gpg.plugin.version>1.5</maven.gpg.plugin.version>
         <maven.javadoc.plugin.version>2.10.3</maven.javadoc.plugin.version>
         <nexus.staging.maven.plugin.version>1.6.5</nexus.staging.maven.plugin.version>
+
+        <manifest.built.name>Sun.Hao</manifest.built.name>
     </properties>
 
     <organization>
@@ -145,8 +152,8 @@
     <!-- license -->
     <licenses>
         <license>
-            <name>Mozilla Public License, version 2.0</name>
-            <url>http://opensource.org/licenses/MPL-2.0</url>
+            <name>GNU General Public License version 3</name>
+            <url>https://opensource.org/licenses/GPL-3.0</url>
         </license>
     </licenses>
 
@@ -207,14 +214,6 @@
             </snapshots>
         </repository>
     </repositories>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-        </dependency>
-    </dependencies>
 
     <dependencyManagement>
         <dependencies>
@@ -293,6 +292,14 @@
                 <version>${servlet.version}</version>
             </dependency>
             <!-- servlet end -->
+
+            <!-- lombok start -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <!-- lombok start -->
 
             <!-- apache commons start -->
             <dependency>
@@ -543,6 +550,14 @@
                         <groupId>org.apache.zookeeper</groupId>
                         <artifactId>zookeeper</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.hadoop</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -708,9 +723,35 @@
 
             <!-- rabbit start -->
             <dependency>
+                <groupId>com.rabbitmq</groupId>
+                <artifactId>amqp-client</artifactId>
+                <version>${amqp.client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.rabbitmq</groupId>
+                <artifactId>http-client</artifactId>
+                <version>${amqp.http.client.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>spring-web</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.amqp</groupId>
                 <artifactId>spring-rabbit</artifactId>
                 <version>${spring.rabbit.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.rabbitmq</groupId>
+                        <artifactId>amqp-client</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.rabbitmq</groupId>
+                        <artifactId>http-client</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!-- rabbit end -->
 
@@ -868,6 +909,14 @@
             </dependency>
             <!-- mybatis end -->
 
+            <!-- p6spy start -->
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+            <!-- p6spy end -->
+
             <!-- other languages start -->
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
@@ -980,17 +1029,18 @@
                             <goals>
                                 <goal>shade</goal>
                             </goals>
-                            <configuration>
-                                <!-- 创建源码jar -->
-                                <createSourcesJar>true</createSourcesJar>
-                                <artifactSet>
-                                    <includes>
-                                        <include>${project.groupId}:*:*</include>
-                                    </includes>
-                                </artifactSet>
-                            </configuration>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven.dependency.plugin.version}</version>
+                    <configuration>
+                        <overWriteIfNewer>false</overWriteIfNewer>
+                        <prependGroupId>true</prependGroupId>
+                        <excludeGroupIds>com.lodsve</excludeGroupIds>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -1005,10 +1055,10 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <debuglevel>lines,vars,source</debuglevel>
-                    <compilerArguments>
-                        <verbose/>
-                        <bootclasspath>${java.home}/lib/rt.jar</bootclasspath>
-                    </compilerArguments>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArgs>
+                        <arg>-Xlint:unchecked</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <!-- 生成源代码的插件 -->
@@ -1047,9 +1097,11 @@
                 <version>${maven.jar.plugin.version}</version>
                 <configuration>
                     <archive>
+                        <manifestEntries>
+                            <Built-By>${manifest.built.name}</Built-By>
+                        </manifestEntries>
                         <addMavenDescriptor>true</addMavenDescriptor>
                         <manifest>
-                            <addClasspath>true</addClasspath>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                         </manifest>
@@ -1098,6 +1150,7 @@
                             <charset>${project.build.sourceEncoding}</charset>
                             <encoding>${project.build.sourceEncoding}</encoding>
                             <docencoding>${project.build.sourceEncoding}</docencoding>
+                            <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
                     </plugin>
                     <!-- 在maven仓库中自动close和release的插件 -->

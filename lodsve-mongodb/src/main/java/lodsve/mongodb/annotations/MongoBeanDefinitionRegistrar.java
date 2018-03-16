@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2018  Sun.Hao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package lodsve.mongodb.annotations;
 
 import lodsve.core.bean.BeanRegisterUtils;
@@ -110,7 +127,7 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
     }
 
     private void initMongoDataSource(AnnotationAttributes attributes) {
-        AnnotationAttributes[] dataSources = attributes.getAnnotationArray(DATA_SOURCE_ATTRIBUTE_NAME);
+        String[] dataSources = attributes.getStringArray(DATA_SOURCE_ATTRIBUTE_NAME);
         if (null == dataSources || dataSources.length == 0) {
             throw new CannotGetMongoDbConnectionException("can't find any datasource!");
         }
@@ -118,9 +135,7 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
         String defaultMongoURIBeanName = "";
         List<String> mongoURIBeanNames = new ArrayList<>(dataSources.length);
         for (int i = 0; i < dataSources.length; i++) {
-            AnnotationAttributes attr = dataSources[i];
-
-            String name = attr.getString("value");
+            String name = dataSources[i];
             BeanDefinition dsBeanDefinition = new MongoDataSourceBeanDefinitionFactory(name).build();
 
             if (i == 0) {

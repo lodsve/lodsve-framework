@@ -1,6 +1,23 @@
+/*
+ * Copyright (C) 2018  Sun.Hao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package lodsve.mybatis.properties;
 
-import lodsve.core.properties.autoconfigure.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 
 import java.util.Map;
 
@@ -24,10 +41,6 @@ public class RdbmsProperties {
      * dbcp配置
      */
     private DbcpSetting dbcp;
-    /**
-     * druid数据源的配置
-     */
-    private DruidSetting druid;
     /**
      * 连接信息
      */
@@ -57,14 +70,6 @@ public class RdbmsProperties {
         this.dbcp = dbcp;
     }
 
-    public DruidSetting getDruid() {
-        return druid;
-    }
-
-    public void setDruid(DruidSetting druid) {
-        this.druid = druid;
-    }
-
     public Map<String, RdbmsConnection> getConnections() {
         return connections;
     }
@@ -74,7 +79,6 @@ public class RdbmsProperties {
     }
 
     public static class DataSourceSetting {
-        private String driverClassName;
         private Integer initialSize;
         private Integer maxActive;
         private Integer minIdle;
@@ -85,14 +89,6 @@ public class RdbmsProperties {
         private Boolean testOnReturn;
         private Boolean testWhileIdle;
         private String validationQuery;
-
-        public String getDriverClassName() {
-            return driverClassName;
-        }
-
-        public void setDriverClassName(String driverClassName) {
-            this.driverClassName = driverClassName;
-        }
 
         public Integer getInitialSize() {
             return initialSize;
@@ -187,22 +183,19 @@ public class RdbmsProperties {
         }
     }
 
-    public static class DruidSetting {
-        private String filters;
-
-        public String getFilters() {
-            return filters;
-        }
-
-        public void setFilters(String filters) {
-            this.filters = filters;
-        }
-    }
-
     public static class RdbmsConnection {
+        private String driverClassName;
         private String url;
         private String username;
         private String password;
+
+        public String getDriverClassName() {
+            return driverClassName;
+        }
+
+        public void setDriverClassName(String driverClassName) {
+            this.driverClassName = driverClassName;
+        }
 
         public String getUrl() {
             return url;

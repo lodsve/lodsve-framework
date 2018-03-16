@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2018  Sun.Hao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package lodsve.springfox.config;
 
 import com.google.common.base.Predicate;
@@ -5,8 +22,8 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import lodsve.core.utils.StringUtils;
 import lodsve.mvc.properties.ServerProperties;
-import lodsve.springfox.properties.SpringFoxProperties;
 import lodsve.springfox.paths.SpringFoxPathProvider;
+import lodsve.springfox.properties.SpringFoxProperties;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import springfox.documentation.RequestHandler;
@@ -23,14 +40,14 @@ import java.util.regex.Pattern;
 /**
  * 利用插件配置swagger的一些信息.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/3/24 上午9:30
  */
 public class SpringFoxDocket extends Docket {
     @Autowired
     private SpringFoxPathProvider pathProvider;
     @Autowired
-    private SpringFoxProperties properties;
+    private SpringFoxProperties springFoxProperties;
     @Autowired
     private ServerProperties serverProperties;
 
@@ -44,7 +61,7 @@ public class SpringFoxDocket extends Docket {
 
     @PostConstruct
     public void init() throws NoSuchFieldException, IllegalAccessException {
-        apiInfo(apiInfo(properties));
+        apiInfo(apiInfo(springFoxProperties));
         forCodeGeneration(true);
         groupName(groupName);
         pathProvider(pathProvider);

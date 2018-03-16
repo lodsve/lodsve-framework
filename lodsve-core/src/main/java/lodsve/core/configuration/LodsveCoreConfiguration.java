@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2018  Sun.Hao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package lodsve.core.configuration;
 
 import lodsve.core.condition.ConditionalOnClass;
@@ -5,10 +22,10 @@ import lodsve.core.context.ApplicationContextListener;
 import lodsve.core.email.EmailProperties;
 import lodsve.core.event.EventExecutor;
 import lodsve.core.event.EventPublisher;
-import lodsve.core.properties.autoconfigure.annotations.EnableConfigurationProperties;
+import lodsve.core.properties.ParamsHome;
+import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.ini.IniLoader;
-import lodsve.core.properties.ParamsHome;
 import lodsve.core.properties.message.DefaultResourceBundleMessageSource;
 import lodsve.core.properties.message.ResourceBundleHolder;
 import lodsve.core.utils.StringUtils;
@@ -30,7 +47,7 @@ import java.util.concurrent.ExecutorService;
  * @version 1.0 2016/12/27 下午3:07
  */
 @Configuration
-@EnableConfigurationProperties({ApplicationProperties.class})
+@EnableConfigurationProperties({ApplicationProperties.class, EmailProperties.class})
 @ComponentScan({
         "lodsve.core.exception",
         "lodsve.core.properties"
@@ -103,7 +120,6 @@ public class LodsveCoreConfiguration {
     }
 
     @Configuration
-    @EnableConfigurationProperties(EmailProperties.class)
     @ConditionalOnClass(MessagingException.class)
     @ComponentScan("lodsve.core.email")
     public static class LodsveMail {
