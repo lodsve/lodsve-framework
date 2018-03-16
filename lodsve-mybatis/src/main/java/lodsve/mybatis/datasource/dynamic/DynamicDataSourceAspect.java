@@ -23,7 +23,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
@@ -34,7 +33,6 @@ import java.lang.reflect.Method;
  * @version 1.0 2017/12/14 下午6:16
  */
 @Aspect
-@Component
 public class DynamicDataSourceAspect {
     @Around("@annotation(lodsve.mybatis.datasource.annotations.DataSourceProvider)")
     public Object around(ProceedingJoinPoint point) throws Throwable {

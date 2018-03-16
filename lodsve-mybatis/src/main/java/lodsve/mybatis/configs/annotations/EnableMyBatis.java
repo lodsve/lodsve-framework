@@ -18,7 +18,7 @@
 package lodsve.mybatis.configs.annotations;
 
 import lodsve.core.configuration.EnableLodsve;
-import lodsve.mybatis.configs.MyBatisConfigurationSelector;
+import lodsve.mybatis.datasource.DataSourceBeanDefinitionRegistrar;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -33,7 +33,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EnableLodsve
-@Import(MyBatisConfigurationSelector.class)
+@Import(DataSourceBeanDefinitionRegistrar.class)
 public @interface EnableMyBatis {
     /**
      * 数据源名,多数据源,第一个数据源为默认值
@@ -41,54 +41,4 @@ public @interface EnableMyBatis {
      * @return
      */
     String[] dataSource();
-
-    /**
-     * 是否支持事务
-     *
-     * @return
-     */
-    boolean supportTransaction() default false;
-
-    /**
-     * mybatis mapper文件
-     *
-     * @return resource
-     */
-    String[] mapperLocations() default "classpath*:/META-INF/mybatis/**/*Mapper.xml";
-
-    /**
-     * mybatis 配置文件
-     *
-     * @return resource
-     */
-    String configLocation() default "classpath:/META-INF/mybatis/mybatis.xml";
-
-    /**
-     * 含有{@link org.springframework.stereotype.Repository }注解的dao类所在的包路径,可以多个
-     *
-     * @return
-     * @see org.springframework.stereotype.Repository
-     */
-    String[] basePackages() default {};
-
-    /**
-     * 枚举类型所在包路径,可以多个
-     *
-     * @return
-     */
-    String[] enumsLocations() default {};
-
-    /**
-     * 是否使用flyway
-     *
-     * @return
-     */
-    boolean useFlyway() default false;
-
-    /**
-     * flyway的脚本文件所在路径
-     *
-     * @return
-     */
-    String migration() default "META-INF/flyway";
 }

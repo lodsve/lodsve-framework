@@ -8,11 +8,9 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.ConfigurationCondition;
 import org.springframework.core.Ordered;
+import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-import org.springframework.util.ClassUtils;
-
-import java.util.Map;
 
 /**
  * conditional property是否匹配给定的值.
@@ -28,25 +26,21 @@ public class OnPropertyCondition extends SpringBootCondition implements Configur
             return ConditionOutcome.match(StringUtils.EMPTY);
         }
 
-        Map<String, Object> attributes = metadata.getAnnotationAttributes(ConditionalOnProperty.class.getName());
-        String key = attributes.get("key").toString();
-        String value = attributes.get("value").toString();
-        String clazz = attributes.get("clazz").toString();
+        AnnotationAttributes attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(ConditionalOnProperty.class.getName(), false));
+
+        String key = attributes.getString("key");
+        String value = attributes.getString("value");
+        Class<?> clazz = attributes.getClass("clazz");
 
         String realValue;
-        if (Object.class.getName().equals(clazz)) {
+        if (Object.class.equals(clazz)) {
             realValue = Env.getString(key);
         } else {
-            try {
-                Class<?> c = ClassUtils.forName(clazz, OnPropertyCondition.class.getClassLoader());
-                Object obj = new RelaxedBindFactory.Builder<>(c).build();
-                BeanWrapper beanWrapper = new BeanWrapperImpl(obj);
+            Object obj = new RelaxedBindFactory.Builder<>(clazz).build();
+            BeanWrapper beanWrapper = new BeanWrapperImpl(obj);
 
-                Object keyValue = beanWrapper.getPropertyValue(key);
-                realValue = keyValue != null ? keyValue.toString() : "";
-            } catch (ClassNotFoundException e) {
-                return ConditionOutcome.noMatch(String.format("@ConditionalOnProperties's key:[%s], found value:[%s], not match given value:[%s]!", key, "", value));
-            }
+            Object keyValue = beanWrapper.getPropertyValue(key);
+            realValue = keyValue != null ? keyValue.toString() : "";
         }
 
 

@@ -18,6 +18,7 @@
 package lodsve.webservice;
 
 import lodsve.core.condition.ConditionalOnClass;
+import lodsve.core.condition.ConditionalOnWebApplication;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.webservice.properties.WebServiceProperties;
 import org.apache.cxf.transport.servlet.CXFServlet;
@@ -43,6 +44,7 @@ public class WebServiceConfiguration {
     }
 
     @Bean
+    @ConditionalOnWebApplication
     public LodsveWebserviceInitializer lodsveWebserviceInitializer(WebServiceProperties properties) {
         LodsveWebserviceInitializer initializingBean = new LodsveWebserviceInitializer();
         initializingBean.setProperties(properties);

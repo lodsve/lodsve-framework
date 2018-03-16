@@ -18,42 +18,43 @@
 package lodsve.mybatis.datasource;
 
 import com.p6spy.engine.spy.P6DataSource;
+import lodsve.core.bean.BeanRegisterUtils;
 import lodsve.core.properties.Profiles;
+import lodsve.mybatis.configs.annotations.EnableMyBatis;
 import lodsve.mybatis.datasource.builder.RdbmsDataSourceBeanDefinitionBuilder;
 import lodsve.mybatis.datasource.dynamic.DynamicDataSource;
+import lodsve.mybatis.exception.MyBatisException;
 import lodsve.mybatis.p6spy.LodsveP6OptionsSource;
-import lodsve.mybatis.properties.MyBatisProperties;
 import lodsve.mybatis.utils.Constants;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.core.annotation.AnnotationAttributes;
+import org.springframework.core.type.AnnotationMetadata;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * 注册数据源.
+ * 动态创建数据源的配置.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @date 2018-2-8-0008 16:44
+ * @version V1.0, 16/1/19 下午8:01
  */
-public class DataSourceBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
-    private MyBatisProperties myBatisProperties;
-
-    public DataSourceBeanFactoryPostProcessor(MyBatisProperties myBatisProperties) {
-        this.myBatisProperties = myBatisProperties;
-    }
+public class DataSourceBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        if (!(beanFactory instanceof DefaultListableBeanFactory)) {
-            return;
-        }
+    public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
+        AnnotationAttributes attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(EnableMyBatis.class.getName(), false));
 
-        String[] dataSources = myBatisProperties.getDataSources();
-        Map<String, BeanDefinition> beanDefinitions = new HashMap<>(dataSources.length);
+        Map<String, BeanDefinition> beanDefinitions = new HashMap<>(16);
+        String[] dataSources = attributes.getStringArray(Constants.DATA_SOURCE_ATTRIBUTE_NAME);
+        if (null == dataSources || dataSources.length == 0) {
+            throw new MyBatisException(102005, "can't find any datasource!");
+        }
 
         // 组装一些信息
         DataSourceBean dataSourceBean = new DataSourceBean(dataSources);
@@ -80,6 +81,8 @@ public class DataSourceBeanFactoryPostProcessor implements BeanFactoryPostProces
         } else {
             beanDefinitions.put(Constants.DATA_SOURCE_BEAN_NAME, dynamicDataSource.getBeanDefinition());
         }
+
+        BeanRegisterUtils.registerBeans(beanDefinitions, registry);
     }
 
     private static class DataSourceBean {

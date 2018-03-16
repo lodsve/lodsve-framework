@@ -20,20 +20,95 @@ package lodsve.mybatis.properties;
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 
 /**
- * .
+ * mybatis 配置.
  *
  * @author sunhao(sunhao.java @ gmail.com)
  * @date 2018-2-8-0008 16:47
  */
 @ConfigurationProperties(prefix = "lodsve.mybatis", locations = "${params.root}/framework/mybatis.properties")
 public class MyBatisProperties {
-    private String[] dataSources;
+    /**
+     * mybatis mapper文件
+     */
+    private String[] mapperLocations = new String[]{"classpath*:/META-INF/mybatis/**/*Mapper.xml"};
+    /**
+     * mybatis 配置文件
+     */
+    private String configLocation = "classpath:/META-INF/mybatis/mybatis.xml";
+    /**
+     * 含有{@link org.springframework.stereotype.Repository }注解的dao类所在的包路径,可以多个
+     */
+    private String[] basePackages;
+    /**
+     * 枚举类型所在包路径,可以多个
+     */
+    private String[] enumsLocations;
+    /**
+     * 是否支持事务
+     */
+    private boolean supportTransaction = false;
+    /**
+     * 是否使用flyway
+     */
+    private boolean enableFlyway = false;
+    /**
+     * flyway的脚本文件所在路径
+     */
+    private String[] migration = new String[]{"META-INF/flyway"};
 
-    public String[] getDataSources() {
-        return dataSources;
+    public String[] getMapperLocations() {
+        return mapperLocations;
     }
 
-    public void setDataSources(String[] dataSources) {
-        this.dataSources = dataSources;
+    public void setMapperLocations(String[] mapperLocations) {
+        this.mapperLocations = mapperLocations;
+    }
+
+    public String getConfigLocation() {
+        return configLocation;
+    }
+
+    public void setConfigLocation(String configLocation) {
+        this.configLocation = configLocation;
+    }
+
+    public String[] getBasePackages() {
+        return basePackages;
+    }
+
+    public void setBasePackages(String[] basePackages) {
+        this.basePackages = basePackages;
+    }
+
+    public String[] getEnumsLocations() {
+        return enumsLocations;
+    }
+
+    public void setEnumsLocations(String[] enumsLocations) {
+        this.enumsLocations = enumsLocations;
+    }
+
+    public boolean isSupportTransaction() {
+        return supportTransaction;
+    }
+
+    public void setSupportTransaction(boolean supportTransaction) {
+        this.supportTransaction = supportTransaction;
+    }
+
+    public boolean isEnableFlyway() {
+        return enableFlyway;
+    }
+
+    public void setEnableFlyway(boolean enableFlyway) {
+        this.enableFlyway = enableFlyway;
+    }
+
+    public String[] getMigration() {
+        return migration;
+    }
+
+    public void setMigration(String[] migration) {
+        this.migration = migration;
     }
 }
