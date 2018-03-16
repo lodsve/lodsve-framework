@@ -1,5 +1,12 @@
 # 更新日志
 
+## 2.6.4-RELEASE
+1. 多数据源支持多个数据库
+2. @ConditionalOnProperty 可以使用RelaxedBind
+3. 优化mybatis、druid的配置
+4. 简化mongodb注解
+5. fix bug
+
 ## 2.6.3-SNAPSHOT
 1. 修改autoconfiguration-->relaxedbind
 2. 修改PropertiesConfigurationFactory-->RelaxedBindFactory
