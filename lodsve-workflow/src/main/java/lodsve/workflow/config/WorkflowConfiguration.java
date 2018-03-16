@@ -29,9 +29,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableMyBatis(
-        dataSource = "workflow",
-        basePackages = "lodsve.workflow.repository",
-        enumsLocations = "lodsve.workflow.enums"
+        dataSource = "workflow"
 )
 @ComponentScan("lodsve.workflow")
 public class WorkflowConfiguration {

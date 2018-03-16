@@ -40,6 +40,7 @@ import org.springframework.util.ClassUtils;
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -116,8 +117,17 @@ public class RelaxedBindFactory {
             Method readMethod = descriptor.getReadMethod();
             TypeDescriptor typeDescriptor = beanWrapper.getPropertyTypeDescriptor(name);
             Required required = typeDescriptor.getAnnotation(Required.class);
+            Object defaultValue = null;
+            try {
+                defaultValue = readMethod.invoke(target);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
 
             Object value = getValue(type, prefix, name, readMethod);
+            if (isEmpty(value)) {
+                value = defaultValue;
+            }
 
             if (value != null) {
                 beanWrapper.setPropertyValue(name, value);
@@ -136,15 +146,18 @@ public class RelaxedBindFactory {
         }
         Object value = getValueForType(key, type, readMethod);
 
-        boolean isNull = value == null || (value instanceof Collection && ((Collection) value).isEmpty()) ||
-                (value instanceof Map && ((Map) value).isEmpty()) ||
-                (value.getClass().isArray() && ArrayUtils.isEmpty((Object[]) value));
-
-        if (isNull) {
+        if (isEmpty(value)) {
             value = getValueForType(prefix + "." + camelName, type, readMethod);
         }
 
         return value;
+    }
+
+    private boolean isEmpty(Object value) {
+        return value == null ||
+                (value instanceof Collection && ((Collection) value).isEmpty()) ||
+                (value instanceof Map && ((Map) value).isEmpty()) ||
+                (value.getClass().isArray() && ArrayUtils.isEmpty((Object[]) value));
     }
 
     private Object getValueForType(String key, Class<?> type, Method readMethod) {

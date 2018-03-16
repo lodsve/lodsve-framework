@@ -19,6 +19,7 @@ package lodsve.mvc.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,11 +71,11 @@ public class ServerProperties {
         /**
          * 需要忽略的url
          */
-        private List<String> excludeUrl;
+        private List<String> excludeUrl = new ArrayList<>(0);
         /**
          * 需要忽略的ip/address
          */
-        private List<String> excludeAddress;
+        private List<String> excludeAddress = new ArrayList<>(0);
         /**
          * 当执行时间超长，将会警告
          */
