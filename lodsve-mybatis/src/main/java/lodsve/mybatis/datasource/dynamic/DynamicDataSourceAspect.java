@@ -30,7 +30,7 @@ import java.lang.reflect.Method;
 /**
  * aop动态切换数据源.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2017/12/14 下午6:16
  */
 @Aspect
@@ -47,12 +47,9 @@ public class DynamicDataSourceAspect {
             dataSource = annotation.value();
         }
 
-        DataSourceHolder.set(dataSource);
-
-        try {
+        try (DataSourceHolder dsh = DataSourceHolder.getInstance()) {
+            dsh.set(dataSource);
             return point.proceed();
-        } finally {
-            DataSourceHolder.clear();
         }
     }
 }
