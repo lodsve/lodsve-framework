@@ -64,7 +64,7 @@ import java.util.List;
  */
 @Configuration
 @EnableConfigurationProperties({RdbmsProperties.class, P6SpyProperties.class, DruidProperties.class, MyBatisProperties.class})
-@ComponentScan({"lodsve.mybatis.key", "lodsve.mybatis.datasource"})
+@ComponentScan("lodsve.mybatis.datasource.dynamic")
 @EnableAspectJAutoProxy
 public class MyBatisConfiguration {
     private MyBatisProperties myBatisProperties;
