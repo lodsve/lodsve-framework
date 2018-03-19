@@ -18,7 +18,6 @@
 package lodsve.mongodb.annotations;
 
 import lodsve.core.configuration.EnableLodsve;
-import lodsve.mongodb.config.MongoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
@@ -34,7 +33,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EnableLodsve
-@Import({MongoConfiguration.class, MongoBeanDefinitionRegistrar.class})
+@Import(MongoBeanDefinitionRegistrar.class)
 public @interface EnableMongo {
     /**
      * 数据源名
