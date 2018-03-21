@@ -34,17 +34,9 @@ public class RdbmsProperties {
      */
     private String dataSourceClass;
     /**
-     * 通用配置
-     */
-    private DataSourceSetting commons;
-    /**
-     * dbcp配置
-     */
-    private DbcpSetting dbcp;
-    /**
      * 连接信息
      */
-    private Map<String, RdbmsConnection> connections;
+    private Map<String, PoolSetting> pool;
 
     public String getDataSourceClass() {
         return dataSourceClass;
@@ -54,31 +46,19 @@ public class RdbmsProperties {
         this.dataSourceClass = dataSourceClass;
     }
 
-    public DataSourceSetting getCommons() {
-        return commons;
+    public Map<String, PoolSetting> getPool() {
+        return pool;
     }
 
-    public void setCommons(DataSourceSetting commons) {
-        this.commons = commons;
+    public void setPool(Map<String, PoolSetting> pool) {
+        this.pool = pool;
     }
 
-    public DbcpSetting getDbcp() {
-        return dbcp;
-    }
-
-    public void setDbcp(DbcpSetting dbcp) {
-        this.dbcp = dbcp;
-    }
-
-    public Map<String, RdbmsConnection> getConnections() {
-        return connections;
-    }
-
-    public void setConnections(Map<String, RdbmsConnection> connections) {
-        this.connections = connections;
-    }
-
-    public static class DataSourceSetting {
+    public static class PoolSetting {
+        private String driverClassName;
+        private String url;
+        private String username;
+        private String password;
         private Integer initialSize;
         private Integer maxActive;
         private Integer minIdle;
@@ -89,6 +69,39 @@ public class RdbmsProperties {
         private Boolean testOnReturn;
         private Boolean testWhileIdle;
         private String validationQuery;
+        private Integer maxIdle;
+
+        public String getDriverClassName() {
+            return driverClassName;
+        }
+
+        public void setDriverClassName(String driverClassName) {
+            this.driverClassName = driverClassName;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
 
         public Integer getInitialSize() {
             return initialSize;
@@ -169,10 +182,6 @@ public class RdbmsProperties {
         public void setValidationQuery(String validationQuery) {
             this.validationQuery = validationQuery;
         }
-    }
-
-    public static class DbcpSetting {
-        private Integer maxIdle;
 
         public Integer getMaxIdle() {
             return maxIdle;
@@ -180,45 +189,6 @@ public class RdbmsProperties {
 
         public void setMaxIdle(Integer maxIdle) {
             this.maxIdle = maxIdle;
-        }
-    }
-
-    public static class RdbmsConnection {
-        private String driverClassName;
-        private String url;
-        private String username;
-        private String password;
-
-        public String getDriverClassName() {
-            return driverClassName;
-        }
-
-        public void setDriverClassName(String driverClassName) {
-            this.driverClassName = driverClassName;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
         }
     }
 }
