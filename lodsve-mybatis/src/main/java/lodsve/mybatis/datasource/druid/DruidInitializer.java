@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.mybatis.druid;
+package lodsve.mybatis.datasource.druid;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import lodsve.core.utils.StringUtils;

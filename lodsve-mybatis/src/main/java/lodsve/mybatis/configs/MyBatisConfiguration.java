@@ -27,7 +27,7 @@ import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.datasource.dynamic.DynamicDataSourceAspect;
-import lodsve.mybatis.druid.DruidInitializer;
+import lodsve.mybatis.datasource.druid.DruidInitializer;
 import lodsve.mybatis.enums.DbType;
 import lodsve.mybatis.key.IDGenerator;
 import lodsve.mybatis.key.mysql.MySQLIDGenerator;

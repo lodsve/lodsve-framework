@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.mybatis.p6spy;
+package lodsve.mybatis.datasource.p6spy;
 
 import com.p6spy.engine.common.P6Util;
 import com.p6spy.engine.spy.P6ModuleManager;
