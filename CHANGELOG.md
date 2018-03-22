@@ -1,5 +1,8 @@
 # 更新日志
 
+## 2.6.4.1-RELEASE
+为软创开发 多数据源配置连接池也是多个配置
+
 ## 2.6.4-RELEASE
 1. 多数据源支持多个数据库
 2. @ConditionalOnProperty 可以使用RelaxedBind
