@@ -23,9 +23,9 @@ import java.util.regex.Pattern;
 /**
  * 验证工具栏
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
- * @createTime 2012-7-12 下午04:09:14
+ * @date 2012-7-12 下午04:09:14
  */
 public class ValidateUtils {
 
@@ -85,12 +85,13 @@ public class ValidateUtils {
     /**
      * 私有化构造器
      */
-    private ValidateUtils(){}
+    private ValidateUtils() {
+    }
 
     /**
      * 判断是否是邮箱地址
      *
-     * @param email        待验证的邮箱地址
+     * @param email 待验证的邮箱地址
      * @return
      */
     public static boolean isEmail(String email) {

@@ -27,8 +27,8 @@ import java.lang.reflect.Proxy;
 /**
  * 将代理类变成真实的类.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/9/2 下午5:21
+ * @author sunhao(sunhao.java @ gmail.com)
+ * @date 15/9/2 下午5:21
  */
 public class ProxyUtils {
     /**

@@ -28,11 +28,11 @@ import java.io.IOException;
 /**
  * 绘制图形验证码的servlet
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
- * @createTime 12-3-21 下午8:56
+ * @date 12-3-21 下午8:56
  */
-public class VerityCode extends HttpServlet{
+public class VerityCode extends HttpServlet {
     private static final long serialVersionUID = -4395293913583955749L;
 
     /**

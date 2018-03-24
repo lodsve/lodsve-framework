@@ -77,31 +77,31 @@ public abstract class BaseSearchBean {
     /**
      * 检索的内容
      */
-    protected String keyword;
+    private String keyword;
     /**
      * 拥有者ID
      */
-    protected String owerId;
+    private String owerId;
     /**
      * 拥有者name
      */
-    protected String owerName;
+    private String owerName;
     /**
      * 检索对象的唯一标识位的值
      */
-    protected String id;
+    private String id;
     /**
      * 检索出对象后进入详情页面的链接
      */
-    protected String link;
+    private String link;
     /**
      * 创建时间
      */
-    protected String createDate;
+    private String createDate;
     /**
      * index类型
      */
-    protected String indexType;
+    private String indexType;
 
     public String getKeyword() {
         return keyword;

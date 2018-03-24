@@ -26,7 +26,7 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
- * @createTime 2012-4-24 下午08:25:57
+ * @date 2012-4-24 下午08:25:57
  */
 public class RandomUtils {
     private static final String LETTER_LOWER = "abcdefghijklmnopqrstuvwxyz";
@@ -147,11 +147,10 @@ public class RandomUtils {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int i, count = 0;
         while (count < length) {
-            /**
-             * 生成随机数，取绝对值，防止生成负数
-             *
-             * Random.nextInt(int num)	返回一个在[0, n)
-             * 所以不会造成数组下标越界的情况
+            /*
+              生成随机数，取绝对值，防止生成负数
+              Random.nextInt(int num)	返回一个在[0, n)
+              所以不会造成数组下标越界的情况
              */
             i = Math.abs(random.nextInt(maxNum));
             if (i >= 0 && i < str.length) {

@@ -32,7 +32,7 @@ import java.util.*;
  * 操作ip的工具类.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0 13-12-10 下午11:37
+ * @date 13-12-10 下午11:37
  */
 public class IpUtils {
     private static final Logger logger = LoggerFactory.getLogger(IpUtils.class);
@@ -55,8 +55,7 @@ public class IpUtils {
      * map is {"region":"江苏省","area_id":"300000","country_id":"CN","isp":"电信","region_id":"320000","country":"中国","city":"南京市","isp_id":"100017","ip":"222.94.109.17","city_id":"320100","area":"华东","county":"","county_id":"-1"}
      *
      * @param ip ip
-     * @return
-     * @throws java.io.IOException
+     * @return IP地址的全部信息
      */
     @SuppressWarnings("unchecked")
     public static Map<String, String> getAllInfo(String ip) {
@@ -89,7 +88,7 @@ public class IpUtils {
      * GET The Country of given IP!
      *
      * @param ip ip
-     * @return
+     * @return Country
      */
     public static String getCountry(String ip) {
         return get(ip, IpKey.COUNTRY);
@@ -99,7 +98,7 @@ public class IpUtils {
      * GET The Area of given IP!
      *
      * @param ip ip
-     * @return
+     * @return Area
      */
     public static String getArea(String ip) {
         return get(ip, IpKey.AREA);
@@ -109,7 +108,7 @@ public class IpUtils {
      * GET The Region of given IP!
      *
      * @param ip ip
-     * @return
+     * @return Region
      */
     public static String getRegion(String ip) {
         return get(ip, IpKey.REGION);
@@ -119,7 +118,7 @@ public class IpUtils {
      * GET The City of given IP!
      *
      * @param ip ip
-     * @return
+     * @return City
      */
     public static String getCity(String ip) {
         return get(ip, IpKey.CITY);
@@ -129,7 +128,7 @@ public class IpUtils {
      * GET The Isp of given IP!
      *
      * @param ip ip
-     * @return
+     * @return Isp
      */
     public static String getIsp(String ip) {
         return get(ip, IpKey.ISP);
@@ -139,7 +138,7 @@ public class IpUtils {
      * GET The County of given IP!
      *
      * @param ip ip
-     * @return
+     * @return County
      */
     public static String getCounty(String ip) {
         return get(ip, IpKey.COUNTY);
@@ -150,7 +149,7 @@ public class IpUtils {
      *
      * @param ip  ip
      * @param key IpKey中的值
-     * @return
+     * @return 信息
      */
     public static String get(String ip, IpKey key) {
         Map<String, String> allInfo = getAllInfo(ip);

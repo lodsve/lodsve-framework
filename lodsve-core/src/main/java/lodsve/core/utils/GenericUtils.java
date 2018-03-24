@@ -30,7 +30,7 @@ import java.util.Set;
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
- * @createTime 2015-1-6 16:20
+ * @date 2015-1-6 16:20
  */
 public class GenericUtils {
     private GenericUtils() {

@@ -26,7 +26,7 @@ import java.util.Random;
  * 验证码生成器.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 14-5-10 下午10:04
+ * @date 14-5-10 下午10:04
  */
 public class CodeBuilder {
     /**

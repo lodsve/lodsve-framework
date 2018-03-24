@@ -48,7 +48,7 @@ import java.util.Map;
 /**
  * 验证引擎核心组件.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
  * @createTime 12-11-26 下午9:53
  */
@@ -278,7 +278,7 @@ public class ValidateEngine implements InitializingBean {
      * @return
      * @throws Exception
      */
-    private List<Field> getValidateFields(Class<?> clazz) throws Exception {
+    private List<Field> getValidateFields(Class<?> clazz) {
         if (clazz == null) {
             logger.error("given empty class!");
             return Collections.emptyList();

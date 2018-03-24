@@ -22,7 +22,6 @@ import lodsve.validate.annotations.NotNull;
 import lodsve.validate.core.AbstractValidateHandler;
 import lodsve.validate.exception.ErrorMessage;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 
 /**
@@ -33,7 +32,7 @@ import java.lang.annotation.Annotation;
  * @createTime 12-11-26 下午8:51
  */
 public class NotNullHandler extends AbstractValidateHandler {
-    public NotNullHandler() throws IOException {
+    public NotNullHandler() {
         super();
     }
 

@@ -17,12 +17,6 @@
 
 package lodsve.core.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
@@ -35,11 +29,18 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * HttpClient的工具类.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0 13-12-11 下午6:50
+ * @date 13-12-11 下午6:50
  */
 public class HttpClientUtils {
     private static final Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);

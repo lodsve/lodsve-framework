@@ -24,9 +24,9 @@ import java.io.Serializable;
 /**
  * 返回结果集.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
- * @createTime 13-7-6 上午7:58
+ * @date 13-7-6 上午7:58
  */
 public class ResultSet implements Serializable {
     public Boolean result = Boolean.FALSE;
@@ -36,7 +36,7 @@ public class ResultSet implements Serializable {
     /**
      * 构造器
      *
-     * @param result        布尔型
+     * @param result 布尔型
      */
     public ResultSet(Boolean result) {
         this.result = result;
@@ -48,7 +48,7 @@ public class ResultSet implements Serializable {
     /**
      * 构造器
      *
-     * @param status        状态码
+     * @param status 状态码
      */
     public ResultSet(Integer status) {
         this.status = status;
@@ -60,8 +60,8 @@ public class ResultSet implements Serializable {
     /**
      * 构造器
      *
-     * @param status        状态码
-     * @param msg           信息
+     * @param status 状态码
+     * @param msg    信息
      */
     public ResultSet(Integer status, String msg) {
         this.status = status;
@@ -72,8 +72,8 @@ public class ResultSet implements Serializable {
     /**
      * 构造器
      *
-     * @param result        布尔值
-     * @param msg           信息
+     * @param result 布尔值
+     * @param msg    信息
      */
     public ResultSet(Boolean result, String msg) {
         this.result = result;

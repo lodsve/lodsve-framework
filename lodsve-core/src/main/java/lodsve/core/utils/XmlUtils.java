@@ -44,8 +44,8 @@ import java.util.Map;
 /**
  * xml工具类.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2015-11-18 13:58
+ * @author sunhao(sunhao.java @ gmail.com)
+ * @date 2015-11-18 13:58
  */
 public final class XmlUtils {
     private static final SAXReader SAX_READER = new SAXReader();

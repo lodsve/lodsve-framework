@@ -38,7 +38,7 @@ import java.util.Map;
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
- * @createTime 2012-2-15 下午10:12:52
+ * @date 2012-2-15 下午10:12:52
  */
 public class RequestUtils {
 

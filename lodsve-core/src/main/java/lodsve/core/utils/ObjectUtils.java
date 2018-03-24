@@ -32,14 +32,10 @@ import java.util.Set;
 /**
  * object util class
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @createtime 2012-6-26 上午09:44:13
+ * @author sunhao(sunhao.java @ gmail.com)
+ * @date 2012-6-26 上午09:44:13
  */
 public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
-    /**
-     * 默认方法名前缀
-     */
-    private static final String DEFAULT_METHOD_PREFIX = "get";
 
     private ObjectUtils() {
         super();
@@ -51,7 +47,7 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
      * @param obj
      * @return
      */
-    public static boolean isEmpty(Object obj) throws Exception {
+    public static boolean isEmpty(Object obj) {
         return obj == null;
     }
 
@@ -61,7 +57,7 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
      * @param obj
      * @return
      */
-    public static boolean isNotEmpty(Object obj) throws Exception {
+    public static boolean isNotEmpty(Object obj) {
         return !isEmpty(obj);
     }
 
@@ -70,9 +66,8 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
      *
      * @param obj
      * @return
-     * @throws Exception
      */
-    public static Class<?> getClazz(Object obj) throws Exception {
+    public static Class<?> getType(Object obj) {
         return isEmpty(obj) ? null : obj.getClass();
     }
 
@@ -134,9 +129,8 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
      *
      * @param obj
      * @return
-     * @throws Exception
      */
-    public static Field[] getFields(Object obj) throws Exception {
+    public static Field[] getFields(Object obj) {
         if (isEmpty(obj)) {
             return new Field[0];
         }
@@ -178,7 +172,7 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
      * @param first
      * @param second
      */
-    public static Object mergerObject(Object first, Object second) throws Exception {
+    public static Object mergerObject(Object first, Object second) throws IllegalAccessException {
         if (first == null || second == null) {
             return null;
         }

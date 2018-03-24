@@ -24,16 +24,17 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * cookie处理工具类
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
- * @createTime 2012-7-10 下午02:41:14
+ * @date 2012-7-10 下午02:41:14
  */
 public class CookieUtils {
 
     /**
      * 私有化构造器
      */
-    private CookieUtils(){}
+    private CookieUtils() {
+    }
 
     /**
      * 设置cookie
@@ -43,7 +44,7 @@ public class CookieUtils {
      * @param value    cookie的值
      * @throws Exception
      */
-    public static void setCookie(final HttpServletResponse response, final String name, final String value) throws Exception {
+    public static void setCookie(final HttpServletResponse response, final String name, final String value) {
         setCookie(response, name, value, "/", "", "", -1);
     }
 
@@ -54,7 +55,7 @@ public class CookieUtils {
      * @param name     cookie的名称
      * @throws Exception
      */
-    public static void removeCookie(final HttpServletResponse response, final String name) throws Exception {
+    public static void removeCookie(final HttpServletResponse response, final String name) {
         setCookie(response, name, "", "/", "", "", 0);
     }
 
@@ -71,7 +72,7 @@ public class CookieUtils {
      *                 如果设置为负值的话，则为浏览器进程Cookie(内存中保存)，关闭浏览器就失效。
      */
     public static void setCookie(final HttpServletResponse response, final String name, final String value,
-                                 String path, String comment, String domain, final int expired) throws Exception {
+                                 String path, String comment, String domain, final int expired) {
         Cookie cookie = new Cookie(name, value);
         cookie.setPath(path);
         cookie.setComment(comment);
@@ -90,7 +91,7 @@ public class CookieUtils {
      * @return
      * @throws Exception
      */
-    public static String getCookieValue(final HttpServletRequest request, final String name) throws Exception {
+    public static String getCookieValue(final HttpServletRequest request, final String name) {
         if (ObjectUtils.isEmpty(request)) {
             return StringUtils.EMPTY;
         }
