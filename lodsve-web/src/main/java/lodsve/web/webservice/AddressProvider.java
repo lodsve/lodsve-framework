@@ -15,35 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.web.utils;
+package lodsve.web.webservice;
 
-import org.junit.Assert;
-import org.junit.Test;
+import java.lang.annotation.*;
 
 /**
- * .
+ * 提供webservice的address.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 15:59
+ * @version V1.0, 2018-1-15-0015 09:38
  */
-public class IpUtilsTest {
-    @Test
-    public void testGetAllInfo() {
-        Assert.assertNotNull(IpUtils.getAllInfo("180.97.33.107"));
-    }
-
-    @Test
-    public void testGetCountry(){
-        Assert.assertNotNull(IpUtils.getCountry("180.97.33.107"));
-    }
-
-    @Test
-    public void testGetInetIps(){
-        Assert.assertNotNull(IpUtils.getInetIps());
-    }
-
-    @Test
-    public void testGetInetIp(){
-        Assert.assertNotNull(IpUtils.getInetIp());
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Documented
+@Inherited
+public @interface AddressProvider {
+    /**
+     * 提供address
+     *
+     * @return address
+     */
+    String value();
 }

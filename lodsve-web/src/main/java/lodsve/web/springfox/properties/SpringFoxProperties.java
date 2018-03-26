@@ -15,35 +15,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.web.utils;
+package lodsve.web.springfox.properties;
 
-import org.junit.Assert;
-import org.junit.Test;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 
 /**
- * .
+ * 配置springfox的相关参数.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 15:59
+ * @author sunhao(sunhao.java@gmail.com)
+ * @version V1.0, 16/1/23 下午8:50
  */
-public class IpUtilsTest {
-    @Test
-    public void testGetAllInfo() {
-        Assert.assertNotNull(IpUtils.getAllInfo("180.97.33.107"));
+@ConfigurationProperties(prefix = "lodsve.springfox", locations = "${params.root}/framework/springfox.properties")
+public class SpringFoxProperties {
+
+    private String title;
+    private String description;
+
+    public String getTitle() {
+        return title;
     }
 
-    @Test
-    public void testGetCountry(){
-        Assert.assertNotNull(IpUtils.getCountry("180.97.33.107"));
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    @Test
-    public void testGetInetIps(){
-        Assert.assertNotNull(IpUtils.getInetIps());
+    public String getDescription() {
+        return description;
     }
 
-    @Test
-    public void testGetInetIp(){
-        Assert.assertNotNull(IpUtils.getInetIp());
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

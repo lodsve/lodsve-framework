@@ -17,13 +17,13 @@
 
 package lodsve.web.utils;
 
-import lodsve.utils.RestUtils;
 import lodsve.web.utils.domain.Demo;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 /**
  * .
@@ -34,29 +34,35 @@ import java.net.URISyntaxException;
 public class RestUtilsTest {
 
     /**
+     * @see RestUtils#get(URI, Class)
+     */
+    @Test
+    public void get() throws URISyntaxException {
+        // 测试具体返回值
+        URI uri = new URI("http://localhost:8080/demo/demo/11");
+        Demo demo = RestUtils.get(uri, Demo.class);
+        Assert.assertNotNull(demo);
+    }
+
+    /**
+     * @see RestUtils#get(String, Class, Object...)
+     */
+    @Test
+    public void get1() {
+    }
+
+    /**
      * @see RestUtils#get(String, Class)
      */
     @Test
-    public void get() {
+    public void get2() {
         // 测试void
         Assert.assertNull(RestUtils.get("http://localhost:8080/demo/void", Void.class));
     }
 
     /**
-     * @see RestUtils#get(URI, Class)
+     * @see RestUtils#get(String, Class, Map)
      */
-    @Test
-    public void get1() throws URISyntaxException {
-        // 测试具体返回值
-        URI uri = new URI("http://localhost:8080/demo/demo/11");
-        Demo demo = RestUtils.get(uri, Demo.class);
-        System.out.println(demo);
-    }
-
-    @Test
-    public void get2() {
-    }
-
     @Test
     public void get3() {
     }

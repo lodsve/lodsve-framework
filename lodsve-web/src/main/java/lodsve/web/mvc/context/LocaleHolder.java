@@ -15,35 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.web.utils;
+package lodsve.web.mvc.context;
 
-import org.junit.Assert;
-import org.junit.Test;
+import java.util.Locale;
 
 /**
- * .
+ * 语言.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 15:59
+ * @author sunhao(sunhao.java@gmail.com)
+ * @version V1.0
+ * @createTime 13-6-22 下午3:11
  */
-public class IpUtilsTest {
-    @Test
-    public void testGetAllInfo() {
-        Assert.assertNotNull(IpUtils.getAllInfo("180.97.33.107"));
+public class LocaleHolder {
+    private final static ThreadLocal<Locale> LOCALE_THREAD_LOCAL = new ThreadLocal<>();
+
+    public static void setLocale(Locale locale){
+        LOCALE_THREAD_LOCAL.set(locale);
     }
 
-    @Test
-    public void testGetCountry(){
-        Assert.assertNotNull(IpUtils.getCountry("180.97.33.107"));
+    public static Locale getLocale(){
+        return LOCALE_THREAD_LOCAL.get();
     }
 
-    @Test
-    public void testGetInetIps(){
-        Assert.assertNotNull(IpUtils.getInetIps());
-    }
-
-    @Test
-    public void testGetInetIp(){
-        Assert.assertNotNull(IpUtils.getInetIp());
+    public static void removeLocale() {
+        LOCALE_THREAD_LOCAL.remove();
     }
 }

@@ -15,35 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.web.utils;
+package lodsve.web.mvc.annotation;
 
-import org.junit.Assert;
-import org.junit.Test;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * .
+ * 需要注入参数.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 15:59
+ * @author sunhao(sunhao.java@gmail.com)
+ * @version V1.0
+ * @createTime 2014-12-19 11:04
  */
-public class IpUtilsTest {
-    @Test
-    public void testGetAllInfo() {
-        Assert.assertNotNull(IpUtils.getAllInfo("180.97.33.107"));
-    }
+@Target({ElementType.PARAMETER})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface WebResource {
 
-    @Test
-    public void testGetCountry(){
-        Assert.assertNotNull(IpUtils.getCountry("180.97.33.107"));
-    }
-
-    @Test
-    public void testGetInetIps(){
-        Assert.assertNotNull(IpUtils.getInetIps());
-    }
-
-    @Test
-    public void testGetInetIp(){
-        Assert.assertNotNull(IpUtils.getInetIp());
-    }
 }

@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import lodsve.utils.RestUtils;
+import lodsve.web.utils.RestUtils;
 import lodsve.core.utils.StringUtils;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;

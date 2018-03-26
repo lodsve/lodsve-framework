@@ -15,35 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.web.utils;
+package lodsve.web.mvc.context;
 
-import org.junit.Assert;
-import org.junit.Test;
+import javax.servlet.http.HttpServletResponse;
 
 /**
- * .
+ * response.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 15:59
+ * @author sunhao(sunhao.java@gmail.com)
+ * @version 1.0 2017/5/8 下午2:37
  */
-public class IpUtilsTest {
-    @Test
-    public void testGetAllInfo() {
-        Assert.assertNotNull(IpUtils.getAllInfo("180.97.33.107"));
+public class ResponseHolder {
+    private final static ThreadLocal<HttpServletResponse> RESPONSE_THREAD_LOCAL = new ThreadLocal<>();
+
+    public static void setResponse(HttpServletResponse response) {
+        RESPONSE_THREAD_LOCAL.set(response);
     }
 
-    @Test
-    public void testGetCountry(){
-        Assert.assertNotNull(IpUtils.getCountry("180.97.33.107"));
+    public static HttpServletResponse getResponse() {
+        return RESPONSE_THREAD_LOCAL.get();
     }
 
-    @Test
-    public void testGetInetIps(){
-        Assert.assertNotNull(IpUtils.getInetIps());
-    }
-
-    @Test
-    public void testGetInetIp(){
-        Assert.assertNotNull(IpUtils.getInetIp());
+    public static void removeResponse() {
+        RESPONSE_THREAD_LOCAL.remove();
     }
 }

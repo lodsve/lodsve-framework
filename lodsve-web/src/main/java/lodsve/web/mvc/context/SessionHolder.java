@@ -15,35 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.web.utils;
+package lodsve.web.mvc.context;
 
-import org.junit.Assert;
-import org.junit.Test;
+import javax.servlet.http.HttpSession;
 
 /**
- * .
+ * session.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 15:59
+ * @author sunhao(sunhao.java@gmail.com)
+ * @version 1.0 2017/5/8 下午2:37
  */
-public class IpUtilsTest {
-    @Test
-    public void testGetAllInfo() {
-        Assert.assertNotNull(IpUtils.getAllInfo("180.97.33.107"));
+public class SessionHolder {
+    private final static ThreadLocal<HttpSession> SESSION_THREAD_LOCAL = new ThreadLocal<>();
+
+    public static void setSession(HttpSession session) {
+        SESSION_THREAD_LOCAL.set(session);
     }
 
-    @Test
-    public void testGetCountry(){
-        Assert.assertNotNull(IpUtils.getCountry("180.97.33.107"));
+    public static HttpSession getSession() {
+        return SESSION_THREAD_LOCAL.get();
     }
 
-    @Test
-    public void testGetInetIps(){
-        Assert.assertNotNull(IpUtils.getInetIps());
-    }
-
-    @Test
-    public void testGetInetIp(){
-        Assert.assertNotNull(IpUtils.getInetIp());
+    public static void removeSession() {
+        SESSION_THREAD_LOCAL.remove();
     }
 }
