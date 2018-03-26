@@ -115,58 +115,58 @@ public class RestUtils {
 
     // HEAD
 
-    public HttpHeaders head(String url, Object... urlVariables) throws RestClientException {
+    public static HttpHeaders head(String url, Object... urlVariables) throws RestClientException {
         return head(expand(url, urlVariables));
     }
 
-    public HttpHeaders head(String url, Map<String, ?> urlVariables) throws RestClientException {
+    public static HttpHeaders head(String url, Map<String, ?> urlVariables) throws RestClientException {
         return head(expand(url, urlVariables));
     }
 
-    public HttpHeaders head(URI url) throws RestClientException {
+    public static HttpHeaders head(URI url) throws RestClientException {
         return TEMPLATE.headForHeaders(url);
     }
 
     // PUT
 
-    public void put(String url, Object request, Object... urlVariables) throws RestClientException {
+    public static void put(String url, Object request, Object... urlVariables) throws RestClientException {
         put(expand(url, urlVariables), request);
 
     }
 
-    public void put(String url, Object request, Map<String, ?> urlVariables) throws RestClientException {
+    public static void put(String url, Object request, Map<String, ?> urlVariables) throws RestClientException {
         put(expand(url, urlVariables), request);
     }
 
-    public void put(URI url, Object request) throws RestClientException {
+    public static void put(URI url, Object request) throws RestClientException {
         TEMPLATE.put(url, request);
     }
 
     // DELETE
 
-    public void delete(String url, Object... urlVariables) throws RestClientException {
+    public static void delete(String url, Object... urlVariables) throws RestClientException {
         delete(expand(url, urlVariables));
     }
 
-    public void delete(String url, Map<String, ?> urlVariables) throws RestClientException {
+    public static void delete(String url, Map<String, ?> urlVariables) throws RestClientException {
         delete(expand(url, urlVariables));
     }
 
-    public void delete(URI url) throws RestClientException {
+    public static void delete(URI url) throws RestClientException {
         TEMPLATE.delete(url);
     }
 
     // OPTIONS
 
-    public Set<HttpMethod> options(String url, Object... urlVariables) throws RestClientException {
+    public static Set<HttpMethod> options(String url, Object... urlVariables) throws RestClientException {
         return options(expand(url, urlVariables));
     }
 
-    public Set<HttpMethod> options(String url, Map<String, ?> urlVariables) throws RestClientException {
+    public static Set<HttpMethod> options(String url, Map<String, ?> urlVariables) throws RestClientException {
         return options(expand(url, urlVariables));
     }
 
-    public Set<HttpMethod> options(URI url) throws RestClientException {
+    public static Set<HttpMethod> options(URI url) throws RestClientException {
         return TEMPLATE.optionsForAllow(url);
     }
 
