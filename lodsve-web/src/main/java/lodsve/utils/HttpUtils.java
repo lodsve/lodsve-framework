@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.utils;
+package lodsve.utils;
 
+import lodsve.core.utils.StringUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
@@ -42,8 +43,8 @@ import java.util.Map;
  * @author sunhao(sunhao.java@gmail.com)
  * @date 13-12-11 下午6:50
  */
-public class HttpClientUtils {
-    private static final Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
+public class HttpUtils {
+    private static final Logger logger = LoggerFactory.getLogger(HttpUtils.class);
 
     /**
      * Default charset for each request.
@@ -57,7 +58,7 @@ public class HttpClientUtils {
     /**
      * 构造器私有化
      */
-    private HttpClientUtils() {
+    private HttpUtils() {
     }
 
     /**

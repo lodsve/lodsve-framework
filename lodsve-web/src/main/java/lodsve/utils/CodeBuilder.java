@@ -15,7 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.utils;
+package lodsve.utils;
+
+import lodsve.core.utils.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.awt.*;

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.utils;
+package lodsve.utils;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;

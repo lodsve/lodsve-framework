@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.utils;
+package lodsve.utils;
 
 import lodsve.core.json.JsonUtils;
+import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,7 +67,7 @@ public class IpUtils {
 
         String message;
         try {
-            message = HttpClientUtils.get(String.format(REQUEST_URL, ip));
+            message = HttpUtils.get(String.format(REQUEST_URL, ip));
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
             return Collections.emptyMap();

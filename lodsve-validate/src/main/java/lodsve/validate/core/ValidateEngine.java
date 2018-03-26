@@ -288,7 +288,7 @@ public class ValidateEngine implements InitializingBean {
         // 内存中不存在这个类的需要验证字段
         if (CollectionUtils.isEmpty(fieldList)) {
             fieldList = new ArrayList<>();
-            Field[] fields = ObjectUtils.getFields(BeanUtils.instantiate(clazz));
+            Field[] fields = ObjectUtils.getFields(clazz);
             for (Field f : fields) {
                 Annotation[] ans = f.getAnnotations();
                 for (Annotation a : ans) {
