@@ -18,18 +18,19 @@
 package lodsve.mongodb.config;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.Required;
 
 import java.util.Map;
 
 /**
  * mongodb base properties.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/1/21 下午6:55
  */
 @ConfigurationProperties(prefix = "lodsve.mongo", locations = "${params.root}/framework/mongo.properties")
 public class MongoProperties {
-    private int maxpoolsize;
+    private int maxpoolsize = 10;
     private Map<String, MongoConnection> project;
 
     public int getMaxpoolsize() {
@@ -48,11 +49,14 @@ public class MongoProperties {
         this.project = project;
     }
 
-    public static class MongoConnection{
+    public static class MongoConnection {
+        @Required
         private String url;
+        @Required
         private String username;
+        @Required
         private String password;
-        private int maxpoolsize;
+        private int maxpoolsize = 0;
 
         public String getUrl() {
             return url;

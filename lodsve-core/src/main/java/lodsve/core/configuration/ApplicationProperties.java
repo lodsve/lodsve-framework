@@ -30,7 +30,7 @@ public class ApplicationProperties {
     /**
      * 开发模式
      */
-    private boolean devMode;
+    private boolean devMode = true;
     private ThreadConfig thread;
 
     public boolean isDevMode() {

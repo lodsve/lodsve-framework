@@ -18,6 +18,7 @@
 package lodsve.web.mvc.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.Required;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +34,12 @@ public class ServerProperties {
     /**
      * 前台URL
      */
+    @Required
     private String frontEndUrl;
     /**
      * 服务端URL
      */
+    @Required
     private String serverUrl;
     /**
      * debug配置

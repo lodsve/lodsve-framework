@@ -27,10 +27,10 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "lodsve.druid", locations = "${params.root}/framework/druid.properties")
 public class DruidProperties {
-    private String filters;
+    private String filters = "stat\\,wall";
     private boolean enableMonitor = false;
     private String path = "/druid/*";
-    private String resetEnable;
+    private String resetEnable = "true";
     private String user;
     private String password;
     private String allow;

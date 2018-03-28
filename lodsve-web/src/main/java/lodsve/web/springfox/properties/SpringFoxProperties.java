@@ -28,8 +28,8 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 @ConfigurationProperties(prefix = "lodsve.springfox", locations = "${params.root}/framework/springfox.properties")
 public class SpringFoxProperties {
 
-    private String title;
-    private String description;
+    private String title = "RESTful Api Documentation";
+    private String description = "RESTful Api Documentation";
 
     public String getTitle() {
         return title;

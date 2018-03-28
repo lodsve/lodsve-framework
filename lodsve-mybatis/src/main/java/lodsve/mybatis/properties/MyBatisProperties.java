@@ -18,6 +18,7 @@
 package lodsve.mybatis.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.Required;
 
 /**
  * mybatis 配置.
@@ -38,10 +39,12 @@ public class MyBatisProperties {
     /**
      * 含有{@link org.springframework.stereotype.Repository }注解的dao类所在的包路径,可以多个
      */
+    @Required
     private String[] basePackages;
     /**
      * 枚举类型所在包路径,可以多个
      */
+    @Required
     private String[] enumsLocations;
     /**
      * 是否支持事务

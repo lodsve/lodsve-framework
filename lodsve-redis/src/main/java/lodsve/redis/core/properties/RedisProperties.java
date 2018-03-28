@@ -82,7 +82,6 @@ public class RedisProperties {
      * Pool properties.
      */
     public static class Pool {
-
         private int maxIdle = 200;
         private int minIdle = 10;
         private int maxWait = 60000;

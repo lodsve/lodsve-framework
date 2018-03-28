@@ -18,13 +18,14 @@
 package lodsve.mybatis.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.Required;
 
 import java.util.Map;
 
 /**
  * rdbms base properties,only support BasicDataSource and DruidDataSource.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 2016-1-27 09:20
  */
 @ConfigurationProperties(prefix = "lodsve.rdbms", locations = "${params.root}/framework/rdbms.properties")
@@ -32,7 +33,7 @@ public class RdbmsProperties {
     /**
      * 数据源类型
      */
-    private String dataSourceClass;
+    private String dataSourceClass = "org.apache.commons.dbcp.BasicDataSource";
     /**
      * 连接信息
      */
@@ -55,21 +56,24 @@ public class RdbmsProperties {
     }
 
     public static class PoolSetting {
-        private String driverClassName;
+        private String driverClassName = "com.mysql.jdbc.Driver";
+        @Required
         private String url;
+        @Required
         private String username;
+        @Required
         private String password;
-        private Integer initialSize;
-        private Integer maxActive;
-        private Integer minIdle;
-        private Integer maxWait;
-        private Boolean removeAbandoned;
-        private Integer removeAbandonedTimeout;
-        private Boolean testOnBorrow;
-        private Boolean testOnReturn;
-        private Boolean testWhileIdle;
-        private String validationQuery;
-        private Integer maxIdle;
+        private Integer initialSize = 10;
+        private Integer maxActive = 100;
+        private Integer minIdle = 20;
+        private Integer maxWait = 60000;
+        private Boolean removeAbandoned = true;
+        private Integer removeAbandonedTimeout = 180;
+        private Boolean testOnBorrow = true;
+        private Boolean testOnReturn = true;
+        private Boolean testWhileIdle = false;
+        private String validationQuery = "select 1";
+        private Integer maxIdle = 5;
 
         public String getDriverClassName() {
             return driverClassName;

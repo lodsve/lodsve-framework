@@ -18,6 +18,7 @@
 package lodsve.amqp.configs;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.Required;
 
 /**
  * rabbit mq base properties.
@@ -27,14 +28,17 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "lodsve.rabbit", locations = "${params.root}/framework/rabbit.properties")
 public class RabbitProperties {
+    @Required
     private String address;
+    @Required
     private String username;
+    @Required
     private String password;
-    private String defaultExchange;
+    private String defaultExchange = "exchange.direct.default";
     /**
      * Whether rejected deliveries are requeued by default; default true.
      */
-    private Boolean defaultRequeueRejected;
+    private Boolean defaultRequeueRejected = true;
 
     public String getAddress() {
         return address;
