@@ -32,13 +32,8 @@ import java.io.IOException;
  * @version V1.0
  * @date 12-3-21 下午8:56
  */
-public class VerityCode extends HttpServlet {
+public class CaptchaServlet extends HttpServlet {
     private static final long serialVersionUID = -4395293913583955749L;
-
-    /**
-     * 验证码在session中默认的ID
-     */
-    public static final String VERITY_CODE_KEY = "verityCode";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -53,7 +48,7 @@ public class VerityCode extends HttpServlet {
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
 
-        BufferedImage image = CodeBuilder.buildCode(4, request, VERITY_CODE_KEY);
+        BufferedImage image = CaptchaUtils.buildCode(4, request);
 
         // 输出图象到页面
         ImageIO.write(image, "JPEG", response.getOutputStream());

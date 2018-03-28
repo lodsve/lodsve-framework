@@ -18,6 +18,7 @@
 package lodsve.web.utils;
 
 import lodsve.core.utils.StringUtils;
+import lodsve.web.mvc.properties.ServerProperties;
 
 import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
@@ -27,27 +28,24 @@ import java.util.Random;
 /**
  * 验证码生成器.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @date 14-5-10 下午10:04
  */
-public class CodeBuilder {
-    /**
-     * 验证码在session中默认的ID
-     */
-    public static final String VERITY_CODE_KEY = "verityCode";
+public class CaptchaUtils {
+    private static ServerProperties serverProperties;
 
-    private CodeBuilder() {
+    protected static void setServerProperties(ServerProperties serverProperties) {
+        CaptchaUtils.serverProperties = serverProperties;
     }
 
     /**
      * 生成验证码图片文件
      *
      * @param length  验证码数字长度
-     * @param request
-     * @param key     数字字符串放入session中的key
-     * @return
+     * @param request request
+     * @return 验证码图片
      */
-    public static BufferedImage buildCode(int length, HttpServletRequest request, String key) {
+    public static BufferedImage buildCode(int length, HttpServletRequest request) {
         length = (length <= 0 ? 4 : length);
         //内存中创建图像
         int width = length * 15, height = 20;
@@ -93,8 +91,7 @@ public class CodeBuilder {
         // 将认证码存入SESSION
         // 默认的session key
         if (request != null) {
-            key = (StringUtils.isEmpty(key) ? VERITY_CODE_KEY : key);
-            request.getSession().setAttribute(key, sRand);
+            request.getSession().setAttribute(serverProperties.getCaptchaKey(), sRand);
         }
 
         return image;
@@ -114,5 +111,21 @@ public class CodeBuilder {
         int blue = fontColor + random.nextInt(backColor - fontColor);
 
         return new Color(red, green, blue);
+    }
+
+    /**
+     * 校验验证码
+     *
+     * @param request request
+     * @param text    用户输入的验证码
+     * @return 校验结果
+     */
+    public static boolean validate(HttpServletRequest request, String text) {
+        if (StringUtils.isBlank(text)) {
+            return false;
+        }
+
+        Object verificationCode = request.getSession().getAttribute(serverProperties.getCaptchaKey());
+        return verificationCode != null && StringUtils.equalsIgnoreCase(text, verificationCode.toString());
     }
 }

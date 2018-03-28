@@ -19,6 +19,7 @@ package lodsve.core;
 
 import lodsve.core.io.support.LodsveResourceLoader;
 import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.WebApplicationInitializer;
@@ -32,10 +33,11 @@ import java.util.List;
 /**
  * 模仿spring-boot打印出banner.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author sunhao(sunhao.java @ .com)
  * @version 1.0 2018/1/11 下午10:13
  */
-public class LodsveBannerPrinter implements WebApplicationInitializer, Ordered {
+@Order(Ordered.HIGHEST_PRECEDENCE)
+public class LodsveBannerPrinter implements WebApplicationInitializer {
     private static final Banner DEFAULT_BANNER = new LodsveBanner();
     private static final String DEFAULT_BANNER_TEXT_NAME = "banner.txt";
     private static final String[] IMAGE_EXTENSION = {"gif", "jpg", "png"};
@@ -75,11 +77,6 @@ public class LodsveBannerPrinter implements WebApplicationInitializer, Ordered {
         }
 
         return null;
-    }
-
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
     }
 
     static class Banners implements Banner {

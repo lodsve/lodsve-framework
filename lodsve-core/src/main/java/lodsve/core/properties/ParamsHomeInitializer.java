@@ -20,9 +20,12 @@ package lodsve.core.properties;
 import lodsve.core.logger.Log4JConfiguration;
 import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.ini.IniLoader;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.web.WebApplicationInitializer;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 import static lodsve.core.properties.ParamsHome.PARAMS_HOME_NAME;
 
@@ -44,14 +47,6 @@ import static lodsve.core.properties.ParamsHome.PARAMS_HOME_NAME;
  *  &lt;/context-param&gt;
  * </pre>
  * </li>
- * <li>
- * 配置listener[应该配置在web.xml中的所有listener之前，优先加载]
- * <pre>
- *  &lt;listener&gt;
- *      &lt;listener-class&gt;lodsve.core.properties.init.ParamsHomeListener&lt;/listener-class&gt;
- *  &lt;/listener&gt;
- * </pre>
- * </li>
  * </ul>
  * </li>
  * <li>
@@ -71,15 +66,12 @@ import static lodsve.core.properties.ParamsHome.PARAMS_HOME_NAME;
  * @version V1.0
  * @createTime 2015-1-5 10:00
  */
-public class ParamsHomeListener implements ServletContextListener {
-    @Override
-    public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        ParamsHome.getInstance().cleanParamsRoot();
-    }
+@Order(Ordered.HIGHEST_PRECEDENCE + 1)
+public class ParamsHomeInitializer implements WebApplicationInitializer {
 
     @Override
-    public void contextInitialized(ServletContextEvent servletContextEvent) {
-        String paramsHome = servletContextEvent.getServletContext().getInitParameter(PARAMS_HOME_NAME);
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        String paramsHome = servletContext.getInitParameter(PARAMS_HOME_NAME);
         System.out.println(String.format("get init parameter '%s' from web.xml is '%s'", PARAMS_HOME_NAME, paramsHome));
 
         ParamsHome.getInstance().init(paramsHome);

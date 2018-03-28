@@ -42,6 +42,18 @@ public class ServerProperties {
      * debug配置
      */
     private Debug debug;
+    /**
+     * 是否启用验证码
+     */
+    private boolean enableCaptcha = false;
+    /**
+     * 验证码在session中的key
+     */
+    private String captchaKey = "captchaKey";
+    /**
+     * 请求验证码的路径
+     */
+    private String path = "/captcha";
 
     public String getFrontEndUrl() {
         return frontEndUrl;
@@ -65,6 +77,30 @@ public class ServerProperties {
 
     public void setDebug(Debug debug) {
         this.debug = debug;
+    }
+
+    public boolean isEnableCaptcha() {
+        return enableCaptcha;
+    }
+
+    public void setEnableCaptcha(boolean enableCaptcha) {
+        this.enableCaptcha = enableCaptcha;
+    }
+
+    public String getCaptchaKey() {
+        return captchaKey;
+    }
+
+    public void setCaptchaKey(String captchaKey) {
+        this.captchaKey = captchaKey;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public static class Debug {
