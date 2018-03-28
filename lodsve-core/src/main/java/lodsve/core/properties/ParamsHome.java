@@ -107,8 +107,6 @@ public class ParamsHome {
             paramsPath = PREFIX_FILE + paramsPath;
         }
 
-        System.out.println(String.format("解析得到的paramsPath为【%s】", paramsPath));
-
         String rootPropertiesPath = paramsPath + File.separator + ROOT_PARAM_FILE_NAME;
         Resource paramsResource = new LodsveResourceLoader().getResource(org.springframework.util.StringUtils.cleanPath(rootPropertiesPath));
 
@@ -125,7 +123,6 @@ public class ParamsHome {
         }
 
         PARAMS_ROOT = org.springframework.util.StringUtils.cleanPath(paramsPath + File.separator + root);
-        System.out.println(String.format("获取到的配置文件路径为:'%s'", PARAMS_ROOT));
 
         // 获取devMode的值
         if (isDevMode()) {
@@ -154,8 +151,6 @@ public class ParamsHome {
         if (StringUtils.isBlank(filePath)) {
             return;
         }
-
-        System.out.println(String.format("获取到%s路径为'{%s}'!", EXT_PARAMS_FILE_NAME, filePath));
 
         Resource resource = new FileSystemResource(filePath);
         if (!resource.exists()) {

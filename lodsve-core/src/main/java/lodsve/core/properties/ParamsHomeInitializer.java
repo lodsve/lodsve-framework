@@ -72,7 +72,6 @@ public class ParamsHomeInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         String paramsHome = servletContext.getInitParameter(PARAMS_HOME_NAME);
-        System.out.println(String.format("get init parameter '%s' from web.xml is '%s'", PARAMS_HOME_NAME, paramsHome));
 
         ParamsHome.getInstance().init(paramsHome);
 
