@@ -19,27 +19,20 @@ package lodsve.core.utils;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.util.Assert;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * object util class
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @createtime 2012-6-26 上午09:44:13
+ * @author sunhao(sunhao.java @ gmail.com)
+ * @date 2012-6-26 上午09:44:13
  */
 public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
-    /**
-     * 默认方法名前缀
-     */
-    private static final String DEFAULT_METHOD_PREFIX = "get";
 
     private ObjectUtils() {
         super();
@@ -51,7 +44,7 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
      * @param obj
      * @return
      */
-    public static boolean isEmpty(Object obj) throws Exception {
+    public static boolean isEmpty(Object obj) {
         return obj == null;
     }
 
@@ -61,7 +54,7 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
      * @param obj
      * @return
      */
-    public static boolean isNotEmpty(Object obj) throws Exception {
+    public static boolean isNotEmpty(Object obj) {
         return !isEmpty(obj);
     }
 
@@ -70,9 +63,8 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
      *
      * @param obj
      * @return
-     * @throws Exception
      */
-    public static Class<?> getClazz(Object obj) throws Exception {
+    public static Class<?> getType(Object obj) {
         return isEmpty(obj) ? null : obj.getClass();
     }
 
@@ -107,13 +99,19 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
         return contain(destArray, new Object[]{srcObj});
     }
 
-    public static Map<String, Object> object2Map(Object obj) {
+    /**
+     * object to map
+     *
+     * @param obj object
+     * @return map, key is field, value is object's value
+     */
+    public static Map<String, Object> objectToMap(Object obj) {
         try {
-            if (obj == null) {
+            if (isEmpty(obj)) {
                 return Collections.emptyMap();
             }
 
-            Field[] fields = getFields(obj);
+            Field[] fields = getFields(obj.getClass());
             Map<String, Object> map = new HashMap<>(fields.length);
             for (Field f : fields) {
                 Object value = getFieldValue(obj, f.getName());
@@ -130,18 +128,17 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
      * 获取对象中的所有字段
      * getFields()与getDeclaredFields()区别:
      * getFields()只能访问类中声明为公有的字段,私有的字段它无法访问.
-     * getDeclaredFields()能访问类中所有的字段,与public,private,protect无关
+     * getDeclaredFields()能访问类中所有的字段,与public,private,protect无关，但是不包括父类的申明字段。
      *
-     * @param obj
-     * @return
-     * @throws Exception
+     * @param clazz class
+     * @return 所有字段
      */
-    public static Field[] getFields(Object obj) throws Exception {
-        if (isEmpty(obj)) {
+    public static Field[] getFields(Class<?> clazz) {
+        if (isEmpty(clazz)) {
             return new Field[0];
         }
 
-        return obj.getClass().getDeclaredFields();
+        return clazz.getDeclaredFields();
     }
 
     /**
@@ -150,42 +147,22 @@ public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
      * @param object    实例对象
      * @param fieldName 字段名称
      * @return 实例字段的值，如果没找到该字段则返回null
-     * @throws IllegalAccessException
      */
-    public static Object getFieldValue(Object object, String fieldName) throws IllegalAccessException {
-        Set<Field> fields = new HashSet<>();
-        // 本类中定义的所有字段
-        Field[] tempFields = object.getClass().getDeclaredFields();
-        for (Field field : tempFields) {
-            field.setAccessible(true);
-            fields.add(field);
-        }
-        // 所有的public字段，包括父类中的
-        tempFields = object.getClass().getFields();
-        Collections.addAll(fields, tempFields);
-
-        for (Field field : fields) {
-            if (field.getName().equals(fieldName)) {
-                return field.get(object);
-            }
-        }
-        return null;
+    public static Object getFieldValue(Object object, String fieldName) {
+        BeanWrapper beanWrapper = new BeanWrapperImpl(object);
+        return beanWrapper.getPropertyValue(fieldName);
     }
 
     /**
      * 合并obj2和obj2的值，并返回，以前一个对象为准
      *
-     * @param first
-     * @param second
+     * @param first  第一个对象
+     * @param second 第二个对象
      */
-    public static Object mergerObject(Object first, Object second) throws Exception {
-        if (first == null || second == null) {
-            return null;
-        }
-
-        if (!first.getClass().equals(second.getClass())) {
-            return null;
-        }
+    public static Object mergerObject(Object first, Object second) throws IllegalAccessException {
+        Assert.notNull(first);
+        Assert.notNull(second);
+        Assert.isTrue(first.getClass().equals(second.getClass()));
 
         Class<?> clazz = first.getClass();
         Object result = BeanUtils.instantiate(clazz);

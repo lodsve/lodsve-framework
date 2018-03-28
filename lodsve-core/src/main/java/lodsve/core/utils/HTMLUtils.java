@@ -45,7 +45,7 @@ import java.util.regex.Pattern;
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
- * @createTime 2012-4-30 下午08:41:54
+ * @date 2012-4-30 下午08:41:54
  */
 public class HTMLUtils {
 
@@ -94,7 +94,7 @@ public class HTMLUtils {
      * @param length 需要截取的长度
      * @param html   html文本
      * @param suffix 代替文本
-     * @return
+     * @return 格式化后的文本
      */
     public static String getRawText(final int length, final String html, final String suffix) {
         if (StringUtils.isBlank(html)) {

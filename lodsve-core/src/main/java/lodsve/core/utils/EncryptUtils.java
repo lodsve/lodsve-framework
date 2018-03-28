@@ -35,7 +35,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
- * @createTime 2015-1-6 20:57
+ * @date 2015-1-6 20:57
  */
 public class EncryptUtils {
     private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};

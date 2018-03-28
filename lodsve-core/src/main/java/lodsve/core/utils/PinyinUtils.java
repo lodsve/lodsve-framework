@@ -33,7 +33,7 @@ import java.util.Set;
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
- * @createTime 2012-07-17 下午01:22
+ * @date 2012-07-17 下午01:22
  */
 public class PinyinUtils {
 
@@ -136,7 +136,7 @@ public class PinyinUtils {
             }
 
             int position = 0;
-            List<StringBuffer> resultList = new ArrayList<StringBuffer>();
+            List<StringBuffer> resultList = new ArrayList<>();
             while (position < temp.length) {
                 position = remakeResultList(temp, position, resultList, separator);
             }
@@ -155,7 +155,7 @@ public class PinyinUtils {
      */
     private static String[] getFristLetter(String[] wholePinyin) {
         for (int i = 0; i < wholePinyin.length; i++) {
-            wholePinyin[i] = ((String) wholePinyin[i]).substring(0, 1);
+            wholePinyin[i] = wholePinyin[i].substring(0, 1);
         }
         return removeRepeat(wholePinyin);
     }
@@ -167,7 +167,7 @@ public class PinyinUtils {
      * @return
      */
     private static String[] removeRepeat(String[] parray) {
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet<>();
         for (String py : parray) {
             if (!set.contains(py)) {
                 set.add(py);

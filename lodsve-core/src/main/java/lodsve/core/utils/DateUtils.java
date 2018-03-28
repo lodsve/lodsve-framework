@@ -201,7 +201,7 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
     /**
      * 获取给定日期的星期数
      *
-     * @param prefix 前缀			ep.'星期'
+     * @param prefix 前缀			eg.'星期'
      * @param date   给定日期			eg.'2012-01-25 23:07:58'
      * @return 前缀+(星期数)	ep.'星期三'
      */

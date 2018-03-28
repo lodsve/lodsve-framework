@@ -27,11 +27,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * .
- * <p/>
+ * utils for list.
  *
- * @author <a href="mailto:stormning@163.com">stormning</a>
- * @version V1.0, 2015/8/17.
+ * @author sunhao(sunhao.java @ gmail.com)
+ * @date 2015/8/17.
  */
 public class ListUtils {
 

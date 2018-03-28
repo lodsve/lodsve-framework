@@ -19,6 +19,7 @@ package lodsve.mongodb.annotations;
 
 import lodsve.core.bean.BeanRegisterUtils;
 import lodsve.core.utils.StringUtils;
+import lodsve.mongodb.Constants;
 import lodsve.mongodb.connection.DynamicMongoConnection;
 import lodsve.mongodb.core.MongoDataSourceBeanDefinitionFactory;
 import lodsve.mongodb.repository.LodsveAnnotationRepositoryConfigurationSource;
@@ -56,11 +57,7 @@ import org.springframework.data.repository.config.RepositoryConfigurationUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 加载mongodb操作的一些bean.
@@ -69,38 +66,22 @@ import java.util.Set;
  * @version V1.0, 16/1/21 下午10:15
  */
 public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar, ResourceLoaderAware, EnvironmentAware {
-    private static final String MAPPING_CONTEXT_BEAN_NAME = "mongoMappingContext";
-    private static final String MAPPING_CONVERTER_BEAN_NAME = "mappingConverter";
-    private static final String IS_NEW_STRATEGY_FACTORY_BEAN_NAME = "isNewStrategyFactory";
-    private static final String DEFAULT_MONGO_TYPE_MAPPER_BEAN_NAME = "defaultMongoTypeMapper";
-    private static final String INDEX_HELPER_BEAN_NAME = "indexCreationHelper";
-    private static final String CUSTOM_EDITOR_CONFIGURER_BEAN_NAME = "customEditorConfigurer";
-    private static final String MONGO_TEMPLATE_BEAN_NAME = "mongoTemplate";
-    private static final String MONGO_REPOSITORY_FACTORY_BEAN_NAME = "mongoRepositoryFactory";
-    private static final String MONGO_MAPPING_CONTEXT_BEAN_NAME = MAPPING_CONVERTER_BEAN_NAME + "." + MAPPING_CONTEXT_BEAN_NAME;
-
     private ResourceLoader resourceLoader;
     private Environment environment;
 
-    private static final String DATA_SOURCE_ATTRIBUTE_NAME = "dataSource";
-    private static final String DOMAIN_PACKAGES_ATTRIBUTE_NAME = "domainPackages";
-    private static final String BASE_PACKAGES_ATTRIBUTE_NAME = "basePackages";
-
-    private static final String DATA_SOURCE_BEAN_NAME = "lodsveMongoConnection";
-
-    private static final Map<String, BeanDefinition> BEAN_DEFINITION_MAP = new HashMap<>(16);
+    private final Map<String, BeanDefinition> BEAN_DEFINITION_MAP = new HashMap<>(16);
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(EnableMongo.class.getName(), false));
         Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableMongo.class.getName(), metadata.getClassName()));
 
-        String[] domainPackage = attributes.getStringArray(DOMAIN_PACKAGES_ATTRIBUTE_NAME);
+        String[] domainPackage = attributes.getStringArray(Constants.DOMAIN_PACKAGES_ATTRIBUTE_NAME);
         if (ArrayUtils.isEmpty(domainPackage)) {
             domainPackage = findDefaultPackage(metadata);
         }
 
-        String[] basePackages = attributes.getStringArray(BASE_PACKAGES_ATTRIBUTE_NAME);
+        String[] basePackages = attributes.getStringArray(Constants.BASE_PACKAGES_ATTRIBUTE_NAME);
         if (ArrayUtils.isEmpty(basePackages)) {
             domainPackage = findDefaultPackage(metadata);
         }
@@ -119,7 +100,7 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
 
     private void initMongoRepository(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry registry) {
         AnnotationRepositoryConfigurationSource configurationSource = new LodsveAnnotationRepositoryConfigurationSource(annotationMetadata, EnableMongo.class, resourceLoader, environment);
-        RepositoryConfigurationExtension extension = new LodsveMongoRepositoryConfigurationExtension(MONGO_TEMPLATE_BEAN_NAME);
+        RepositoryConfigurationExtension extension = new LodsveMongoRepositoryConfigurationExtension(Constants.MONGO_TEMPLATE_BEAN_NAME);
         RepositoryConfigurationUtils.exposeRegistration(extension, registry, configurationSource);
 
         RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configurationSource, resourceLoader, environment);
@@ -127,7 +108,7 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
     }
 
     private void initMongoDataSource(AnnotationAttributes attributes) {
-        String[] dataSources = attributes.getStringArray(DATA_SOURCE_ATTRIBUTE_NAME);
+        String[] dataSources = attributes.getStringArray(Constants.DATA_SOURCE_ATTRIBUTE_NAME);
         if (null == dataSources || dataSources.length == 0) {
             throw new CannotGetMongoDbConnectionException("can't find any datasource!");
         }
@@ -150,23 +131,23 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
         dynamicMongoConnection.addConstructorArgValue(mongoURIBeanNames);
         dynamicMongoConnection.addConstructorArgValue(defaultMongoURIBeanName);
 
-        BEAN_DEFINITION_MAP.put(DATA_SOURCE_BEAN_NAME, dynamicMongoConnection.getBeanDefinition());
+        BEAN_DEFINITION_MAP.put(Constants.DATA_SOURCE_BEAN_NAME, dynamicMongoConnection.getBeanDefinition());
     }
 
     private void initMongoRepositoryFactory() {
         BeanDefinitionBuilder mongoRepositoryFactory = BeanDefinitionBuilder.genericBeanDefinition(MongoRepositoryFactory.class);
-        mongoRepositoryFactory.addConstructorArgReference(MONGO_TEMPLATE_BEAN_NAME);
+        mongoRepositoryFactory.addConstructorArgReference(Constants.MONGO_TEMPLATE_BEAN_NAME);
 
-        BEAN_DEFINITION_MAP.put(MONGO_REPOSITORY_FACTORY_BEAN_NAME, mongoRepositoryFactory.getBeanDefinition());
+        BEAN_DEFINITION_MAP.put(Constants.MONGO_REPOSITORY_FACTORY_BEAN_NAME, mongoRepositoryFactory.getBeanDefinition());
     }
 
     private void initMappingConverter() {
         BeanDefinitionBuilder converterBuilder = BeanDefinitionBuilder.genericBeanDefinition(MappingMongoConverter.class);
-        converterBuilder.addConstructorArgReference(DATA_SOURCE_BEAN_NAME);
-        converterBuilder.addConstructorArgReference(MONGO_MAPPING_CONTEXT_BEAN_NAME);
-        converterBuilder.addPropertyReference("typeMapper", DEFAULT_MONGO_TYPE_MAPPER_BEAN_NAME);
+        converterBuilder.addConstructorArgReference(Constants.DATA_SOURCE_BEAN_NAME);
+        converterBuilder.addConstructorArgReference(Constants.MONGO_MAPPING_CONTEXT_BEAN_NAME);
+        converterBuilder.addPropertyReference("typeMapper", Constants.DEFAULT_MONGO_TYPE_MAPPER_BEAN_NAME);
 
-        BEAN_DEFINITION_MAP.put(MAPPING_CONVERTER_BEAN_NAME, converterBuilder.getBeanDefinition());
+        BEAN_DEFINITION_MAP.put(Constants.MAPPING_CONVERTER_BEAN_NAME, converterBuilder.getBeanDefinition());
     }
 
     private void initMongoMappingContext(String[] domainPackage) {
@@ -176,16 +157,16 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
             mappingContextBuilder.addPropertyValue("initialEntitySet", classesToAdd);
         }
 
-        BEAN_DEFINITION_MAP.put(MONGO_MAPPING_CONTEXT_BEAN_NAME, mappingContextBuilder.getBeanDefinition());
+        BEAN_DEFINITION_MAP.put(Constants.MONGO_MAPPING_CONTEXT_BEAN_NAME, mappingContextBuilder.getBeanDefinition());
     }
 
     private void initMongoPersistentEntityIndexCreator() {
         BeanDefinitionBuilder indexHelperBuilder = BeanDefinitionBuilder.genericBeanDefinition(MongoPersistentEntityIndexCreator.class);
-        indexHelperBuilder.addConstructorArgReference(MONGO_MAPPING_CONTEXT_BEAN_NAME);
-        indexHelperBuilder.addConstructorArgReference(DATA_SOURCE_BEAN_NAME);
-        indexHelperBuilder.addDependsOn(MONGO_MAPPING_CONTEXT_BEAN_NAME);
+        indexHelperBuilder.addConstructorArgReference(Constants.MONGO_MAPPING_CONTEXT_BEAN_NAME);
+        indexHelperBuilder.addConstructorArgReference(Constants.DATA_SOURCE_BEAN_NAME);
+        indexHelperBuilder.addDependsOn(Constants.MONGO_MAPPING_CONTEXT_BEAN_NAME);
 
-        BEAN_DEFINITION_MAP.put(INDEX_HELPER_BEAN_NAME, indexHelperBuilder.getBeanDefinition());
+        BEAN_DEFINITION_MAP.put(Constants.INDEX_HELPER_BEAN_NAME, indexHelperBuilder.getBeanDefinition());
     }
 
     private static Set<String> getInititalEntityClasses(String[] domainPackages) {
@@ -212,20 +193,20 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
 
     private void initMappingContextIsNewStrategyFactory() {
         BeanDefinitionBuilder mappingContextStrategyFactoryBuilder = BeanDefinitionBuilder.rootBeanDefinition(MappingContextIsNewStrategyFactory.class);
-        mappingContextStrategyFactoryBuilder.addConstructorArgReference(MONGO_MAPPING_CONTEXT_BEAN_NAME);
+        mappingContextStrategyFactoryBuilder.addConstructorArgReference(Constants.MONGO_MAPPING_CONTEXT_BEAN_NAME);
 
-        BEAN_DEFINITION_MAP.put(IS_NEW_STRATEGY_FACTORY_BEAN_NAME, mappingContextStrategyFactoryBuilder.getBeanDefinition());
+        BEAN_DEFINITION_MAP.put(Constants.IS_NEW_STRATEGY_FACTORY_BEAN_NAME, mappingContextStrategyFactoryBuilder.getBeanDefinition());
     }
 
     private void initMongoTemplate() {
         BeanDefinitionBuilder mongoTemplateBuilder = BeanDefinitionBuilder.genericBeanDefinition(MongoTemplate.class);
-        mongoTemplateBuilder.addConstructorArgReference(DATA_SOURCE_BEAN_NAME);
-        mongoTemplateBuilder.addConstructorArgReference(MAPPING_CONVERTER_BEAN_NAME);
+        mongoTemplateBuilder.addConstructorArgReference(Constants.DATA_SOURCE_BEAN_NAME);
+        mongoTemplateBuilder.addConstructorArgReference(Constants.MAPPING_CONVERTER_BEAN_NAME);
 
         BeanDefinitionBuilder writeConcernPropertyEditorBuilder = getWriteConcernPropertyEditorBuilder();
 
-        BEAN_DEFINITION_MAP.put(CUSTOM_EDITOR_CONFIGURER_BEAN_NAME, writeConcernPropertyEditorBuilder.getBeanDefinition());
-        BEAN_DEFINITION_MAP.put(MONGO_TEMPLATE_BEAN_NAME, mongoTemplateBuilder.getBeanDefinition());
+        BEAN_DEFINITION_MAP.put(Constants.CUSTOM_EDITOR_CONFIGURER_BEAN_NAME, writeConcernPropertyEditorBuilder.getBeanDefinition());
+        BEAN_DEFINITION_MAP.put(Constants.MONGO_TEMPLATE_BEAN_NAME, mongoTemplateBuilder.getBeanDefinition());
     }
 
     private BeanDefinitionBuilder getWriteConcernPropertyEditorBuilder() {

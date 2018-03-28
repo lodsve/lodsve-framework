@@ -19,8 +19,8 @@ package lodsve.mybatis.datasource.builder;
 
 import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import lodsve.mybatis.properties.DruidProperties;
-import lodsve.mybatis.utils.Constants;
 import lodsve.mybatis.properties.RdbmsProperties;
+import lodsve.mybatis.utils.Constants;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -62,20 +62,11 @@ public class RdbmsDataSourceBeanDefinitionBuilder {
     }
 
     private Map<String, String> getProperties() {
-        // 通用配置
-        RdbmsProperties.DataSourceSetting commons = rdbmsProperties.getCommons();
-        // dbcp配置
-        RdbmsProperties.DbcpSetting dbcp = rdbmsProperties.getDbcp();
         // 连接信息
-        RdbmsProperties.RdbmsConnection connection = rdbmsProperties.getConnections().get(dataSourceName);
+        RdbmsProperties.PoolSetting poolSetting = rdbmsProperties.getPool().get(dataSourceName);
 
         Map<String, String> properties = new HashMap<>(16);
-        properties.putAll(toMap(commons));
-        properties.putAll(toMap(connection));
-
-        if (Constants.DBCP_DATA_SOURCE_CLASS.equals(rdbmsProperties.getDataSourceClass())) {
-            properties.putAll(toMap(dbcp));
-        }
+        properties.putAll(toMap(poolSetting));
 
         return properties;
     }

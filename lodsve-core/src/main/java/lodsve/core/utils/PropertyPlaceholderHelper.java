@@ -30,7 +30,7 @@ import java.util.Map;
  * 处理字符串中的占位符.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 14-9-3 下午10:37
+ * @date 14-9-3 下午10:37
  */
 public class PropertyPlaceholderHelper {
     private static final Logger logger = LoggerFactory.getLogger(PropertyPlaceholderHelper.class);

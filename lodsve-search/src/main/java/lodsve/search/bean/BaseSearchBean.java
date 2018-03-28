@@ -66,7 +66,7 @@ import java.util.Map;
  *      }
  * </code></pre>
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
  * @createTime 13-5-6 下午4:04
  */
@@ -77,31 +77,31 @@ public abstract class BaseSearchBean {
     /**
      * 检索的内容
      */
-    protected String keyword;
+    private String keyword;
     /**
      * 拥有者ID
      */
-    protected String owerId;
+    private String owerId;
     /**
      * 拥有者name
      */
-    protected String owerName;
+    private String owerName;
     /**
      * 检索对象的唯一标识位的值
      */
-    protected String id;
+    private String id;
     /**
      * 检索出对象后进入详情页面的链接
      */
-    protected String link;
+    private String link;
     /**
      * 创建时间
      */
-    protected String createDate;
+    private String createDate;
     /**
      * index类型
      */
-    protected String indexType;
+    private String indexType;
 
     public String getKeyword() {
         return keyword;
@@ -257,23 +257,18 @@ public abstract class BaseSearchBean {
             return StringUtils.EMPTY;
         }
 
-        String result = StringUtils.EMPTY;
-        try {
-            Object value = ObjectUtils.getFieldValue(object, field);
-            if (value == null) {
-                result = StringUtils.EMPTY;
-            } else if (value instanceof String) {
-                result = (String) value;
-            } else if (value instanceof Collections || value instanceof Map) {
-                result = ToStringBuilder.reflectionToString(object);
-            } else if (value instanceof Date) {
-                result = DateUtils.formatDate((Date) value, DateUtils.DEFAULT_PATTERN);
-            } else {
-                result = value.toString();
-            }
-
-        } catch (IllegalAccessException e) {
-            logger.error("can not find a value for field '{}' in object class '{}'!", field, object.getClass());
+        String result;
+        Object value = ObjectUtils.getFieldValue(object, field);
+        if (value == null) {
+            result = StringUtils.EMPTY;
+        } else if (value instanceof String) {
+            result = (String) value;
+        } else if (value instanceof Collections || value instanceof Map) {
+            result = ToStringBuilder.reflectionToString(object);
+        } else if (value instanceof Date) {
+            result = DateUtils.formatDate((Date) value, DateUtils.DEFAULT_PATTERN);
+        } else {
+            result = value.toString();
         }
 
         return result;

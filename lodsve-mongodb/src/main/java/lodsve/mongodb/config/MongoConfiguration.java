@@ -18,6 +18,7 @@
 package lodsve.mongodb.config;
 
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
+import lodsve.mongodb.Constants;
 import lodsve.mongodb.core.MongoRepositoryBeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -36,7 +37,7 @@ import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
 @EnableConfigurationProperties(MongoProperties.class)
 @ComponentScan("lodsve.mongodb.connection")
 public class MongoConfiguration {
-    @Bean
+    @Bean(name = Constants.DEFAULT_MONGO_TYPE_MAPPER_BEAN_NAME)
     public DefaultMongoTypeMapper defaultMongoTypeMapper() {
         return new DefaultMongoTypeMapper();
     }

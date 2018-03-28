@@ -25,12 +25,12 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import lodsve.web.utils.RestUtils;
 import lodsve.core.utils.StringUtils;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.Map;
@@ -38,12 +38,11 @@ import java.util.Map;
 /**
  * 微信请求的封装,包括处理异常.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/2/21 下午5:26
  */
 public final class WeChatRequest {
     private static final Logger logger = LoggerFactory.getLogger(WeChatRequest.class);
-    private static final RestTemplate TEMPLATE = new RestTemplate();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     static {
@@ -83,7 +82,7 @@ public final class WeChatRequest {
 
         Map<String, Object> result;
         if (url.contains("oauth")) {
-            String returnValue = TEMPLATE.getForObject(url, String.class, params);
+            String returnValue = RestUtils.get(url, String.class, params);
 
             try {
                 result = OBJECT_MAPPER.readValue(returnValue, new TypeReference<Map>() {
@@ -92,7 +91,7 @@ public final class WeChatRequest {
                 return null;
             }
         } else {
-            result = TEMPLATE.getForObject(url, Map.class, params);
+            result = RestUtils.get(url, Map.class, params);
         }
 
         if (isError(result)) {
@@ -106,7 +105,7 @@ public final class WeChatRequest {
     public static <T> T post(String url, Object object, TypeReference<T> typeReference, Object... params) {
         Assert.hasText(url);
 
-        Map<String, Object> result = TEMPLATE.postForObject(url, object, Map.class, params);
+        Map<String, Object> result = RestUtils.post(url, object, Map.class, params);
         if (isError(result)) {
             throw new RuntimeException((String) result.get("errmsg"));
         }

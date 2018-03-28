@@ -25,16 +25,17 @@ import java.util.BitSet;
 /**
  * 对url的处理工具类.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
- * @createTime 2012-4-30 下午01:48:01
+ * @date 2012-4-30 下午01:48:01
  */
 public class URLUtils {
 
     /**
      * 私有化构造器
      */
-    private URLUtils(){}
+    private URLUtils() {
+    }
 
     /**
      * character which don't need encoding in url

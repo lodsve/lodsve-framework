@@ -59,7 +59,7 @@ public class TypeHandlerScanner {
     private ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
     private MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(this.resourcePatternResolver);
     private final List<TypeFilter> includeFilters = new LinkedList<>();
-    public final ClassPool pool;
+    private final ClassPool pool;
 
     public TypeHandlerScanner() {
         this.includeFilters.add(new AssignableTypeFilter(Codeable.class));

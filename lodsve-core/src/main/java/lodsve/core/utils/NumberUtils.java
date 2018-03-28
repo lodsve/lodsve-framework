@@ -20,22 +20,23 @@ package lodsve.core.utils;
 /**
  * 对于数字操作类.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
- * @createTime 2012-4-28 上午10:36:12
+ * @date 2012-4-28 上午10:36:12
  */
 public class NumberUtils extends org.apache.commons.lang.math.NumberUtils {
     /**
      * 私有化构造器
      */
-    private NumberUtils(){}
+    private NumberUtils() {
+    }
 
     /**
      * 计算两个数的最大公约数
      *
-     * @param firstNum
-     * @param secondNum
-     * @return
+     * @param firstNum  数字1
+     * @param secondNum 数字2
+     * @return 最大公约数
      */
     public static int getMaxCommonDivisor(int firstNum, int secondNum) {
         int commonDivisor = 0;
@@ -66,7 +67,7 @@ public class NumberUtils extends org.apache.commons.lang.math.NumberUtils {
      * 16进制数字转换成10进制
      *
      * @param sixteenHex 16进制数字
-     * @return
+     * @return 10进制
      */
     public static Integer hex16To10(String sixteenHex) {
         if (StringUtils.isEmpty(sixteenHex)) {

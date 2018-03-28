@@ -32,7 +32,7 @@ import java.io.IOException;
  * resource utils.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2018/1/6 上午1:34
+ * @date 2018/1/6 上午1:34
  */
 public final class ResourceUtils {
     private static final ResourceLoader RESOURCE_LOADER = new LodsveResourceLoader();

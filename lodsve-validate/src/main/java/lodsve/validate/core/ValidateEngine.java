@@ -48,7 +48,7 @@ import java.util.Map;
 /**
  * 验证引擎核心组件.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
  * @createTime 12-11-26 下午9:53
  */
@@ -278,7 +278,7 @@ public class ValidateEngine implements InitializingBean {
      * @return
      * @throws Exception
      */
-    private List<Field> getValidateFields(Class<?> clazz) throws Exception {
+    private List<Field> getValidateFields(Class<?> clazz) {
         if (clazz == null) {
             logger.error("given empty class!");
             return Collections.emptyList();
@@ -288,7 +288,7 @@ public class ValidateEngine implements InitializingBean {
         // 内存中不存在这个类的需要验证字段
         if (CollectionUtils.isEmpty(fieldList)) {
             fieldList = new ArrayList<>();
-            Field[] fields = ObjectUtils.getFields(BeanUtils.instantiate(clazz));
+            Field[] fields = ObjectUtils.getFields(clazz);
             for (Field f : fields) {
                 Annotation[] ans = f.getAnnotations();
                 for (Annotation a : ans) {
