@@ -17,6 +17,8 @@
 
 package lodsve.mybatis.datasource;
 
+import lodsve.core.condition.ConditionalOnProperty;
+import lodsve.mybatis.properties.MyBatisProperties;
 import lodsve.mybatis.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,6 +29,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
+import javax.sql.DataSource;
+
 /**
  * 配置事务.
  *
@@ -35,10 +39,11 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
  */
 @Configuration
 @EnableTransactionManagement
+@ConditionalOnProperty(clazz = MyBatisProperties.class, key = "supportTransaction", value = "true")
 public class DataSourceTransactionManagementConfiguration implements TransactionManagementConfigurer {
     @Autowired
     @Qualifier(Constants.DATA_SOURCE_BEAN_NAME)
-    private javax.sql.DataSource dataSource;
+    private DataSource dataSource;
 
     @Bean
     public PlatformTransactionManager txManager() {
