@@ -57,7 +57,7 @@ public class MyBatisProperties {
     /**
      * flyway的脚本文件所在路径
      */
-    private String[] migration = new String[]{"META-INF/flyway"};
+    private String[] migration = new String[]{"classpath:META-INF/flyway"};
 
     public String[] getMapperLocations() {
         return mapperLocations;
