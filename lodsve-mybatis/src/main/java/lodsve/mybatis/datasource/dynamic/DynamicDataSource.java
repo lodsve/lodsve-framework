@@ -77,7 +77,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Bean
 
     private DataSource getDataSourceByBeanName(String beanName) {
         Object object = beanFactory.getBean(beanName);
-        if (object == null || !(object instanceof DataSource)) {
+        if (!(object instanceof DataSource)) {
             if (logger.isErrorEnabled()) {
                 logger.error("The bean named '{}' is not a {}!", beanName, DataSource.class.getName());
             }

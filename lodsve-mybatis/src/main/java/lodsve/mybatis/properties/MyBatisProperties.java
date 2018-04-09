@@ -51,10 +51,6 @@ public class MyBatisProperties {
      */
     private boolean supportTransaction = false;
     /**
-     * 是否使用flyway
-     */
-    private boolean enableFlyway = false;
-    /**
      * flyway的脚本文件所在路径
      */
     private String[] migration = new String[]{"classpath:META-INF/flyway"};
@@ -97,14 +93,6 @@ public class MyBatisProperties {
 
     public void setSupportTransaction(boolean supportTransaction) {
         this.supportTransaction = supportTransaction;
-    }
-
-    public boolean isEnableFlyway() {
-        return enableFlyway;
-    }
-
-    public void setEnableFlyway(boolean enableFlyway) {
-        this.enableFlyway = enableFlyway;
     }
 
     public String[] getMigration() {

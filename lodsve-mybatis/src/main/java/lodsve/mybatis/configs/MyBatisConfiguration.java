@@ -19,7 +19,6 @@ package lodsve.mybatis.configs;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import lodsve.core.condition.ConditionalOnClass;
-import lodsve.core.condition.ConditionalOnProperty;
 import lodsve.core.condition.ConditionalOnWebApplication;
 import lodsve.core.io.support.LodsvePathMatchingResourcePatternResolver;
 import lodsve.core.io.support.LodsveResourceLoader;
@@ -106,7 +105,7 @@ public class MyBatisConfiguration {
     }
 
     @Bean(name = Constants.FLYWAY_BEAN_NAME, initMethod = "migrate")
-    @ConditionalOnProperty(clazz = MyBatisProperties.class, key = "enableFlyway", value = "true")
+    @Profile("flyway")
     public Flyway flyway(@Qualifier(Constants.DATA_SOURCE_BEAN_NAME) DataSource dataSource) {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
@@ -117,13 +116,13 @@ public class MyBatisConfiguration {
 
     @Bean(name = Constants.MYBATIS_SQL_SESSION_FACTORY_BANE_NAME)
     @DependsOn(Constants.FLYWAY_BEAN_NAME)
-    @ConditionalOnProperty(clazz = MyBatisProperties.class, key = "enableFlyway", value = "true")
+    @Profile("flyway")
     public SqlSessionFactory sqlSessionFactoryBean(@Qualifier(Constants.DATA_SOURCE_BEAN_NAME) DataSource dataSource) throws Exception {
         return makeSqlSessionFactoryBean(dataSource).getObject();
     }
 
     @Bean(name = Constants.MYBATIS_SQL_SESSION_FACTORY_BANE_NAME)
-    @ConditionalOnProperty(clazz = MyBatisProperties.class, key = "enableFlyway", value = "false")
+    @Profile("!flyway")
     public SqlSessionFactory noFlywaySqlSessionFactoryBean(@Qualifier(Constants.DATA_SOURCE_BEAN_NAME) DataSource dataSource) throws Exception {
         return makeSqlSessionFactoryBean(dataSource).getObject();
     }
