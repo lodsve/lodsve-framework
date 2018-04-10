@@ -17,7 +17,7 @@
 
 package lodsve.web.utils;
 
-import lodsve.core.json.JsonUtils;
+import lodsve.core.json.JsonConverterFactory;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +73,7 @@ public class IpUtils {
             return Collections.emptyMap();
         }
 
-        Map<String, Object> object = JsonUtils.toMap(message);
+        Map<String, Object> object = JsonConverterFactory.getConverter(JsonConverterFactory.JsonMode.JACKSON).toMap(message);
 
         Object result = object.get("code");
         if (result != null && "0".equals(result.toString())) {
