@@ -17,13 +17,12 @@
 
 package lodsve.core.utils;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
@@ -38,6 +37,7 @@ import java.security.NoSuchAlgorithmException;
  * @date 2015-1-6 20:57
  */
 public class EncryptUtils {
+    private static final Logger logger = LoggerFactory.getLogger(EncryptUtils.class);
     private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     /**
@@ -67,8 +67,15 @@ public class EncryptUtils {
      * @return base64加密后的结果
      */
     public static String encodeBase64(String plainText) {
-        BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encode(plainText.getBytes());
+        Assert.hasText(plainText);
+
+        try {
+            return new String(Base64.encodeBase64(plainText.getBytes("utf-8")), "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.error(e.getMessage(), e);
+        }
+
+        return StringUtils.EMPTY;
     }
 
     /**
@@ -76,11 +83,17 @@ public class EncryptUtils {
      *
      * @param cipherText 密文，需要解密的字符串
      * @return base64解密后的结果
-     * @throws IOException IOException
      */
-    public static String decodeBase64(String cipherText) throws IOException {
-        BASE64Decoder encoder = new BASE64Decoder();
-        return new String(encoder.decodeBuffer(cipherText));
+    public static String decodeBase64(String cipherText) {
+        Assert.hasText(cipherText);
+
+        try {
+            return new String(Base64.decodeBase64(cipherText.getBytes("utf-8")), "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.error(e.getMessage(), e);
+        }
+
+        return StringUtils.EMPTY;
     }
 
     /**
