@@ -56,9 +56,9 @@ public class LodsveBanner implements Banner {
         StringBuilder blank2 = new StringBuilder();
         fillBlank(LODSVE_DESCRIPTION.length() + builter.length(), blank2);
 
-        System.out.println("\n\n\n");
+        out.println("\n\n\n");
         for (String line : BANNER) {
-            System.out.println(line);
+            out.println(line);
         }
 
         out.println("\n" + AnsiOutput.toString(AnsiColor.BLUE, LODSVE_DESCRIPTION, AnsiColor.DEFAULT, blank2.toString(), AnsiStyle.FAINT, builter));

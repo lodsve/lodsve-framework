@@ -123,6 +123,7 @@ public class ApplicationProperties {
 
     public static class BannerConfig {
         private boolean enable = true;
+        private BannerMode mode = BannerMode.CONSOLE;
         private String charset = "UTF-8";
         private String location = "banner.txt";
         private Image image;
@@ -133,6 +134,14 @@ public class ApplicationProperties {
 
         public void setEnable(boolean enable) {
             this.enable = enable;
+        }
+
+        public BannerMode getMode() {
+            return mode;
+        }
+
+        public void setMode(BannerMode mode) {
+            this.mode = mode;
         }
 
         public String getCharset() {
@@ -206,5 +215,16 @@ public class ApplicationProperties {
         public void setInvert(boolean invert) {
             this.invert = invert;
         }
+    }
+
+    public enum BannerMode {
+        /**
+         * 控制台打印
+         */
+        CONSOLE,
+        /**
+         * 日志
+         */
+        LOGGER
     }
 }

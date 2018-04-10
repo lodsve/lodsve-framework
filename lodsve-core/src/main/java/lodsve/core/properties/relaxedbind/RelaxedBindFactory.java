@@ -18,11 +18,11 @@
 package lodsve.core.properties.relaxedbind;
 
 import lodsve.core.properties.Env;
-import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
-import lodsve.core.properties.relaxedbind.annotations.Required;
+import lodsve.core.properties.ParamsHome;
 import lodsve.core.properties.env.Configuration;
 import lodsve.core.properties.env.PropertiesConfiguration;
-import lodsve.core.properties.ParamsHome;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.Required;
 import lodsve.core.utils.*;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
@@ -172,12 +172,26 @@ public class RelaxedBindFactory {
         } else if (List.class.isAssignableFrom(type) || Set.class.isAssignableFrom(type)) {
             Class<?> clazz = GenericUtils.getGenericParameter0(readMethod);
             value = getValueForCollection(key, clazz, type, readMethod);
+        } else if (type.isEnum()) {
+            value = getValueForEnum(key, type);
         } else {
             value = BeanUtils.instantiate(type);
             bindToSubTarget(value, key);
         }
 
         return value;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Enum<?> getValueForEnum(String key, Class<?> type) {
+        String value = configuration.getString(key);
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
+
+        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true, (Map) propertySource);
+
+        return Enum.valueOf((Class<? extends Enum>) type, text);
     }
 
     private void bindToSubTarget(Object target, String targetName) {

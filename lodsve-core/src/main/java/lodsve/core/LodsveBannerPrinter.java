@@ -20,6 +20,8 @@ package lodsve.core;
 import lodsve.core.configuration.ApplicationProperties;
 import lodsve.core.io.support.LodsveResourceLoader;
 import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
@@ -29,7 +31,9 @@ import org.springframework.web.WebApplicationInitializer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,24 +45,51 @@ import java.util.List;
  */
 @Order(Ordered.HIGHEST_PRECEDENCE + 1)
 public class LodsveBannerPrinter implements WebApplicationInitializer {
+    private static final Logger logger = LoggerFactory.getLogger(LodsveBannerPrinter.class);
+
     private static final Banner DEFAULT_BANNER = new LodsveBanner();
     private static final String[] IMAGE_EXTENSION = {"gif", "jpg", "png"};
     private static final ResourceLoader RESOURCE_LOADER = new LodsveResourceLoader();
 
+    private ApplicationProperties.BannerConfig bannerConfig;
+
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         ApplicationProperties properties = new RelaxedBindFactory.Builder<>(ApplicationProperties.class).build();
+        bannerConfig = properties.getBanner();
 
-        if (!properties.getBanner().isEnable()) {
+        if (!bannerConfig.isEnable()) {
             // no banners!
             return;
         }
 
-        Banner banner = getBanner(properties.getBanner());
-        banner.print(properties.getBanner(), System.out);
+        Banner banner = getBanner();
+
+        if (ApplicationProperties.BannerMode.LOGGER.equals(bannerConfig.getMode())) {
+            printInLogger(banner);
+            return;
+        }
+
+        printBannerInConsole(banner);
     }
 
-    private Banner getBanner(ApplicationProperties.BannerConfig bannerConfig) {
+    private void printInLogger(Banner banner) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        banner.print(bannerConfig, new PrintStream(output));
+        try {
+            String bannerContent = output.toString(bannerConfig.getCharset());
+
+            logger.info(bannerContent);
+        } catch (UnsupportedEncodingException e) {
+            logger.warn("Failed to create String for banner", e);
+        }
+    }
+
+    private void printBannerInConsole(Banner banner) {
+        banner.print(bannerConfig, System.out);
+    }
+
+    private Banner getBanner() {
         Banners banners = new Banners();
         banners.addIfNotNull(getImageBanner(bannerConfig));
         banners.addIfNotNull(getTextBanner(bannerConfig));
