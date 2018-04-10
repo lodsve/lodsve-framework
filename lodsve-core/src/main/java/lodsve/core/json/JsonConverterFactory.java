@@ -17,54 +17,27 @@
 
 package lodsve.core.json;
 
-import java.util.Map;
-
 /**
- * .
+ * 获取JsonConverter的工厂.
  *
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 2017-12-28-0028 15:17
  */
-public final class JsonUtils {
-    public static JsonMode mode = JsonMode.JACKSON;
+public final class JsonConverterFactory {
 
-    private JsonUtils() {
+    private JsonConverterFactory() {
 
     }
 
     /**
-     * convert object to json string
+     * 获取JsonConverter
      *
-     * @param obj object
-     * @return json string
+     * @param mode json mode
+     * @return JsonConverter
+     * @see JsonMode
+     * @see JsonConverter
      */
-    public static String toJson(Object obj) {
-        return getConverter().toJson(obj);
-    }
-
-    /**
-     * convert json string to object
-     *
-     * @param json  json string
-     * @param clazz object's class
-     * @param <T>   class
-     * @return object
-     */
-    public static <T> T toObject(String json, Class<T> clazz) {
-        return getConverter().toObject(json, clazz);
-    }
-
-    /**
-     * convert json string to map,key-value as field-value
-     *
-     * @param json json string
-     * @return map
-     */
-    public static Map<String, Object> toMap(String json) {
-        return getConverter().toMap(json);
-    }
-
-    private static JsonConverter getConverter() {
+    public static JsonConverter getConverter(JsonMode mode) {
         JsonConverter converter;
 
         switch (mode) {
@@ -84,6 +57,9 @@ public final class JsonUtils {
         return converter;
     }
 
+    /**
+     * 使用json的类型
+     */
     public enum JsonMode {
         JACKSON, GSON, FastJson
     }
