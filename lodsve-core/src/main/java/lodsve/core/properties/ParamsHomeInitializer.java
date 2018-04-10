@@ -66,7 +66,7 @@ import static lodsve.core.properties.ParamsHome.PARAMS_HOME_NAME;
  * @version V1.0
  * @createTime 2015-1-5 10:00
  */
-@Order(Ordered.HIGHEST_PRECEDENCE + 1)
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class ParamsHomeInitializer implements WebApplicationInitializer {
 
     @Override

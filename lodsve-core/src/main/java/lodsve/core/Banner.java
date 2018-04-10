@@ -17,6 +17,8 @@
 
 package lodsve.core;
 
+import lodsve.core.configuration.ApplicationProperties;
+
 import java.io.PrintStream;
 
 /**
@@ -29,7 +31,8 @@ public interface Banner {
     /**
      * 打印banner
      *
-     * @param out out
+     * @param config banner config
+     * @param out    out
      */
-    void print(PrintStream out);
+    void print(ApplicationProperties.BannerConfig config, PrintStream out);
 }

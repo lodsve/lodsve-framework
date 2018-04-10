@@ -20,6 +20,7 @@ package lodsve.core;
 import lodsve.core.ansi.AnsiColor;
 import lodsve.core.ansi.AnsiOutput;
 import lodsve.core.ansi.AnsiStyle;
+import lodsve.core.configuration.ApplicationProperties;
 
 import java.io.PrintStream;
 
@@ -46,14 +47,14 @@ public class LodsveBanner implements Banner {
     private static final String LODSVE_TITLE = " :: Lodsve Frameowrk :: ";
 
     @Override
-    public void print(PrintStream out) {
+    public void print(ApplicationProperties.BannerConfig config, PrintStream out) {
         String version = LodsveVersion.getVersion();
-        StringBuilder blank1 = new StringBuilder("");
-        fillBlank(LINE_WIDTH, LODSVE_TITLE.length() + version.length(), blank1);
+        StringBuilder blank1 = new StringBuilder();
+        fillBlank(LODSVE_TITLE.length() + version.length(), blank1);
 
         String builter = "Author: " + LodsveVersion.getBuilter();
-        StringBuilder blank2 = new StringBuilder("");
-        fillBlank(LINE_WIDTH, LODSVE_DESCRIPTION.length() + builter.length(), blank2);
+        StringBuilder blank2 = new StringBuilder();
+        fillBlank(LODSVE_DESCRIPTION.length() + builter.length(), blank2);
 
         System.out.println("\n\n\n");
         for (String line : BANNER) {
@@ -65,9 +66,9 @@ public class LodsveBanner implements Banner {
         out.println("\n\n\n");
     }
 
-    private void fillBlank(int maxLength, int nowLength, StringBuilder blank) {
-        if (nowLength < maxLength) {
-            for (int i = 0; i < maxLength - nowLength; i++) {
+    private void fillBlank(int nowLength, StringBuilder blank) {
+        if (nowLength < LINE_WIDTH) {
+            for (int i = 0; i < LINE_WIDTH - nowLength; i++) {
                 blank.append(" ");
             }
         }

@@ -31,6 +31,13 @@ public class ApplicationProperties {
      * 开发模式
      */
     private boolean devMode = true;
+    /**
+     * banner配置
+     */
+    private BannerConfig banner;
+    /**
+     * 多线程配置
+     */
     private ThreadConfig thread;
 
     public boolean isDevMode() {
@@ -39,6 +46,14 @@ public class ApplicationProperties {
 
     public void setDevMode(boolean devMode) {
         this.devMode = devMode;
+    }
+
+    public BannerConfig getBanner() {
+        return banner;
+    }
+
+    public void setBanner(BannerConfig banner) {
+        this.banner = banner;
     }
 
     public ThreadConfig getThread() {
@@ -103,6 +118,93 @@ public class ApplicationProperties {
 
         public void setExposeUnconfigurableExecutor(boolean exposeUnconfigurableExecutor) {
             this.exposeUnconfigurableExecutor = exposeUnconfigurableExecutor;
+        }
+    }
+
+    public static class BannerConfig {
+        private boolean enable = true;
+        private String charset = "UTF-8";
+        private String location = "banner.txt";
+        private Image image;
+
+        public boolean isEnable() {
+            return enable;
+        }
+
+        public void setEnable(boolean enable) {
+            this.enable = enable;
+        }
+
+        public String getCharset() {
+            return charset;
+        }
+
+        public void setCharset(String charset) {
+            this.charset = charset;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
+
+        public Image getImage() {
+            return image;
+        }
+
+        public void setImage(Image image) {
+            this.image = image;
+        }
+    }
+
+    public static class Image {
+        private String location;
+        private int width = 76;
+        private int height = 0;
+        private int margin = 2;
+        private boolean invert = false;
+
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public void setWidth(int width) {
+            this.width = width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
+        }
+
+        public int getMargin() {
+            return margin;
+        }
+
+        public void setMargin(int margin) {
+            this.margin = margin;
+        }
+
+        public boolean isInvert() {
+            return invert;
+        }
+
+        public void setInvert(boolean invert) {
+            this.invert = invert;
         }
     }
 }

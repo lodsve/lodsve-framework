@@ -17,11 +17,14 @@
 
 package lodsve.core;
 
+import lodsve.core.configuration.ApplicationProperties;
 import lodsve.core.io.support.LodsveResourceLoader;
+import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.StringUtils;
 import org.springframework.web.WebApplicationInitializer;
 
 import javax.servlet.ServletContext;
@@ -36,30 +39,42 @@ import java.util.List;
  * @author sunhao(sunhao.java @ .com)
  * @version 1.0 2018/1/11 下午10:13
  */
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(Ordered.HIGHEST_PRECEDENCE + 1)
 public class LodsveBannerPrinter implements WebApplicationInitializer {
     private static final Banner DEFAULT_BANNER = new LodsveBanner();
-    private static final String DEFAULT_BANNER_TEXT_NAME = "banner.txt";
     private static final String[] IMAGE_EXTENSION = {"gif", "jpg", "png"};
     private static final ResourceLoader RESOURCE_LOADER = new LodsveResourceLoader();
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        Banner banner = getBanner();
-        banner.print(System.out);
+        ApplicationProperties properties = new RelaxedBindFactory.Builder<>(ApplicationProperties.class).build();
+
+        if (!properties.getBanner().isEnable()) {
+            // no banners!
+            return;
+        }
+
+        Banner banner = getBanner(properties.getBanner());
+        banner.print(properties.getBanner(), System.out);
     }
 
-    private Banner getBanner() {
+    private Banner getBanner(ApplicationProperties.BannerConfig bannerConfig) {
         Banners banners = new Banners();
-        banners.addIfNotNull(getImageBanner());
-        banners.addIfNotNull(getTextBanner());
+        banners.addIfNotNull(getImageBanner(bannerConfig));
+        banners.addIfNotNull(getTextBanner(bannerConfig));
         if (banners.hasAtLeastOneBanner()) {
             return banners;
         }
         return DEFAULT_BANNER;
     }
 
-    private Banner getImageBanner() {
+    private Banner getImageBanner(ApplicationProperties.BannerConfig bannerConfig) {
+        String location = bannerConfig.getImage().getLocation();
+        if (StringUtils.hasLength(location)) {
+            Resource resource = RESOURCE_LOADER.getResource(location);
+            return (resource.exists() ? new ImageBanner(resource) : null);
+        }
+
         for (String ext : IMAGE_EXTENSION) {
             Resource resource = RESOURCE_LOADER.getResource("banner." + ext);
             if (resource.exists()) {
@@ -70,8 +85,9 @@ public class LodsveBannerPrinter implements WebApplicationInitializer {
         return null;
     }
 
-    private Banner getTextBanner() {
-        Resource resource = RESOURCE_LOADER.getResource(DEFAULT_BANNER_TEXT_NAME);
+    private Banner getTextBanner(ApplicationProperties.BannerConfig bannerConfig) {
+        String location = bannerConfig.getLocation();
+        Resource resource = RESOURCE_LOADER.getResource(location);
         if (resource.exists()) {
             return new TextBanner(resource);
         }
@@ -83,9 +99,9 @@ public class LodsveBannerPrinter implements WebApplicationInitializer {
         private List<Banner> banners = new ArrayList<>(16);
 
         @Override
-        public void print(PrintStream out) {
+        public void print(ApplicationProperties.BannerConfig config, PrintStream out) {
             for (Banner banner : banners) {
-                banner.print(out);
+                banner.print(config, out);
             }
         }
 

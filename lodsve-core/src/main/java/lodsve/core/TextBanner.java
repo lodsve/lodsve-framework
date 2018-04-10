@@ -17,6 +17,7 @@
 
 package lodsve.core;
 
+import lodsve.core.configuration.ApplicationProperties;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.StreamUtils;
@@ -42,9 +43,9 @@ public class TextBanner implements Banner {
     }
 
     @Override
-    public void print(PrintStream out) {
+    public void print(ApplicationProperties.BannerConfig config, PrintStream out) {
         try {
-            String banner = StreamUtils.copyToString(this.resource.getInputStream(), Charset.forName("UTF-8"));
+            String banner = StreamUtils.copyToString(this.resource.getInputStream(), Charset.forName(config.getCharset()));
 
             out.println(banner);
         } catch (IOException e) {
