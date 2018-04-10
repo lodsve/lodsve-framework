@@ -15,11 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.script.spel;
+package lodsve.core.script;
 
-import lodsve.core.script.ScriptContext;
-import lodsve.core.script.ScriptEngine;
-import lodsve.core.script.ScriptResult;
 import lodsve.core.utils.EncryptUtils;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
@@ -35,7 +32,7 @@ import java.util.Map;
 /**
  * spel script engine.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2016/12/10 上午12:01
  */
 public class SpELScriptEngine implements ScriptEngine {

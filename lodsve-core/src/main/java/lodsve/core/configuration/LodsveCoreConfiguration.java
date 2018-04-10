@@ -19,7 +19,6 @@ package lodsve.core.configuration;
 
 import lodsve.core.condition.ConditionalOnClass;
 import lodsve.core.context.ApplicationContextListener;
-import lodsve.core.email.EmailProperties;
 import lodsve.core.event.EventExecutor;
 import lodsve.core.event.EventPublisher;
 import lodsve.core.properties.ParamsHome;

@@ -15,19 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.script.ruby;
-
-import lodsve.core.script.AbstractScriptEngine;
+package lodsve.core.script;
 
 /**
- * ruby.
+ * python.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2016/12/9 上午11:21
+ * @author sunhao(sunhao.java @ gmail.com)
+ * @version 1.0 2016/12/9 上午11:20
  */
-public class RubyScriptEngine extends AbstractScriptEngine {
+public class PythonScriptEngine extends AbstractScriptEngine {
     @Override
     protected String getScriptName() {
-        return "ruby";
+        return "python";
     }
 }

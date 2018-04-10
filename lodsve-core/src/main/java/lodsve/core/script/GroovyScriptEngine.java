@@ -15,14 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.script.groovy;
-
-import lodsve.core.script.AbstractScriptEngine;
+package lodsve.core.script;
 
 /**
  * groovy.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2016/12/9 上午11:16
  */
 public class GroovyScriptEngine extends AbstractScriptEngine {

@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.email;
+package lodsve.core.configuration;
 
+import lodsve.core.email.EmailBean;
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 
 import java.util.Map;

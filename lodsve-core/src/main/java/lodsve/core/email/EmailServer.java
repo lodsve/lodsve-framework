@@ -17,6 +17,7 @@
 
 package lodsve.core.email;
 
+import lodsve.core.configuration.EmailProperties;
 import lodsve.core.utils.StringUtils;
 import lodsve.core.utils.ValidateUtils;
 import org.slf4j.Logger;
