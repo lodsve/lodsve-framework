@@ -189,7 +189,7 @@ public class RelaxedBindFactory {
             return null;
         }
 
-        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true, (Map) propertySource);
+        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true);
 
         return Enum.valueOf((Class<? extends Enum>) type, text);
     }
@@ -209,7 +209,7 @@ public class RelaxedBindFactory {
             return null;
         }
 
-        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true, (Map) propertySource);
+        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true);
 
         if (Boolean.class.equals(type) || boolean.class.equals(type)) {
             return Boolean.valueOf(text);
@@ -375,7 +375,6 @@ public class RelaxedBindFactory {
             }
 
             T target = BeanUtils.instantiate(clazz);
-            loadProp(annotation.locations());
 
             RelaxedBindFactory factory = new RelaxedBindFactory(target);
             factory.setPropertySource(loadProp(annotation.locations()));
@@ -388,17 +387,15 @@ public class RelaxedBindFactory {
 
         private Properties loadProp(String... configLocations) {
             Properties prop = new Properties();
-            prop.putAll(Env.getSystemEnvs());
-            prop.putAll(Env.getEnvs());
 
             if (ArrayUtils.isEmpty(configLocations)) {
-                ParamsHome.getInstance().coveredWithExtResource(prop);
+                prop.putAll(Env.getSystemEnvs());
+                prop.putAll(Env.getEnvs());
                 return prop;
             }
 
-
             for (String location : configLocations) {
-                location = PropertyPlaceholderHelper.replacePlaceholder(location, true, Env.getEnvs());
+                location = PropertyPlaceholderHelper.replacePlaceholder(location, true);
 
                 Resource resource = ResourceUtils.getResource(location);
                 if (!resource.exists()) {
@@ -414,6 +411,7 @@ public class RelaxedBindFactory {
                 }
             }
 
+            prop.put("params.root", ParamsHome.getInstance().getParamsRoot());
             // 获取覆盖的值
             ParamsHome.getInstance().coveredWithExtResource(prop);
             return prop;

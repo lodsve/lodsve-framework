@@ -20,7 +20,6 @@ package lodsve.mybatis.datasource.p6spy;
 import com.p6spy.engine.common.P6Util;
 import com.p6spy.engine.spy.P6ModuleManager;
 import com.p6spy.engine.spy.option.P6OptionsSource;
-import lodsve.core.properties.Env;
 import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.mybatis.properties.P6SpyProperties;
@@ -35,7 +34,7 @@ import java.util.Set;
 /**
  * Lodsve P6 OptionsSource.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2017/12/25 下午11:24
  */
 public class LodsveP6OptionsSource implements P6OptionsSource {
@@ -65,11 +64,9 @@ public class LodsveP6OptionsSource implements P6OptionsSource {
     @Override
     public Map<String, String> getOptions() {
         Set<String> keys = options.keySet();
-        Map<String, String> configs = Env.getEnvs();
-        configs.putAll(Env.getSystemEnvs());
         for (String key : keys) {
             String value = options.get(key);
-            value = PropertyPlaceholderHelper.replacePlaceholder(value, true, configs);
+            value = PropertyPlaceholderHelper.replacePlaceholder(value, true);
 
             options.put(key, value);
         }
