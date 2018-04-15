@@ -84,16 +84,6 @@ public class PropertyPlaceholderHelper {
     }
 
     /**
-     * 判断是否需要进行替换
-     *
-     * @param text 待检查文字
-     * @return
-     */
-    private static boolean needReplace(String text) {
-        return StringUtils.hasExcerpt(text, "\\$\\{.*?\\}") > 0;
-    }
-
-    /**
      * 格式化字符串，替换{0}{1}...，如果不成功，则默认返回原字符串
      *
      * @param formatString 需要格式化的字符串
