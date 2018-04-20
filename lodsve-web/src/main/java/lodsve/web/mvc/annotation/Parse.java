@@ -28,8 +28,8 @@ import java.lang.annotation.Target;
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
- * @createTime 2015-2-9 18:58
- * @see lodsve.web.mvc.resolver.ParseDataHandlerMethodArgumentResolver
+ * @date 2015-2-9 18:58
+ * @see lodsve.web.mvc.annotation.resolver.ParseDataHandlerMethodArgumentResolver
  */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

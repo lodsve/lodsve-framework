@@ -41,6 +41,7 @@ import java.util.regex.Pattern;
  * 封装HttpServletRequest
  *
  * @author sunhao(sunhao.java@gmail.com)
+ * @date 2012年1月19日
  */
 public class WebInput {
     /**

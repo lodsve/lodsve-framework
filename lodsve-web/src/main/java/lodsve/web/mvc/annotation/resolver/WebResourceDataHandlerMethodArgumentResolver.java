@@ -15,9 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.web.mvc.resolver;
+package lodsve.web.mvc.annotation.resolver;
 
-import lodsve.web.mvc.annotation.WebResource;
 import lodsve.web.mvc.commons.FileWebInput;
 import lodsve.web.mvc.commons.WebInput;
 import lodsve.web.mvc.commons.WebOutput;
@@ -31,20 +30,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 为controller注入参数WebInput/WebOutput/FileWebInput.
+ * 为controller注入参数WebInput/WebOutput/FileWebInput
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/7/7 上午9:20
+ * @author sunhao(sunhao.java @ gmail.com)
+ * @date 15/7/7 上午9:20
  */
 public class WebResourceDataHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        WebResource inject = parameter.getParameterAnnotation(WebResource.class);
         Class<?> paramType = parameter.getParameterType();
 
-        return inject != null && (WebInput.class.equals(paramType) || WebOutput.class.equals(paramType)
-                || FileWebInput.class.equals(paramType));
+        return WebInput.class.equals(paramType) || WebOutput.class.equals(paramType) || FileWebInput.class.equals(paramType);
     }
 
     @Override

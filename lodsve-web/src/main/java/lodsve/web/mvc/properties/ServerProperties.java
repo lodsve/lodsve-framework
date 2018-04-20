@@ -27,7 +27,7 @@ import java.util.List;
  * 系统配置.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 15/10/10 下午10:01
+ * @date 15/10/10 下午10:01
  */
 @ConfigurationProperties(prefix = "lodsve.server", locations = "${params.root}/framework/server.properties")
 public class ServerProperties {

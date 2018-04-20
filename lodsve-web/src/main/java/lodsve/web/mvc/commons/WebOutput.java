@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  * 封装HttpServletResponse
  *
  * @author sunhao(sunhao.java@gmail.com)
+ * @date 2012年1月19日
  */
 public class WebOutput {
     private HttpServletResponse response;

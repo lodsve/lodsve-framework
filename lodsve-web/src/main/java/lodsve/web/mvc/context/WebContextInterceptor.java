@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  * 设置请求上下文内容的拦截器.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2017/5/8 下午2:44
+ * @date 2017/5/8 下午2:44
  */
 public class WebContextInterceptor extends HandlerInterceptorAdapter {
     @Override

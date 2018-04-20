@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
  * 利用插件配置swagger的一些信息.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/3/24 上午9:30
+ * @date 16/3/24 上午9:30
  */
 public class SpringFoxDocket extends Docket {
     @Autowired

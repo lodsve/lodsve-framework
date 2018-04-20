@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.web.mvc.resolver;
+package lodsve.web.mvc.annotation.resolver;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,7 +39,7 @@ import java.util.Map;
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
- * @createTime 2015-1-29 21:49
+ * @date 2015-1-29 21:49
  */
 public class BindDataHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
     @Override

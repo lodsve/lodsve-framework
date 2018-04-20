@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.web.mvc.resolver;
+package lodsve.web.mvc.annotation.resolver;
 
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -47,7 +47,7 @@ import java.util.Map;
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
- * @createTime 2015-2-9 18:59
+ * @date 2015-2-9 18:59
  * @see Parse
  */
 public class ParseDataHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {

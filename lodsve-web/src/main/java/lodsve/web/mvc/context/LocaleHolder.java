@@ -24,7 +24,7 @@ import java.util.Locale;
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
- * @createTime 13-6-22 下午3:11
+ * @date 13-6-22 下午3:11
  */
 public class LocaleHolder {
     private final static ThreadLocal<Locale> LOCALE_THREAD_LOCAL = new ThreadLocal<>();

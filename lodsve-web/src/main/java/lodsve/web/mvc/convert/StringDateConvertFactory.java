@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
- * @createTime 2014-12-18 15:28
+ * @date 2014-12-18 15:28
  */
 public class StringDateConvertFactory implements ConverterFactory<String, Date>, ConditionalConverter {
     /**

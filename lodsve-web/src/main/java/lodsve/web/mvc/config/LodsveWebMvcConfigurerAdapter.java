@@ -23,9 +23,9 @@ import lodsve.web.mvc.convert.EnumCodeConverterFactory;
 import lodsve.web.mvc.convert.StringDateConvertFactory;
 import lodsve.web.mvc.json.CustomObjectMapper;
 import lodsve.web.mvc.properties.ServerProperties;
-import lodsve.web.mvc.resolver.BindDataHandlerMethodArgumentResolver;
-import lodsve.web.mvc.resolver.ParseDataHandlerMethodArgumentResolver;
-import lodsve.web.mvc.resolver.WebResourceDataHandlerMethodArgumentResolver;
+import lodsve.web.mvc.annotation.resolver.BindDataHandlerMethodArgumentResolver;
+import lodsve.web.mvc.annotation.resolver.ParseDataHandlerMethodArgumentResolver;
+import lodsve.web.mvc.annotation.resolver.WebResourceDataHandlerMethodArgumentResolver;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -40,7 +40,7 @@ import java.util.List;
  * 配置springMVC.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/8/15 下午1:22
+ * @date 15/8/15 下午1:22
  */
 public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
     private ServerProperties properties;

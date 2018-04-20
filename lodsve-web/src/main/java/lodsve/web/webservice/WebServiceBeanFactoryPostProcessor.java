@@ -37,7 +37,7 @@ import javax.jws.WebService;
  * WebService Bean FactoryPostProcessor.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-15-0015 09:37
+ * @date 2018-1-15-0015 09:37
  */
 public class WebServiceBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
     private static final Logger logger = LoggerFactory.getLogger(WebServiceBeanFactoryPostProcessor.class);

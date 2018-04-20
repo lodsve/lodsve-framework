@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.web.mvc.convert;
+package lodsve.web.mvc.json;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,7 +31,7 @@ import java.io.IOException;
  * {@link lodsve.web.mvc.json.CustomObjectMapper#CustomObjectMapper()}
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2016/11/3 下午2:56
+ * @date 2016/11/3 下午2:56
  */
 public class EnumDeserializer extends JsonDeserializer<Enum> {
     @Override

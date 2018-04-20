@@ -17,11 +17,8 @@
 
 package lodsve.wechat.web;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import lodsve.core.utils.StringUtils;
 import lodsve.core.utils.XmlUtils;
-import lodsve.web.mvc.annotation.WebResource;
 import lodsve.web.mvc.commons.WebInput;
 import lodsve.web.mvc.commons.WebOutput;
 import lodsve.wechat.api.base.WeChatService;
@@ -36,11 +33,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
  * 微信配置校验及消息/事件捕获.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/21 下午5:13
+ * @date 16/2/21 下午5:13
  */
 @ApiIgnore
 @RestController
@@ -64,7 +64,7 @@ public class WeChatController {
      */
     @ApiIgnore
     @RequestMapping(value = "/message", produces = "application/json", method = RequestMethod.GET)
-    public String check(String signature, String timestamp, String nonce, String echostr, @WebResource WebOutput out) throws IOException {
+    public String check(String signature, String timestamp, String nonce, String echostr, WebOutput out) throws IOException {
         Assert.notNull(signature);
         Assert.notNull(timestamp);
         Assert.notNull(nonce);
@@ -92,7 +92,7 @@ public class WeChatController {
      */
     @ApiIgnore
     @RequestMapping(value = "/message", produces = "application/json", method = RequestMethod.POST)
-    public String handleMessage(@WebResource WebInput in) {
+    public String handleMessage(WebInput in) {
         try {
             Reply reply = weChatReceiveHandler.handle(XmlUtils.parse(in.getRequest().getInputStream()));
             return XmlUtils.toXML(reply);

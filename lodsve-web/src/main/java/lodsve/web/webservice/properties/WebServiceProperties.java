@@ -27,7 +27,7 @@ import java.util.Map;
  * 配置WebService的相关参数.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/1/23 下午8:50
+ * @date 16/1/23 下午8:50
  */
 @ConfigurationProperties(prefix = "lodsve.webservice", locations = "${params.root}/framework/webservice.properties")
 public class WebServiceProperties {

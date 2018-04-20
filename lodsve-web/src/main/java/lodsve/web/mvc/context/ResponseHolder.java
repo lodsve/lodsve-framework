@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * response.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2017/5/8 下午2:37
+ * @date 2017/5/8 下午2:37
  */
 public class ResponseHolder {
     private final static ThreadLocal<HttpServletResponse> RESPONSE_THREAD_LOCAL = new ThreadLocal<>();

@@ -32,7 +32,7 @@ import java.util.Map;
  * Lodsve Webservice Initializer.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2018/1/12 下午10:17
+ * @date 2018/1/12 下午10:17
  */
 public class LodsveWebserviceInitializer implements WebApplicationInitializer, InitializingBean {
     private static ServletContext servletContext;

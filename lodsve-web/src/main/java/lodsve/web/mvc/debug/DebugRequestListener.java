@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  *
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0
- * @createTime 2012-3-12 上午05:50:23
+ * @date 2012-3-12 上午05:50:23
  */
 public class DebugRequestListener implements ApplicationListener<ServletRequestHandledEvent> {
     private static final Logger logger = LoggerFactory.getLogger(DebugRequestListener.class);
