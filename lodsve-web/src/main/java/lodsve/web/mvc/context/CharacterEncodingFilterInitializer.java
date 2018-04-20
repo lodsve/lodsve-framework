@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.context;
+package lodsve.web.mvc.context;
 
 import lodsve.core.configuration.ApplicationProperties;
 import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
