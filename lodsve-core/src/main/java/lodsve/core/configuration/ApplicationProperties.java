@@ -32,6 +32,15 @@ public class ApplicationProperties {
      */
     private boolean devMode = true;
     /**
+     * 编码
+     */
+    private String encoding = "UTF-8";
+    /**
+     * whether the specified encoding is supposed to
+     * override existing request and response encodings
+     */
+    private boolean forceEncoding = true;
+    /**
      * banner配置
      */
     private BannerConfig banner;
@@ -46,6 +55,22 @@ public class ApplicationProperties {
 
     public void setDevMode(boolean devMode) {
         this.devMode = devMode;
+    }
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+
+    public boolean isForceEncoding() {
+        return forceEncoding;
+    }
+
+    public void setForceEncoding(boolean forceEncoding) {
+        this.forceEncoding = forceEncoding;
     }
 
     public BannerConfig getBanner() {

@@ -20,6 +20,7 @@ package lodsve.core.properties;
 import lodsve.core.logger.Log4JConfiguration;
 import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.ini.IniLoader;
+import lodsve.core.properties.profile.ProfileInitializer;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.WebApplicationInitializer;
@@ -81,5 +82,7 @@ public class ParamsHomeInitializer implements WebApplicationInitializer {
 
         // 配置log4j
         Log4JConfiguration.init();
+
+        servletContext.setInitParameter("contextInitializerClasses", ProfileInitializer.class.getName());
     }
 }

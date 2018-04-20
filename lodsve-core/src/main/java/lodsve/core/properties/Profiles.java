@@ -17,22 +17,20 @@
 
 package lodsve.core.properties;
 
-import lodsve.core.properties.env.Configuration;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 /**
  * 读取配置的profile.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author sunhao(sunhao.java @ gmail.com)
  * @version 1.0 2016-9-22 10:37
  */
-public class Profiles {
-    private static Configuration profileConfig;
-
-    static {
-        Configuration frameworkConfigurationProfiles = Env.getFrameworkEnv("profiles.properties");
-        profileConfig = frameworkConfigurationProfiles.subset("profiles");
-    }
+@Component
+public class Profiles implements EnvironmentAware {
+    private static Environment environment;
 
     /**
      * 获取profile的值
@@ -43,6 +41,11 @@ public class Profiles {
     public static boolean getProfile(String profileName) {
         Assert.hasText(profileName, "profile name is required!");
 
-        return Boolean.TRUE.toString().equals(profileConfig.getString(profileName, Boolean.FALSE.toString()));
+        return environment.acceptsProfiles(profileName);
+    }
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        Profiles.environment = environment;
     }
 }
