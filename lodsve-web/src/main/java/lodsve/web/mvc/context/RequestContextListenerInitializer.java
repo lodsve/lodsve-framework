@@ -17,27 +17,21 @@
 
 package lodsve.web.mvc.context;
 
-import java.util.Locale;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.request.RequestContextListener;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 /**
- * 语言.
+ * 注册{@link RequestContextListener}.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @date 13-6-22 下午3:11
+ * @author sunhao(sunhao.java @ gmail.com)
+ * @date 2018-4-24-0024 10:25
  */
-public class LocaleHolder {
-    private final static ThreadLocal<Locale> LOCALE_THREAD_LOCAL = new ThreadLocal<>();
-
-    public static void setLocale(Locale locale){
-        LOCALE_THREAD_LOCAL.set(locale);
-    }
-
-    public static Locale getLocale(){
-        return LOCALE_THREAD_LOCAL.get();
-    }
-
-    public static void removeLocale() {
-        LOCALE_THREAD_LOCAL.remove();
+public class RequestContextListenerInitializer implements WebApplicationInitializer {
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        servletContext.addListener(RequestContextListener.class);
     }
 }

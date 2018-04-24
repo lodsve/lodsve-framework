@@ -138,16 +138,15 @@ public class RelaxedBindFactory {
     }
 
     private Object getValue(Class<?> type, String prefix, String name, Method readMethod) {
-        String key = prefix;
-        String camelName = name;
+        String key = prefix, camelName = prefix;
         if (StringUtils.isNotBlank(name)) {
             key += ("." + name);
-            camelName = getCamelName(name);
+            camelName += ("." + getCamelName(name));
         }
         Object value = getValueForType(key, type, readMethod);
 
         if (isEmpty(value)) {
-            value = getValueForType(prefix + "." + camelName, type, readMethod);
+            value = getValueForType(camelName, type, readMethod);
         }
 
         return value;

@@ -18,21 +18,23 @@
 package lodsve.web.mvc.config;
 
 import lodsve.core.configuration.ApplicationProperties;
-import lodsve.web.mvc.context.WebContextInterceptor;
+import lodsve.web.mvc.annotation.resolver.BindDataHandlerMethodArgumentResolver;
+import lodsve.web.mvc.annotation.resolver.ParseDataHandlerMethodArgumentResolver;
+import lodsve.web.mvc.annotation.resolver.WebResourceDataHandlerMethodArgumentResolver;
 import lodsve.web.mvc.convert.EnumCodeConverterFactory;
 import lodsve.web.mvc.convert.StringDateConvertFactory;
 import lodsve.web.mvc.json.CustomObjectMapper;
 import lodsve.web.mvc.properties.ServerProperties;
-import lodsve.web.mvc.annotation.resolver.BindDataHandlerMethodArgumentResolver;
-import lodsve.web.mvc.annotation.resolver.ParseDataHandlerMethodArgumentResolver;
-import lodsve.web.mvc.annotation.resolver.WebResourceDataHandlerMethodArgumentResolver;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.List;
 
@@ -100,10 +102,5 @@ public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
         } else {
             corsRegistration.allowedOrigins(properties.getFrontEndUrl(), properties.getServerUrl());
         }
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new WebContextInterceptor());
     }
 }
