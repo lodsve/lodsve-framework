@@ -24,7 +24,13 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 /**
- * 注册{@link RequestContextListener}.
+ * <p>注册{@link RequestContextListener}.</p>
+ *
+ * 使用方式：
+ * <blockquote><pre>
+ * HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+ * Locale locale = LocaleContextHolder.getLocale();
+ * </pre></blockquote>
  *
  * @author sunhao(sunhao.java @ gmail.com)
  * @date 2018-4-24-0024 10:25
