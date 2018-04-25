@@ -33,7 +33,7 @@ import java.util.Set;
  *
  * @author sunhao(sunhao.java@gmail.com)
  * @version V1.0
- * @createTime 2012-3-8 下午09:56:58
+ * @date 2012-3-8 下午09:56:58
  */
 public class ApplicationHelper {
     private static ApplicationHelper instance = new ApplicationHelper();
@@ -123,7 +123,7 @@ public class ApplicationHelper {
         apps = null;
     }
 
-    public void addApplicationContext(ApplicationContext context) {
+    protected void addApplicationContext(ApplicationContext context) {
         if (context == null) {
             return;
         }
