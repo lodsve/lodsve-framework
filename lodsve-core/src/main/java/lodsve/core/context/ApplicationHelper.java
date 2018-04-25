@@ -123,7 +123,7 @@ public class ApplicationHelper {
         apps = null;
     }
 
-    protected void addApplicationContext(ApplicationContext context) {
+    public void addApplicationContext(ApplicationContext context) {
         if (context == null) {
             return;
         }

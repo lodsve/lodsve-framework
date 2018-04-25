@@ -18,6 +18,7 @@
 package lodsve.cache.guava;
 
 import lodsve.cache.properties.CacheProperties;
+import lodsve.cache.properties.GuavaConfig;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class GuavaCacheConfiguration {
     public CacheManager cacheManager() {
         GuavaCacheManager cacheManager = new GuavaCacheManager();
 
-        CacheProperties.Guava guava = cacheProperties.getGuava();
+        GuavaConfig guava = cacheProperties.getGuava();
         String cacheNames = guava.getCacheNames();
         List<String> cacheNameList = Arrays.asList(StringUtils.split(cacheNames));
 

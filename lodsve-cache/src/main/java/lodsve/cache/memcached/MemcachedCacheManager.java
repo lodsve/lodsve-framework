@@ -17,7 +17,7 @@
 
 package lodsve.cache.memcached;
 
-import lodsve.cache.properties.CacheProperties.Memcached.CacheConfig;
+import lodsve.cache.properties.OscacheMemcachedCache;
 import net.spy.memcached.MemcachedClient;
 import org.springframework.cache.Cache;
 import org.springframework.cache.transaction.AbstractTransactionSupportingCacheManager;
@@ -36,14 +36,14 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class MemcachedCacheManager extends AbstractTransactionSupportingCacheManager {
     private MemcachedClient memcachedClient;
-    private List<CacheConfig> cacheConfigs;
+    private List<OscacheMemcachedCache> cacheConfigs;
 
     private ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<>();
 
     @Override
     public void afterPropertiesSet() {
         if (!CollectionUtils.isEmpty(cacheConfigs)) {
-            for (CacheConfig config : cacheConfigs) {
+            for (OscacheMemcachedCache config : cacheConfigs) {
                 String name = config.getName();
                 int expire = config.getExpire();
 
@@ -68,7 +68,7 @@ public class MemcachedCacheManager extends AbstractTransactionSupportingCacheMan
         this.memcachedClient = memcachedClient;
     }
 
-    public void setCacheConfigs(List<CacheConfig> cacheConfigs) {
+    public void setCacheConfigs(List<OscacheMemcachedCache> cacheConfigs) {
         this.cacheConfigs = cacheConfigs;
     }
 }
