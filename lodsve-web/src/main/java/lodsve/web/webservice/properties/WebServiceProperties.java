@@ -20,9 +20,6 @@ package lodsve.web.webservice.properties;
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import org.springframework.util.Assert;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * 配置WebService的相关参数.
  *
@@ -37,7 +34,7 @@ public class WebServiceProperties {
      */
     private String path = "/services";
 
-    private Servlet servlet = new Servlet();
+    private ServletConfig servlet = new ServletConfig();
 
     public String getPath() {
         return path;
@@ -49,41 +46,11 @@ public class WebServiceProperties {
         this.path = path;
     }
 
-    public Servlet getServlet() {
+    public ServletConfig getServlet() {
         return servlet;
     }
 
-    public void setServlet(Servlet servlet) {
+    public void setServlet(ServletConfig servlet) {
         this.servlet = servlet;
-    }
-
-    public static class Servlet {
-
-        /**
-         * Servlet init parameters to pass to Spring Web Services.
-         */
-        private Map<String, String> init = new HashMap<>();
-
-        /**
-         * Load on startup priority of the Spring Web Services servlet.
-         */
-        private int loadOnStartup = -1;
-
-        public Map<String, String> getInit() {
-            return this.init;
-        }
-
-        public void setInit(Map<String, String> init) {
-            this.init = init;
-        }
-
-        public int getLoadOnStartup() {
-            return this.loadOnStartup;
-        }
-
-        public void setLoadOnStartup(int loadOnStartup) {
-            this.loadOnStartup = loadOnStartup;
-        }
-
     }
 }

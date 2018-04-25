@@ -18,6 +18,8 @@
 package lodsve.redis.core.connection;
 
 import lodsve.core.utils.StringUtils;
+import lodsve.redis.core.properties.PoolSetting;
+import lodsve.redis.core.properties.ProjectRedisSetting;
 import lodsve.redis.core.properties.RedisProperties;
 import lodsve.redis.exception.RedisException;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -27,7 +29,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * 继承重写redis数据源的工厂,实现自定义的创建连接的方法.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/9/8 下午23:40
+ * @date 15/9/8 下午23:40
  */
 public class LodsveRedisConnectionFactory extends JedisConnectionFactory {
     private static final String URL_PREFIX = "redis://";
@@ -35,7 +37,7 @@ public class LodsveRedisConnectionFactory extends JedisConnectionFactory {
 
     LodsveRedisConnectionFactory(String dataSourceName, RedisProperties redisProperties) {
         settings = redisProperties;
-        RedisProperties.ProjectSetting redisSetting = settings.getProject().get(dataSourceName);
+        ProjectRedisSetting redisSetting = settings.getProject().get(dataSourceName);
 
         String url = redisSetting.getUrl();
         if (StringUtils.isBlank(url)) {
@@ -66,7 +68,7 @@ public class LodsveRedisConnectionFactory extends JedisConnectionFactory {
 
     private JedisPoolConfig getJedisPoolConfig() {
         JedisPoolConfig config = new JedisPoolConfig();
-        RedisProperties.Pool props = settings.getPool();
+        PoolSetting props = settings.getPool();
         config.setMaxTotal(props.getMaxTotal());
         config.setMaxIdle(props.getMaxIdle());
         config.setMinIdle(props.getMinIdle());

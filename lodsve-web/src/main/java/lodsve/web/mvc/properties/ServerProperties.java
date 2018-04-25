@@ -20,9 +20,6 @@ package lodsve.web.mvc.properties;
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import lodsve.core.properties.relaxedbind.annotations.Required;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 系统配置.
  *
@@ -44,7 +41,7 @@ public class ServerProperties {
     /**
      * debug配置
      */
-    private Debug debug;
+    private DebugConfig debug;
     /**
      * 是否启用验证码
      */
@@ -74,11 +71,11 @@ public class ServerProperties {
         this.serverUrl = serverUrl;
     }
 
-    public Debug getDebug() {
+    public DebugConfig getDebug() {
         return debug;
     }
 
-    public void setDebug(Debug debug) {
+    public void setDebug(DebugConfig debug) {
         this.debug = debug;
     }
 
@@ -104,44 +101,5 @@ public class ServerProperties {
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public static class Debug {
-        /**
-         * 需要忽略的url
-         */
-        private List<String> excludeUrl = new ArrayList<>(0);
-        /**
-         * 需要忽略的ip/address
-         */
-        private List<String> excludeAddress = new ArrayList<>(0);
-        /**
-         * 当执行时间超长，将会警告
-         */
-        private long maxProcessingTime = 3000;
-
-        public List<String> getExcludeUrl() {
-            return excludeUrl;
-        }
-
-        public void setExcludeUrl(List<String> excludeUrl) {
-            this.excludeUrl = excludeUrl;
-        }
-
-        public List<String> getExcludeAddress() {
-            return excludeAddress;
-        }
-
-        public void setExcludeAddress(List<String> excludeAddress) {
-            this.excludeAddress = excludeAddress;
-        }
-
-        public long getMaxProcessingTime() {
-            return maxProcessingTime;
-        }
-
-        public void setMaxProcessingTime(long maxProcessingTime) {
-            this.maxProcessingTime = maxProcessingTime;
-        }
     }
 }

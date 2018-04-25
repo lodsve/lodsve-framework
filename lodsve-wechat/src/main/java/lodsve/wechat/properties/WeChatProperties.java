@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.wechat.config;
+package lodsve.wechat.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import lodsve.core.properties.relaxedbind.annotations.Required;
@@ -24,7 +24,7 @@ import lodsve.core.properties.relaxedbind.annotations.Required;
  * 参数配置在配置文件中.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/21 下午4:58
+ * @date 16/2/21 下午4:58
  */
 @ConfigurationProperties(prefix = "lodsve.wechat", locations = "${params.root}/framework/wechat.properties")
 public class WeChatProperties {

@@ -15,21 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.wechat.config;
+package lodsve.search.properties;
 
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
-import lodsve.wechat.properties.WeChatProperties;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 
 /**
- * spring bean配置.
+ * 搜索的配置.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @date 16/2/24 上午12:07
+ * @date 2016/1/20 12:39
  */
-@Configuration
-@EnableConfigurationProperties(WeChatProperties.class)
-@ComponentScan("lodsve.wechat")
-public class WeChatConfig {
+@ConfigurationProperties(prefix = "lodsve.search", locations = "${params.root}/framework/search.properties")
+public class SearchProperties {
+    private SolrConfig solr;
+    private LuceneConfig lucene;
+
+    public SolrConfig getSolr() {
+        return solr;
+    }
+
+    public void setSolr(SolrConfig solr) {
+        this.solr = solr;
+    }
+
+    public LuceneConfig getLucene() {
+        return lucene;
+    }
+
+    public void setLucene(LuceneConfig lucene) {
+        this.lucene = lucene;
+    }
 }

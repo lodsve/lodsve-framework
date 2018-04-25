@@ -24,7 +24,7 @@ import lodsve.core.utils.EncryptUtils;
 import lodsve.core.utils.RandomUtils;
 import lodsve.core.utils.StringUtils;
 import lodsve.wechat.beans.JsApiConfig;
-import lodsve.wechat.config.WeChatProperties;
+import lodsve.wechat.properties.WeChatProperties;
 import lodsve.wechat.core.WeChat;
 import lodsve.wechat.core.WeChatRequest;
 import lodsve.wechat.core.WeChatUrl;
@@ -40,7 +40,7 @@ import java.util.Map;
  * 微信service.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/23 上午11:11
+ * @date 16/2/23 上午11:11
  */
 @Component
 public class WeChatService {

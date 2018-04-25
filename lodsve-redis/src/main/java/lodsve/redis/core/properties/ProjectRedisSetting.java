@@ -15,21 +15,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.wechat.config;
-
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
-import lodsve.wechat.properties.WeChatProperties;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+package lodsve.redis.core.properties;
 
 /**
- * spring bean配置.
+ * Project Redis Setting.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @date 16/2/24 上午12:07
+ * @date 2018-4-25-0025 14:30
  */
-@Configuration
-@EnableConfigurationProperties(WeChatProperties.class)
-@ComponentScan("lodsve.wechat")
-public class WeChatConfig {
+public class ProjectRedisSetting {
+    private String url = "redis://localhost:6379/0";
+    private String password;
+    private int timeout = 100000;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
 }

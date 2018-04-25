@@ -15,36 +15,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.redis.core.properties;
+package lodsve.web.webservice.properties;
 
-import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
-
+import java.util.HashMap;
 import java.util.Map;
 
 /**
- * redis的配置.
+ * Servlet Config.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @date 15/9/8 下午3:49
+ * @date 2018-4-25-0025 14:56
  */
-@ConfigurationProperties(prefix = "lodsve.redis", locations = "${params.root}/framework/redis.properties")
-public class RedisProperties {
-    private PoolSetting pool;
-    private Map<String, ProjectRedisSetting> project;
+public class ServletConfig {
+    /**
+     * Servlet init parameters to pass to Spring Web Services.
+     */
+    private Map<String, String> init = new HashMap<>();
 
-    public PoolSetting getPool() {
-        return pool;
+    /**
+     * Load on startup priority of the Spring Web Services servlet.
+     */
+    private int loadOnStartup = -1;
+
+    public Map<String, String> getInit() {
+        return this.init;
     }
 
-    public void setPool(PoolSetting pool) {
-        this.pool = pool;
+    public void setInit(Map<String, String> init) {
+        this.init = init;
     }
 
-    public Map<String, ProjectRedisSetting> getProject() {
-        return project;
+    public int getLoadOnStartup() {
+        return this.loadOnStartup;
     }
 
-    public void setProject(Map<String, ProjectRedisSetting> project) {
-        this.project = project;
+    public void setLoadOnStartup(int loadOnStartup) {
+        this.loadOnStartup = loadOnStartup;
     }
 }

@@ -22,7 +22,7 @@ import com.google.common.base.Charsets;
 import lodsve.core.utils.StringUtils;
 import lodsve.core.utils.URLUtils;
 import lodsve.wechat.beans.OAuthToken;
-import lodsve.wechat.config.WeChatProperties;
+import lodsve.wechat.properties.WeChatProperties;
 import lodsve.wechat.core.WeChatRequest;
 import lodsve.wechat.core.WeChatUrl;
 import lodsve.wechat.exception.WeChatException;
@@ -36,7 +36,7 @@ import java.util.Arrays;
  * oauth认证.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/23 下午12:38
+ * @date 16/2/23 下午12:38
  */
 @Component
 public class WeChatOAuthService {

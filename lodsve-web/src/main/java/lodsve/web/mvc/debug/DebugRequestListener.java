@@ -17,6 +17,7 @@
 
 package lodsve.web.mvc.debug;
 
+import lodsve.web.mvc.properties.DebugConfig;
 import lodsve.web.mvc.properties.ServerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,7 +94,7 @@ public class DebugRequestListener implements ApplicationListener<ServletRequestH
     }
 
     private void initPattern() {
-        ServerProperties.Debug debug = properties.getDebug();
+        DebugConfig debug = properties.getDebug();
         List<String> excludeUrl = debug.getExcludeUrl();
         excludeUrl.addAll(DEFAULT_EXCLUDE_URL);
         for (String url : excludeUrl) {

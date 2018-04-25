@@ -20,20 +20,21 @@ package lodsve.wechat.core;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import lodsve.wechat.beans.AccessToken;
+import lodsve.wechat.beans.JsApiTicket;
+import lodsve.wechat.properties.WeChatProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import lodsve.wechat.beans.AccessToken;
-import lodsve.wechat.beans.JsApiTicket;
-import lodsve.wechat.config.WeChatProperties;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * 获取最重要参数[accessToken/jsapi_ticket]的两个方法.
  *
  * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/21 下午5:18
+ * @date 16/2/21 下午5:18
  */
 @Component
 public final class WeChat {

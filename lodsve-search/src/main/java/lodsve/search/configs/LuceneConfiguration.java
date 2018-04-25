@@ -20,6 +20,8 @@ package lodsve.search.configs;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.search.engine.LuceneSearchEngine;
 import lodsve.search.engine.SearchEngine;
+import lodsve.search.properties.LuceneConfig;
+import lodsve.search.properties.SearchProperties;
 import org.apache.lucene.analysis.Analyzer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ import org.springframework.context.annotation.ComponentScan;
  * lucene配置.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2016/1/20 12:33
+ * @date 2016/1/20 12:33
  */
 @Configurable
 @EnableConfigurationProperties(SearchProperties.class)
@@ -42,7 +44,7 @@ public class LuceneConfiguration {
 
     @Bean
     public SearchEngine searchEngine() {
-        SearchProperties.Lucene lucene = properties.getLucene();
+        LuceneConfig lucene = properties.getLucene();
 
         Class<?> analyzerClass = lucene.getAnalyzer();
         Analyzer analyzer = (Analyzer) BeanUtils.instantiate(analyzerClass);
