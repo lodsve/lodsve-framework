@@ -17,26 +17,19 @@
 
 package lodsve.core.configuration;
 
-import lodsve.core.email.EmailBean;
-import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
-
-import java.util.Map;
-
 /**
- * 邮箱服务器的配置.
+ * Banner Mode.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @date 16/5/26 下午2:57
+ * @author sunhao(sunhao.java @ gmail.com)
+ * @date 2018-4-25-0025 11:36
  */
-@ConfigurationProperties(prefix = "lodsve.email", locations = "classpath:/META-INF/email.properties")
-public class EmailProperties {
-    private Map<String, EmailBean> beans;
-
-    public Map<String, EmailBean> getBeans() {
-        return beans;
-    }
-
-    public void setBeans(Map<String, EmailBean> beans) {
-        this.beans = beans;
-    }
+public enum BannerMode {
+    /**
+     * 控制台打印
+     */
+    CONSOLE,
+    /**
+     * 日志
+     */
+    LOGGER
 }

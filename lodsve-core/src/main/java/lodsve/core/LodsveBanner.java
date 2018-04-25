@@ -20,7 +20,7 @@ package lodsve.core;
 import lodsve.core.ansi.AnsiColor;
 import lodsve.core.ansi.AnsiOutput;
 import lodsve.core.ansi.AnsiStyle;
-import lodsve.core.configuration.ApplicationProperties;
+import lodsve.core.configuration.BannerConfig;
 
 import java.io.PrintStream;
 
@@ -28,7 +28,7 @@ import java.io.PrintStream;
  * 默认的banner.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2018/1/12 下午6:31
+ * @date 2018/1/12 下午6:31
  */
 public class LodsveBanner implements Banner {
     private static final String[] BANNER = new String[]{
@@ -47,7 +47,7 @@ public class LodsveBanner implements Banner {
     private static final String LODSVE_TITLE = " :: Lodsve Frameowrk :: ";
 
     @Override
-    public void print(ApplicationProperties.BannerConfig config, PrintStream out) {
+    public void print(BannerConfig config, PrintStream out) {
         String version = LodsveVersion.getVersion();
         StringBuilder blank1 = new StringBuilder();
         fillBlank(LODSVE_TITLE.length() + version.length(), blank1);

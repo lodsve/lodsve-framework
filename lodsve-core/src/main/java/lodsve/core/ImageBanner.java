@@ -18,7 +18,7 @@
 package lodsve.core;
 
 import lodsve.core.ansi.*;
-import lodsve.core.configuration.ApplicationProperties;
+import lodsve.core.configuration.BannerConfig;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
@@ -33,7 +33,7 @@ import java.io.PrintStream;
  * image banner.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-18-0018 10:06
+ * @date 2018-1-18-0018 10:06
  */
 public class ImageBanner implements Banner {
     private static final double[] RGB_WEIGHT = {0.2126d, 0.7152d, 0.0722d};
@@ -51,7 +51,7 @@ public class ImageBanner implements Banner {
     }
 
     @Override
-    public void print(ApplicationProperties.BannerConfig config, PrintStream out) {
+    public void print(BannerConfig config, PrintStream out) {
         int width = config.getImage().getWidth(), height = config.getImage().getHeight(), margin = config.getImage().getMargin();
         String headless = System.getProperty("java.awt.headless");
         try {

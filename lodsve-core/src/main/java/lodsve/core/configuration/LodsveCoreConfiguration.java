@@ -44,7 +44,7 @@ import java.util.concurrent.ExecutorService;
  * 配置core模块的properties.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2016/12/27 下午3:07
+ * @date 2016/12/27 下午3:07
  */
 @Configuration
 @EnableConfigurationProperties({ApplicationProperties.class, EmailProperties.class})
@@ -58,7 +58,7 @@ public class LodsveCoreConfiguration {
 
     @Bean
     public ThreadPoolExecutorFactoryBean threadPoolExecutorFactoryBean() {
-        ApplicationProperties.ThreadConfig config = applicationProperties.getThread();
+        ThreadConfig config = applicationProperties.getThread();
 
         ThreadPoolExecutorFactoryBean threadPoolExecutorFactoryBean = new ThreadPoolExecutorFactoryBean();
         threadPoolExecutorFactoryBean.setCorePoolSize(config.getCorePoolSize());

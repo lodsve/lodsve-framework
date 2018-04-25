@@ -17,7 +17,7 @@
 
 package lodsve.core;
 
-import lodsve.core.configuration.ApplicationProperties;
+import lodsve.core.configuration.BannerConfig;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -30,7 +30,7 @@ import java.util.List;
  * 打印classpath下banner.txt.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-18-0018 10:06
+ * @date 2018-1-18-0018 10:06
  */
 public class TextBanner implements Banner {
     private Resource resource;
@@ -43,7 +43,7 @@ public class TextBanner implements Banner {
     }
 
     @Override
-    public void print(ApplicationProperties.BannerConfig config, PrintStream out) {
+    public void print(BannerConfig config, PrintStream out) {
         try {
             List<String> lines = IOUtils.readLines(resource.getInputStream(), config.getCharset());
             for (String line : lines) {

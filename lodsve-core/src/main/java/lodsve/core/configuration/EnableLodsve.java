@@ -25,7 +25,7 @@ import java.lang.annotation.*;
  * Enable Lodsve.
  *
  * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017/12/12 12:53
+ * @date 2017/12/12 12:53
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

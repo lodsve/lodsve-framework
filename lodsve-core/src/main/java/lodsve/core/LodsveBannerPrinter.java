@@ -18,6 +18,8 @@
 package lodsve.core;
 
 import lodsve.core.configuration.ApplicationProperties;
+import lodsve.core.configuration.BannerConfig;
+import lodsve.core.configuration.BannerMode;
 import lodsve.core.io.support.LodsveResourceLoader;
 import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import org.slf4j.Logger;
@@ -41,7 +43,7 @@ import java.util.List;
  * 模仿spring-boot打印出banner.
  *
  * @author sunhao(sunhao.java @ .com)
- * @version 1.0 2018/1/11 下午10:13
+ * @date 2018/1/11 下午10:13
  */
 @Order(Ordered.HIGHEST_PRECEDENCE + 1)
 public class LodsveBannerPrinter implements WebApplicationInitializer {
@@ -51,7 +53,7 @@ public class LodsveBannerPrinter implements WebApplicationInitializer {
     private static final String[] IMAGE_EXTENSION = {"gif", "jpg", "png"};
     private static final ResourceLoader RESOURCE_LOADER = new LodsveResourceLoader();
 
-    private ApplicationProperties.BannerConfig bannerConfig;
+    private BannerConfig bannerConfig;
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
@@ -65,7 +67,7 @@ public class LodsveBannerPrinter implements WebApplicationInitializer {
 
         Banner banner = getBanner();
 
-        if (ApplicationProperties.BannerMode.LOGGER.equals(bannerConfig.getMode())) {
+        if (BannerMode.LOGGER.equals(bannerConfig.getMode())) {
             printInLogger(banner);
             return;
         }
@@ -99,7 +101,7 @@ public class LodsveBannerPrinter implements WebApplicationInitializer {
         return DEFAULT_BANNER;
     }
 
-    private Banner getImageBanner(ApplicationProperties.BannerConfig bannerConfig) {
+    private Banner getImageBanner(BannerConfig bannerConfig) {
         String location = bannerConfig.getImage().getLocation();
         if (StringUtils.hasLength(location)) {
             Resource resource = RESOURCE_LOADER.getResource(location);
@@ -116,7 +118,7 @@ public class LodsveBannerPrinter implements WebApplicationInitializer {
         return null;
     }
 
-    private Banner getTextBanner(ApplicationProperties.BannerConfig bannerConfig) {
+    private Banner getTextBanner(BannerConfig bannerConfig) {
         String location = bannerConfig.getLocation();
         Resource resource = RESOURCE_LOADER.getResource(location);
         if (resource.exists()) {
@@ -130,7 +132,7 @@ public class LodsveBannerPrinter implements WebApplicationInitializer {
         private List<Banner> banners = new ArrayList<>(16);
 
         @Override
-        public void print(ApplicationProperties.BannerConfig config, PrintStream out) {
+        public void print(BannerConfig config, PrintStream out) {
             for (Banner banner : banners) {
                 banner.print(config, out);
             }
