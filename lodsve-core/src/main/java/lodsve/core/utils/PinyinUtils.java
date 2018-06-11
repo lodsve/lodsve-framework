@@ -31,8 +31,7 @@ import java.util.Set;
 /**
  * 获取汉字拼音的工具类
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2012-07-17 下午01:22
  */
 public class PinyinUtils {

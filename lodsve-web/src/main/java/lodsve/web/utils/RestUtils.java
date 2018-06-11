@@ -36,7 +36,7 @@ import java.util.Set;
 /**
  * 使用spring mvc实现restful客户端.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-3-26 14:44
  */
 public class RestUtils {

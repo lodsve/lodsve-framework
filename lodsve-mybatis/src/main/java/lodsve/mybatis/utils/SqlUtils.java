@@ -22,8 +22,8 @@ import lodsve.mybatis.utils.format.SqlFormatter;
 /**
  * sql utils.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2017/6/12 下午8:27
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/6/12 下午8:27
  */
 public final class SqlUtils {
     private final static SqlFormatter SQL_FORMATTER = new SqlFormatter();

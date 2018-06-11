@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 /**
  * 用户性别枚举.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/3/2 下午4:27
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/3/2 下午4:27
  */
 public enum Sex {
     MAN, WOMAN, UNKNOWN;

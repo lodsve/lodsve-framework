@@ -32,9 +32,8 @@ import java.util.*;
 /**
  * 解析ini文件.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
- * @createTime 2014-12-31 14:25
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2014-12-31 14:25
  */
 public class IniLoader {
 

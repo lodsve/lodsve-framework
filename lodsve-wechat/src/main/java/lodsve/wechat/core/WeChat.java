@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 获取最重要参数[accessToken/jsapi_ticket]的两个方法.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/2/21 下午5:18
  */
 @Component

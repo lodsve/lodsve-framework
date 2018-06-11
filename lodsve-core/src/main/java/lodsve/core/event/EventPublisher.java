@@ -21,14 +21,12 @@ import lodsve.core.event.module.BaseEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * 事件发布器.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 13-4-27 上午4:57
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-4-27 上午4:57
  */
 public class EventPublisher {
     /**

@@ -26,8 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * 图文消息中的文章.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/23 下午11:43
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/23 下午11:43
  */
 @XmlRootElement(name = "item")
 @XmlAccessorType(XmlAccessType.PROPERTY)

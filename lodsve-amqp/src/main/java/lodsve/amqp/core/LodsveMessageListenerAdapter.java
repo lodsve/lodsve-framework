@@ -36,8 +36,8 @@ import java.util.Map;
  * 由于原来的amqp在接受json数据转成Java对象时，需要按照原来message中__TypeId__来转换，这里重写类是为了替换这里的__TypeId__为消费者的<br/>
  * 数据类型，并且加入泛型的判断.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2014-11-3 19:09
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2014-11-3 19:09
  */
 public class LodsveMessageListenerAdapter extends MessageListenerAdapter {
     @Override

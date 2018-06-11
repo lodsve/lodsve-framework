@@ -41,8 +41,8 @@ import java.util.Map;
 /**
  * 动态创建数据源的配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/1/19 下午8:01
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/19 下午8:01
  */
 public class DataSourceBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
 

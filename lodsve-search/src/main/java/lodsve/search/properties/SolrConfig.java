@@ -20,7 +20,7 @@ package lodsve.search.properties;
 /**
  * Solr Config.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 14:47
  */
 public class SolrConfig {

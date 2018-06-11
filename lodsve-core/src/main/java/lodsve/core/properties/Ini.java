@@ -31,9 +31,8 @@ import java.util.Set;
 /**
  * ini配置获取.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
- * @createTime 2014-12-31 14:19
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2014-12-31 14:19
  */
 public class Ini {
     private static final Logger logger = LoggerFactory.getLogger(Ini.class);

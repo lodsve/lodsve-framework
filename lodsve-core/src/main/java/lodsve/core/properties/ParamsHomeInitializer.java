@@ -64,9 +64,8 @@ import static lodsve.core.properties.ParamsHome.PARAMS_HOME_NAME;
  * 如果在zookeeper中,加上前缀zookeeper:you params home<br/>
  * 如果在文件系统中,可加前缀file:或者不加也行
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
- * @createTime 2015-1-5 10:00
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2015-1-5 10:00
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ParamsHomeInitializer implements WebApplicationInitializer {

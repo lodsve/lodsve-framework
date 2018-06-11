@@ -26,8 +26,8 @@ import org.springframework.core.type.AnnotationMetadata;
 /**
  * redis数据源注册.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/1/23 下午11:20
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/23 下午11:20
  */
 public class RedisBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
     private static final String DATASOURCE_NAME_ATTRIBUTE_NAME = "name";

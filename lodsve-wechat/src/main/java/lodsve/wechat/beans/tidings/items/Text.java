@@ -23,8 +23,8 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * 文本.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/24 下午12:23
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/24 下午12:23
  */
 @ApiModel(description = "文本")
 public class Text {

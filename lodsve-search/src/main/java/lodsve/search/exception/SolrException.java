@@ -22,8 +22,8 @@ import lodsve.core.exception.ApplicationException;
 /**
  * solr异常.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/6/21 下午3:19
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/6/21 下午3:19
  */
 public class SolrException extends ApplicationException {
     public SolrException(String content) {

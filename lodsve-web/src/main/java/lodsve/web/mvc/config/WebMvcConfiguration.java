@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * web mvc 配置,扫描包路径.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/1/28 上午10:58
  */
 @Configuration

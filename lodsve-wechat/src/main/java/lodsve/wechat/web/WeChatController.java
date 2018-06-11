@@ -39,7 +39,7 @@ import java.io.PrintWriter;
 /**
  * 微信配置校验及消息/事件捕获.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/2/21 下午5:13
  */
 @ApiIgnore

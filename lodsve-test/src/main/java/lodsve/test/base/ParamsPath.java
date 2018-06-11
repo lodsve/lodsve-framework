@@ -22,8 +22,8 @@ import java.lang.annotation.*;
 /**
  * 设置单元测试的params.home.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 16:52
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-28-0028 16:52
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})

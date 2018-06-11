@@ -25,8 +25,8 @@ import lodsve.workflow.enums.AuditResult;
 /**
  * 流程办理拦截器.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2015-11-19 16:38
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2015-11-19 16:38
  */
 public interface HandlerInterceptor {
 

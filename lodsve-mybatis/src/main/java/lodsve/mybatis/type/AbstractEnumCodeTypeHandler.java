@@ -32,8 +32,8 @@ import java.sql.SQLException;
  * mybatis对pojo对象中得枚举与数据库字段映射关系的处理.<br/>
  * 继承的类必须实现空得构造器,然后调用父类的含有clazz参数的构造器
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/6/25 下午7:29
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 15/6/25 下午7:29
  */
 public abstract class AbstractEnumCodeTypeHandler<T extends Enum<?> & Codeable> extends BaseTypeHandler<T> {
     private static final Logger logger = LoggerFactory.getLogger(AbstractEnumCodeTypeHandler.class);

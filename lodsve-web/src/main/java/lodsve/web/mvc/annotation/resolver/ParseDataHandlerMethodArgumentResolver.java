@@ -45,8 +45,7 @@ import java.util.Map;
 /**
  * 当前台传入类似于1,2,3,4,5之类的字符串，将会被解析成一个List，具体参数在{@link Parse}中配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2015-2-9 18:59
  * @see Parse
  */

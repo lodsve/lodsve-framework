@@ -34,8 +34,8 @@ import java.util.Set;
 /**
  * Lodsve P6 OptionsSource.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017/12/25 下午11:24
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/25 下午11:24
  */
 public class LodsveP6OptionsSource implements P6OptionsSource {
     private static Resource config;

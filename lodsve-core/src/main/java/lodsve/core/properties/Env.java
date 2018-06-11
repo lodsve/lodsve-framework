@@ -34,8 +34,8 @@ import java.util.Set;
 /**
  * 系统配置文件.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 14-8-17 下午10:29
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 14-8-17 下午10:29
  */
 public class Env {
     private static Configuration configuration;

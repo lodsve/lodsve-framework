@@ -23,8 +23,8 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * 微信分组.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/3/2 上午11:09
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/3/2 上午11:09
  */
 @ApiModel(description = "微信分组")
 public class Group {

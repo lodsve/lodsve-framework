@@ -24,8 +24,8 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * 保存token.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/21 下午5:40
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/21 下午5:40
  */
 @ApiModel(description = "微信API每次访问的token")
 public class AccessToken {

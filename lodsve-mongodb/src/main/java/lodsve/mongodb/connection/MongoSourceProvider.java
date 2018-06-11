@@ -26,8 +26,8 @@ import java.lang.annotation.Target;
 /**
  * 数据源提供者.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2017/12/14 下午5:33
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/14 下午5:33
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

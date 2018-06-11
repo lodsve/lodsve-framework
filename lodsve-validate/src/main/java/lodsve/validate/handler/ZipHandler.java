@@ -30,9 +30,8 @@ import java.lang.annotation.Annotation;
 /**
  * 邮政编码的验证处理类.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 12-11-26 下午9:50
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 12-11-26 下午9:50
  */
 public class ZipHandler extends AbstractValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(ZipHandler.class);

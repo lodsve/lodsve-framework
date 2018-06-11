@@ -23,21 +23,17 @@ import lodsve.wechat.beans.message.MsgType;
 import lodsve.wechat.beans.message.receive.Receive;
 import lodsve.wechat.beans.message.receive.event.Event;
 import lodsve.wechat.beans.message.reply.Reply;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
  * 处理微信的消息/事件.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/2/23 下午11:24
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/23 下午11:24
  */
 @Component
 public class WeChatReceiveHandler {

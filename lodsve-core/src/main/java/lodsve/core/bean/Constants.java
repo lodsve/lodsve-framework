@@ -20,9 +20,8 @@ package lodsve.core.bean;
 /**
  * 资源类型类
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 2012-3-14 下午11:56:13
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2012-3-14 下午11:56:13
  */
 public class Constants {
     /**

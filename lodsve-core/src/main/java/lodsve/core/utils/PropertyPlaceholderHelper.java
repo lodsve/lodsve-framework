@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * 处理字符串中的占位符.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 14-9-3 下午10:37
  */
 public class PropertyPlaceholderHelper {

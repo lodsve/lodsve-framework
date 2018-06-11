@@ -24,8 +24,8 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * oauth认证的票据.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/23 下午3:01
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/23 下午3:01
  */
 @ApiModel(description = "oauth认证的票据")
 public class OAuthToken {

@@ -25,9 +25,8 @@ import java.util.List;
 /**
  * 默认的异常处理类.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
- * @createTime 12-12-2 上午1:11
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 12-12-2 上午1:11
  */
 public class DefaultExceptionHandler extends ExceptionHandler {
 

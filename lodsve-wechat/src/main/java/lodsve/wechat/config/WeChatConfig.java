@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * spring bean配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/2/24 上午12:07
  */
 @Configuration

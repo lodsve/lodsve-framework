@@ -23,7 +23,7 @@ import lodsve.core.properties.relaxedbind.annotations.Required;
 /**
  * 参数配置在配置文件中.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/2/21 下午4:58
  */
 @ConfigurationProperties(prefix = "lodsve.wechat", locations = "${params.root}/framework/wechat.properties")

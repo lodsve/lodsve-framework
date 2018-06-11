@@ -22,7 +22,7 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 /**
  * druid配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-2-8-0008 15:05
  */
 @ConfigurationProperties(prefix = "lodsve.druid", locations = "${params.root}/framework/druid.properties")

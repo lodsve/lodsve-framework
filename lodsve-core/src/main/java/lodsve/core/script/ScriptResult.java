@@ -22,8 +22,8 @@ import lodsve.core.utils.StringUtils;
 /**
  * 执行结果.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2016/12/9 上午10:59
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016/12/9 上午10:59
  */
 public class ScriptResult {
     /**

@@ -37,8 +37,8 @@ import java.util.Map;
 /**
  * 微信用户操作.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/3/2 上午11:06
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/3/2 上午11:06
  */
 @Component
 public class WeChatUserService {

@@ -36,8 +36,8 @@ import java.util.Properties;
 /**
  * 配置文件解析.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 14-8-17 下午9:44
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 14-8-17 下午9:44
  */
 public class EnvLoader {
     private static Properties env = new Properties();

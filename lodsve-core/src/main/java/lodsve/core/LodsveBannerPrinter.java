@@ -42,7 +42,7 @@ import java.util.List;
 /**
  * 模仿spring-boot打印出banner.
  *
- * @author sunhao(sunhao.java @ .com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018/1/11 下午10:13
  */
 @Order(Ordered.HIGHEST_PRECEDENCE + 1)

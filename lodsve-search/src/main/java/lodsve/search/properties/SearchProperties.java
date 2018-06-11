@@ -22,7 +22,7 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 /**
  * 搜索的配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016/1/20 12:39
  */
 @ConfigurationProperties(prefix = "lodsve.search", locations = "${params.root}/framework/search.properties")

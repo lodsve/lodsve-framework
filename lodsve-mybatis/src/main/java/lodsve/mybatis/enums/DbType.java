@@ -22,8 +22,8 @@ import org.springframework.util.Assert;
 /**
  * 表示数据库类型的枚举.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/6/1 下午4:18
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/6/1 下午4:18
  */
 public enum DbType {
     /**

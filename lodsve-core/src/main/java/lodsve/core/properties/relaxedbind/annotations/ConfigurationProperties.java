@@ -22,8 +22,8 @@ import java.lang.annotation.*;
 /**
  * 配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/12/30 上午9:28
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 15/12/30 上午9:28
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

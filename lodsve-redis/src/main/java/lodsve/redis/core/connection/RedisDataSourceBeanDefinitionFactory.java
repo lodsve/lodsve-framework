@@ -25,8 +25,8 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 /**
  * redis数据源.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/1/21 下午4:10
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/21 下午4:10
  */
 public class RedisDataSourceBeanDefinitionFactory {
     private String dataSourceName;

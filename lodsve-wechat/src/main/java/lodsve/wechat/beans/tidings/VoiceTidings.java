@@ -24,8 +24,8 @@ import lodsve.wechat.beans.tidings.items.Media;
 /**
  * 语音客服消息.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/24 上午11:59
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/24 上午11:59
  */
 @ApiModel(description = "语音客服消息")
 public class VoiceTidings extends Tidings {

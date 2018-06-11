@@ -34,8 +34,8 @@ import org.springframework.stereotype.Repository;
  * dynamic inject {@link MongoEntityInformation} into the repository which extends from {@link LodsveMongoRepository}.<br/>
  * by the first generic info of the repository.means the domain class which has an annontation {@link org.springframework.data.mongodb.core.mapping.Document}.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2016-1-22 15:03
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016-1-22 15:03
  */
 public class MongoRepositoryBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware {
     private ApplicationContext context;

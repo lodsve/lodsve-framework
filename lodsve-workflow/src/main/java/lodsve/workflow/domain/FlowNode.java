@@ -23,8 +23,8 @@ import lodsve.workflow.enums.UrlType;
 /**
  * 工作流节点.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2015-11-18 下午1:43
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2015-11-18 下午1:43
  */
 public class FlowNode {
     private Long id;

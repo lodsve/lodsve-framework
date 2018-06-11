@@ -24,7 +24,7 @@ import java.io.PrintStream;
 /**
  * Banner.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018/1/12 下午6:21
  */
 public interface Banner {

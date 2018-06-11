@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * 邮箱服务器的配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/5/26 下午2:57
  */
 @ConfigurationProperties(prefix = "lodsve.email", locations = "classpath:/META-INF/email.properties")

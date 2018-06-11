@@ -25,8 +25,8 @@ import lodsve.wechat.beans.tidings.items.WXCard;
 /**
  * 卡券客服消息.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/24 下午12:18
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/24 下午12:18
  */
 @ApiModel(description = "卡券客服消息")
 public class WXCardTidings extends Tidings {

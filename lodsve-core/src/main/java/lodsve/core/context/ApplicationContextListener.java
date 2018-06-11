@@ -26,8 +26,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * 系统初始化时运行此类，将上下文注入到ApplicationHelper中，
  * 运行时，可以从ApplicationHelper中获取bean
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2012-3-8 下午10:16:10
  */
 public class ApplicationContextListener implements ApplicationListener<ContextRefreshedEvent> {

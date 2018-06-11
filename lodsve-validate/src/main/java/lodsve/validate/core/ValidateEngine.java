@@ -48,9 +48,8 @@ import java.util.Map;
 /**
  * 验证引擎核心组件.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
- * @createTime 12-11-26 下午9:53
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 12-11-26 下午9:53
  */
 @Aspect
 @Component

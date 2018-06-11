@@ -28,8 +28,8 @@ import java.util.Set;
 /**
  * 动态注册Bean.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2017-12-11-0011 11:29
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-11-0011 11:29
  */
 public class BeanRegisterUtils {
     private BeanRegisterUtils() {

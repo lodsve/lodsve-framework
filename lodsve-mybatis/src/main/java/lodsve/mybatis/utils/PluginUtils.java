@@ -25,8 +25,8 @@ import java.lang.reflect.Proxy;
 /**
  * plugin utils.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2017/6/12 下午8:26
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/6/12 下午8:26
  */
 public final class PluginUtils {
     private PluginUtils() {

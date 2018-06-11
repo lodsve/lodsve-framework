@@ -25,8 +25,8 @@ import java.util.List;
 /**
  * 工作流.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2015-11-18 下午1:43
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2015-11-18 下午1:43
  */
 public class Workflow {
     private Long id;

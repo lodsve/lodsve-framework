@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * rdbms base properties,only support BasicDataSource and DruidDataSource.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016-1-27 09:20
  */
 @ConfigurationProperties(prefix = "lodsve.rdbms", locations = "${params.root}/framework/rdbms.properties")

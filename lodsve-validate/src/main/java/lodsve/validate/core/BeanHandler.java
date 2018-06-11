@@ -22,9 +22,8 @@ import lodsve.core.utils.StringUtils;
 /**
  * 类似于map,放置验证注解和其对应的处理类.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 12-11-26 下午9:51
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 12-11-26 下午9:51
  */
 public class BeanHandler {
     /**

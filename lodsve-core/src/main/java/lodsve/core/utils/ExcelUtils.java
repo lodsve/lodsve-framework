@@ -34,7 +34,7 @@ import java.util.*;
 /**
  * Excel导入的工具类.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 14-2-24 下午2:07
  * @see CheckExcel
  */

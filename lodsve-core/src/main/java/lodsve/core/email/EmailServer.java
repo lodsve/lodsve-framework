@@ -36,8 +36,8 @@ import java.util.*;
 /**
  * 发送邮件服务器.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 13-3-25 上午6:19
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-3-25 上午6:19
  */
 @Component
 public class EmailServer {

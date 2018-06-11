@@ -20,8 +20,8 @@ package lodsve.wechat.core;
 /**
  * 微信开放API.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/21 下午5:23
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/21 下午5:23
  */
 public final class WeChatUrl {
     /**

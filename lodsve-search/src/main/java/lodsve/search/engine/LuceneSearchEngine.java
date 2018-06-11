@@ -62,9 +62,8 @@ import java.util.Map;
 /**
  * 基于lucene实现的索引引擎.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
- * @createTime 13-5-5 上午10:38
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-5-5 上午10:38
  */
 public class LuceneSearchEngine extends AbstractSearchEngine {
     private static final Logger logger = LoggerFactory.getLogger(LuceneSearchEngine.class);

@@ -34,8 +34,7 @@ import java.util.List;
 /**
  * 文件操作的工具类
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2012-3-16 下午08:25:56
  */
 public class FileUtils {

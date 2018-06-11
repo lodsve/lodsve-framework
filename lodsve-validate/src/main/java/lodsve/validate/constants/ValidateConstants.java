@@ -38,9 +38,8 @@ import java.util.Locale;
 /**
  * 验证框架的静态常量类.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
- * @createTime 12-12-2 上午1:01
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 12-12-2 上午1:01
  */
 public class ValidateConstants {
     private static final Logger logger = LoggerFactory.getLogger(ValidateConstants.class);

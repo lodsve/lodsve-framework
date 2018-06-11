@@ -34,8 +34,8 @@ import org.springframework.util.Assert;
 /**
  * 客服人员的操作.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/24 上午10:04
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/24 上午10:04
  */
 @Component
 public class WeChatCustomerService {

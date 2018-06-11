@@ -30,7 +30,7 @@ import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
 /**
  * 基本配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/1/21 下午10:15
  */
 @Configuration

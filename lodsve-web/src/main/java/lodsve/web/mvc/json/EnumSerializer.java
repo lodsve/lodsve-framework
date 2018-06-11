@@ -28,7 +28,7 @@ import java.io.IOException;
  * Jackson序列化枚举时，将枚举变成{value: '', name: ''}.<br/>
  * {@link lodsve.web.mvc.json.CustomObjectMapper#CustomObjectMapper()}
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/6/24 下午9:31
  */
 public class EnumSerializer extends JsonSerializer<Enum> {

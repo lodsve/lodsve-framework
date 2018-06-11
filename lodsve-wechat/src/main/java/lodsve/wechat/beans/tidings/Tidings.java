@@ -24,8 +24,8 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * 客服消息.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/24 上午11:53
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/24 上午11:53
  */
 @ApiModel(description = "客服消息")
 public class Tidings {

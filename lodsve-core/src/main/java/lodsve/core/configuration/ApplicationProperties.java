@@ -22,7 +22,7 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 /**
  * 系统配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016/12/12 下午3:05
  */
 @ConfigurationProperties(prefix = "application", locations = "${params.root}/framework/application.properties")

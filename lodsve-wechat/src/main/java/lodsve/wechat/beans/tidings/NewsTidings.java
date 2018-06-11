@@ -19,19 +19,20 @@ package lodsve.wechat.beans.tidings;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 import lodsve.wechat.beans.tidings.items.Article;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 图文客服消息,带外链.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/24 下午12:05
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/24 下午12:05
  */
 @ApiModel(description = "图文客服消息,带外链")
 public class NewsTidings extends Tidings {

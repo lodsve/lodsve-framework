@@ -23,8 +23,8 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * 通过JS-API调用的一些配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/23 上午11:55
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/23 上午11:55
  */
 @ApiModel(description = "通过JS-API调用的一些配置")
 public class JsApiConfig {

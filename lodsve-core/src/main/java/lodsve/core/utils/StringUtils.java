@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 /**
  * 对字符串进行处理的工具类
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  */
 public class StringUtils extends org.apache.commons.lang.StringUtils {
     private static final String DEFAULT_DELIMITERS = ",";

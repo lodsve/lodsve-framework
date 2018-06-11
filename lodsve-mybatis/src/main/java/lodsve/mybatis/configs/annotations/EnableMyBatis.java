@@ -26,8 +26,8 @@ import java.lang.annotation.*;
 /**
  * 通过注解的方式启动mybatis的配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/1/19 下午8:01
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/19 下午8:01
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

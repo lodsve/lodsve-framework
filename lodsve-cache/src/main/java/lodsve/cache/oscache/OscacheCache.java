@@ -25,8 +25,8 @@ import org.springframework.cache.support.SimpleValueWrapper;
 /**
  * Oscache Cache.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-10-0010 16:27
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018-1-10-0010 16:27
  */
 public class OscacheCache extends AbstractValueAdaptingCache {
     private final String name;

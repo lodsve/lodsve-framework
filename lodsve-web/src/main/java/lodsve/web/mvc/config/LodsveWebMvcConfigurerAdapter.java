@@ -41,7 +41,7 @@ import java.util.List;
 /**
  * 配置springMVC.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/8/15 下午1:22
  */
 public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {

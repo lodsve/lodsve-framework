@@ -20,8 +20,8 @@ package lodsve.amqp.core;
 /**
  * 可以使用spel获取rabbit的一些配置bean name.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017/12/7 13:30
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/7 13:30
  */
 public class RabbitUtils {
     public static final String DEFAULT_EXCHANGE_BEAN_NAME = "defaultDirectExchange";

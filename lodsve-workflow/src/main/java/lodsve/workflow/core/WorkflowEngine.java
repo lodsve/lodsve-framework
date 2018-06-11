@@ -43,8 +43,8 @@ import java.util.List;
 /**
  * 工作流对外核心接口.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2015-11-19 10:35
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2015-11-19 10:35
  */
 @Component
 public class WorkflowEngine {

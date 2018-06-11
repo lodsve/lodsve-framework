@@ -28,8 +28,8 @@ import java.sql.SQLException;
 /**
  * oracle主键.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 16/9/14 上午9:57
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/9/14 上午9:57
  */
 public class OracleIDGenerator implements IDGenerator {
     private DataSource dataSource;

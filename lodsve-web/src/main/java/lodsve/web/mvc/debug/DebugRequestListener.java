@@ -31,8 +31,7 @@ import java.util.regex.Pattern;
 /**
  * 系统是否开启debug功能,可以查看请求的详情
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2012-3-12 上午05:50:23
  */
 public class DebugRequestListener implements ApplicationListener<ServletRequestHandledEvent> {

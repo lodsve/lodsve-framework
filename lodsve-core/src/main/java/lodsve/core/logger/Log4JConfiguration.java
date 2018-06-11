@@ -29,8 +29,8 @@ import java.util.Properties;
 /**
  * log4j的配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/5/26 下午2:44
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/5/26 下午2:44
  */
 public class Log4JConfiguration {
 

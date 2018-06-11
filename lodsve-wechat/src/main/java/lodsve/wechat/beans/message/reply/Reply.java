@@ -18,14 +18,15 @@
 package lodsve.wechat.beans.message.reply;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import javax.xml.bind.annotation.XmlElement;
 import lodsve.wechat.beans.message.ReplyType;
+
+import javax.xml.bind.annotation.XmlElement;
 
 /**
  * 回复微信消息.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/23 下午11:27
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/23 下午11:27
  */
 public class Reply {
     @XmlElement(name = "ToUserName")

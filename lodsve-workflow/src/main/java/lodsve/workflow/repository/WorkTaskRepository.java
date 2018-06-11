@@ -17,7 +17,6 @@
 
 package lodsve.workflow.repository;
 
-import java.util.List;
 import lodsve.workflow.domain.WorkTask;
 import lodsve.workflow.enums.AuditResult;
 import org.springframework.data.domain.Page;
@@ -25,11 +24,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 待办.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2015-11-18 14:19
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2015-11-18 14:19
  */
 @Repository
 public interface WorkTaskRepository {

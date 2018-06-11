@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 为controller注入参数WebInput/WebOutput/FileWebInput
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/7/7 上午9:20
  */
 public class WebResourceDataHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {

@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * 扩展WebInput，为文件类
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2012-6-26 上午09:37:31
  */
 public class FileWebInput extends WebInput {

@@ -30,8 +30,8 @@ import org.springframework.util.Assert;
 /**
  * 动态注册bean.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017-12-4-0004 11:20
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-4-0004 11:20
  */
 public class DfsBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
     private static final String VALUE_ATTRIBUTE_NAME = "value";

@@ -33,8 +33,8 @@ import java.util.Map;
 /**
  * mysql主键.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 16/9/14 上午9:57
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/9/14 上午9:57
  */
 public class MySQLIDGenerator implements IDGenerator {
     /**

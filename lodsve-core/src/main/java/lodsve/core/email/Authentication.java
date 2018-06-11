@@ -17,17 +17,18 @@
 
 package lodsve.core.email;
 
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+
 /**
  * 发送邮件时的身份认证器.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 13-3-25 上午6:53
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-3-25 上午6:53
  */
 public class Authentication extends Authenticator {
     private static final Logger logger = LoggerFactory.getLogger(Authentication.class);

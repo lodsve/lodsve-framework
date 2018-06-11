@@ -44,8 +44,8 @@ import java.util.regex.Pattern;
 /**
  * mybatis分页工具类.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/6/29 下午2:55
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 15/6/29 下午2:55
  */
 public class PaginationHelper {
     private static final Logger logger = LoggerFactory.getLogger(PaginationHelper.class);

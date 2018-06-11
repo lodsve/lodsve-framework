@@ -14,8 +14,8 @@ import java.util.Map;
 /**
  * .
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 13:00
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-28-0028 13:00
  */
 public class TemplateResourceTest {
     private static final Map<String, Object> CONTEXT = new HashMap<>(1);

@@ -30,7 +30,7 @@ import java.io.IOException;
  * Jackson反序列化枚举时，将code或者枚举value变成枚举.<br/>
  * {@link lodsve.web.mvc.json.CustomObjectMapper#CustomObjectMapper()}
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016/11/3 下午2:56
  */
 public class EnumDeserializer extends JsonDeserializer<Enum> {

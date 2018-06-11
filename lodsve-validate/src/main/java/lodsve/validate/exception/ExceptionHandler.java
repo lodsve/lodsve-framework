@@ -25,9 +25,8 @@ import java.util.List;
 /**
  * 异常处理类,如果要实现自定义异常,则全部继承这个类.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
- * @createTime 12-12-2 上午1:08
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 12-12-2 上午1:08
  */
 public abstract class ExceptionHandler {
 

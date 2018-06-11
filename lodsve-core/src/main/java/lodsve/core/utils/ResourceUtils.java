@@ -31,7 +31,7 @@ import java.io.IOException;
 /**
  * resource utils.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018/1/6 上午1:34
  */
 public final class ResourceUtils {

@@ -22,7 +22,7 @@ import lodsve.core.properties.relaxedbind.annotations.Required;
 /**
  * Mongo Connection.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 14:24
  */
 public class MongoConnection {

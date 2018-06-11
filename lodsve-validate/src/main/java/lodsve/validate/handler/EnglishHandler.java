@@ -32,9 +32,8 @@ import static lodsve.core.utils.ValidateUtils.isChinese;
 /**
  * 英文验证的处理类.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 12-11-26 下午8:24
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 12-11-26 下午8:24
  */
 public class EnglishHandler extends AbstractValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(EnglishHandler.class);

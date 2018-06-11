@@ -6,8 +6,8 @@ import org.junit.Test;
 /**
  * .
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 15:26
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-28-0028 15:26
  */
 public class JsonUtilsTest {
     private Demo demo = new Demo(1L, "demo");

@@ -34,8 +34,8 @@ import java.sql.SQLException;
 /**
  * MyBatis utils.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2016-2-18 16:03
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016-2-18 16:03
  */
 public final class MyBatisUtils {
     private MyBatisUtils() {

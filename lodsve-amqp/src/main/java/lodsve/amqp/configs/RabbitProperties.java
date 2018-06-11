@@ -23,8 +23,8 @@ import lodsve.core.properties.relaxedbind.annotations.Required;
 /**
  * rabbit mq base properties.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2016-01-15 12:00
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016-01-15 12:00
  */
 @ConfigurationProperties(prefix = "lodsve.rabbit", locations = "${params.root}/framework/rabbit.properties")
 public class RabbitProperties {

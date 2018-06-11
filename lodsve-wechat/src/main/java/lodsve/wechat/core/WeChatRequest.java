@@ -38,8 +38,8 @@ import java.util.Map;
 /**
  * 微信请求的封装,包括处理异常.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/2/21 下午5:26
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/21 下午5:26
  */
 public final class WeChatRequest {
     private static final Logger logger = LoggerFactory.getLogger(WeChatRequest.class);

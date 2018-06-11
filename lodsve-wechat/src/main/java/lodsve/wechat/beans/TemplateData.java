@@ -23,8 +23,8 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * 模板消息的数据.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/24 下午4:24
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/24 下午4:24
  */
 @ApiModel(description = "模板消息的数据")
 public class TemplateData {

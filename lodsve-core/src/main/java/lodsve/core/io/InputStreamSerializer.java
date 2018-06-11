@@ -30,8 +30,8 @@ import java.io.InputStream;
 /**
  * zookeeper中读取InputStream.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-2-0002 14:37
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018-1-2-0002 14:37
  */
 public class InputStreamSerializer implements ZkSerializer {
     private static final Logger logger = LoggerFactory.getLogger(InputStreamSerializer.class);

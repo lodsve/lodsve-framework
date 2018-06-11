@@ -22,8 +22,8 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 /**
  * cache配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/1/14 下午9:24
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/14 下午9:24
  */
 @ConfigurationProperties(prefix = "lodsve.cache", locations = "${params.root}/framework/cache.properties")
 public class CacheProperties {

@@ -24,8 +24,8 @@ import org.springframework.stereotype.Repository;
 /**
  * 流程实例.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/4/15 下午4:20
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/4/15 下午4:20
  */
 @Repository
 public interface ProcessInstanceRepository {

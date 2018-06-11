@@ -26,8 +26,8 @@ import org.springframework.data.repository.config.RepositoryConfigurationSource;
 /**
  * Lodsve custom MongoRepositoryConfigurationExtension.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2017-12-11-0011 14:24
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-11-0011 14:24
  */
 public class LodsveMongoRepositoryConfigurationExtension extends MongoRepositoryConfigurationExtension {
     private String mongoTemplateId;

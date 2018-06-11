@@ -18,10 +18,6 @@
 package lodsve.wechat.api.template;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lodsve.core.utils.StringUtils;
 import lodsve.wechat.beans.Industry;
 import lodsve.wechat.beans.Template;
@@ -33,11 +29,16 @@ import org.apache.commons.collections.MapUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 发送模板消息.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/24 下午1:39
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/24 下午1:39
  */
 @Component
 public class WeChatTemplateService {

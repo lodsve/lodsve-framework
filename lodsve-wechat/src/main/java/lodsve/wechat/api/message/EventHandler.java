@@ -24,8 +24,8 @@ import lodsve.wechat.beans.message.reply.Reply;
 /**
  * 对接受事件处理器.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/23 下午11:25
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/23 下午11:25
  */
 public interface EventHandler<T extends Event> {
     /**

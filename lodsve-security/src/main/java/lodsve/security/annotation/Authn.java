@@ -26,9 +26,8 @@ import java.lang.annotation.Target;
 /**
  * 鉴权:需要认证(authentication).
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
- * @createTime 2014-12-7 14:09
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2014-12-7 14:09
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

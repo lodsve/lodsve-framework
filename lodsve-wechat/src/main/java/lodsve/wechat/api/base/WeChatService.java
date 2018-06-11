@@ -39,7 +39,7 @@ import java.util.Map;
 /**
  * 微信service.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/2/23 上午11:11
  */
 @Component

@@ -62,8 +62,8 @@ import java.util.*;
 /**
  * 加载mongodb操作的一些bean.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/1/21 下午10:15
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/21 下午10:15
  */
 public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar, ResourceLoaderAware, EnvironmentAware {
     private ResourceLoader resourceLoader;

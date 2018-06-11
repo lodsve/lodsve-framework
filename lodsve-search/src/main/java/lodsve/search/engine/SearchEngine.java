@@ -26,9 +26,8 @@ import java.util.List;
 /**
  * 索引引擎实现构建索引.删除索引.更新索引.检索等操作.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 13-5-5 上午1:38
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-5-5 上午1:38
  */
 public interface SearchEngine {
 

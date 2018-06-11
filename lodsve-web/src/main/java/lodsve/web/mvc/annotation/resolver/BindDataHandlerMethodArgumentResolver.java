@@ -37,8 +37,7 @@ import java.util.Map;
 /**
  * 解析加了注解{@link Bind}的参数.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2015-1-29 21:49
  */
 public class BindDataHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {

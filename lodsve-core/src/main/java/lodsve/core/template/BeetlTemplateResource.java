@@ -35,8 +35,8 @@ import java.util.Map;
 /**
  * Beetl Template Resource.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 12:31
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-28-0028 12:31
  */
 public class BeetlTemplateResource extends AbstractTemplateResource {
     private static final Logger logger = LoggerFactory.getLogger(BeetlTemplateResource.class);

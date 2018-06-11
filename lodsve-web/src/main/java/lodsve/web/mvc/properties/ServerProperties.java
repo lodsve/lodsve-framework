@@ -23,7 +23,7 @@ import lodsve.core.properties.relaxedbind.annotations.Required;
 /**
  * 系统配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/10/10 下午10:01
  */
 @ConfigurationProperties(prefix = "lodsve.server", locations = "${params.root}/framework/server.properties")

@@ -25,9 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 鉴权.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 2014-12-7 14:00
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2014-12-7 14:00
  */
 public interface Authorization {
     /**

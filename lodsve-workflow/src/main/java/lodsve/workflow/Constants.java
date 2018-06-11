@@ -20,8 +20,8 @@ package lodsve.workflow;
 /**
  * Constants.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2015-11-18 17:33
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2015-11-18 17:33
  */
 public final class Constants {
     private Constants() {

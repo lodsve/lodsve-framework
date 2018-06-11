@@ -31,8 +31,8 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * Memcached CacheManager.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-10-0010 09:58
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018-1-10-0010 09:58
  */
 public class MemcachedCacheManager extends AbstractTransactionSupportingCacheManager {
     private MemcachedClient memcachedClient;

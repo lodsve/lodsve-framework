@@ -23,8 +23,8 @@ import lodsve.core.utils.StringUtils;
 /**
  * .
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/4/15 下午2:43
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/4/15 下午2:43
  */
 public enum UrlType implements Codeable {
     VIEW("100", "查看URL"), UPDATE("101", "修改URL");

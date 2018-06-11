@@ -30,8 +30,8 @@ import org.springframework.util.Assert;
 /**
  * .
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/4/19 下午3:05
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/4/19 下午3:05
  */
 @Component
 public class WorkflowOpenApi {

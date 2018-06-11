@@ -23,7 +23,7 @@ import org.springframework.util.Assert;
 /**
  * 配置WebService的相关参数.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/1/23 下午8:50
  */
 @ConfigurationProperties(prefix = "lodsve.webservice", locations = "${params.root}/framework/webservice.properties")

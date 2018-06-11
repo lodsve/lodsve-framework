@@ -36,7 +36,7 @@ import javax.jws.WebService;
 /**
  * WebService Bean FactoryPostProcessor.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-1-15-0015 09:37
  */
 public class WebServiceBeanFactoryPostProcessor implements BeanFactoryPostProcessor {

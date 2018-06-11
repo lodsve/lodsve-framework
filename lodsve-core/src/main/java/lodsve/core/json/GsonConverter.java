@@ -26,8 +26,8 @@ import java.util.Map;
 /**
  * Gson Utils.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 14:57
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-28-0028 14:57
  */
 public class GsonConverter implements JsonConverter {
     private static final Gson gson;

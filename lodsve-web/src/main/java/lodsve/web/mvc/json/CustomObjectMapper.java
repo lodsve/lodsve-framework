@@ -38,7 +38,7 @@ import java.util.TimeZone;
  * <li>设置序列化时间类型时默认的时间格式</li>
  * </ol>
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/6/20 上午5:35
  */
 public class CustomObjectMapper extends ObjectMapper {

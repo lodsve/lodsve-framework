@@ -26,7 +26,7 @@ import javax.servlet.ServletContext;
 /**
  * 处理swagger的路径.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/3/24 上午9:47
  */
 public class SpringFoxPathProvider extends RelativePathProvider {

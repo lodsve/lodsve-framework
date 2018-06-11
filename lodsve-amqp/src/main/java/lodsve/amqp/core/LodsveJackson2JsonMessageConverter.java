@@ -32,8 +32,8 @@ import java.io.IOException;
 /**
  * 修改Jackson反序列化时对泛型的处理.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/1/18 下午1:28
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/18 下午1:28
  */
 public class LodsveJackson2JsonMessageConverter extends Jackson2JsonMessageConverter {
     private static Log log = LogFactory.getLog(LodsveJackson2JsonMessageConverter.class);

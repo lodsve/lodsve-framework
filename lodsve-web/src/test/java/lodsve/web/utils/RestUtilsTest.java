@@ -39,7 +39,7 @@ import java.util.Set;
 /**
  * .
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-3-26-0026 15:19
  */
 public class RestUtilsTest {

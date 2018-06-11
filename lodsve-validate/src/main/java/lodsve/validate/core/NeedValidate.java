@@ -26,8 +26,8 @@ import java.lang.annotation.Target;
 /**
  * .
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2014-11-27 09:29
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2014-11-27 09:29
  */
 @Documented
 @Target({ElementType.METHOD})

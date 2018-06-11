@@ -34,8 +34,8 @@ import javax.sql.DataSource;
 /**
  * 配置事务.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2016/1/20 11:54
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016/1/20 11:54
  */
 @Configuration
 @EnableTransactionManagement

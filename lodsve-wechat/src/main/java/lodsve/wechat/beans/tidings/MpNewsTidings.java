@@ -24,8 +24,8 @@ import lodsve.wechat.beans.tidings.items.Media;
 /**
  * 图文客服消息.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/24 下午12:17
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/24 下午12:17
  */
 @ApiModel(description = "图文客服消息")
 public class MpNewsTidings extends Tidings {

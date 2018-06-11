@@ -32,8 +32,8 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 /**
  * 使用mockserver的基类.<br/>
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16-3-10 12:34
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16-3-10 12:34
  */
 @PowerMockIgnore("javax.net.ssl.*")
 public class BaseMockServerTest extends BasePowerMockitoTest {

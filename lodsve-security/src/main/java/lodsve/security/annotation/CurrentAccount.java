@@ -26,9 +26,8 @@ import java.lang.annotation.Target;
 /**
  * 标识controller需要当前用户这个参数.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 2014-12-7 19:49
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2014-12-7 19:49
  */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

@@ -22,8 +22,8 @@ import lodsve.core.LodsveVersion;
 /**
  * Lodsve.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2018/1/16 下午9:47
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018/1/16 下午9:47
  */
 public class Lodsve {
     private Lodsve() {

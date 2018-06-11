@@ -31,8 +31,8 @@ import java.util.Set;
 /**
  * 读取配置的profile.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/1/30 下午3:20
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/30 下午3:20
  */
 public class ProfileInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
     private static final Map<String, Boolean> ALL_PROFILES = new HashMap<>(16);

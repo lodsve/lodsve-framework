@@ -18,15 +18,16 @@
 package lodsve.wechat.beans.message.receive;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import java.io.Serializable;
-import javax.xml.bind.annotation.XmlElement;
 import lodsve.wechat.beans.message.MsgType;
+
+import javax.xml.bind.annotation.XmlElement;
+import java.io.Serializable;
 
 /**
  * 接收微信消息/事件.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/23 下午10:40
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/23 下午10:40
  */
 public class Receive implements Serializable {
     @XmlElement(name = "ToUserName")

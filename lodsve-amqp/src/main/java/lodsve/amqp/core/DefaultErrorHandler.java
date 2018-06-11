@@ -24,8 +24,8 @@ import org.springframework.util.ErrorHandler;
 /**
  * 默认异常处理.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2014-10-7 13:18
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2014-10-7 13:18
  */
 public class DefaultErrorHandler implements ErrorHandler {
     private static final Logger logger = LoggerFactory.getLogger(DefaultErrorHandler.class);

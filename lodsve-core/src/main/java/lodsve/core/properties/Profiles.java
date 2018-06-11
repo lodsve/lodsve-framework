@@ -25,8 +25,8 @@ import org.springframework.util.Assert;
 /**
  * 读取配置的profile.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2016-9-22 10:37
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016-9-22 10:37
  */
 @Component
 public class Profiles implements EnvironmentAware {

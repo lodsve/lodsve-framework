@@ -33,8 +33,8 @@ import java.util.Map;
 /**
  * Zookeeper Resource.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-2-0002 12:58
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018-1-2-0002 12:58
  */
 public class ZookeeperResource extends AbstractResource {
     private static final Map<String, ZkClient> ZK_CLIENTS = new HashMap<>(16);

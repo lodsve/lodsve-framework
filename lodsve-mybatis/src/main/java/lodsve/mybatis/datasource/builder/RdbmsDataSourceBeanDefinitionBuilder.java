@@ -34,7 +34,7 @@ import java.util.Map;
 /**
  * 创建数据源.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2017/12/14 下午8:35
  */
 public class RdbmsDataSourceBeanDefinitionBuilder {

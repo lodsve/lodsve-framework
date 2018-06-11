@@ -26,8 +26,8 @@ import java.io.Serializable;
 /**
  * 事件处理.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/9/28 下午4:27
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 15/9/28 下午4:27
  */
 public class RedisEventListener implements ApplicationListener<RedisEvent> {
     private static final Logger logger = LoggerFactory.getLogger(RedisEventListener.class);

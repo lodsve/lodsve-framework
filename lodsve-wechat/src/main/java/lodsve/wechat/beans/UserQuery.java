@@ -24,8 +24,8 @@ import lodsve.wechat.enums.Lang;
 /**
  * 用户查询参数封装.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/3/7 下午10:48
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/3/7 下午10:48
  */
 @ApiModel(description = "用户查询参数封装")
 public class UserQuery {

@@ -46,8 +46,8 @@ import java.util.List;
 /**
  * 异常处理,返回前端类似于<code>{"code": 10001,"message": "test messages"}</code>的json数据.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 15/8/14 上午9:48
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 15/8/14 上午9:48
  */
 @ControllerAdvice
 public class ExceptionAdvice {

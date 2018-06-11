@@ -22,8 +22,8 @@ import java.util.Date;
 /**
  * 流程实例.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/4/15 下午4:12
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/4/15 下午4:12
  */
 public class ProcessInstance {
     /**

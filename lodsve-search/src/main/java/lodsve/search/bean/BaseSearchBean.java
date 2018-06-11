@@ -66,9 +66,8 @@ import java.util.Map;
  *      }
  * </code></pre>
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
- * @createTime 13-5-6 下午4:04
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-5-6 下午4:04
  */
 public abstract class BaseSearchBean {
     private static final Logger logger = LoggerFactory.getLogger(BaseSearchBean.class);

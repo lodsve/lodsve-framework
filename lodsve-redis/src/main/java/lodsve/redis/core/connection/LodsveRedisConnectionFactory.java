@@ -28,7 +28,7 @@ import redis.clients.jedis.JedisPoolConfig;
 /**
  * 继承重写redis数据源的工厂,实现自定义的创建连接的方法.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/9/8 下午23:40
  */
 public class LodsveRedisConnectionFactory extends JedisConnectionFactory {

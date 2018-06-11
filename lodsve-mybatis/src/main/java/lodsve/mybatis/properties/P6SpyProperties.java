@@ -24,8 +24,8 @@ import org.springframework.core.io.Resource;
 /**
  * Spy Properties.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017/12/25 下午11:53
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/25 下午11:53
  */
 @ConfigurationProperties(prefix = "lodsve.p6spy", locations = "${params.root}/framework/p6spy.properties")
 public class P6SpyProperties {

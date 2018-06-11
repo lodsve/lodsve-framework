@@ -39,8 +39,8 @@ import java.util.Properties;
 /**
  * mybatis分页使用的拦截器.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/6/25 下午7:28
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 15/6/25 下午7:28
  */
 @Intercepts({
         @Signature(type = Executor.class, method = "query", args = {

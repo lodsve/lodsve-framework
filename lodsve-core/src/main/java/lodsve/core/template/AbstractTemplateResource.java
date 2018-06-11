@@ -25,8 +25,8 @@ import java.util.Map;
 /**
  * 利用模板引擎生成Spring Resource.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 14-8-30 上午1:04
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 14-8-30 上午1:04
  */
 public abstract class AbstractTemplateResource extends AbstractResource {
     /**

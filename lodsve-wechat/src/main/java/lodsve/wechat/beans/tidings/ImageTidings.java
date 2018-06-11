@@ -24,8 +24,8 @@ import lodsve.wechat.beans.tidings.items.Media;
 /**
  * 图片客服消息.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/2/24 上午11:57
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/2/24 上午11:57
  */
 @ApiModel(description = "图片客服消息")
 public class ImageTidings extends Tidings {

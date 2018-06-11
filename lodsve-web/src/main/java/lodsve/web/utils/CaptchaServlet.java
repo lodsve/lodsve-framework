@@ -28,8 +28,7 @@ import java.io.IOException;
 /**
  * 绘制图形验证码的servlet
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 12-3-21 下午8:56
  */
 public class CaptchaServlet extends HttpServlet {

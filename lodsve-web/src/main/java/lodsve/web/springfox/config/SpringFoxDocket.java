@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
 /**
  * 利用插件配置swagger的一些信息.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/3/24 上午9:30
  */
 public class SpringFoxDocket extends Docket {

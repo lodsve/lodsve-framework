@@ -30,8 +30,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * 使用PowerMockito的基类.<br/>
  * 如果Mockito和PowerMockito都使用了，依旧继承此baseTest类
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16-3-10 12:34
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16-3-10 12:34
  */
 @RunWith(PowerMockRunner.class)
 public class BasePowerMockitoTest extends BaseTest {

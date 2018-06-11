@@ -22,8 +22,8 @@ import lodsve.workflow.enums.UrlType;
 /**
  * .
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/4/15 下午2:42
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/4/15 下午2:42
  */
 public class FormUrl {
     private Long id;

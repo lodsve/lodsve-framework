@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Lodsve Ext ConfigurationLoader.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2017/12/12 12:53
  */
 public class LodsveExtConfigurationLoader implements ImportSelector {

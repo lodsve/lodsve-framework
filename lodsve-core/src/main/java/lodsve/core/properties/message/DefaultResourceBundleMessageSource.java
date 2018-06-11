@@ -31,8 +31,8 @@ import java.util.ResourceBundle;
 /**
  * 扩展的资源绑定数据源.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 13-4-17 下午9:02
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-4-17 下午9:02
  */
 public class DefaultResourceBundleMessageSource extends AbstractMessageSource implements BeanClassLoaderAware {
 

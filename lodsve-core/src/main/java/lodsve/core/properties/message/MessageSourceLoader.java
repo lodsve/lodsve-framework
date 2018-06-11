@@ -33,8 +33,8 @@ import java.util.List;
 /**
  * i18n资源文件加载器
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 13-4-15 下午10:19
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-4-15 下午10:19
  */
 @Component
 public class MessageSourceLoader implements InitializingBean {

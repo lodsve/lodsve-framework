@@ -43,7 +43,7 @@ import java.util.concurrent.ExecutorService;
 /**
  * 配置core模块的properties.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016/12/27 下午3:07
  */
 @Configuration

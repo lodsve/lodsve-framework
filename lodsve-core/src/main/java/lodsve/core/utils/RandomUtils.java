@@ -24,8 +24,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * 随机生成数字或者字符串的工具类.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2012-4-24 下午08:25:57
  */
 public class RandomUtils {

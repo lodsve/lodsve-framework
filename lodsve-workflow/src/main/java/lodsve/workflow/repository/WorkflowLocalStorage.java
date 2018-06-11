@@ -17,21 +17,22 @@
 
 package lodsve.workflow.repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lodsve.workflow.domain.Workflow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * .
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2015-11-19 10:51
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2015-11-19 10:51
  */
 @Component
 public final class WorkflowLocalStorage {

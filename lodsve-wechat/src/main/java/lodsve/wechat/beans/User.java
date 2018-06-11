@@ -20,15 +20,16 @@ package lodsve.wechat.beans;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
 import lodsve.wechat.enums.Lang;
 import lodsve.wechat.enums.Sex;
+
+import java.util.Date;
 
 /**
  * 微信用户.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/3/2 下午2:13
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/3/2 下午2:13
  */
 @ApiModel(description = "模板消息的数据")
 public class User {

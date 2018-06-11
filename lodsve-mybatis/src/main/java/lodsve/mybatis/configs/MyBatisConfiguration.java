@@ -58,8 +58,8 @@ import java.util.List;
 /**
  * message-mybatis配置包扫描路径.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/1/19 下午10:21
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/19 下午10:21
  */
 @Configuration
 @EnableConfigurationProperties({RdbmsProperties.class, P6SpyProperties.class, DruidProperties.class, MyBatisProperties.class})

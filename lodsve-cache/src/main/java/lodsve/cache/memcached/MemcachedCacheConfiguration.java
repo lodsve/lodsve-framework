@@ -38,8 +38,8 @@ import java.util.List;
 /**
  * Memcached Cache Configuration.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-10-0010 10:35
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018-1-10-0010 10:35
  */
 @Configuration
 @EnableCaching

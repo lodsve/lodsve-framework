@@ -23,8 +23,8 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 /**
  * 配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017-12-4-0004 10:46
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-4-0004 10:46
  */
 @ConfigurationProperties(prefix = "lodsve.dfs", locations = "${params.root}/framework/dfs.properties")
 public class DfsProperties {

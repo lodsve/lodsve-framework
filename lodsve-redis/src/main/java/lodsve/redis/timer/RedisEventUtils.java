@@ -26,8 +26,8 @@ import java.util.Map;
 /**
  * 根据类名解析处理类.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/9/29 下午12:53
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 15/9/29 下午12:53
  */
 public class RedisEventUtils {
     private final static Map<String, RedisEventHandler> HANDLERS = new HashMap<>();

@@ -47,8 +47,8 @@ import java.util.*;
 /**
  * 自动装配生成器.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2016-1-26 14:17
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016-1-26 14:17
  */
 public class RelaxedBindFactory {
     private static final Logger logger = LoggerFactory.getLogger(RelaxedBindFactory.class);

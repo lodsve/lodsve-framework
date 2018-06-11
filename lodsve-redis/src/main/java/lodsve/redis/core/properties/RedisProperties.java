@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * redis的配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/9/8 下午3:49
  */
 @ConfigurationProperties(prefix = "lodsve.redis", locations = "${params.root}/framework/redis.properties")

@@ -22,8 +22,8 @@ import lodsve.core.exception.ApplicationException;
 /**
  * mybatis异常.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 16/8/15 下午4:10
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/8/15 下午4:10
  */
 public class MyBatisException extends ApplicationException {
     public MyBatisException(String content) {
