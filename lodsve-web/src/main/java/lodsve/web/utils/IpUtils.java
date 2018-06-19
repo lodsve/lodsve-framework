@@ -196,7 +196,7 @@ public class IpUtils {
                 inetAddresses = networkInterface.getInetAddresses();
                 while (inetAddresses.hasMoreElements()) {
                     inetAddress = inetAddresses.nextElement();
-                    if (inetAddress != null && inetAddress instanceof Inet4Address) {
+                    if (inetAddress instanceof Inet4Address) {
                         ip = inetAddress.getHostAddress();
                         ipList.add(ip);
                     }
