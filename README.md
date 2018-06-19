@@ -23,8 +23,6 @@ My development tools, it encapsulates some open source projects, and better faci
     - lodsve-test
     - lodsve-validate
     - lodsve-web
-    - lodsve-wechat
-    - lodsve-workflow
 
 ## How To Use
 

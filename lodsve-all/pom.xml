@@ -69,14 +69,6 @@
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.lodsve</groupId>
-            <artifactId>lodsve-wechat</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.lodsve</groupId>
-            <artifactId>lodsve-workflow</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
