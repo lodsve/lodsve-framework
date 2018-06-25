@@ -99,5 +99,5 @@ The `Lodsve Framework` is released under version 3.0 of the [GNU General Public 
 [Blog]: http://www.lodsve.com
 [OSChina]: http://my.oschina.net/sunhaojava/blog
 [867885140]: http://wpa.qq.com/msgrd?v=3&uin=867885140&site=qq&menu=yes
-[reference docs]: http://lodsve.github.io/lodsve-framework/
+[reference docs]: https://doc.lodsve.com/
 [Api Docs]: https://apidoc.gitee.com/lodsve/lodsve-framework/
