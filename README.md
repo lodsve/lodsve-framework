@@ -35,8 +35,6 @@ My development tools, it encapsulates some open source projects, and better faci
     </dependency>
     
 ## About release
-I will release a new stable version at `27th every month`. And publish a snapshot version every `Tuesday night`!
-
 Version No. like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
 
 - `MAJOR` version when I make incompatible API changes,
@@ -53,6 +51,8 @@ You can also find the newest version in maven central: `http://repo1.maven.org/m
     
 ## Documentation
 See the current [reference docs][].
+
+See the master branch [Api Docs][].
 
 ## Check out sources
 `git clone git@github.com:lodsve/lodsve-framework.git`
@@ -100,3 +100,4 @@ The `Lodsve Framework` is released under version 3.0 of the [GNU General Public 
 [OSChina]: http://my.oschina.net/sunhaojava/blog
 [867885140]: http://wpa.qq.com/msgrd?v=3&uin=867885140&site=qq&menu=yes
 [reference docs]: http://lodsve.github.io/lodsve-framework/
+[Api Docs]: https://apidoc.gitee.com/lodsve/lodsve-framework/
