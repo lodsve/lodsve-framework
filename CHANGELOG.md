@@ -11,14 +11,15 @@
 5. lodsve-web添加一层包路径web
 6. params路径加载用WebApplicationInitializer实现
 7. 优化验证码
-
-        配置（server.properties）
-        lodsve.server.enable-captcha=false
-        lodsve.server.captcha-key=captchaKey
-        lodsve.server.path=/captcha
-
-        验证码图片路径  ${contextPath}/captcha
-        校验验证码   lodsve.web.utils.CaptchaUtils.validate(request, code)
+    ```
+    配置（server.properties）
+    lodsve.server.enable-captcha=false
+    lodsve.server.captcha-key=captchaKey
+    lodsve.server.path=/captcha
+    
+    验证码图片路径  ${contextPath}/captcha
+    校验验证码   lodsve.web.utils.CaptchaUtils.validate(request, code)
+    ```
 
 ## 2.6.4.1-RELEASE
 为软创开发 多数据源配置连接池也是多个配置
@@ -235,10 +236,9 @@
 1. 项目进行重构
 2. 合并一些基础项目到message-base中
 3. 重构spring的加载方式,eg:
-
-	```
-	<!-- spring配置 start -->
-	...
+    ```
+    <!-- spring配置 start -->
+    ...
     <servlet>
         <servlet-name>spring</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -253,7 +253,7 @@
     </servlet>
     ...
     <!-- spring配置 start -->
-
+    
     ApplicationConfiguration.java
     @Configuration
     // ...
@@ -262,7 +262,7 @@
     public class ApplicationConfiguration {
         // ...
     }
-	```
+    ```
 
 ## V2.3.4
 1. 添加message-mongodb,对mongodb的支持
@@ -296,26 +296,27 @@
 
 ## V2.0-GA
 1. 模块拆分完成
-
-		message-amqp
-		message-base
-		message-cache
-		message-config
-		message-datasource
-		message-email
-		message-event
-		message-exception
-		message-jdbc
-		message-json
-		message-logger
-		message-mvc
-		message-search
-		message-security
-		message-tags
-		message-template
-		message-test
-		message-utils
-		message-validate
+    ```
+    message-amqp
+    message-base
+    message-cache
+    message-config
+    message-datasource
+    message-email
+    message-event
+    message-exception
+    message-jdbc
+    message-json
+    message-logger
+    message-mvc
+    message-search
+    message-security
+    message-tags
+    message-template
+    message-test
+    message-utils
+    message-validate
+    ```
 2. 编写使用说明文档
 
 ## V1.0-GA
