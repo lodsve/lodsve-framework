@@ -1,5 +1,25 @@
 # 更新日志
 
+## 2.6.5-RELEASE
+1. 重构mybatis,取消自动生成beans
+2. 整理mongodb
+3. 多数据源配置连接池也是多个配置
+4. 工具类重构、修改
+    - 修改ObjectUtils相关
+    - 将web相关utils移到lodsve-web中
+    - 添加RestUtils
+5. lodsve-web添加一层包路径web
+6. params路径加载用WebApplicationInitializer实现
+7. 优化验证码
+
+        配置（server.properties）
+        lodsve.server.enable-captcha=false
+        lodsve.server.captcha-key=captchaKey
+        lodsve.server.path=/captcha
+
+        验证码图片路径  ${contextPath}/captcha
+        校验验证码   lodsve.web.utils.CaptchaUtils.validate(request, code)
+
 ## 2.6.4.1-RELEASE
 为软创开发 多数据源配置连接池也是多个配置
 
