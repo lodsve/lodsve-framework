@@ -12,12 +12,17 @@ import org.junit.Test;
 public class JsonUtilsTest {
     private Demo demo = new Demo(1L, "demo");
     private String json = "{\"id\":1,\"name\":\"demo\"}";
+    private String jsonFormat = "{\n" +
+            "   \"id\":1,\n" +
+            "   \"name\":\"demo\"\n" +
+            "}";
 
     @Test
     public void testJackson() {
         JsonConverter converter = JsonConverterFactory.getConverter(JsonConverterFactory.JsonMode.JACKSON);
 
         Assert.assertEquals(json, converter.toJson(demo));
+        Assert.assertEquals(jsonFormat, converter.toJson(demo, true));
         Assert.assertEquals(demo, converter.toObject(json, Demo.class));
     }
 

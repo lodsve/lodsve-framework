@@ -61,6 +61,17 @@ public final class JsonConverterFactory {
      * 使用json的类型
      */
     public enum JsonMode {
-        JACKSON, GSON, FastJson
+        /**
+         * jackson
+         */
+        JACKSON,
+        /**
+         * google gson
+         */
+        GSON,
+        /**
+         * alibaba fastjson
+         */
+        FastJson
     }
 }

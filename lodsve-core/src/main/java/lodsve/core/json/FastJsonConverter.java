@@ -29,7 +29,7 @@ import java.util.Map;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2017-12-28-0028 14:43
  */
-public class FastJsonConverter implements JsonConverter {
+public class FastJsonConverter extends AbstractJsonConverter {
     @Override
     public String toJson(Object obj) {
         Assert.notNull(obj);

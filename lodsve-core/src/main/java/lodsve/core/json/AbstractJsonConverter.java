@@ -17,40 +17,20 @@
 
 package lodsve.core.json;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.Map;
-
 /**
- * Gson Utils.
+ * .
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2017-12-28-0028 14:57
+ * @date 2018-07-09 10:35
  */
-public class GsonConverter extends AbstractJsonConverter {
-    private static final Gson GSON;
-
-    static {
-        GSON = new Gson();
-    }
-
+public abstract class AbstractJsonConverter implements JsonConverter {
     @Override
-    public String toJson(Object obj) {
-        return GSON.toJson(obj);
-    }
+    public String toJson(Object obj, boolean format) {
+        String json = toJson(obj);
+        if (format) {
+            json = JsonFormatUtils.formatJson(json);
+        }
 
-    @Override
-    public <T> T toObject(String json, Class<T> clazz) {
-        return GSON.fromJson(json, clazz);
-    }
-
-    @Override
-    public Map<String, Object> toMap(String json) {
-        Type mapType = new TypeToken<Map<String, Object>>() {
-        }.getType();
-
-        return GSON.fromJson(json, mapType);
+        return json;
     }
 }

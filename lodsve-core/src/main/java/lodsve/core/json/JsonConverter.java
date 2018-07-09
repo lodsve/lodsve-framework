@@ -27,12 +27,21 @@ import java.util.Map;
  */
 public interface JsonConverter {
     /**
-     * convert object to json string
+     * convert object to json string, without format
      *
      * @param obj object
      * @return json string
      */
     String toJson(Object obj);
+
+    /**
+     * convert object to json string. You can choose whether to format
+     *
+     * @param obj    object
+     * @param format whether to format
+     * @return json string
+     */
+    String toJson(Object obj, boolean format);
 
     /**
      * convert json string to object
