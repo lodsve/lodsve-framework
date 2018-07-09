@@ -84,6 +84,7 @@ public class MyBatisConfiguration {
             case DB_MYSQL:
                 MySQLIDGenerator mySQLIDGenerator = new MySQLIDGenerator();
                 mySQLIDGenerator.setDataSource(dataSource);
+                mySQLIDGenerator.setCacheSize(myBatisProperties.getKeyCacheSize());
                 return mySQLIDGenerator;
             case DB_ORACLE:
                 OracleIDGenerator oracleIDGenerator = new OracleIDGenerator();

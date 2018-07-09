@@ -17,7 +17,6 @@
 
 package lodsve.core.properties;
 
-import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -29,8 +28,17 @@ import org.springframework.util.Assert;
  * @date 2016-9-22 10:37
  */
 @Component
-public class Profiles implements EnvironmentAware {
+public class Profiles {
     private static Environment environment;
+
+    /**
+     * 初始化环境
+     *
+     * @param environment environment
+     */
+    public static void init(Environment environment) {
+        Profiles.environment = environment;
+    }
 
     /**
      * 获取profile的值
@@ -42,10 +50,5 @@ public class Profiles implements EnvironmentAware {
         Assert.hasText(profileName, "profile name is required!");
 
         return environment.acceptsProfiles(profileName);
-    }
-
-    @Override
-    public void setEnvironment(Environment environment) {
-        Profiles.environment = environment;
     }
 }

@@ -29,6 +29,10 @@ import lodsve.core.properties.relaxedbind.annotations.Required;
 @ConfigurationProperties(prefix = "lodsve.mybatis", locations = "${params.root}/framework/mybatis.properties")
 public class MyBatisProperties {
     /**
+     * MySQL主键自增长时，缓存的key个数
+     */
+    private int keyCacheSize = 10;
+    /**
      * mybatis mapper文件
      */
     private String[] mapperLocations = new String[]{"classpath*:/META-INF/mybatis/**/*Mapper.xml"};
@@ -54,6 +58,14 @@ public class MyBatisProperties {
      * flyway的脚本文件所在路径
      */
     private String[] migration = new String[]{"classpath:META-INF/flyway"};
+
+    public int getKeyCacheSize() {
+        return keyCacheSize;
+    }
+
+    public void setKeyCacheSize(int keyCacheSize) {
+        this.keyCacheSize = keyCacheSize;
+    }
 
     public String[] getMapperLocations() {
         return mapperLocations;

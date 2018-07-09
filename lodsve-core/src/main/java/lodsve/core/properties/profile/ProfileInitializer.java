@@ -18,6 +18,7 @@
 package lodsve.core.properties.profile;
 
 import lodsve.core.properties.Env;
+import lodsve.core.properties.Profiles;
 import lodsve.core.properties.env.Configuration;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -56,6 +57,8 @@ public class ProfileInitializer implements ApplicationContextInitializer<Configu
                 configEnv.addActiveProfile(profile);
             }
         }
+
+        Profiles.init(configEnv);
     }
 
     public static Map<String, Boolean> getAllProfiles() {
