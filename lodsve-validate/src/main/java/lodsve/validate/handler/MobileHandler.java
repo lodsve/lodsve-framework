@@ -30,9 +30,8 @@ import java.lang.annotation.Annotation;
 /**
  * 手机号码验证处理类.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 12-11-26 下午8:49
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 12-11-26 下午8:49
  */
 public class MobileHandler extends AbstractValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(MobileHandler.class);
@@ -43,7 +42,7 @@ public class MobileHandler extends AbstractValidateHandler {
 
     @Override
     protected ErrorMessage handle(Annotation annotation, Object value) {
-        if(logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.debug("annotation is '{}', value is '{}'!", annotation, value);
         }
 

@@ -29,8 +29,8 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Test Configuration.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017/12/12 13:07
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/12 13:07
  */
 @Configuration
 public class TestConfiguration {

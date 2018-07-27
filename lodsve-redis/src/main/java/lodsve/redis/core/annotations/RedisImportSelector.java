@@ -27,8 +27,8 @@ import java.util.List;
 /**
  * reidis配置注册.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2016-1-25 16:02
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016-1-25 16:02
  */
 public class RedisImportSelector implements ImportSelector {
     @Override

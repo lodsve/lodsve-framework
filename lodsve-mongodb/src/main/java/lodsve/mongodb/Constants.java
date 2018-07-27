@@ -20,7 +20,7 @@ package lodsve.mongodb;
 /**
  * .
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-3-19-0019 13:59
  */
 public class Constants {

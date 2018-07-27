@@ -25,8 +25,8 @@ import org.springframework.core.type.AnnotationMetadata;
 /**
  * 注册ConfigurationPropertiesBindingPostProcessor的bean到spring上下文.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2016/12/27 上午11:50
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016/12/27 上午11:50
  */
 public class ConfigurationPropertiesBindingPostProcessorRegistrar implements ImportBeanDefinitionRegistrar {
     /**

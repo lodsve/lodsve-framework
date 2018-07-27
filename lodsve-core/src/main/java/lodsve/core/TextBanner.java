@@ -17,19 +17,20 @@
 
 package lodsve.core;
 
+import lodsve.core.configuration.BannerConfig;
+import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
-import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * 打印classpath下banner.txt.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-18-0018 10:06
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018-1-18-0018 10:06
  */
 public class TextBanner implements Banner {
     private Resource resource;
@@ -42,11 +43,12 @@ public class TextBanner implements Banner {
     }
 
     @Override
-    public void print(PrintStream out) {
+    public void print(BannerConfig config, PrintStream out) {
         try {
-            String banner = StreamUtils.copyToString(this.resource.getInputStream(), Charset.forName("UTF-8"));
-
-            out.println(banner);
+            List<String> lines = IOUtils.readLines(resource.getInputStream(), config.getCharset());
+            for (String line : lines) {
+                out.println(line);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

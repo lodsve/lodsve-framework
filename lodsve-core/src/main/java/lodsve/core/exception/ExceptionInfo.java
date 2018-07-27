@@ -22,8 +22,8 @@ import java.io.Serializable;
 /**
  * 异常信息定义.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/8/14 上午9:50
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 15/8/14 上午9:50
  */
 public class ExceptionInfo implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -28,8 +28,7 @@ import java.util.Set;
 /**
  * 泛型工具类.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2015-1-6 16:20
  */
 public class GenericUtils {

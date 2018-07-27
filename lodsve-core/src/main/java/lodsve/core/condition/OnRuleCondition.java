@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * {@link org.springframework.context.annotation.Condition} that checks for rules...
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017/12/6 14:11
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/6 14:11
  * @see ConditionalOnRules
  */
 @Order(Ordered.HIGHEST_PRECEDENCE + 20)

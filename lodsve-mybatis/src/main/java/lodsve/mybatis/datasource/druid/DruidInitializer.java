@@ -30,7 +30,7 @@ import javax.servlet.ServletRegistration;
 /**
  * 配置Druid监控页面.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-2-8-0008 14:54
  */
 public class DruidInitializer implements WebApplicationInitializer, InitializingBean {

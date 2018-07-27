@@ -18,11 +18,11 @@
 package lodsve.core.properties.relaxedbind;
 
 import lodsve.core.properties.Env;
-import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
-import lodsve.core.properties.relaxedbind.annotations.Required;
+import lodsve.core.properties.ParamsHome;
 import lodsve.core.properties.env.Configuration;
 import lodsve.core.properties.env.PropertiesConfiguration;
-import lodsve.core.properties.ParamsHome;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.Required;
 import lodsve.core.utils.*;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
@@ -47,8 +47,8 @@ import java.util.*;
 /**
  * 自动装配生成器.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2016-1-26 14:17
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016-1-26 14:17
  */
 public class RelaxedBindFactory {
     private static final Logger logger = LoggerFactory.getLogger(RelaxedBindFactory.class);
@@ -138,16 +138,15 @@ public class RelaxedBindFactory {
     }
 
     private Object getValue(Class<?> type, String prefix, String name, Method readMethod) {
-        String key = prefix;
-        String camelName = name;
+        String key = prefix, camelName = prefix;
         if (StringUtils.isNotBlank(name)) {
             key += ("." + name);
-            camelName = getCamelName(name);
+            camelName += ("." + getCamelName(name));
         }
         Object value = getValueForType(key, type, readMethod);
 
         if (isEmpty(value)) {
-            value = getValueForType(prefix + "." + camelName, type, readMethod);
+            value = getValueForType(camelName, type, readMethod);
         }
 
         return value;
@@ -172,12 +171,26 @@ public class RelaxedBindFactory {
         } else if (List.class.isAssignableFrom(type) || Set.class.isAssignableFrom(type)) {
             Class<?> clazz = GenericUtils.getGenericParameter0(readMethod);
             value = getValueForCollection(key, clazz, type, readMethod);
+        } else if (type.isEnum()) {
+            value = getValueForEnum(key, type);
         } else {
             value = BeanUtils.instantiate(type);
             bindToSubTarget(value, key);
         }
 
         return value;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Enum<?> getValueForEnum(String key, Class<?> type) {
+        String value = configuration.getString(key);
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
+
+        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true);
+
+        return Enum.valueOf((Class<? extends Enum>) type, text);
     }
 
     private void bindToSubTarget(Object target, String targetName) {
@@ -195,7 +208,7 @@ public class RelaxedBindFactory {
             return null;
         }
 
-        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true, (Map) propertySource);
+        String text = PropertyPlaceholderHelper.replacePlaceholder(value, true);
 
         if (Boolean.class.equals(type) || boolean.class.equals(type)) {
             return Boolean.valueOf(text);
@@ -361,7 +374,6 @@ public class RelaxedBindFactory {
             }
 
             T target = BeanUtils.instantiate(clazz);
-            loadProp(annotation.locations());
 
             RelaxedBindFactory factory = new RelaxedBindFactory(target);
             factory.setPropertySource(loadProp(annotation.locations()));
@@ -374,17 +386,15 @@ public class RelaxedBindFactory {
 
         private Properties loadProp(String... configLocations) {
             Properties prop = new Properties();
-            prop.putAll(Env.getSystemEnvs());
-            prop.putAll(Env.getEnvs());
 
             if (ArrayUtils.isEmpty(configLocations)) {
-                ParamsHome.getInstance().coveredWithExtResource(prop);
+                prop.putAll(Env.getSystemEnvs());
+                prop.putAll(Env.getEnvs());
                 return prop;
             }
 
-
             for (String location : configLocations) {
-                location = PropertyPlaceholderHelper.replacePlaceholder(location, true, Env.getEnvs());
+                location = PropertyPlaceholderHelper.replacePlaceholder(location, true);
 
                 Resource resource = ResourceUtils.getResource(location);
                 if (!resource.exists()) {
@@ -400,6 +410,7 @@ public class RelaxedBindFactory {
                 }
             }
 
+            prop.put("params.root", ParamsHome.getInstance().getParamsRoot());
             // 获取覆盖的值
             ParamsHome.getInstance().coveredWithExtResource(prop);
             return prop;

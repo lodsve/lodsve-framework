@@ -17,32 +17,23 @@
 
 package lodsve.core.utils;
 
-import org.apache.commons.lang.exception.NestableRuntimeException;
+import lodsve.core.properties.Env;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
+import org.springframework.core.env.EnumerablePropertySource;
+import org.springframework.core.env.MutablePropertySources;
+import org.springframework.core.env.PropertySourcesPropertyResolver;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
  * 处理字符串中的占位符.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 14-9-3 下午10:37
  */
 public class PropertyPlaceholderHelper {
     private static final Logger logger = LoggerFactory.getLogger(PropertyPlaceholderHelper.class);
-
-    /**
-     * 占位符前缀
-     */
-    private static final String PLACEHOLDER_PREFIX = "${";
-    /**
-     * 占位符后缀
-     */
-    private static final String PLACEHOLDER_SUFFIX = "}";
     /**
      * 左括号
      */
@@ -74,66 +65,22 @@ public class PropertyPlaceholderHelper {
      * 那么结果将是:<br/>
      * 你好，我是孙昊，英文名是Hello World!
      *
-     * @param text                      要替换的文本(包含${...})
      * @param placeholderAsDefaultValue 如果一个占位符找不到值，是否使用占位符作为值
-     * @param values                    值的map集合
-     * @return
+     * @return 替换后的字符串
+     * @pa ram text                      要替换的文本(包含${...})
      */
-    public static String replacePlaceholder(String text, boolean placeholderAsDefaultValue, Map<String, String> values) {
-        Assert.hasText(text, "source text can't be null!");
-        if (!needReplace(text)) {
-            return text;
+    public static String replacePlaceholder(String text, boolean placeholderAsDefaultValue) {
+        MutablePropertySources propertySources = new MutablePropertySources();
+        propertySources.addLast(new EnvPropertySource("envs", Env.getEnvs()));
+        propertySources.addLast(new EnvPropertySource("system", Env.getSystemEnvs()));
+
+        PropertySourcesPropertyResolver resolver = new PropertySourcesPropertyResolver(propertySources);
+
+        if (!placeholderAsDefaultValue) {
+            return resolver.resolveRequiredPlaceholders(text);
+        } else {
+            return resolver.resolvePlaceholders(text);
         }
-        Assert.notEmpty(values, "values can't be null!");
-
-        //1.根据前缀分组
-        String[] groups = StringUtils.split(text, PLACEHOLDER_PREFIX);
-
-        //2.遍历分组，如果有后缀，则取出
-        int length = groups.length;
-
-        //占位符在第一位
-        boolean placeholderInFirst = StringUtils.startsWith(text, PLACEHOLDER_PREFIX);
-        Assert.isTrue(placeholderInFirst || length > 1, "given text has no placeholder!");
-
-        List<String> placeholders = new ArrayList<>();
-        int start = placeholderInFirst ? 0 : 1;
-        for (int i = start; i < length; i++) {
-            if (i < length) {
-                String t = groups[i];
-                //3.将所有的占位符取出
-                if (StringUtils.contains(t, PLACEHOLDER_SUFFIX)) {
-                    placeholders.add(StringUtils.substring(t, 0, StringUtils.indexOf(t, PLACEHOLDER_SUFFIX)));
-                }
-            }
-        }
-
-        //4.进行替换
-        String result = text;
-        for (String ph : placeholders) {
-            String placeholder = PLACEHOLDER_PREFIX + ph + PLACEHOLDER_SUFFIX;
-            String value = values.get(ph);
-            if (StringUtils.isEmpty(value) && !placeholderAsDefaultValue) {
-                throw new NestableRuntimeException("process text '{" + text + "}' error! placeholder is '{" + placeholder + "}'!");
-            }
-
-            value = (StringUtils.isNotEmpty(value) ? value : ph);
-
-            //5.替换text
-            result = StringUtils.replace(result, placeholder, value);
-        }
-
-        return result;
-    }
-
-    /**
-     * 判断是否需要进行替换
-     *
-     * @param text 待检查文字
-     * @return
-     */
-    private static boolean needReplace(String text) {
-        return StringUtils.hasExcerpt(text, "\\$\\{.*?\\}") > 0;
     }
 
     /**
@@ -203,5 +150,27 @@ public class PropertyPlaceholderHelper {
         }
 
         return formatString;
+    }
+
+    private static class EnvPropertySource extends EnumerablePropertySource<Map<String, String>> {
+        private EnvPropertySource(String name, Map<String, String> source) {
+            super(name, source);
+        }
+
+
+        @Override
+        public Object getProperty(String name) {
+            return this.source.get(name);
+        }
+
+        @Override
+        public boolean containsProperty(String name) {
+            return this.source.containsKey(name);
+        }
+
+        @Override
+        public String[] getPropertyNames() {
+            return org.springframework.util.StringUtils.toStringArray(this.source.keySet());
+        }
     }
 }

@@ -18,6 +18,7 @@
 package lodsve.cache.memcached;
 
 import lodsve.cache.properties.CacheProperties;
+import lodsve.cache.properties.MemcachedConfig;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.utils.NumberUtils;
 import net.spy.memcached.MemcachedClient;
@@ -37,8 +38,8 @@ import java.util.List;
 /**
  * Memcached Cache Configuration.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-10-0010 10:35
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018-1-10-0010 10:35
  */
 @Configuration
 @EnableCaching
@@ -49,7 +50,7 @@ public class MemcachedCacheConfiguration {
 
     @Bean
     public CacheManager cacheManager(MemcachedClient client) {
-        CacheProperties.Memcached memcached = cacheProperties.getMemcached();
+        MemcachedConfig memcached = cacheProperties.getMemcached();
 
         MemcachedCacheManager cacheManager = new MemcachedCacheManager();
         cacheManager.setMemcachedClient(client);
@@ -60,7 +61,7 @@ public class MemcachedCacheConfiguration {
 
     @Bean
     public MemcachedClient memcachedClient() throws IOException {
-        CacheProperties.Memcached memcached = cacheProperties.getMemcached();
+        MemcachedConfig memcached = cacheProperties.getMemcached();
         String server = memcached.getServer();
         String[] servers = StringUtils.delimitedListToStringArray(server, ",");
         List<InetSocketAddress> addressList = new ArrayList<>(servers.length);

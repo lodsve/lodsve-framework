@@ -30,9 +30,8 @@ import java.lang.annotation.Annotation;
 /**
  * qq号码验证处理类.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 12-11-26 下午9:35
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 12-11-26 下午9:35
  */
 public class QqHandler extends AbstractValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(QqHandler.class);

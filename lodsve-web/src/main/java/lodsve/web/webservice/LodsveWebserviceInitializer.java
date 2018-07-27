@@ -17,6 +17,7 @@
 
 package lodsve.web.webservice;
 
+import lodsve.web.webservice.properties.ServletConfig;
 import lodsve.web.webservice.properties.WebServiceProperties;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.beans.factory.InitializingBean;
@@ -31,8 +32,8 @@ import java.util.Map;
 /**
  * Lodsve Webservice Initializer.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2018/1/12 下午10:17
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018/1/12 下午10:17
  */
 public class LodsveWebserviceInitializer implements WebApplicationInitializer, InitializingBean {
     private static ServletContext servletContext;
@@ -55,7 +56,7 @@ public class LodsveWebserviceInitializer implements WebApplicationInitializer, I
         String urlMapping = (path.endsWith("/") ? path + "*" : path + "/*");
         dynamic.addMapping(urlMapping);
 
-        WebServiceProperties.Servlet servletProperties = this.properties.getServlet();
+        ServletConfig servletProperties = this.properties.getServlet();
         dynamic.setLoadOnStartup(servletProperties.getLoadOnStartup());
         for (Map.Entry<String, String> entry : servletProperties.getInit().entrySet()) {
             dynamic.setInitParameter(entry.getKey(), entry.getValue());

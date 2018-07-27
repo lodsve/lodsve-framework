@@ -40,7 +40,8 @@ import java.util.regex.Pattern;
 /**
  * 封装HttpServletRequest
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2012年1月19日
  */
 public class WebInput {
     /**

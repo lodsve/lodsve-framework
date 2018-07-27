@@ -24,8 +24,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 /**
  * swagger资源路径.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/3/23 下午4:17
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/3/23 下午4:17
  */
 @Component
 public class SpringFoxWebConfigurerAdapter extends WebMvcConfigurerAdapter {

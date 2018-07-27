@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * 检查excel中每一行的数据是否合法.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 14-2-25 上午10:01
  */
 public interface CheckExcel {

@@ -19,16 +19,15 @@ package lodsve.core.configuration;
 
 import lodsve.core.condition.ConditionalOnClass;
 import lodsve.core.context.ApplicationContextListener;
-import lodsve.core.email.EmailProperties;
 import lodsve.core.event.EventExecutor;
 import lodsve.core.event.EventPublisher;
-import lodsve.core.properties.ParamsHome;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
-import lodsve.core.properties.env.EnvLoader;
-import lodsve.core.properties.ini.IniLoader;
+import lodsve.core.properties.Env;
+import lodsve.core.properties.Ini;
 import lodsve.core.properties.message.DefaultResourceBundleMessageSource;
 import lodsve.core.properties.message.ResourceBundleHolder;
-import lodsve.core.utils.StringUtils;
+import lodsve.core.properties.profile.ProfileInitializer;
+import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -37,14 +36,15 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
 
 import javax.mail.MessagingException;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 
 /**
  * 配置core模块的properties.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2016/12/27 下午3:07
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016/12/27 下午3:07
  */
 @Configuration
 @EnableConfigurationProperties({ApplicationProperties.class, EmailProperties.class})
@@ -58,7 +58,7 @@ public class LodsveCoreConfiguration {
 
     @Bean
     public ThreadPoolExecutorFactoryBean threadPoolExecutorFactoryBean() {
-        ApplicationProperties.ThreadConfig config = applicationProperties.getThread();
+        ThreadConfig config = applicationProperties.getThread();
 
         ThreadPoolExecutorFactoryBean threadPoolExecutorFactoryBean = new ThreadPoolExecutorFactoryBean();
         threadPoolExecutorFactoryBean.setCorePoolSize(config.getCorePoolSize());
@@ -92,20 +92,17 @@ public class LodsveCoreConfiguration {
     }
 
     @Bean
+    @SuppressWarnings("unchecked")
     public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
         PropertySourcesPlaceholderConfigurer placeholderConfigurer = new PropertySourcesPlaceholderConfigurer();
         placeholderConfigurer.setFileEncoding("UTF-8");
 
-        Properties properties = EnvLoader.getEnvs();
-        if (properties.isEmpty()) {
-            ParamsHome.getInstance().init(StringUtils.EMPTY);
-            EnvLoader.init();
-            IniLoader.init();
+        Map properties = Env.getEnvs();
+        properties.putAll(Env.getSystemEnvs());
+        properties.putAll(Ini.getInisProperties());
+        properties.putAll(ProfileInitializer.getAllProfiles());
 
-            properties = EnvLoader.getEnvs();
-        }
-
-        placeholderConfigurer.setProperties(properties);
+        placeholderConfigurer.setProperties(MapUtils.toProperties(properties));
 
         return placeholderConfigurer;
     }

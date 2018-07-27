@@ -24,8 +24,8 @@ import java.io.Serializable;
 /**
  * redis事件.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/9/28 下午4:28
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 15/9/28 下午4:28
  */
 public class RedisEvent extends ApplicationEvent {
     private final Serializable key;

@@ -28,7 +28,7 @@ import java.util.Random;
 /**
  * 验证码生成器.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 14-5-10 下午10:04
  */
 public class CaptchaUtils {

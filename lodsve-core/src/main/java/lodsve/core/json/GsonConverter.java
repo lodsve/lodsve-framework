@@ -26,24 +26,24 @@ import java.util.Map;
 /**
  * Gson Utils.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 14:57
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-28-0028 14:57
  */
-public class GsonConverter implements JsonConverter {
-    private static final Gson gson;
+public class GsonConverter extends AbstractJsonConverter {
+    private static final Gson GSON;
 
     static {
-        gson = new Gson();
+        GSON = new Gson();
     }
 
     @Override
     public String toJson(Object obj) {
-        return gson.toJson(obj);
+        return GSON.toJson(obj);
     }
 
     @Override
     public <T> T toObject(String json, Class<T> clazz) {
-        return gson.fromJson(json, clazz);
+        return GSON.fromJson(json, clazz);
     }
 
     @Override
@@ -51,6 +51,6 @@ public class GsonConverter implements JsonConverter {
         Type mapType = new TypeToken<Map<String, Object>>() {
         }.getType();
 
-        return gson.fromJson(json, mapType);
+        return GSON.fromJson(json, mapType);
     }
 }

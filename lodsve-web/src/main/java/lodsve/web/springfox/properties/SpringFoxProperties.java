@@ -22,14 +22,14 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 /**
  * 配置springfox的相关参数.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/1/23 下午8:50
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/23 下午8:50
  */
 @ConfigurationProperties(prefix = "lodsve.springfox", locations = "${params.root}/framework/springfox.properties")
 public class SpringFoxProperties {
 
-    private String title;
-    private String description;
+    private String title = "RESTful Api Documentation";
+    private String description = "RESTful Api Documentation";
 
     public String getTitle() {
         return title;

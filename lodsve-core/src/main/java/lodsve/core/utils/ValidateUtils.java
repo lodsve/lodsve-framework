@@ -23,8 +23,7 @@ import java.util.regex.Pattern;
 /**
  * 验证工具栏
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2012-7-12 下午04:09:14
  */
 public class ValidateUtils {

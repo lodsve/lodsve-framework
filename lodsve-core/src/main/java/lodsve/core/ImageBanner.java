@@ -18,6 +18,7 @@
 package lodsve.core;
 
 import lodsve.core.ansi.*;
+import lodsve.core.configuration.BannerConfig;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
@@ -31,8 +32,8 @@ import java.io.PrintStream;
 /**
  * image banner.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-18-0018 10:06
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018-1-18-0018 10:06
  */
 public class ImageBanner implements Banner {
     private static final double[] RGB_WEIGHT = {0.2126d, 0.7152d, 0.0722d};
@@ -50,13 +51,13 @@ public class ImageBanner implements Banner {
     }
 
     @Override
-    public void print(PrintStream out) {
-        int width = 76, height = 0, margin = 2;
+    public void print(BannerConfig config, PrintStream out) {
+        int width = config.getImage().getWidth(), height = config.getImage().getHeight(), margin = config.getImage().getMargin();
         String headless = System.getProperty("java.awt.headless");
         try {
             System.setProperty("java.awt.headless", "true");
             BufferedImage image = readImage(width, height);
-            printBanner(image, margin, out);
+            printBanner(image, margin, config.getImage().isInvert(), out);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -69,12 +70,9 @@ public class ImageBanner implements Banner {
     }
 
     private BufferedImage readImage(int width, int height) throws IOException {
-        InputStream inputStream = resource.getInputStream();
-        try {
+        try (InputStream inputStream = resource.getInputStream()) {
             BufferedImage image = ImageIO.read(inputStream);
             return resizeImage(image, width, height);
-        } finally {
-            inputStream.close();
         }
     }
 
@@ -92,8 +90,8 @@ public class ImageBanner implements Banner {
         return resized;
     }
 
-    private void printBanner(BufferedImage image, int margin, PrintStream out) {
-        AnsiElement background = AnsiBackground.DEFAULT;
+    private void printBanner(BufferedImage image, int margin, boolean invert, PrintStream out) {
+        AnsiElement background = (invert ? AnsiBackground.BLACK : AnsiBackground.DEFAULT);
         out.print(AnsiOutput.encode(AnsiColor.DEFAULT));
         out.print(AnsiOutput.encode(background));
         out.println();
@@ -110,7 +108,7 @@ public class ImageBanner implements Banner {
                     out.print(AnsiOutput.encode(ansiColor));
                     lastColor = ansiColor;
                 }
-                out.print(getAsciiPixel(color));
+                out.print(getAsciiPixel(color, invert));
             }
             out.println();
         }
@@ -119,8 +117,8 @@ public class ImageBanner implements Banner {
         out.println();
     }
 
-    private char getAsciiPixel(Color color) {
-        double luminance = getLuminance(color);
+    private char getAsciiPixel(Color color, boolean dark) {
+        double luminance = getLuminance(color, dark);
         for (int i = 0; i < PIXEL.length; i++) {
             if (luminance >= (LUMINANCE_START - (i * LUMINANCE_INCREMENT))) {
                 return PIXEL[i];
@@ -129,16 +127,16 @@ public class ImageBanner implements Banner {
         return PIXEL[PIXEL.length - 1];
     }
 
-    private int getLuminance(Color color) {
+    private int getLuminance(Color color, boolean inverse) {
         double luminance = 0.0;
-        luminance += getLuminance(color.getRed(), RGB_WEIGHT[0]);
-        luminance += getLuminance(color.getGreen(), RGB_WEIGHT[1]);
-        luminance += getLuminance(color.getBlue(), RGB_WEIGHT[2]);
+        luminance += getLuminance(color.getRed(), inverse, RGB_WEIGHT[0]);
+        luminance += getLuminance(color.getGreen(), inverse, RGB_WEIGHT[1]);
+        luminance += getLuminance(color.getBlue(), inverse, RGB_WEIGHT[2]);
         return (int) Math.ceil((luminance / 0xFF) * 100);
     }
 
-    private double getLuminance(int component, double weight) {
-        return (component) * weight;
+    private double getLuminance(int component, boolean inverse, double weight) {
+        return (inverse ? 0xFF - component : component) * weight;
     }
 
 }

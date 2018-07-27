@@ -25,8 +25,6 @@ import com.fasterxml.jackson.databind.cfg.BaseSettings;
 import com.fasterxml.jackson.databind.introspect.BasicClassIntrospector;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import lodsve.web.mvc.convert.EnumDeserializer;
-import lodsve.web.mvc.convert.EnumSerializer;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -40,8 +38,8 @@ import java.util.TimeZone;
  * <li>设置序列化时间类型时默认的时间格式</li>
  * </ol>
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/6/20 上午5:35
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 15/6/20 上午5:35
  */
 public class CustomObjectMapper extends ObjectMapper {
     private static final long serialVersionUID = 1L;

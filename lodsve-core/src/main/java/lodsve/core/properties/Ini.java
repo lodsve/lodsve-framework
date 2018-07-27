@@ -31,9 +31,8 @@ import java.util.Set;
 /**
  * ini配置获取.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 2014-12-31 14:19
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2014-12-31 14:19
  */
 public class Ini {
     private static final Logger logger = LoggerFactory.getLogger(Ini.class);
@@ -66,7 +65,7 @@ public class Ini {
      * @param section
      * @return
      */
-    public static Map<String, String> getConfigsBySection(String section) {
+    public static Map<String, String> getInisBySection(String section) {
         return inis.get(section);
     }
 
@@ -77,7 +76,7 @@ public class Ini {
      * @param key
      * @return
      */
-    public static String getConfig(String section, String key) {
+    public static String getIni(String section, String key) {
         Map<String, String> sections = inis.get(section);
         if (sections == null || sections.isEmpty()) {
             return StringUtils.EMPTY;
@@ -93,8 +92,8 @@ public class Ini {
      * @param key
      * @return
      */
-    public static boolean getBooleanConfig(String section, String key) {
-        String config = getConfig(section, key);
+    public static boolean getBoolean(String section, String key) {
+        String config = getIni(section, key);
 
         return "true".equals(config) || "1".equals(config) || "y".equalsIgnoreCase(config) || "yes".equalsIgnoreCase(config);
     }
@@ -104,8 +103,24 @@ public class Ini {
      *
      * @return
      */
-    public static Map<String, Map<String, String>> getAllConfigs() {
+    public static Map<String, Map<String, String>> getInis() {
         return inis;
+    }
+
+    public static Map<String, String> getInisProperties() {
+        Map<String, Map<String, String>> all = getInis();
+        Map<String, String> result = new HashMap<>(16);
+        for (String key : all.keySet()) {
+            Map<String, String> subMap = all.get(key);
+            for (String subKey : subMap.keySet()) {
+                String newKey = key + "." + subKey;
+                String value = subMap.get(subKey);
+
+                result.put(newKey, value);
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -114,7 +129,7 @@ public class Ini {
      * @param resource
      * @return
      */
-    public static Map<String, Map<String, String>> getFileConfig(Resource resource) {
+    public static Map<String, Map<String, String>> getFileIni(Resource resource) {
         Assert.notNull(resource, "资源不能为空！");
 
         Map<String, Map<String, String>> maps = new HashMap<>(16);

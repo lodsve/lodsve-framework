@@ -27,8 +27,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * 非web应用spring的上下文(优先JavaConfig).
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2016/12/20 上午10:20
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016/12/20 上午10:20
  */
 class SpringContext {
     private SpringContext() {

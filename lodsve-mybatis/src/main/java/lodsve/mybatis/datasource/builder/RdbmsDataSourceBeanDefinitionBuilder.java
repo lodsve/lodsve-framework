@@ -19,6 +19,7 @@ package lodsve.mybatis.datasource.builder;
 
 import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import lodsve.mybatis.properties.DruidProperties;
+import lodsve.mybatis.properties.PoolSetting;
 import lodsve.mybatis.properties.RdbmsProperties;
 import lodsve.mybatis.utils.Constants;
 import org.springframework.beans.BeanWrapper;
@@ -33,8 +34,8 @@ import java.util.Map;
 /**
  * 创建数据源.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017/12/14 下午8:35
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/14 下午8:35
  */
 public class RdbmsDataSourceBeanDefinitionBuilder {
     private String dataSourceName;
@@ -63,7 +64,7 @@ public class RdbmsDataSourceBeanDefinitionBuilder {
 
     private Map<String, String> getProperties() {
         // 连接信息
-        RdbmsProperties.PoolSetting poolSetting = rdbmsProperties.getPool().get(dataSourceName);
+        PoolSetting poolSetting = rdbmsProperties.getPool().get(dataSourceName);
 
         Map<String, String> properties = new HashMap<>(16);
         properties.putAll(toMap(poolSetting));

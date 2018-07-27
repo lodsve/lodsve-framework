@@ -32,9 +32,8 @@ import java.util.List;
 /**
  * 搜索引擎的公用方法.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 13-5-8 下午10:53
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-5-8 下午10:53
  */
 public abstract class AbstractSearchEngine implements SearchEngine {
     private static final Logger logger = LoggerFactory.getLogger(AbstractSearchEngine.class);

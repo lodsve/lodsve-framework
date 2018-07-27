@@ -25,8 +25,8 @@ import org.springframework.util.Assert;
 /**
  * Cache ImportSelector.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017/12/23 下午3:55
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/23 下午3:55
  */
 public class CacheImportSelector implements ImportSelector {
     private static final String CACHE_MODE_ATTRIBUTE_NAME = "cache";

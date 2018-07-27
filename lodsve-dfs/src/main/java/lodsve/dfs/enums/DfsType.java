@@ -26,8 +26,8 @@ import lodsve.dfs.service.impl.TfsServiceImpl;
 /**
  * 使用的文件系统类型.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017-12-4-0004 10:41
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-4-0004 10:41
  */
 public enum DfsType {
     /**

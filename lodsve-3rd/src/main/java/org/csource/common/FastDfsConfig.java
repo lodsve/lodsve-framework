@@ -3,8 +3,8 @@ package org.csource.common;
 /**
  * fast dfs配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2017-12-4-0004 11:09
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-4-0004 11:09
  */
 public class FastDfsConfig {
     private int connectTimeout = 5;

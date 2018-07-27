@@ -30,8 +30,8 @@ import java.util.*;
 /**
  * 支持读取zookeeper里的数据，其他类型还是由{@link PathMatchingResourcePatternResolver}处理.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-3-0003 11:11
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018-1-3-0003 11:11
  */
 public class LodsvePathMatchingResourcePatternResolver extends PathMatchingResourcePatternResolver {
     public LodsvePathMatchingResourcePatternResolver() {

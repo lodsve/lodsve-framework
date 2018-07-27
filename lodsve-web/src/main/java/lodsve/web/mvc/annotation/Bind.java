@@ -25,11 +25,10 @@ import java.lang.annotation.Target;
 
 /**
  * 表单提交多个对象，且这些对象含有同名的字段，需要用此注解标注参数.<br/>
- * 解析类为{@link lodsve.web.mvc.resolver.BindDataHandlerMethodArgumentResolver}
+ * 解析类为{@link lodsve.web.mvc.annotation.resolver.BindDataHandlerMethodArgumentResolver}
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 2015-1-29 21:45
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2015-1-29 21:45
  */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

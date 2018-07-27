@@ -20,8 +20,7 @@ package lodsve.core.utils;
 /**
  * 类型转换器的接口.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2015-2-9 22:07
  */
 public interface StringParse<V> {

@@ -22,9 +22,8 @@ import lodsve.core.event.module.BaseEvent;
 /**
  * 事件监听器.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 13-4-27 上午5:07
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-4-27 上午5:07
  */
 public interface EventListener<T extends BaseEvent> {
     /**

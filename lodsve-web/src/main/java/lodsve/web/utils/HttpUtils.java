@@ -40,7 +40,7 @@ import java.util.Map;
 /**
  * HttpClient的工具类.
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 13-12-11 下午6:50
  */
 public class HttpUtils {

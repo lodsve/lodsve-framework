@@ -27,8 +27,8 @@ import java.util.Collections;
 /**
  * .
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017/12/7 11:18
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/7 11:18
  */
 public class QueueBinding extends Binding {
     public QueueBinding(FanoutExchange exchange, Queue queue) {

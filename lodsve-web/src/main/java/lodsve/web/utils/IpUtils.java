@@ -17,7 +17,7 @@
 
 package lodsve.web.utils;
 
-import lodsve.core.json.JsonUtils;
+import lodsve.core.json.JsonConverterFactory;
 import lodsve.core.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ import java.util.*;
 /**
  * 操作ip的工具类.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 13-12-10 下午11:37
  */
 public class IpUtils {
@@ -73,7 +73,7 @@ public class IpUtils {
             return Collections.emptyMap();
         }
 
-        Map<String, Object> object = JsonUtils.toMap(message);
+        Map<String, Object> object = JsonConverterFactory.getConverter(JsonConverterFactory.JsonMode.JACKSON).toMap(message);
 
         Object result = object.get("code");
         if (result != null && "0".equals(result.toString())) {
@@ -196,7 +196,7 @@ public class IpUtils {
                 inetAddresses = networkInterface.getInetAddresses();
                 while (inetAddresses.hasMoreElements()) {
                     inetAddress = inetAddresses.nextElement();
-                    if (inetAddress != null && inetAddress instanceof Inet4Address) {
+                    if (inetAddress instanceof Inet4Address) {
                         ip = inetAddress.getHostAddress();
                         ipList.add(ip);
                     }

@@ -24,8 +24,8 @@ import javax.script.CompiledScript;
 /**
  * 编译后自定义的上下文.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2016/12/9 上午10:52
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016/12/9 上午10:52
  */
 public class ScriptContext {
     private String id;

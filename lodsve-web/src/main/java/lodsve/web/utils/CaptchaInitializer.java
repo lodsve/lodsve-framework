@@ -28,7 +28,7 @@ import javax.servlet.ServletRegistration;
 /**
  * 注册验证码servlet.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-3-27-0027 11:22
  */
 public class CaptchaInitializer implements WebApplicationInitializer {

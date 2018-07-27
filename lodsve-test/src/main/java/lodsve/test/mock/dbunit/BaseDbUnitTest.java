@@ -34,8 +34,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 /**
  * 使用dbunit对数据库操作的单元测试.<br/>
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16-3-10 12:34
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16-3-10 12:34
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

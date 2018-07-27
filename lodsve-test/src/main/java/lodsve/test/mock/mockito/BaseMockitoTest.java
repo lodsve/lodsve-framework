@@ -29,8 +29,8 @@ import org.mockito.MockitoAnnotations;
 /**
  * 使用mock时的基类.<br/>
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16-3-10 12:34
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16-3-10 12:34
  */
 public class BaseMockitoTest extends BaseTest {
     @Before

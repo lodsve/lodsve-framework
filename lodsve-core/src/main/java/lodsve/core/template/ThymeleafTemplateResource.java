@@ -29,8 +29,8 @@ import java.util.Map;
 /**
  * Thymeleaf模板引擎生成的Resource<br/>
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 14-8-30 上午1:03
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 14-8-30 上午1:03
  */
 public class ThymeleafTemplateResource extends AbstractTemplateResource {
     private TemplateMode templateMode;

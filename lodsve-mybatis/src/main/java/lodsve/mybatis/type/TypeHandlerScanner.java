@@ -48,8 +48,8 @@ import java.util.List;
 /**
  * 扫描所有的MyBatis的TypeHandler.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/6/25 下午7:30
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 15/6/25 下午7:30
  */
 public class TypeHandlerScanner {
     private static final Logger logger = LoggerFactory.getLogger(TypeHandlerScanner.class);

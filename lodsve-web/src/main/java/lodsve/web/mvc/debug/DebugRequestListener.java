@@ -17,6 +17,7 @@
 
 package lodsve.web.mvc.debug;
 
+import lodsve.web.mvc.properties.DebugConfig;
 import lodsve.web.mvc.properties.ServerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,9 +31,8 @@ import java.util.regex.Pattern;
 /**
  * 系统是否开启debug功能,可以查看请求的详情
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
- * @createTime 2012-3-12 上午05:50:23
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2012-3-12 上午05:50:23
  */
 public class DebugRequestListener implements ApplicationListener<ServletRequestHandledEvent> {
     private static final Logger logger = LoggerFactory.getLogger(DebugRequestListener.class);
@@ -93,7 +93,7 @@ public class DebugRequestListener implements ApplicationListener<ServletRequestH
     }
 
     private void initPattern() {
-        ServerProperties.Debug debug = properties.getDebug();
+        DebugConfig debug = properties.getDebug();
         List<String> excludeUrl = debug.getExcludeUrl();
         excludeUrl.addAll(DEFAULT_EXCLUDE_URL);
         for (String url : excludeUrl) {

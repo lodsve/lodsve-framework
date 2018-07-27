@@ -41,8 +41,8 @@ import java.util.Map;
 /**
  * 动态创建数据源的配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/1/19 下午8:01
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/19 下午8:01
  */
 public class DataSourceBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
 
@@ -67,10 +67,11 @@ public class DataSourceBeanDefinitionRegistrar implements ImportBeanDefinitionRe
         dynamicDataSource.addConstructorArgValue(defaultDataSourceKey);
 
         boolean p6spy = Profiles.getProfile("p6spy");
+
+        String dataSourceBeanName = p6spy ? Constants.REAL_DATA_SOURCE_BEAN_NAME : Constants.DATA_SOURCE_BEAN_NAME;
+        beanDefinitions.put(dataSourceBeanName, dynamicDataSource.getBeanDefinition());
         if (p6spy) {
             // 使用p6spy
-            beanDefinitions.put(Constants.REAL_DATA_SOURCE_BEAN_NAME, dynamicDataSource.getBeanDefinition());
-
             BeanDefinitionBuilder p6spyDataSource = BeanDefinitionBuilder.genericBeanDefinition(P6DataSource.class);
             p6spyDataSource.addConstructorArgReference(Constants.REAL_DATA_SOURCE_BEAN_NAME);
 
@@ -78,8 +79,6 @@ public class DataSourceBeanDefinitionRegistrar implements ImportBeanDefinitionRe
 
             // 初始化配置
             LodsveP6OptionsSource.init();
-        } else {
-            beanDefinitions.put(Constants.DATA_SOURCE_BEAN_NAME, dynamicDataSource.getBeanDefinition());
         }
 
         BeanRegisterUtils.registerBeans(beanDefinitions, registry);

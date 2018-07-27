@@ -6,35 +6,40 @@ import org.junit.Test;
 /**
  * .
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 15:26
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-28-0028 15:26
  */
 public class JsonUtilsTest {
     private Demo demo = new Demo(1L, "demo");
     private String json = "{\"id\":1,\"name\":\"demo\"}";
+    private String jsonFormat = "{\n" +
+            "   \"id\":1,\n" +
+            "   \"name\":\"demo\"\n" +
+            "}";
 
     @Test
     public void testJackson() {
-        JsonUtils.mode = JsonUtils.JsonMode.JACKSON;
+        JsonConverter converter = JsonConverterFactory.getConverter(JsonConverterFactory.JsonMode.JACKSON);
 
-        Assert.assertEquals(json, JsonUtils.toJson(demo));
-        Assert.assertEquals(demo, JsonUtils.toObject(json, Demo.class));
+        Assert.assertEquals(json, converter.toJson(demo));
+        Assert.assertEquals(jsonFormat, converter.toJson(demo, true));
+        Assert.assertEquals(demo, converter.toObject(json, Demo.class));
     }
 
     @Test
     public void testGson() {
-        JsonUtils.mode = JsonUtils.JsonMode.GSON;
+        JsonConverter converter = JsonConverterFactory.getConverter(JsonConverterFactory.JsonMode.GSON);
 
-        Assert.assertEquals(json, JsonUtils.toJson(demo));
-        Assert.assertEquals(demo, JsonUtils.toObject(json, Demo.class));
+        Assert.assertEquals(json, converter.toJson(demo));
+        Assert.assertEquals(demo, converter.toObject(json, Demo.class));
     }
 
     @Test
     public void testFastJson() {
-        JsonUtils.mode = JsonUtils.JsonMode.FastJson;
+        JsonConverter converter = JsonConverterFactory.getConverter(JsonConverterFactory.JsonMode.FastJson);
 
-        Assert.assertEquals(json, JsonUtils.toJson(demo));
-        Assert.assertEquals(demo, JsonUtils.toObject(json, Demo.class));
+        Assert.assertEquals(json, converter.toJson(demo));
+        Assert.assertEquals(demo, converter.toObject(json, Demo.class));
     }
 
     public static class Demo {

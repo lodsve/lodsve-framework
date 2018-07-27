@@ -26,8 +26,8 @@ import java.lang.annotation.*;
 /**
  * 启用redis.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/1/23 下午11:19
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/23 下午11:19
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

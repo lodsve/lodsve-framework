@@ -22,6 +22,8 @@ import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationPropert
 import lodsve.core.utils.StringUtils;
 import lodsve.search.engine.SearchEngine;
 import lodsve.search.engine.SolrSearchEngine;
+import lodsve.search.properties.SearchProperties;
+import lodsve.search.properties.SolrConfig;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -31,8 +33,8 @@ import org.springframework.context.annotation.ComponentScan;
 /**
  * solr配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2016/1/20 12:33
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016/1/20 12:33
  */
 @Configurable
 @EnableConfigurationProperties(SearchProperties.class)
@@ -59,7 +61,7 @@ public class SolrConfiguration {
 
     @Bean
     public SearchEngine searchEngine(HttpSolrClient solrClient) {
-        SearchProperties.Solr solr = properties.getSolr();
+        SolrConfig solr = properties.getSolr();
 
         return new SolrSearchEngine(solrClient, solr.getPrefix(), solr.getSuffix());
     }

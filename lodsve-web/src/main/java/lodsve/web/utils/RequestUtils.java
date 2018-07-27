@@ -32,8 +32,7 @@ import java.util.*;
 /**
  * HttpServletRequest的工具类
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2012-2-15 下午10:12:52
  */
 public class RequestUtils {

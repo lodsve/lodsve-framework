@@ -38,8 +38,8 @@ import java.util.Map;
 /**
  * redis timer 注册.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2017/12/17 上午12:20
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/17 上午12:20
  */
 public class RedisTimerBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
     private static final Logger logger = LoggerFactory.getLogger(RedisTimerBeanDefinitionRegistrar.class);

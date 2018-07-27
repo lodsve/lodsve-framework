@@ -28,8 +28,8 @@ import org.springframework.util.Assert;
 /**
  * 内嵌式Memcached.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-10-0010 13:32
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018-1-10-0010 13:32
  */
 public class JMemcachedTestExecutionListener extends AbstractTestExecutionListener {
     private static final Logger logger = LoggerFactory.getLogger(JMemcachedTestExecutionListener.class);

@@ -30,8 +30,8 @@ import java.util.List;
 /**
  * 选择使用的搜索引擎配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2016/1/20 12:30
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016/1/20 12:30
  */
 public class SearchConfigurationSelector implements ImportSelector {
     public static final String SEARCH_TYPE_ATTRIBUTE_NAME = "type";

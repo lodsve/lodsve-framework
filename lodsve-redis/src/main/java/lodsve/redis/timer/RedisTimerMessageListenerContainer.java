@@ -24,8 +24,8 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 /**
  * redis timer MessageListenerContainer.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2017/12/17 上午12:34
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/17 上午12:34
  */
 public class RedisTimerMessageListenerContainer extends RedisMessageListenerContainer {
     public RedisTimerMessageListenerContainer(LodsveRedisConnectionFactory connectionFactory, RedisTimerListener listener) {

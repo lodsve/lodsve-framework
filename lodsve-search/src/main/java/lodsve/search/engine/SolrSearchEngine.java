@@ -43,9 +43,8 @@ import java.util.Map;
 /**
  * 基于solr实现的搜索引擎.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
- * @createTime 13-5-5 下午9:36
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-5-5 下午9:36
  */
 public class SolrSearchEngine extends AbstractSearchEngine {
     private static final Logger logger = LoggerFactory.getLogger(SolrSearchEngine.class);

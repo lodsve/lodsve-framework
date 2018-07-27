@@ -42,8 +42,8 @@ import java.util.List;
 /**
  * Redis.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017/12/23 上午12:23
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/23 上午12:23
  */
 @Configuration
 @EnableCaching

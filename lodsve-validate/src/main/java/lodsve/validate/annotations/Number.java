@@ -25,9 +25,8 @@ import java.lang.annotation.Target;
 /**
  * 验证框架:数字注解.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 12-11-23 下午8:35
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 12-11-23 下午8:35
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})

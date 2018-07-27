@@ -18,7 +18,7 @@
 package lodsve.cache.oscache;
 
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
-import lodsve.cache.properties.CacheProperties.Oscahce.CacheConfig;
+import lodsve.cache.properties.OscacheMemcachedCache;
 import org.springframework.cache.Cache;
 import org.springframework.cache.transaction.AbstractTransactionSupportingCacheManager;
 import org.springframework.util.CollectionUtils;
@@ -31,19 +31,19 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * Oscache CacheManager.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-10-0010 16:26
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018-1-10-0010 16:26
  */
 public class OscacheCacheManager extends AbstractTransactionSupportingCacheManager {
     private GeneralCacheAdministrator admin;
-    private List<CacheConfig> cacheConfigs;
+    private List<OscacheMemcachedCache> cacheConfigs;
 
     private ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<>();
 
     @Override
     public void afterPropertiesSet() {
         if (!CollectionUtils.isEmpty(cacheConfigs)) {
-            for (CacheConfig config : cacheConfigs) {
+            for (OscacheMemcachedCache config : cacheConfigs) {
                 String name = config.getName();
                 int expire = config.getExpire();
 
@@ -68,7 +68,7 @@ public class OscacheCacheManager extends AbstractTransactionSupportingCacheManag
         this.admin = admin;
     }
 
-    public void setCacheConfigs(List<CacheConfig> cacheConfigs) {
+    public void setCacheConfigs(List<OscacheMemcachedCache> cacheConfigs) {
         this.cacheConfigs = cacheConfigs;
     }
 }

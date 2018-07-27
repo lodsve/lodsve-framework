@@ -22,15 +22,15 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 /**
  * druid配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-2-8-0008 15:05
  */
 @ConfigurationProperties(prefix = "lodsve.druid", locations = "${params.root}/framework/druid.properties")
 public class DruidProperties {
-    private String filters;
+    private String filters = "stat\\,wall";
     private boolean enableMonitor = false;
     private String path = "/druid/*";
-    private String resetEnable;
+    private String resetEnable = "true";
     private String user;
     private String password;
     private String allow;

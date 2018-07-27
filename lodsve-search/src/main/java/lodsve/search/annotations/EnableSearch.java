@@ -25,8 +25,8 @@ import java.lang.annotation.*;
 /**
  * 启用搜索.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2016/1/20 12:28
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016/1/20 12:28
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

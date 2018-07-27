@@ -30,9 +30,8 @@ import java.lang.annotation.Annotation;
 /**
  * 小数验证的处理类.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 12-11-26 下午8:13
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 12-11-26 下午8:13
  */
 public class DoubleHandler extends AbstractValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(DoubleHandler.class);

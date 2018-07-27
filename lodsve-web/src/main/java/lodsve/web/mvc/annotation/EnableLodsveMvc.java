@@ -27,8 +27,8 @@ import java.lang.annotation.*;
 /**
  * 启用lodsve-mvc.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/1/18 下午10:50
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/18 下午10:50
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

@@ -26,10 +26,9 @@ import java.lang.annotation.Target;
 /**
  * 当前台传入类似于1,2,3,4,5之类的字符串，加上此注解，将会被解析成一个List，这个注解是一些配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 2015-2-9 18:58
- * @see lodsve.web.mvc.resolver.ParseDataHandlerMethodArgumentResolver
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2015-2-9 18:58
+ * @see lodsve.web.mvc.annotation.resolver.ParseDataHandlerMethodArgumentResolver
  */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

@@ -25,8 +25,8 @@ import java.lang.reflect.Field;
 /**
  * 校验错误信息.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 16/9/20 下午7:35
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/9/20 下午7:35
  */
 public class ErrorMessage {
     private Class<?> clazz;

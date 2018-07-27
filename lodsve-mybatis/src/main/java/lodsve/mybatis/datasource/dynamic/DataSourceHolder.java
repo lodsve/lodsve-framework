@@ -20,8 +20,8 @@ package lodsve.mybatis.datasource.dynamic;
 /**
  * 多数据源保存选择的数据源.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017/12/14 下午6:03
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/14 下午6:03
  */
 public class DataSourceHolder implements AutoCloseable {
     private static final ThreadLocal<String> DATAS_SOURCE = new ThreadLocal<>();

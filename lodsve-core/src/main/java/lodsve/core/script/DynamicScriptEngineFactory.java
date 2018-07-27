@@ -17,11 +17,6 @@
 
 package lodsve.core.script;
 
-import lodsve.core.script.groovy.GroovyScriptEngine;
-import lodsve.core.script.js.JSScriptEngine;
-import lodsve.core.script.python.PythonScriptEngine;
-import lodsve.core.script.ruby.RubyScriptEngine;
-import lodsve.core.script.spel.SpELScriptEngine;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
@@ -31,8 +26,8 @@ import java.util.Map;
 /**
  * 根据语言类型获取编译引擎的工厂.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2016/12/9 上午10:28
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016/12/9 上午10:28
  */
 public final class DynamicScriptEngineFactory {
     private static final Map<Script, ScriptEngine> SCRIPT_ENGINE = new HashMap<>();
@@ -52,6 +47,9 @@ public final class DynamicScriptEngineFactory {
             SCRIPT_ENGINE.put(Script.SPEL, new SpELScriptEngine());
         }
         SCRIPT_ENGINE.put(Script.RUBY, new RubyScriptEngine());
+    }
+
+    private DynamicScriptEngineFactory() {
     }
 
     /**

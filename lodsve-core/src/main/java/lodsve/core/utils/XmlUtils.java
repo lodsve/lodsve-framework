@@ -44,7 +44,7 @@ import java.util.Map;
 /**
  * xml工具类.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2015-11-18 13:58
  */
 public final class XmlUtils {

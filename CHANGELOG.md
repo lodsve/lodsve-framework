@@ -1,5 +1,38 @@
 # 更新日志
 
+## 2.6.6-RELEASE
+1. 整理配置文件，对必填项加上@Required
+2. 增加事务开关
+3. p6spy改成profiles启用，优化mybatis加载数据源
+4. 修改base64加解密的实现
+5. 优化banner,可以在logger中打印
+6. RelaxedBindFactory支持枚举类型
+7. 获取json解析的工厂
+8. 简化web.xml
+9. 删除了wechat和workflow
+
+
+## 2.6.5-RELEASE
+1. 重构mybatis,取消自动生成beans
+2. 整理mongodb
+3. 多数据源配置连接池也是多个配置
+4. 工具类重构、修改
+    - 修改ObjectUtils相关
+    - 将web相关utils移到lodsve-web中
+    - 添加RestUtils
+5. lodsve-web添加一层包路径web
+6. params路径加载用WebApplicationInitializer实现
+7. 优化验证码
+    ```
+    配置（server.properties）
+    lodsve.server.enable-captcha=false
+    lodsve.server.captcha-key=captchaKey
+    lodsve.server.path=/captcha
+    
+    验证码图片路径  ${contextPath}/captcha
+    校验验证码   lodsve.web.utils.CaptchaUtils.validate(request, code)
+    ```
+
 ## 2.6.4.1-RELEASE
 为软创开发 多数据源配置连接池也是多个配置
 
@@ -215,10 +248,9 @@
 1. 项目进行重构
 2. 合并一些基础项目到message-base中
 3. 重构spring的加载方式,eg:
-
-	```
-	<!-- spring配置 start -->
-	...
+    ```
+    <!-- spring配置 start -->
+    ...
     <servlet>
         <servlet-name>spring</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -233,7 +265,7 @@
     </servlet>
     ...
     <!-- spring配置 start -->
-
+    
     ApplicationConfiguration.java
     @Configuration
     // ...
@@ -242,7 +274,7 @@
     public class ApplicationConfiguration {
         // ...
     }
-	```
+    ```
 
 ## V2.3.4
 1. 添加message-mongodb,对mongodb的支持
@@ -276,26 +308,27 @@
 
 ## V2.0-GA
 1. 模块拆分完成
-
-		message-amqp
-		message-base
-		message-cache
-		message-config
-		message-datasource
-		message-email
-		message-event
-		message-exception
-		message-jdbc
-		message-json
-		message-logger
-		message-mvc
-		message-search
-		message-security
-		message-tags
-		message-template
-		message-test
-		message-utils
-		message-validate
+    ```
+    message-amqp
+    message-base
+    message-cache
+    message-config
+    message-datasource
+    message-email
+    message-event
+    message-exception
+    message-jdbc
+    message-json
+    message-logger
+    message-mvc
+    message-search
+    message-security
+    message-tags
+    message-template
+    message-test
+    message-utils
+    message-validate
+    ```
 2. 编写使用说明文档
 
 ## V1.0-GA

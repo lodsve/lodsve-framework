@@ -27,8 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * cookie处理工具类
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2012-7-10 下午02:41:14
  */
 public class CookieUtils {

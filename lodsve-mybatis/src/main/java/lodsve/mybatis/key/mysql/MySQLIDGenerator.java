@@ -17,40 +17,29 @@
 
 package lodsve.mybatis.key.mysql;
 
+import lodsve.mybatis.dialect.Dialect;
+import lodsve.mybatis.exception.MyBatisException;
 import lodsve.mybatis.key.IDGenerator;
-import org.springframework.dao.DataAccessResourceFailureException;
+import lodsve.mybatis.utils.MyBatisUtils;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
+import org.springframework.util.Assert;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * mysql主键.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 16/9/14 上午9:57
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018-07-09 13:50
  */
 public class MySQLIDGenerator implements IDGenerator {
-    /**
-     * The SQL string for retrieving the new sequence value
-     */
-    private static final String VALUE_SQL = "select last_insert_id()";
-
-    /**
-     * The next id to serve
-     */
-    private long nextId = 0;
-
-    /**
-     * The max id to serve
-     */
-    private long maxId = 0;
 
     /**
      * The number of keys buffered in a cache
@@ -69,89 +58,119 @@ public class MySQLIDGenerator implements IDGenerator {
 
     private DataSource dataSource;
 
-    @Override
-    public synchronized Long nextId(String sequenceName) {
-        if (NEXT_ID_CACHE.get(sequenceName) != null) {
-            this.nextId = NEXT_ID_CACHE.get(sequenceName);
-        }
-        if (MAX_ID_CACHE.get(sequenceName) != null) {
-            this.maxId = MAX_ID_CACHE.get(sequenceName);
+    private static final String SEQUENCE_TABLE = "t_sequence";
+    private static final String CREATE_SEQUENCE_TABLE = "CREATE TABLE t_sequence (name varchar(32) NOT NULL,value bigint(5) NOT NULL,PRIMARY KEY (name))";
+    private static final String GET_NEXT_ID_SQL = "SELECT value FROM t_sequence WHERE name = ?";
+    private static final String UPDATE_NEXT_ID_SQL = "UPDATE t_sequence SET value = ? WHERE name = ?";
+    private static final String INSERT_NEXT_ID_SQL = "INSERT INTO t_sequence (value, name) VALUES (?, ?)";
+
+    @PostConstruct
+    private void init() {
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        Dialect dialect;
+        try {
+            dialect = MyBatisUtils.getDialect(connection);
+        } catch (SQLException e) {
+            throw new MyBatisException(102001, String.format("校验表%s是否存在发生异常,异常信息%s,请检查!", CREATE_SEQUENCE_TABLE, e.getMessage()));
         }
 
-        if (this.maxId == this.nextId) {
-            /*
-             * Need to use straight JDBC code because we need to make sure that the insert and select
-             * are performed on the same connection (otherwise we can't be sure that last_insert_id()
-             * returned the correct value)
-             */
+        if (isExistTable(dialect)) {
+            return;
+        }
 
-            Connection con = DataSourceUtils.getConnection(dataSource);
-            Statement stmt = null;
-            try {
-                stmt = con.createStatement();
-                DataSourceUtils.applyTransactionTimeout(stmt, dataSource);
-                String updateSql = "update " + sequenceName + " set " + sequenceName + " = last_insert_id(" + sequenceName + " + " + getCacheSize() + ")";
-                try {
-                    // Increment the sequence column...
-                    stmt.executeUpdate(updateSql);
-                } catch (SQLException e) {
-                    //发生异常,即不存在这张表
-                    //1.执行新建这张表的语句
-                    StringBuffer createSql = new StringBuffer();
-                    createSql.append("create table ").append(sequenceName).append(" ( ");
-                    createSql.append(sequenceName).append(" bigint(12) default null ");
-                    createSql.append(" ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ");
-                    stmt.execute(createSql.toString());
-                    //2.初始化这张表的数据(将name的值置为0)
-                    String initDataSql = "insert into " + sequenceName + " values(0)";
-                    stmt.executeUpdate(initDataSql);
-                    //3.Increment the sequence column...
-                    stmt.executeUpdate(updateSql);
-                }
-                // Retrieve the new max of the sequence column...
-                ResultSet rs = stmt.executeQuery(VALUE_SQL);
-                try {
-                    if (!rs.next()) {
-                        throw new DataAccessResourceFailureException("last_insert_id() failed after executing an update");
-                    }
-                    this.maxId = rs.getLong(1);
-                    //更新缓存
-                    MAX_ID_CACHE.put(sequenceName, this.maxId);
-                } finally {
-                    JdbcUtils.closeResultSet(rs);
-                }
-                this.nextId = this.maxId - getCacheSize() + 1;
-                //更新缓存
-                NEXT_ID_CACHE.put(sequenceName, this.nextId);
-            } catch (SQLException ex) {
-                throw new DataAccessResourceFailureException("Could not obtain last_insert_id()", ex);
-            } finally {
+        Statement stmt = null;
+        try {
+            stmt = connection.createStatement();
+            DataSourceUtils.applyTransactionTimeout(stmt, dataSource);
+            stmt.executeUpdate(CREATE_SEQUENCE_TABLE);
+        } catch (SQLException e) {
+            throw new MyBatisException(102001, String.format("创建表%s失败!,异常信息%s,请检查!", SEQUENCE_TABLE, e.getMessage()));
+        } finally {
+            if (stmt != null) {
                 JdbcUtils.closeStatement(stmt);
-                DataSourceUtils.releaseConnection(con, dataSource);
             }
-        } else {
-            this.nextId++;
-            //更新缓存
-            NEXT_ID_CACHE.put(sequenceName, this.nextId);
+            DataSourceUtils.releaseConnection(connection, dataSource);
         }
-        long result = this.nextId;
-
-        //初始化nextId和maxId
-        this.nextId = 0;
-        this.maxId = 0;
-        return result;
     }
 
-    /**
-     * Return the number of buffered keys.
-     */
-    public int getCacheSize() {
-        return cacheSize;
+    @Override
+    public Long nextId(String sequenceName) {
+        // 可重入互斥锁
+        Lock lock = new ReentrantLock();
+        lock.lock();
+
+        try {
+            return getNextIdWithLock(sequenceName);
+        } finally {
+            lock.unlock();
+        }
     }
 
-    /**
-     * Set the number of buffered keys.
-     */
+    private Long getNextIdWithLock(String sequenceName) {
+        Assert.hasText(sequenceName);
+
+        // 缓存中的
+        Long nextId = NEXT_ID_CACHE.get(sequenceName);
+        Long maxId = MAX_ID_CACHE.get(sequenceName);
+
+        if (nextId != null && nextId <= maxId) {
+            NEXT_ID_CACHE.put(sequenceName, nextId + 1);
+            return nextId;
+        }
+
+        return findNextIdFromDatabase(sequenceName);
+    }
+
+    private Long findNextIdFromDatabase(String sequenceName) {
+        Long nextId;
+
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = connection.prepareStatement(GET_NEXT_ID_SQL);
+            stmt.setString(1, sequenceName);
+            rs = stmt.executeQuery();
+
+            String sql;
+            if (rs.next()) {
+                nextId = rs.getLong("value");
+                sql = UPDATE_NEXT_ID_SQL;
+            } else {
+                nextId = 1L;
+                sql = INSERT_NEXT_ID_SQL;
+            }
+            stmt = connection.prepareStatement(sql);
+            stmt.setLong(1, nextId + cacheSize + 1);
+            stmt.setString(2, sequenceName);
+            stmt.execute();
+
+            // 缓存最大值
+            MAX_ID_CACHE.put(sequenceName, nextId + cacheSize);
+            NEXT_ID_CACHE.put(sequenceName, nextId + 1);
+
+            return nextId;
+        } catch (SQLException e) {
+            throw new MyBatisException(1, e.getMessage());
+        } finally {
+            if (rs != null) {
+                JdbcUtils.closeResultSet(rs);
+            }
+            if (stmt != null) {
+                JdbcUtils.closeStatement(stmt);
+            }
+            DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
+
+    private boolean isExistTable(Dialect dialect) {
+        try {
+            return dialect.existTable(SEQUENCE_TABLE, dataSource);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public void setCacheSize(int cacheSize) {
         this.cacheSize = cacheSize;
     }

@@ -25,8 +25,7 @@ import java.util.BitSet;
 /**
  * 对url的处理工具类.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2012-4-30 下午01:48:01
  */
 public class URLUtils {

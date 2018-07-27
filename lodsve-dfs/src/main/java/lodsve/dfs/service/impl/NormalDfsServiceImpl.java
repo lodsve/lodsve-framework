@@ -34,7 +34,7 @@ import java.util.Date;
 /**
  * 保存在本地服务器.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-1-24-0024 12:42
  */
 public class NormalDfsServiceImpl implements DfsService {

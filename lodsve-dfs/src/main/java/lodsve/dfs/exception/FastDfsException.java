@@ -22,8 +22,8 @@ import lodsve.core.exception.ApplicationException;
 /**
  * 异常.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2016/10/19 下午8:27
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016/10/19 下午8:27
  */
 public class FastDfsException extends ApplicationException {
     public FastDfsException(String content) {

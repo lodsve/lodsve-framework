@@ -38,8 +38,8 @@ import java.util.ResourceBundle;
 /**
  * 存放消息源的容器.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 13-4-15 下午11:11
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-4-15 下午11:11
  */
 public class ResourceBundleHolder implements Serializable {
     /**

@@ -36,8 +36,8 @@ import java.util.concurrent.TimeUnit;
  * redis必须在配置文件redis.conf中设置为:<code>notify-keyspace-events Ex</code><br/>
  * also see <a href="http://blog.csdn.net/chaijunkun/article/details/27361453">Redis的Keyspace notifications功能初探</a>
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 15/9/28 下午4:11
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 15/9/28 下午4:11
  */
 public class RedisTimerListener implements MessageListener {
     private static final Logger logger = LoggerFactory.getLogger(RedisTimerListener.class);

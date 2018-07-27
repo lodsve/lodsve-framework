@@ -29,8 +29,8 @@ import org.springframework.context.annotation.ImportResource;
 /**
  * WebserviceConfiguration.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2018/1/13 上午2:51
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018/1/13 上午2:51
  */
 @ConditionalOnClass(CXFServlet.class)
 @Configuration

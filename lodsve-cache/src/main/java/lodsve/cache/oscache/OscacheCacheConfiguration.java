@@ -19,6 +19,7 @@ package lodsve.cache.oscache;
 
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 import lodsve.cache.properties.CacheProperties;
+import lodsve.cache.properties.OscahceConfig;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -36,8 +37,8 @@ import java.util.Properties;
 /**
  * Oscache Cache Configuration.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2018-1-10-0010 16:52
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018-1-10-0010 16:52
  */
 @Configuration
 @EnableCaching
@@ -48,7 +49,7 @@ public class OscacheCacheConfiguration {
 
     @Bean
     public CacheManager cacheManager(GeneralCacheAdministrator cacheAdministrator) {
-        CacheProperties.Oscahce oscahce = cacheProperties.getOscahce();
+        OscahceConfig oscahce = cacheProperties.getOscahce();
 
         OscacheCacheManager cacheManager = new OscacheCacheManager();
         cacheManager.setAdmin(cacheAdministrator);
@@ -59,7 +60,7 @@ public class OscacheCacheConfiguration {
 
     @Bean
     public GeneralCacheAdministrator cacheAdministrator() throws IOException {
-        CacheProperties.Oscahce oscahce = cacheProperties.getOscahce();
+        OscahceConfig oscahce = cacheProperties.getOscahce();
         Resource resource = oscahce.getConfiguration();
         if (resource == null || !resource.exists()) {
             resource = new ClassPathResource("/META-INF/oscache.properties", Thread.currentThread().getContextClassLoader());

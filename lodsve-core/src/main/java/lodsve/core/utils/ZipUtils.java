@@ -28,8 +28,7 @@ import java.util.Enumeration;
 /**
  * 解压缩zip包.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2012-5-3 上午11:51:41
  */
 public class ZipUtils {

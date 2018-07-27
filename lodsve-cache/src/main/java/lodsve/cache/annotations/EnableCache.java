@@ -25,8 +25,8 @@ import java.lang.annotation.*;
 /**
  * 启用cache模块.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2016/1/19 15:10
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016/1/19 15:10
  * @see CacheImportSelector
  * @see CacheMode
  */

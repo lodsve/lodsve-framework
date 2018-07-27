@@ -20,8 +20,8 @@ package lodsve.core.email;
 /**
  * 邮箱服务器的配置.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 13-3-25 上午6:42
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-3-25 上午6:42
  */
 public class EmailBean {
     private String name;

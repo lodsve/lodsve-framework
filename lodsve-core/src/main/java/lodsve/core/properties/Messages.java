@@ -32,9 +32,8 @@ import java.util.*;
 /**
  * 国际化资源文件工具类
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 2012-3-14 下午07:59:37
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2012-3-14 下午07:59:37
  */
 @Component
 public class Messages implements ApplicationContextAware {

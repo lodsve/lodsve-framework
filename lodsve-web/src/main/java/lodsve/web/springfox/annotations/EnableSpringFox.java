@@ -28,8 +28,8 @@ import java.lang.annotation.*;
 /**
  * 启用lodsve-mvc中得spring fox.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/3/24 上午9:28
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/3/24 上午9:28
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

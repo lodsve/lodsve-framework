@@ -24,7 +24,7 @@ import java.util.*;
 /**
  * 时间的工具类
  *
- * @author sunhao(sunhao.java@gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @see org.apache.commons.lang.time.DateUtils
  */
 public final class DateUtils extends org.apache.commons.lang.time.DateUtils {

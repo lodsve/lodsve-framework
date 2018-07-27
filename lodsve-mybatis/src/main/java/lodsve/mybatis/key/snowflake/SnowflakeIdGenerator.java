@@ -22,8 +22,8 @@ import lodsve.mybatis.key.IDGenerator;
 /**
  * twitter的snowflake的ID生成器实现
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 2016-01-29 下午23:39
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016-01-29 下午23:39
  */
 public class SnowflakeIdGenerator implements IDGenerator {
     private final static long TWEPOCH = 1361753741828L;

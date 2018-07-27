@@ -3,8 +3,8 @@ package lodsve.core.context;
 /**
  * .
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version 1.0 2016/12/20 上午10:55
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2016/12/20 上午10:55
  */
 public class DemoService {
     private String sayWhat;

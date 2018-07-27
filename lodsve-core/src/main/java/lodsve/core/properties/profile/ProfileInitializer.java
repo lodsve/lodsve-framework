@@ -18,21 +18,26 @@
 package lodsve.core.properties.profile;
 
 import lodsve.core.properties.Env;
+import lodsve.core.properties.Profiles;
 import lodsve.core.properties.env.Configuration;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.CollectionUtils;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * 读取配置的profile.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0, 16/1/30 下午3:20
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/30 下午3:20
  */
 public class ProfileInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+    private static final Map<String, Boolean> ALL_PROFILES = new HashMap<>(16);
+
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         ConfigurableEnvironment configEnv = applicationContext.getEnvironment();
@@ -45,9 +50,18 @@ public class ProfileInitializer implements ApplicationContextInitializer<Configu
         }
 
         for (String profile : profiles) {
-            if (profileConfig.getBoolean("profiles." + profile, false)) {
+            String profileName = "profiles." + profile;
+            boolean profileValue = profileConfig.getBoolean(profileName, false);
+            ProfileInitializer.ALL_PROFILES.put(profileName, profileValue);
+            if (profileValue) {
                 configEnv.addActiveProfile(profile);
             }
         }
+
+        Profiles.init(configEnv);
+    }
+
+    public static Map<String, Boolean> getAllProfiles() {
+        return ALL_PROFILES;
     }
 }

@@ -34,8 +34,8 @@ import java.util.Map;
 /**
  * 动态数据源.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017/12/14 下午6:23
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/14 下午6:23
  */
 public class DynamicDataSource extends AbstractRoutingDataSource implements BeanFactoryAware {
     private static final Logger logger = LoggerFactory.getLogger(DynamicDataSource.class);
@@ -77,7 +77,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Bean
 
     private DataSource getDataSourceByBeanName(String beanName) {
         Object object = beanFactory.getBean(beanName);
-        if (object == null || !(object instanceof DataSource)) {
+        if (!(object instanceof DataSource)) {
             if (logger.isErrorEnabled()) {
                 logger.error("The bean named '{}' is not a {}!", beanName, DataSource.class.getName());
             }

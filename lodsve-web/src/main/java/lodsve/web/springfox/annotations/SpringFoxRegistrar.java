@@ -30,8 +30,8 @@ import org.springframework.util.Assert;
 /**
  * 用来注册spring fox路径处理器.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/3/24 上午9:52
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/3/24 上午9:52
  */
 public class SpringFoxRegistrar implements ImportBeanDefinitionRegistrar {
     private static final String PREFIX_ATTRIBUTE_NAME = "prefix";

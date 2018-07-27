@@ -24,9 +24,8 @@ import java.util.EventObject;
 /**
  * 事件的基类.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 13-4-27 上午5:00
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 13-4-27 上午5:00
  */
 public class BaseEvent extends EventObject implements Serializable {
     private Date eventTime;

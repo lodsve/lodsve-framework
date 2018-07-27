@@ -18,15 +18,20 @@
 package lodsve.mybatis.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.Required;
 
 /**
  * mybatis 配置.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-2-8-0008 16:47
  */
 @ConfigurationProperties(prefix = "lodsve.mybatis", locations = "${params.root}/framework/mybatis.properties")
 public class MyBatisProperties {
+    /**
+     * MySQL主键自增长时，缓存的key个数
+     */
+    private int keyCacheSize = 10;
     /**
      * mybatis mapper文件
      */
@@ -38,23 +43,29 @@ public class MyBatisProperties {
     /**
      * 含有{@link org.springframework.stereotype.Repository }注解的dao类所在的包路径,可以多个
      */
+    @Required
     private String[] basePackages;
     /**
      * 枚举类型所在包路径,可以多个
      */
+    @Required
     private String[] enumsLocations;
     /**
      * 是否支持事务
      */
     private boolean supportTransaction = false;
     /**
-     * 是否使用flyway
-     */
-    private boolean enableFlyway = false;
-    /**
      * flyway的脚本文件所在路径
      */
-    private String[] migration = new String[]{"META-INF/flyway"};
+    private String[] migration = new String[]{"classpath:META-INF/flyway"};
+
+    public int getKeyCacheSize() {
+        return keyCacheSize;
+    }
+
+    public void setKeyCacheSize(int keyCacheSize) {
+        this.keyCacheSize = keyCacheSize;
+    }
 
     public String[] getMapperLocations() {
         return mapperLocations;
@@ -94,14 +105,6 @@ public class MyBatisProperties {
 
     public void setSupportTransaction(boolean supportTransaction) {
         this.supportTransaction = supportTransaction;
-    }
-
-    public boolean isEnableFlyway() {
-        return enableFlyway;
-    }
-
-    public void setEnableFlyway(boolean enableFlyway) {
-        this.enableFlyway = enableFlyway;
     }
 
     public String[] getMigration() {

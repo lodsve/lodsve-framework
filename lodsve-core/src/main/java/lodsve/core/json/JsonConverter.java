@@ -22,17 +22,26 @@ import java.util.Map;
 /**
  * JsonUtils.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 2017-12-28-0028 14:28
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017-12-28-0028 14:28
  */
 public interface JsonConverter {
     /**
-     * convert object to json string
+     * convert object to json string, without format
      *
      * @param obj object
      * @return json string
      */
     String toJson(Object obj);
+
+    /**
+     * convert object to json string. You can choose whether to format
+     *
+     * @param obj    object
+     * @param format whether to format
+     * @return json string
+     */
+    String toJson(Object obj, boolean format);
 
     /**
      * convert json string to object

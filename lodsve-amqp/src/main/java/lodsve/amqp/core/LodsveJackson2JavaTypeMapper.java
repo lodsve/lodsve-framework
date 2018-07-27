@@ -29,8 +29,8 @@ import java.util.Map;
 /**
  * 修改Jackson反序列化时对泛型的处理.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 16/1/18 下午1:38
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 16/1/18 下午1:38
  */
 public class LodsveJackson2JavaTypeMapper extends DefaultJackson2JavaTypeMapper {
     private static final ObjectMapper JSON_OBJECT_MAPPER = new ObjectMapper();

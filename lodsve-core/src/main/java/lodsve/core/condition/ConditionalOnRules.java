@@ -29,8 +29,8 @@ import java.lang.annotation.Target;
  * {@link org.springframework.context.annotation.Conditional} that only matches when all the rules return true
  * application context.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2017/12/6 14:10
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2017/12/6 14:10
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

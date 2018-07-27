@@ -17,19 +17,22 @@
 
 package lodsve.core;
 
+import lodsve.core.configuration.BannerConfig;
+
 import java.io.PrintStream;
 
 /**
  * Banner.
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version 1.0 2018/1/12 下午6:21
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 2018/1/12 下午6:21
  */
 public interface Banner {
     /**
      * 打印banner
      *
-     * @param out out
+     * @param config banner config
+     * @param out    out
      */
-    void print(PrintStream out);
+    void print(BannerConfig config, PrintStream out);
 }

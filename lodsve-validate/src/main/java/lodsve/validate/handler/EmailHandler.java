@@ -30,9 +30,8 @@ import java.lang.annotation.Annotation;
 /**
  * 邮箱地址验证的处理类.
  *
- * @author sunhao(sunhao.java@gmail.com)
- * @version V1.0
- * @createTime 12-11-26 下午8:22
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 12-11-26 下午8:22
  */
 public class EmailHandler extends AbstractValidateHandler {
     private static final Logger logger = LoggerFactory.getLogger(EmailHandler.class);
@@ -43,7 +42,7 @@ public class EmailHandler extends AbstractValidateHandler {
 
     @Override
     protected ErrorMessage handle(Annotation annotation, Object value) {
-        if(logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.debug("annotation is '{}', value is '{}'!", annotation, value);
         }
 

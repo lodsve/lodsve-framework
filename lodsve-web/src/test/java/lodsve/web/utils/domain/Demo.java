@@ -22,8 +22,8 @@ import java.io.Serializable;
 /**
  * .
  *
- * @author sunhao(sunhao.java @ gmail.com)
- * @version V1.0, 14-9-8 下午5:47
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
+ * @date 14-9-8 下午5:47
  */
 public class Demo implements Serializable {
     private Long pkId;
