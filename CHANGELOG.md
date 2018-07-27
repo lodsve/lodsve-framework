@@ -1,5 +1,17 @@
 # 更新日志
 
+## 2.6.6-RELEASE
+1. 整理配置文件，对必填项加上@Required
+2. 增加事务开关
+3. p6spy改成profiles启用，优化mybatis加载数据源
+4. 修改base64加解密的实现
+5. 优化banner,可以在logger中打印
+6. RelaxedBindFactory支持枚举类型
+7. 获取json解析的工厂
+8. 简化web.xml
+9. 删除了wechat和workflow
+
+
 ## 2.6.5-RELEASE
 1. 重构mybatis,取消自动生成beans
 2. 整理mongodb
