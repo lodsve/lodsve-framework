@@ -1,3 +1,0 @@
-org.springframework.context.annotation.Configuration=\
-  lodsve.mybatis.configs.MyBatisConfiguration,\
-  lodsve.mybatis.datasource.DataSourceTransactionManagementConfiguration

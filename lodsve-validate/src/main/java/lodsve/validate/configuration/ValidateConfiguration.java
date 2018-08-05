@@ -20,6 +20,7 @@ package lodsve.validate.configuration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Profile;
 
 /**
  * .
@@ -28,6 +29,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * @date 2017/12/12 13:01
  */
 @Configuration
+@Profile("validator")
 @EnableAspectJAutoProxy
 @ComponentScan("lodsve.validate")
 public class ValidateConfiguration {

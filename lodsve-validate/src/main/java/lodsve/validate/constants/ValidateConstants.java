@@ -50,9 +50,9 @@ public class ValidateConstants {
 
         List<Resource> resources = new ArrayList<>();
         try {
-            resources.addAll(Arrays.asList(resolver.getResources("classpath:/META-INF/error/*.properties")));
+            resources.addAll(Arrays.asList(resolver.getResources("classpath*:/META-INF/validate/*.properties")));
         } catch (IOException e) {
-            logger.error("resolver resource:'{classpath:/META-INF/error/*.properties}' is error!", e);
+            logger.error("resolver resource:'{classpath*:/META-INF/validate/*.properties}' is error!", e);
             e.printStackTrace();
         }
 
