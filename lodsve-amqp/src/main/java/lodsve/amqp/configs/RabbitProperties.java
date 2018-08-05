@@ -20,6 +20,8 @@ package lodsve.amqp.configs;
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import lodsve.core.properties.relaxedbind.annotations.Required;
 
+import java.util.Map;
+
 /**
  * rabbit mq base properties.
  *
@@ -34,11 +36,13 @@ public class RabbitProperties {
     private String username;
     @Required
     private String password;
-    private String defaultExchange = "exchange.direct.default";
     /**
-     * Whether rejected deliveries are requeued by default; default true.
+     * false: 异常消息直接丢弃
+     * true: 异常消息将被重新传递
      */
-    private Boolean defaultRequeueRejected = true;
+    private Boolean requeueRejected = true;
+
+    private Map<String, QueueConfig> queues;
 
     public String getAddress() {
         return address;
@@ -64,19 +68,19 @@ public class RabbitProperties {
         this.password = password;
     }
 
-    public String getDefaultExchange() {
-        return defaultExchange;
+    public Boolean getRequeueRejected() {
+        return requeueRejected;
     }
 
-    public void setDefaultExchange(String defaultExchange) {
-        this.defaultExchange = defaultExchange;
+    public void setRequeueRejected(Boolean requeueRejected) {
+        this.requeueRejected = requeueRejected;
     }
 
-    public Boolean getDefaultRequeueRejected() {
-        return defaultRequeueRejected;
+    public Map<String, QueueConfig> getQueues() {
+        return queues;
     }
 
-    public void setDefaultRequeueRejected(Boolean defaultRequeueRejected) {
-        this.defaultRequeueRejected = defaultRequeueRejected;
+    public void setQueues(Map<String, QueueConfig> queues) {
+        this.queues = queues;
     }
 }

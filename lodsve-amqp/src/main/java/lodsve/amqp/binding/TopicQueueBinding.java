@@ -15,28 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.amqp.annotations;
+package lodsve.amqp.binding;
 
-import lodsve.amqp.configs.RabbitConfiguration;
-import lodsve.amqp.configs.RabbitProperties;
-import lodsve.core.configuration.EnableLodsve;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
-import org.springframework.context.annotation.Import;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 
-import java.lang.annotation.*;
+import java.util.Collections;
 
 /**
- * rabbit mq base configuration.
+ * topic queue.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2016-01-19 14:27
+ * @date 2018-08-02 13:49
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Documented
-@Inherited
-@EnableLodsve
-@EnableConfigurationProperties(RabbitProperties.class)
-@Import({AmqpBeanDefinitionRegistrar.class, RabbitConfiguration.class})
-public @interface EnableAmqp {
+public class TopicQueueBinding extends Binding {
+
+    public TopicQueueBinding(TopicExchange exchange, Queue queue, String routingKey) {
+        super(queue.getName(), DestinationType.QUEUE, exchange.getName(), routingKey, Collections.<String, Object>emptyMap());
+    }
+
+    public TopicQueueBinding(String exchange, String queue, String routingKey) {
+        super(queue, DestinationType.QUEUE, exchange, routingKey, Collections.<String, Object>emptyMap());
+    }
 }

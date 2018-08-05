@@ -15,28 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.amqp.annotations;
+package lodsve.amqp.core;
 
-import lodsve.amqp.configs.RabbitConfiguration;
-import lodsve.amqp.configs.RabbitProperties;
-import lodsve.core.configuration.EnableLodsve;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * rabbit mq base configuration.
+ * 默认异常处理.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2016-01-19 14:27
+ * @date 2014-10-7 13:18
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Documented
-@Inherited
-@EnableLodsve
-@EnableConfigurationProperties(RabbitProperties.class)
-@Import({AmqpBeanDefinitionRegistrar.class, RabbitConfiguration.class})
-public @interface EnableAmqp {
+public class DefaultAmqpErrorHandler extends AmqpErrorHandler {
+    private static final Logger logger = LoggerFactory.getLogger(DefaultAmqpErrorHandler.class);
+
+    @Override
+    public void handleError(Throwable t) {
+        logger.error("RabbitMQ happen a error:" + t.getMessage(), t);
+    }
 }

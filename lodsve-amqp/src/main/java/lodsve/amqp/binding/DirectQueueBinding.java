@@ -15,31 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.amqp.core;
+package lodsve.amqp.binding;
 
 import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.Exchange;
-import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 
 import java.util.Collections;
 
 /**
- * .
+ * direct queue.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2017/12/7 11:18
+ * @date 2018-08-02 13:49
  */
-public class QueueBinding extends Binding {
-    public QueueBinding(FanoutExchange exchange, Queue queue) {
-        super(queue.getName(), DestinationType.QUEUE, exchange.getName(), null, Collections.<String, Object>emptyMap());
-    }
-
-    public QueueBinding(Exchange exchange, Queue queue, String routingKey) {
+public class DirectQueueBinding extends Binding {
+    public DirectQueueBinding(DirectExchange exchange, Queue queue, String routingKey) {
         super(queue.getName(), DestinationType.QUEUE, exchange.getName(), routingKey, Collections.<String, Object>emptyMap());
     }
 
-    public QueueBinding(String exchange, String queue, String routingKey) {
+    public DirectQueueBinding(String exchange, String queue, String routingKey) {
         super(queue, DestinationType.QUEUE, exchange, routingKey, Collections.<String, Object>emptyMap());
     }
 }
