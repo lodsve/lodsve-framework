@@ -15,23 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.amqp.core;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.ErrorHandler;
+package lodsve.amqp.configs;
 
 /**
- * 默认异常处理.
+ * amqp exchange type.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2014-10-7 13:18
+ * @date 2018-08-02 14:53
  */
-public class DefaultErrorHandler implements ErrorHandler {
-    private static final Logger logger = LoggerFactory.getLogger(DefaultErrorHandler.class);
-
-    @Override
-    public void handleError(Throwable t) {
-        logger.error("RabbitMQ happen a error:" + t.getMessage(), t);
-    }
+public enum ExchangeType {
+    /**
+     * direct
+     */
+    DIRECT,
+    /**
+     * topic
+     */
+    TOPIC,
+    /**
+     * fanout
+     */
+    FANOUT,
+    /**
+     * header
+     */
+    HEADERS
 }

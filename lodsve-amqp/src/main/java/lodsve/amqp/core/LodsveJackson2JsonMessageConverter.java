@@ -19,6 +19,10 @@ package lodsve.amqp.core;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.MapType;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.core.Message;
@@ -28,6 +32,8 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConversionException;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * 修改Jackson反序列化时对泛型的处理.
@@ -69,6 +75,49 @@ public class LodsveJackson2JsonMessageConverter extends Jackson2JsonMessageConve
             content = message.getBody();
         }
         return content;
+    }
+
+    @Override
+    protected Message createMessage(Object objectToConvert, MessageProperties messageProperties) throws MessageConversionException {
+        byte[] bytes;
+        try {
+            String jsonString = this.jsonObjectMapper.writeValueAsString(objectToConvert);
+            bytes = jsonString.getBytes(getDefaultCharset());
+        } catch (IOException e) {
+            throw new MessageConversionException("Failed to convert Message content", e);
+        }
+        messageProperties.setContentType(MessageProperties.CONTENT_TYPE_JSON);
+        messageProperties.setContentEncoding(getDefaultCharset());
+        messageProperties.setContentLength(bytes.length);
+
+        if (getClassMapper() == null) {
+            Class<?> target = objectToConvert.getClass();
+            JavaType javaType = this.jsonObjectMapper.constructType(target);
+            if (Collection.class.isAssignableFrom(target)) {
+                // collection
+                Collection c = (Collection) objectToConvert;
+                if (CollectionUtils.isNotEmpty(c)) {
+                    Object obj = CollectionUtils.get(c, 0);
+                    javaType = CollectionType.construct(target, this.jsonObjectMapper.constructType(obj.getClass()));
+                }
+            } else if (Map.class.isAssignableFrom(target)) {
+                // map
+                Map m = (Map) objectToConvert;
+                if (MapUtils.isNotEmpty(m)) {
+                    Map.Entry entry = (Map.Entry) CollectionUtils.get(m, 0);
+                    Class<?> keyClass = entry.getKey().getClass();
+                    Class<?> valueClass = entry.getValue().getClass();
+
+                    MapType.construct(target, this.jsonObjectMapper.constructType(keyClass), this.jsonObjectMapper.constructType(valueClass));
+                }
+            }
+
+            getJavaTypeMapper().fromJavaType(javaType, messageProperties);
+        } else {
+            getClassMapper().fromClass(objectToConvert.getClass(), messageProperties);
+        }
+
+        return new Message(bytes, messageProperties);
     }
 
     private Object convertBytesToObject(byte[] body, String encoding, JavaType targetJavaType) throws IOException {

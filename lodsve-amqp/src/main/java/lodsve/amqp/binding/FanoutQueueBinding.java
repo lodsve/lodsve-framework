@@ -15,28 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.amqp.annotations;
+package lodsve.amqp.binding;
 
-import lodsve.amqp.configs.RabbitConfiguration;
-import lodsve.amqp.configs.RabbitProperties;
-import lodsve.core.configuration.EnableLodsve;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
-import org.springframework.context.annotation.Import;
+import lodsve.core.utils.StringUtils;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.Queue;
 
-import java.lang.annotation.*;
+import java.util.Collections;
 
 /**
- * rabbit mq base configuration.
+ * fanout queue.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2016-01-19 14:27
+ * @date 2018-08-02 13:48
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Documented
-@Inherited
-@EnableLodsve
-@EnableConfigurationProperties(RabbitProperties.class)
-@Import({AmqpBeanDefinitionRegistrar.class, RabbitConfiguration.class})
-public @interface EnableAmqp {
+public class FanoutQueueBinding extends Binding {
+    public FanoutQueueBinding(FanoutExchange exchange, Queue queue) {
+        super(queue.getName(), DestinationType.QUEUE, exchange.getName(), StringUtils.EMPTY, Collections.<String, Object>emptyMap());
+    }
+
+    public FanoutQueueBinding(String exchange, String queue) {
+        super(queue, DestinationType.QUEUE, exchange, StringUtils.EMPTY, Collections.<String, Object>emptyMap());
+    }
 }

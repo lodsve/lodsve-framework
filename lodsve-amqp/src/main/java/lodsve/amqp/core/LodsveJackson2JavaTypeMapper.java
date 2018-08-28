@@ -52,6 +52,19 @@ public class LodsveJackson2JavaTypeMapper extends DefaultJackson2JavaTypeMapper 
         }
     }
 
+    @Override
+    public void fromJavaType(JavaType javaType, MessageProperties properties) {
+        addHeader(properties, getClassIdFieldName(), javaType.getRawClass());
+
+        if (javaType.isContainerType() && !javaType.isArrayType()) {
+            addHeader(properties, getContentClassIdFieldName(), javaType.getContentType().getRawClass());
+        }
+
+        if (javaType.getKeyType() != null) {
+            addHeader(properties, getKeyClassIdFieldName(), javaType.getKeyType().getRawClass());
+        }
+    }
+
     private Class<?> forName(String className) {
         try {
             return ClassUtils.forName(className, getClass().getClassLoader());

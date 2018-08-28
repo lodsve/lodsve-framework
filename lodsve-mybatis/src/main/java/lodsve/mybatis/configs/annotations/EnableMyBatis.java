@@ -18,7 +18,9 @@
 package lodsve.mybatis.configs.annotations;
 
 import lodsve.core.configuration.EnableLodsve;
+import lodsve.mybatis.configs.MyBatisConfiguration;
 import lodsve.mybatis.datasource.DataSourceBeanDefinitionRegistrar;
+import lodsve.mybatis.datasource.DataSourceTransactionManagementConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -33,7 +35,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EnableLodsve
-@Import(DataSourceBeanDefinitionRegistrar.class)
+@Import({MyBatisConfiguration.class, DataSourceTransactionManagementConfiguration.class, DataSourceBeanDefinitionRegistrar.class})
 public @interface EnableMyBatis {
     /**
      * 数据源名,多数据源,第一个数据源为默认值
