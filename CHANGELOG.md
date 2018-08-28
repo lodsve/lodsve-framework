@@ -1,5 +1,10 @@
 # 更新日志
 
+## 2.6.7-RELEASE
+1. 支持amqp注解，具体配置请参考`rabbit.properties`文件
+2. 使用EnableXXX的配置文件都从注解中引入，其余通过spring.factories引入
+3. 修改validate加载错误文件的一个bug
+
 ## 2.6.6-RELEASE
 1. 整理配置文件，对必填项加上@Required
 2. 增加事务开关
