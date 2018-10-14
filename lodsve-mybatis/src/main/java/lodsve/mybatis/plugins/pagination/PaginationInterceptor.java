@@ -20,11 +20,7 @@ package lodsve.mybatis.plugins.pagination;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Plugin;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.data.domain.Page;
@@ -50,7 +46,6 @@ import java.util.Properties;
 public class PaginationInterceptor implements Interceptor {
     private static final Integer MAPPED_STATEMENT_INDEX = 0;
     private static final Integer PARAMETER_INDEX = 1;
-    private static int ROWBOUNDS_INDEX = 2;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -90,8 +85,8 @@ public class PaginationInterceptor implements Interceptor {
         //分页语句
         String pageSql = PaginationHelper.getPageSql(sql, ms, pageable.getOffset(), pageable.getPageSize());
 
-        queryArgs[ROWBOUNDS_INDEX] = new RowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
         queryArgs[MAPPED_STATEMENT_INDEX] = PaginationHelper.copyFromNewSql(ms, boundSql, pageSql);
+        queryArgs[2] = new RowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
 
         Object ret = invocation.proceed();
         Page<?> pi = new PageImpl<>((List<?>) ret, pageable, total);

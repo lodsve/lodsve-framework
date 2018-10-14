@@ -17,14 +17,13 @@
 
 package lodsve.mybatis.plugins.monitor;
 
+import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.exception.MyBatisException;
+import lodsve.mybatis.utils.PluginUtils;
+import lodsve.mybatis.utils.SqlUtils;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Plugin;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.session.ResultHandler;
@@ -83,7 +82,7 @@ public class MonitorInterceptor implements Interceptor {
         String originalSql = statement.toString();
         int index = originalSql.indexOf(':');
         if (index > 0) {
-            originalSql = originalSql.substring(index + 1, originalSql.length());
+            originalSql = originalSql.substring(index + 1);
         }
 
         // 计算执行 SQL 耗时
@@ -92,13 +91,13 @@ public class MonitorInterceptor implements Interceptor {
         long timing = System.currentTimeMillis() - start;
 
         // 格式化 SQL 打印执行结果
-        Object target = realTarget(invocation.getTarget());
+        Object target = PluginUtils.realTarget(invocation.getTarget());
         MetaObject metaObject = SystemMetaObject.forObject(target);
         MappedStatement ms = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
         StringBuilder formatSql = new StringBuilder();
         formatSql.append(" Time：").append(timing);
         formatSql.append(" ms - ID：").append(ms.getId());
-        formatSql.append("\n Execute SQL：").append(originalSql).append("\n");
+        formatSql.append("\n Execute SQL：").append(SqlUtils.sqlFormat(originalSql, format)).append("\n");
         if (writeInLog) {
             if (maxTime >= 1 && timing > maxTime) {
                 logger.error(formatSql.toString());
@@ -114,20 +113,6 @@ public class MonitorInterceptor implements Interceptor {
         return result;
     }
 
-    /**
-     * 获得真正的处理对象,可能多层代理.
-     *
-     * @param target 处理对象
-     * @return 真正的处理对象
-     */
-    private Object realTarget(Object target) {
-        if (Proxy.isProxyClass(target.getClass())) {
-            MetaObject metaObject = SystemMetaObject.forObject(target);
-            return realTarget(metaObject.getValue("h.target"));
-        }
-        return target;
-    }
-
     @Override
     public Object plugin(Object target) {
         return Plugin.wrap(target, this);
@@ -135,34 +120,17 @@ public class MonitorInterceptor implements Interceptor {
 
     @Override
     public void setProperties(Properties prop) {
-
-    }
-
-    public static Logger getLogger() {
-        return logger;
-    }
-
-    public long getMaxTime() {
-        return maxTime;
-    }
-
-    public void setMaxTime(long maxTime) {
-        this.maxTime = maxTime;
-    }
-
-    public boolean isFormat() {
-        return format;
-    }
-
-    public void setFormat(boolean format) {
-        this.format = format;
-    }
-
-    public boolean isWriteInLog() {
-        return writeInLog;
-    }
-
-    public void setWriteInLog(boolean writeInLog) {
-        this.writeInLog = writeInLog;
+        String maxTime = prop.getProperty("maxTime");
+        String format = prop.getProperty("format");
+        String writeInLog = prop.getProperty("writeInLog");
+        if (StringUtils.isNotEmpty(maxTime)) {
+            this.maxTime = Long.parseLong(maxTime);
+        }
+        if (StringUtils.isNotEmpty(format)) {
+            this.format = Boolean.valueOf(format);
+        }
+        if (StringUtils.isNotEmpty(writeInLog)) {
+            this.writeInLog = Boolean.valueOf(writeInLog);
+        }
     }
 }

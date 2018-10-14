@@ -43,8 +43,7 @@ public final class MyBatisUtils {
 
     public static DbType getDbType(DataSource dataSource) {
         String database;
-        try {
-            Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSource.getConnection()) {
             database = connection.getMetaData().getDatabaseProductName();
         } catch (SQLException e) {
             throw new MyBatisException("can't find DbType!");
@@ -97,18 +96,12 @@ public final class MyBatisUtils {
     }
 
     public static int executeSql(DataSource dataSource, String sql, Object... params) throws SQLException {
-        PreparedStatement ps = null;
-        try {
-            ps = DataSourceUtils.doGetConnection(dataSource).prepareStatement(sql);
+        try (PreparedStatement ps = DataSourceUtils.doGetConnection(dataSource).prepareStatement(sql)) {
             for (int i = 0; i < params.length; i++) {
                 ps.setObject(i + 1, params[i]);
             }
 
             return ps.executeUpdate();
-        } finally {
-            if (ps != null) {
-                ps.close();
-            }
         }
     }
 }

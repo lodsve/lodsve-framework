@@ -25,10 +25,10 @@ package lodsve.mybatis.datasource.dynamic;
  */
 public class DataSourceHolder implements AutoCloseable {
     private static final ThreadLocal<String> DATAS_SOURCE = new ThreadLocal<>();
-    private static final DataSourceHolder instance = new DataSourceHolder();
+    private static final DataSourceHolder INSTANCE = new DataSourceHolder();
 
     public static DataSourceHolder getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     public String get() {
@@ -40,7 +40,7 @@ public class DataSourceHolder implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         DATAS_SOURCE.remove();
     }
 }
