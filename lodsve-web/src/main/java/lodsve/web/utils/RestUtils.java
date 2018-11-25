@@ -19,11 +19,12 @@ package lodsve.web.utils;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lodsve.web.mvc.json.CustomObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -39,21 +40,19 @@ import java.util.Set;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-3-26 14:44
  */
+@Component
 public class RestUtils {
     private static final RestTemplate TEMPLATE = new RestTemplate();
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private RestUtils() {
-
-    }
-
-    static {
         List<HttpMessageConverter<?>> messageConverters = TEMPLATE.getMessageConverters();
         for (HttpMessageConverter<?> converter : messageConverters) {
             if (converter instanceof MappingJackson2HttpMessageConverter) {
                 messageConverters.remove(converter);
 
                 MappingJackson2HttpMessageConverter newConverter = new MappingJackson2HttpMessageConverter();
-                ObjectMapper objectMapper = new CustomObjectMapper();
                 objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 newConverter.setObjectMapper(objectMapper);
                 messageConverters.add(newConverter);

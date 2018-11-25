@@ -17,13 +17,13 @@
 
 package lodsve.web.mvc.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lodsve.core.configuration.ApplicationProperties;
 import lodsve.web.mvc.annotation.resolver.BindDataHandlerMethodArgumentResolver;
 import lodsve.web.mvc.annotation.resolver.ParseDataHandlerMethodArgumentResolver;
 import lodsve.web.mvc.annotation.resolver.WebResourceDataHandlerMethodArgumentResolver;
 import lodsve.web.mvc.convert.EnumCodeConverterFactory;
 import lodsve.web.mvc.convert.StringDateConvertFactory;
-import lodsve.web.mvc.json.CustomObjectMapper;
 import lodsve.web.mvc.properties.ServerProperties;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
@@ -47,10 +47,12 @@ import java.util.List;
 public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
     private ServerProperties properties;
     private ApplicationProperties applicationProperties;
+    private ObjectMapper objectMapper;
 
-    public LodsveWebMvcConfigurerAdapter(ServerProperties properties, ApplicationProperties applicationProperties) {
+    public LodsveWebMvcConfigurerAdapter(ServerProperties properties, ApplicationProperties applicationProperties, ObjectMapper objectMapper) {
         this.properties = properties;
         this.applicationProperties = applicationProperties;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -73,7 +75,7 @@ public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(new CustomObjectMapper());
+        converter.setObjectMapper(objectMapper);
         converters.add(converter);
         converters.add(new ByteArrayHttpMessageConverter());
     }

@@ -99,7 +99,7 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
     }
 
     private void initMongoRepository(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry registry) {
-        AnnotationRepositoryConfigurationSource configurationSource = new LodsveAnnotationRepositoryConfigurationSource(annotationMetadata, EnableMongo.class, resourceLoader, environment);
+        AnnotationRepositoryConfigurationSource configurationSource = new LodsveAnnotationRepositoryConfigurationSource(annotationMetadata, EnableMongo.class, resourceLoader, environment, registry);
         RepositoryConfigurationExtension extension = new LodsveMongoRepositoryConfigurationExtension(Constants.MONGO_TEMPLATE_BEAN_NAME);
         RepositoryConfigurationUtils.exposeRegistration(extension, registry, configurationSource);
 

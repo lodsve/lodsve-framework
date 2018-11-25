@@ -34,11 +34,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 基于solr实现的搜索引擎.
@@ -140,6 +136,7 @@ public class SolrSearchEngine extends AbstractSearchEngine {
             return;
         }
 
+        id = "uniqueKey-" + bean.getIndexType() + "-" + bean.getId();
         UpdateResponse response = solrClient.deleteById(id);
         solrClient.commit();
 
@@ -164,7 +161,7 @@ public class SolrSearchEngine extends AbstractSearchEngine {
     public Page<BaseSearchBean> doSearch(List<BaseSearchBean> beans, boolean isHighlighter, Pageable pageable) throws Exception {
         if (beans == null || beans.isEmpty()) {
             logger.debug("given search beans is empty!");
-            return new PageImpl<>(Collections.<BaseSearchBean>emptyList(), null, 0);
+            return new PageImpl<>(Collections.emptyList(), null, 0);
         }
 
         List<BaseSearchBean> queryResults = new ArrayList<>();
@@ -189,7 +186,7 @@ public class SolrSearchEngine extends AbstractSearchEngine {
 
         if (StringUtils.isEmpty(querySB.toString())) {
             logger.warn("query string is null!");
-            return new PageImpl<>(Collections.<BaseSearchBean>emptyList(), null, 0);
+            return new PageImpl<>(Collections.emptyList(), null, 0);
         }
 
         SolrQuery query = new SolrQuery();

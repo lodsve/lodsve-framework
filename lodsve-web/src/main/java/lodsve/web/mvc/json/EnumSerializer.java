@@ -19,6 +19,7 @@ package lodsve.web.mvc.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import lodsve.core.bean.Codeable;
 
@@ -26,7 +27,7 @@ import java.io.IOException;
 
 /**
  * Jackson序列化枚举时，将枚举变成{value: '', name: ''}.<br/>
- * {@link lodsve.web.mvc.json.CustomObjectMapper#CustomObjectMapper()}
+ * {@link lodsve.web.mvc.config.LodsveWebMvcConfigurerAdapter#customObjectMapper(ObjectMapper)}
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/6/24 下午9:31

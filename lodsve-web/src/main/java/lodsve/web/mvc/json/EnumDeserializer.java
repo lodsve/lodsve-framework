@@ -18,9 +18,9 @@
 package lodsve.web.mvc.json;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lodsve.core.bean.Codeable;
 import lodsve.core.utils.StringUtils;
 
@@ -28,7 +28,7 @@ import java.io.IOException;
 
 /**
  * Jackson反序列化枚举时，将code或者枚举value变成枚举.<br/>
- * {@link lodsve.web.mvc.json.CustomObjectMapper#CustomObjectMapper()}
+ * {@link lodsve.web.mvc.config.LodsveWebMvcConfigurerAdapter#customObjectMapper(ObjectMapper)}
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016/11/3 下午2:56
@@ -36,7 +36,7 @@ import java.io.IOException;
 public class EnumDeserializer extends JsonDeserializer<Enum> {
     @Override
     @SuppressWarnings("unchecked")
-    public Enum deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Enum deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         String value = p.getValueAsString();
         if (StringUtils.isBlank(value)) {
             return null;
