@@ -25,6 +25,7 @@ import lodsve.amqp.configs.QueueConfig;
 import lodsve.amqp.configs.RabbitProperties;
 import lodsve.core.bean.BeanRegisterUtils;
 import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
@@ -55,6 +56,10 @@ public class AmqpBeanDefinitionRegistrar implements ImportBeanDefinitionRegistra
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         Map<String, QueueConfig> queues = rabbitProperties.getQueues();
+
+        if(MapUtils.isEmpty(queues)) {
+            return;
+        }
 
         for (String queueName : queues.keySet()) {
             QueueConfig config = queues.get(queueName);
