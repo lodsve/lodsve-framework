@@ -20,12 +20,11 @@ package lodsve.web.mvc.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import lodsve.core.bean.Codeable;
 import lodsve.core.configuration.ApplicationProperties;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.web.mvc.debug.DebugRequestListener;
-import lodsve.web.mvc.json.CodeableDeserializer;
-import lodsve.web.mvc.json.CodeableSerializer;
+import lodsve.web.mvc.json.CodeableEnumDeserializer;
+import lodsve.web.mvc.json.CodeableEnumSerializer;
 import lodsve.web.mvc.properties.ServerProperties;
 import lodsve.web.utils.RestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,13 +88,13 @@ public class WebMvcConfiguration {
         objectMapper.setTimeZone(TimeZone.getDefault());
 
         // 序列化枚举时的处理
-        SimpleModule serializerModule = new SimpleModule("codeableSerializer");
-        serializerModule.addSerializer(Codeable.class, new CodeableSerializer());
+        SimpleModule serializerModule = new SimpleModule("codeableEnumSerializer");
+        serializerModule.addSerializer(Enum.class, new CodeableEnumSerializer());
         objectMapper.registerModule(serializerModule);
 
         // 反序列化枚举时的处理
-        SimpleModule deserializerModule = new SimpleModule("codeableDeserializer");
-        deserializerModule.addDeserializer(Codeable.class, new CodeableDeserializer());
+        SimpleModule deserializerModule = new SimpleModule("codeableEnumDeserializer");
+        deserializerModule.addDeserializer(Enum.class, new CodeableEnumDeserializer());
         objectMapper.registerModule(deserializerModule);
 
         //日期的处理

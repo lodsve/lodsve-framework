@@ -32,12 +32,19 @@ import java.io.IOException;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/6/24 下午9:31
  */
-public class CodeableSerializer extends JsonSerializer<Codeable> {
+public class CodeableEnumSerializer extends JsonSerializer<Enum> {
     @Override
-    public void serialize(Codeable value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeStartObject();
-        jgen.writeStringField("code", value.getCode());
-        jgen.writeStringField("title", value.getTitle());
-        jgen.writeEndObject();
+    public void serialize(Enum value, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException {
+        if (!(value instanceof Codeable)) {
+            jsonGenerator.writeNumber(value.ordinal());
+            return;
+        }
+
+        Codeable codeable = (Codeable) value;
+
+        jsonGenerator.writeStartObject();
+        jsonGenerator.writeStringField("code", codeable.getCode());
+        jsonGenerator.writeStringField("title", codeable.getTitle());
+        jsonGenerator.writeEndObject();
     }
 }

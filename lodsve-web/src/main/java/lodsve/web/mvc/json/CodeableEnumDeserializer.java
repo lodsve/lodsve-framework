@@ -21,10 +21,14 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import lodsve.core.bean.Codeable;
+import lodsve.core.utils.EnumUtils;
+import lodsve.core.utils.NumberUtils;
 import lodsve.core.utils.StringUtils;
 import lodsve.web.mvc.config.WebMvcConfiguration;
+import org.springframework.util.ReflectionUtils;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 /**
  * Jackson反序列化枚举时，将code或者枚举value变成枚举.<br/>
@@ -33,10 +37,10 @@ import java.io.IOException;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016/11/3 下午2:56
  */
-public class CodeableDeserializer extends JsonDeserializer<Codeable> {
+public class CodeableEnumDeserializer extends JsonDeserializer<Enum> {
     @Override
     @SuppressWarnings("unchecked")
-    public Codeable deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+    public Enum deserialize(JsonParser p, DeserializationContext context) throws IOException {
         String value = p.getValueAsString();
         if (StringUtils.isBlank(value)) {
             return null;
@@ -47,27 +51,25 @@ public class CodeableDeserializer extends JsonDeserializer<Codeable> {
             return null;
         }
 
-        Enum<?> result;
+        if (!Codeable.class.isAssignableFrom(clazz)) {
+            return getEnumByOrdinal(clazz, value);
+        }
+
+        // 优先根据codeable去获取
+        Enum<?> result = getEnumFromCodeable(clazz, value);
+        if (null != result) {
+            return result;
+        }
+
         try {
-            result = Enum.valueOf(clazz, value);
+            // 根据枚举名称
+            result = EnumUtils.getEnumByName(clazz, value);
         } catch (Exception e) {
-            result = null;
+            // 根据Ordinal
+            result = getEnumByOrdinal(clazz, value);
         }
 
-        if (result != null) {
-            return (Codeable) result;
-        }
-
-        for (Enum<?> em : clazz.getEnumConstants()) {
-            Codeable codeable = (Codeable) em;
-
-            if (codeable.getCode().equals(value)) {
-                result = em;
-                break;
-            }
-        }
-
-        return (Codeable) result;
+        return result;
     }
 
     @Override
@@ -81,12 +83,8 @@ public class CodeableDeserializer extends JsonDeserializer<Codeable> {
         Class<?> clazz = object.getClass();
         String fieldName = p.getCurrentName();
 
-        Class<?> type;
-        try {
-            type = clazz.getDeclaredField(fieldName).getType();
-        } catch (NoSuchFieldException e) {
-            type = null;
-        }
+        Field field = ReflectionUtils.findField(clazz, fieldName);
+        Class<?> type = ((null != field) ? field.getType() : null);
 
         if (support(type)) {
             return (Class<T>) type;
@@ -97,5 +95,25 @@ public class CodeableDeserializer extends JsonDeserializer<Codeable> {
 
     private boolean support(Class<?> clazz) {
         return clazz != null && Enum.class.isAssignableFrom(clazz) && Enum.class.isAssignableFrom(clazz);
+    }
+
+    private Enum<?> getEnumByOrdinal(Class<? extends Enum> clazz, String value) {
+        if (!NumberUtils.isNumber(value)) {
+            throw new IllegalArgumentException("This value " + value + " is not Enum's Ordinal!");
+        }
+
+        return EnumUtils.getEnumByOrdinal(clazz, Integer.valueOf(value));
+    }
+
+    private Enum<?> getEnumFromCodeable(Class<? extends Enum> clazz, String value) {
+        for (Enum<?> em : clazz.getEnumConstants()) {
+            Codeable codeable = (Codeable) em;
+
+            if (codeable.getCode().equals(value)) {
+                return em;
+            }
+        }
+
+        return null;
     }
 }
