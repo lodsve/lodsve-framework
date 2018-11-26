@@ -15,11 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.web.springfox.annotations;
+package lodsve.web.springfox.config;
 
 import lodsve.core.properties.Profiles;
-import lodsve.web.springfox.config.SpringFoxDocket;
-import lodsve.web.springfox.paths.SpringFoxPathProvider;
+import lodsve.web.springfox.annotations.EnableSpringFox;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
@@ -34,7 +33,6 @@ import org.springframework.util.Assert;
  * @date 16/3/24 上午9:52
  */
 public class SpringFoxRegistrar implements ImportBeanDefinitionRegistrar {
-    private static final String PREFIX_ATTRIBUTE_NAME = "prefix";
     private static final String GROUPS_ATTRIBUTE_NAME = "groups";
 
     @Override
@@ -47,13 +45,6 @@ public class SpringFoxRegistrar implements ImportBeanDefinitionRegistrar {
 
         AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableSpringFox.class.getName(), false));
         Assert.notNull(attributes, String.format("@%s is not present on importing class '%s' as expected", EnableSpringFox.class.getName(), importingClassMetadata.getClassName()));
-
-        String prefix = attributes.getString(PREFIX_ATTRIBUTE_NAME);
-
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(SpringFoxPathProvider.class);
-        builder.addPropertyValue("prefix", prefix);
-
-        registry.registerBeanDefinition(SpringFoxPathProvider.class.getName(), builder.getBeanDefinition());
 
         String[] groups = attributes.getStringArray(GROUPS_ATTRIBUTE_NAME);
         for (String group : groups) {

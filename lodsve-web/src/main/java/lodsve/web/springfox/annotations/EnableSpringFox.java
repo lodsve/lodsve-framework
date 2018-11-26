@@ -19,8 +19,8 @@ package lodsve.web.springfox.annotations;
 
 import lodsve.core.configuration.EnableLodsve;
 import lodsve.web.springfox.config.SpringFoxConfiguration;
+import lodsve.web.springfox.config.SpringFoxRegistrar;
 import org.springframework.context.annotation.Import;
-import springfox.documentation.spring.web.paths.RelativePathProvider;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.lang.annotation.*;
@@ -37,13 +37,6 @@ import java.lang.annotation.*;
 @EnableLodsve
 @Import({SpringFoxRegistrar.class, SpringFoxConfiguration.class})
 public @interface EnableSpringFox {
-    /**
-     * url路径前缀
-     *
-     * @return 前缀
-     */
-    String prefix() default RelativePathProvider.ROOT;
-
     /**
      * 设置分组
      *

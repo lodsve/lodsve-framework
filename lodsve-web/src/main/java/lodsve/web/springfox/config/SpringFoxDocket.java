@@ -22,7 +22,6 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import lodsve.core.utils.StringUtils;
 import lodsve.web.mvc.properties.ServerProperties;
-import lodsve.web.springfox.paths.SpringFoxPathProvider;
 import lodsve.web.springfox.properties.SpringFoxProperties;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +44,6 @@ import java.util.regex.Pattern;
  */
 public class SpringFoxDocket extends Docket {
     @Autowired
-    private SpringFoxPathProvider pathProvider;
-    @Autowired
     private SpringFoxProperties springFoxProperties;
     @Autowired
     private ServerProperties serverProperties;
@@ -64,7 +61,6 @@ public class SpringFoxDocket extends Docket {
         apiInfo(apiInfo(springFoxProperties));
         forCodeGeneration(true);
         groupName(groupName);
-        pathProvider(pathProvider);
         host(getHost());
 
         if (StringUtils.equals(DEFAULT_GROUP_NAME, groupName)) {
