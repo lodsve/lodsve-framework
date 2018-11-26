@@ -33,7 +33,7 @@ import java.io.IOException;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016/11/3 下午2:56
  */
-public class EnumDeserializer extends JsonDeserializer<Codeable> {
+public class CodeableDeserializer extends JsonDeserializer<Codeable> {
     @Override
     @SuppressWarnings("unchecked")
     public Codeable deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {

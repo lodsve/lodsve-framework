@@ -32,7 +32,7 @@ import java.io.IOException;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/6/24 下午9:31
  */
-public class EnumSerializer extends JsonSerializer<Codeable> {
+public class CodeableSerializer extends JsonSerializer<Codeable> {
     @Override
     public void serialize(Codeable value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
         jgen.writeStartObject();
