@@ -28,6 +28,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.schema.AlternateTypeRule;
 import springfox.documentation.schema.AlternateTypeRuleConvention;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -48,7 +50,16 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
 @EnableConfigurationProperties(SpringFoxProperties.class)
 @ComponentScan(basePackages = {"lodsve.web.springfox"})
 @Profile("springfox")
-public class SpringFoxConfiguration {
+public class SpringFoxConfiguration implements WebMvcConfigurer {
+    private static final String SPRING_FOX_UI_MAPPING = "/webjars/springfox-swagger-ui/**";
+    private static final String SWAGGER_INDEX = "/swagger-ui.html";
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler(SWAGGER_INDEX).addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
+        registry.addResourceHandler(SPRING_FOX_UI_MAPPING).addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/");
+    }
+
     @Bean
     public AlternateTypeRuleConvention pageableConvention(final TypeResolver resolver) {
         return new AlternateTypeRuleConvention() {
