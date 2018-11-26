@@ -20,23 +20,23 @@ package lodsve.web.mvc.json;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lodsve.core.bean.Codeable;
 import lodsve.core.utils.StringUtils;
+import lodsve.web.mvc.config.WebMvcConfiguration;
 
 import java.io.IOException;
 
 /**
  * Jackson反序列化枚举时，将code或者枚举value变成枚举.<br/>
- * {@link lodsve.web.mvc.config.LodsveWebMvcConfigurerAdapter#customObjectMapper(ObjectMapper)}
+ * {@link WebMvcConfiguration#objectMapper()}
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016/11/3 下午2:56
  */
-public class EnumDeserializer extends JsonDeserializer<Enum> {
+public class EnumDeserializer extends JsonDeserializer<Codeable> {
     @Override
     @SuppressWarnings("unchecked")
-    public Enum deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+    public Codeable deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         String value = p.getValueAsString();
         if (StringUtils.isBlank(value)) {
             return null;
@@ -55,7 +55,7 @@ public class EnumDeserializer extends JsonDeserializer<Enum> {
         }
 
         if (result != null) {
-            return result;
+            return (Codeable) result;
         }
 
         for (Enum<?> em : clazz.getEnumConstants()) {
@@ -67,7 +67,7 @@ public class EnumDeserializer extends JsonDeserializer<Enum> {
             }
         }
 
-        return result;
+        return (Codeable) result;
     }
 
     @Override

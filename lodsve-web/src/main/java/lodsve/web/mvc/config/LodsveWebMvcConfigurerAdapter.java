@@ -31,10 +31,7 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.CorsRegistration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.List;
 
@@ -44,7 +41,7 @@ import java.util.List;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/8/15 下午1:22
  */
-public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
+public class LodsveWebMvcConfigurerAdapter implements WebMvcConfigurer {
     private ServerProperties properties;
     private ApplicationProperties applicationProperties;
     private ObjectMapper objectMapper;
@@ -86,7 +83,7 @@ public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
                 favorParameter(true).
                 parameterName("mediaType").
                 ignoreAcceptHeader(true).
-                useJaf(false).
+                useRegisteredExtensionsOnly(true).
                 defaultContentType(MediaType.APPLICATION_JSON).
                 mediaType("xml", MediaType.APPLICATION_XML).
                 mediaType("json", MediaType.APPLICATION_JSON).

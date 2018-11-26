@@ -17,6 +17,8 @@
 
 package lodsve.web.utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lodsve.web.mvc.config.WebMvcConfiguration;
 import lodsve.web.utils.domain.Demo;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -29,6 +31,7 @@ import org.mockserver.model.HttpResponse;
 import org.mockserver.socket.PortFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -93,6 +96,11 @@ public class RestUtilsTest {
                         .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
                                 new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
                                 new Header("Content-Length", "250"), new Header("Allow", "POST")));
+
+        WebMvcConfiguration configuration = new WebMvcConfiguration();
+        ObjectMapper objectMapper = configuration.objectMapper();
+        RestTemplate restTemplate = configuration.restTemplate(objectMapper);
+        RestUtils.setRestTemplate(restTemplate);
     }
 
     @AfterClass

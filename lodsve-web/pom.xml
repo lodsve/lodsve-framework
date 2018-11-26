@@ -75,11 +75,11 @@
             <artifactId>swagger-annotations</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-models</artifactId>
         </dependency>
 
-        <!--  -->
+        <!-- webservice -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>

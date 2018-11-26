@@ -27,8 +27,8 @@ import lodsve.web.springfox.properties.SpringFoxProperties;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import springfox.documentation.RequestHandler;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.ApiSelector;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -97,12 +97,7 @@ public class SpringFoxDocket extends Docket {
             return ApiInfo.DEFAULT;
         }
 
-        return new ApiInfo(
-                properties.getTitle(),
-                properties.getDescription(), StringUtils.EMPTY, StringUtils.EMPTY,
-                new Contact(StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY),
-                StringUtils.EMPTY, StringUtils.EMPTY
-        );
+        return new ApiInfoBuilder().title(properties.getTitle()).description(properties.getDescription()).build();
     }
 
     private String getHost() {

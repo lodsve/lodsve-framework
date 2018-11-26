@@ -39,7 +39,7 @@ public class SpringFoxRegistrar implements ImportBeanDefinitionRegistrar {
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-        Boolean enableSpringfox = Profiles.getProfile("springfox");
+        boolean enableSpringfox = Profiles.getProfile("springfox");
 
         if (!enableSpringfox) {
             return;

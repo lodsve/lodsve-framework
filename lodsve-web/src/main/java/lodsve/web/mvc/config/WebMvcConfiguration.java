@@ -17,26 +17,30 @@
 
 package lodsve.web.mvc.config;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import lodsve.core.bean.Codeable;
 import lodsve.core.configuration.ApplicationProperties;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.web.mvc.debug.DebugRequestListener;
 import lodsve.web.mvc.json.EnumDeserializer;
 import lodsve.web.mvc.json.EnumSerializer;
 import lodsve.web.mvc.properties.ServerProperties;
+import lodsve.web.utils.RestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -84,16 +88,15 @@ public class WebMvcConfiguration {
         ObjectMapper objectMapper = new ObjectMapper();
 
         objectMapper.setTimeZone(TimeZone.getDefault());
-        objectMapper.configure(SerializationFeature.WRITE_ENUMS_USING_INDEX, true);
 
         // 序列化枚举时的处理
-        SimpleModule serializerModule = new SimpleModule("enumSerializer");
-        serializerModule.addSerializer(Enum.class, new EnumSerializer());
+        SimpleModule serializerModule = new SimpleModule("codeableSerializer");
+        serializerModule.addSerializer(Codeable.class, new EnumSerializer());
         objectMapper.registerModule(serializerModule);
 
         // 反序列化枚举时的处理
-        SimpleModule deserializerModule = new SimpleModule("enumDeserializer");
-        deserializerModule.addDeserializer(Enum.class, new EnumDeserializer());
+        SimpleModule deserializerModule = new SimpleModule("codeableDeserializer");
+        deserializerModule.addDeserializer(Codeable.class, new EnumDeserializer());
         objectMapper.registerModule(deserializerModule);
 
         //日期的处理
@@ -102,13 +105,29 @@ public class WebMvcConfiguration {
         //@com.fasterxml.jackson.annotation.JsonFormat(pattern = "时间格式化")
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm"));
 
-        objectMapper.configure(JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS, true);
-        objectMapper.configure(JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS, true);
-        objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-
-        objectMapper.configure(JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS, true);
-        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         return objectMapper;
+    }
+
+    @Bean
+    public RestTemplate restTemplate(ObjectMapper objectMapper) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
+        for (HttpMessageConverter<?> converter : messageConverters) {
+            if (converter instanceof MappingJackson2HttpMessageConverter) {
+                messageConverters.remove(converter);
+
+                MappingJackson2HttpMessageConverter newConverter = new MappingJackson2HttpMessageConverter();
+                newConverter.setObjectMapper(objectMapper);
+                messageConverters.add(newConverter);
+            }
+        }
+        restTemplate.setMessageConverters(messageConverters);
+
+        RestUtils.setRestTemplate(restTemplate);
+
+        return restTemplate;
     }
 }
