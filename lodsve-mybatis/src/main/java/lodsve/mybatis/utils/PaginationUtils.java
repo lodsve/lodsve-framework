@@ -15,11 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.mybatis.plugins.pagination;
+package lodsve.mybatis.utils;
 
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.dialect.Dialect;
-import lodsve.mybatis.utils.MyBatisUtils;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.mapping.BoundSql;
@@ -47,11 +46,11 @@ import java.util.regex.Pattern;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/6/29 下午2:55
  */
-public class PaginationHelper {
-    private static final Logger logger = LoggerFactory.getLogger(PaginationHelper.class);
+public class PaginationUtils {
+    private static final Logger logger = LoggerFactory.getLogger(PaginationUtils.class);
     private static final Pattern ORDER_BY = Pattern.compile(".*order\\s+by\\s+.*", Pattern.CASE_INSENSITIVE);
 
-    private PaginationHelper() {
+    private PaginationUtils() {
     }
 
     /**
@@ -63,7 +62,7 @@ public class PaginationHelper {
      * @return
      */
     @SuppressWarnings("unchecked")
-    protected static <T> T findObjectFromParameter(Object parameter, Class<T> target) {
+    public static <T> T findObjectFromParameter(Object parameter, Class<T> target) {
         if (parameter == null || target == null) {
             return null;
         }
@@ -86,7 +85,7 @@ public class PaginationHelper {
         return null;
     }
 
-    protected static int queryForTotal(String sql, MappedStatement mappedStatement, BoundSql boundSql) throws SQLException {
+    public static int queryForTotal(String sql, MappedStatement mappedStatement, BoundSql boundSql) throws SQLException {
         if (StringUtils.isEmpty(sql)) {
             return 0;
         }
@@ -142,14 +141,18 @@ public class PaginationHelper {
         }
     }
 
-    protected static String getPageSql(String sql, MappedStatement mappedStatement, int start, int num) throws SQLException {
+    public static String getPageSql(String sql, MappedStatement mappedStatement, int start, int num) throws SQLException {
         Assert.hasText(sql, "sql is required!");
 
-        Dialect dialect = MyBatisUtils.getDialect(mappedStatement.getConfiguration().getEnvironment().getDataSource().getConnection());
+        Dialect dialect;
+        try (Connection connection = mappedStatement.getConfiguration().getEnvironment().getDataSource().getConnection()) {
+            dialect = MyBatisUtils.getDialect(connection);
+        }
+
         return dialect.getPageSql(sql, start, num);
     }
 
-    protected static MappedStatement copyFromNewSql(MappedStatement ms, BoundSql boundSql, String sql) {
+    public static MappedStatement copyFromNewSql(MappedStatement ms, BoundSql boundSql, String sql) {
         BoundSql newBoundSql = copyFromBoundSql(ms, boundSql, sql);
 
         return copyFromMappedStatement(ms, new BoundSqlSqlSource(newBoundSql));
@@ -169,11 +172,11 @@ public class PaginationHelper {
     /**
      * 对SQL参数(?)设值
      *
-     * @param ps
-     * @param mappedStatement
-     * @param boundSql
-     * @param parameterObject
-     * @throws SQLException
+     * @param ps              PreparedStatement
+     * @param mappedStatement MappedStatement
+     * @param boundSql        BoundSql
+     * @param parameterObject parameterObject
+     * @throws SQLException SQLException
      */
     private static void setParameters(PreparedStatement ps, MappedStatement mappedStatement, BoundSql boundSql, Object parameterObject) throws SQLException {
         ParameterHandler parameterHandler = new DefaultParameterHandler(mappedStatement, parameterObject, boundSql);
@@ -217,7 +220,7 @@ public class PaginationHelper {
     private static class BoundSqlSqlSource implements SqlSource {
         BoundSql boundSql;
 
-        public BoundSqlSqlSource(BoundSql boundSql) {
+        BoundSqlSqlSource(BoundSql boundSql) {
             this.boundSql = boundSql;
         }
 

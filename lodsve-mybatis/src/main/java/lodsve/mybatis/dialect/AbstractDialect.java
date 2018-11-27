@@ -17,6 +17,8 @@
 
 package lodsve.mybatis.dialect;
 
+import lodsve.mybatis.utils.MyBatisUtils;
+import lodsve.mybatis.utils.SqlUtils;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.util.Assert;
 
@@ -35,9 +37,7 @@ import java.sql.SQLException;
 public abstract class AbstractDialect implements Dialect {
     @Override
     public String getCountSql(String sql) {
-        // TODO 优化
-        StringBuilder sqlBuilder = new StringBuilder();
-        return sqlBuilder.append("select count(*) from (").append(sql).append(") tmp_count").toString();
+        return SqlUtils.getSingleLineCountSql(sql);
     }
 
     @Override
@@ -59,15 +59,7 @@ public abstract class AbstractDialect implements Dialect {
 
             return resultSet.next() && resultSet.getInt("count") > 0;
         } finally {
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (ps != null) {
-                ps.close();
-            }
-            if (connection != null) {
-                DataSourceUtils.releaseConnection(connection, dataSource);
-            }
+            MyBatisUtils.releaseResource(resultSet, ps, connection, dataSource);
         }
     }
 

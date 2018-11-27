@@ -17,8 +17,10 @@
 
 package lodsve.rdbms.annotations;
 
+import lodsve.core.configuration.EnableLodsve;
 import lodsve.rdbms.configuration.DataSourceBeanDefinitionRegistrar;
 import lodsve.rdbms.configuration.DataSourceTransactionManagementConfiguration;
+import lodsve.rdbms.configuration.RdbmsConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -32,12 +34,13 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({DataSourceTransactionManagementConfiguration.class, DataSourceBeanDefinitionRegistrar.class})
+@Import({RdbmsConfiguration.class, DataSourceTransactionManagementConfiguration.class, DataSourceBeanDefinitionRegistrar.class})
+@EnableLodsve
 public @interface DataSourceProvider {
     /**
      * 选择的数据源
      *
      * @return 数据源名称
      */
-    String dataSource();
+    String[] dataSource();
 }

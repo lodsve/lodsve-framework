@@ -19,7 +19,9 @@ package lodsve.mybatis.annotations;
 
 import lodsve.core.configuration.EnableLodsve;
 import lodsve.mybatis.configuration.MyBatisConfiguration;
+import org.apache.ibatis.plugin.Interceptor;
 import org.springframework.context.annotation.Import;
+import org.springframework.stereotype.Repository;
 
 import java.lang.annotation.*;
 
@@ -33,6 +35,43 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EnableLodsve
-@Import(MyBatisConfiguration.class)
+@Import({MyBatisConfiguration.class, MybatisConfigsRegistrar.class})
 public @interface EnableMyBatis {
+    /**
+     * Base packages to scan for MyBatis interfaces. Note that only interfaces
+     * with at least one method will be registered; concrete classes will be
+     * ignored.
+     */
+    String[] basePackages() default {};
+
+    /**
+     * 枚举类型所在包路径,可以多个
+     *
+     * @return 枚举类型所在包路径
+     */
+    String[] enumsLocations() default {};
+
+    /**
+     * This property specifies the annotation that the scanner will search for.
+     * <p>
+     * The scanner will register all interfaces in the base package that also have
+     * the specified annotation.
+     * <p>
+     * Note this can be combined with markerInterface.
+     */
+    Class<? extends Annotation> annotationClass() default Repository.class;
+
+    /**
+     * 是否要匹配驼峰规则
+     *
+     * @return true/false
+     */
+    boolean mapUnderscoreToCamelCase() default true;
+
+    /**
+     * 启用的插件，默认启用[分页、BaseDAO]
+     *
+     * @return 启用的插件
+     */
+    Class<? extends Interceptor>[] plugins() default {};
 }

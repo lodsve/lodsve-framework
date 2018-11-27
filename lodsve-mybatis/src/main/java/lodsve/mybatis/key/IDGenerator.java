@@ -31,19 +31,4 @@ public interface IDGenerator {
      * @return next value
      */
     Long nextId(String sequenceName);
-
-    enum KeyType {
-        /**
-         * twitter的snowflake的ID生成器实现
-         */
-        SNOWFLAKE,
-        /**
-         * MYSQL的方式
-         */
-        MYSQL,
-        /**
-         * ORACLE的方式
-         */
-        ORACLE
-    }
 }

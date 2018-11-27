@@ -131,6 +131,7 @@
         <flyway.version>4.0.3</flyway.version>
         <mybatis.version>3.4.4</mybatis.version>
         <mybatis.spring.version>1.3.1</mybatis.spring.version>
+        <jsqlparser.version>1.2</jsqlparser.version>
         <p6spy.version>3.6.0</p6spy.version>
         <pingpp.java.version>2.1.7</pingpp.java.version>
         <groovy.version>2.4.7</groovy.version>
@@ -988,6 +989,14 @@
                 <version>${mybatis.spring.version}</version>
             </dependency>
             <!-- mybatis end -->
+
+            <!-- jsqlparser start -->
+            <dependency>
+                <groupId>com.github.jsqlparser</groupId>
+                <artifactId>jsqlparser</artifactId>
+                <version>${jsqlparser.version}</version>
+            </dependency>
+            <!-- jsqlparser end -->
 
             <!-- p6spy start -->
             <dependency>

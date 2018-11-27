@@ -122,7 +122,7 @@ public class MySQLIDGenerator implements IDGenerator {
     }
 
     private Long findNextIdFromDatabase(String sequenceName) {
-        Long nextId;
+        long nextId;
 
         Connection connection = DataSourceUtils.getConnection(dataSource);
         PreparedStatement stmt = null;
@@ -151,7 +151,7 @@ public class MySQLIDGenerator implements IDGenerator {
 
             return nextId;
         } catch (SQLException e) {
-            throw new MyBatisException(1, e.getMessage());
+            throw new MyBatisException(e.getMessage());
         } finally {
             if (rs != null) {
                 JdbcUtils.closeResultSet(rs);

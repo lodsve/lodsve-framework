@@ -18,7 +18,6 @@
 package lodsve.mybatis.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
-import lodsve.core.properties.relaxedbind.annotations.Required;
 
 /**
  * mybatis 配置.
@@ -32,24 +31,6 @@ public class MyBatisProperties {
      * MySQL主键自增长时，缓存的key个数
      */
     private int keyCacheSize = 10;
-    /**
-     * mybatis mapper文件
-     */
-    private String[] mapperLocations = new String[]{"classpath*:/META-INF/mybatis/**/*Mapper.xml"};
-    /**
-     * mybatis 配置文件
-     */
-    private String configLocation = "classpath:/META-INF/mybatis/mybatis.xml";
-    /**
-     * 含有{@link org.springframework.stereotype.Repository }注解的dao类所在的包路径,可以多个
-     */
-    @Required
-    private String[] basePackages;
-    /**
-     * 枚举类型所在包路径,可以多个
-     */
-    @Required
-    private String[] enumsLocations;
 
     public int getKeyCacheSize() {
         return keyCacheSize;
@@ -57,37 +38,5 @@ public class MyBatisProperties {
 
     public void setKeyCacheSize(int keyCacheSize) {
         this.keyCacheSize = keyCacheSize;
-    }
-
-    public String[] getMapperLocations() {
-        return mapperLocations;
-    }
-
-    public void setMapperLocations(String[] mapperLocations) {
-        this.mapperLocations = mapperLocations;
-    }
-
-    public String getConfigLocation() {
-        return configLocation;
-    }
-
-    public void setConfigLocation(String configLocation) {
-        this.configLocation = configLocation;
-    }
-
-    public String[] getBasePackages() {
-        return basePackages;
-    }
-
-    public void setBasePackages(String[] basePackages) {
-        this.basePackages = basePackages;
-    }
-
-    public String[] getEnumsLocations() {
-        return enumsLocations;
-    }
-
-    public void setEnumsLocations(String[] enumsLocations) {
-        this.enumsLocations = enumsLocations;
     }
 }

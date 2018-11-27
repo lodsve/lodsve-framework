@@ -17,35 +17,24 @@
 
 package lodsve.mybatis.configuration;
 
-import lodsve.core.io.support.LodsvePathMatchingResourcePatternResolver;
-import lodsve.core.io.support.LodsveResourceLoader;
 import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
-import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.key.IDGenerator;
 import lodsve.mybatis.key.mysql.MySQLIDGenerator;
 import lodsve.mybatis.key.oracle.OracleIDGenerator;
 import lodsve.mybatis.key.snowflake.SnowflakeIdGenerator;
 import lodsve.mybatis.properties.MyBatisProperties;
-import lodsve.mybatis.type.TypeHandlerScanner;
-import lodsve.mybatis.utils.Constants;
 import lodsve.mybatis.utils.DbType;
 import lodsve.mybatis.utils.MyBatisUtils;
+import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Repository;
-import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -54,18 +43,20 @@ import java.util.List;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/1/19 下午10:21
  */
-@Configuration
+@org.springframework.context.annotation.Configuration
 @EnableConfigurationProperties(MyBatisProperties.class)
-@EnableAspectJAutoProxy
 public class MyBatisConfiguration {
+    public static final String DATA_SOURCE_BEAN_NAME = "lodsveDataSource";
     private MyBatisProperties myBatisProperties;
+    private final List<ConfigurationCustomizer> customizers;
 
-    public MyBatisConfiguration() {
+    public MyBatisConfiguration(ObjectProvider<List<ConfigurationCustomizer>> customizers) {
+        this.customizers = customizers.getIfAvailable();
         this.myBatisProperties = new RelaxedBindFactory.Builder<>(MyBatisProperties.class).build();
     }
 
-    @Bean(name = Constants.ID_GENERATOR_BANE_NAME)
-    public IDGenerator idGenerator(@Qualifier(Constants.DATA_SOURCE_BEAN_NAME) DataSource dataSource) {
+    @Bean
+    public IDGenerator idGenerator(@Qualifier(DATA_SOURCE_BEAN_NAME) DataSource dataSource) {
         DbType type = MyBatisUtils.getDbType(dataSource);
         switch (type) {
             case DB_MYSQL:
@@ -82,34 +73,20 @@ public class MyBatisConfiguration {
         }
     }
 
-    @Bean(name = Constants.MYBATIS_SQL_SESSION_FACTORY_BANE_NAME)
-    public SqlSessionFactory sqlSessionFactoryBean(@Qualifier(Constants.DATA_SOURCE_BEAN_NAME) DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(dataSource);
-        sqlSessionFactoryBean.setMapperLocations(getResources(myBatisProperties.getMapperLocations()));
-        sqlSessionFactoryBean.setConfigLocation(new LodsveResourceLoader().getResource(myBatisProperties.getConfigLocation()));
-        sqlSessionFactoryBean.setTypeHandlers(new TypeHandlerScanner().find(StringUtils.join(myBatisProperties.getEnumsLocations(), ",")));
+    @Bean
+    public SqlSessionFactory sqlSessionFactory(@Qualifier(DATA_SOURCE_BEAN_NAME) DataSource dataSource) throws Exception {
+        SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
+        factory.setDataSource(dataSource);
 
-        return sqlSessionFactoryBean.getObject();
+        Configuration configuration = new Configuration();
+        customizers.forEach(c -> c.customize(configuration));
+        factory.setConfiguration(configuration);
+
+        return factory.getObject();
     }
 
-    @Bean(name = Constants.MAPPER_SCANNER_CONFIGURER_BANE_NAME)
-    public MapperScannerConfigurer mapperScannerConfigurer() {
-        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-        mapperScannerConfigurer.setBasePackage(StringUtils.join(myBatisProperties.getBasePackages(), ","));
-        mapperScannerConfigurer.setAnnotationClass(Repository.class);
-        mapperScannerConfigurer.setSqlSessionFactoryBeanName(Constants.MYBATIS_SQL_SESSION_FACTORY_BANE_NAME);
-
-        return mapperScannerConfigurer;
-    }
-
-    private Resource[] getResources(String[] locations) throws IOException {
-        Assert.notNull(locations);
-
-        List<Resource> resources = new ArrayList<>(16);
-        for (String location : locations) {
-            Collections.addAll(resources, new LodsvePathMatchingResourcePatternResolver().getResources(location));
-        }
-        return resources.toArray(new Resource[resources.size()]);
+    @Bean
+    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+        return new SqlSessionTemplate(sqlSessionFactory);
     }
 }

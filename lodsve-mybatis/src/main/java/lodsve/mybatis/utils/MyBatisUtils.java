@@ -19,7 +19,7 @@ package lodsve.mybatis.utils;
 
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.dialect.Dialect;
-import lodsve.mybatis.dialect.MySQLDialect;
+import lodsve.mybatis.dialect.MySqlDialect;
 import lodsve.mybatis.dialect.OracleDialect;
 import lodsve.mybatis.exception.MyBatisException;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -42,10 +42,13 @@ public final class MyBatisUtils {
 
     public static DbType getDbType(DataSource dataSource) {
         String database;
-        try (Connection connection = dataSource.getConnection()) {
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        try {
             database = connection.getMetaData().getDatabaseProductName();
         } catch (SQLException e) {
             throw new MyBatisException("can't find DbType!");
+        } finally {
+            DataSourceUtils.releaseConnection(connection, dataSource);
         }
 
         if (StringUtils.equalsIgnoreCase(database, DbType.DB_MYSQL.getName())) {
@@ -61,7 +64,7 @@ public final class MyBatisUtils {
         String database = connection.getMetaData().getDatabaseProductName();
 
         if (StringUtils.equalsIgnoreCase(database, DbType.DB_MYSQL.getName())) {
-            return new MySQLDialect();
+            return new MySqlDialect();
         } else if (StringUtils.equalsIgnoreCase(database, DbType.DB_ORACLE.getName())) {
             return new OracleDialect();
         }
@@ -70,10 +73,12 @@ public final class MyBatisUtils {
     }
 
     public static int queryForInt(DataSource dataSource, String sql, Object... params) throws SQLException {
+        Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = DataSourceUtils.doGetConnection(dataSource).prepareStatement(sql);
+            connection = DataSourceUtils.getConnection(dataSource);
+            ps = connection.prepareStatement(sql);
             for (int i = 0; i < params.length; i++) {
                 ps.setObject(i + 1, params[i]);
             }
@@ -85,22 +90,19 @@ public final class MyBatisUtils {
                 return -1;
             }
         } finally {
-            if (ps != null) {
-                ps.close();
-            }
-            if (rs != null) {
-                rs.close();
-            }
+            releaseResource(rs, ps, connection, dataSource);
         }
     }
 
-    public static int executeSql(DataSource dataSource, String sql, Object... params) throws SQLException {
-        try (PreparedStatement ps = DataSourceUtils.doGetConnection(dataSource).prepareStatement(sql)) {
-            for (int i = 0; i < params.length; i++) {
-                ps.setObject(i + 1, params[i]);
-            }
-
-            return ps.executeUpdate();
+    public static void releaseResource(ResultSet rs, PreparedStatement ps, Connection connection, DataSource dataSource) throws SQLException {
+        if (rs != null) {
+            rs.close();
+        }
+        if (ps != null) {
+            ps.close();
+        }
+        if (connection != null) {
+            DataSourceUtils.releaseConnection(connection, dataSource);
         }
     }
 }

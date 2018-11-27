@@ -15,20 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.mybatis.utils;
+package lodsve.mybatis.configuration;
+
+import org.apache.ibatis.session.Configuration;
 
 /**
- * 常量.
+ * Callback interface that can be customized a {@link Configuration} object generated on auto-configuration..
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2017/12/15 下午11:11
+ * @date 2018-11-27 22:15
  */
-public class Constants {
-    private Constants() {
-    }
-
-    public static final String DATA_SOURCE_BEAN_NAME = "lodsveDataSource";
-    public static final String MYBATIS_SQL_SESSION_FACTORY_BANE_NAME = "sqlSessionFactory";
-    public static final String MAPPER_SCANNER_CONFIGURER_BANE_NAME = "mapperScannerConfigurer";
-    public static final String ID_GENERATOR_BANE_NAME = "idGenerator";
+public interface ConfigurationCustomizer {
+    /**
+     * Customize the given a {@link Configuration} object.
+     *
+     * @param configuration the configuration object to customize
+     */
+    void customize(Configuration configuration);
 }

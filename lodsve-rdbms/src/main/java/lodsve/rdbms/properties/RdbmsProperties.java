@@ -50,11 +50,11 @@ public class RdbmsProperties {
         this.dataSourceClass = dataSourceClass;
     }
 
-    public Boolean getSupportTransaction() {
+    public boolean isSupportTransaction() {
         return supportTransaction;
     }
 
-    public void setSupportTransaction(Boolean supportTransaction) {
+    public void setSupportTransaction(boolean supportTransaction) {
         this.supportTransaction = supportTransaction;
     }
 

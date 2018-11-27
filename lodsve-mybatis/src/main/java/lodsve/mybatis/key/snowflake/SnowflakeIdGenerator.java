@@ -33,7 +33,7 @@ public class SnowflakeIdGenerator implements IDGenerator {
 
     private final static long WORKER_ID_SHIFT = SEQUENCE_BITS;
     private final static long TIMESTAMP_LEFT_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS;
-    private final static long SEQUENCE_MASK = -1L ^ -1L << SEQUENCE_BITS;
+    private final static long SEQUENCE_MASK = ~(-1L << SEQUENCE_BITS);
 
     private long lastTimestamp = -1L;
 

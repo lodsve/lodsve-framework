@@ -23,7 +23,7 @@ package lodsve.mybatis.dialect;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016-2-18 15:42
  */
-public class MySQLDialect extends AbstractDialect {
+public class MySqlDialect extends AbstractDialect {
     @Override
     public String getPageSql(String sql, int offset, int limit) {
         StringBuilder sqlBuilder = new StringBuilder(sql);
@@ -36,9 +36,7 @@ public class MySQLDialect extends AbstractDialect {
 
     @Override
     String existTableSql(String schema, String tableName) {
-        StringBuilder sql = new StringBuilder("SELECT count(TABLE_NAME) count FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='");
-        sql.append(schema).append("' and TABLE_NAME = '").append(tableName).append("'");
-
-        return sql.toString();
+        String sql = "SELECT count(TABLE_NAME) count FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='%s' and TABLE_NAME = '%s'";
+        return String.format(sql, schema, tableName);
     }
 }

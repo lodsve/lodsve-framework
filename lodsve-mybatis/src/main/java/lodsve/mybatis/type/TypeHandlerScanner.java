@@ -17,11 +17,7 @@
 
 package lodsve.mybatis.type;
 
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtConstructor;
-import javassist.LoaderClassPath;
-import javassist.Modifier;
+import javassist.*;
 import lodsve.core.bean.Codeable;
 import lodsve.core.utils.StringUtils;
 import org.apache.ibatis.type.TypeHandler;
@@ -92,7 +88,7 @@ public class TypeHandlerScanner {
 
         List<TypeHandler<?>> typeHandlers = getTypeHandlers(enumClasses);
 
-        return typeHandlers.toArray(new TypeHandler<?>[typeHandlers.size()]);
+        return typeHandlers.toArray(new TypeHandler<?>[0]);
     }
 
     private List<TypeHandler<?>> getTypeHandlers(List<String> classes) {
