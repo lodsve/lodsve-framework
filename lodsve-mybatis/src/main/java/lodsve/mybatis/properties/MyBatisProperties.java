@@ -50,14 +50,6 @@ public class MyBatisProperties {
      */
     @Required
     private String[] enumsLocations;
-    /**
-     * 是否支持事务
-     */
-    private boolean supportTransaction = false;
-    /**
-     * flyway的脚本文件所在路径
-     */
-    private String[] migration = new String[]{"classpath:META-INF/flyway"};
 
     public int getKeyCacheSize() {
         return keyCacheSize;
@@ -97,21 +89,5 @@ public class MyBatisProperties {
 
     public void setEnumsLocations(String[] enumsLocations) {
         this.enumsLocations = enumsLocations;
-    }
-
-    public boolean isSupportTransaction() {
-        return supportTransaction;
-    }
-
-    public void setSupportTransaction(boolean supportTransaction) {
-        this.supportTransaction = supportTransaction;
-    }
-
-    public String[] getMigration() {
-        return migration;
-    }
-
-    public void setMigration(String[] migration) {
-        this.migration = migration;
     }
 }

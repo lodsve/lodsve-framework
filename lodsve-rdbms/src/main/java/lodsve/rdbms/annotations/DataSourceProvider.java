@@ -15,20 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.mybatis.utils;
+package lodsve.rdbms.annotations;
+
+import lodsve.rdbms.configuration.DataSourceBeanDefinitionRegistrar;
+import lodsve.rdbms.configuration.DataSourceTransactionManagementConfiguration;
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.*;
 
 /**
- * 常量.
+ * 数据源提供者.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2017/12/15 下午11:11
+ * @date 2017/12/14 下午5:33
  */
-public class Constants {
-    private Constants() {
-    }
-
-    public static final String DATA_SOURCE_BEAN_NAME = "lodsveDataSource";
-    public static final String MYBATIS_SQL_SESSION_FACTORY_BANE_NAME = "sqlSessionFactory";
-    public static final String MAPPER_SCANNER_CONFIGURER_BANE_NAME = "mapperScannerConfigurer";
-    public static final String ID_GENERATOR_BANE_NAME = "idGenerator";
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Import({DataSourceTransactionManagementConfiguration.class, DataSourceBeanDefinitionRegistrar.class})
+public @interface DataSourceProvider {
+    /**
+     * 选择的数据源
+     *
+     * @return 数据源名称
+     */
+    String dataSource();
 }

@@ -15,20 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.mybatis.utils;
+package lodsve.mybatis.annotations;
+
+import lodsve.core.configuration.EnableLodsve;
+import lodsve.mybatis.configuration.MyBatisConfiguration;
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.*;
 
 /**
- * 常量.
+ * 通过注解的方式启动mybatis的配置.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2017/12/15 下午11:11
+ * @date 16/1/19 下午8:01
  */
-public class Constants {
-    private Constants() {
-    }
-
-    public static final String DATA_SOURCE_BEAN_NAME = "lodsveDataSource";
-    public static final String MYBATIS_SQL_SESSION_FACTORY_BANE_NAME = "sqlSessionFactory";
-    public static final String MAPPER_SCANNER_CONFIGURER_BANE_NAME = "mapperScannerConfigurer";
-    public static final String ID_GENERATOR_BANE_NAME = "idGenerator";
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@EnableLodsve
+@Import(MyBatisConfiguration.class)
+public @interface EnableMyBatis {
 }

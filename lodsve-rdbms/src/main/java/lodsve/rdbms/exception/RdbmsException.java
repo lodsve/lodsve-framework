@@ -15,20 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.mybatis.utils;
+package lodsve.rdbms.exception;
+
+import lodsve.core.exception.ApplicationException;
 
 /**
- * 常量.
+ * rdbms异常.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2017/12/15 下午11:11
+ * @date 16/8/15 下午4:10
  */
-public class Constants {
-    private Constants() {
+public class RdbmsException extends ApplicationException {
+    public RdbmsException(String content) {
+        super(content);
     }
 
-    public static final String DATA_SOURCE_BEAN_NAME = "lodsveDataSource";
-    public static final String MYBATIS_SQL_SESSION_FACTORY_BANE_NAME = "sqlSessionFactory";
-    public static final String MAPPER_SCANNER_CONFIGURER_BANE_NAME = "mapperScannerConfigurer";
-    public static final String ID_GENERATOR_BANE_NAME = "idGenerator";
+    public RdbmsException(Integer code, String content) {
+        super(code, content);
+    }
+
+    public RdbmsException(Integer code, String content, String... args) {
+        super(code, content, args);
+    }
 }

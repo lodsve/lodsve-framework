@@ -44,6 +44,8 @@
         <module>lodsve-mongodb</module>
         <!-- mybatis -->
         <module>lodsve-mybatis</module>
+        <!-- mybatis -->
+        <module>lodsve-rdbms</module>
         <!-- redis -->
         <module>lodsve-redis</module>
         <!-- 搜索 -->
@@ -1047,6 +1049,11 @@
             <dependency>
                 <groupId>com.lodsve</groupId>
                 <artifactId>lodsve-mybatis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-rdbms</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

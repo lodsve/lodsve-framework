@@ -15,20 +15,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.mybatis.utils;
+package lodsve.rdbms.dynamic;
 
 /**
- * 常量.
+ * 多数据源保存选择的数据源.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2017/12/15 下午11:11
+ * @date 2017/12/14 下午6:03
  */
-public class Constants {
-    private Constants() {
+public class DataSourceHolder implements AutoCloseable {
+    private static final ThreadLocal<String> DATAS_SOURCE = new ThreadLocal<>();
+    private static final DataSourceHolder INSTANCE = new DataSourceHolder();
+
+    public static DataSourceHolder getInstance() {
+        return INSTANCE;
     }
 
-    public static final String DATA_SOURCE_BEAN_NAME = "lodsveDataSource";
-    public static final String MYBATIS_SQL_SESSION_FACTORY_BANE_NAME = "sqlSessionFactory";
-    public static final String MAPPER_SCANNER_CONFIGURER_BANE_NAME = "mapperScannerConfigurer";
-    public static final String ID_GENERATOR_BANE_NAME = "idGenerator";
+    public String get() {
+        return DATAS_SOURCE.get();
+    }
+
+    public void set(String dataSource) {
+        DATAS_SOURCE.set(dataSource);
+    }
+
+    @Override
+    public void close() {
+        DATAS_SOURCE.remove();
+    }
 }

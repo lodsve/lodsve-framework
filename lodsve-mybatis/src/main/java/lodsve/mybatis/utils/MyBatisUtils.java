@@ -21,7 +21,6 @@ import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.dialect.Dialect;
 import lodsve.mybatis.dialect.MySQLDialect;
 import lodsve.mybatis.dialect.OracleDialect;
-import lodsve.mybatis.enums.DbType;
 import lodsve.mybatis.exception.MyBatisException;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 

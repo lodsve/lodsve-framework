@@ -15,20 +15,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.mybatis.utils;
+package lodsve.rdbms.properties;
+
+import lodsve.core.io.support.LodsveResourceLoader;
+import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import org.springframework.core.io.Resource;
 
 /**
- * 常量.
+ * Spy Properties.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2017/12/15 下午11:11
+ * @date 2017/12/25 下午11:53
  */
-public class Constants {
-    private Constants() {
+@ConfigurationProperties(prefix = "lodsve.p6spy", locations = "${params.root}/framework/p6spy.properties")
+public class P6SpyProperties {
+    /**
+     * spy配置
+     */
+    private Resource config = new LodsveResourceLoader().getResource("classpath:/META-INF/p6spy/spy.properties");
+
+    public Resource getConfig() {
+        return config;
     }
 
-    public static final String DATA_SOURCE_BEAN_NAME = "lodsveDataSource";
-    public static final String MYBATIS_SQL_SESSION_FACTORY_BANE_NAME = "sqlSessionFactory";
-    public static final String MAPPER_SCANNER_CONFIGURER_BANE_NAME = "mapperScannerConfigurer";
-    public static final String ID_GENERATOR_BANE_NAME = "idGenerator";
+    public void setConfig(Resource config) {
+        this.config = config;
+    }
 }

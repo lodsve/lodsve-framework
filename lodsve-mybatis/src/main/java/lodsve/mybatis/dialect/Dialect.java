@@ -18,6 +18,7 @@
 package lodsve.mybatis.dialect;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 /**
  * 数据库方言.
@@ -30,7 +31,7 @@ public interface Dialect {
      * 获得查询所有条数的sql
      *
      * @param sql 原sql
-     * @return
+     * @return 查询所有条数的sql
      */
     String getCountSql(String sql);
 
@@ -41,7 +42,7 @@ public interface Dialect {
      * @param sql    原sql
      * @param offset 偏移量
      * @param limit  数量
-     * @return
+     * @return 分页的sql
      */
     String getPageSql(String sql, int offset, int limit);
 
@@ -50,8 +51,8 @@ public interface Dialect {
      *
      * @param tableName  表名
      * @param dataSource 数据源
-     * @return
-     * @throws Exception
+     * @return true/false
+     * @throws SQLException 获取数据源失败
      */
-    boolean existTable(String tableName, DataSource dataSource) throws Exception;
+    boolean existTable(String tableName, DataSource dataSource) throws SQLException;
 }
