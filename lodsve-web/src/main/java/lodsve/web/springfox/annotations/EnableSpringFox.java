@@ -19,9 +19,7 @@ package lodsve.web.springfox.annotations;
 
 import lodsve.core.configuration.EnableLodsve;
 import lodsve.web.springfox.config.SpringFoxConfiguration;
-import lodsve.web.springfox.config.SpringFoxRegistrar;
 import org.springframework.context.annotation.Import;
-import springfox.documentation.spring.web.plugins.Docket;
 
 import java.lang.annotation.*;
 
@@ -35,12 +33,6 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Documented
 @EnableLodsve
-@Import({SpringFoxRegistrar.class, SpringFoxConfiguration.class})
+@Import({SpringFoxConfiguration.class})
 public @interface EnableSpringFox {
-    /**
-     * 设置分组
-     *
-     * @return 分组
-     */
-    String[] groups() default Docket.DEFAULT_GROUP_NAME;
 }
