@@ -28,7 +28,6 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 @ConfigurationProperties(prefix = "lodsve.cache", locations = "${params.root}/framework/cache.properties")
 public class CacheProperties {
     private EhcacheConfig ehcache = new EhcacheConfig();
-    private GuavaConfig guava = new GuavaConfig();
     private RedisConfig redis = new RedisConfig();
     private MemcachedConfig memcached = new MemcachedConfig();
     private OscahceConfig oscahce = new OscahceConfig();
@@ -39,14 +38,6 @@ public class CacheProperties {
 
     public void setEhcache(EhcacheConfig ehcache) {
         this.ehcache = ehcache;
-    }
-
-    public GuavaConfig getGuava() {
-        return guava;
-    }
-
-    public void setGuava(GuavaConfig guava) {
-        this.guava = guava;
     }
 
     public RedisConfig getRedis() {

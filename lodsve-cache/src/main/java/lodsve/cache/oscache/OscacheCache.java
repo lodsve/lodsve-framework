@@ -21,6 +21,9 @@ import com.opensymphony.oscache.base.NeedsRefreshException;
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.cache.support.SimpleValueWrapper;
+import org.springframework.lang.NonNull;
+
+import java.util.concurrent.Callable;
 
 /**
  * Oscache Cache.
@@ -59,6 +62,34 @@ public class OscacheCache extends AbstractValueAdaptingCache {
     @Override
     public GeneralCacheAdministrator getNativeCache() {
         return admin;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T get(@NonNull Object key, @NonNull Callable<T> valueLoader) {
+        Object object = lookup(key);
+        if (null != object) {
+            return (T) object;
+        } else {
+            object = lookup(key);
+
+            if (null != object) {
+                return (T) object;
+            } else {
+                return loadValue(key, valueLoader);
+            }
+        }
+    }
+
+    private <T> T loadValue(Object key, Callable<T> valueLoader) {
+        T value;
+        try {
+            value = valueLoader.call();
+        } catch (Throwable ex) {
+            throw new ValueRetrievalException(key, valueLoader, ex);
+        }
+        put(key, value);
+        return value;
     }
 
     @Override

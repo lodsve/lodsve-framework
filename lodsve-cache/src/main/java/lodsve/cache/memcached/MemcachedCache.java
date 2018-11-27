@@ -20,7 +20,9 @@ package lodsve.cache.memcached;
 import net.spy.memcached.MemcachedClient;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.cache.support.SimpleValueWrapper;
+import org.springframework.lang.NonNull;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -63,6 +65,31 @@ public class MemcachedCache extends AbstractValueAdaptingCache {
     @Override
     public MemcachedClient getNativeCache() {
         return memcachedClient;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T get(@NonNull Object key, @NonNull Callable<T> valueLoader) {
+        Object object = lookup(key);
+        if (null == object) {
+            object = lookup(key);
+
+            if (null != object) {
+                return (T) object;
+            } else {
+                T value;
+                try {
+                    value = valueLoader.call();
+                } catch (Exception ex) {
+                    throw new ValueRetrievalException(key, valueLoader, ex);
+                }
+
+                put(key, value);
+                return value;
+            }
+        } else {
+            return (T) object;
+        }
     }
 
     @Override

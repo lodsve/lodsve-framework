@@ -49,6 +49,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.ApiSelector;
 import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.UiConfiguration;
+import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.LinkedList;
@@ -136,6 +138,12 @@ public class SpringFoxConfiguration implements WebMvcConfigurer, BeanFactoryAwar
         });
 
         return dockets;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public UiConfiguration uiConfiguration() {
+        return UiConfigurationBuilder.builder().build();
     }
 
     private ApiInfo apiInfo(SpringFoxProperties properties) {
