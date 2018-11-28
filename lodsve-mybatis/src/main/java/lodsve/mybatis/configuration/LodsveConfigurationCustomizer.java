@@ -19,6 +19,7 @@ package lodsve.mybatis.configuration;
 
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.plugins.pagination.PaginationInterceptor;
+import lodsve.mybatis.plugins.repository.BaseRepositoryInterceptor;
 import lodsve.mybatis.type.TypeHandlerScanner;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.ibatis.plugin.Interceptor;
@@ -54,6 +55,7 @@ public class LodsveConfigurationCustomizer implements ConfigurationCustomizer {
         configuration.setMapUnderscoreToCamelCase(mapUnderscoreToCamelCase);
 
         configuration.addInterceptor(new PaginationInterceptor());
+        configuration.addInterceptor(new BaseRepositoryInterceptor());
 
         List<Interceptor> interceptors = configuration.getInterceptors();
         Arrays.stream(plugins).filter(plugins -> !interceptors.contains(plugins)).forEach(configuration::addInterceptor);

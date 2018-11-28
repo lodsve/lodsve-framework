@@ -374,4 +374,38 @@ public final class SqlUtils {
 
         return orderByElements.stream().noneMatch(ele -> ele.toString().contains("?"));
     }
+
+    /**
+     * 将驼峰风格替换为下划线风格
+     *
+     * @param str 驼峰风格字段名or表名
+     * @return 下划线风格
+     */
+    public static String camelHumpToUnderline(String str) {
+        final int size;
+        final char[] chars;
+        final StringBuilder sb = new StringBuilder(
+                (size = (chars = str.toCharArray()).length) * 3 / 2 + 1);
+        char c;
+        for (int i = 0; i < size; i++) {
+            c = chars[i];
+            if (isUppercaseAlpha(c)) {
+                sb.append('_').append(c);
+            } else {
+                sb.append(toUpperAscii(c));
+            }
+        }
+        return sb.charAt(0) == '_' ? sb.substring(1) : sb.toString();
+    }
+
+    private static boolean isUppercaseAlpha(char c) {
+        return (c >= 'A') && (c <= 'Z');
+    }
+
+    private static char toUpperAscii(char c) {
+        if (isUppercaseAlpha(c)) {
+            c -= (char) 0x20;
+        }
+        return c;
+    }
 }

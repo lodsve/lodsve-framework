@@ -22,9 +22,11 @@ import lodsve.mybatis.dialect.Dialect;
 import lodsve.mybatis.dialect.MySqlDialect;
 import lodsve.mybatis.dialect.OracleDialect;
 import lodsve.mybatis.exception.MyBatisException;
+import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,6 +39,23 @@ import java.sql.SQLException;
  * @date 2016-2-18 16:03
  */
 public final class MyBatisUtils {
+    public static Method method;
+
+    static {
+        try {
+            Class<?> metaClass = Class.forName("org.apache.ibatis.reflection.SystemMetaObject");
+            method = metaClass.getDeclaredMethod("forObject", Object.class);
+        } catch (Exception e1) {
+            try {
+                Class<?> metaClass = Class.forName("org.apache.ibatis.reflection.MetaObject");
+                method = metaClass.getDeclaredMethod("forObject", Object.class);
+            } catch (Exception e2) {
+                throw new MyBatisException(e2.getMessage());
+            }
+        }
+
+    }
+
     private MyBatisUtils() {
     }
 
@@ -103,6 +122,14 @@ public final class MyBatisUtils {
         }
         if (connection != null) {
             DataSourceUtils.releaseConnection(connection, dataSource);
+        }
+    }
+
+    public static MetaObject forObject(Object object) {
+        try {
+            return (MetaObject) method.invoke(null, object);
+        } catch (Exception e) {
+            throw new MyBatisException(e.getMessage());
         }
     }
 }
