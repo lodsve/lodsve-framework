@@ -18,8 +18,8 @@
 package lodsve.mybatis.repository;
 
 import lodsve.mybatis.repository.annotations.LogicDelete;
+import lodsve.mybatis.repository.helper.MapperHelper;
 import lodsve.mybatis.repository.provider.MapperProvider;
-import lodsve.mybatis.utils.MapperUtils;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.MappedStatement;
 
@@ -47,7 +47,7 @@ public interface BaseRepository<T> {
      * @return 查询到的值
      * @see MapperProvider#findById(MappedStatement)
      */
-    @SelectProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @SelectProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     T findById(Serializable id);
 
     /**
@@ -59,7 +59,7 @@ public interface BaseRepository<T> {
      * @return 查询到的值
      * @see MapperProvider#findEnabledById(MappedStatement)
      */
-    @SelectProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @SelectProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     T findEnabledById(Serializable id);
 
     /**
@@ -69,7 +69,7 @@ public interface BaseRepository<T> {
      * @return 主键匹配的对象的集合
      * @see MapperProvider#findByIds(MappedStatement)
      */
-    @SelectProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @SelectProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     List<T> findByIds(List<? extends Serializable> ids);
 
     /**
@@ -81,7 +81,7 @@ public interface BaseRepository<T> {
      * @return 主键匹配的对象的集合
      * @see MapperProvider#findEnabledByIds(MappedStatement)
      */
-    @SelectProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @SelectProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     List<T> findEnabledByIds(List<? extends Serializable> ids);
 
     /**
@@ -91,7 +91,7 @@ public interface BaseRepository<T> {
      * @return 操作后影响的数据库记录数量(一般情况为1)
      * @see MapperProvider#save(MappedStatement)
      */
-    @InsertProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @InsertProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     @Options(useGeneratedKeys = true)
     int save(T entity);
 
@@ -102,7 +102,7 @@ public interface BaseRepository<T> {
      * @return 保存成功的数据条数
      * @see MapperProvider#batchSave(MappedStatement)
      */
-    @InsertProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @InsertProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     @Options(useGeneratedKeys = true)
     int batchSave(List<T> entities);
 
@@ -113,7 +113,7 @@ public interface BaseRepository<T> {
      * @return 操作后影响的数据库记录数量(一般情况为1)
      * @see MapperProvider#updateAll(MappedStatement)
      */
-    @UpdateProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @UpdateProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     int updateAll(T entity);
 
     /**
@@ -123,7 +123,7 @@ public interface BaseRepository<T> {
      * @return 操作后影响的数据库记录数量(一般情况为1)
      * @see MapperProvider#update(MappedStatement)
      */
-    @UpdateProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @UpdateProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     int update(T entity);
 
     /**
@@ -133,7 +133,7 @@ public interface BaseRepository<T> {
      * @return 操作结果
      * @see MapperProvider#deleteById(MappedStatement)
      */
-    @DeleteProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @DeleteProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     boolean deleteById(Serializable id);
 
     /**
@@ -143,7 +143,7 @@ public interface BaseRepository<T> {
      * @return 操作结果
      * @see MapperProvider#logicDeleteById(MappedStatement)
      */
-    @UpdateProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @UpdateProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     boolean logicDeleteById(Serializable id);
 
     /**
@@ -154,7 +154,7 @@ public interface BaseRepository<T> {
      * @return 操作结果
      * @see MapperProvider#logicDeleteByIdWithModifiedBy(MappedStatement)
      */
-    @UpdateProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @UpdateProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     boolean logicDeleteByIdWithModifiedBy(Serializable id, Long lastModifiedBy);
 
     /**
@@ -163,7 +163,7 @@ public interface BaseRepository<T> {
      * @return 数据库记录总条数
      * @see MapperProvider#count(MappedStatement)
      */
-    @SelectProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @SelectProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     int count();
 
     /**
@@ -174,7 +174,7 @@ public interface BaseRepository<T> {
      * @return 数据库记录总条数
      * @see MapperProvider#countEnabled(MappedStatement)
      */
-    @SelectProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @SelectProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     int countEnabled();
 
     /**
@@ -182,8 +182,9 @@ public interface BaseRepository<T> {
      *
      * @param id 主键值
      * @return 是否存在
+     * @see MapperProvider#isExist(MappedStatement)
      */
-    @SelectProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @SelectProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     boolean isExist(Serializable id);
 
     /**
@@ -191,7 +192,8 @@ public interface BaseRepository<T> {
      *
      * @param id 主键值
      * @return 是否存在
+     * @see MapperProvider#isExistEnabled(MappedStatement)
      */
-    @SelectProvider(type = MapperProvider.class, method = MapperUtils.PROVIDER_METHOD_NAME)
+    @SelectProvider(type = MapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
     boolean isExistEnabled(Serializable id);
 }

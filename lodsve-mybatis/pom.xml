@@ -75,5 +75,17 @@
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-core</artifactId>
         </dependency>
+
+        <!-- test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

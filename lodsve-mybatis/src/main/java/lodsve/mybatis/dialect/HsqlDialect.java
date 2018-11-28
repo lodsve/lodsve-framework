@@ -14,23 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package lodsve.mybatis.repository.provider;
+package lodsve.mybatis.dialect;
 
 /**
- * 空方法Mapper接口默认MapperTemplate<br/>
- * 如BaseSelectMapper，接口纯继承，不包含任何方法.
+ * HSQL内存数据库.
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  */
-public class EmptyMapperProvider extends BaseMapperProvider {
+public class HsqlDialect extends MySqlDialect {
 
-    public EmptyMapperProvider(Class<?> mapperClass) {
-        super(mapperClass);
-    }
-
-    @Override
-    public boolean supportMethod(String msId) {
-        return false;
-    }
 }

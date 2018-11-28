@@ -17,19 +17,15 @@
 
 package lodsve.web.mvc.commons;
 
+import lodsve.core.utils.StringUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Writer;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -48,7 +44,7 @@ public class FileWebInput extends WebInput {
     public FileWebInput(HttpServletRequest request) {
         super(request);
         //判断request是否是MultipartHttpServletRequest
-        if(request instanceof MultipartHttpServletRequest){
+        if (request instanceof MultipartHttpServletRequest) {
             multipartRequest = (MultipartHttpServletRequest) request;
         }
     }
@@ -58,15 +54,15 @@ public class FileWebInput extends WebInput {
      *
      * @return
      */
-    public String[] getNames(){
+    public String[] getNames() {
         List<String> list = new ArrayList<>();
         Iterator it = multipartRequest.getFileNames();
-        if(it.hasNext()){
-            list.add((String)it.next());
+        if (it.hasNext()) {
+            list.add((String) it.next());
         }
 
         int length = list.size();
-        if(length < 1){
+        if (length < 1) {
             return null;
         }
 
@@ -76,13 +72,13 @@ public class FileWebInput extends WebInput {
     /**
      * 保持上传文件域
      *
-     * @param name		上传文件域的名称
-     * @param file		保持的目标文件
+     * @param name 上传文件域的名称
+     * @param file 保持的目标文件
      * @throws IllegalStateException
      * @throws java.io.IOException
      */
-    public void saveFile(String name, File file) throws IllegalStateException, IOException{
-        if(StringUtils.isEmpty(name) || file == null || !file.exists()){
+    public void saveFile(String name, File file) throws IllegalStateException, IOException {
+        if (StringUtils.isEmpty(name) || file == null || !file.exists()) {
             log.error("this two paramters can't be null!and file must be exist!");
             return;
         }
@@ -93,18 +89,18 @@ public class FileWebInput extends WebInput {
     /**
      * 保持上传文件域
      *
-     * @param name			上传文件域的名称
-     * @param fileName		保持的目标文件路径
+     * @param name     上传文件域的名称
+     * @param fileName 保持的目标文件路径
      * @throws IllegalStateException
      * @throws java.io.IOException
      */
-    public void saveFile(String name, String fileName) throws IllegalStateException, IOException{
-        if(StringUtils.isEmpty(name) || StringUtils.isEmpty(fileName)){
+    public void saveFile(String name, String fileName) throws IllegalStateException, IOException {
+        if (StringUtils.isEmpty(name) || StringUtils.isEmpty(fileName)) {
             log.error("this two paramters can't be null!");
             return;
         }
         File destFile = new File(fileName);
-        if(!destFile.canWrite() || !destFile.exists()){
+        if (!destFile.canWrite() || !destFile.exists()) {
             log.error("file must be exist and can be write!");
             return;
         }
@@ -114,11 +110,11 @@ public class FileWebInput extends WebInput {
     /**
      * 获取文件域的输入流
      *
-     * @param name			上传文件域的名称
+     * @param name 上传文件域的名称
      * @return
      * @throws java.io.IOException
      */
-    public InputStream getFileInputStream(String name) throws IOException{
+    public InputStream getFileInputStream(String name) throws IOException {
         MultipartFile f = multipartRequest.getFile(name);
         return f.getInputStream();
     }
@@ -126,11 +122,11 @@ public class FileWebInput extends WebInput {
     /**
      * 获取文件域的字符数组
      *
-     * @param name			上传文件域的名称
+     * @param name 上传文件域的名称
      * @return
      * @throws java.io.IOException
      */
-    public byte[] getFileBytes(String name) throws IOException{
+    public byte[] getFileBytes(String name) throws IOException {
         MultipartFile f = multipartRequest.getFile(name);
         return f.getBytes();
     }
@@ -138,21 +134,21 @@ public class FileWebInput extends WebInput {
     /**
      * 根据域的名称获取上传的文件
      *
-     * @param name			上传文件域的名称
+     * @param name 上传文件域的名称
      * @return
      */
-    public MultipartFile getFile(String name){
+    public MultipartFile getFile(String name) {
         return multipartRequest.getFile(name);
     }
 
     /**
      * 将文件保存到一个输出流中
      *
-     * @param name			上传文件域的名称
-     * @param out			输出流
+     * @param name 上传文件域的名称
+     * @param out  输出流
      * @throws java.io.IOException
      */
-    public void copyFileTo(String name, OutputStream out) throws IOException{
+    public void copyFileTo(String name, OutputStream out) throws IOException {
         MultipartFile f = multipartRequest.getFile(name);
         InputStream in = f.getInputStream();
         IOUtils.copy(in, out);
@@ -161,12 +157,12 @@ public class FileWebInput extends WebInput {
     /**
      * 将文件按照给定的编码转成字符串
      *
-     * @param name			上传文件域的名称
-     * @param encoding		指定编码
+     * @param name     上传文件域的名称
+     * @param encoding 指定编码
      * @return
      * @throws java.io.IOException
      */
-    public String copyFileToString(String name, String encoding) throws IOException{
+    public String copyFileToString(String name, String encoding) throws IOException {
         MultipartFile f = multipartRequest.getFile(name);
         InputStream in = f.getInputStream();
 
@@ -176,12 +172,12 @@ public class FileWebInput extends WebInput {
     /**
      * 将文件按照制定编码保存到writer中
      *
-     * @param name			上传文件域的名称
-     * @param out			writer
-     * @param encoding		指定编码
+     * @param name     上传文件域的名称
+     * @param out      writer
+     * @param encoding 指定编码
      * @throws java.io.IOException
      */
-    public void copyFileToWriter(String name, Writer out, String encoding) throws IOException{
+    public void copyFileToWriter(String name, Writer out, String encoding) throws IOException {
         MultipartFile f = multipartRequest.getFile(name);
         InputStream in = f.getInputStream();
 

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.mybatis.utils;
+package lodsve.mybatis.repository.helper;
 
 import lodsve.mybatis.repository.provider.BaseMapperProvider;
 import lodsve.mybatis.repository.provider.EmptyMapperProvider;
@@ -23,6 +23,7 @@ import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.mapping.MappedStatement;
 
 import java.lang.reflect.Method;
@@ -37,28 +38,28 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  */
-public class MapperUtils {
+public class MapperHelper {
     public static final String PROVIDER_METHOD_NAME = "dynamicSQL";
     public static final String STRING_POINT = ".";
 
     /**
      * 注册的通用Mapper接口
      */
-    private Map<Class<?>, BaseMapperProvider> registerMapper = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, BaseMapperProvider> REGISTER_MAPPER = new ConcurrentHashMap<>();
 
     /**
      * 缓存msid和MapperTemplate
      */
-    private Map<String, BaseMapperProvider> msIdCache = new HashMap<>();
+    private static final Map<String, BaseMapperProvider> MS_ID_CACHE = new HashMap<>();
     /**
      * 缓存skip结果
      */
-    private final Map<String, Boolean> msIdSkip = new HashMap<>();
+    private static final Map<String, Boolean> MS_ID_SKIP = new HashMap<>();
 
     /**
      * 默认构造方法
      */
-    public MapperUtils() {
+    private MapperHelper() {
     }
 
     /**
@@ -67,17 +68,17 @@ public class MapperUtils {
      * @param msId msId
      * @return true/false
      */
-    public boolean isMapperMethod(String msId) {
-        if (msIdSkip.get(msId) != null) {
-            return msIdSkip.get(msId);
+    public static boolean isMapperMethod(String msId) {
+        if (MS_ID_SKIP.get(msId) != null) {
+            return MS_ID_SKIP.get(msId);
         }
-        for (Map.Entry<Class<?>, BaseMapperProvider> entry : registerMapper.entrySet()) {
+        for (Map.Entry<Class<?>, BaseMapperProvider> entry : REGISTER_MAPPER.entrySet()) {
             if (entry.getValue().supportMethod(msId)) {
-                msIdSkip.put(msId, true);
+                MS_ID_SKIP.put(msId, true);
                 return true;
             }
         }
-        msIdSkip.put(msId, false);
+        MS_ID_SKIP.put(msId, false);
         return false;
     }
 
@@ -87,11 +88,11 @@ public class MapperUtils {
      * @param ms        MappedStatement
      * @param parameter 参数
      */
-    public void setSqlSource(MappedStatement ms, Object parameter) {
+    public static void resetSqlSource(MappedStatement ms, MapperMethod.ParamMap parameter) {
         BaseMapperProvider baseMapperProvider = getMapperProvider(ms.getId());
         try {
             if (baseMapperProvider != null) {
-                baseMapperProvider.setSqlSource(ms, parameter);
+                baseMapperProvider.resetSqlSource(ms, parameter);
             }
         } catch (Exception e) {
             throw new RuntimeException("调用方法异常:" + e.getMessage());
@@ -104,18 +105,18 @@ public class MapperUtils {
      * @param msId msId
      * @return MapperTemplate
      */
-    public BaseMapperProvider getMapperProvider(String msId) {
+    public static BaseMapperProvider getMapperProvider(String msId) {
         BaseMapperProvider baseMapperProvider = null;
-        if (msIdCache.get(msId) != null) {
-            baseMapperProvider = msIdCache.get(msId);
+        if (MS_ID_CACHE.get(msId) != null) {
+            baseMapperProvider = MS_ID_CACHE.get(msId);
         } else {
-            for (Map.Entry<Class<?>, BaseMapperProvider> entry : registerMapper.entrySet()) {
+            for (Map.Entry<Class<?>, BaseMapperProvider> entry : REGISTER_MAPPER.entrySet()) {
                 if (entry.getValue().supportMethod(msId)) {
                     baseMapperProvider = entry.getValue();
                     break;
                 }
             }
-            msIdCache.put(msId, baseMapperProvider);
+            MS_ID_CACHE.put(msId, baseMapperProvider);
         }
         return baseMapperProvider;
     }
@@ -125,9 +126,9 @@ public class MapperUtils {
      *
      * @param mapperClass mapperClass
      */
-    public void registerMapper(Class<?> mapperClass) {
-        if (!registerMapper.containsKey(mapperClass)) {
-            registerMapper.put(mapperClass, fromMapperProvider(mapperClass));
+    public static void registerMapper(Class<?> mapperClass) {
+        if (!REGISTER_MAPPER.containsKey(mapperClass)) {
+            REGISTER_MAPPER.put(mapperClass, fromMapperProvider(mapperClass));
         }
         //自动注册继承的接口
         Class<?>[] interfaces = mapperClass.getInterfaces();
@@ -144,7 +145,7 @@ public class MapperUtils {
      * @param mapperClass mapperClass
      * @return MapperTemplate
      */
-    private BaseMapperProvider fromMapperProvider(Class<?> mapperClass) {
+    private static BaseMapperProvider fromMapperProvider(Class<?> mapperClass) {
         Method[] methods = mapperClass.getDeclaredMethods();
         Class<?> templateClass = null;
         Class<?> tempClass = null;
@@ -176,7 +177,7 @@ public class MapperUtils {
         }
         BaseMapperProvider mapperProvider;
         try {
-            mapperProvider = (BaseMapperProvider) templateClass.getConstructor(Class.class, MapperUtils.class).newInstance(mapperClass, this);
+            mapperProvider = (BaseMapperProvider) templateClass.getConstructor(Class.class).newInstance(mapperClass);
         } catch (Exception e) {
             throw new RuntimeException("实例化MapperTemplate对象失败:" + e.getMessage());
         }

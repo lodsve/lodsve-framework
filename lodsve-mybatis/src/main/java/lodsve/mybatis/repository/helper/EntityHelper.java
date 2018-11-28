@@ -15,12 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.mybatis.utils;
+package lodsve.mybatis.repository.helper;
 
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.repository.annotations.DisabledDate;
 import lodsve.mybatis.repository.annotations.LogicDelete;
 import lodsve.mybatis.repository.bean.*;
+import lodsve.mybatis.utils.SqlUtils;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -34,7 +35,7 @@ import java.util.*;
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  */
-public class EntityUtils {
+public class EntityHelper {
     /**
      * 实体类 => 表对象
      */

@@ -17,17 +17,15 @@
 
 package lodsve.mybatis.repository.provider;
 
+import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.repository.BaseRepository;
 import lodsve.mybatis.repository.annotations.LogicDelete;
-import lodsve.mybatis.repository.bean.ColumnBean;
-import lodsve.mybatis.repository.bean.DeleteColumn;
-import lodsve.mybatis.repository.bean.EntityTable;
-import lodsve.mybatis.repository.bean.IdColumn;
-import lodsve.mybatis.utils.EntityUtils;
-import lodsve.mybatis.utils.MapperUtils;
+import lodsve.mybatis.repository.bean.*;
+import lodsve.mybatis.repository.helper.EntityHelper;
 import org.apache.ibatis.mapping.MappedStatement;
 
 import java.io.Serializable;
+import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,8 +38,8 @@ import java.util.stream.Collectors;
  */
 public class MapperProvider extends BaseMapperProvider {
 
-    public MapperProvider(Class<?> mapperClass, MapperUtils mapperUtils) {
-        super(mapperClass, mapperUtils);
+    public MapperProvider(Class<?> mapperClass) {
+        super(mapperClass);
     }
 
     /**
@@ -53,7 +51,7 @@ public class MapperProvider extends BaseMapperProvider {
      */
     public String findById(MappedStatement ms) {
         Class<?> entityClass = getSelectReturnType(ms);
-        EntityTable table = EntityUtils.getEntityTable(entityClass);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
         IdColumn idColumn = table.getIdColumn();
         Set<ColumnBean> columnBeans = table.getColumns();
 
@@ -73,7 +71,7 @@ public class MapperProvider extends BaseMapperProvider {
      */
     public String findEnabledById(MappedStatement ms) {
         Class<?> entityClass = getSelectReturnType(ms);
-        EntityTable table = EntityUtils.getEntityTable(entityClass);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
         IdColumn idColumn = table.getIdColumn();
         DeleteColumn deleteColumn = table.getDeleteColumn();
         Set<ColumnBean> columnBeans = table.getColumns();
@@ -97,7 +95,7 @@ public class MapperProvider extends BaseMapperProvider {
      */
     public String findByIds(MappedStatement ms) {
         Class<?> entityClass = getSelectReturnType(ms);
-        EntityTable table = EntityUtils.getEntityTable(entityClass);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
         IdColumn idColumn = table.getIdColumn();
         Set<ColumnBean> columnBeans = table.getColumns();
 
@@ -118,7 +116,7 @@ public class MapperProvider extends BaseMapperProvider {
      */
     public String findEnabledByIds(MappedStatement ms) {
         Class<?> entityClass = getSelectReturnType(ms);
-        EntityTable table = EntityUtils.getEntityTable(entityClass);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
         IdColumn idColumn = table.getIdColumn();
         DeleteColumn deleteColumn = table.getDeleteColumn();
         Set<ColumnBean> columnBeans = table.getColumns();
@@ -143,7 +141,7 @@ public class MapperProvider extends BaseMapperProvider {
      */
     public String save(MappedStatement ms) {
         Class<?> entityClass = getSelectReturnType(ms);
-        EntityTable table = EntityUtils.getEntityTable(entityClass);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
         Set<ColumnBean> columnBeans = table.getColumns();
 
         String columns = columnBeans.stream().map(ColumnBean::getColumn).collect(Collectors.joining(", "));
@@ -163,7 +161,18 @@ public class MapperProvider extends BaseMapperProvider {
      * @see BaseRepository#batchSave(List)
      */
     public String batchSave(MappedStatement ms) {
-        return "";
+        Class<?> entityClass = getSelectReturnType(ms);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
+        Set<ColumnBean> columnBeans = table.getColumns();
+
+        String columns = columnBeans.stream().map(ColumnBean::getColumn).collect(Collectors.joining(", "));
+        String values = columnBeans.stream().map(c -> "#{item." + c.getProperty() + "}").collect(Collectors.joining(", "));
+        String batchValues = "<foreach collection=\"list\" item=\"item\" separator=\",\" open=\"\" close=\"\">(%s)</foreach>";
+
+        // 通过反射设置主键字段
+        setKeyColumn(table.getIdColumn(), ms);
+
+        return String.format("INSERT INTO %s (%s) VALUES %s", table.getName(), columns, String.format(batchValues, values));
     }
 
     /**
@@ -174,7 +183,22 @@ public class MapperProvider extends BaseMapperProvider {
      * @see BaseRepository#updateAll(Object)
      */
     public String updateAll(MappedStatement ms) {
-        return "";
+        Class<?> entityClass = getSelectReturnType(ms);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
+        IdColumn idColumn = table.getIdColumn();
+        VersionColumn versionColumn = EntityHelper.getVersionColumn(entityClass);
+        Set<ColumnBean> columnBeans = table.getColumns();
+
+        String columns = columnBeans.stream().filter(c -> {
+            boolean isId = StringUtils.equals(idColumn.getProperty(), c.getProperty());
+            boolean isVersion = versionColumn != null && StringUtils.equals(versionColumn.getProperty(), c.getProperty());
+
+            return !isId && !isVersion;
+        }).map(c -> c.getColumn() + " = #{" + c.getProperty() + "}").collect(Collectors.joining(", "));
+
+        String sql = "UPDATE %s SET %s WHERE %s";
+
+        return String.format(sql, table.getName(), columns, idColumn.getColumn() + " = #{" + idColumn.getProperty() + "}");
     }
 
     /**
@@ -185,7 +209,35 @@ public class MapperProvider extends BaseMapperProvider {
      * @see BaseRepository#update(Object)
      */
     public String update(MappedStatement ms) {
-        return "";
+        Class<?> entityClass = getSelectReturnType(ms);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
+        IdColumn idColumn = table.getIdColumn();
+        VersionColumn versionColumn = EntityHelper.getVersionColumn(entityClass);
+        Set<ColumnBean> columnBeans = table.getColumns();
+
+
+        StringBuilder whereAndSetSql = new StringBuilder();
+        whereAndSetSql.append("<trim prefix=\"SET\" suffixOverrides=\",\" suffix=\"WHERE ").append(idColumn.getColumn())
+                .append(" = #{").append(idColumn.getProperty()).append("}\">");
+
+        columnBeans.stream().filter(c -> {
+            boolean isId = StringUtils.equals(idColumn.getProperty(), c.getProperty());
+            boolean isVersion = versionColumn != null && StringUtils.equals(versionColumn.getProperty(), c.getProperty());
+
+            return !isId && !isVersion;
+        }).forEach(c -> {
+            String ifSqlEvenColumn = String.format("<if test=\"%s != null\">%s, </if>", c.getProperty(), c.getColumn() + " = #{" + c.getProperty() + "}");
+            if (String.class.equals(c.getJavaType())) {
+                ifSqlEvenColumn = String.format("<if test=\"%s != null and %s != ''\">%s, </if>", c.getProperty(), c.getProperty(), c.getColumn() + " = #{" + c.getProperty() + "}");
+            }
+
+            whereAndSetSql.append(ifSqlEvenColumn);
+        });
+        whereAndSetSql.append("</trim>");
+
+        String sql = "UPDATE %s %s";
+
+        return String.format(sql, table.getName(), whereAndSetSql.toString());
     }
 
     /**
@@ -197,7 +249,12 @@ public class MapperProvider extends BaseMapperProvider {
      * @see BaseRepository#deleteById(Serializable)
      */
     public String deleteById(MappedStatement ms) {
-        return "";
+        Class<?> entityClass = getSelectReturnType(ms);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
+        IdColumn idColumn = table.getIdColumn();
+
+        String sql = "DELETE FROM %s WHERE %s";
+        return String.format(sql, table.getName(), idColumn.getColumn() + " = #{" + idColumn.getProperty() + "}");
     }
 
     /**
@@ -207,8 +264,18 @@ public class MapperProvider extends BaseMapperProvider {
      * @return 生成的SQL语句
      * @see BaseRepository#logicDeleteById(Serializable)
      */
-    public String logicDeleteById(MappedStatement ms) {
-        return "";
+    public String logicDeleteById(MappedStatement ms) throws SQLSyntaxErrorException {
+        Class<?> entityClass = getSelectReturnType(ms);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
+        DeleteColumn deleteColumn = table.getDeleteColumn();
+
+        if (null == deleteColumn) {
+            throw new SQLSyntaxErrorException("不支持逻辑删除！没有@LogicDelete注解");
+        }
+        IdColumn idColumn = table.getIdColumn();
+
+        String sql = "UPDATE %s SET %s WHERE %s";
+        return String.format(sql, table.getName(), deleteColumn.getColumn() + " = " + deleteColumn.getDelete(), idColumn.getColumn() + " = #{" + idColumn.getProperty() + "}");
     }
 
     /**
@@ -218,8 +285,37 @@ public class MapperProvider extends BaseMapperProvider {
      * @return 生成的SQL语句
      * @see BaseRepository#logicDeleteByIdWithModifiedBy(Serializable, Long)
      */
-    public String logicDeleteByIdWithModifiedBy(MappedStatement ms) {
-        return "";
+    public String logicDeleteByIdWithModifiedBy(MappedStatement ms) throws SQLSyntaxErrorException {
+        Class<?> entityClass = getSelectReturnType(ms);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
+        DeleteColumn deleteColumn = EntityHelper.getDeleteColumn(entityClass);
+        if (null == deleteColumn) {
+            throw new SQLSyntaxErrorException("不支持逻辑删除！没有@LogicDelete注解");
+        }
+
+        IdColumn idColumn = EntityHelper.getIdColumn(entityClass);
+        LastModifiedByColumn modifiedByColumn = EntityHelper.getModifiedByColumn(entityClass);
+        LastModifiedDateColumn modifiedDateColumn = EntityHelper.getModifiedDateColumn(entityClass);
+        DisabledDateColumn disabledDateColumn = EntityHelper.getDisabledDateColumn(entityClass);
+
+        String sqlTemplate = "UPDATE %s SET %s WHERE %s";
+
+        // 逻辑删除
+        StringBuilder setSql = new StringBuilder();
+        setSql.append(deleteColumn.getColumn()).append(" = ").append(deleteColumn.getDelete()).append(", ");
+        // 更新人
+        if (modifiedByColumn != null) {
+            setSql.append(modifiedByColumn.getColumn()).append(" = #{").append(modifiedByColumn.getProperty()).append("}, ");
+        }
+        // 更新时间、禁用时间
+        if (modifiedDateColumn != null) {
+            setSql.append(modifiedDateColumn.getColumn()).append(" = #{").append(modifiedDateColumn.getProperty()).append("}, ");
+        }
+        if (disabledDateColumn != null) {
+            setSql.append(disabledDateColumn.getColumn()).append(" = #{").append(disabledDateColumn.getProperty()).append("}, ");
+        }
+
+        return String.format(sqlTemplate, table.getName(), setSql.substring(0, setSql.length() - 2), idColumn.getColumn() + " = #{" + idColumn.getProperty() + "}");
     }
 
     /**
@@ -230,7 +326,10 @@ public class MapperProvider extends BaseMapperProvider {
      * @see BaseRepository#count()
      */
     public String count(MappedStatement ms) {
-        return "";
+        Class<?> entityClass = getSelectReturnType(ms);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
+
+        return String.format("SELECT COUNT(1) FROM %s", table.getName());
     }
 
     /**
@@ -243,7 +342,11 @@ public class MapperProvider extends BaseMapperProvider {
      * @see BaseRepository#countEnabled()
      */
     public String countEnabled(MappedStatement ms) {
-        return "";
+        Class<?> entityClass = getSelectReturnType(ms);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
+        DeleteColumn deleteColumn = table.getDeleteColumn();
+
+        return String.format("SELECT COUNT(1) FROM %s WHERE %s", table.getName(), deleteColumn.getColumn() + " = " + deleteColumn.getNonDelete());
     }
 
     /**
@@ -254,7 +357,11 @@ public class MapperProvider extends BaseMapperProvider {
      * @see BaseRepository#isExist(Serializable)
      */
     public String isExist(MappedStatement ms) {
-        return "";
+        Class<?> entityClass = getSelectReturnType(ms);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
+        IdColumn idColumn = table.getIdColumn();
+
+        return String.format("SELECT COUNT(1) FROM %s WHERE %s", table.getName(), idColumn.getColumn() + " = #{" + idColumn.getProperty() + "}");
     }
 
     /**
@@ -265,6 +372,12 @@ public class MapperProvider extends BaseMapperProvider {
      * @see BaseRepository#isExistEnabled(Serializable)
      */
     public String isExistEnabled(MappedStatement ms) {
-        return "";
+        Class<?> entityClass = getSelectReturnType(ms);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
+        IdColumn idColumn = table.getIdColumn();
+        DeleteColumn deleteColumn = table.getDeleteColumn();
+
+        String whereSql = idColumn.getColumn() + " = #{" + idColumn.getProperty() + "} AND " + deleteColumn.getColumn() + " = " + deleteColumn.getNonDelete();
+        return String.format("SELECT COUNT(1) FROM %s WHERE %s", table.getName(), whereSql);
     }
 }

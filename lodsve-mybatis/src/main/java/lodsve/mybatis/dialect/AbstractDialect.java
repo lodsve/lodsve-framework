@@ -42,8 +42,8 @@ public abstract class AbstractDialect implements Dialect {
 
     @Override
     public boolean existTable(String tableName, DataSource dataSource) throws SQLException {
-        Assert.notNull(dataSource);
-        Assert.hasText(tableName);
+        Assert.notNull(dataSource, "dataSource must be non-null!");
+        Assert.hasText(tableName, "dataSource must be non-null!");
 
 
         Connection connection = null;

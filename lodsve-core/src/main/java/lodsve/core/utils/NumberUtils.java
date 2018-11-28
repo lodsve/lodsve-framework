@@ -23,7 +23,7 @@ package lodsve.core.utils;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2012-4-28 上午10:36:12
  */
-public class NumberUtils extends org.apache.commons.lang.math.NumberUtils {
+public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils {
     /**
      * 私有化构造器
      */
@@ -59,7 +59,7 @@ public class NumberUtils extends org.apache.commons.lang.math.NumberUtils {
     public static int[] reduction(int numerator, int denominator) {
         int commonDivisor = getMaxCommonDivisor(numerator, denominator);
 
-        return new int[]{(int) numerator / commonDivisor, (int) denominator / commonDivisor};
+        return new int[]{numerator / commonDivisor, denominator / commonDivisor};
     }
 
     /**

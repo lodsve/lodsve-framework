@@ -21,13 +21,11 @@ import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.plugins.pagination.PaginationInterceptor;
 import lodsve.mybatis.plugins.repository.BaseRepositoryInterceptor;
 import lodsve.mybatis.type.TypeHandlerScanner;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.ibatis.plugin.Interceptor;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.TypeHandler;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 扩展mybatis的configuration，加入以下内容：.
@@ -41,12 +39,10 @@ import java.util.List;
  */
 public class LodsveConfigurationCustomizer implements ConfigurationCustomizer {
     private boolean mapUnderscoreToCamelCase;
-    private Interceptor[] plugins;
     private String[] enumsLocations;
 
-    public LodsveConfigurationCustomizer(boolean mapUnderscoreToCamelCase, Interceptor[] plugins, String[] enumsLocations) {
+    public LodsveConfigurationCustomizer(boolean mapUnderscoreToCamelCase, String[] enumsLocations) {
         this.mapUnderscoreToCamelCase = mapUnderscoreToCamelCase;
-        this.plugins = plugins;
         this.enumsLocations = enumsLocations;
     }
 
@@ -56,9 +52,6 @@ public class LodsveConfigurationCustomizer implements ConfigurationCustomizer {
 
         configuration.addInterceptor(new PaginationInterceptor());
         configuration.addInterceptor(new BaseRepositoryInterceptor());
-
-        List<Interceptor> interceptors = configuration.getInterceptors();
-        Arrays.stream(plugins).filter(plugins -> !interceptors.contains(plugins)).forEach(configuration::addInterceptor);
 
         if (ArrayUtils.isNotEmpty(enumsLocations)) {
             TypeHandler<?>[] handlers = new TypeHandlerScanner().find(StringUtils.join(enumsLocations, ","));

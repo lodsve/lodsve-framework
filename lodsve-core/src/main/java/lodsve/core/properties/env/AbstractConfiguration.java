@@ -17,22 +17,14 @@
 
 package lodsve.core.properties.env;
 
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Properties;
-import java.util.Set;
-
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.ClassUtils;
-import org.apache.commons.lang.ObjectUtils;
+import java.util.*;
 
 abstract class AbstractConfiguration implements Configuration {
 
@@ -43,10 +35,14 @@ abstract class AbstractConfiguration implements Configuration {
      */
     protected static final char DISABLED_DELIMITER = '\0';
 
-    /** The default value for listDelimiter */
+    /**
+     * The default value for listDelimiter
+     */
     private static char defaultListDelimiter = ',';
 
-    /** Delimiter used to convert single values to lists */
+    /**
+     * Delimiter used to convert single values to lists
+     */
     private char listDelimiter = defaultListDelimiter;
 
     /**
@@ -172,8 +168,7 @@ abstract class AbstractConfiguration implements Configuration {
 
     @Override
     public boolean getBoolean(String key, boolean defaultValue) {
-        return getBoolean(key, BooleanUtils.toBooleanObject(defaultValue))
-                .booleanValue();
+        return getBoolean(key, BooleanUtils.toBoolean(defaultValue));
     }
 
     @Override
@@ -535,7 +530,7 @@ abstract class AbstractConfiguration implements Configuration {
 
         if (value instanceof String) {
             list = new ArrayList<Object>(1);
-            list.add((String) value);
+            list.add(value);
         } else if (value instanceof List) {
             list = new ArrayList<Object>();
             List<?> l = (List<?>) value;
@@ -549,7 +544,7 @@ abstract class AbstractConfiguration implements Configuration {
         } else if (value.getClass().isArray()) {
             return Arrays.asList((Object[]) value);
         } else if (isScalarValue(value)) {
-            return Collections.singletonList((Object) value.toString());
+            return Collections.singletonList(value.toString());
         } else {
             throw new ConversionException('\'' + key
                     + "' doesn't map to a List object: " + value + ", a "

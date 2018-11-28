@@ -26,7 +26,7 @@ import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationPropert
 import lodsve.core.utils.StringUtils;
 import lodsve.web.mvc.properties.ServerProperties;
 import lodsve.web.springfox.properties.SpringFoxProperties;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;

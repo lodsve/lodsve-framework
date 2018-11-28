@@ -17,7 +17,6 @@
 
 package lodsve.mybatis.plugins.monitor;
 
-import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.exception.MyBatisException;
 import lodsve.mybatis.utils.PluginUtils;
 import lodsve.mybatis.utils.SqlUtils;
@@ -120,17 +119,17 @@ public class MonitorInterceptor implements Interceptor {
 
     @Override
     public void setProperties(Properties prop) {
-        String maxTime = prop.getProperty("maxTime");
-        String format = prop.getProperty("format");
-        String writeInLog = prop.getProperty("writeInLog");
-        if (StringUtils.isNotEmpty(maxTime)) {
-            this.maxTime = Long.parseLong(maxTime);
-        }
-        if (StringUtils.isNotEmpty(format)) {
-            this.format = Boolean.valueOf(format);
-        }
-        if (StringUtils.isNotEmpty(writeInLog)) {
-            this.writeInLog = Boolean.valueOf(writeInLog);
-        }
+    }
+
+    public void setMaxTime(long maxTime) {
+        this.maxTime = maxTime;
+    }
+
+    public void setFormat(boolean format) {
+        this.format = format;
+    }
+
+    public void setWriteInLog(boolean writeInLog) {
+        this.writeInLog = writeInLog;
     }
 }

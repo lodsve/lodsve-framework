@@ -19,10 +19,10 @@ package lodsve.mybatis.plugins.repository;
 
 import lodsve.mybatis.repository.BaseRepository;
 import lodsve.mybatis.repository.bean.*;
+import lodsve.mybatis.repository.helper.EntityHelper;
+import lodsve.mybatis.repository.helper.MapperHelper;
 import lodsve.mybatis.repository.provider.BaseMapperProvider;
 import lodsve.mybatis.repository.provider.ExternalProvider;
-import lodsve.mybatis.utils.EntityUtils;
-import lodsve.mybatis.utils.MapperUtils;
 import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.apache.ibatis.builder.annotation.ProviderSqlSource;
 import org.apache.ibatis.executor.Executor;
@@ -30,6 +30,7 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.util.Assert;
 
 import java.sql.SQLSyntaxErrorException;
 import java.time.LocalDateTime;
@@ -47,21 +48,20 @@ import java.util.ServiceLoader;
         @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})
 })
 public class BaseRepositoryInterceptor implements Interceptor {
-    private final MapperUtils mapperUtils = new MapperUtils();
-    private final static String LOGIC_DELETE_WITH_MODIFIED_BY_MAPPED_STATEMENT_ID = "logicDeleteWithModifiedBy";
+    private final static String LOGIC_DELETE_WITH_MODIFIED_BY_MAPPED_STATEMENT_ID = "logicDeleteByIdWithModifiedBy";
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         Object[] objects = invocation.getArgs();
         MappedStatement ms = (MappedStatement) objects[0];
         // 参数
-        Object parameter = objects[1];
+        ParamMap parameter = ((objects[1] instanceof ParamMap) ? (ParamMap) objects[1] : null);
         String msId = ms.getId();
         //不需要拦截的方法直接返回
-        if (mapperUtils.isMapperMethod(msId)) {
+        if (MapperHelper.isMapperMethod(msId)) {
             // 第一次经过处理后，就不会是ProviderSqlSource了，一开始高并发时可能会执行多次，但不影响。以后就不会在执行了
             if (ms.getSqlSource() instanceof ProviderSqlSource) {
-                mapperUtils.setSqlSource(ms, parameter);
+                MapperHelper.resetSqlSource(ms, parameter);
             }
         }
 
@@ -75,10 +75,10 @@ public class BaseRepositoryInterceptor implements Interceptor {
 
     @Override
     public Object plugin(Object target) {
-        mapperUtils.registerMapper(BaseRepository.class);
+        MapperHelper.registerMapper(BaseRepository.class);
 
         ServiceLoader<ExternalProvider> serviceLoader = ServiceLoader.load(ExternalProvider.class);
-        serviceLoader.iterator().forEachRemaining(obj -> obj.provider().stream().filter(Class::isInterface).forEach(mapperUtils::registerMapper));
+        serviceLoader.iterator().forEachRemaining(obj -> obj.provider().stream().filter(Class::isInterface).forEach(MapperHelper::registerMapper));
 
         if (target instanceof Executor) {
             return Plugin.wrap(target, this);
@@ -92,34 +92,32 @@ public class BaseRepositoryInterceptor implements Interceptor {
 
     }
 
-    private void handleParams(MappedStatement ms, Object parameter) throws SQLSyntaxErrorException {
-        BaseMapperProvider mapperProvider = mapperUtils.getMapperProvider(ms.getId());
+    private void handleParams(MappedStatement ms, ParamMap parameter) throws SQLSyntaxErrorException {
+        Assert.notNull(parameter, "parameter must be non-null!");
+
+        BaseMapperProvider mapperProvider = MapperHelper.getMapperProvider(ms.getId());
 
         Class<?> entityClass = mapperProvider.getSelectReturnType(ms);
-        DeleteColumn deleteColumn = EntityUtils.getDeleteColumn(entityClass);
+        DeleteColumn deleteColumn = EntityHelper.getDeleteColumn(entityClass);
         if (null == deleteColumn) {
             throw new SQLSyntaxErrorException("不支持逻辑删除！没有@LogicDelete注解");
         }
 
-        IdColumn idColumn = EntityUtils.getIdColumn(entityClass);
-        LastModifiedByColumn modifiedByColumn = EntityUtils.getModifiedByColumn(entityClass);
-        LastModifiedDateColumn modifiedDateColumn = EntityUtils.getModifiedDateColumn(entityClass);
-        DisabledDateColumn disabledDateColumn = EntityUtils.getDisabledDateColumn(entityClass);
+        IdColumn idColumn = EntityHelper.getIdColumn(entityClass);
+        LastModifiedByColumn modifiedByColumn = EntityHelper.getModifiedByColumn(entityClass);
+        LastModifiedDateColumn modifiedDateColumn = EntityHelper.getModifiedDateColumn(entityClass);
+        DisabledDateColumn disabledDateColumn = EntityHelper.getDisabledDateColumn(entityClass);
 
         handleParamMap(parameter, idColumn, modifiedByColumn, modifiedDateColumn, disabledDateColumn);
     }
 
 
     @SuppressWarnings("unchecked")
-    private void handleParamMap(Object parameter, IdColumn idColumn, LastModifiedByColumn modifiedByColumn, LastModifiedDateColumn modifiedDateColumn, DisabledDateColumn disabledDateColumn) throws SQLSyntaxErrorException {
+    private void handleParamMap(ParamMap parameter, IdColumn idColumn, LastModifiedByColumn modifiedByColumn, LastModifiedDateColumn modifiedDateColumn, DisabledDateColumn disabledDateColumn) throws SQLSyntaxErrorException {
         // 修改参数
-        if (!(parameter instanceof ParamMap)) {
-            throw new SQLSyntaxErrorException("参数类型不正确！");
-        }
-
         ParamMap<Object> paramMap = (ParamMap<Object>) parameter;
-        Object id = ((ParamMap) parameter).get("arg0");
-        Object modifiedBy = ((ParamMap) parameter).get("arg1");
+        Object id = parameter.get("arg0");
+        Object modifiedBy = parameter.get("arg1");
         paramMap.remove("arg0");
         paramMap.remove("arg1");
         paramMap.remove("param1");

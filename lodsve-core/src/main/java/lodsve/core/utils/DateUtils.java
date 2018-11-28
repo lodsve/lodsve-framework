@@ -19,15 +19,16 @@ package lodsve.core.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 时间的工具类
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @see org.apache.commons.lang.time.DateUtils
+ * @see org.apache.commons.lang3.time.DateUtils
  */
-public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
+public final class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 
     /**
      * 私有化构造器
@@ -81,7 +82,7 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * 获取给定时间的那天的最后时刻
      *
      * @param day 给定时间(em.2011-01-25 22:11:00...)
-     * @return 给定时间的那天的最后时刻(em.2011-01-25 23:59:59...)
+     * @return 给定时间的那天的最后时刻(em.2011 - 01 - 25 23 : 59 : 59...)
      */
     public static Date getEndOfDay(Date day) {
         if (day == null) {
@@ -101,7 +102,7 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * 获取给定时间的那天的开始时刻
      *
      * @param day 给定时间(em.2011-01-25 22:11:00...)
-     * @return 给定时间的那天的最后时刻(em.2011-01-25 00:00:00...)
+     * @return 给定时间的那天的最后时刻(em.2011 - 01 - 25 00 : 00 : 00...)
      */
     public static Date getStartOfDay(Date day) {
         if (day == null) {
@@ -121,7 +122,7 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * 获取给定时间的那个月的最后时刻
      *
      * @param day 给定时间(em.2011-01-25 22:11:00...)
-     * @return 给定时间的那个月的最后时刻(em.2011-01-31 23:59:59...)
+     * @return 给定时间的那个月的最后时刻(em.2011 - 01 - 31 23 : 59 : 59...)
      */
     public static Date getEndOfMonth(Date day) {
         if (day == null) {
@@ -149,7 +150,7 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * 获取给定时间的那个月的开始时刻
      *
      * @param day 给定时间(em.2011-01-25 22:11:00...)
-     * @return 给定时间的那个月的开始时刻(em.2011-01-01 00:00:00...)
+     * @return 给定时间的那个月的开始时刻(em.2011 - 01 - 01 00 : 00 : 00...)
      */
     public static Date getStartOfMonth(Date day) {
         if (day == null) {
@@ -173,7 +174,7 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      * 获取给定时间的那天的正午时刻
      *
      * @param day 给定时间(em.2011-01-25 22:11:00...)
-     * @return 给定时间的那天的最后时刻(em.2011-01-25 12:00:00...)
+     * @return 给定时间的那天的最后时刻(em.2011 - 01 - 25 12 : 00 : 00...)
      */
     public static Date getNoonOfDay(Date day) {
         if (day == null) {
@@ -254,7 +255,7 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      *
      * @param date 给定的日期(eg:2015-06-02 12:00)
      * @param days 间隔的天数，正数是给定时间往后，负数是给定时间往前(eg:-1 or 1)
-     * @return 计算出来的日期(eg:2015-06-01 12:00 or 2015-06-03 12:00)<br>
+     * @return 计算出来的日期(eg : 2015 - 06 - 01 12 : 00 or 2015 - 06 - 03 12 : 00)<br>
      */
     public static Date intervalSomeDays(Date date, int days) {
         if (date == null) {
@@ -273,7 +274,7 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      *
      * @param date   给定的日期(eg:2015-06-02 12:00)
      * @param months 间隔的月数，正数是给定时间往后，负数是给定时间往前(eg:-1 or 1)
-     * @return 计算出来的日期(eg:2015-05-02 12:00 or 2015-07-02 12:00)<br>
+     * @return 计算出来的日期(eg : 2015 - 05 - 02 12 : 00 or 2015 - 07 - 02 12 : 00)<br>
      */
     public static Date intervalSomeMonths(Date date, int months) {
         if (date == null) {
@@ -292,7 +293,7 @@ public final class DateUtils extends org.apache.commons.lang.time.DateUtils {
      *
      * @param date  给定的日期(eg:2015-06-02 12:00)
      * @param years 间隔的月数，正数是给定时间往后，负数是给定时间往前(eg:-1 or 1)
-     * @return 计算出来的日期(eg:2014-06-02 12:00 or 2016-06-02 12:00)<br>
+     * @return 计算出来的日期(eg : 2014 - 06 - 02 12 : 00 or 2016 - 06 - 02 12 : 00)<br>
      */
     public static Date intervalSomeYears(Date date, int years) {
         if (date == null) {

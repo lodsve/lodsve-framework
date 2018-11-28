@@ -37,7 +37,7 @@ public class GenericUtils {
     }
 
     public static <T> Class<T> getGenericParameter(Class clazz, int index) {
-        Type genType = clazz.getGenericSuperclass();
+        Type genType = clazz.isInterface() ? clazz.getGenericInterfaces()[0] : clazz.getGenericSuperclass();
         if (genType instanceof ParameterizedType) {
             return getGenericParameter((ParameterizedType) genType, index);
         }

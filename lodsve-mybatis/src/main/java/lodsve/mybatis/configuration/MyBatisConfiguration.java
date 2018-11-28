@@ -17,6 +17,8 @@
 
 package lodsve.mybatis.configuration;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -38,15 +40,20 @@ import java.util.List;
 public class MyBatisConfiguration {
     private static final String DATA_SOURCE_BEAN_NAME = "lodsveDataSource";
     private final List<ConfigurationCustomizer> customizers;
+    private final Interceptor[] interceptors;
 
-    public MyBatisConfiguration(ObjectProvider<List<ConfigurationCustomizer>> customizers) {
+    public MyBatisConfiguration(ObjectProvider<List<ConfigurationCustomizer>> customizers, ObjectProvider<Interceptor[]> interceptors) {
         this.customizers = customizers.getIfAvailable();
+        this.interceptors = interceptors.getIfAvailable();
     }
 
     @Bean
     public SqlSessionFactory sqlSessionFactory(@Qualifier(DATA_SOURCE_BEAN_NAME) DataSource dataSource) throws Exception {
         SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
         factory.setDataSource(dataSource);
+        if (ArrayUtils.isNotEmpty(interceptors)) {
+            factory.setPlugins(interceptors);
+        }
 
         Configuration configuration = new Configuration();
         customizers.forEach(c -> c.customize(configuration));

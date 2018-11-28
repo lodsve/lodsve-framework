@@ -19,7 +19,6 @@ package lodsve.mybatis.annotations;
 
 import lodsve.core.configuration.EnableLodsve;
 import lodsve.mybatis.configuration.MyBatisConfiguration;
-import org.apache.ibatis.plugin.Interceptor;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Repository;
 
@@ -67,11 +66,4 @@ public @interface EnableMyBatis {
      * @return true/false
      */
     boolean mapUnderscoreToCamelCase() default true;
-
-    /**
-     * 启用的插件，默认启用[分页、BaseDAO]
-     *
-     * @return 启用的插件
-     */
-    Class<? extends Interceptor>[] plugins() default {};
 }

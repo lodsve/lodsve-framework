@@ -29,7 +29,7 @@ public enum DbType {
     /**
      * 数据库类型
      */
-    DB_ORACLE("O", "Oracle"), DB_MYSQL("M", "MySQL");
+    DB_ORACLE("O", "Oracle"), DB_MYSQL("M", "MySQL"), DB_HSQL("H", "HSQL Database Engine"), DB_SQL_SERVER("S", "SqlServer");
 
     /**
      * DbType

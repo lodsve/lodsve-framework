@@ -19,10 +19,13 @@ package lodsve.mybatis.repository.provider;
 
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.repository.bean.IdColumn;
-import lodsve.mybatis.utils.MapperUtils;
+import lodsve.mybatis.repository.helper.MapperHelper;
 import lodsve.mybatis.utils.MyBatisUtils;
+import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
+import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.scripting.xmltags.DynamicSqlSource;
 import org.apache.ibatis.scripting.xmltags.SqlNode;
 import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
@@ -43,15 +46,13 @@ public class BaseMapperProvider {
     private XMLLanguageDriver languageDriver = new XMLLanguageDriver();
     private Map<String, Method> methodMap = new HashMap<>();
     private Class<?> mapperClass;
-    private MapperUtils mapperUtils;
 
-    public BaseMapperProvider(Class<?> mapperClass, MapperUtils mapperUtils) {
+    public BaseMapperProvider(Class<?> mapperClass) {
         this.mapperClass = mapperClass;
-        this.mapperUtils = mapperUtils;
     }
 
     public String dynamicSQL(Object record) {
-        return MapperUtils.PROVIDER_METHOD_NAME;
+        return MapperHelper.PROVIDER_METHOD_NAME;
     }
 
     /**
@@ -96,7 +97,7 @@ public class BaseMapperProvider {
      * @return 接口类
      */
     private static Class<?> getMapperClass(String msId) {
-        if (!msId.contains(MapperUtils.STRING_POINT)) {
+        if (!msId.contains(MapperHelper.STRING_POINT)) {
             throw new RuntimeException("当前MappedStatement的id=" + msId + ",不符合MappedStatement的规则!");
         }
         String mapperClassStr = msId.substring(0, msId.lastIndexOf("."));
@@ -113,7 +114,7 @@ public class BaseMapperProvider {
      * @param ms        ms
      * @param parameter 参数
      */
-    public void setSqlSource(MappedStatement ms, Object parameter) {
+    public void resetSqlSource(MappedStatement ms, MapperMethod.ParamMap parameter) {
         Method method = methodMap.get(getMethodName(ms));
 
         if (method.getReturnType() == Void.TYPE) {
@@ -132,7 +133,18 @@ public class BaseMapperProvider {
         }
     }
 
-    private Object invoke(Method method, Object target, MappedStatement ms, Object parameter) {
+    /**
+     * 重新设置SqlSource
+     *
+     * @param ms        ms
+     * @param sqlSource sqlSource
+     */
+    private void setSqlSource(MappedStatement ms, SqlSource sqlSource) {
+        MetaObject msObject = SystemMetaObject.forObject(ms);
+        msObject.setValue("sqlSource", sqlSource);
+    }
+
+    private Object invoke(Method method, Object target, MappedStatement ms, MapperMethod.ParamMap parameter) {
         try {
             return method.invoke(target, ms);
         } catch (Exception e) {
@@ -196,11 +208,11 @@ public class BaseMapperProvider {
      * @param idColumn 主键字段
      * @param ms       MappedStatement
      */
-    void setKeyColumn(IdColumn idColumn, MappedStatement ms) {
+    public void setKeyColumn(IdColumn idColumn, MappedStatement ms) {
         if (StringUtils.isBlank(idColumn.getProperty())) {
             return;
         }
 
-        MyBatisUtils.forObject(ms).setValue("keyProperties", idColumn.getProperty());
+        MyBatisUtils.forObject(ms).setValue("keyProperties", new String[]{idColumn.getProperty()});
     }
 }

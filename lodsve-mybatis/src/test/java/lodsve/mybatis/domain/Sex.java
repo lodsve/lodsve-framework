@@ -14,23 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package lodsve.mybatis.repository.provider;
+package lodsve.mybatis.domain;
 
 /**
- * 空方法Mapper接口默认MapperTemplate<br/>
- * 如BaseSelectMapper，接口纯继承，不包含任何方法.
+ * .
  *
- * @author sunhao(sunhao.java @ gmail.com)
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  */
-public class EmptyMapperProvider extends BaseMapperProvider {
+public enum Sex {
+    MALE("男"), FEMALE("女");
 
-    public EmptyMapperProvider(Class<?> mapperClass) {
-        super(mapperClass);
+    private String title;
+
+    Sex(String title) {
+        this.title = title;
     }
 
-    @Override
-    public boolean supportMethod(String msId) {
-        return false;
+    public String getTitle() {
+        return title;
     }
 }
