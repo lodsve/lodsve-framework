@@ -17,15 +17,6 @@
 
 package lodsve.mybatis.configuration;
 
-import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
-import lodsve.mybatis.key.IDGenerator;
-import lodsve.mybatis.key.mysql.MySQLIDGenerator;
-import lodsve.mybatis.key.oracle.OracleIDGenerator;
-import lodsve.mybatis.key.snowflake.SnowflakeIdGenerator;
-import lodsve.mybatis.properties.MyBatisProperties;
-import lodsve.mybatis.utils.DbType;
-import lodsve.mybatis.utils.MyBatisUtils;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -44,33 +35,12 @@ import java.util.List;
  * @date 16/1/19 下午10:21
  */
 @org.springframework.context.annotation.Configuration
-@EnableConfigurationProperties(MyBatisProperties.class)
 public class MyBatisConfiguration {
-    public static final String DATA_SOURCE_BEAN_NAME = "lodsveDataSource";
-    private MyBatisProperties myBatisProperties;
+    private static final String DATA_SOURCE_BEAN_NAME = "lodsveDataSource";
     private final List<ConfigurationCustomizer> customizers;
 
     public MyBatisConfiguration(ObjectProvider<List<ConfigurationCustomizer>> customizers) {
         this.customizers = customizers.getIfAvailable();
-        this.myBatisProperties = new RelaxedBindFactory.Builder<>(MyBatisProperties.class).build();
-    }
-
-    @Bean
-    public IDGenerator idGenerator(@Qualifier(DATA_SOURCE_BEAN_NAME) DataSource dataSource) {
-        DbType type = MyBatisUtils.getDbType(dataSource);
-        switch (type) {
-            case DB_MYSQL:
-                MySQLIDGenerator mySQLIDGenerator = new MySQLIDGenerator();
-                mySQLIDGenerator.setDataSource(dataSource);
-                mySQLIDGenerator.setCacheSize(myBatisProperties.getKeyCacheSize());
-                return mySQLIDGenerator;
-            case DB_ORACLE:
-                OracleIDGenerator oracleIDGenerator = new OracleIDGenerator();
-                oracleIDGenerator.setDataSource(dataSource);
-                return oracleIDGenerator;
-            default:
-                return new SnowflakeIdGenerator();
-        }
     }
 
     @Bean
