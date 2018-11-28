@@ -48,10 +48,7 @@ public class RdbmsConfiguration {
     @ConditionalOnClass(StatViewServlet.class)
     @ConditionalOnWebApplication
     public DruidInitializer druidInitializer(DruidProperties druidProperties) {
-        DruidInitializer initializingBean = new DruidInitializer();
-        initializingBean.setDruidProperties(druidProperties);
-
-        return initializingBean;
+        return new DruidInitializer(druidProperties);
     }
 
     @Configuration
