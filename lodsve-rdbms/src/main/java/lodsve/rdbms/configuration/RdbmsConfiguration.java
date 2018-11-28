@@ -8,6 +8,7 @@
 package lodsve.rdbms.configuration;
 
 import com.alibaba.druid.support.http.StatViewServlet;
+import com.google.common.collect.Lists;
 import lodsve.core.condition.ConditionalOnClass;
 import lodsve.core.condition.ConditionalOnMissingBean;
 import lodsve.core.condition.ConditionalOnWebApplication;
@@ -24,13 +25,13 @@ import lodsve.rdbms.properties.RdbmsProperties;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.*;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 /**
- * .
+ * 关系型数据库数据源配置.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  */
@@ -48,7 +49,9 @@ public class RdbmsConfiguration {
     @ConditionalOnClass(StatViewServlet.class)
     @ConditionalOnWebApplication
     public DruidInitializer druidInitializer(DruidProperties druidProperties) {
-        return new DruidInitializer(druidProperties);
+        DruidInitializer initializer = new DruidInitializer();
+        initializer.setDruidProperties(druidProperties);
+        return initializer;
     }
 
     @Configuration
@@ -63,18 +66,24 @@ public class RdbmsConfiguration {
         }
 
         @Bean(name = Constants.FLYWAY_BEAN_NAME)
-        public Flyway flyway(@Qualifier(Constants.DATA_SOURCE_BEAN_NAME) DataSource dataSource, FlywayProperties flywayProperties) {
-            Flyway flyway = new Flyway();
-            flyway.setDataSource(dataSource);
-            flyway.setLocations(flywayProperties.getLocations());
+        public List<Flyway> flyway(List<DataSource> dataSources, FlywayProperties flywayProperties) {
 
-            return flyway;
+            List<Flyway> flyways = Lists.newArrayList();
+            dataSources.forEach(d -> {
+                Flyway flyway = new Flyway();
+                flyway.setDataSource(d);
+                flyway.setLocations(flywayProperties.getLocations());
+
+                flyways.add(flyway);
+            });
+
+            return flyways;
         }
 
         @Bean
         @ConditionalOnMissingBean
-        public FlywayMigrationInitializer flywayInitializer(Flyway flyway) {
-            return new FlywayMigrationInitializer(flyway, this.migrationStrategy);
+        public FlywayMigrationInitializer flywayInitializer(List<Flyway> flyways) {
+            return new FlywayMigrationInitializer(flyways, this.migrationStrategy);
         }
     }
 }

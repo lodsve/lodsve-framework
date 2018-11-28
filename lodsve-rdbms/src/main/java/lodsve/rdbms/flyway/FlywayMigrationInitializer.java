@@ -21,6 +21,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.Ordered;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 /**
  * {@link InitializingBean} used to trigger {@link Flyway} migration via the
  * {@link FlywayMigrationStrategy}.
@@ -30,7 +32,7 @@ import org.springframework.util.Assert;
  */
 public class FlywayMigrationInitializer implements InitializingBean, Ordered {
 
-    private final Flyway flyway;
+    private final List<Flyway> flyways;
 
     private final FlywayMigrationStrategy migrationStrategy;
 
@@ -39,22 +41,24 @@ public class FlywayMigrationInitializer implements InitializingBean, Ordered {
     /**
      * Create a new {@link FlywayMigrationInitializer} instance.
      *
-     * @param flyway            the flyway instance
+     * @param flyways           the flyway instance
      * @param migrationStrategy the migration strategy or {@code null}
      */
-    public FlywayMigrationInitializer(Flyway flyway, FlywayMigrationStrategy migrationStrategy) {
-        Assert.notNull(flyway, "Flyway must not be null");
-        this.flyway = flyway;
+    public FlywayMigrationInitializer(List<Flyway> flyways, FlywayMigrationStrategy migrationStrategy) {
+        Assert.notEmpty(flyways, "Flyway must not be null");
+        this.flyways = flyways;
         this.migrationStrategy = migrationStrategy;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (this.migrationStrategy != null) {
-            this.migrationStrategy.migrate(this.flyway);
-        } else {
-            this.flyway.migrate();
-        }
+        flyways.forEach(flyway -> {
+            if (this.migrationStrategy != null) {
+                this.migrationStrategy.migrate(flyway);
+            } else {
+                flyway.migrate();
+            }
+        });
     }
 
     @Override

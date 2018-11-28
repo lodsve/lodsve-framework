@@ -36,11 +36,7 @@ import javax.servlet.ServletRegistration;
  */
 public class DruidInitializer implements WebApplicationInitializer, InitializingBean {
     private static ServletContext servletContext;
-    private final DruidProperties druidProperties;
-
-    public DruidInitializer(DruidProperties druidProperties) {
-        this.druidProperties = druidProperties;
-    }
+    private DruidProperties druidProperties;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -83,5 +79,9 @@ public class DruidInitializer implements WebApplicationInitializer, Initializing
     @Override
     public void onStartup(@NonNull ServletContext servletContext) throws ServletException {
         DruidInitializer.servletContext = servletContext;
+    }
+
+    public void setDruidProperties(DruidProperties druidProperties) {
+        this.druidProperties = druidProperties;
     }
 }
