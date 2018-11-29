@@ -98,15 +98,16 @@ public class BaseRepositoryInterceptor implements Interceptor {
         BaseMapperProvider mapperProvider = MapperHelper.getMapperProvider(ms.getId());
 
         Class<?> entityClass = mapperProvider.getSelectReturnType(ms);
-        DeleteColumn deleteColumn = EntityHelper.getDeleteColumn(entityClass);
+        EntityTable table = EntityHelper.getEntityTable(entityClass);
+        DeleteColumn deleteColumn = table.getDeleteColumn();
         if (null == deleteColumn) {
             throw new SQLSyntaxErrorException("不支持逻辑删除！没有@LogicDelete注解");
         }
 
-        IdColumn idColumn = EntityHelper.getIdColumn(entityClass);
-        LastModifiedByColumn modifiedByColumn = EntityHelper.getModifiedByColumn(entityClass);
-        LastModifiedDateColumn modifiedDateColumn = EntityHelper.getModifiedDateColumn(entityClass);
-        DisabledDateColumn disabledDateColumn = EntityHelper.getDisabledDateColumn(entityClass);
+        IdColumn idColumn = table.getIdColumn();
+        LastModifiedByColumn modifiedByColumn = table.getModifiedByColumn();
+        LastModifiedDateColumn modifiedDateColumn = table.getModifiedDateColumn();
+        DisabledDateColumn disabledDateColumn = table.getDisabledDateColumn();
 
         handleParamMap(parameter, idColumn, modifiedByColumn, modifiedDateColumn, disabledDateColumn);
     }

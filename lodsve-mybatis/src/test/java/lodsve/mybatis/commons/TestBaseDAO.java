@@ -17,8 +17,7 @@
 package lodsve.mybatis.commons;
 
 import lodsve.mybatis.repository.helper.MapperHelper;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
 
@@ -29,7 +28,6 @@ import java.util.List;
  */
 public interface TestBaseDAO<T> {
 
-    @InsertProvider(type = TestBaseDaoMapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
-    @Options(useGeneratedKeys = true)
-    int batchSave2(List<T> entities);
+    @SelectProvider(type = TestBaseDaoMapperProvider.class, method = MapperHelper.PROVIDER_METHOD_NAME)
+    List<T> listAll();
 }

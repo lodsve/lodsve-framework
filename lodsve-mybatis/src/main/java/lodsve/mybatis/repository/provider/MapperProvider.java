@@ -186,7 +186,7 @@ public class MapperProvider extends BaseMapperProvider {
         Class<?> entityClass = getSelectReturnType(ms);
         EntityTable table = EntityHelper.getEntityTable(entityClass);
         IdColumn idColumn = table.getIdColumn();
-        VersionColumn versionColumn = EntityHelper.getVersionColumn(entityClass);
+        VersionColumn versionColumn = table.getVersionColumn();
         Set<ColumnBean> columnBeans = table.getColumns();
 
         String columns = columnBeans.stream().filter(c -> {
@@ -212,7 +212,7 @@ public class MapperProvider extends BaseMapperProvider {
         Class<?> entityClass = getSelectReturnType(ms);
         EntityTable table = EntityHelper.getEntityTable(entityClass);
         IdColumn idColumn = table.getIdColumn();
-        VersionColumn versionColumn = EntityHelper.getVersionColumn(entityClass);
+        VersionColumn versionColumn = table.getVersionColumn();
         Set<ColumnBean> columnBeans = table.getColumns();
 
 
@@ -286,17 +286,16 @@ public class MapperProvider extends BaseMapperProvider {
      * @see BaseRepository#logicDeleteByIdWithModifiedBy(Serializable, Long)
      */
     public String logicDeleteByIdWithModifiedBy(MappedStatement ms) throws SQLSyntaxErrorException {
-        Class<?> entityClass = getSelectReturnType(ms);
-        EntityTable table = EntityHelper.getEntityTable(entityClass);
-        DeleteColumn deleteColumn = EntityHelper.getDeleteColumn(entityClass);
+        EntityTable table = EntityHelper.getEntityTable(getSelectReturnType(ms));
+        DeleteColumn deleteColumn = table.getDeleteColumn();
         if (null == deleteColumn) {
             throw new SQLSyntaxErrorException("不支持逻辑删除！没有@LogicDelete注解");
         }
 
-        IdColumn idColumn = EntityHelper.getIdColumn(entityClass);
-        LastModifiedByColumn modifiedByColumn = EntityHelper.getModifiedByColumn(entityClass);
-        LastModifiedDateColumn modifiedDateColumn = EntityHelper.getModifiedDateColumn(entityClass);
-        DisabledDateColumn disabledDateColumn = EntityHelper.getDisabledDateColumn(entityClass);
+        IdColumn idColumn = table.getIdColumn();
+        LastModifiedDateColumn modifiedDateColumn = table.getModifiedDateColumn();
+        LastModifiedByColumn modifiedByColumn = table.getModifiedByColumn();
+        DisabledDateColumn disabledDateColumn = table.getDisabledDateColumn();
 
         String sqlTemplate = "UPDATE %s SET %s WHERE %s";
 

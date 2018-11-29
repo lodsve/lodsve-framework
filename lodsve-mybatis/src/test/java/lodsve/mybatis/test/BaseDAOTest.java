@@ -357,4 +357,10 @@ public class BaseDAOTest extends BaseTest {
         Assert.assertTrue(demoMapper.isExist(16L));
         Assert.assertFalse(demoMapper.isExistEnabled(16L));
     }
+
+    @Test
+    public void test16_listAll() {
+        List<Demo> demos = demoMapper.listAll();
+        Assert.assertTrue(0 < demos.size());
+    }
 }
