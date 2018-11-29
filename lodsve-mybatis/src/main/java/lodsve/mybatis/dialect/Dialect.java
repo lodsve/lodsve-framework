@@ -18,7 +18,6 @@
 package lodsve.mybatis.dialect;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 
 /**
  * 数据库方言.
