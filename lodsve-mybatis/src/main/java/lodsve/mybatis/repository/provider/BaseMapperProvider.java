@@ -19,8 +19,8 @@ package lodsve.mybatis.repository.provider;
 
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.repository.bean.IdColumn;
+import lodsve.mybatis.repository.helper.EntityHelper;
 import lodsve.mybatis.repository.helper.MapperHelper;
-import lodsve.mybatis.utils.MyBatisUtils;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
@@ -213,6 +213,6 @@ public class BaseMapperProvider {
             return;
         }
 
-        MyBatisUtils.forObject(ms).setValue("keyProperties", new String[]{idColumn.getProperty()});
+        EntityHelper.setValue(ms, "keyProperties", new String[]{idColumn.getProperty()});
     }
 }

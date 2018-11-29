@@ -21,9 +21,12 @@ import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.repository.annotations.DisabledDate;
 import lodsve.mybatis.repository.annotations.LogicDelete;
 import lodsve.mybatis.repository.bean.*;
+import lodsve.mybatis.utils.MyBatisUtils;
 import lodsve.mybatis.utils.SqlUtils;
+import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.lang.reflect.Field;
@@ -198,4 +201,19 @@ public class EntityHelper {
         }
         return fieldList;
     }
+
+    /**
+     * 通过mybatis的MetaObject设置对象某个字段的值
+     *
+     * @param object    需要设置值得对象
+     * @param fieldName 字段名
+     * @param value     字段值
+     */
+    public static void setValue(Object object, String fieldName, Object value) {
+        Assert.notNull(object, "object must be non-null!");
+
+        MetaObject metaObject = MyBatisUtils.forObject(object);
+        metaObject.setValue(fieldName, value);
+    }
+
 }

@@ -138,7 +138,6 @@ public final class MyBatisUtils {
      * @param target proxy-object
      * @return original target object
      */
-    @SuppressWarnings("unchecked")
     public static Object processTarget(Object target) {
         if (Proxy.isProxyClass(target.getClass())) {
             MetaObject mo = SystemMetaObject.forObject(target);
