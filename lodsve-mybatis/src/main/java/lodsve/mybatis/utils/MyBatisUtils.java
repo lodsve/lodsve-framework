@@ -17,22 +17,18 @@
 
 package lodsve.mybatis.utils;
 
-import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.dialect.*;
 import lodsve.mybatis.exception.MyBatisException;
+import lodsve.mybatis.query.NativeSqlQuery;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-import org.apache.ibatis.session.Configuration;
-import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  * MyBatis utils.
@@ -41,6 +37,8 @@ import java.sql.SQLException;
  * @date 2016-2-18 16:03
  */
 public final class MyBatisUtils {
+    private static final Logger logger = LoggerFactory.getLogger(MyBatisUtils.class);
+    private static DbType dbType;
     public static Method method;
 
     static {
@@ -56,78 +54,85 @@ public final class MyBatisUtils {
     private MyBatisUtils() {
     }
 
-    public static DbType getDbType(DataSource dataSource) {
-        String database;
-        Connection connection = DataSourceUtils.getConnection(dataSource);
-        try {
-            database = connection.getMetaData().getDatabaseProductName();
-        } catch (SQLException e) {
-            throw new MyBatisException("can't find DbType!");
-        } finally {
-            DataSourceUtils.releaseConnection(connection, dataSource);
-        }
-
-        if (StringUtils.equalsIgnoreCase(database, DbType.DB_MYSQL.getName())) {
-            return DbType.DB_MYSQL;
-        } else if (StringUtils.equalsIgnoreCase(database, DbType.DB_ORACLE.getName())) {
-            return DbType.DB_ORACLE;
-        }
-
-        throw new MyBatisException(102004, "can't find DbType!", database);
-    }
-
-    public static Dialect getDialect(Connection connection) throws SQLException {
-        String database = connection.getMetaData().getDatabaseProductName();
-
-        if (StringUtils.equalsIgnoreCase(database, DbType.DB_MYSQL.getName())) {
-            return new MySqlDialect();
-        } else if (StringUtils.equalsIgnoreCase(database, DbType.DB_ORACLE.getName())) {
-            return new OracleDialect();
-        } else if (StringUtils.equalsIgnoreCase(database, DbType.DB_HSQL.getName())) {
-            return new HsqlDialect();
-        } else if (StringUtils.equalsIgnoreCase(database, DbType.DB_SQL_SERVER.getName())) {
-            return new SqlServerDialect();
-        }
-
-        throw new MyBatisException(102001, "can't find dialect!", database);
-    }
-
-    public static int queryForInt(DataSource dataSource, String sql, Object... params) throws SQLException {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            connection = DataSourceUtils.getConnection(dataSource);
-            ps = connection.prepareStatement(sql);
-            for (int i = 0; i < params.length; i++) {
-                ps.setObject(i + 1, params[i]);
+    /**
+     * 设置方言，只能调用一次！
+     *
+     * @param dbType 数据库方言
+     */
+    public static void setDbType(DbType dbType) {
+        if (null != MyBatisUtils.dbType) {
+            // 只允许修改一次
+            if (logger.isErrorEnabled()) {
+                logger.error("dbType已存在！不允许再设置！");
             }
+            return;
+        }
+        MyBatisUtils.dbType = dbType;
+    }
 
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            } else {
-                return -1;
-            }
-        } finally {
-            releaseResource(rs, ps, connection, dataSource);
+    public static DbType getDbType() {
+        if (null != dbType) {
+            return dbType;
+        }
+
+        throw new MyBatisException(102004, "can't find DbType!");
+    }
+
+    public static Dialect getDialect() {
+        DbType dbType = getDbType();
+
+        switch (dbType) {
+            case DB_HSQL:
+                return new HsqlDialect();
+            case DB_MYSQL:
+                return new MySqlDialect();
+            case DB_ORACLE:
+                return new OracleDialect();
+            case DB_SQL_SERVER:
+                return new SqlServerDialect();
+            default:
+                return new MySqlDialect();
         }
     }
 
-    public static void releaseResource(ResultSet rs, PreparedStatement ps, Connection connection, DataSource dataSource) throws SQLException {
-        if (rs != null) {
-            rs.close();
-        }
-        if (ps != null) {
-            ps.close();
-        }
-        if (connection != null) {
-            DataSourceUtils.releaseConnection(connection, dataSource);
+    public static int queryForInt(DataSource dataSource, String sql, Object... params) throws Exception {
+        try (NativeSqlQuery query = new NativeSqlQuery(dataSource)) {
+            return query.queryForInt(sql, params);
         }
     }
 
-    public static MetaObject forObject(Object object) {
+    private static MetaObject forObject(Object object) {
         return SystemMetaObject.forObject(object);
+    }
+
+    /**
+     * 通过mybatis的MetaObject设置对象某个字段的值
+     *
+     * @param object    需要设置值得对象
+     * @param fieldName 字段名
+     * @param value     字段值
+     */
+    public static void setValue(Object object, String fieldName, Object value) {
+        Assert.notNull(object, "object must be non-null!");
+
+        MetaObject metaObject = MyBatisUtils.forObject(object);
+        metaObject.setValue(fieldName, value);
+    }
+
+    /**
+     * 通过mybatis的MetaObject获取对象某个字段的值
+     *
+     * @param object    需要获取值得对象
+     * @param fieldName 字段名
+     * @param <T>       值的类型
+     * @return 某个字段的值
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T getValue(Object object, String fieldName) {
+        Assert.notNull(object, "object must be non-null!");
+
+        MetaObject metaObject = MyBatisUtils.forObject(object);
+        return (T) metaObject.getValue(fieldName);
     }
 
     /**
@@ -140,36 +145,9 @@ public final class MyBatisUtils {
      */
     public static Object processTarget(Object target) {
         if (Proxy.isProxyClass(target.getClass())) {
-            MetaObject mo = SystemMetaObject.forObject(target);
-            return processTarget(mo.getValue("h.target"));
+            return processTarget(getValue(target, "h.target"));
         }
 
         return target;
-    }
-
-    /**
-     * 获取连接，如果使用了事务，从事务管理器中获取
-     *
-     * @param configuration mybatis configuration
-     * @return 连接
-     */
-    public static Connection getConnection(Configuration configuration) {
-        Assert.notNull(configuration, "No Configuration specified");
-
-        DataSource dataSource = configuration.getEnvironment().getDataSource();
-        return DataSourceUtils.getConnection(dataSource);
-    }
-
-    /**
-     * 释放连接，代替直接close连接，否则事务会有问题，这里的连接是用事务管理器中拿到的，如果直接关闭连接，接下来的事务就会没有连接用了，会报错！
-     *
-     * @param connection    连接
-     * @param configuration mybatis configuration
-     */
-    public static void releaseConnection(Connection connection, Configuration configuration) {
-        Assert.notNull(connection, "No Connection specified");
-
-        DataSource dataSource = configuration.getEnvironment().getDataSource();
-        DataSourceUtils.releaseConnection(connection, dataSource);
     }
 }

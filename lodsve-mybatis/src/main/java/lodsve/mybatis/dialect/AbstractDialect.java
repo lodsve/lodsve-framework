@@ -17,16 +17,11 @@
 
 package lodsve.mybatis.dialect;
 
-import lodsve.mybatis.utils.MyBatisUtils;
+import lodsve.mybatis.query.NativeSqlQuery;
 import lodsve.mybatis.utils.SqlUtils;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  * 公用部分.
@@ -41,25 +36,12 @@ public abstract class AbstractDialect implements Dialect {
     }
 
     @Override
-    public boolean existTable(String tableName, DataSource dataSource) throws SQLException {
+    public boolean existTable(String tableName, DataSource dataSource) throws Exception {
         Assert.notNull(dataSource, "dataSource must be non-null!");
         Assert.hasText(tableName, "dataSource must be non-null!");
 
-
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = DataSourceUtils.getConnection(dataSource);
-
-            String name = connection.getCatalog();
-            ps = connection.prepareStatement(existTableSql(name, tableName));
-            resultSet = ps.executeQuery();
-
-            return resultSet.next() && resultSet.getInt("count") > 0;
-        } finally {
-            MyBatisUtils.releaseResource(resultSet, ps, connection, dataSource);
+        try (NativeSqlQuery query = new NativeSqlQuery(dataSource)) {
+            return 0 < query.queryForInt(existTableSql(tableName, tableName));
         }
     }
 

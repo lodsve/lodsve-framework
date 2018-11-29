@@ -16,6 +16,8 @@
  */
 package lodsve.mybatis.test;
 
+import lodsve.mybatis.utils.DbType;
+import lodsve.mybatis.utils.MyBatisUtils;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.ibatis.session.SqlSession;
@@ -57,6 +59,8 @@ public abstract class BaseTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        MyBatisUtils.setDbType(DbType.DB_MYSQL);
     }
 
     @After

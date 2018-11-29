@@ -19,23 +19,16 @@ package lodsve.mybatis.utils;
 
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.dialect.Dialect;
+import lodsve.mybatis.query.MyBatisSqlQuery;
 import org.apache.ibatis.binding.MapperMethod;
-import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.MappedStatement.Builder;
 import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.SqlSource;
-import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.Assert;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -47,7 +40,6 @@ import java.util.regex.Pattern;
  * @date 15/6/29 下午2:55
  */
 public class PaginationUtils {
-    private static final Logger logger = LoggerFactory.getLogger(PaginationUtils.class);
     private static final Pattern ORDER_BY = Pattern.compile(".*order\\s+by\\s+.*", Pattern.CASE_INSENSITIVE);
 
     private PaginationUtils() {
@@ -85,70 +77,23 @@ public class PaginationUtils {
         return null;
     }
 
-    public static int queryForTotal(String sql, MappedStatement mappedStatement, BoundSql boundSql) throws SQLException {
+    public static int queryForTotal(String sql, MappedStatement mappedStatement, BoundSql boundSql) throws Exception {
         if (StringUtils.isEmpty(sql)) {
             return 0;
         }
 
-        Connection connection = null;
-        PreparedStatement preStmt = null;
-        ResultSet rs = null;
-
-        try {
-            connection = mappedStatement.getConfiguration().getEnvironment().getDataSource().getConnection();
-
-            Dialect dialect = MyBatisUtils.getDialect(connection);
+        try (MyBatisSqlQuery query = new MyBatisSqlQuery(mappedStatement)) {
+            Dialect dialect = MyBatisUtils.getDialect();
             String totalSql = dialect.getCountSql(sql);
-
-            preStmt = connection.prepareStatement(totalSql);
             BoundSql countBoundSql = copyFromBoundSql(mappedStatement, boundSql, totalSql);
-            setParameters(preStmt, mappedStatement, countBoundSql, boundSql.getParameterObject());
-
-            rs = preStmt.executeQuery();
-            int totalCount = 0;
-            if (rs.next()) {
-                totalCount = rs.getInt(1);
-            }
-
-            return totalCount;
-        } catch (SQLException e) {
-            logger.error("查询总记录数出错", e);
-            throw e;
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    logger.error("exception happens when doing: ResultSet.close()", e);
-                }
-            }
-
-            if (preStmt != null) {
-                try {
-                    preStmt.close();
-                } catch (SQLException e) {
-                    logger.error("exception happens when doing: PreparedStatement.close()", e);
-                }
-            }
-
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    logger.error("exception happens when doing: Connection.close()", e);
-                }
-            }
+            return query.queryForInt(countBoundSql);
         }
     }
 
-    public static String getPageSql(String sql, MappedStatement mappedStatement, int start, int num) throws SQLException {
+    public static String getPageSql(String sql, int start, int num) {
         Assert.hasText(sql, "sql is required!");
 
-        Dialect dialect;
-        try (Connection connection = mappedStatement.getConfiguration().getEnvironment().getDataSource().getConnection()) {
-            dialect = MyBatisUtils.getDialect(connection);
-        }
-
+        Dialect dialect = MyBatisUtils.getDialect();
         return dialect.getPageSql(sql, start, num);
     }
 
@@ -167,20 +112,6 @@ public class PaginationUtils {
             }
         }
         return newBoundSql;
-    }
-
-    /**
-     * 对SQL参数(?)设值
-     *
-     * @param ps              PreparedStatement
-     * @param mappedStatement MappedStatement
-     * @param boundSql        BoundSql
-     * @param parameterObject parameterObject
-     * @throws SQLException SQLException
-     */
-    private static void setParameters(PreparedStatement ps, MappedStatement mappedStatement, BoundSql boundSql, Object parameterObject) throws SQLException {
-        ParameterHandler parameterHandler = new DefaultParameterHandler(mappedStatement, parameterObject, boundSql);
-        parameterHandler.setParameters(ps);
     }
 
     private static MappedStatement copyFromMappedStatement(MappedStatement ms, SqlSource newSqlSource) {

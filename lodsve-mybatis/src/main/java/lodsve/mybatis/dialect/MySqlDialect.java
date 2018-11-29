@@ -36,7 +36,7 @@ public class MySqlDialect extends AbstractDialect {
 
     @Override
     String existTableSql(String schema, String tableName) {
-        String sql = "SELECT count(TABLE_NAME) count FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='%s' and TABLE_NAME = '%s'";
+        String sql = "SELECT count(TABLE_NAME) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='%s' and TABLE_NAME = '%s'";
         return String.format(sql, schema, tableName);
     }
 }

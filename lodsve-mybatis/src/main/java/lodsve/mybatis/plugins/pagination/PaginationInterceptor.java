@@ -84,7 +84,7 @@ public class PaginationInterceptor implements Interceptor {
         }
 
         //分页语句
-        String pageSql = PaginationUtils.getPageSql(sql, ms, pageable.getOffset(), pageable.getPageSize());
+        String pageSql = PaginationUtils.getPageSql(sql, pageable.getOffset(), pageable.getPageSize());
 
         queryArgs[MAPPED_STATEMENT_INDEX] = PaginationUtils.copyFromNewSql(ms, boundSql, pageSql);
         queryArgs[2] = new RowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);

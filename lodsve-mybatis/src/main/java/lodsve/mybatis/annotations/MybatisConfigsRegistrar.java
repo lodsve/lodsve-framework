@@ -19,6 +19,8 @@ package lodsve.mybatis.annotations;
 
 import com.google.common.collect.Lists;
 import lodsve.mybatis.configuration.LodsveConfigurationCustomizer;
+import lodsve.mybatis.utils.DbType;
+import lodsve.mybatis.utils.MyBatisUtils;
 import org.mybatis.spring.annotation.MapperScannerRegistrar;
 import org.mybatis.spring.mapper.ClassPathMapperScanner;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -47,6 +49,7 @@ public class MybatisConfigsRegistrar implements ImportBeanDefinitionRegistrar, R
     private static final String KEY_MAP_UNDERSCORE_TO_CAMEL_CASE = "mapUnderscoreToCamelCase";
     private static final String KEY_ENUMS_LOCATIONS = "enumsLocations";
     private static final String BEAN_NAME_CONFIGURATION_CUSTOMIZER = "configurationCustomizerBean";
+    private static final String KEY_DB_TYPE = "type";
 
     private ResourceLoader resourceLoader;
 
@@ -57,8 +60,8 @@ public class MybatisConfigsRegistrar implements ImportBeanDefinitionRegistrar, R
 
     @Override
     public void registerBeanDefinitions(@NonNull AnnotationMetadata importingClassMetadata, @NonNull BeanDefinitionRegistry registry) {
-        AnnotationAttributes annoAttrs = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableMyBatis.class.getName()));
-        if (null == annoAttrs) {
+        AnnotationAttributes attributes = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(EnableMyBatis.class.getName()));
+        if (null == attributes) {
             return;
         }
         ClassPathMapperScanner scanner = new ClassPathMapperScanner(registry);
@@ -68,25 +71,29 @@ public class MybatisConfigsRegistrar implements ImportBeanDefinitionRegistrar, R
             scanner.setResourceLoader(resourceLoader);
         }
 
-        Class<? extends Annotation> annotationClass = annoAttrs.getClass(KEY_ANNOTATION_CLASS);
+        Class<? extends Annotation> annotationClass = attributes.getClass(KEY_ANNOTATION_CLASS);
         if (!Annotation.class.equals(annotationClass)) {
             scanner.setAnnotationClass(annotationClass);
         }
 
         List<String> basePackages = Lists.newArrayList();
-        Arrays.stream(annoAttrs.getStringArray(KEY_BASE_PACKAGES)).filter(StringUtils::hasText).forEach(basePackages::add);
+        Arrays.stream(attributes.getStringArray(KEY_BASE_PACKAGES)).filter(StringUtils::hasText).forEach(basePackages::add);
 
         scanner.registerFilters();
         scanner.doScan(StringUtils.toStringArray(basePackages));
 
         // 处理自定义的
-        boolean mapUnderscoreToCamelCase = annoAttrs.getBoolean(KEY_MAP_UNDERSCORE_TO_CAMEL_CASE);
-        String[] enumsLocations = annoAttrs.getStringArray(KEY_ENUMS_LOCATIONS);
+        boolean mapUnderscoreToCamelCase = attributes.getBoolean(KEY_MAP_UNDERSCORE_TO_CAMEL_CASE);
+        String[] enumsLocations = attributes.getStringArray(KEY_ENUMS_LOCATIONS);
 
         BeanDefinitionBuilder xnyConfigurationCustomizerBean = BeanDefinitionBuilder.genericBeanDefinition(LodsveConfigurationCustomizer.class);
         xnyConfigurationCustomizerBean.addConstructorArgValue(mapUnderscoreToCamelCase);
         xnyConfigurationCustomizerBean.addConstructorArgValue(enumsLocations);
 
         registry.registerBeanDefinition(BEAN_NAME_CONFIGURATION_CUSTOMIZER, xnyConfigurationCustomizerBean.getBeanDefinition());
+
+        // 处理数据库方言
+        DbType dbType = attributes.getEnum(KEY_DB_TYPE);
+        MyBatisUtils.setDbType(dbType);
     }
 }

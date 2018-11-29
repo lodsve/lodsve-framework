@@ -19,6 +19,7 @@ package lodsve.mybatis.annotations;
 
 import lodsve.core.configuration.EnableLodsve;
 import lodsve.mybatis.configuration.MyBatisConfiguration;
+import lodsve.mybatis.utils.DbType;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Repository;
 
@@ -66,4 +67,11 @@ public @interface EnableMyBatis {
      * @return true/false
      */
     boolean mapUnderscoreToCamelCase() default true;
+
+    /**
+     * 所使用的数据库类型
+     *
+     * @return 数据库，默认MySQL
+     */
+    DbType type() default DbType.DB_MYSQL;
 }

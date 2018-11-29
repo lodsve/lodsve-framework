@@ -114,7 +114,7 @@ public class BaseRepositoryInterceptor implements Interceptor {
 
 
     @SuppressWarnings("unchecked")
-    private void handleParamMap(ParamMap parameter, IdColumn idColumn, LastModifiedByColumn modifiedByColumn, LastModifiedDateColumn modifiedDateColumn, DisabledDateColumn disabledDateColumn) throws SQLSyntaxErrorException {
+    private void handleParamMap(ParamMap parameter, IdColumn idColumn, LastModifiedByColumn modifiedByColumn, LastModifiedDateColumn modifiedDateColumn, DisabledDateColumn disabledDateColumn) {
         // 修改参数
         ParamMap<Object> paramMap = (ParamMap<Object>) parameter;
         Object id = parameter.get("arg0");

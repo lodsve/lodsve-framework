@@ -19,13 +19,11 @@ package lodsve.mybatis.repository.provider;
 
 import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.repository.bean.IdColumn;
-import lodsve.mybatis.repository.helper.EntityHelper;
 import lodsve.mybatis.repository.helper.MapperHelper;
+import lodsve.mybatis.utils.MyBatisUtils;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.scripting.xmltags.DynamicSqlSource;
 import org.apache.ibatis.scripting.xmltags.SqlNode;
 import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
@@ -140,8 +138,7 @@ public class BaseMapperProvider {
      * @param sqlSource sqlSource
      */
     private void setSqlSource(MappedStatement ms, SqlSource sqlSource) {
-        MetaObject msObject = SystemMetaObject.forObject(ms);
-        msObject.setValue("sqlSource", sqlSource);
+        MyBatisUtils.setValue(ms, "sqlSource", sqlSource);
     }
 
     private Object invoke(Method method, Object target, MappedStatement ms, MapperMethod.ParamMap parameter) {
@@ -213,6 +210,6 @@ public class BaseMapperProvider {
             return;
         }
 
-        EntityHelper.setValue(ms, "keyProperties", new String[]{idColumn.getProperty()});
+        MyBatisUtils.setValue(ms, "keyProperties", new String[]{idColumn.getProperty()});
     }
 }

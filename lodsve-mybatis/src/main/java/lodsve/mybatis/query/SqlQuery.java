@@ -15,34 +15,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.mybatis.utils;
+package lodsve.mybatis.query;
 
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.reflection.SystemMetaObject;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 
-import java.lang.reflect.Proxy;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
- * plugin utils.
+ * sql query.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2017/6/12 下午8:26
  */
-public final class PluginUtils {
-    private PluginUtils() {
+public abstract class SqlQuery implements AutoCloseable {
+    final Connection connection;
+    private final DataSource dataSource;
+
+    public SqlQuery(DataSource dataSource) {
+        this.connection = DataSourceUtils.getConnection(dataSource);
+        this.dataSource = dataSource;
+    }
+
+    @Override
+    public void close() throws Exception {
+        closeResources();
+
+        DataSourceUtils.releaseConnection(connection, dataSource);
     }
 
     /**
-     * 获得真正的处理对象,可能多层代理.
+     * 关闭其他资源
      *
-     * @param target 处理对象
-     * @return 真正的处理对象
+     * @throws SQLException SQLException
      */
-    public static Object realTarget(Object target) {
-        if (Proxy.isProxyClass(target.getClass())) {
-            MetaObject metaObject = SystemMetaObject.forObject(target);
-            return realTarget(metaObject.getValue("h.target"));
-        }
-        return target;
-    }
+    public abstract void closeResources() throws SQLException;
 }

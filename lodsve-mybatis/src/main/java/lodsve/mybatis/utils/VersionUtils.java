@@ -26,6 +26,7 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.TypeHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.persistence.NoResultException;
 import java.sql.Connection;
@@ -63,13 +64,14 @@ public class VersionUtils {
         }
 
         VersionColumn version = table.getVersionColumn();
-        String whereSql = keyMap.keySet().stream().map(key -> key + " = ?").collect(Collectors.joining(" AND "));
+        String whereSql = keyMap.keySet().stream().map(key -> SqlUtils.camelHumpToUnderline(key).toUpperCase() + " = ?").collect(Collectors.joining(" AND "));
 
         String versionSql = String.format(VERSION_SQL, version.getColumn(), table.getName(), whereSql);
 
         ResultSet rs = null;
         Configuration configuration = mappedStatement.getConfiguration();
-        Connection connection = MyBatisUtils.getConnection(configuration);
+
+        Connection connection = DataSourceUtils.getConnection(configuration.getEnvironment().getDataSource());
         try (PreparedStatement versionStmt = connection.prepareStatement(versionSql)) {
             AtomicInteger i = new AtomicInteger();
             keyMap.forEach((key, value) -> {
@@ -92,7 +94,7 @@ public class VersionUtils {
             }
 
             if (null == currentVersion) {
-                throw new NoResultException(String.format("Can't find a record for '%s' in table '%s'!", keyMap.keySet().stream().map(k -> k + " = " + keyMap.get(k)).collect(Collectors.joining(",")), table.getName()));
+                throw new NoResultException(String.format("Can't find a record for '%s' in table '%s'!", keyMap.keySet().stream().map(k -> SqlUtils.camelHumpToUnderline(k).toUpperCase() + " = " + keyMap.get(k)).collect(Collectors.joining(",")), table.getName()));
             }
 
             return (T) currentVersion;
@@ -107,7 +109,7 @@ public class VersionUtils {
                     logger.error("exception happens when doing: ResultSet.close()", e);
                 }
             }
-            MyBatisUtils.releaseConnection(connection, configuration);
+            DataSourceUtils.releaseConnection(connection, configuration.getEnvironment().getDataSource());
         }
     }
 }

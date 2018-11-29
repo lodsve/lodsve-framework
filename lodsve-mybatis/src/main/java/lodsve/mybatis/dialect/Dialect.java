@@ -52,7 +52,7 @@ public interface Dialect {
      * @param tableName  表名
      * @param dataSource 数据源
      * @return true/false
-     * @throws SQLException 获取数据源失败
+     * @throws Exception 获取数据源失败
      */
-    boolean existTable(String tableName, DataSource dataSource) throws SQLException;
+    boolean existTable(String tableName, DataSource dataSource) throws Exception;
 }

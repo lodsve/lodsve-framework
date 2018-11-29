@@ -60,7 +60,8 @@
     </update>
 
     <select id="list" resultType="lodsve.mybatis.domain.Demo">
+        <bind name="nameLike" value="'%' + name + '%'"/>
         select *
-        from t_demo
+        from t_demo where name like #{nameLike} and id > #{id}
     </select>
 </mapper>

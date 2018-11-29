@@ -18,12 +18,11 @@
 package lodsve.mybatis.plugins.monitor;
 
 import lodsve.mybatis.exception.MyBatisException;
-import lodsve.mybatis.utils.PluginUtils;
+import lodsve.mybatis.utils.MyBatisUtils;
 import lodsve.mybatis.utils.SqlUtils;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.*;
-import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.session.ResultHandler;
 import org.slf4j.Logger;
@@ -90,9 +89,8 @@ public class MonitorInterceptor implements Interceptor {
         long timing = System.currentTimeMillis() - start;
 
         // 格式化 SQL 打印执行结果
-        Object target = PluginUtils.realTarget(invocation.getTarget());
-        MetaObject metaObject = SystemMetaObject.forObject(target);
-        MappedStatement ms = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
+        Object target = MyBatisUtils.processTarget(invocation.getTarget());
+        MappedStatement ms = MyBatisUtils.getValue(target, "delegate.mappedStatement");
         StringBuilder formatSql = new StringBuilder();
         formatSql.append(" Time：").append(timing);
         formatSql.append(" ms - ID：").append(ms.getId());

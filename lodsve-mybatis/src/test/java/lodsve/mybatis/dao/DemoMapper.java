@@ -30,7 +30,7 @@ import org.springframework.data.domain.Pageable;
  * @date 2018/9/27 5:17 PM
  */
 public interface DemoMapper extends BaseRepository<Demo>, TestBaseDAO<Demo> {
-    Page<Demo> list(Pageable pageable);
+    Page<Demo> list(Pageable pageable, @Param("name") String name, @Param("id") Integer id);
 
     boolean logicDelete2(@Param("id") Long id, @Param("value") Integer value);
 

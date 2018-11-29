@@ -211,9 +211,9 @@ public class BaseDAOTest extends BaseTest {
     public void test09_Pagination() {
         Sort sort = new Sort(Sort.Direction.DESC, "id", "name");
 
-        Page<Demo> page = demoMapper.list(new PageRequest(0, 10, sort));
+        Page<Demo> page = demoMapper.list(new PageRequest(0, 10, sort), "root", 0);
         // 总条数
-        Assert.assertEquals(30, page.getTotalElements());
+        Assert.assertEquals(29, page.getTotalElements());
         // 页数
         Assert.assertEquals(3, page.getTotalPages());
         // 每页条数
@@ -297,7 +297,7 @@ public class BaseDAOTest extends BaseTest {
         Assert.assertNull(demo5);
 
         // query
-        Page<Demo> page = demoMapper.list(new PageRequest(0, 10));
+        Page<Demo> page = demoMapper.list(new PageRequest(0, 10), "root", 0);
         Assert.assertEquals(10, page.getContent().size());
 
         // delete
@@ -329,7 +329,7 @@ public class BaseDAOTest extends BaseTest {
      */
     @Test
     public void test14_logicDeleteNonRecord() {
-        String expect = "Can't find a record for 'id = 100' in table 't_demo'!";
+        String expect = "Can't find a record for 'ID = 100' in table 't_demo'!";
 
         thrown.expect(new TypeSafeMatcher<PersistenceException>() {
             @Override

@@ -34,8 +34,6 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.TypeException;
 import org.apache.ibatis.type.TypeHandler;
@@ -90,14 +88,13 @@ public class OptimisticLockInterceptor implements Interceptor {
 
     private Object handleMethodPrepare(Invocation invocation) throws InvocationTargetException, IllegalAccessException {
         StatementHandler statementHandler = (StatementHandler) MyBatisUtils.processTarget(invocation.getTarget());
-        MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
-        MappedStatement mappedStatement = (MappedStatement) metaObject.getValue(DELEGATE_MAPPED_STATEMENT_KEY);
+        MappedStatement mappedStatement = MyBatisUtils.getValue(statementHandler, DELEGATE_MAPPED_STATEMENT_KEY);
         SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
 
         if (sqlCommandType != SqlCommandType.UPDATE) {
             return invocation.proceed();
         }
-        BoundSql boundSql = (BoundSql) metaObject.getValue(DELEGATE_BOUND_SQL_KEY);
+        BoundSql boundSql = MyBatisUtils.getValue(statementHandler, DELEGATE_BOUND_SQL_KEY);
         if (!checkVersion(boundSql, mappedStatement)) {
             return invocation.proceed();
         }
@@ -110,24 +107,23 @@ public class OptimisticLockInterceptor implements Interceptor {
         VersionColumn versionColumn = table.getVersionColumn();
         String versionColumnName = versionColumn.getColumn();
 
-        String originalSql = (String) metaObject.getValue(DELEGATE_BOUND_SQL_SQL_KEY);
+        String originalSql = MyBatisUtils.getValue(statementHandler, DELEGATE_BOUND_SQL_SQL_KEY);
         String sql = String.format("%s AND %s = ?", originalSql, versionColumnName);
         String replaceSql = StringUtils.replacePattern(sql, "\\s+(?i)set\\s+", " SET " + versionColumnName + " = " + versionColumnName + " + 1, ");
-        metaObject.setValue(DELEGATE_BOUND_SQL_SQL_KEY, replaceSql);
+        MyBatisUtils.setValue(statementHandler, DELEGATE_BOUND_SQL_SQL_KEY, replaceSql);
         return invocation.proceed();
     }
 
     @SuppressWarnings("unchecked")
     private Object handleMethodSetParameters(Invocation invocation) throws InvocationTargetException, IllegalAccessException, SQLException {
         ParameterHandler parameterHandler = (ParameterHandler) MyBatisUtils.processTarget(invocation.getTarget());
-        MetaObject metaObject = SystemMetaObject.forObject(parameterHandler);
-        MappedStatement mappedStatement = (MappedStatement) metaObject.getValue(MAPPED_STATEMENT);
+        MappedStatement mappedStatement = MyBatisUtils.getValue(parameterHandler, MAPPED_STATEMENT);
         SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
         if (sqlCommandType != SqlCommandType.UPDATE) {
             return invocation.proceed();
         }
         Configuration configuration = mappedStatement.getConfiguration();
-        BoundSql boundSql = (BoundSql) metaObject.getValue(BOUND_SQL);
+        BoundSql boundSql = MyBatisUtils.getValue(parameterHandler, BOUND_SQL);
         if (!checkVersion(boundSql, mappedStatement)) {
             return invocation.proceed();
         }
