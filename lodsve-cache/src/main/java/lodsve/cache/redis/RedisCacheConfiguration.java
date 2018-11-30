@@ -25,6 +25,7 @@ import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationPropert
 import lodsve.core.utils.StringUtils;
 import lodsve.redis.core.annotations.EnableRedis;
 import lodsve.redis.core.connection.LodsveRedisConnectionFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
@@ -53,11 +54,15 @@ public class RedisCacheConfiguration {
     @Configuration
     @Import(RedisCacheBasicConfiguration.class)
     public static class RedisCacheManagerConfiguration {
+        private final CacheProperties cacheProperties;
+        private final RedisTemplate<Object, Object> redisTemplate;
+
         @Autowired
-        private CacheProperties cacheProperties;
-        @Autowired
-        @Qualifier("redisCacheRedisTemplate")
-        private RedisTemplate<Object, Object> redisTemplate;
+        public RedisCacheManagerConfiguration(ObjectProvider<CacheProperties> cacheProperties,
+                                              @Qualifier("redisCacheRedisTemplate") ObjectProvider<RedisTemplate<Object, Object>> redisTemplate) {
+            this.cacheProperties = cacheProperties.getIfAvailable();
+            this.redisTemplate = redisTemplate.getIfAvailable();
+        }
 
         @Bean
         public CacheManager cacheManager() {
@@ -76,9 +81,11 @@ public class RedisCacheConfiguration {
     @Configuration
     @EnableRedis(name = "cache")
     public static class RedisCacheBasicConfiguration {
-        @Autowired
-        @Qualifier("cache")
-        private LodsveRedisConnectionFactory connectionFactory;
+        private final LodsveRedisConnectionFactory connectionFactory;
+
+        public RedisCacheBasicConfiguration(@Qualifier("cache") ObjectProvider<LodsveRedisConnectionFactory> connectionFactory) {
+            this.connectionFactory = connectionFactory.getIfAvailable();
+        }
 
         @Bean
         public RedisTemplate<Object, Object> redisCacheRedisTemplate() {

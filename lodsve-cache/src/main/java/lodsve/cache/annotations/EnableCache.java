@@ -39,7 +39,7 @@ public @interface EnableCache {
     /**
      * 选择使用的缓存类型
      *
-     * @return
+     * @return 缓存类型
      * @see CacheMode
      */
     CacheMode cache() default CacheMode.REDIS;

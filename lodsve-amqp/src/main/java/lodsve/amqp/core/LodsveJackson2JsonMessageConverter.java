@@ -42,8 +42,9 @@ import java.util.Map;
  * @date 16/1/18 下午1:28
  */
 public class LodsveJackson2JsonMessageConverter extends Jackson2JsonMessageConverter {
-    private static Log log = LogFactory.getLog(LodsveJackson2JsonMessageConverter.class);
-    private ObjectMapper jsonObjectMapper = new ObjectMapper();
+    private final static Log log = LogFactory.getLog(LodsveJackson2JsonMessageConverter.class);
+    private final static String CONTENT_TYPE_JSON = "JSON";
+    private final ObjectMapper jsonObjectMapper = new ObjectMapper();
 
     @Override
     public Object fromMessage(Message message) throws MessageConversionException {
@@ -51,7 +52,7 @@ public class LodsveJackson2JsonMessageConverter extends Jackson2JsonMessageConve
         MessageProperties properties = message.getMessageProperties();
         if (properties != null) {
             String contentType = properties.getContentType();
-            if (contentType != null && contentType.contains("json")) {
+            if (contentType != null && contentType.contains(CONTENT_TYPE_JSON)) {
                 String encoding = properties.getContentEncoding();
                 if (encoding == null) {
                     encoding = getDefaultCharset();

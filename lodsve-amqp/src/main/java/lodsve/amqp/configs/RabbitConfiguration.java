@@ -33,7 +33,7 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.amqp.support.converter.MessageConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -102,10 +102,13 @@ public class RabbitConfiguration {
     @Configuration
     @Import({RabbitConnectionConfiguration.class, AnnotationAmqpConfiguration.class})
     public static class RabbitTemplateConfiguration {
-        @Autowired
-        private CachingConnectionFactory connectionFactory;
-        @Autowired
-        private MessageConverter messageConverter;
+        private final CachingConnectionFactory connectionFactory;
+        private final MessageConverter messageConverter;
+
+        public RabbitTemplateConfiguration(ObjectProvider<CachingConnectionFactory> connectionFactory, ObjectProvider<MessageConverter> messageConverter) {
+            this.connectionFactory = connectionFactory.getIfAvailable();
+            this.messageConverter = messageConverter.getIfAvailable();
+        }
 
         @Bean
         public RabbitTemplate rabbitTemplate() {
@@ -130,12 +133,15 @@ public class RabbitConfiguration {
     @Configuration
     @Import({RabbitConnectionConfiguration.class, AnnotationAmqpConfiguration.class})
     protected static class RabbitListenerContainerConfiguration {
-        @Autowired
-        private CachingConnectionFactory connectionFactory;
-        @Autowired
-        private RabbitProperties rabbitProperties;
-        @Autowired
-        private AmqpErrorHandler errorHandler;
+        private final CachingConnectionFactory connectionFactory;
+        private final RabbitProperties rabbitProperties;
+        private final AmqpErrorHandler errorHandler;
+
+        public RabbitListenerContainerConfiguration(ObjectProvider<CachingConnectionFactory> connectionFactory, ObjectProvider<RabbitProperties> rabbitProperties, ObjectProvider<AmqpErrorHandler> errorHandler) {
+            this.connectionFactory = connectionFactory.getIfAvailable();
+            this.rabbitProperties = rabbitProperties.getIfAvailable();
+            this.errorHandler = errorHandler.getIfAvailable();
+        }
 
         @Bean
         @ConditionalOnMissingBean(name = "rabbitListenerContainerFactory")

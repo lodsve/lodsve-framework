@@ -21,9 +21,8 @@ import lodsve.cache.properties.CacheProperties;
 import lodsve.cache.properties.EhcacheCache;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import net.sf.ehcache.Cache;
-import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.config.CacheConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
@@ -44,8 +43,11 @@ import java.io.IOException;
 @EnableCaching
 @EnableConfigurationProperties(CacheProperties.class)
 public class EhcacheCacheConfiguration {
-    @Autowired
-    private CacheProperties cacheProperties;
+    private final CacheProperties cacheProperties;
+
+    public EhcacheCacheConfiguration(ObjectProvider<CacheProperties> cacheProperties) {
+        this.cacheProperties = cacheProperties.getIfAvailable();
+    }
 
     @Bean
     public CacheManager cacheManager() throws IOException {

@@ -19,7 +19,6 @@ package lodsve.core.properties.env;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
@@ -503,7 +502,7 @@ abstract class AbstractConfiguration implements Configuration {
             array = new String[list.size()];
 
             for (int i = 0; i < array.length; i++) {
-                array[i] = ObjectUtils.toString(list.get(i), null);
+                array[i] = Objects.toString(list.get(i), null);
             }
         } else if (value == null) {
             array = new String[0];
@@ -519,7 +518,7 @@ abstract class AbstractConfiguration implements Configuration {
 
     @Override
     public List<Object> getList(String key) {
-        return getList(key, new ArrayList<Object>());
+        return getList(key, new ArrayList<>());
     }
 
     @SuppressWarnings("unchecked")
@@ -529,10 +528,10 @@ abstract class AbstractConfiguration implements Configuration {
         List<Object> list;
 
         if (value instanceof String) {
-            list = new ArrayList<Object>(1);
+            list = new ArrayList<>(1);
             list.add(value);
         } else if (value instanceof List) {
-            list = new ArrayList<Object>();
+            list = new ArrayList<>();
             List<?> l = (List<?>) value;
 
             // add the interpolated elements in the new list

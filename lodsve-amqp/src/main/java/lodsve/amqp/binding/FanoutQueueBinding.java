@@ -32,10 +32,10 @@ import java.util.Collections;
  */
 public class FanoutQueueBinding extends Binding {
     public FanoutQueueBinding(FanoutExchange exchange, Queue queue) {
-        super(queue.getName(), DestinationType.QUEUE, exchange.getName(), StringUtils.EMPTY, Collections.<String, Object>emptyMap());
+        super(queue.getName(), DestinationType.QUEUE, exchange.getName(), StringUtils.EMPTY, Collections.emptyMap());
     }
 
     public FanoutQueueBinding(String exchange, String queue) {
-        super(queue, DestinationType.QUEUE, exchange, StringUtils.EMPTY, Collections.<String, Object>emptyMap());
+        super(queue, DestinationType.QUEUE, exchange, StringUtils.EMPTY, Collections.emptyMap());
     }
 }
