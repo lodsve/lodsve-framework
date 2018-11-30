@@ -1,2 +1,3 @@
 org.springframework.context.annotation.Configuration=\
-  lodsve.core.configuration.LodsveCoreConfiguration
+  lodsve.core.configuration.LodsveCoreConfiguration,\
+  lodsve.core.mail.MailSenderConfiguration

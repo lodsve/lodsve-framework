@@ -46,7 +46,7 @@ import java.util.concurrent.ExecutorService;
  * @date 2016/12/27 下午3:07
  */
 @Configuration
-@EnableConfigurationProperties({ApplicationProperties.class, EmailProperties.class})
+@EnableConfigurationProperties({ApplicationProperties.class, MailProperties.class})
 @ComponentScan({
         "lodsve.core.exception",
         "lodsve.core.properties"

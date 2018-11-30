@@ -271,7 +271,9 @@ public class RelaxedBindFactory {
             String keyInMap;
             Object value;
             if (COMMON_TYPES.contains(secondGenericClazz)) {
-                keyInMap = key;
+                keyInMap = StringUtils.removeStart(key, "[");
+                keyInMap = StringUtils.removeEnd(keyInMap, "]");
+
                 if (map.containsKey(keyInMap)) {
                     continue;
                 }
@@ -281,7 +283,9 @@ public class RelaxedBindFactory {
                 if (temp.length < 2) {
                     continue;
                 }
-                keyInMap = temp[0];
+                keyInMap = StringUtils.removeStart(temp[0], "[");
+                keyInMap = StringUtils.removeEnd(keyInMap, "]");
+
                 if (map.containsKey(keyInMap)) {
                     continue;
                 }

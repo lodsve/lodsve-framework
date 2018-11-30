@@ -20,6 +20,7 @@ package lodsve.core.properties.env;
 import lodsve.core.utils.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 
+import javax.mail.internet.InternetAddress;
 import java.awt.*;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
@@ -80,7 +81,7 @@ final class PropertyConverter {
     private static final Class<?>[] CONSTR_ARGS = {String.class};
 
     /**
-     * The fully qualified name of {@link javax.mail.internet.InternetAddress}
+     * The fully qualified name of {@link InternetAddress}
      */
     private static final String INTERNET_ADDRESS_CLASSNAME = "javax.mail.internet.InternetAddress";
 
