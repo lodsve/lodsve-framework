@@ -78,7 +78,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Bean
             if (logger.isErrorEnabled()) {
                 logger.error("The bean named '{}' is not a {}!", beanName, DataSource.class.getName());
             }
-            throw new RdbmsException(102005, String.format("The bean named '%s' is not a '%s'!", beanName, DataSource.class.getName()));
+            throw new RdbmsException(108001, String.format("The bean named '%s' is not a '%s'!", beanName, DataSource.class.getName()));
         }
 
         return (DataSource) object;

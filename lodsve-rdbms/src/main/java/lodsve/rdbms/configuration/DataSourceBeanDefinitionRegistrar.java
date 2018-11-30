@@ -58,7 +58,7 @@ public class DataSourceBeanDefinitionRegistrar implements ImportBeanDefinitionRe
         String[] dataSources = attributes.getStringArray(Constants.DATA_SOURCE_ATTRIBUTE_NAME);
 
         if (dataSources.length == 0) {
-            throw new RdbmsException(102005, "can't find any datasource!");
+            throw new RdbmsException(108001, "can't find any datasource!");
         }
 
         // 组装一些信息

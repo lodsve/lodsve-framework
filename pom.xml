@@ -56,8 +56,10 @@
         <module>lodsve-test</module>
         <!-- validate -->
         <module>lodsve-validate</module>
-        <!--web-->
+        <!-- web -->
         <module>lodsve-web</module>
+        <!-- wechat -->
+        <module>lodsve-wechat</module>
     </modules>
 
     <properties>
@@ -1132,6 +1134,11 @@
             <dependency>
                 <groupId>com.lodsve</groupId>
                 <artifactId>lodsve-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-wechat</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- lodsve framework dependencies end -->
