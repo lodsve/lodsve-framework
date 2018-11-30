@@ -32,10 +32,10 @@ import java.util.Collections;
 public class TopicQueueBinding extends Binding {
 
     public TopicQueueBinding(TopicExchange exchange, Queue queue, String routingKey) {
-        super(queue.getName(), DestinationType.QUEUE, exchange.getName(), routingKey, Collections.<String, Object>emptyMap());
+        super(queue.getName(), DestinationType.QUEUE, exchange.getName(), routingKey, Collections.emptyMap());
     }
 
     public TopicQueueBinding(String exchange, String queue, String routingKey) {
-        super(queue, DestinationType.QUEUE, exchange, routingKey, Collections.<String, Object>emptyMap());
+        super(queue, DestinationType.QUEUE, exchange, routingKey, Collections.emptyMap());
     }
 }

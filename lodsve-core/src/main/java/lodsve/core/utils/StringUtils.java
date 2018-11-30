@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  */
-public class StringUtils extends org.apache.commons.lang.StringUtils {
+public class StringUtils extends org.apache.commons.lang3.StringUtils {
     private static final String DEFAULT_DELIMITERS = ",";
 
 
@@ -153,7 +153,7 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
         int pos = 0, i;
         for (i = strcontent.indexOf(oldstr, pos); i >= 0; i = strcontent
                 .indexOf(oldstr, pos)) {
-            buffer.append(strcontent.substring(pos, i));
+            buffer.append(strcontent, pos, i);
             buffer.append(newstr);
             pos = i + len;
         }
@@ -176,7 +176,6 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
         StringTokenizer stk = new StringTokenizer(str, character);
         List<String> list = new ArrayList<>();
         for (; stk.hasMoreTokens(); list.add(stk.nextToken())) {
-            ;
         }
 
         return list.toArray(new String[list.size()]);

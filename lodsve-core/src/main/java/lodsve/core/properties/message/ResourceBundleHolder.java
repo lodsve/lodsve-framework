@@ -20,7 +20,7 @@ package lodsve.core.properties.message;
 import lodsve.core.utils.FileUtils;
 import lodsve.core.utils.ResourceUtils;
 import lodsve.core.utils.StringUtils;
-import org.apache.commons.lang.LocaleUtils;
+import org.apache.commons.lang3.LocaleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -29,11 +29,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * 存放消息源的容器.

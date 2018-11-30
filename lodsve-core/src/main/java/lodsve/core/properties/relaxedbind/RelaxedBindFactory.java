@@ -24,7 +24,7 @@ import lodsve.core.properties.env.PropertiesConfiguration;
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import lodsve.core.properties.relaxedbind.annotations.Required;
 import lodsve.core.utils.*;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -174,7 +174,14 @@ public class RelaxedBindFactory {
         } else if (type.isEnum()) {
             value = getValueForEnum(key, type);
         } else {
-            value = BeanUtils.instantiate(type);
+            if (type.isInterface()) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("class [{}] is a interface!", type);
+                }
+                return null;
+            }
+            value = BeanUtils.instantiateClass(type);
+
             bindToSubTarget(value, key);
         }
 
@@ -264,7 +271,9 @@ public class RelaxedBindFactory {
             String keyInMap;
             Object value;
             if (COMMON_TYPES.contains(secondGenericClazz)) {
-                keyInMap = key;
+                keyInMap = StringUtils.removeStart(key, "[");
+                keyInMap = StringUtils.removeEnd(keyInMap, "]");
+
                 if (map.containsKey(keyInMap)) {
                     continue;
                 }
@@ -274,7 +283,9 @@ public class RelaxedBindFactory {
                 if (temp.length < 2) {
                     continue;
                 }
-                keyInMap = temp[0];
+                keyInMap = StringUtils.removeStart(temp[0], "[");
+                keyInMap = StringUtils.removeEnd(keyInMap, "]");
+
                 if (map.containsKey(keyInMap)) {
                     continue;
                 }
@@ -342,7 +353,7 @@ public class RelaxedBindFactory {
             for (int i = 0; i < name.length(); i++) {
                 String tmp = name.substring(i, i + 1);
                 //判断截获的字符是否是大写，大写字母的toUpperCase()还是大写的
-                if (!NumberUtils.isNumber(tmp) && tmp.equals(tmp.toUpperCase())) {
+                if (!NumberUtils.isCreatable(tmp) && tmp.equals(tmp.toUpperCase())) {
                     //此字符是大写的
                     result.append("-").append(tmp.toLowerCase());
                 } else {

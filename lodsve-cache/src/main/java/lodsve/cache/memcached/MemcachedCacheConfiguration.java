@@ -22,7 +22,7 @@ import lodsve.cache.properties.MemcachedConfig;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.utils.NumberUtils;
 import net.spy.memcached.MemcachedClient;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -45,8 +45,11 @@ import java.util.List;
 @EnableCaching
 @EnableConfigurationProperties(CacheProperties.class)
 public class MemcachedCacheConfiguration {
-    @Autowired
-    private CacheProperties cacheProperties;
+    private final CacheProperties cacheProperties;
+
+    public MemcachedCacheConfiguration(ObjectProvider<CacheProperties> cacheProperties) {
+        this.cacheProperties = cacheProperties.getIfAvailable();
+    }
 
     @Bean
     public CacheManager cacheManager(MemcachedClient client) {
@@ -75,7 +78,7 @@ public class MemcachedCacheConfiguration {
             if (temp.length == 1) {
                 address = new InetSocketAddress(temp[0], 0);
             } else if (temp.length == 2) {
-                if (!NumberUtils.isNumber(temp[1])) {
+                if (!NumberUtils.isCreatable(temp[1])) {
                     continue;
                 }
                 address = new InetSocketAddress(temp[0], NumberUtils.toInt(temp[1]));

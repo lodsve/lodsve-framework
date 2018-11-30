@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (C) 2018  Sun.Hao
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <settings>
+        <!-- [是否 启用 数据中 A_column 自动映射 到 java类中驼峰命名的属性 default:false] -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <setting name="defaultEnumTypeHandler" value="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+    </settings>
+
+    <plugins>
+        <plugin interceptor="lodsve.mybatis.plugins.pagination.PaginationInterceptor"/>
+        <plugin interceptor="lodsve.mybatis.plugins.repository.BaseRepositoryInterceptor"/>
+        <plugin interceptor="lodsve.mybatis.plugins.version.OptimisticLockInterceptor"/>
+    </plugins>
+
+    <environments default="hsqldb">
+        <environment id="hsqldb">
+            <transactionManager type="JDBC"/>
+            <!-- 配置数据库连接信息 -->
+            <dataSource type="POOLED">
+                <!-- value属性值引用db.properties配置文件中配置的值 -->
+                <property name="driver" value="org.hsqldb.jdbcDriver"/>
+                <property name="url" value="jdbc:hsqldb:mem:basetest"/>
+                <property name="username" value="sa"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- mybatis的mapper文件，每个xml配置文件对应一个接口 -->
+    <mappers>
+        <mapper resource="mapper/DemoMapper.xml"/>
+    </mappers>
+</configuration>

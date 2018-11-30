@@ -30,14 +30,12 @@ public class OracleDialect extends AbstractDialect {
             return sql;
         }
 
-        StringBuffer pageSql = new StringBuffer(" SELECT * FROM ( ");
-        pageSql.append(" SELECT temp.* ,ROWNUM num FROM ( ");
-        pageSql.append(sql);
         int last = offset + limit;
-        pageSql.append(" ) temp where ROWNUM <= ").append(last);
-        pageSql.append(" ) WHERE num > ").append(offset);
+        String pageSql = "SELECT * FROM " +
+                "(SELECT temp.* ,ROWNUM num FROM (%s) temp where ROWNUM <= %d) " +
+                "WHERE num > %d";
 
-        return pageSql.toString();
+        return String.format(pageSql, sql, last, offset);
     }
 
     @Override

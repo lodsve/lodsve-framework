@@ -24,7 +24,7 @@ import lodsve.mongodb.connection.DynamicMongoConnection;
 import lodsve.mongodb.core.MongoDataSourceBeanDefinitionFactory;
 import lodsve.mongodb.repository.LodsveAnnotationRepositoryConfigurationSource;
 import lodsve.mongodb.repository.LodsveMongoRepositoryConfigurationExtension;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.CustomEditorConfigurer;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -99,7 +99,7 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
     }
 
     private void initMongoRepository(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry registry) {
-        AnnotationRepositoryConfigurationSource configurationSource = new LodsveAnnotationRepositoryConfigurationSource(annotationMetadata, EnableMongo.class, resourceLoader, environment);
+        AnnotationRepositoryConfigurationSource configurationSource = new LodsveAnnotationRepositoryConfigurationSource(annotationMetadata, EnableMongo.class, resourceLoader, environment, registry);
         RepositoryConfigurationExtension extension = new LodsveMongoRepositoryConfigurationExtension(Constants.MONGO_TEMPLATE_BEAN_NAME);
         RepositoryConfigurationUtils.exposeRegistration(extension, registry, configurationSource);
 

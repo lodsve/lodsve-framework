@@ -17,12 +17,11 @@
 
 package lodsve.mybatis.dialect;
 
-import org.springframework.jdbc.datasource.DataSourceUtils;
+import lodsve.mybatis.query.NativeSqlQuery;
+import lodsve.mybatis.utils.SqlUtils;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 /**
  * 公用部分.
@@ -33,40 +32,25 @@ import java.sql.ResultSet;
 public abstract class AbstractDialect implements Dialect {
     @Override
     public String getCountSql(String sql) {
-        StringBuilder sqlBuilder = new StringBuilder();
-        return sqlBuilder.append("select count(*) from (").append(sql).append(") tmp_count").toString();
+        return SqlUtils.getSingleLineCountSql(sql);
     }
 
     @Override
     public boolean existTable(String tableName, DataSource dataSource) throws Exception {
-        Assert.notNull(dataSource);
-        Assert.hasText(tableName);
+        Assert.notNull(dataSource, "dataSource must be non-null!");
+        Assert.hasText(tableName, "dataSource must be non-null!");
 
-        String name = dataSource.getConnection().getCatalog();
-        PreparedStatement ps = null;
-        ResultSet resultSet = null;
-
-        try {
-            ps = DataSourceUtils.doGetConnection(dataSource).prepareStatement(existTableSql(name, tableName));
-            resultSet = ps.executeQuery();
-
-            return resultSet.next() && resultSet.getInt("count") > 0;
-        } finally {
-            if (ps != null) {
-                ps.close();
-            }
-            if (resultSet != null) {
-                resultSet.close();
-            }
+        try (NativeSqlQuery query = new NativeSqlQuery(dataSource)) {
+            return 0 < query.queryForInt(existTableSql(tableName, tableName));
         }
     }
 
     /**
      * 判断表是否存在的sql
      *
-     * @param schema
-     * @param tableName
-     * @return
+     * @param schema    schema
+     * @param tableName table Name
+     * @return 判断表是否存在的sql
      */
     abstract String existTableSql(String schema, String tableName);
 }

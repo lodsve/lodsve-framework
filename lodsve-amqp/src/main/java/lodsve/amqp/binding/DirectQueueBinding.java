@@ -31,10 +31,10 @@ import java.util.Collections;
  */
 public class DirectQueueBinding extends Binding {
     public DirectQueueBinding(DirectExchange exchange, Queue queue, String routingKey) {
-        super(queue.getName(), DestinationType.QUEUE, exchange.getName(), routingKey, Collections.<String, Object>emptyMap());
+        super(queue.getName(), DestinationType.QUEUE, exchange.getName(), routingKey, Collections.emptyMap());
     }
 
     public DirectQueueBinding(String exchange, String queue, String routingKey) {
-        super(queue, DestinationType.QUEUE, exchange, routingKey, Collections.<String, Object>emptyMap());
+        super(queue, DestinationType.QUEUE, exchange, routingKey, Collections.emptyMap());
     }
 }

@@ -17,14 +17,11 @@
 
 package lodsve.mybatis.plugins.pagination;
 
+import lodsve.mybatis.utils.PaginationUtils;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Plugin;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.data.domain.Page;
@@ -50,7 +47,6 @@ import java.util.Properties;
 public class PaginationInterceptor implements Interceptor {
     private static final Integer MAPPED_STATEMENT_INDEX = 0;
     private static final Integer PARAMETER_INDEX = 1;
-    private static int ROWBOUNDS_INDEX = 2;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -58,8 +54,8 @@ public class PaginationInterceptor implements Interceptor {
         Object parameter = queryArgs[PARAMETER_INDEX];
 
         //在参数中获取分页的信息
-        Pageable pageable = PaginationHelper.findObjectFromParameter(parameter, Pageable.class);
-        Sort sort = PaginationHelper.findObjectFromParameter(parameter, Sort.class);
+        Pageable pageable = PaginationUtils.findObjectFromParameter(parameter, Pageable.class);
+        Sort sort = PaginationUtils.findObjectFromParameter(parameter, Sort.class);
         if (pageable == null && sort == null) {
             //无需分页
             return invocation.proceed();
@@ -71,27 +67,27 @@ public class PaginationInterceptor implements Interceptor {
 
         if (pageable == null) {
             // 仅排序
-            String orderSql = PaginationHelper.applySortSql(sql, sort);
-            queryArgs[MAPPED_STATEMENT_INDEX] = PaginationHelper.copyFromNewSql(ms, boundSql, orderSql);
+            String orderSql = PaginationUtils.applySortSql(sql, sort);
+            queryArgs[MAPPED_STATEMENT_INDEX] = PaginationUtils.copyFromNewSql(ms, boundSql, orderSql);
 
             return invocation.proceed();
         }
 
-        int total = PaginationHelper.queryForTotal(sql, ms, boundSql);
+        int total = PaginationUtils.queryForTotal(sql, ms, boundSql);
 
         //参数sort优先于pageable中的sort
         if (sort == null && pageable.getSort() != null) {
             sort = pageable.getSort();
         }
         if (sort != null) {
-            sql = PaginationHelper.applySortSql(sql, sort);
+            sql = PaginationUtils.applySortSql(sql, sort);
         }
 
         //分页语句
-        String pageSql = PaginationHelper.getPageSql(sql, ms, pageable.getOffset(), pageable.getPageSize());
+        String pageSql = PaginationUtils.getPageSql(sql, pageable.getOffset(), pageable.getPageSize());
 
-        queryArgs[ROWBOUNDS_INDEX] = new RowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
-        queryArgs[MAPPED_STATEMENT_INDEX] = PaginationHelper.copyFromNewSql(ms, boundSql, pageSql);
+        queryArgs[MAPPED_STATEMENT_INDEX] = PaginationUtils.copyFromNewSql(ms, boundSql, pageSql);
+        queryArgs[2] = new RowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
 
         Object ret = invocation.proceed();
         Page<?> pi = new PageImpl<>((List<?>) ret, pageable, total);

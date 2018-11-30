@@ -32,7 +32,7 @@ import java.util.*;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2012-6-26 上午09:44:13
  */
-public class ObjectUtils extends org.apache.commons.lang.ObjectUtils {
+public class ObjectUtils extends org.apache.commons.lang3.ObjectUtils {
 
     private ObjectUtils() {
         super();

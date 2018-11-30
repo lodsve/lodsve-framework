@@ -17,7 +17,7 @@
 
 package lodsve.core.utils;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.concurrent.ThreadLocalRandom;
 

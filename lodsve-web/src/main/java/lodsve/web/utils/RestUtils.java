@@ -17,19 +17,13 @@
 
 package lodsve.web.utils;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lodsve.web.mvc.json.CustomObjectMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,27 +34,10 @@ import java.util.Set;
  * @date 2018-3-26 14:44
  */
 public class RestUtils {
-    private static final RestTemplate TEMPLATE = new RestTemplate();
+    private static RestTemplate restTemplate;
 
-    private RestUtils() {
-
-    }
-
-    static {
-        List<HttpMessageConverter<?>> messageConverters = TEMPLATE.getMessageConverters();
-        for (HttpMessageConverter<?> converter : messageConverters) {
-            if (converter instanceof MappingJackson2HttpMessageConverter) {
-                messageConverters.remove(converter);
-
-                MappingJackson2HttpMessageConverter newConverter = new MappingJackson2HttpMessageConverter();
-                ObjectMapper objectMapper = new CustomObjectMapper();
-                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                newConverter.setObjectMapper(objectMapper);
-                messageConverters.add(newConverter);
-            }
-        }
-
-        TEMPLATE.setMessageConverters(messageConverters);
+    public static void setRestTemplate(RestTemplate restTemplate) {
+        RestUtils.restTemplate = restTemplate;
     }
 
     // GET
@@ -69,7 +46,7 @@ public class RestUtils {
         Assert.notNull(url);
         Assert.notNull(responseType);
 
-        return TEMPLATE.getForObject(url, responseType);
+        return restTemplate.getForObject(url, responseType);
     }
 
     public static <T> T get(String url, Class<T> responseType, Object... uriVariables) {
@@ -94,7 +71,7 @@ public class RestUtils {
         Assert.notNull(url);
         Assert.notNull(responseType);
 
-        return TEMPLATE.postForObject(url, request, responseType);
+        return restTemplate.postForObject(url, request, responseType);
     }
 
     public static <T> T post(String url, Object request, Class<T> responseType, Object... uriVariables) {
@@ -124,7 +101,7 @@ public class RestUtils {
     }
 
     public static HttpHeaders head(URI url) throws RestClientException {
-        return TEMPLATE.headForHeaders(url);
+        return restTemplate.headForHeaders(url);
     }
 
     // PUT
@@ -139,7 +116,7 @@ public class RestUtils {
     }
 
     public static void put(URI url, Object request) throws RestClientException {
-        TEMPLATE.put(url, request);
+        restTemplate.put(url, request);
     }
 
     // DELETE
@@ -153,7 +130,7 @@ public class RestUtils {
     }
 
     public static void delete(URI url) throws RestClientException {
-        TEMPLATE.delete(url);
+        restTemplate.delete(url);
     }
 
     // OPTIONS
@@ -167,18 +144,18 @@ public class RestUtils {
     }
 
     public static Set<HttpMethod> options(URI url) throws RestClientException {
-        return TEMPLATE.optionsForAllow(url);
+        return restTemplate.optionsForAllow(url);
     }
 
     // COMMONS
 
     private static URI expand(String url, Object... uriVariables) {
         Assert.hasText(url);
-        return TEMPLATE.getUriTemplateHandler().expand(url, uriVariables);
+        return restTemplate.getUriTemplateHandler().expand(url, uriVariables);
     }
 
     private static URI expand(String url, Map<String, ?> uriVariables) {
         Assert.hasText(url);
-        return TEMPLATE.getUriTemplateHandler().expand(url, uriVariables);
+        return restTemplate.getUriTemplateHandler().expand(url, uriVariables);
     }
 }

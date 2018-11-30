@@ -1,38 +1,11 @@
-/*
- * Copyright (C) 2018  Sun.Hao
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package lodsve.core.properties.env;
+
+import org.apache.commons.lang3.ClassUtils;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Properties;
-import java.util.Set;
-
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.ClassUtils;
-import org.apache.commons.lang.ObjectUtils;
+import java.util.*;
 
 abstract class AbstractConfiguration implements Configuration {
 
@@ -43,10 +16,14 @@ abstract class AbstractConfiguration implements Configuration {
      */
     protected static final char DISABLED_DELIMITER = '\0';
 
-    /** The default value for listDelimiter */
+    /**
+     * The default value for listDelimiter
+     */
     private static char defaultListDelimiter = ',';
 
-    /** Delimiter used to convert single values to lists */
+    /**
+     * Delimiter used to convert single values to lists
+     */
     private char listDelimiter = defaultListDelimiter;
 
     /**
@@ -172,8 +149,7 @@ abstract class AbstractConfiguration implements Configuration {
 
     @Override
     public boolean getBoolean(String key, boolean defaultValue) {
-        return getBoolean(key, BooleanUtils.toBooleanObject(defaultValue))
-                .booleanValue();
+        return getBoolean(key, Boolean.valueOf(defaultValue));
     }
 
     @Override
@@ -508,7 +484,7 @@ abstract class AbstractConfiguration implements Configuration {
             array = new String[list.size()];
 
             for (int i = 0; i < array.length; i++) {
-                array[i] = ObjectUtils.toString(list.get(i), null);
+                array[i] = Objects.toString(list.get(i), null);
             }
         } else if (value == null) {
             array = new String[0];

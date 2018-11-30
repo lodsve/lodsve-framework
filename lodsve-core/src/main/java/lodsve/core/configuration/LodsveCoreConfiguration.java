@@ -28,7 +28,7 @@ import lodsve.core.properties.message.ResourceBundleHolder;
 import lodsve.core.properties.profile.ProfileInitializer;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import org.apache.commons.collections.MapUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +37,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
 
 import javax.mail.MessagingException;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -47,14 +46,17 @@ import java.util.concurrent.ExecutorService;
  * @date 2016/12/27 下午3:07
  */
 @Configuration
-@EnableConfigurationProperties({ApplicationProperties.class, EmailProperties.class})
+@EnableConfigurationProperties({ApplicationProperties.class, MailProperties.class})
 @ComponentScan({
         "lodsve.core.exception",
         "lodsve.core.properties"
 })
 public class LodsveCoreConfiguration {
-    @Autowired
-    private ApplicationProperties applicationProperties;
+    private final ApplicationProperties applicationProperties;
+
+    public LodsveCoreConfiguration(ObjectProvider<ApplicationProperties> applicationProperties) {
+        this.applicationProperties = applicationProperties.getIfAvailable();
+    }
 
     @Bean
     public ThreadPoolExecutorFactoryBean threadPoolExecutorFactoryBean() {

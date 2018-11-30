@@ -19,6 +19,8 @@ package lodsve.web.springfox.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 
+import java.util.List;
+
 /**
  * 配置springfox的相关参数.
  *
@@ -30,6 +32,7 @@ public class SpringFoxProperties {
 
     private String title = "RESTful Api Documentation";
     private String description = "RESTful Api Documentation";
+    private List<String> groups;
 
     public String getTitle() {
         return title;
@@ -45,5 +48,13 @@ public class SpringFoxProperties {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<String> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<String> groups) {
+        this.groups = groups;
     }
 }

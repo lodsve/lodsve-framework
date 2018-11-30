@@ -17,6 +17,8 @@
 
 package lodsve.web.utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lodsve.web.mvc.config.WebMvcConfiguration;
 import lodsve.web.utils.domain.Demo;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -29,6 +31,7 @@ import org.mockserver.model.HttpResponse;
 import org.mockserver.socket.PortFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -57,7 +60,7 @@ public class RestUtilsTest {
                         .response()
                         .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
                                 new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
-                                new Header("Content-Length", "250")).withBody("{\"pkId\":\"1\",\"userName\":\"孙昊\",\"sex\":{\"code\":\"0\",\"title\":\"性别不详\"}}"));
+                                new Header("Content-Length", "250")).withBody("{\"pkId\":1,\"userName\":\"孙昊\",\"sex\":{\"code\":\"0\",\"title\":\"性别不详\"}}"));
 
         mockServer.when(HttpRequest.request().withPath("/demo/void")).respond(
                 HttpResponse
@@ -80,7 +83,7 @@ public class RestUtilsTest {
                                 new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
                                 new Header("Content-Length", "250"), new Header("result", "successed")));
 
-        mockServer.when(HttpRequest.request().withPath("/demo/put").withMethod("PUT").withBody("{\"pkId\":\"1\",\"userName\":\"sunhao\"}")).respond(
+        mockServer.when(HttpRequest.request().withPath("/demo/put").withMethod("PUT").withBody("{\"pkId\":1,\"userName\":\"sunhao\"}")).respond(
                 HttpResponse
                         .response()
                         .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
@@ -93,6 +96,11 @@ public class RestUtilsTest {
                         .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
                                 new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
                                 new Header("Content-Length", "250"), new Header("Allow", "POST")));
+
+        WebMvcConfiguration configuration = new WebMvcConfiguration();
+        ObjectMapper objectMapper = configuration.objectMapper();
+        RestTemplate restTemplate = configuration.restTemplate(objectMapper);
+        RestUtils.setRestTemplate(restTemplate);
     }
 
     @AfterClass
@@ -208,7 +216,7 @@ public class RestUtilsTest {
      */
     @Test
     public void put() {
-        RestUtils.put(baseUrl + "/demo/put", new Demo(1L, "sunhao"), new Object[0]);
+        RestUtils.put(baseUrl + "/demo/put", new Demo(1L, "sunhao"));
     }
 
     /**

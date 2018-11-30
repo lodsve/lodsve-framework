@@ -17,13 +17,13 @@
 
 package lodsve.web.mvc.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lodsve.core.configuration.ApplicationProperties;
 import lodsve.web.mvc.annotation.resolver.BindDataHandlerMethodArgumentResolver;
 import lodsve.web.mvc.annotation.resolver.ParseDataHandlerMethodArgumentResolver;
 import lodsve.web.mvc.annotation.resolver.WebResourceDataHandlerMethodArgumentResolver;
 import lodsve.web.mvc.convert.EnumCodeConverterFactory;
 import lodsve.web.mvc.convert.StringDateConvertFactory;
-import lodsve.web.mvc.json.CustomObjectMapper;
 import lodsve.web.mvc.properties.ServerProperties;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
@@ -31,10 +31,7 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.CorsRegistration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.List;
 
@@ -44,13 +41,15 @@ import java.util.List;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/8/15 下午1:22
  */
-public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
+public class LodsveWebMvcConfigurerAdapter implements WebMvcConfigurer {
     private ServerProperties properties;
     private ApplicationProperties applicationProperties;
+    private ObjectMapper objectMapper;
 
-    public LodsveWebMvcConfigurerAdapter(ServerProperties properties, ApplicationProperties applicationProperties) {
+    public LodsveWebMvcConfigurerAdapter(ServerProperties properties, ApplicationProperties applicationProperties, ObjectMapper objectMapper) {
         this.properties = properties;
         this.applicationProperties = applicationProperties;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -73,7 +72,7 @@ public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(new CustomObjectMapper());
+        converter.setObjectMapper(objectMapper);
         converters.add(converter);
         converters.add(new ByteArrayHttpMessageConverter());
     }
@@ -84,7 +83,7 @@ public class LodsveWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
                 favorParameter(true).
                 parameterName("mediaType").
                 ignoreAcceptHeader(true).
-                useJaf(false).
+                useRegisteredExtensionsOnly(true).
                 defaultContentType(MediaType.APPLICATION_JSON).
                 mediaType("xml", MediaType.APPLICATION_XML).
                 mediaType("json", MediaType.APPLICATION_JSON).

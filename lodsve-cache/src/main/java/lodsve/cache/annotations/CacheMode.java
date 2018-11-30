@@ -18,7 +18,6 @@
 package lodsve.cache.annotations;
 
 import lodsve.cache.ehcache.EhcacheCacheConfiguration;
-import lodsve.cache.guava.GuavaCacheConfiguration;
 import lodsve.cache.memcached.MemcachedCacheConfiguration;
 import lodsve.cache.oscache.OscacheCacheConfiguration;
 import lodsve.cache.redis.RedisCacheConfiguration;
@@ -34,10 +33,6 @@ public enum CacheMode {
      * redis cache
      */
     REDIS(RedisCacheConfiguration.class),
-    /**
-     * guava cache
-     */
-    GUAVA(GuavaCacheConfiguration.class),
     /**
      * ehcache
      */

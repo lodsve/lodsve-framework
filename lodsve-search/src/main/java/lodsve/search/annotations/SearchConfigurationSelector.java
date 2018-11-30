@@ -34,7 +34,7 @@ import java.util.List;
  * @date 2016/1/20 12:30
  */
 public class SearchConfigurationSelector implements ImportSelector {
-    public static final String SEARCH_TYPE_ATTRIBUTE_NAME = "type";
+    private static final String SEARCH_TYPE_ATTRIBUTE_NAME = "type";
 
     @Override
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
@@ -50,6 +50,6 @@ public class SearchConfigurationSelector implements ImportSelector {
             imports.add(LuceneConfiguration.class.getName());
         }
 
-        return imports.toArray(new String[imports.size()]);
+        return imports.toArray(new String[0]);
     }
 }
