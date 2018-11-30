@@ -1,5 +1,25 @@
 # 更新日志
 
+## 2.7.0-RELEASE
+1. 改进配置文件自动装配
+    - map中的key用[]包裹起来
+2. 重构mail部分，基于spring mail实现
+3. 还原WeChat部分，并重构
+4. 抽出rdbms部分（数据源相关）
+5. 增加mybatis的通用dao、乐观锁插件
+6. 升级相关组件
+    - spring
+    - junit 
+    - jackson
+    - springfox
+    - commons-lang3
+    - mybatis
+    - 
+7. 引入相关组件
+    - vjtools    
+    - guava
+8. fixed bugs    
+
 ## 2.6.7-RELEASE
 1. 支持amqp注解，具体配置请参考`rabbit.properties`文件
 2. 使用EnableXXX的配置文件都从注解中引入，其余通过spring.factories引入
