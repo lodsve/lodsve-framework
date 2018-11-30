@@ -1,23 +1,5 @@
-/*
- * Copyright (C) 2018  Sun.Hao
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package lodsve.core.properties.env;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ClassUtils;
 
 import java.lang.reflect.Array;
@@ -167,7 +149,7 @@ abstract class AbstractConfiguration implements Configuration {
 
     @Override
     public boolean getBoolean(String key, boolean defaultValue) {
-        return getBoolean(key, BooleanUtils.toBoolean(defaultValue));
+        return getBoolean(key, Boolean.valueOf(defaultValue));
     }
 
     @Override
@@ -518,7 +500,7 @@ abstract class AbstractConfiguration implements Configuration {
 
     @Override
     public List<Object> getList(String key) {
-        return getList(key, new ArrayList<>());
+        return getList(key, new ArrayList<Object>());
     }
 
     @SuppressWarnings("unchecked")
@@ -528,10 +510,10 @@ abstract class AbstractConfiguration implements Configuration {
         List<Object> list;
 
         if (value instanceof String) {
-            list = new ArrayList<>(1);
-            list.add(value);
+            list = new ArrayList<Object>(1);
+            list.add((String) value);
         } else if (value instanceof List) {
-            list = new ArrayList<>();
+            list = new ArrayList<Object>();
             List<?> l = (List<?>) value;
 
             // add the interpolated elements in the new list
@@ -543,7 +525,7 @@ abstract class AbstractConfiguration implements Configuration {
         } else if (value.getClass().isArray()) {
             return Arrays.asList((Object[]) value);
         } else if (isScalarValue(value)) {
-            return Collections.singletonList(value.toString());
+            return Collections.singletonList((Object) value.toString());
         } else {
             throw new ConversionException('\'' + key
                     + "' doesn't map to a List object: " + value + ", a "

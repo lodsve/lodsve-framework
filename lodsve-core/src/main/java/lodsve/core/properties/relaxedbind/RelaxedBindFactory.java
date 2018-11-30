@@ -174,7 +174,14 @@ public class RelaxedBindFactory {
         } else if (type.isEnum()) {
             value = getValueForEnum(key, type);
         } else {
-            value = BeanUtils.instantiate(type);
+            if (type.isInterface()) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("class [{}] is a interface!", type);
+                }
+                return null;
+            }
+            value = BeanUtils.instantiateClass(type);
+
             bindToSubTarget(value, key);
         }
 

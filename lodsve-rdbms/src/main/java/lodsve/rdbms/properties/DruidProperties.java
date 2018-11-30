@@ -17,6 +17,7 @@
 
 package lodsve.rdbms.properties;
 
+import com.alibaba.druid.wall.WallConfig;
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 
 /**
@@ -28,6 +29,7 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 @ConfigurationProperties(prefix = "lodsve.druid", locations = "${params.root}/framework/druid.properties")
 public class DruidProperties {
     private String filters = "stat\\,wall";
+    private WallConfig wallConfig;
     private boolean enableMonitor = false;
     private String path = "/druid/*";
     private String resetEnable = "true";
@@ -43,6 +45,14 @@ public class DruidProperties {
 
     public void setFilters(String filters) {
         this.filters = filters;
+    }
+
+    public WallConfig getWallConfig() {
+        return wallConfig;
+    }
+
+    public void setWallConfig(WallConfig wallConfig) {
+        this.wallConfig = wallConfig;
     }
 
     public boolean isEnableMonitor() {

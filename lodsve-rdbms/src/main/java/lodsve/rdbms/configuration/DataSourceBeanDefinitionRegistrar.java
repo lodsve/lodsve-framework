@@ -23,10 +23,10 @@ import lodsve.core.bean.BeanRegisterUtils;
 import lodsve.core.properties.Profiles;
 import lodsve.rdbms.Constants;
 import lodsve.rdbms.annotations.DataSourceProvider;
-import lodsve.rdbms.builder.RdbmsDataSourceBeanDefinitionBuilder;
 import lodsve.rdbms.dynamic.DynamicDataSource;
 import lodsve.rdbms.exception.RdbmsException;
 import lodsve.rdbms.p6spy.LodsveP6OptionsSource;
+import lodsve.rdbms.pool.BaseDataSourcePool;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -100,7 +100,7 @@ public class DataSourceBeanDefinitionRegistrar implements ImportBeanDefinitionRe
 
             for (int i = 0; i < dataSources.length; i++) {
                 String name = dataSources[i];
-                BeanDefinition dsBeanDefinition = new RdbmsDataSourceBeanDefinitionBuilder(name).build();
+                BeanDefinition dsBeanDefinition = BaseDataSourcePool.getDataSourcePool(name).build();
 
                 if (i == 0) {
                     defaultDataSourceKey = name;

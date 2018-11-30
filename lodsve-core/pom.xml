@@ -107,6 +107,10 @@
             <groupId>com.vip.vjtools</groupId>
             <artifactId>vjkit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-core</artifactId>
+        </dependency>
 
         <!-- optional dependency -->
         <dependency>
