@@ -1,5 +1,7 @@
 ![LOGO](https://doc.lodsve.com/images/logo.png "lodsve-framework")
 
+[![Build Status](https://travis-ci.org/yangsenlin/snsdemo.svg?branch=master)](https://travis-ci.org/yangsenlin/snsdemo)
+
 ## lodsve-framework
 My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web development.
 
