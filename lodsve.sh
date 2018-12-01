@@ -14,13 +14,13 @@ help(){
 
 
 # Start
-./shell/logo.sh
+./.github/shell/logo.sh
 case "$1" in
   'versions')
-    shell/versions.sh $2
+    ./.github/shell/versions.sh $2
 	;;
   'deploy')
-    shell/deploy.sh $2
+    ./.github/shell/deploy.sh $2
 	;;
   *)
     help
