@@ -14,13 +14,13 @@ help(){
 
 
 # Start
-./shell/logo.sh
+./docs/logo.sh
 case "$1" in
   'versions')
-    shell/versions.sh $2
+    shell/shell/versions.sh $2
 	;;
   'deploy')
-    shell/deploy.sh $2
+    shell/shell/deploy.sh $2
 	;;
   *)
     help
