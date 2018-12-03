@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/yangsenlin/snsdemo.svg?branch=master)](https://travis-ci.org/yangsenlin/snsdemo)
 [![License](https://img.shields.io/badge/license-GPLv3-yellowgreen.svg)]()
 [![Maven central](https://maven-badges.herokuapp.com/maven-central/com.lodsve/lodsve-framework/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.lodsve/lodsve-framework)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/lodsve/lodsve-framework.svg)](http://isitmaintained.com/project/lodsve/lodsve-framework "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/lodsve/lodsve-framework.svg)](http://isitmaintained.com/project/lodsve/lodsve-framework "Percentage of issues still open")
 
 ## lodsve-framework
 My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web development.
