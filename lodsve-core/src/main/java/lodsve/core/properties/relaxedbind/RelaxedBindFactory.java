@@ -174,7 +174,7 @@ public class RelaxedBindFactory {
             return ArrayUtils.isEmpty((Object[]) value);
         }
 
-        return true;
+        return false;
     }
 
     private Object getValueForType(String key, Class<?> type, Method readMethod) {
