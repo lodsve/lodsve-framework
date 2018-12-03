@@ -24,6 +24,8 @@ import lodsve.core.properties.env.PropertiesConfiguration;
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import lodsve.core.properties.relaxedbind.annotations.Required;
 import lodsve.core.utils.*;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,12 +72,12 @@ public class RelaxedBindFactory {
 
     }
 
-    public void setTargetName(String targetName) {
+    private void setTargetName(String targetName) {
         this.targetName = targetName;
     }
 
-    public void setReadCache(boolean readCache) {
-        this.readCache = readCache;
+    private void disabledReadCache() {
+        this.readCache = false;
     }
 
     private static final Map<Class<?>, Object> CLASS_OBJECT_MAPPING = new HashMap<>(16);
@@ -85,7 +87,6 @@ public class RelaxedBindFactory {
         this.target = target;
     }
 
-    @SuppressWarnings("unchecked")
     private void bindToTarget() {
         if (!readCache) {
             generateObject(targetName, target);
@@ -116,6 +117,10 @@ public class RelaxedBindFactory {
             Class<?> type = descriptor.getPropertyType();
             Method readMethod = descriptor.getReadMethod();
             TypeDescriptor typeDescriptor = beanWrapper.getPropertyTypeDescriptor(name);
+            if (null == typeDescriptor) {
+                continue;
+            }
+
             Required required = typeDescriptor.getAnnotation(Required.class);
             Object defaultValue = null;
             try {
@@ -153,10 +158,23 @@ public class RelaxedBindFactory {
     }
 
     private boolean isEmpty(Object value) {
-        return value == null ||
-                (value instanceof Collection && ((Collection) value).isEmpty()) ||
-                (value instanceof Map && ((Map) value).isEmpty()) ||
-                (value.getClass().isArray() && ArrayUtils.isEmpty((Object[]) value));
+        if (null == value) {
+            return true;
+        }
+
+        if (value instanceof Collection) {
+            return CollectionUtils.isEmpty((Collection) value);
+        }
+
+        if (value instanceof Map) {
+            return MapUtils.isEmpty((Map) value);
+        }
+
+        if (value.getClass().isArray()) {
+            return ArrayUtils.isEmpty((Object[]) value);
+        }
+
+        return true;
     }
 
     private Object getValueForType(String key, Class<?> type, Method readMethod) {
@@ -204,11 +222,10 @@ public class RelaxedBindFactory {
         RelaxedBindFactory factory = new RelaxedBindFactory(target);
         factory.setTargetName(targetName);
         factory.setPropertySource(propertySource);
-        factory.setReadCache(false);
+        factory.disabledReadCache();
         factory.bindToTarget();
     }
 
-    @SuppressWarnings("unchecked")
     private Object getValueForSimpleType(String key, Class<?> type) {
         String value = configuration.getString(key);
         if (StringUtils.isBlank(value)) {
@@ -313,7 +330,7 @@ public class RelaxedBindFactory {
     private Object getValueForArray(String prefix, Class<?> type, Method readMethod) {
         List<Object> list = getValuesForCollectionOrArray(prefix, type, readMethod);
 
-        return list.toArray(new Object[list.size()]);
+        return list.toArray(new Object[0]);
     }
 
     private List<Object> getValuesForCollectionOrArray(String prefix, Class<?> type, Method readMethod) {
@@ -346,7 +363,7 @@ public class RelaxedBindFactory {
     }
 
     private String getCamelName(String name) {
-        Assert.hasText(name);
+        Assert.hasText(name, "name is required!");
 
         StringBuilder result = new StringBuilder();
         if (name != null && name.length() > 0) {
