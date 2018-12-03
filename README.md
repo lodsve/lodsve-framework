@@ -1,6 +1,8 @@
 ![LOGO](https://doc.lodsve.com/images/logo.png "lodsve-framework")
 
 [![Build Status](https://travis-ci.org/yangsenlin/snsdemo.svg?branch=master)](https://travis-ci.org/yangsenlin/snsdemo)
+[![License](https://img.shields.io/badge/license-GPLv3-yellowgreen.svg)]()
+[![Maven central](https://maven-badges.herokuapp.com/maven-central/com.lodsve/lodsve-framework/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.lodsve/lodsve-framework)
 
 ## lodsve-framework
 My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web development.
