@@ -17,7 +17,12 @@
 
 package lodsve.core.configuration;
 
+import com.google.common.collect.Maps;
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Map;
 
 /**
  * 系统配置.
@@ -25,6 +30,8 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016/12/12 下午3:05
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "application", locations = "${params.root}/framework/application.properties")
 public class ApplicationProperties {
     /**
@@ -48,44 +55,12 @@ public class ApplicationProperties {
      * 多线程配置
      */
     private ThreadConfig thread;
-
-    public boolean isDevMode() {
-        return devMode;
-    }
-
-    public void setDevMode(boolean devMode) {
-        this.devMode = devMode;
-    }
-
-    public String getEncoding() {
-        return encoding;
-    }
-
-    public void setEncoding(String encoding) {
-        this.encoding = encoding;
-    }
-
-    public boolean isForceEncoding() {
-        return forceEncoding;
-    }
-
-    public void setForceEncoding(boolean forceEncoding) {
-        this.forceEncoding = forceEncoding;
-    }
-
-    public BannerConfig getBanner() {
-        return banner;
-    }
-
-    public void setBanner(BannerConfig banner) {
-        this.banner = banner;
-    }
-
-    public ThreadConfig getThread() {
-        return thread;
-    }
-
-    public void setThread(ThreadConfig thread) {
-        this.thread = thread;
-    }
+    /**
+     * logback配置文件
+     */
+    private String logConfig;
+    /**
+     * 日志级别配置 
+     */
+    private Map<String, String> logLevel = Maps.newHashMap();
 }

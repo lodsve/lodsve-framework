@@ -1,19 +1,18 @@
-/**
- * P6Spy
- * <p>
- * Copyright (C) 2002 - 2017 P6Spy
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+/*
+ * Copyright (C) 2018  Sun.Hao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.p6spy.engine.spy;
@@ -22,7 +21,10 @@ import com.p6spy.engine.common.P6LogQuery;
 import com.p6spy.engine.common.P6Util;
 import com.p6spy.engine.spy.option.*;
 
-import javax.management.*;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanRegistrationException;
+import javax.management.MalformedObjectNameException;
+import javax.management.NotCompliantMBeanException;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -35,7 +37,7 @@ public class P6ModuleManager {
      */
     private static final List<P6OptionsSource> OPTIONS_SOURCES = new ArrayList<>(16);
     private final Map<Class<? extends P6LoadableOptions>, P6LoadableOptions> allOptions = new HashMap<Class<? extends P6LoadableOptions>, P6LoadableOptions>();
-    private final List<P6Factory> factories = new CopyOnWriteArrayList<P6Factory>();
+    private final List<P6Factory> factories = new CopyOnWriteArrayList<>();
     private final P6MBeansRegistry mBeansRegistry = new P6MBeansRegistry();
 
     private final P6OptionsRepository optionsRepository = new P6OptionsRepository();
@@ -46,79 +48,15 @@ public class P6ModuleManager {
         initMe();
     }
 
-    private synchronized static void initMe() {
-        try {
-            // 修改以引入外部的配置
-            // add by SUNHAO 2017-12-25
-            loadP6OptionsSources();
-
-            cleanUp();
-
-            instance = new P6ModuleManager();
-            P6LogQuery.initialize();
-
-        } catch (IOException e) {
-            handleInitEx(e);
-        } catch (MBeanRegistrationException e) {
-            handleInitEx(e);
-        } catch (InstanceNotFoundException e) {
-            handleInitEx(e);
-        } catch (MalformedObjectNameException e) {
-            handleInitEx(e);
-        } catch (NotCompliantMBeanException e) {
-            handleInitEx(e);
-        }
-    }
-
-    /**
-     * 修改以引入外部的配置
-     * add by SUNHAO 2017-12-25
-     */
-    private static void loadP6OptionsSources() throws IOException {
-        OPTIONS_SOURCES.add(new SpyDotProperties());
-        OPTIONS_SOURCES.add(new EnvironmentVariables());
-        OPTIONS_SOURCES.add(new SystemProperties());
-
-        ServiceLoader<P6OptionsSource> p6OptionsSources = ServiceLoader.load(P6OptionsSource.class);
-        for (P6OptionsSource optionsSource : p6OptionsSources) {
-            OPTIONS_SOURCES.add(optionsSource);
-        }
-    }
-
-    private static void cleanUp() throws MBeanRegistrationException, InstanceNotFoundException,
-            MalformedObjectNameException {
-        if (instance == null) {
-            return;
-        }
-
-        for (P6OptionsSource optionsSource : P6ModuleManager.OPTIONS_SOURCES) {
-            optionsSource.preDestroy(instance);
-        }
-
-        if (P6SpyOptions.getActiveInstance().getJmx()) {
-            // unregister mbeans (to prevent naming conflicts)
-            if (instance.mBeansRegistry != null) {
-                instance.mBeansRegistry.unregisterAllMBeans(P6SpyOptions.getActiveInstance().getJmxPrefix());
-            }
-        }
-
-        // clean table plz (we need to make sure that all the configured factories will be re-loaded)
-        new DefaultJdbcEventListenerFactory().clearCache();
-    }
-
     /**
      * Used on the class load only (only once!)
      *
-     * @throws IOException
-     * @throws NotCompliantMBeanException
-     * @throws MBeanRegistrationException
-     * @throws InstanceAlreadyExistsException
-     * @throws MalformedObjectNameException
-     * @throws InstanceNotFoundException
+     * @throws MBeanRegistrationException   MBeanRegistrationException
+     * @throws NotCompliantMBeanException   NotCompliantMBeanException
+     * @throws MalformedObjectNameException MalformedObjectNameException
+     * @throws InstanceNotFoundException    InstanceNotFoundException
      */
-    private P6ModuleManager() throws IOException,
-            MBeanRegistrationException, NotCompliantMBeanException,
-            MalformedObjectNameException, InstanceNotFoundException {
+    private P6ModuleManager() throws MBeanRegistrationException, NotCompliantMBeanException, MalformedObjectNameException, InstanceNotFoundException {
         debug(this.getClass().getName() + " re/initiating modules started");
 
         // make sure the proper listener registration happens
@@ -126,6 +64,10 @@ public class P6ModuleManager {
 
         // hard coded - core module init - as it holds initial config
         final P6SpyLoadableOptions spyOptions = (P6SpyLoadableOptions) registerModule(new P6SpyFactory());
+        if (null == spyOptions) {
+            return;
+        }
+
         loadDriversExplicitly(spyOptions);
 
         // configured modules init
@@ -147,6 +89,54 @@ public class P6ModuleManager {
         debug(this.getClass().getName() + " re/initiating modules done");
     }
 
+    private synchronized static void initMe() {
+        try {
+            // 修改以引入外部的配置
+            // add by SUNHAO 2017-12-25
+            loadP6OptionsSources();
+
+            cleanUp();
+
+            instance = new P6ModuleManager();
+            P6LogQuery.initialize();
+
+        } catch (IOException | MBeanRegistrationException | InstanceNotFoundException | MalformedObjectNameException | NotCompliantMBeanException e) {
+            handleInitEx(e);
+        }
+    }
+
+    /**
+     * 修改以引入外部的配置
+     * add by SUNHAO 2017-12-25
+     */
+    private static void loadP6OptionsSources() throws IOException {
+        OPTIONS_SOURCES.add(new SpyDotProperties());
+        OPTIONS_SOURCES.add(new EnvironmentVariables());
+        OPTIONS_SOURCES.add(new SystemProperties());
+
+        ServiceLoader<P6OptionsSource> p6OptionsSources = ServiceLoader.load(P6OptionsSource.class);
+        for (P6OptionsSource optionsSource : p6OptionsSources) {
+            OPTIONS_SOURCES.add(optionsSource);
+        }
+    }
+
+    private static void cleanUp() throws MBeanRegistrationException, MalformedObjectNameException {
+        if (instance == null) {
+            return;
+        }
+
+        for (P6OptionsSource optionsSource : P6ModuleManager.OPTIONS_SOURCES) {
+            optionsSource.preDestroy(instance);
+        }
+
+        if (P6SpyOptions.getActiveInstance().getJmx()) {
+            // unregister mbeans (to prevent naming conflicts)
+            instance.mBeansRegistry.unregisterAllMBeans(P6SpyOptions.getActiveInstance().getJmxPrefix());
+        }
+
+        // clean table plz (we need to make sure that all the configured factories will be re-loaded)
+        new DefaultJdbcEventListenerFactory().clearCache();
+    }
 
     private synchronized P6LoadableOptions registerModule(P6Factory factory) {
 
@@ -175,8 +165,7 @@ public class P6ModuleManager {
      * <li>based on the order defined in the {@link #OPTIONS_SOURCES}</li>
      * </ul>
      *
-     * @param options
-     * @return
+     * @param options options
      */
     private void loadOptions(final P6LoadableOptions options) {
         // make sure to load defaults first
