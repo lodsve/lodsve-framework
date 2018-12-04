@@ -1,4 +1,4 @@
-![LOGO](https://doc.lodsve.com/images/logo.png "lodsve-framework")
+![LOGO](https://helps.lodsve.com//images/logo.png "lodsve-framework")
 
 [![Build Status](https://travis-ci.org/yangsenlin/snsdemo.svg?branch=master)](https://travis-ci.org/yangsenlin/snsdemo)
 [![License](https://img.shields.io/badge/license-GPLv3-yellowgreen.svg)]()
@@ -99,8 +99,8 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 The `Lodsve Framework` is released under version 3.0 of the [GNU General Public License][].
 
 ## Donate
-![AliPay](https://doc.lodsve.com/images/alipay.png "支付宝")
-![WeChat](https://doc.lodsve.com/images/wechat.jpg "微信")
+![AliPay](https://helps.lodsve.com/images/alipay.png "支付宝")
+![WeChat](https://helps.lodsve.com/images/wechat.jpg "微信")
 
 [GNU GENERAL PUBLIC LICENSE]: https://opensource.org/licenses/GPL-3.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
