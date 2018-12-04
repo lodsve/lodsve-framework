@@ -53,7 +53,7 @@ Version No. like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
 - `BETA` means just for testing.    
     
 ## Newest version
-Now the newest and stable version is `2.6.1-RELEASE`.
+Now the newest and stable version is `2.7.0-RELEASE`.
 
 You can also find the newest version in maven central: `http://repo1.maven.org/maven2/com/lodsve/lodsve-framework/`.
     
@@ -73,7 +73,7 @@ See the master branch [Api Docs][].
 
 ## Import sources into your IDE
 Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
-> **Note:** Per the prerequisites above, ensure that you have JDK 7 and Maven 3.3.X configured properly in your IDE.
+> **Note:** Per the prerequisites above, ensure that you have `JDK 8` and `Maven 3.3.X` and `Lombok Plugin` configured properly in your IDE.
 
 1. Config your Git 
     
@@ -86,6 +86,9 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
     - Eclipse: Open Settings-General-Workspace, modify `Text file encoding` as `UTF-8`
     - IDE: Open Setting-Editor-Code Style, modify `line delimiter` as `Unix and OS X(\n)`
     - IDE: Open Setting-Editor-File encoding, modify all `Encoding` as `UTF-8` and `with NO BOM`
+3. Required IDE Plugins(Both Eclipse and Intellij IDEA):
+    - Alibaba Java Coding Guidelines
+    - Lombok plugin    
 
 ## Change History
 [CHANGELOG][]
