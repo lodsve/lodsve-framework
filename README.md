@@ -55,7 +55,7 @@ Version No. like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
 - `BETA` means just for testing.    
     
 ## Newest version
-Now the newest and stable version is `2.7.0-RELEASE`.
+Now the newest and stable version is `2.7.1-RELEASE`.
 
 You can also find the newest version in maven central: `http://repo1.maven.org/maven2/com/lodsve/lodsve-framework/`.
     

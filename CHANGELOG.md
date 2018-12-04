@@ -1,5 +1,13 @@
 # 更新日志
 
+## 2.7.1-RELEASE
+1. 日志框架改为logback
+2. 集成了travis
+3. XXXProperties类的setter、getter方法都用Lombok的注解@Setter、@Getter实现
+4. 使用aop来实现web每次请求打印参数及返回值
+5. 美化readme，增加一些新的说明，修改链接
+6. fixed bugs
+
 ## 2.7.0-RELEASE
 1. 改进配置文件自动装配
     - map中的key用[]包裹起来
