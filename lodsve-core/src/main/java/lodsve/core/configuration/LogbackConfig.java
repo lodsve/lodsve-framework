@@ -40,7 +40,7 @@ public class LogbackConfig {
      */
     private String logFile;
     /**
-     * 控制打印格式化字符串
+     * 控制台打印格式化字符串
      */
     private String consoleLogPattern;
     /**
