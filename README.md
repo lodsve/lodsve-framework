@@ -1,6 +1,6 @@
 ![LOGO](https://helps.lodsve.com//images/logo.png "lodsve-framework")
 
-[![Build Status](https://travis-ci.org/lodsve/lodsve-framework.svg?branch=2.7.x)](https://travis-ci.org/lodsve/lodsve-framework)
+[![Build Status](https://travis-ci.org/lodsve/lodsve-framework.svg?branch=master)](https://travis-ci.org/lodsve/lodsve-framework)
 [![License](https://img.shields.io/badge/license-GPLv3-yellowgreen.svg)]()
 [![Maven central](https://maven-badges.herokuapp.com/maven-central/com.lodsve/lodsve-framework/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.lodsve/lodsve-framework)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/lodsve/lodsve-framework.svg)](http://isitmaintained.com/project/lodsve/lodsve-framework "Average time to resolve an issue")
