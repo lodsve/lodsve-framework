@@ -18,6 +18,8 @@
 package lodsve.cache.properties;
 
 import lodsve.core.utils.StringUtils;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Redis Config.
@@ -25,14 +27,8 @@ import lodsve.core.utils.StringUtils;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 11:45
  */
+@Setter
+@Getter
 public class RedisConfig {
     private String cacheNames = StringUtils.EMPTY;
-
-    public String getCacheNames() {
-        return cacheNames;
-    }
-
-    public void setCacheNames(String cacheNames) {
-        this.cacheNames = cacheNames;
-    }
 }

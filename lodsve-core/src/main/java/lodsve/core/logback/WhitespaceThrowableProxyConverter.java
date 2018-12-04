@@ -15,25 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.redis.core.properties;
+package lodsve.core.logback;
 
-import lombok.Getter;
-import lombok.Setter;
+import ch.qos.logback.classic.pattern.ThrowableProxyConverter;
+import ch.qos.logback.classic.spi.IThrowableProxy;
+import ch.qos.logback.core.CoreConstants;
 
 /**
- * Pool Setting.
+ * {@link ThrowableProxyConverter} that adds some additional whitespace around the stack
+ * trace.
  *
- * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2018-4-25-0025 14:30
+ * @author Phillip Webb
  */
-@Setter
-@Getter
-public class PoolSetting {
-    private int maxIdle = 200;
-    private int minIdle = 10;
-    private int maxWait = 60000;
-    private int maxTotal = 1024;
-    private boolean testOnBorrow = true;
-    private boolean testOnReturn = true;
-    private boolean testWhileIdle = true;
+public class WhitespaceThrowableProxyConverter extends ThrowableProxyConverter {
+
+    @Override
+    protected String throwableProxyToString(IThrowableProxy tp) {
+        return CoreConstants.LINE_SEPARATOR + super.throwableProxyToString(tp)
+                + CoreConstants.LINE_SEPARATOR;
+    }
+
 }

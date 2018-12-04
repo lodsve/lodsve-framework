@@ -17,6 +17,8 @@
 
 package lodsve.cache.properties;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.core.io.Resource;
 
 /**
@@ -25,23 +27,9 @@ import org.springframework.core.io.Resource;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 11:44
  */
+@Setter
+@Getter
 public class EhcacheConfig {
     private Resource configuration;
     private EhcacheCache[] cache;
-
-    public Resource getConfiguration() {
-        return configuration;
-    }
-
-    public void setConfiguration(Resource configuration) {
-        this.configuration = configuration;
-    }
-
-    public EhcacheCache[] getCache() {
-        return cache;
-    }
-
-    public void setCache(EhcacheCache[] cache) {
-        this.cache = cache;
-    }
 }

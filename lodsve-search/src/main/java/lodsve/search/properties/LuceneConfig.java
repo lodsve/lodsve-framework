@@ -17,6 +17,8 @@
 
 package lodsve.search.properties;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 
 /**
@@ -25,6 +27,8 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 14:47
  */
+@Setter
+@Getter
 public class LuceneConfig {
     /**
      * 高亮前缀
@@ -38,37 +42,8 @@ public class LuceneConfig {
      * lucene索引文件路径
      */
     private String index;
+    /**
+     * 分词器
+     */
     private Class<?> analyzer = StandardAnalyzer.class;
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
-    public String getSuffix() {
-        return suffix;
-    }
-
-    public void setSuffix(String suffix) {
-        this.suffix = suffix;
-    }
-
-    public String getIndex() {
-        return index;
-    }
-
-    public void setIndex(String index) {
-        this.index = index;
-    }
-
-    public Class<?> getAnalyzer() {
-        return analyzer;
-    }
-
-    public void setAnalyzer(Class<?> analyzer) {
-        this.analyzer = analyzer;
-    }
 }

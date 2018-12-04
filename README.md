@@ -1,6 +1,12 @@
-![LOGO](https://doc.lodsve.com/images/logo.png "lodsve-framework")
+![LOGO](https://helps.lodsve.com//images/logo.png "lodsve-framework")
 
-[![Build Status](https://travis-ci.org/yangsenlin/snsdemo.svg?branch=master)](https://travis-ci.org/yangsenlin/snsdemo)
+[![Build Status](https://travis-ci.org/lodsve/lodsve-framework.svg?branch=master)](https://travis-ci.org/lodsve/lodsve-framework)
+[![License](https://img.shields.io/badge/license-GPLv3-yellowgreen.svg)]()
+[![Maven Central](https://img.shields.io/maven-central/v/com.lodsve/lodsve-framework.svg)](https://search.maven.org/artifact/com.lodsve/lodsve-framework)
+[![GitHub stars](https://img.shields.io/github/stars/lodsve/lodsve-framework.svg)](https://github.com/lodsve/lodsve-framework/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/lodsve/lodsve-framework.svg)](https://github.com/lodsve/lodsve-framework/network)
+[![GitHub issues](https://img.shields.io/github/issues/lodsve/lodsve-framework.svg)](https://github.com/lodsve/lodsve-framework/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/lodsve/lodsve-framework.svg)](https://github.com/lodsve/lodsve-framework/pulls)
 
 ## lodsve-framework
 My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web development.
@@ -49,7 +55,7 @@ Version No. like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
 - `BETA` means just for testing.    
     
 ## Newest version
-Now the newest and stable version is `2.6.1-RELEASE`.
+Now the newest and stable version is `2.7.0-RELEASE`.
 
 You can also find the newest version in maven central: `http://repo1.maven.org/maven2/com/lodsve/lodsve-framework/`.
     
@@ -69,7 +75,7 @@ See the master branch [Api Docs][].
 
 ## Import sources into your IDE
 Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
-> **Note:** Per the prerequisites above, ensure that you have JDK 7 and Maven 3.3.X configured properly in your IDE.
+> **Note:** Per the prerequisites above, ensure that you have `JDK 8` and `Maven 3.3.X` and `Lombok Plugin` configured properly in your IDE.
 
 1. Config your Git 
     
@@ -82,6 +88,9 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
     - Eclipse: Open Settings-General-Workspace, modify `Text file encoding` as `UTF-8`
     - IDE: Open Setting-Editor-Code Style, modify `line delimiter` as `Unix and OS X(\n)`
     - IDE: Open Setting-Editor-File encoding, modify all `Encoding` as `UTF-8` and `with NO BOM`
+3. Required IDE Plugins(Both Eclipse and Intellij IDEA):
+    - Alibaba Java Coding Guidelines
+    - Lombok plugin    
 
 ## Change History
 [CHANGELOG][]
@@ -95,13 +104,13 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 The `Lodsve Framework` is released under version 3.0 of the [GNU General Public License][].
 
 ## Donate
-![AliPay](https://doc.lodsve.com/images/alipay.png "支付宝")
-![WeChat](https://doc.lodsve.com/images/wechat.jpg "微信")
+![AliPay](https://helps.lodsve.com/images/alipay.png "支付宝")
+![WeChat](https://helps.lodsve.com/images/wechat.jpg "微信")
 
 [GNU GENERAL PUBLIC LICENSE]: https://opensource.org/licenses/GPL-3.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
-[Blog]: http://www.lodsve.com
-[OSChina]: http://my.oschina.net/sunhaojava/blog
+[Blog]: https://www.lodsve.com
+[OSChina]: https://my.oschina.net/sunhaojava
 [867885140]: http://wpa.qq.com/msgrd?v=3&uin=867885140&site=qq&menu=yes
-[reference docs]: https://doc.lodsve.com/
+[reference docs]: https://helps.lodsve.com/
 [Api Docs]: https://apidoc.gitee.com/lodsve/lodsve-framework/

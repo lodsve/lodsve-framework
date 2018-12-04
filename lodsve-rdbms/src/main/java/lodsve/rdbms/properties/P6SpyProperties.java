@@ -19,6 +19,8 @@ package lodsve.rdbms.properties;
 
 import lodsve.core.io.support.LodsveResourceLoader;
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.core.io.Resource;
 
 /**
@@ -27,18 +29,12 @@ import org.springframework.core.io.Resource;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2017/12/25 下午11:53
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.p6spy", locations = "${params.root}/framework/p6spy.properties")
 public class P6SpyProperties {
     /**
      * spy配置
      */
     private Resource config = new LodsveResourceLoader().getResource("classpath:/META-INF/p6spy/spy.properties");
-
-    public Resource getConfig() {
-        return config;
-    }
-
-    public void setConfig(Resource config) {
-        this.config = config;
-    }
 }

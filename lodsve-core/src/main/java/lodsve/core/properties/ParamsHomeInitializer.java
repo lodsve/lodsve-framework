@@ -17,12 +17,12 @@
 
 package lodsve.core.properties;
 
-import lodsve.core.logger.Log4JConfiguration;
 import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.ini.IniLoader;
 import lodsve.core.properties.profile.ProfileInitializer;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.lang.NonNull;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoader;
 
@@ -71,7 +71,7 @@ import static lodsve.core.properties.ParamsHome.PARAMS_HOME_NAME;
 public class ParamsHomeInitializer implements WebApplicationInitializer {
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
+    public void onStartup(@NonNull ServletContext servletContext) throws ServletException {
         String paramsHome = servletContext.getInitParameter(PARAMS_HOME_NAME);
 
         ParamsHome.getInstance().init(paramsHome);
@@ -79,9 +79,6 @@ public class ParamsHomeInitializer implements WebApplicationInitializer {
         // 配置文件
         EnvLoader.init();
         IniLoader.init();
-
-        // 配置log4j
-        Log4JConfiguration.init();
 
         servletContext.setInitParameter(ContextLoader.CONTEXT_INITIALIZER_CLASSES_PARAM, ProfileInitializer.class.getName());
     }

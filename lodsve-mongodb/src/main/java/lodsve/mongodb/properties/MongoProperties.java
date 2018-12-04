@@ -18,6 +18,8 @@
 package lodsve.mongodb.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 
@@ -27,24 +29,10 @@ import java.util.Map;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/1/21 下午6:55
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.mongo", locations = "${params.root}/framework/mongo.properties")
 public class MongoProperties {
     private int maxpoolsize = 10;
     private Map<String, MongoConnection> project;
-
-    public int getMaxpoolsize() {
-        return maxpoolsize;
-    }
-
-    public void setMaxpoolsize(int maxpoolsize) {
-        this.maxpoolsize = maxpoolsize;
-    }
-
-    public Map<String, MongoConnection> getProject() {
-        return project;
-    }
-
-    public void setProject(Map<String, MongoConnection> project) {
-        this.project = project;
-    }
 }

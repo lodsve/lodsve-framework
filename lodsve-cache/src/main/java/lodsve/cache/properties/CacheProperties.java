@@ -18,6 +18,8 @@
 package lodsve.cache.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * cache配置.
@@ -25,42 +27,12 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/1/14 下午9:24
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.cache", locations = "${params.root}/framework/cache.properties")
 public class CacheProperties {
     private EhcacheConfig ehcache = new EhcacheConfig();
     private RedisConfig redis = new RedisConfig();
     private MemcachedConfig memcached = new MemcachedConfig();
     private OscahceConfig oscahce = new OscahceConfig();
-
-    public EhcacheConfig getEhcache() {
-        return ehcache;
-    }
-
-    public void setEhcache(EhcacheConfig ehcache) {
-        this.ehcache = ehcache;
-    }
-
-    public RedisConfig getRedis() {
-        return redis;
-    }
-
-    public void setRedis(RedisConfig redis) {
-        this.redis = redis;
-    }
-
-    public MemcachedConfig getMemcached() {
-        return memcached;
-    }
-
-    public void setMemcached(MemcachedConfig memcached) {
-        this.memcached = memcached;
-    }
-
-    public OscahceConfig getOscahce() {
-        return oscahce;
-    }
-
-    public void setOscahce(OscahceConfig oscahce) {
-        this.oscahce = oscahce;
-    }
 }

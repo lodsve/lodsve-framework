@@ -18,6 +18,8 @@
 package lodsve.redis.core.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 
@@ -27,24 +29,10 @@ import java.util.Map;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/9/8 下午3:49
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.redis", locations = "${params.root}/framework/redis.properties")
 public class RedisProperties {
     private PoolSetting pool;
     private Map<String, ProjectRedisSetting> project;
-
-    public PoolSetting getPool() {
-        return pool;
-    }
-
-    public void setPool(PoolSetting pool) {
-        this.pool = pool;
-    }
-
-    public Map<String, ProjectRedisSetting> getProject() {
-        return project;
-    }
-
-    public void setProject(Map<String, ProjectRedisSetting> project) {
-        this.project = project;
-    }
 }

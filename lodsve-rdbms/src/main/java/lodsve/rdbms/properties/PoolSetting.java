@@ -18,6 +18,8 @@
 package lodsve.rdbms.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.Required;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Pool Setting.
@@ -25,6 +27,8 @@ import lodsve.core.properties.relaxedbind.annotations.Required;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 14:28
  */
+@Setter
+@Getter
 public class PoolSetting {
     private String driverClassName = "com.mysql.jdbc.Driver";
     @Required
@@ -44,124 +48,4 @@ public class PoolSetting {
     private Boolean testWhileIdle = false;
     private String validationQuery = "select 1";
     private Integer maxIdle = 5;
-
-    public String getDriverClassName() {
-        return driverClassName;
-    }
-
-    public void setDriverClassName(String driverClassName) {
-        this.driverClassName = driverClassName;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getInitialSize() {
-        return initialSize;
-    }
-
-    public void setInitialSize(Integer initialSize) {
-        this.initialSize = initialSize;
-    }
-
-    public Integer getMaxActive() {
-        return maxActive;
-    }
-
-    public void setMaxActive(Integer maxActive) {
-        this.maxActive = maxActive;
-    }
-
-    public Integer getMinIdle() {
-        return minIdle;
-    }
-
-    public void setMinIdle(Integer minIdle) {
-        this.minIdle = minIdle;
-    }
-
-    public Integer getMaxWait() {
-        return maxWait;
-    }
-
-    public void setMaxWait(Integer maxWait) {
-        this.maxWait = maxWait;
-    }
-
-    public Boolean getRemoveAbandoned() {
-        return removeAbandoned;
-    }
-
-    public void setRemoveAbandoned(Boolean removeAbandoned) {
-        this.removeAbandoned = removeAbandoned;
-    }
-
-    public Integer getRemoveAbandonedTimeout() {
-        return removeAbandonedTimeout;
-    }
-
-    public void setRemoveAbandonedTimeout(Integer removeAbandonedTimeout) {
-        this.removeAbandonedTimeout = removeAbandonedTimeout;
-    }
-
-    public Boolean getTestOnBorrow() {
-        return testOnBorrow;
-    }
-
-    public void setTestOnBorrow(Boolean testOnBorrow) {
-        this.testOnBorrow = testOnBorrow;
-    }
-
-    public Boolean getTestOnReturn() {
-        return testOnReturn;
-    }
-
-    public void setTestOnReturn(Boolean testOnReturn) {
-        this.testOnReturn = testOnReturn;
-    }
-
-    public Boolean getTestWhileIdle() {
-        return testWhileIdle;
-    }
-
-    public void setTestWhileIdle(Boolean testWhileIdle) {
-        this.testWhileIdle = testWhileIdle;
-    }
-
-    public String getValidationQuery() {
-        return validationQuery;
-    }
-
-    public void setValidationQuery(String validationQuery) {
-        this.validationQuery = validationQuery;
-    }
-
-    public Integer getMaxIdle() {
-        return maxIdle;
-    }
-
-    public void setMaxIdle(Integer maxIdle) {
-        this.maxIdle = maxIdle;
-    }
 }

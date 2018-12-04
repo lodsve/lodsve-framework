@@ -32,9 +32,9 @@ import java.util.Map;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/5/26 下午2:57
  */
-@ConfigurationProperties(prefix = "lodsve.mail", locations = "${params.root}/framework/mail.properties")
 @Setter
 @Getter
+@ConfigurationProperties(prefix = "lodsve.mail", locations = "${params.root}/framework/mail.properties")
 public class MailProperties {
     private static final String DEFAULT_CHARSET = StandardCharsets.UTF_8.name();
 

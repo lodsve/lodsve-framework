@@ -19,6 +19,8 @@ package lodsve.rdbms.properties;
 
 import com.alibaba.druid.wall.WallConfig;
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * druid配置.
@@ -26,6 +28,8 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-2-8-0008 15:05
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.druid", locations = "${params.root}/framework/druid.properties")
 public class DruidProperties {
     private String filters = "stat\\,wall";
@@ -38,84 +42,4 @@ public class DruidProperties {
     private String allow;
     private String deny;
     private String remoteAddress;
-
-    public String getFilters() {
-        return filters;
-    }
-
-    public void setFilters(String filters) {
-        this.filters = filters;
-    }
-
-    public WallConfig getWallConfig() {
-        return wallConfig;
-    }
-
-    public void setWallConfig(WallConfig wallConfig) {
-        this.wallConfig = wallConfig;
-    }
-
-    public boolean isEnableMonitor() {
-        return enableMonitor;
-    }
-
-    public void setEnableMonitor(boolean enableMonitor) {
-        this.enableMonitor = enableMonitor;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getResetEnable() {
-        return resetEnable;
-    }
-
-    public void setResetEnable(String resetEnable) {
-        this.resetEnable = resetEnable;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getAllow() {
-        return allow;
-    }
-
-    public void setAllow(String allow) {
-        this.allow = allow;
-    }
-
-    public String getDeny() {
-        return deny;
-    }
-
-    public void setDeny(String deny) {
-        this.deny = deny;
-    }
-
-    public String getRemoteAddress() {
-        return remoteAddress;
-    }
-
-    public void setRemoteAddress(String remoteAddress) {
-        this.remoteAddress = remoteAddress;
-    }
 }

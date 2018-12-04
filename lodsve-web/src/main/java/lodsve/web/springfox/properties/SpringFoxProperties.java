@@ -18,6 +18,8 @@
 package lodsve.web.springfox.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -27,34 +29,12 @@ import java.util.List;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/1/23 下午8:50
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.springfox", locations = "${params.root}/framework/springfox.properties")
 public class SpringFoxProperties {
 
     private String title = "RESTful Api Documentation";
     private String description = "RESTful Api Documentation";
     private List<String> groups;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<String> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<String> groups) {
-        this.groups = groups;
-    }
 }

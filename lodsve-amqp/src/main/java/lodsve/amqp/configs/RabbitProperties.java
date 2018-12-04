@@ -19,6 +19,8 @@ package lodsve.amqp.configs;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import lodsve.core.properties.relaxedbind.annotations.Required;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 
@@ -28,6 +30,8 @@ import java.util.Map;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016-01-15 12:00
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.rabbit", locations = "${params.root}/framework/rabbit.properties")
 public class RabbitProperties {
     @Required
@@ -43,44 +47,4 @@ public class RabbitProperties {
     private Boolean requeueRejected = true;
 
     private Map<String, QueueConfig> queues;
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Boolean getRequeueRejected() {
-        return requeueRejected;
-    }
-
-    public void setRequeueRejected(Boolean requeueRejected) {
-        this.requeueRejected = requeueRejected;
-    }
-
-    public Map<String, QueueConfig> getQueues() {
-        return queues;
-    }
-
-    public void setQueues(Map<String, QueueConfig> queues) {
-        this.queues = queues;
-    }
 }

@@ -15,25 +15,48 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.redis.core.properties;
+package lodsve.core.configuration;
 
+import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Map;
+
 /**
- * Pool Setting.
+ * 日志文件配置.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2018-4-25-0025 14:30
  */
 @Setter
 @Getter
-public class PoolSetting {
-    private int maxIdle = 200;
-    private int minIdle = 10;
-    private int maxWait = 60000;
-    private int maxTotal = 1024;
-    private boolean testOnBorrow = true;
-    private boolean testOnReturn = true;
-    private boolean testWhileIdle = true;
+public class LogbackConfig {
+    /**
+     * logback配置文件
+     */
+    private String config;
+    /**
+     * logback日志文件路径
+     */
+    private String logFile;
+    /**
+     * 控制打印格式化字符串
+     */
+    private String consoleLogPattern;
+    /**
+     * 打印到日志文件的格式化字符串
+     */
+    private String fileLogPattern;
+    /**
+     * 打印到日志文件的最大文件大小
+     */
+    private String fileLogMaxSize;
+    /**
+     * 打印到日志文件的最大个数
+     */
+    private Integer fileLogMaxHistory;
+    /**
+     * 日志级别配置 
+     */
+    private Map<String, String> level = Maps.newHashMap();
 }

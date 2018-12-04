@@ -17,38 +17,19 @@
 
 package lodsve.redis.core.properties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Project Redis Setting.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 14:30
  */
+@Setter
+@Getter
 public class ProjectRedisSetting {
     private String url = "redis://localhost:6379/0";
     private String password;
     private int timeout = 100000;
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(int timeout) {
-        this.timeout = timeout;
-    }
 }

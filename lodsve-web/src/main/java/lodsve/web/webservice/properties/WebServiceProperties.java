@@ -18,7 +18,8 @@
 package lodsve.web.webservice.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
-import org.springframework.util.Assert;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 配置WebService的相关参数.
@@ -26,6 +27,8 @@ import org.springframework.util.Assert;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 16/1/23 下午8:50
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.webservice", locations = "${params.root}/framework/webservice.properties")
 public class WebServiceProperties {
 
@@ -35,22 +38,4 @@ public class WebServiceProperties {
     private String path = "/services";
 
     private ServletConfig servlet = new ServletConfig();
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        Assert.notNull(path, "Path must not be null");
-        Assert.isTrue(path.isEmpty() || path.startsWith("/"), "Path must start with / or be empty");
-        this.path = path;
-    }
-
-    public ServletConfig getServlet() {
-        return servlet;
-    }
-
-    public void setServlet(ServletConfig servlet) {
-        this.servlet = servlet;
-    }
 }

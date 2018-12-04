@@ -20,17 +20,21 @@ package lodsve.web.mvc.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import lodsve.core.condition.ConditionalOnClass;
+import lodsve.core.condition.ConditionalOnProperty;
 import lodsve.core.configuration.ApplicationProperties;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
-import lodsve.web.mvc.debug.DebugRequestListener;
+import lodsve.web.mvc.debug.DebugRequestAspect;
 import lodsve.web.mvc.json.CodeableEnumDeserializer;
 import lodsve.web.mvc.json.CodeableEnumSerializer;
 import lodsve.web.mvc.properties.ServerProperties;
 import lodsve.web.utils.RestUtils;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.ManagedMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -69,11 +73,6 @@ public class WebMvcConfiguration {
         simpleUrlHandlerMapping.setUrlMap(urlMap);
 
         return simpleUrlHandlerMapping;
-    }
-
-    @Bean
-    public DebugRequestListener debugRequestListener() {
-        return new DebugRequestListener(applicationProperties.isDevMode(), properties);
     }
 
     @Bean
@@ -127,5 +126,13 @@ public class WebMvcConfiguration {
         RestUtils.setRestTemplate(restTemplate);
 
         return restTemplate;
+    }
+
+    @Bean
+    @Order(1)
+    @ConditionalOnClass(Aspect.class)
+    @ConditionalOnProperty(clazz = ApplicationProperties.class, key = "devMode", value = "true")
+    public DebugRequestAspect debugRequestAspect(ObjectMapper objectMapper) {
+        return new DebugRequestAspect(objectMapper, properties.getDebug());
     }
 }

@@ -17,12 +17,17 @@
 
 package lodsve.search.properties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Solr Config.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 14:47
  */
+@Setter
+@Getter
 public class SolrConfig {
     /**
      * 高亮前缀
@@ -40,36 +45,4 @@ public class SolrConfig {
      * solr 6.6.0使用的哪个core
      */
     private String core;
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
-    public String getSuffix() {
-        return suffix;
-    }
-
-    public void setSuffix(String suffix) {
-        this.suffix = suffix;
-    }
-
-    public String getServer() {
-        return server;
-    }
-
-    public void setServer(String server) {
-        this.server = server;
-    }
-
-    public String getCore() {
-        return core;
-    }
-
-    public void setCore(String core) {
-        this.core = core;
-    }
 }

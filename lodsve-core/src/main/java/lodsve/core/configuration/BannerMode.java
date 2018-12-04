@@ -25,6 +25,10 @@ package lodsve.core.configuration;
  */
 public enum BannerMode {
     /**
+     * 不打印
+     */
+    OFF,
+    /**
      * 控制台打印
      */
     CONSOLE,

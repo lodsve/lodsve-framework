@@ -18,6 +18,8 @@
 package lodsve.rdbms.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 
@@ -27,6 +29,8 @@ import java.util.Map;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016-1-27 09:20
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.rdbms", locations = "${params.root}/framework/rdbms.properties")
 public class RdbmsProperties {
     /**
@@ -41,28 +45,4 @@ public class RdbmsProperties {
      * 连接信息
      */
     private Map<String, PoolSetting> pool;
-
-    public String getDataSourceClass() {
-        return dataSourceClass;
-    }
-
-    public void setDataSourceClass(String dataSourceClass) {
-        this.dataSourceClass = dataSourceClass;
-    }
-
-    public boolean isSupportTransaction() {
-        return supportTransaction;
-    }
-
-    public void setSupportTransaction(boolean supportTransaction) {
-        this.supportTransaction = supportTransaction;
-    }
-
-    public Map<String, PoolSetting> getPool() {
-        return pool;
-    }
-
-    public void setPool(Map<String, PoolSetting> pool) {
-        this.pool = pool;
-    }
 }

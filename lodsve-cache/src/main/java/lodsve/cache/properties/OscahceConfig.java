@@ -17,6 +17,8 @@
 
 package lodsve.cache.properties;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.core.io.Resource;
 
 /**
@@ -25,6 +27,8 @@ import org.springframework.core.io.Resource;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 11:45
  */
+@Setter
+@Getter
 public class OscahceConfig {
     private Resource configuration;
     private OscacheMemcachedCache[] cache = new OscacheMemcachedCache[]{new OscacheMemcachedCache()};
