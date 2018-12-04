@@ -17,43 +17,46 @@
 
 package lodsve.core.configuration;
 
-import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Map;
+
 /**
- * 系统配置.
+ * 日志文件配置.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2016/12/12 下午3:05
  */
 @Setter
 @Getter
-@ConfigurationProperties(prefix = "application", locations = "${params.root}/framework/application.properties")
-public class ApplicationProperties {
+public class LogbackConfig {
     /**
-     * 开发模式
+     * logback配置文件
      */
-    private boolean devMode = true;
+    private String config;
     /**
-     * 编码
+     * logback日志文件路径
      */
-    private String encoding = "UTF-8";
+    private String logFile;
     /**
-     * whether the specified encoding is supposed to
-     * override existing request and response encodings
+     * 控制打印格式化字符串
      */
-    private boolean forceEncoding = true;
+    private String consoleLogPattern;
     /**
-     * banner配置
+     * 打印到日志文件的格式化字符串
      */
-    private BannerConfig banner;
+    private String fileLogPattern;
     /**
-     * 多线程配置
+     * 打印到日志文件的最大文件大小
      */
-    private ThreadConfig thread;
+    private String fileLogMaxSize;
     /**
-     * 日志配置文件
+     * 打印到日志文件的最大个数
      */
-    private LogbackConfig logback;
+    private Integer fileLogMaxHistory;
+    /**
+     * 日志级别配置 
+     */
+    private Map<String, String> level = Maps.newHashMap();
 }

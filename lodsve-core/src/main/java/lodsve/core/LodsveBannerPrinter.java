@@ -28,6 +28,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
 import org.springframework.web.WebApplicationInitializer;
 
@@ -45,7 +46,7 @@ import java.util.List;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018/1/11 下午10:13
  */
-@Order(Ordered.HIGHEST_PRECEDENCE + 1)
+@Order(Ordered.HIGHEST_PRECEDENCE + 2)
 public class LodsveBannerPrinter implements WebApplicationInitializer {
     private static final Logger logger = LoggerFactory.getLogger(LodsveBannerPrinter.class);
 
@@ -56,12 +57,16 @@ public class LodsveBannerPrinter implements WebApplicationInitializer {
     private BannerConfig bannerConfig;
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
+    public void onStartup(@NonNull ServletContext servletContext) throws ServletException {
         ApplicationProperties properties = new RelaxedBindFactory.Builder<>(ApplicationProperties.class).build();
         bannerConfig = properties.getBanner();
 
         if (!bannerConfig.isEnable()) {
             // no banners!
+            return;
+        }
+
+        if (BannerMode.OFF.equals(bannerConfig.getMode())) {
             return;
         }
 

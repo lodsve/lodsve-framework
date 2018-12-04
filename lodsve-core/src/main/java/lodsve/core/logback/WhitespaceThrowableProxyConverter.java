@@ -15,25 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.configuration;
+package lodsve.core.logback;
+
+import ch.qos.logback.classic.pattern.ThrowableProxyConverter;
+import ch.qos.logback.classic.spi.IThrowableProxy;
+import ch.qos.logback.core.CoreConstants;
 
 /**
- * Banner Mode.
+ * {@link ThrowableProxyConverter} that adds some additional whitespace around the stack
+ * trace.
  *
- * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2018-4-25-0025 11:36
+ * @author Phillip Webb
  */
-public enum BannerMode {
-    /**
-     * 不打印
-     */
-    OFF,
-    /**
-     * 控制台打印
-     */
-    CONSOLE,
-    /**
-     * 日志
-     */
-    LOGGER
+public class WhitespaceThrowableProxyConverter extends ThrowableProxyConverter {
+
+    @Override
+    protected String throwableProxyToString(IThrowableProxy tp) {
+        return CoreConstants.LINE_SEPARATOR + super.throwableProxyToString(tp)
+                + CoreConstants.LINE_SEPARATOR;
+    }
+
 }
