@@ -267,9 +267,7 @@ public class RequestUtils {
         Assert.state(requestAttributes != null, "Could not find current request via RequestContextHolder");
         Assert.isInstanceOf(ServletRequestAttributes.class, requestAttributes);
         Assert.notNull(requestAttributes);
-        HttpServletRequest servletRequest = ((ServletRequestAttributes) requestAttributes).getRequest();
-        Assert.state(servletRequest != null, "Could not find current HttpServletRequest");
-        return servletRequest;
+        return ((ServletRequestAttributes) requestAttributes).getRequest();
     }
 
     public static String getUserAgent(HttpServletRequest request) {
@@ -278,20 +276,17 @@ public class RequestUtils {
 
     public static ClientType getClientType() {
         HttpServletRequest request = getCurrentRequest();
-        if (request != null) {
-            String userAgent = getUserAgent(request);
-            if (userAgent.lastIndexOf("mah/") > -1 || userAgent.lastIndexOf("thttpclient") > -1) {
-                return ClientType.APP;
-            } else if (userAgent.lastIndexOf("micromessenger") > -1) {
-                return ClientType.WEIXIN;
-            } else if (userAgent.lastIndexOf("alipayclient") > -1) {
-                return ClientType.ALIPAY;
-            } else if (userAgent.lastIndexOf("qq") > -1) {
-                return ClientType.QQ;
-            } else {
-                return ClientType.BROWSER;
-            }
+        String userAgent = getUserAgent(request);
+        if (userAgent.lastIndexOf("mah/") > -1 || userAgent.lastIndexOf("thttpclient") > -1) {
+            return ClientType.APP;
+        } else if (userAgent.lastIndexOf("micromessenger") > -1) {
+            return ClientType.WEIXIN;
+        } else if (userAgent.lastIndexOf("alipayclient") > -1) {
+            return ClientType.ALIPAY;
+        } else if (userAgent.lastIndexOf("qq") > -1) {
+            return ClientType.QQ;
+        } else {
+            return ClientType.BROWSER;
         }
-        return ClientType.UNKNOWN;
     }
 }

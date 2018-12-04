@@ -19,6 +19,8 @@ package lodsve.web.mvc.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import lodsve.core.properties.relaxedbind.annotations.Required;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 系统配置.
@@ -26,6 +28,8 @@ import lodsve.core.properties.relaxedbind.annotations.Required;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 15/10/10 下午10:01
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.server", locations = "${params.root}/framework/server.properties")
 public class ServerProperties {
     /**
@@ -54,52 +58,4 @@ public class ServerProperties {
      * 请求验证码的路径
      */
     private String path = "/captcha";
-
-    public String getFrontEndUrl() {
-        return frontEndUrl;
-    }
-
-    public void setFrontEndUrl(String frontEndUrl) {
-        this.frontEndUrl = frontEndUrl;
-    }
-
-    public String getServerUrl() {
-        return serverUrl;
-    }
-
-    public void setServerUrl(String serverUrl) {
-        this.serverUrl = serverUrl;
-    }
-
-    public DebugConfig getDebug() {
-        return debug;
-    }
-
-    public void setDebug(DebugConfig debug) {
-        this.debug = debug;
-    }
-
-    public boolean isEnableCaptcha() {
-        return enableCaptcha;
-    }
-
-    public void setEnableCaptcha(boolean enableCaptcha) {
-        this.enableCaptcha = enableCaptcha;
-    }
-
-    public String getCaptchaKey() {
-        return captchaKey;
-    }
-
-    public void setCaptchaKey(String captchaKey) {
-        this.captchaKey = captchaKey;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
 }

@@ -18,6 +18,8 @@
 package lodsve.mongodb.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.Required;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Mongo Connection.
@@ -25,6 +27,8 @@ import lodsve.core.properties.relaxedbind.annotations.Required;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 14:24
  */
+@Setter
+@Getter
 public class MongoConnection {
     @Required
     private String url;
@@ -33,36 +37,4 @@ public class MongoConnection {
     @Required
     private String password;
     private int maxpoolsize = 0;
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getMaxpoolsize() {
-        return maxpoolsize;
-    }
-
-    public void setMaxpoolsize(int maxpoolsize) {
-        this.maxpoolsize = maxpoolsize;
-    }
 }

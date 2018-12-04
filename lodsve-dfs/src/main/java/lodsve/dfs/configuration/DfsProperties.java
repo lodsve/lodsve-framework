@@ -17,8 +17,10 @@
 
 package lodsve.dfs.configuration;
 
-import org.csource.common.FastDfsConfig;
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lombok.Getter;
+import lombok.Setter;
+import org.csource.common.FastDfsConfig;
 
 /**
  * 配置.
@@ -26,6 +28,8 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2017-12-4-0004 10:46
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.dfs", locations = "${params.root}/framework/dfs.properties")
 public class DfsProperties {
     private FastDfsConfig fastDfs;
@@ -33,53 +37,19 @@ public class DfsProperties {
     private GoogleFsConfig google;
     private NormalFsConfig normal;
 
-    public FastDfsConfig getFastDfs() {
-        return fastDfs;
-    }
-
-    public void setFastDfs(FastDfsConfig fastDfs) {
-        this.fastDfs = fastDfs;
-    }
-
-    public TfsConfig getTfs() {
-        return tfs;
-    }
-
-    public void setTfs(TfsConfig tfs) {
-        this.tfs = tfs;
-    }
-
-    public GoogleFsConfig getGoogle() {
-        return google;
-    }
-
-    public void setGoogle(GoogleFsConfig google) {
-        this.google = google;
-    }
-
-    public NormalFsConfig getNormal() {
-        return normal;
-    }
-
-    public void setNormal(NormalFsConfig normal) {
-        this.normal = normal;
-    }
-
+    @Setter
+    @Getter
     public static class TfsConfig {
     }
 
+    @Setter
+    @Getter
     public static class GoogleFsConfig {
     }
 
+    @Setter
+    @Getter
     public static class NormalFsConfig {
         private String store;
-
-        public String getStore() {
-            return store;
-        }
-
-        public void setStore(String store) {
-            this.store = store;
-        }
     }
 }

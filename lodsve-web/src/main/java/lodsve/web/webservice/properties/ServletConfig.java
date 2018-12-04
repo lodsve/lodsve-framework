@@ -17,6 +17,9 @@
 
 package lodsve.web.webservice.properties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +29,8 @@ import java.util.Map;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 14:56
  */
+@Setter
+@Getter
 public class ServletConfig {
     /**
      * Servlet init parameters to pass to Spring Web Services.
@@ -36,20 +41,4 @@ public class ServletConfig {
      * Load on startup priority of the Spring Web Services servlet.
      */
     private int loadOnStartup = -1;
-
-    public Map<String, String> getInit() {
-        return this.init;
-    }
-
-    public void setInit(Map<String, String> init) {
-        this.init = init;
-    }
-
-    public int getLoadOnStartup() {
-        return this.loadOnStartup;
-    }
-
-    public void setLoadOnStartup(int loadOnStartup) {
-        this.loadOnStartup = loadOnStartup;
-    }
 }

@@ -17,12 +17,17 @@
 
 package lodsve.cache.properties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Ehcache Cache.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 11:49
  */
+@Setter
+@Getter
 public class EhcacheCache {
     private String name;
     private long maxElementsInMemory = 10000;
@@ -30,52 +35,4 @@ public class EhcacheCache {
     private long timeToIdleSeconds = 300;
     private long timeToLiveSeconds = 600;
     private boolean overflowToDisk = true;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getMaxElementsInMemory() {
-        return maxElementsInMemory;
-    }
-
-    public void setMaxElementsInMemory(long maxElementsInMemory) {
-        this.maxElementsInMemory = maxElementsInMemory;
-    }
-
-    public boolean getEternal() {
-        return eternal;
-    }
-
-    public void setEternal(boolean eternal) {
-        this.eternal = eternal;
-    }
-
-    public long getTimeToIdleSeconds() {
-        return timeToIdleSeconds;
-    }
-
-    public void setTimeToIdleSeconds(long timeToIdleSeconds) {
-        this.timeToIdleSeconds = timeToIdleSeconds;
-    }
-
-    public long getTimeToLiveSeconds() {
-        return timeToLiveSeconds;
-    }
-
-    public void setTimeToLiveSeconds(long timeToLiveSeconds) {
-        this.timeToLiveSeconds = timeToLiveSeconds;
-    }
-
-    public boolean getOverflowToDisk() {
-        return overflowToDisk;
-    }
-
-    public void setOverflowToDisk(boolean overflowToDisk) {
-        this.overflowToDisk = overflowToDisk;
-    }
 }

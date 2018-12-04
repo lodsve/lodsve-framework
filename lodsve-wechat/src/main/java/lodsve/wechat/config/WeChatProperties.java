@@ -18,6 +18,8 @@
 package lodsve.wechat.config;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 参数配置在配置文件中.
@@ -25,6 +27,8 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
  * @author sunhao(sunhao.java @ gmail.com)
  * @version V1.0, 16/2/21 下午4:58
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.wechat", locations = "${params.root}/framework/wechat.properties")
 public class WeChatProperties {
     /**
@@ -39,28 +43,4 @@ public class WeChatProperties {
      * Token
      */
     private String token;
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    public String getAppSecret() {
-        return appSecret;
-    }
-
-    public void setAppSecret(String appSecret) {
-        this.appSecret = appSecret;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 }

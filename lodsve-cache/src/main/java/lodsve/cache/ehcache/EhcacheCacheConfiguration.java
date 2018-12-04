@@ -66,10 +66,10 @@ public class EhcacheCacheConfiguration {
             CacheConfiguration configuration = new CacheConfiguration();
             configuration.setName(cache.getName());
             configuration.setMaxEntriesLocalHeap(cache.getMaxElementsInMemory());
-            configuration.setEternal(cache.getEternal());
+            configuration.setEternal(cache.isEternal());
             configuration.setTimeToIdleSeconds(cache.getTimeToIdleSeconds());
             configuration.setTimeToLiveSeconds(cache.getTimeToLiveSeconds());
-            configuration.setOverflowToDisk(cache.getOverflowToDisk());
+            configuration.setOverflowToDisk(cache.isOverflowToDisk());
 
             manager.addCache(new Cache(configuration));
         }

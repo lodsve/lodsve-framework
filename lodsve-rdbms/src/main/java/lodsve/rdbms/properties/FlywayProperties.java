@@ -18,24 +18,20 @@
 package lodsve.rdbms.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * .
+ * flyway配置.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.flyway", locations = "${params.root}/framework/flyway.properties")
 public class FlywayProperties {
     /**
      * flyway的脚本文件所在路径
      */
     private String[] locations = new String[]{"classpath:META-INF/flyway"};
-
-    public String[] getLocations() {
-        return locations;
-    }
-
-    public void setLocations(String[] locations) {
-        this.locations = locations;
-    }
 }

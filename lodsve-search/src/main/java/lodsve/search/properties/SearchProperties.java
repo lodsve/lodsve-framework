@@ -18,6 +18,8 @@
 package lodsve.search.properties;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 搜索的配置.
@@ -25,24 +27,10 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016/1/20 12:39
  */
+@Setter
+@Getter
 @ConfigurationProperties(prefix = "lodsve.search", locations = "${params.root}/framework/search.properties")
 public class SearchProperties {
     private SolrConfig solr;
     private LuceneConfig lucene;
-
-    public SolrConfig getSolr() {
-        return solr;
-    }
-
-    public void setSolr(SolrConfig solr) {
-        this.solr = solr;
-    }
-
-    public LuceneConfig getLucene() {
-        return lucene;
-    }
-
-    public void setLucene(LuceneConfig lucene) {
-        this.lucene = lucene;
-    }
 }

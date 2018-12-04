@@ -17,29 +17,18 @@
 
 package lodsve.cache.properties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Oscache Memcached Cache.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 11:50
  */
+@Setter
+@Getter
 public class OscacheMemcachedCache {
     private String name = "default";
     private int expire = 100;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getExpire() {
-        return expire;
-    }
-
-    public void setExpire(int expire) {
-        this.expire = expire;
-    }
 }

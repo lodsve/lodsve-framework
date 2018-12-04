@@ -17,12 +17,17 @@
 
 package lodsve.redis.core.properties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Pool Setting.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 14:30
  */
+@Setter
+@Getter
 public class PoolSetting {
     private int maxIdle = 200;
     private int minIdle = 10;
@@ -31,60 +36,4 @@ public class PoolSetting {
     private boolean testOnBorrow = true;
     private boolean testOnReturn = true;
     private boolean testWhileIdle = true;
-
-    public int getMaxIdle() {
-        return maxIdle;
-    }
-
-    public void setMaxIdle(int maxIdle) {
-        this.maxIdle = maxIdle;
-    }
-
-    public int getMinIdle() {
-        return minIdle;
-    }
-
-    public void setMinIdle(int minIdle) {
-        this.minIdle = minIdle;
-    }
-
-    public int getMaxWait() {
-        return maxWait;
-    }
-
-    public void setMaxWait(int maxWait) {
-        this.maxWait = maxWait;
-    }
-
-    public int getMaxTotal() {
-        return maxTotal;
-    }
-
-    public void setMaxTotal(int maxTotal) {
-        this.maxTotal = maxTotal;
-    }
-
-    public boolean isTestOnBorrow() {
-        return testOnBorrow;
-    }
-
-    public void setTestOnBorrow(boolean testOnBorrow) {
-        this.testOnBorrow = testOnBorrow;
-    }
-
-    public boolean isTestOnReturn() {
-        return testOnReturn;
-    }
-
-    public void setTestOnReturn(boolean testOnReturn) {
-        this.testOnReturn = testOnReturn;
-    }
-
-    public boolean isTestWhileIdle() {
-        return testWhileIdle;
-    }
-
-    public void setTestWhileIdle(boolean testWhileIdle) {
-        this.testWhileIdle = testWhileIdle;
-    }
 }

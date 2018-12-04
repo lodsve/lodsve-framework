@@ -17,6 +17,9 @@
 
 package lodsve.web.mvc.properties;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +29,8 @@ import java.util.List;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2018-4-25-0025 14:53
  */
+@Setter
+@Getter
 public class DebugConfig {
     /**
      * 需要忽略的url
@@ -39,28 +44,4 @@ public class DebugConfig {
      * 当执行时间超长，将会警告
      */
     private long maxProcessingTime = 3000;
-
-    public List<String> getExcludeUrl() {
-        return excludeUrl;
-    }
-
-    public void setExcludeUrl(List<String> excludeUrl) {
-        this.excludeUrl = excludeUrl;
-    }
-
-    public List<String> getExcludeAddress() {
-        return excludeAddress;
-    }
-
-    public void setExcludeAddress(List<String> excludeAddress) {
-        this.excludeAddress = excludeAddress;
-    }
-
-    public long getMaxProcessingTime() {
-        return maxProcessingTime;
-    }
-
-    public void setMaxProcessingTime(long maxProcessingTime) {
-        this.maxProcessingTime = maxProcessingTime;
-    }
 }
