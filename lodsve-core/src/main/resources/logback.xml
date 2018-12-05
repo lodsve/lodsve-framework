@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
     <!-- 日志输出级别 -->
-    <logger name="org.springframework" level="OFF"/>
+    <logger name="ROOT" level="OFF"/>
 </configuration>

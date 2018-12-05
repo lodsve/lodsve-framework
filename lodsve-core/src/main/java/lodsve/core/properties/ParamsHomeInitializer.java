@@ -17,9 +17,12 @@
 
 package lodsve.core.properties;
 
+import lodsve.core.ansi.AnsiOutput;
+import lodsve.core.configuration.ApplicationProperties;
 import lodsve.core.properties.env.EnvLoader;
 import lodsve.core.properties.ini.IniLoader;
 import lodsve.core.properties.profile.ProfileInitializer;
+import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
@@ -79,6 +82,13 @@ public class ParamsHomeInitializer implements WebApplicationInitializer {
         // 配置文件
         EnvLoader.init();
         IniLoader.init();
+
+        // 初始化ApplicationProperties
+        ApplicationProperties properties = new RelaxedBindFactory.Builder<>(ApplicationProperties.class).build();
+        AnsiOutput.Enabled enabled = properties.getAnsi().getEnabled();
+        Boolean consoleAvailable = properties.getAnsi().getConsoleAvailable();
+        AnsiOutput.setEnabled(enabled);
+        AnsiOutput.setConsoleAvailable(consoleAvailable);
 
         servletContext.setInitParameter(ContextLoader.CONTEXT_INITIALIZER_CLASSES_PARAM, ProfileInitializer.class.getName());
     }

@@ -17,47 +17,24 @@
 
 package lodsve.core.configuration;
 
-import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.ansi.AnsiOutput;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 系统配置.
+ * 控制台打印参数配置.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2016/12/12 下午3:05
  */
-@Setter
 @Getter
-@ConfigurationProperties(prefix = "application", locations = "${params.root}/framework/application.properties")
-public class ApplicationProperties {
+@Setter
+public class AnsiConfig {
     /**
-     * 开发模式
+     * 是否启用
      */
-    private boolean devMode = true;
+    private AnsiOutput.Enabled enabled = AnsiOutput.Enabled.ALWAYS;
     /**
-     * 编码
+     * 控制台是否支持
      */
-    private String encoding = "UTF-8";
-    /**
-     * whether the specified encoding is supposed to
-     * override existing request and response encodings
-     */
-    private boolean forceEncoding = true;
-    /**
-     * banner配置
-     */
-    private BannerConfig banner;
-    /**
-     * 多线程配置
-     */
-    private ThreadConfig thread;
-    /**
-     * 控制台打印参数配置
-     */
-    private AnsiConfig ansi;
-    /**
-     * 日志配置文件
-     */
-    private LogbackConfig logback;
+    private Boolean consoleAvailable = null;
 }
