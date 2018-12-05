@@ -26,7 +26,6 @@ import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationPropert
 import lodsve.core.utils.StringUtils;
 import lodsve.web.mvc.properties.ServerProperties;
 import lodsve.web.springfox.properties.SpringFoxProperties;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -125,7 +124,6 @@ public class SpringFoxConfiguration implements WebMvcConfigurer, BeanFactoryAwar
                     .apiInfo(apiInfo)
                     .forCodeGeneration(true)
                     .groupName(g)
-                    .host(getHost(serverProperties))
                     .select();
 
             if (!DEFAULT_GROUP_NAME.equals(g)) {
@@ -152,24 +150,6 @@ public class SpringFoxConfiguration implements WebMvcConfigurer, BeanFactoryAwar
         }
 
         return new ApiInfoBuilder().title(properties.getTitle()).description(properties.getDescription()).build();
-    }
-
-    private String getHost(ServerProperties serverProperties) {
-        String serverUrl = serverProperties.getServerUrl();
-        if (StringUtils.isBlank(serverUrl)) {
-            return "localhost";
-        }
-        String[] schemaAndHostAndPath = serverUrl.split("://");
-        if (ArrayUtils.isEmpty(schemaAndHostAndPath) || SCHEMA_HOST_PATH_LENGTH != ArrayUtils.getLength(schemaAndHostAndPath)) {
-            return "localhost";
-        }
-
-        String[] hostAndPath = schemaAndHostAndPath[1].split("/");
-        if (ArrayUtils.isEmpty(hostAndPath)) {
-            return "localhost";
-        }
-
-        return hostAndPath[0];
     }
 
     private Predicate<String> includePath(String groupName) {
