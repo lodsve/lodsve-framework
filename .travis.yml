@@ -2,4 +2,4 @@ language: java
 jdk: oraclejdk8
 notifications:
   webhooks:
-    - https://oapi.dingtalk.com/robot/send?access_token=$DING_TOKEN
+    - https://oapi.dingtalk.com/robot/send?access_token=${DING_TOKEN}
