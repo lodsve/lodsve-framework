@@ -17,7 +17,6 @@
 
 package lodsve.mybatis.configuration;
 
-import lodsve.core.utils.StringUtils;
 import lodsve.mybatis.plugins.pagination.PaginationInterceptor;
 import lodsve.mybatis.plugins.repository.BaseRepositoryInterceptor;
 import lodsve.mybatis.type.TypeHandlerScanner;
@@ -54,7 +53,7 @@ public class LodsveConfigurationCustomizer implements ConfigurationCustomizer {
         configuration.addInterceptor(new BaseRepositoryInterceptor());
 
         if (ArrayUtils.isNotEmpty(enumsLocations)) {
-            TypeHandler<?>[] handlers = new TypeHandlerScanner().find(StringUtils.join(enumsLocations, ","));
+            TypeHandler<?>[] handlers = new TypeHandlerScanner().find(enumsLocations);
             Arrays.stream(handlers).forEach(configuration.getTypeHandlerRegistry()::register);
         }
     }
