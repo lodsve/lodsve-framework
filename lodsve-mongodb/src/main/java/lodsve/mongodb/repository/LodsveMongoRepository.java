@@ -18,24 +18,17 @@
 package lodsve.mongodb.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
+import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
@@ -192,6 +185,58 @@ public class LodsveMongoRepository<T, ID extends Serializable> implements MongoR
 
         mongoOperations.insertAll(list);
         return list;
+    }
+
+    @Override
+    public <S extends T> S findOne(Example<S> example) {
+        Assert.notNull(example, "Sample must not be null!");
+
+        Query q = new Query(new Criteria().alike(example));
+        return mongoOperations.findOne(q, example.getProbeType(), entityInformation.getCollectionName());
+    }
+
+    @Override
+    public <S extends T> List<S> findAll(Example<S> example) {
+        return findAll(example, (Sort) null);
+    }
+
+    @Override
+    public <S extends T> List<S> findAll(Example<S> example, Sort sort) {
+        Assert.notNull(example, "Sample must not be null!");
+
+        Query q = new Query(new Criteria().alike(example));
+
+        if (sort != null) {
+            q.with(sort);
+        }
+
+        return mongoOperations.find(q, example.getProbeType(), entityInformation.getCollectionName());
+    }
+
+    @Override
+    public <S extends T> Page<S> findAll(Example<S> example, Pageable pageable) {
+        Assert.notNull(example, "Sample must not be null!");
+
+        final Query q = new Query(new Criteria().alike(example)).with(pageable);
+
+        List<S> list = mongoOperations.find(q, example.getProbeType(), entityInformation.getCollectionName());
+        return PageableExecutionUtils.getPage(list, pageable, () -> mongoOperations.count(q, example.getProbeType(), entityInformation.getCollectionName()));
+    }
+
+    @Override
+    public <S extends T> long count(Example<S> example) {
+        Assert.notNull(example, "Sample must not be null!");
+
+        Query q = new Query(new Criteria().alike(example));
+        return mongoOperations.count(q, example.getProbeType(), entityInformation.getCollectionName());
+    }
+
+    @Override
+    public <S extends T> boolean exists(Example<S> example) {
+        Assert.notNull(example, "Sample must not be null!");
+
+        Query q = new Query(new Criteria().alike(example));
+        return mongoOperations.exists(q, example.getProbeType(), entityInformation.getCollectionName());
     }
 
     private List<T> findAll(Query query) {

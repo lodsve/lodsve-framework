@@ -307,8 +307,8 @@ public class RelaxedBindFactory {
                     continue;
                 }
 
-                value = BeanUtils.instantiate(secondGenericClazz);
-                bindToSubTarget(value, prefix + "." + keyInMap);
+                value = BeanUtils.instantiateClass(secondGenericClazz);
+                bindToSubTarget(value, prefix + ".[" + keyInMap + "]");
             }
 
 
