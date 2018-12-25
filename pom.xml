@@ -86,7 +86,6 @@
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-httpclient.version>3.1</commons-httpclient.version>
         <commons-digester.version>2.1</commons-digester.version>
-        <commons-fileupload>1.2.1</commons-fileupload>
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <commons-codec.version>1.9</commons-codec.version>
         <vjkit.version>1.0.5</vjkit.version>
@@ -415,11 +414,6 @@
                 <groupId>commons-digester</groupId>
                 <artifactId>commons-digester</artifactId>
                 <version>${commons-digester.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-fileupload</groupId>
-                <artifactId>commons-fileupload</artifactId>
-                <version>${commons-fileupload}</version>
             </dependency>
             <dependency>
                 <groupId>commons-dbcp</groupId>

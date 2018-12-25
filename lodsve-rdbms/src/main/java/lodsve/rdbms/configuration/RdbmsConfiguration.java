@@ -1,9 +1,18 @@
 /*
- * Copyright (C) 2018, All rights Reserved, Designed By www.xiniaoyun.com
- * @author: 孙昊
- * @date: 2018-11-27 17:35
- * @Copyright: 2018 www.xiniaoyun.com Inc. All rights reserved.
- * 注意：本内容仅限于南京微欧科技有限公司内部传阅，禁止外泄以及用于其他的商业目的
+ * Copyright (C) 2018  Sun.Hao
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package lodsve.rdbms.configuration;
 
@@ -13,6 +22,7 @@ import lodsve.core.condition.ConditionalOnClass;
 import lodsve.core.condition.ConditionalOnMissingBean;
 import lodsve.core.condition.ConditionalOnWebApplication;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
+import lodsve.core.utils.StringUtils;
 import lodsve.rdbms.Constants;
 import lodsve.rdbms.druid.DruidInitializer;
 import lodsve.rdbms.dynamic.DynamicDataSourceAspect;
@@ -29,6 +39,7 @@ import org.springframework.context.annotation.*;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 关系型数据库数据源配置.
@@ -48,9 +59,9 @@ public class RdbmsConfiguration {
     @Bean
     @ConditionalOnClass(StatViewServlet.class)
     @ConditionalOnWebApplication
-    public DruidInitializer druidInitializer(DruidProperties druidProperties) {
+    public DruidInitializer druidInitializer(ObjectProvider<DruidProperties> druidProperties) {
         DruidInitializer initializer = new DruidInitializer();
-        initializer.setDruidProperties(druidProperties);
+        initializer.setDruidProperties(druidProperties.getIfAvailable());
         return initializer;
     }
 
@@ -58,6 +69,8 @@ public class RdbmsConfiguration {
     @ConditionalOnClass(Flyway.class)
     @Profile("flyway")
     public class FlywayConfiguration {
+        private final static String DEFAULT_FLYWAY_LOCATION = "classpath:META-INF/flyway";
+
         private final FlywayMigrationStrategy migrationStrategy;
 
         @Autowired
@@ -66,13 +79,21 @@ public class RdbmsConfiguration {
         }
 
         @Bean(name = Constants.FLYWAY_BEAN_NAME)
-        public List<Flyway> flyway(List<DataSource> dataSources, FlywayProperties flywayProperties) {
+        public List<Flyway> flyway(ObjectProvider<Map<String, DataSource>> dataSourcesProvider, ObjectProvider<FlywayProperties> flywayPropertiesProvider) {
+            Map<String, DataSource> dataSources = dataSourcesProvider.getIfAvailable();
+            FlywayProperties flywayProperties = flywayPropertiesProvider.getIfAvailable();
+            if (null == dataSources || null == flywayProperties) {
+                return Lists.newArrayList();
+            }
 
+            // 要排除  p6spy的"lodsveRealDataSource"数据源
+            // 还要排除默认数据源 "lodsveDataSource"
             List<Flyway> flyways = Lists.newArrayList();
-            dataSources.forEach(d -> {
+            dataSources.keySet().stream().filter(k -> !Lists.newArrayList(Constants.DATA_SOURCE_BEAN_NAME, Constants.REAL_DATA_SOURCE_BEAN_NAME).contains(k)).forEach(k -> {
                 Flyway flyway = new Flyway();
-                flyway.setDataSource(d);
-                flyway.setLocations(flywayProperties.getLocations());
+                flyway.setDataSource(dataSources.get(k));
+                String location = flywayProperties.getLocations().get(k);
+                flyway.setLocations(StringUtils.isBlank(location) ? DEFAULT_FLYWAY_LOCATION : location);
 
                 flyways.add(flyway);
             });

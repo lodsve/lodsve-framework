@@ -21,6 +21,8 @@ import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Map;
+
 /**
  * flyway配置.
  *
@@ -32,6 +34,8 @@ import lombok.Setter;
 public class FlywayProperties {
     /**
      * flyway的脚本文件所在路径
+     * key: 数据源名称
+     * value: flyway脚本路径，多个以逗号分隔
      */
-    private String[] locations = new String[]{"classpath:META-INF/flyway"};
+    private Map<String, String> locations;
 }
