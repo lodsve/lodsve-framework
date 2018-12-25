@@ -18,6 +18,7 @@
 package lodsve.wechat.config;
 
 import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.properties.relaxedbind.annotations.Required;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,13 +35,16 @@ public class WeChatProperties {
     /**
      * 应用ID
      */
+    @Required
     private String appId;
     /**
      * 应用密钥
      */
+    @Required
     private String appSecret;
     /**
      * Token
      */
+    @Required
     private String token;
 }

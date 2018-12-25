@@ -29,7 +29,7 @@ import org.springframework.core.io.Resource;
  */
 @Setter
 @Getter
-public class OscahceConfig {
+public class OscacheConfig {
     private Resource configuration;
     private OscacheMemcachedCache[] cache = new OscacheMemcachedCache[]{new OscacheMemcachedCache()};
 

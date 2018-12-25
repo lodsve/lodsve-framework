@@ -36,5 +36,5 @@ public class MongoConnection {
     private String username;
     @Required
     private String password;
-    private int maxpoolsize = 0;
+    private int maxPoolSize = 0;
 }
