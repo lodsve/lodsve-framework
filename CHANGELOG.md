@@ -1,5 +1,16 @@
 # 更新日志
 
+## 2.7.2-RELEASE(元旦特别纪念版)
+1. 整理配置文件，并给每一个配置项添加注释
+2. springfox移除获取path
+3. 修改日志，将打印banner之前的日志全部去掉
+4. 优化mybatis获取TypeHandler
+5. 升级spring.data.mongodb 并修正一些问题
+6. 解决relaxed bind绑定Map时的一个bug
+7. flyway支持对多数据源数据库版本控制 fixed #30
+8. 完善RelaxedBindFactory中的报错信息
+9. 删除依赖commons-fileupload
+
 ## 2.7.1-RELEASE
 1. 日志框架改为logback
 2. 集成了travis
