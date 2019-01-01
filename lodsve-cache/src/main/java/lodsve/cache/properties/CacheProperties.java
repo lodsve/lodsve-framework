@@ -34,5 +34,5 @@ public class CacheProperties {
     private EhcacheConfig ehcache = new EhcacheConfig();
     private RedisConfig redis = new RedisConfig();
     private MemcachedConfig memcached = new MemcachedConfig();
-    private OscahceConfig oscahce = new OscahceConfig();
+    private OscacheConfig oscache = new OscacheConfig();
 }

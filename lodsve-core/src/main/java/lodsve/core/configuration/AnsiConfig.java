@@ -15,26 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.mongodb.properties;
+package lodsve.core.configuration;
 
-import lodsve.core.properties.relaxedbind.annotations.Required;
+import lodsve.core.ansi.AnsiOutput;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Mongo Connection.
+ * 控制台打印参数配置.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2018-4-25-0025 14:24
  */
-@Setter
 @Getter
-public class MongoConnection {
-    @Required
-    private String url;
-    @Required
-    private String username;
-    @Required
-    private String password;
-    private int maxPoolSize = 0;
+@Setter
+public class AnsiConfig {
+    /**
+     * 是否启用
+     */
+    private AnsiOutput.Enabled enabled = AnsiOutput.Enabled.ALWAYS;
+    /**
+     * 控制台是否支持
+     */
+    private Boolean consoleAvailable = null;
 }

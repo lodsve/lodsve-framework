@@ -109,7 +109,7 @@ public class MongoBeanDefinitionRegistrar implements ImportBeanDefinitionRegistr
 
     private void initMongoDataSource(AnnotationAttributes attributes) {
         String[] dataSources = attributes.getStringArray(Constants.DATA_SOURCE_ATTRIBUTE_NAME);
-        if (null == dataSources || dataSources.length == 0) {
+        if (dataSources.length == 0) {
             throw new CannotGetMongoDbConnectionException("can't find any datasource!");
         }
 

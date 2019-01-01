@@ -68,16 +68,16 @@ public class MongoDataSourceBeanDefinitionFactory {
         String password = connection.getPassword();
 
         if (StringUtils.hasText(username) && StringUtils.hasText(password)) {
-            uriBuilder.append(username + ":" + password + "@");
+            uriBuilder.append(username).append(":").append(password).append("@");
         }
 
         uriBuilder.append(url.substring(URL_PREFIX.length()));
 
         uriBuilder.append("?maxpoolsize=");
-        if (connection.getMaxpoolsize() != 0) {
-            uriBuilder.append(connection.getMaxpoolsize());
+        if (connection.getMaxPoolSize() != 0) {
+            uriBuilder.append(connection.getMaxPoolSize());
         } else {
-            uriBuilder.append(mongoProperties.getMaxpoolsize());
+            uriBuilder.append(mongoProperties.getMaxPoolSize());
         }
 
         return uriBuilder.toString();

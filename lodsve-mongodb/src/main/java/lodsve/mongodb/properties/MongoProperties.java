@@ -33,6 +33,6 @@ import java.util.Map;
 @Getter
 @ConfigurationProperties(prefix = "lodsve.mongo", locations = "${params.root}/framework/mongo.properties")
 public class MongoProperties {
-    private int maxpoolsize = 10;
+    private int maxPoolSize = 10;
     private Map<String, MongoConnection> project;
 }

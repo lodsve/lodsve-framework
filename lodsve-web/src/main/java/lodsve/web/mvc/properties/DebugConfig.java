@@ -40,8 +40,4 @@ public class DebugConfig {
      * 需要忽略的ip/address
      */
     private List<String> excludeAddress = new ArrayList<>(0);
-    /**
-     * 当执行时间超长，将会警告
-     */
-    private long maxProcessingTime = 3000;
 }

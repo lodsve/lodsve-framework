@@ -22,7 +22,7 @@ import lodsve.redis.core.properties.RedisProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * reids配置.
+ * redis配置.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  * @date 2016-1-25 16:00

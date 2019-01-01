@@ -19,7 +19,7 @@ package lodsve.cache.oscache;
 
 import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 import lodsve.cache.properties.CacheProperties;
-import lodsve.cache.properties.OscahceConfig;
+import lodsve.cache.properties.OscacheConfig;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.cache.CacheManager;
@@ -52,7 +52,7 @@ public class OscacheCacheConfiguration {
 
     @Bean
     public CacheManager cacheManager(GeneralCacheAdministrator cacheAdministrator) {
-        OscahceConfig oscahce = cacheProperties.getOscahce();
+        OscacheConfig oscahce = cacheProperties.getOscache();
 
         OscacheCacheManager cacheManager = new OscacheCacheManager();
         cacheManager.setAdmin(cacheAdministrator);
@@ -63,7 +63,7 @@ public class OscacheCacheConfiguration {
 
     @Bean
     public GeneralCacheAdministrator cacheAdministrator() throws IOException {
-        OscahceConfig oscahce = cacheProperties.getOscahce();
+        OscacheConfig oscahce = cacheProperties.getOscache();
         Resource resource = oscahce.getConfiguration();
         if (resource == null || !resource.exists()) {
             resource = new ClassPathResource("/META-INF/oscache.properties", Thread.currentThread().getContextClassLoader());

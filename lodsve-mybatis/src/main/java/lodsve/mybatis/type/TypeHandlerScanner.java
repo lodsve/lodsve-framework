@@ -17,13 +17,14 @@
 
 package lodsve.mybatis.type;
 
+import com.google.common.collect.Lists;
 import javassist.*;
 import lodsve.core.bean.Codeable;
-import lodsve.core.utils.StringUtils;
+import lodsve.mybatis.exception.MyBatisException;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.type.TypeHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -32,7 +33,6 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.core.type.filter.TypeFilter;
-import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 import java.io.IOException;
@@ -50,7 +50,6 @@ import java.util.List;
 public class TypeHandlerScanner {
     private static final Logger logger = LoggerFactory.getLogger(TypeHandlerScanner.class);
 
-    private static final String BASE_PACKAGE_SEPARATOR = ",";
     private static final String DEFAULT_RESOURCE_PATTERN = "**/*.class";
     private ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
     private MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(this.resourcePatternResolver);
@@ -70,15 +69,17 @@ public class TypeHandlerScanner {
     /**
      * 通过spring的SpEL扫描系统中配置的枚举类型转换器
      *
-     * @param enumPackage 枚举类型所在的包路径，可以是多个，以逗号分隔
-     * @return
+     * @param enumPackages 枚举类型所在的包路径，可以是多个
+     * @return TypeHandler
      */
-    public TypeHandler<?>[] find(String enumPackage) {
-        Assert.hasText(enumPackage, "enums package is required!");
-        String[] basePackages = StringUtils.split(enumPackage, BASE_PACKAGE_SEPARATOR);
+    public TypeHandler<?>[] find(String... enumPackages) {
+        if (ArrayUtils.isEmpty(enumPackages)) {
+            throw new MyBatisException("enums package is required!");
+        }
+
         List<String> enumClasses = new ArrayList<>();
         try {
-            for (String bp : basePackages) {
+            for (String bp : enumPackages) {
                 enumClasses.addAll(this.getEnumClasses(bp));
             }
         } catch (IOException e) {
@@ -86,13 +87,11 @@ public class TypeHandlerScanner {
             return new TypeHandler<?>[0];
         }
 
-        List<TypeHandler<?>> typeHandlers = getTypeHandlers(enumClasses);
-
-        return typeHandlers.toArray(new TypeHandler<?>[0]);
+        return getTypeHandlers(enumClasses).toArray(new TypeHandler<?>[0]);
     }
 
     private List<TypeHandler<?>> getTypeHandlers(List<String> classes) {
-        List<TypeHandler<?>> typeHandlers = new ArrayList<>(classes.size());
+        List<TypeHandler<?>> typeHandlers = Lists.newArrayList();
         for (String enumClass : classes) {
             TypeHandler<?> handler = getTypeHandlerInstance(enumClass);
             if (handler != null) {
@@ -122,14 +121,14 @@ public class TypeHandlerScanner {
             // 另取捷径,设置rawType的值
             // mybatis中,最后需要rawType(即枚举的类型)与handler对应
             Class<?> clazz = typeHandler.toClass();
-            TypeHandler<?> handler = (TypeHandler<?>) BeanUtils.instantiate(clazz);
+            TypeHandler<?> handler = (TypeHandler<?>) clazz.newInstance();
             Field field = clazz.getSuperclass().getSuperclass().getSuperclass().getDeclaredField("rawType");
             field.setAccessible(true);
             field.set(handler, enumClazz);
 
             return handler;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
 
         return null;

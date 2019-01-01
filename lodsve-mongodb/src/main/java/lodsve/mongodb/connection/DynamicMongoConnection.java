@@ -35,6 +35,7 @@ import org.springframework.data.authentication.UserCredentials;
 import org.springframework.data.mongodb.CannotGetMongoDbConnectionException;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoDbUtils;
+import org.springframework.data.mongodb.core.MongoExceptionTranslator;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
@@ -67,7 +68,7 @@ public class DynamicMongoConnection implements DisposableBean, MongoDbFactory, B
 
     private MongoClientURI getDataSourceByBeanName(String beanName) {
         Object object = beanFactory.getBean(beanName);
-        if (object == null || !(object instanceof MongoClientURI)) {
+        if (!(object instanceof MongoClientURI)) {
             if (logger.isErrorEnabled()) {
                 logger.error("The bean named '{}' is not a {}!", beanName, MongoClientURI.class.getName());
             }
@@ -106,7 +107,7 @@ public class DynamicMongoConnection implements DisposableBean, MongoDbFactory, B
 
     @Override
     public PersistenceExceptionTranslator getExceptionTranslator() {
-        return null;
+        return new MongoExceptionTranslator();
     }
 
     private static String parseChars(char[] chars) {

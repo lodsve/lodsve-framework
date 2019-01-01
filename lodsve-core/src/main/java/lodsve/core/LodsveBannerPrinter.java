@@ -17,6 +17,8 @@
 
 package lodsve.core;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.LoggerContext;
 import lodsve.core.configuration.ApplicationProperties;
 import lodsve.core.configuration.BannerConfig;
 import lodsve.core.configuration.BannerMode;
@@ -38,7 +40,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 模仿spring-boot打印出banner.
@@ -53,11 +57,17 @@ public class LodsveBannerPrinter implements WebApplicationInitializer {
     private static final Banner DEFAULT_BANNER = new LodsveBanner();
     private static final String[] IMAGE_EXTENSION = {"gif", "jpg", "png"};
     private static final ResourceLoader RESOURCE_LOADER = new LodsveResourceLoader();
+    /**
+     * 缓存日志级别
+     */
+    private static final Map<String, Level> LEVEL_CACHE = new HashMap<>();
 
     private BannerConfig bannerConfig;
 
     @Override
     public void onStartup(@NonNull ServletContext servletContext) throws ServletException {
+        closeLogback();
+
         ApplicationProperties properties = new RelaxedBindFactory.Builder<>(ApplicationProperties.class).build();
         bannerConfig = properties.getBanner();
 
@@ -78,6 +88,23 @@ public class LodsveBannerPrinter implements WebApplicationInitializer {
         }
 
         printBannerInConsole(banner);
+
+        openLogback();
+    }
+
+    private void openLogback() {
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        List<ch.qos.logback.classic.Logger> loggers = loggerContext.getLoggerList();
+        loggers.forEach(l -> l.setLevel(LEVEL_CACHE.get(l.getName())));
+    }
+
+    private void closeLogback() {
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        List<ch.qos.logback.classic.Logger> loggers = loggerContext.getLoggerList();
+        loggers.forEach(l -> {
+            LEVEL_CACHE.put(l.getName(), l.getLevel());
+            l.setLevel(Level.OFF);
+        });
     }
 
     private void printInLogger(Banner banner) {

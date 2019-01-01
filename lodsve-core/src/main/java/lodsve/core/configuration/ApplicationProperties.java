@@ -53,6 +53,10 @@ public class ApplicationProperties {
      */
     private ThreadConfig thread;
     /**
+     * 控制台打印参数配置
+     */
+    private AnsiConfig ansi;
+    /**
      * 日志配置文件
      */
     private LogbackConfig logback;
