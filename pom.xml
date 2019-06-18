@@ -1191,7 +1191,7 @@
             </properties>
         </profile>
         <profile>
-            <id>release</id>
+            <id>release-oss</id>
             <build>
                 <plugins>
                     <!-- GPG,发布maven中央仓库用 -->
@@ -1257,6 +1257,50 @@
                     <id>oss-releases</id>
                     <name>oss releases</name>
                     <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>release-local</id>
+            <build>
+                <plugins>
+                    <!-- 生成javadoc的插件 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven.javadoc.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadoc</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <show>public</show>
+                            <aggregate>true</aggregate>
+                            <charset>${project.build.sourceEncoding}</charset>
+                            <encoding>${project.build.sourceEncoding}</encoding>
+                            <docencoding>${project.build.sourceEncoding}</docencoding>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <!-- 发布私服 -->
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>local-snapshots</id>
+                    <name>local SNAPSHOTS</name>
+                    <url>http://home.lodsve.com:9006/repository/maven-snapshots/</url>
+                </snapshotRepository>
+
+                <repository>
+                    <id>local-releases</id>
+                    <name>local releases</name>
+                    <url>http://home.lodsve.com:9006/repository/maven-releases/</url>
                 </repository>
             </distributionManagement>
         </profile>
