@@ -20,54 +20,82 @@
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-3rd</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.lodsve</groupId>
-            <artifactId>lodsve-amqp</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-cache</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-dfs</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-mongodb</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-mybatis</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lodsve</groupId>
+            <artifactId>lodsve-rabbitmq</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lodsve</groupId>
+            <artifactId>lodsve-rdbms</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-redis</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lodsve</groupId>
+            <artifactId>lodsve-rocketmq</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-search</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-security</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-test</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-validate</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lodsve</groupId>
+            <artifactId>lodsve-wechat</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

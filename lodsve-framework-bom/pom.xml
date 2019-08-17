@@ -1,0 +1,107 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 配置父 -->
+    <parent>
+        <groupId>com.lodsve</groupId>
+        <artifactId>lodsve-framework</artifactId>
+        <version>2.7.4-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>lodsve-framework-bom</artifactId>
+    <packaging>pom</packaging>
+    <name>lodsve framework bom</name>
+    <description>Lodsve Framework (Bill of Materials)</description>
+    <url>https://github.com/lodsve/lodsve-framework</url>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- lodsve framework dependencies start -->
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-3rd</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-cache</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-dfs</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-mongodb</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-mybatis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-rabbitmq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-rdbms</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-rocketmq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-search</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-test</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-validate</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-wechat</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- lodsve framework dependencies end -->
+        </dependencies>
+    </dependencyManagement>
+
+</project>

@@ -44,10 +44,12 @@
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-redis</artifactId>
+            <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
     </dependencies>

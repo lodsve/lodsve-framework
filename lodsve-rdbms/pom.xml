@@ -57,10 +57,12 @@
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-3rd</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

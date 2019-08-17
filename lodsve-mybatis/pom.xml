@@ -57,6 +57,7 @@
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- test -->

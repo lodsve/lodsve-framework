@@ -107,9 +107,9 @@ public class Ini {
         return inis;
     }
 
-    public static Map<String, String> getInisProperties() {
+    public static Map<String, Object> getInisProperties() {
         Map<String, Map<String, String>> all = getInis();
-        Map<String, String> result = new HashMap<>(16);
+        Map<String, Object> result = new HashMap<>(16);
         for (String key : all.keySet()) {
             Map<String, String> subMap = all.get(key);
             for (String subKey : subMap.keySet()) {

@@ -82,8 +82,7 @@ public class ExceptionAdvice {
 
             resources.addAll(Arrays.asList(resolver.getResources(org.springframework.util.StringUtils.cleanPath(pathToUse))));
         } catch (IOException e) {
-            logger.error("resolver resource:'{" + resource + "}' is error!", e);
-            e.printStackTrace();
+            logger.warn("resolver resource:'{" + resource + "}' is error!", e);
         }
 
         for (Resource r : resources) {
