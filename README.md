@@ -19,14 +19,17 @@ My development tools, it encapsulates some open source projects, and better faci
 2. It consists of the following modules:
     - lodsve-3rd
     - lodsve-all
-    - lodsve-amqp
     - lodsve-cache
     - lodsve-core
+    - lodsve-dependencies
     - lodsve-dfs
+    - lodsve-framework-bom
     - lodsve-mongodb
     - lodsve-mybatis
+    - lodsve-rabbitmq
     - lodsve-rdbms
     - lodsve-redis
+    - lodsve-rocketmq
     - lodsve-search
     - lodsve-security
     - lodsve-test
@@ -38,7 +41,7 @@ My development tools, it encapsulates some open source projects, and better faci
 
     <dependency>
         <groupId>com.lodsve</groupId>
-        <artifactId>lodsve-framework</artifactId>
+        <artifactId>lodsve-framework-bom</artifactId>
         <version>${lodsve.version}</version>
         <type>pom</type>
         <scope>import</scope>

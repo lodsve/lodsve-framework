@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Help info function
-help(){
+help() {
   echo "--------------------------------------------------------------------------"
   echo ""
   echo "usage: ./lodsve.sh [versions | deploy]"
@@ -12,16 +12,16 @@ help(){
   echo "--------------------------------------------------------------------------"
 }
 
-
 # Start
-./.github/shell/logo.sh
+./.mvn/logo.sh
 case "$1" in
-  'versions')
-    ./.github/shell/versions.sh $2
-	;;
-  'deploy')
-    ./.github/shell/deploy.sh $2
-	;;
-  *)
-    help
+'versions')
+  ./.mvn/versions.sh $2
+  ;;
+'deploy')
+  ./.mvn/deploy.sh $2
+  ;;
+*)
+  help
+  ;;
 esac

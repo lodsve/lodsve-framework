@@ -1,5 +1,5 @@
 language: java
-jdk: oraclejdk8
+jdk: openjdk8
 notifications:
   webhooks:
     - https://oapi.dingtalk.com/robot/send?access_token=be28d8d6223fc97c0c8540546a5b7bd0f54ac71f70e308ba40afe5d3db739e8d

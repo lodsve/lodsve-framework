@@ -46,7 +46,7 @@ import java.util.concurrent.ExecutorService;
  * @date 2016/12/27 下午3:07
  */
 @Configuration
-@EnableConfigurationProperties({ApplicationProperties.class, MailProperties.class})
+@EnableConfigurationProperties(ApplicationProperties.class)
 @ComponentScan({
         "lodsve.core.exception",
         "lodsve.core.properties"
@@ -56,6 +56,22 @@ public class LodsveCoreConfiguration {
 
     public LodsveCoreConfiguration(ObjectProvider<ApplicationProperties> applicationProperties) {
         this.applicationProperties = applicationProperties.getIfAvailable();
+    }
+
+    @Bean
+    @SuppressWarnings("unchecked")
+    public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
+        PropertySourcesPlaceholderConfigurer placeholderConfigurer = new PropertySourcesPlaceholderConfigurer();
+        placeholderConfigurer.setFileEncoding("UTF-8");
+
+        Map properties = Env.getEnvs();
+        properties.putAll(Env.getSystemEnvs());
+        properties.putAll(Ini.getInisProperties());
+        properties.putAll(ProfileInitializer.getAllProfiles());
+
+        placeholderConfigurer.setProperties(MapUtils.toProperties(properties));
+
+        return placeholderConfigurer;
     }
 
     @Bean
@@ -94,22 +110,6 @@ public class LodsveCoreConfiguration {
     }
 
     @Bean
-    @SuppressWarnings("unchecked")
-    public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
-        PropertySourcesPlaceholderConfigurer placeholderConfigurer = new PropertySourcesPlaceholderConfigurer();
-        placeholderConfigurer.setFileEncoding("UTF-8");
-
-        Map properties = Env.getEnvs();
-        properties.putAll(Env.getSystemEnvs());
-        properties.putAll(Ini.getInisProperties());
-        properties.putAll(ProfileInitializer.getAllProfiles());
-
-        placeholderConfigurer.setProperties(MapUtils.toProperties(properties));
-
-        return placeholderConfigurer;
-    }
-
-    @Bean
     public DefaultResourceBundleMessageSource messageSource(ResourceBundleHolder resourceBundleHolder) {
         DefaultResourceBundleMessageSource messageSource = new DefaultResourceBundleMessageSource();
         messageSource.setAlwaysUseMessageFormat(true);
@@ -120,7 +120,7 @@ public class LodsveCoreConfiguration {
 
     @Configuration
     @ConditionalOnClass(MessagingException.class)
-    @ComponentScan("lodsve.core.email")
+    @ComponentScan("lodsve.core.mail")
     public static class LodsveMail {
     }
 }

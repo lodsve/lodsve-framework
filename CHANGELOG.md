@@ -1,5 +1,16 @@
 # 更新日志
 
+## 2.7.5-RELEASE
+1. 增加`lodsve-dependencies`来管理所有的依赖版本
+2. 新增`lodsve-framework-bom`
+3. 调整lodsve-amqp -> lodsve-rabbitmq
+4. 新增lodsve-rocketmq
+
+## 2.7.4-RELEASE
+1. 升级solr和fastjson的版本
+2. 清理未使用的依赖
+3. 增加发布本地Maven私服
+
 ## 2.7.2-RELEASE(元旦特别纪念版)
 1. 整理配置文件，并给每一个配置项添加注释
 2. springfox移除获取path

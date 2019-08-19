@@ -5,16 +5,15 @@
     <!-- 配置父 -->
     <parent>
         <groupId>com.lodsve</groupId>
-        <artifactId>lodsve-framework</artifactId>
-        <version>2.7.4-RELEASE</version>
-        <relativePath>../pom.xml</relativePath>
+        <artifactId>lodsve-dependencies</artifactId>
+        <version>2.7.5-RELEASE</version>
+        <relativePath>../lodsve-dependencies</relativePath>
     </parent>
 
     <artifactId>lodsve-test</artifactId>
     <packaging>jar</packaging>
     <name>lodsve test</name>
     <description>单元测试</description>
-    <url>https://github.com/lodsve/lodsve-framework</url>
 
     <dependencies>
         <!-- required dependency -->
@@ -91,6 +90,7 @@
         <dependency>
             <groupId>com.lodsve</groupId>
             <artifactId>lodsve-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>
