@@ -5,16 +5,14 @@
     <!-- 配置父 -->
     <parent>
         <groupId>com.lodsve</groupId>
-        <artifactId>lodsve-framework</artifactId>
+        <artifactId>lodsve-dependencies</artifactId>
         <version>2.7.4-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>lodsve-redis</artifactId>
     <packaging>jar</packaging>
     <name>lodsve redis</name>
     <description>redis相关封装</description>
-    <url>https://github.com/lodsve/lodsve-framework</url>
 
     <dependencies>
         <!-- required dependency -->

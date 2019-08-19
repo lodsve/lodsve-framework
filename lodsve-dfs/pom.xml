@@ -5,16 +5,14 @@
     <!-- 配置父 -->
     <parent>
         <groupId>com.lodsve</groupId>
-        <artifactId>lodsve-framework</artifactId>
+        <artifactId>lodsve-dependencies</artifactId>
         <version>2.7.4-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>lodsve-dfs</artifactId>
     <packaging>jar</packaging>
     <name>lodsve dfs</name>
     <description>文件服务器FastDFS客户端</description>
-    <url>https://github.com/lodsve/lodsve-framework</url>
 
     <dependencies>
         <!-- lodsve -->

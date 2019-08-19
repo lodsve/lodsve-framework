@@ -5,16 +5,14 @@
     <!-- 配置父 -->
     <parent>
         <groupId>com.lodsve</groupId>
-        <artifactId>lodsve-framework</artifactId>
+        <artifactId>lodsve-dependencies</artifactId>
         <version>2.7.4-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>lodsve-security</artifactId>
     <packaging>jar</packaging>
     <name>lodsve security</name>
     <description>简单的安全校验</description>
-    <url>https://github.com/lodsve/lodsve-framework</url>
 
     <dependencies>
         <!-- required dependency -->

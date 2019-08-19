@@ -4,17 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>lodsve-framework</artifactId>
         <groupId>com.lodsve</groupId>
+        <artifactId>lodsve-framework</artifactId>
         <version>2.7.4-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>lodsve-all</artifactId>
     <packaging>jar</packaging>
     <name>lodsve all</name>
     <description>lodsve全部聚合</description>
-    <url>https://github.com/lodsve/lodsve-framework</url>
 
     <dependencies>
         <dependency>
