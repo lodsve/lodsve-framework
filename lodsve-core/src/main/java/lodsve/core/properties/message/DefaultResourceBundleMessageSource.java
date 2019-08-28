@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018  Sun.Hao
+ * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,11 +22,7 @@ import org.springframework.context.support.AbstractMessageSource;
 import org.springframework.util.ClassUtils;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * 扩展的资源绑定数据源.
@@ -129,7 +125,7 @@ public class DefaultResourceBundleMessageSource extends AbstractMessageSource im
      *
      * @param locale the Locale to find the ResourceBundle for
      * @return the resulting ResourceBundle, or <code>null</code> if none
-     *         found for the given basename and Locale
+     * found for the given basename and Locale
      */
     @SuppressWarnings("unchecked")
     public ResourceBundle getResourceBundle(Locale locale) {
@@ -154,8 +150,7 @@ public class DefaultResourceBundleMessageSource extends AbstractMessageSource im
      *
      * @param locale the Locale to look for
      * @return the corresponding ResourceBundle
-     * @throws java.util.MissingResourceException
-     *          if no matching bundle could be found
+     * @throws java.util.MissingResourceException if no matching bundle could be found
      * @see java.util.ResourceBundle#getBundle(String, java.util.Locale, ClassLoader)
      * @see #getBundleClassLoader()
      */
@@ -171,9 +166,8 @@ public class DefaultResourceBundleMessageSource extends AbstractMessageSource im
      * @param code   the message code to retrieve
      * @param locale the Locale to use to build the MessageFormat
      * @return the resulting MessageFormat, or <code>null</code> if no message
-     *         defined for the given code
-     * @throws java.util.MissingResourceException
-     *          if thrown by the ResourceBundle
+     * defined for the given code
+     * @throws java.util.MissingResourceException if thrown by the ResourceBundle
      */
     protected MessageFormat getMessageFormat(ResourceBundle bundle, String code, Locale locale)
             throws MissingResourceException {

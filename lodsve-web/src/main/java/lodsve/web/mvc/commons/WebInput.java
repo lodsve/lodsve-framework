@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018  Sun.Hao
+ * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 package lodsve.web.mvc.commons;
 
 import lodsve.core.bean.Constants;
-import lodsve.web.utils.RequestUtils;
 import lodsve.core.utils.StringUtils;
+import lodsve.web.utils.RequestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;

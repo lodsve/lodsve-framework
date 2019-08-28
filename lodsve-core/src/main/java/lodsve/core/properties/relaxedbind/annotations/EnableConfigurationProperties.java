@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018  Sun.Hao
+ * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,11 +20,7 @@ package lodsve.core.properties.relaxedbind.annotations;
 import lodsve.core.properties.relaxedbind.EnableConfigurationPropertiesImportSelector;
 import org.springframework.context.annotation.Import;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 启用配置.

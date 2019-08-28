@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018  Sun.Hao
+ * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,13 +17,7 @@
 
 package lodsve.core.properties.env;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 配置文件.

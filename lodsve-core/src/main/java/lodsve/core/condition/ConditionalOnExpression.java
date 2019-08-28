@@ -1,28 +1,25 @@
 /*
- * Copyright 2012-2016 the original author or authors.
+ * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package lodsve.core.condition;
 
 import org.springframework.context.annotation.Conditional;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Configuration annotation for a conditional element that depends on the value of a SpEL
@@ -31,16 +28,17 @@ import java.lang.annotation.Target;
  * @author Dave Syer
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 @Conditional(OnExpressionCondition.class)
 public @interface ConditionalOnExpression {
 
-	/**
-	 * The SpEL expression to evaluate. Expression should return {@code true} if the
-	 * condition passes or {@code false} if it fails.
-	 * @return the SpEL expression
-	 */
-	String value() default "true";
+    /**
+     * The SpEL expression to evaluate. Expression should return {@code true} if the
+     * condition passes or {@code false} if it fails.
+     *
+     * @return the SpEL expression
+     */
+    String value() default "true";
 
 }

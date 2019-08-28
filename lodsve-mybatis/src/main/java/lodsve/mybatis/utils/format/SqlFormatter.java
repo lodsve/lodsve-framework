@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018  Sun.Hao
+ * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,11 +17,7 @@
 
 package lodsve.mybatis.utils.format;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Locale;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * 格式化sql.

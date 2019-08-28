@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018  Sun.Hao
+ * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,19 +17,14 @@
 
 package lodsve.dfs.service.impl;
 
-import org.csource.common.FastDfsConfig;
-import org.csource.common.FsException;
-import org.csource.fastdfs.ClientGlobal;
-import org.csource.fastdfs.StorageClient;
-import org.csource.fastdfs.StorageClient1;
-import org.csource.fastdfs.StorageServer;
-import org.csource.fastdfs.TrackerClient;
-import org.csource.fastdfs.TrackerServer;
 import lodsve.core.utils.FileUtils;
 import lodsve.core.utils.StringUtils;
 import lodsve.dfs.configuration.DfsProperties;
 import lodsve.dfs.exception.FastDfsException;
 import lodsve.dfs.service.DfsService;
+import org.csource.common.FastDfsConfig;
+import org.csource.common.FsException;
+import org.csource.fastdfs.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
