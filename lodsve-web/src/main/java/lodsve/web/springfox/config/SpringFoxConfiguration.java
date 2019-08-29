@@ -24,11 +24,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lodsve.core.condition.ConditionalOnMissingBean;
 import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.utils.StringUtils;
-import lodsve.web.mvc.properties.ServerProperties;
 import lodsve.web.springfox.properties.SpringFoxProperties;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -37,13 +38,13 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.schema.AlternateTypeRule;
 import springfox.documentation.schema.AlternateTypeRuleConvention;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.ApiSelector;
 import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
@@ -75,7 +76,6 @@ import static springfox.documentation.spring.web.plugins.Docket.DEFAULT_GROUP_NA
 public class SpringFoxConfiguration implements WebMvcConfigurer, BeanFactoryAware {
     private static final String SPRING_FOX_UI_MAPPING = "/webjars/springfox-swagger-ui/**";
     private static final String SWAGGER_INDEX = "/swagger-ui.html";
-    private static final int SCHEMA_HOST_PATH_LENGTH = 2;
     private BeanFactory beanFactory;
 
     @Override
@@ -102,7 +102,7 @@ public class SpringFoxConfiguration implements WebMvcConfigurer, BeanFactoryAwar
 
     @Bean
     @ConditionalOnMissingBean
-    public List<Docket> createRestApi(SpringFoxProperties springFoxProperties, ServerProperties serverProperties) {
+    public List<Docket> createRestApi(SpringFoxProperties springFoxProperties, @Autowired(required = false) List<Parameter> globalParams) {
         ConfigurableBeanFactory configurableBeanFactory = (ConfigurableBeanFactory) beanFactory;
         List<Docket> dockets = new LinkedList<>();
 
@@ -131,6 +131,9 @@ public class SpringFoxConfiguration implements WebMvcConfigurer, BeanFactoryAwar
             }
 
             Docket docket = apiSelectorBuilder.build();
+            if (CollectionUtils.isNotEmpty(globalParams)) {
+                docket.globalOperationParameters(globalParams);
+            }
             dockets.add(docket);
             configurableBeanFactory.registerSingleton(g, docket);
         });
