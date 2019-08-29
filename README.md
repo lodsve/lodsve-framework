@@ -7,6 +7,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/lodsve/lodsve-framework.svg)](https://github.com/lodsve/lodsve-framework/network)
 [![GitHub issues](https://img.shields.io/github/issues/lodsve/lodsve-framework.svg)](https://github.com/lodsve/lodsve-framework/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/lodsve/lodsve-framework.svg)](https://github.com/lodsve/lodsve-framework/pulls)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework?ref=badge_shield)
 
 ## lodsve-framework
 My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web development.
@@ -106,13 +107,7 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 ## License
 The `Lodsve Framework` is released under version 3.0 of the [GNU General Public License][].
 
-
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework?ref=badge_large)
-
-## Donate
-![AliPay](https://helps.lodsve.com/images/alipay.png "支付宝")
-![WeChat](https://helps.lodsve.com/images/wechat.jpg "微信")
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework?ref=badge_shield)
 
 [GNU GENERAL PUBLIC LICENSE]: https://opensource.org/licenses/GPL-3.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
