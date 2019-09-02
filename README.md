@@ -111,7 +111,7 @@ The `Lodsve Framework` is released under version 3.0 of the [GNU General Public 
 
 [GNU GENERAL PUBLIC LICENSE]: https://opensource.org/licenses/GPL-3.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
-[Blog]: https://www.lodsve.com
+[Blog]: https://www.crazy-coder.cn
 [OSChina]: https://my.oschina.net/sunhaojava
 [867885140]: http://wpa.qq.com/msgrd?v=3&uin=867885140&site=qq&menu=yes
 [reference docs]: https://helps.lodsve.com/
