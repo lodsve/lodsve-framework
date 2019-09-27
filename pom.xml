@@ -22,8 +22,8 @@
     <!-- 配置父 -->
     <parent>
         <groupId>com.lodsve</groupId>
-        <artifactId>lodsve-parent</artifactId>
-        <version>2</version>
+        <artifactId>lodsve-dependencies</artifactId>
+        <version>1</version>
     </parent>
 
     <artifactId>lodsve-framework</artifactId>
@@ -42,8 +42,6 @@
         <module>lodsve-cache</module>
         <!-- 基础 -->
         <module>lodsve-core</module>
-        <!-- dependencies -->
-        <module>lodsve-dependencies</module>
         <!-- fastdfs -->
         <module>lodsve-dfs</module>
         <!-- bom -->

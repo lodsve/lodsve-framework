@@ -22,9 +22,9 @@
     <!-- 配置父 -->
     <parent>
         <groupId>com.lodsve</groupId>
-        <artifactId>lodsve-dependencies</artifactId>
+        <artifactId>lodsve-framework</artifactId>
         <version>2.7.6-SNAPSHOT</version>
-        <relativePath>../lodsve-dependencies</relativePath>
+        <relativePath>../</relativePath>
     </parent>
 
     <artifactId>lodsve-mongodb</artifactId>
