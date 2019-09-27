@@ -1,4 +1,4 @@
-![LOGO](https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/assets%2F-LI6IFYne1nz5hKJG9KV%2F-LI6IJj7PKqq4cT-jJJP%2F-LI6ILby0kqUKSi2OGoH%2Flogo.png?generation=1532352102617137&alt=media "lodsve-framework")
+![LOGO](https://raw.githubusercontent.com/lodsve/lodsve-documents/master/images/logo.png "lodsve-framework")
 
 [![Build Status](https://travis-ci.org/lodsve/lodsve-framework.svg?branch=master)](https://travis-ci.org/lodsve/lodsve-framework)
 [![License](https://img.shields.io/badge/license-GPLv3-yellowgreen.svg)]()
