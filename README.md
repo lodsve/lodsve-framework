@@ -1,4 +1,4 @@
-![LOGO](https://helps.lodsve.com//images/logo.png "lodsve-framework")
+![LOGO](https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/assets%2F-LI6IFYne1nz5hKJG9KV%2F-LI6IJj7PKqq4cT-jJJP%2F-LI6ILby0kqUKSi2OGoH%2Flogo.png?generation=1532352102617137&alt=media "lodsve-framework")
 
 [![Build Status](https://travis-ci.org/lodsve/lodsve-framework.svg?branch=master)](https://travis-ci.org/lodsve/lodsve-framework)
 [![License](https://img.shields.io/badge/license-GPLv3-yellowgreen.svg)]()
@@ -106,8 +106,6 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 
 ## License
 The `Lodsve Framework` is released under version 3.0 of the [GNU General Public License][].
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework?ref=badge_large)
 
 [GNU GENERAL PUBLIC LICENSE]: https://opensource.org/licenses/GPL-3.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md

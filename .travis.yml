@@ -1,10 +1,5 @@
 language: java
 jdk: openjdk8
-before_script:
-    - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
-script:
-    - fossa init
-    - fossa analyze
 notifications:
     webhooks:
         - https://oapi.dingtalk.com/robot/send?access_token=6642347dc77dd4081b7c14a97b148aa530d1e65ec577ae0e2a33ddfb734ed05d
