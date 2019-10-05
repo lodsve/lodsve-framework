@@ -1,4 +1,5 @@
 language: java
 jdk: openjdk8
 notifications:
-  webhooks: https://oapi.dingtalk.com/robot/send?access_token=$DD_TOKEN
+  webhooks:
+    - https://oapi.dingtalk.com/robot/send?access_token=$DD_TOKEN
