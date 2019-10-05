@@ -2,4 +2,10 @@ language: java
 jdk: openjdk8
 notifications:
   webhooks:
-    - https://oapi.dingtalk.com/robot/send?access_token=$DD_TOKEN
+    urls:
+      - https://oapi.dingtalk.com/robot/send?access_token=afb0d72e05ae079591106df39946294ced531bf802d8e560c2ec4bdb3f3c68d8
+    on_success: always
+    on_failure: always
+    on_start:   always
+    on_cancel:  always
+    on_error:   always
