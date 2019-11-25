@@ -36,8 +36,6 @@
     <modules>
         <!-- 第三方库依赖 -->
         <module>lodsve-3rd</module>
-        <!-- all modules -->
-        <module>lodsve-all</module>
         <!-- 缓存 -->
         <module>lodsve-cache</module>
         <!-- 基础 -->
