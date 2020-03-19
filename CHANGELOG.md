@@ -1,5 +1,12 @@
 # 更新日志
 
+## 2.7.6-RELEASE
+1. 修改所有文件的copyright
+2. swagger支持自定义全局参数
+3. 引入editconfig，配置ide格式
+4. 修改travis，去掉钉钉通知（webhook有问题）
+5. 移除lodsve-all
+
 ## 2.7.5-RELEASE
 1. 增加`lodsve-dependencies`来管理所有的依赖版本
 2. 新增`lodsve-framework-bom`
@@ -39,16 +46,16 @@
 5. 增加mybatis的通用dao、乐观锁插件
 6. 升级相关组件
     - spring
-    - junit 
+    - junit
     - jackson
     - springfox
     - commons-lang3
     - mybatis
-    - 
+    -
 7. 引入相关组件
-    - vjtools    
+    - vjtools
     - guava
-8. fixed bugs    
+8. fixed bugs
 
 ## 2.6.7-RELEASE
 1. 支持amqp注解，具体配置请参考`rabbit.properties`文件
@@ -83,7 +90,7 @@
     lodsve.server.enable-captcha=false
     lodsve.server.captcha-key=captchaKey
     lodsve.server.path=/captcha
-    
+
     验证码图片路径  ${contextPath}/captcha
     校验验证码   lodsve.web.utils.CaptchaUtils.validate(request, code)
     ```
@@ -127,7 +134,7 @@
 1. lodsve-3d: 无
 2. lodsve-all: 新增所有子模块的聚合
 3. lodsve-amqp: fixed bugs
-4. lodsve-cache: 
+4. lodsve-cache:
     - 优化部分代码
     - 新增支持oscache、memcached
 5. lodsve-core:
@@ -154,7 +161,7 @@
 
 ## V2.5.10
 1. ~~lodsve-dubbo~~: 删除
-2. lodsve-mvc: 
+2. lodsve-mvc:
     - 包名修改为lodsve-web
     - 解决对静态资源访问的问题
 3. lodsve-springfox:
@@ -320,7 +327,7 @@
     </servlet>
     ...
     <!-- spring配置 start -->
-    
+
     ApplicationConfiguration.java
     @Configuration
     // ...
@@ -352,13 +359,13 @@
 1. message-mybatis添加通用DAO
 
 ## V2.2
-1. 封装了一些mybatis的操作 
+1. 封装了一些mybatis的操作
 2. 改进其他的一些功能
 
 ## V2.1
-1. 重构message-jdbc 
-2. 整理message-datasource(分为：关系型数据库、mongoldb、reds三种数据源...) 
-3. restful返回json支持枚举(显示value和name) 
+1. 重构message-jdbc
+2. 整理message-datasource(分为：关系型数据库、mongoldb、reds三种数据源...)
+3. restful返回json支持枚举(显示value和name)
 4. restful返回json格式化日期类型
 
 ## V2.0-GA

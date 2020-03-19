@@ -1,17 +1,18 @@
 /*
- * Copyright 2012-2017 the original author or authors.
+ * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package lodsve.core.condition;
@@ -20,12 +21,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Conditional;
 
-import java.lang.annotation.Annotation;
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * {@link Conditional} that only matches when the specified bean classes and/or names are
@@ -57,61 +53,68 @@ import java.lang.annotation.Target;
  * @author Phillip Webb
  * @author Andy Wilkinson
  */
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Conditional(OnBeanCondition.class)
 public @interface ConditionalOnMissingBean {
 
-	/**
-	 * The class type of bean that should be checked. The condition matches when each
-	 * class specified is missing in the {@link ApplicationContext}.
-	 * @return the class types of beans to check
-	 */
-	Class<?>[] value() default {};
+    /**
+     * The class type of bean that should be checked. The condition matches when each
+     * class specified is missing in the {@link ApplicationContext}.
+     *
+     * @return the class types of beans to check
+     */
+    Class<?>[] value() default {};
 
-	/**
-	 * The class type names of bean that should be checked. The condition matches when
-	 * each class specified is missing in the {@link ApplicationContext}.
-	 * @return the class type names of beans to check
-	 */
-	String[] type() default {};
+    /**
+     * The class type names of bean that should be checked. The condition matches when
+     * each class specified is missing in the {@link ApplicationContext}.
+     *
+     * @return the class type names of beans to check
+     */
+    String[] type() default {};
 
-	/**
-	 * The class type of beans that should be ignored when identifying matching beans.
-	 * @return the class types of beans to ignore
-	 * @since 1.2.5
-	 */
-	Class<?>[] ignored() default {};
+    /**
+     * The class type of beans that should be ignored when identifying matching beans.
+     *
+     * @return the class types of beans to ignore
+     * @since 1.2.5
+     */
+    Class<?>[] ignored() default {};
 
-	/**
-	 * The class type names of beans that should be ignored when identifying matching
-	 * beans.
-	 * @return the class type names of beans to ignore
-	 * @since 1.2.5
-	 */
-	String[] ignoredType() default {};
+    /**
+     * The class type names of beans that should be ignored when identifying matching
+     * beans.
+     *
+     * @return the class type names of beans to ignore
+     * @since 1.2.5
+     */
+    String[] ignoredType() default {};
 
-	/**
-	 * The annotation type decorating a bean that should be checked. The condition matches
-	 * when each annotation specified is missing from all beans in the
-	 * {@link ApplicationContext}.
-	 * @return the class-level annotation types to check
-	 */
-	Class<? extends Annotation>[] annotation() default {};
+    /**
+     * The annotation type decorating a bean that should be checked. The condition matches
+     * when each annotation specified is missing from all beans in the
+     * {@link ApplicationContext}.
+     *
+     * @return the class-level annotation types to check
+     */
+    Class<? extends Annotation>[] annotation() default {};
 
-	/**
-	 * The names of beans to check. The condition matches when each bean name specified is
-	 * missing in the {@link ApplicationContext}.
-	 * @return the name of beans to check
-	 */
-	String[] name() default {};
+    /**
+     * The names of beans to check. The condition matches when each bean name specified is
+     * missing in the {@link ApplicationContext}.
+     *
+     * @return the name of beans to check
+     */
+    String[] name() default {};
 
-	/**
-	 * Strategy to decide if the application context hierarchy (parent contexts) should be
-	 * considered.
-	 * @return the search strategy
-	 */
-	SearchStrategy search() default SearchStrategy.ALL;
+    /**
+     * Strategy to decide if the application context hierarchy (parent contexts) should be
+     * considered.
+     *
+     * @return the search strategy
+     */
+    SearchStrategy search() default SearchStrategy.ALL;
 
 }

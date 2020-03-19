@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <!--
-  ~ Copyright (C) 2018  Sun.Hao
+  ~ Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,8 +19,6 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="lodsve.mybatis.dao.DemoMapper">
     <update id="logicDelete2">
         update t_demo

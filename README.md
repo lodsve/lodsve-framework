@@ -1,4 +1,4 @@
-![LOGO](https://helps.lodsve.com//images/logo.png "lodsve-framework")
+![LOGO](https://raw.githubusercontent.com/lodsve/lodsve-documents/master/images/logo.png "lodsve-framework")
 
 [![Build Status](https://travis-ci.org/lodsve/lodsve-framework.svg?branch=master)](https://travis-ci.org/lodsve/lodsve-framework)
 [![License](https://img.shields.io/badge/license-GPLv3-yellowgreen.svg)]()
@@ -7,6 +7,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/lodsve/lodsve-framework.svg)](https://github.com/lodsve/lodsve-framework/network)
 [![GitHub issues](https://img.shields.io/github/issues/lodsve/lodsve-framework.svg)](https://github.com/lodsve/lodsve-framework/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/lodsve/lodsve-framework.svg)](https://github.com/lodsve/lodsve-framework/pulls)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework?ref=badge_shield)
 
 ## lodsve-framework
 My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web development.
@@ -18,10 +19,8 @@ My development tools, it encapsulates some open source projects, and better faci
 1. Base on some open source framework. It encapsulates some classes and methods to make more convenient for developers.
 2. It consists of the following modules:
     - lodsve-3rd
-    - lodsve-all
     - lodsve-cache
     - lodsve-core
-    - lodsve-dependencies
     - lodsve-dfs
     - lodsve-framework-bom
     - lodsve-mongodb
@@ -106,13 +105,9 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 ## License
 The `Lodsve Framework` is released under version 3.0 of the [GNU General Public License][].
 
-## Donate
-![AliPay](https://helps.lodsve.com/images/alipay.png "支付宝")
-![WeChat](https://helps.lodsve.com/images/wechat.jpg "微信")
-
 [GNU GENERAL PUBLIC LICENSE]: https://opensource.org/licenses/GPL-3.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
-[Blog]: https://www.lodsve.com
+[Blog]: https://www.crazy-coder.cn
 [OSChina]: https://my.oschina.net/sunhaojava
 [867885140]: http://wpa.qq.com/msgrd?v=3&uin=867885140&site=qq&menu=yes
 [reference docs]: https://helps.lodsve.com/
