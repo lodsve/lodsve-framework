@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mvn clean deploy -Dmaven.test.skip=false -P release-oss -Dgpg.passphrase=$1
+mvn clean deploy -Dmaven.test.skip=false -P $1 -Dgpg.passphrase=$2
