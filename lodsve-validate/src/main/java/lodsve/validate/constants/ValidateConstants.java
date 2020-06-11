@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright (C) 2018  Sun.Hao
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,6 +51,8 @@ public class ValidateConstants {
         "NotNull", "Number", "Password", "Qq", "Regex", "Telephone", "Url", "Zip"
     };
 
+    private static final ResourceBundleHolder RESOURCE_BUNDLE_HOLDER = new ResourceBundleHolder();
+
     static {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
@@ -63,25 +65,23 @@ public class ValidateConstants {
         }
 
         for (Resource r : resources) {
-            resourceBundleHolder.loadMessageResource(r);
+            RESOURCE_BUNDLE_HOLDER.loadMessageResource(r);
         }
     }
 
     public static String getMessage(String key, Object... args) {
-        String message = resourceBundleHolder.getResourceBundle(getLocale()).getString(key);
+        String message = RESOURCE_BUNDLE_HOLDER.getResourceBundle(getLocale()).getString(key);
 
         return PropertyPlaceholderHelper.replaceNumholder(message, message, args);
     }
 
     private static Locale getLocale() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        if (requestAttributes == null || !(requestAttributes instanceof ServletRequestAttributes)) {
+        if (!(requestAttributes instanceof ServletRequestAttributes)) {
             return Locale.getDefault();
         }
 
         HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-        return request != null ? request.getLocale() : Locale.getDefault();
+        return request.getLocale();
     }
-
-    private static final ResourceBundleHolder resourceBundleHolder = new ResourceBundleHolder();
 }

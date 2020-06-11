@@ -58,6 +58,8 @@
         <module>lodsve-redis</module>
         <!-- rocketmq -->
         <module>lodsve-rocketmq</module>
+        <!-- 脚本语言 -->
+        <module>lodsve-scripts</module>
         <!-- 搜索 -->
         <module>lodsve-search</module>
         <!-- 安全 -->

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright (C) 2018  Sun.Hao
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.script.js;
+package lodsve.scripts.js;
 
-import lodsve.core.script.DynamicScriptEngineFactory;
-import lodsve.core.script.ScriptEngine;
+import lodsve.scripts.DynamicScriptEngineFactory;
+import lodsve.scripts.Script;
+import lodsve.scripts.ScriptEngine;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,7 +34,7 @@ import javax.script.ScriptException;
 public class JSScriptEngineTest {
     @Test
     public void testJS() throws ScriptException {
-        ScriptEngine js = DynamicScriptEngineFactory.getEngine(DynamicScriptEngineFactory.Script.JS);
+        ScriptEngine js = DynamicScriptEngineFactory.getEngine(Script.JS);
         String jsCode1 = "parseInt(1+2)";
         String jsCode2 = "function testJs(arg1,arg2) {return parseInt(arg1+arg2);}";
 

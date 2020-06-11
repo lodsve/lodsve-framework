@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright (C) 2018  Sun.Hao
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,30 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.script.spel;
-
-import lodsve.core.script.DynamicScriptEngineFactory;
-import lodsve.core.script.ScriptEngine;
-import org.junit.Assert;
-import org.junit.Test;
-
-import javax.script.ScriptException;
+package lodsve.scripts;
 
 /**
- * .
+ * groovy.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2018-1-2-0002 10:43
+ * @date 2016/12/9 上午11:16
  */
-public class SpELScriptEngineTest {
-    @Test
-    public void testSPEL() throws ScriptException {
-        ScriptEngine spel = DynamicScriptEngineFactory.getEngine(DynamicScriptEngineFactory.Script.SPEL);
-        String spelCode1 = "2+3";
-
-        boolean compileSpelCode = spel.compile("spelCode1", spelCode1);
-
-        Assert.assertTrue(compileSpelCode);
-        Assert.assertEquals("5", spel.execute("spelCode1").toString());
+public class GroovyScriptEngine extends AbstractScriptEngine {
+    @Override
+    protected String getScriptName() {
+        return "groovy";
     }
 }

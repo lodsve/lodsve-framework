@@ -21,7 +21,6 @@ My development tools, it encapsulates some open source projects, and better faci
     - lodsve-3rd
     - lodsve-cache
     - lodsve-core
-    - lodsve-dfs
     - lodsve-framework-bom
     - lodsve-mongodb
     - lodsve-mybatis
@@ -29,6 +28,7 @@ My development tools, it encapsulates some open source projects, and better faci
     - lodsve-rdbms
     - lodsve-redis
     - lodsve-rocketmq
+    - lodsve-scripts
     - lodsve-search
     - lodsve-security
     - lodsve-test
@@ -45,7 +45,7 @@ My development tools, it encapsulates some open source projects, and better faci
         <type>pom</type>
         <scope>import</scope>
     </dependency>
-    
+
 ## About release
 Version No. like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
 
@@ -54,13 +54,13 @@ Version No. like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
 - `PATCH` version when I make backwards-compatible bug fixes.
 - `RELEASE` means a stable release version.
 - `ALPHA` means internal version.
-- `BETA` means just for testing.    
-    
+- `BETA` means just for testing.
+
 ## Newest version
 Now the newest and stable version is `2.7.1-RELEASE`.
 
 You can also find the newest version in maven central: `http://repo1.maven.org/maven2/com/lodsve/lodsve-framework/`.
-    
+
 ## Documentation
 See the current [reference docs][].
 
@@ -79,8 +79,8 @@ See the master branch [Api Docs][].
 Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 > **Note:** Per the prerequisites above, ensure that you have `JDK 8` and `Maven 3.3.X` and `Lombok Plugin` configured properly in your IDE.
 
-1. Config your Git 
-    
+1. Config your Git
+
         git config --global user.name "your name"
         git config --global user.email "your email"
         git config --global core.autocrlf false
@@ -92,7 +92,7 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
     - IDE: Open Setting-Editor-File encoding, modify all `Encoding` as `UTF-8` and `with NO BOM`
 3. Required IDE Plugins(Both Eclipse and Intellij IDEA):
     - Alibaba Java Coding Guidelines
-    - Lombok plugin    
+    - Lombok plugin
 
 ## Change History
 [CHANGELOG][]

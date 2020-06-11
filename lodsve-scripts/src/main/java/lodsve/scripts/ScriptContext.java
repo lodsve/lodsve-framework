@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright (C) 2018  Sun.Hao
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.script;
+package lodsve.scripts;
 
 import org.springframework.expression.Expression;
 
@@ -28,8 +28,8 @@ import javax.script.CompiledScript;
  * @date 2016/12/9 上午10:52
  */
 public class ScriptContext {
-    private String id;
-    private String md5;
+    private final String id;
+    private final String md5;
     private CompiledScript script;
     private Expression expression;
     private Object object;

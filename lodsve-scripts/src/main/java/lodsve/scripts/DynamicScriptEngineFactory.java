@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright (C) 2018  Sun.Hao
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lodsve.core.script;
+package lodsve.scripts;
 
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
@@ -27,7 +27,6 @@ import java.util.Map;
  * 根据语言类型获取编译引擎的工厂.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
- * @date 2016/12/9 上午10:28
  */
 public final class DynamicScriptEngineFactory {
     private static final Map<Script, ScriptEngine> SCRIPT_ENGINE = new HashMap<>();
@@ -62,9 +61,5 @@ public final class DynamicScriptEngineFactory {
         Assert.notNull(script, "类型不可为空!");
 
         return SCRIPT_ENGINE.get(script);
-    }
-
-    public enum Script {
-        JS, GROOVY, PYTHON, SPEL, RUBY
     }
 }
