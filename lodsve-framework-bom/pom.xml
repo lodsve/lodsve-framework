@@ -52,11 +52,6 @@
             </dependency>
             <dependency>
                 <groupId>com.lodsve</groupId>
-                <artifactId>lodsve-dfs</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.lodsve</groupId>
                 <artifactId>lodsve-mongodb</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -83,6 +78,11 @@
             <dependency>
                 <groupId>com.lodsve</groupId>
                 <artifactId>lodsve-rocketmq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lodsve</groupId>
+                <artifactId>lodsve-scripts</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
