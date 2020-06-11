@@ -17,8 +17,8 @@
 
 package lodsve.rabbitmq.annotations;
 
+import lodsve.core.autoproperties.relaxedbind.RelaxedBindFactory;
 import lodsve.core.bean.BeanRegisterUtils;
-import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import lodsve.rabbitmq.binding.DirectQueueBinding;
 import lodsve.rabbitmq.binding.FanoutQueueBinding;
 import lodsve.rabbitmq.binding.TopicQueueBinding;
@@ -46,7 +46,7 @@ import java.util.Map;
  * @date 2018-08-02 14:32
  */
 public class RabbitBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
-    private RabbitProperties rabbitProperties;
+    private final RabbitProperties rabbitProperties;
     private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>(16);
 
     public RabbitBeanDefinitionRegistrar() {

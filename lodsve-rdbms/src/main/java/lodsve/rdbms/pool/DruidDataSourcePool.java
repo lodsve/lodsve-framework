@@ -21,7 +21,7 @@ import com.alibaba.druid.filter.Filter;
 import com.alibaba.druid.wall.WallConfig;
 import com.alibaba.druid.wall.WallFilter;
 import com.google.common.collect.Lists;
-import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
+import lodsve.core.autoproperties.relaxedbind.RelaxedBindFactory;
 import lodsve.core.utils.StringUtils;
 import lodsve.rdbms.properties.DruidProperties;
 import lodsve.rdbms.properties.RdbmsProperties;

@@ -17,9 +17,9 @@
 
 package lodsve.test.context;
 
-import lodsve.core.properties.ParamsHome;
-import lodsve.core.properties.env.EnvLoader;
-import lodsve.core.properties.ini.IniLoader;
+import lodsve.core.autoproperties.ParamsHome;
+import lodsve.core.autoproperties.env.EnvLoader;
+import lodsve.core.autoproperties.ini.IniLoader;
 import lodsve.core.utils.StringUtils;
 import lodsve.test.base.ParamsPath;
 import org.springframework.test.context.TestContext;
@@ -64,7 +64,7 @@ public class LodsveTestExecutionListener implements TestExecutionListener {
     }
 
     private void initPath(TestContext testContext) {
-        if (System.getProperties().keySet().contains(ParamsHome.JVM_PARAM_PATH)) {
+        if (System.getProperties().containsKey(ParamsHome.JVM_PARAM_PATH)) {
             return;
         }
 

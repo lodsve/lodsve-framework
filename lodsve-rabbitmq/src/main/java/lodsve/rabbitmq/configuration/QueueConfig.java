@@ -17,7 +17,7 @@
 
 package lodsve.rabbitmq.configuration;
 
-import lodsve.core.properties.relaxedbind.annotations.Required;
+import lodsve.core.autoproperties.relaxedbind.annotations.Required;
 import lombok.Getter;
 import lombok.Setter;
 

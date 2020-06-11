@@ -17,7 +17,7 @@
 
 package lodsve.search.configs;
 
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
+import lodsve.core.autoproperties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.search.engine.LuceneSearchEngine;
 import lodsve.search.engine.SearchEngine;
 import lodsve.search.properties.LuceneConfig;

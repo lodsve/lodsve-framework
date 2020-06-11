@@ -18,10 +18,10 @@ package lodsve.rdbms.configuration;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.google.common.collect.Lists;
+import lodsve.core.autoproperties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.condition.ConditionalOnClass;
 import lodsve.core.condition.ConditionalOnMissingBean;
 import lodsve.core.condition.ConditionalOnWebApplication;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.utils.StringUtils;
 import lodsve.rdbms.Constants;
 import lodsve.rdbms.druid.DruidInitializer;

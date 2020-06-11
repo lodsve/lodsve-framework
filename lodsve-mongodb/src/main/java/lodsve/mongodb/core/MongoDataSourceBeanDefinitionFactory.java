@@ -18,7 +18,7 @@
 package lodsve.mongodb.core;
 
 import com.mongodb.MongoClientURI;
-import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
+import lodsve.core.autoproperties.relaxedbind.RelaxedBindFactory;
 import lodsve.mongodb.properties.MongoConnection;
 import lodsve.mongodb.properties.MongoProperties;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -34,8 +34,8 @@ import org.springframework.util.StringUtils;
 public class MongoDataSourceBeanDefinitionFactory {
     private static final String URL_PREFIX = "mongodb://";
 
-    private String dataSourceName;
-    private MongoProperties mongoProperties;
+    private final String dataSourceName;
+    private final MongoProperties mongoProperties;
 
     public MongoDataSourceBeanDefinitionFactory(String dataSourceName) {
         this.dataSourceName = dataSourceName;

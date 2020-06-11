@@ -17,7 +17,7 @@
 
 package lodsve.redis.core.connection;
 
-import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
+import lodsve.core.autoproperties.relaxedbind.RelaxedBindFactory;
 import lodsve.redis.core.properties.RedisProperties;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -29,8 +29,8 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
  * @date 16/1/21 下午4:10
  */
 public class RedisDataSourceBeanDefinitionFactory {
-    private String dataSourceName;
-    private RedisProperties redisProperties;
+    private final String dataSourceName;
+    private final RedisProperties redisProperties;
 
     public RedisDataSourceBeanDefinitionFactory(String dataSourceName) {
         this.dataSourceName = dataSourceName;

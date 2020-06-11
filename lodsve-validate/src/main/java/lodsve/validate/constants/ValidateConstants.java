@@ -17,7 +17,7 @@
 
 package lodsve.validate.constants;
 
-import lodsve.core.properties.message.ResourceBundleHolder;
+import lodsve.core.autoproperties.message.ResourceBundleHolder;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,13 @@ import java.util.Locale;
  */
 public class ValidateConstants {
     private static final Logger logger = LoggerFactory.getLogger(ValidateConstants.class);
-    private static ResourceBundleHolder resourceBundleHolder = new ResourceBundleHolder();
+    /**
+     * 框架中定义的注解
+     */
+    public static final String[] VALIDATE_ANNOTATIONS = new String[]{
+        "Chinese", "Double", "Email", "English", "IdCard", "Integer", "Ip", "Limit", "Mobile",
+        "NotNull", "Number", "Password", "Qq", "Regex", "Telephone", "Url", "Zip"
+    };
 
     static {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -77,11 +83,5 @@ public class ValidateConstants {
         return request != null ? request.getLocale() : Locale.getDefault();
     }
 
-    /**
-     * 框架中定义的注解
-     */
-    public static final String[] VALIDATE_ANNOTATIONS = new String[]{
-            "Chinese", "Double", "Email", "English", "IdCard", "Integer", "Ip", "Limit", "Mobile",
-            "NotNull", "Number", "Password", "Qq", "Regex", "Telephone", "Url", "Zip"
-    };
+    private static final ResourceBundleHolder resourceBundleHolder = new ResourceBundleHolder();
 }

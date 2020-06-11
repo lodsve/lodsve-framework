@@ -19,11 +19,11 @@ package lodsve.core;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
+import lodsve.core.autoproperties.relaxedbind.RelaxedBindFactory;
 import lodsve.core.configuration.ApplicationProperties;
 import lodsve.core.configuration.BannerConfig;
 import lodsve.core.configuration.BannerMode;
 import lodsve.core.io.support.LodsveResourceLoader;
-import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -161,7 +161,7 @@ public class LodsveBannerPrinter implements WebApplicationInitializer {
     }
 
     static class Banners implements Banner {
-        private List<Banner> banners = new ArrayList<>(16);
+        private final List<Banner> banners = new ArrayList<>(16);
 
         @Override
         public void print(BannerConfig config, PrintStream out) {

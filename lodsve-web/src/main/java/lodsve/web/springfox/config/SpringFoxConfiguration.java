@@ -21,8 +21,8 @@ import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lodsve.core.autoproperties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.condition.ConditionalOnMissingBean;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.utils.StringUtils;
 import lodsve.web.springfox.properties.SpringFoxProperties;
 import org.apache.commons.collections.CollectionUtils;
@@ -121,10 +121,10 @@ public class SpringFoxConfiguration implements WebMvcConfigurer, BeanFactoryAwar
             pathSelector = pathSelector.and(includePath(g));
 
             ApiSelectorBuilder apiSelectorBuilder = new Docket(DocumentationType.SWAGGER_2)
-                    .apiInfo(apiInfo)
-                    .forCodeGeneration(true)
-                    .groupName(g)
-                    .select();
+                .apiInfo(apiInfo)
+                .forCodeGeneration(true)
+                .groupName(g)
+                .select();
 
             if (!DEFAULT_GROUP_NAME.equals(g)) {
                 apiSelectorBuilder.paths(pathSelector::test);

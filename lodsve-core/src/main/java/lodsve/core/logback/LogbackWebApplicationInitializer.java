@@ -33,9 +33,9 @@ import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.status.Status;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.OptionHelper;
+import lodsve.core.autoproperties.relaxedbind.RelaxedBindFactory;
 import lodsve.core.configuration.ApplicationProperties;
 import lodsve.core.configuration.LogbackConfig;
-import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
 import lodsve.core.utils.StringUtils;
 import org.apache.commons.collections.MapUtils;
 import org.slf4j.ILoggerFactory;
@@ -146,13 +146,13 @@ public class LogbackWebApplicationInitializer implements WebApplicationInitializ
     private LoggerContext getLoggerContext() {
         ILoggerFactory factory = StaticLoggerBinder.getSingleton().getLoggerFactory();
         Assert.isInstanceOf(LoggerContext.class, factory,
-                String.format(
-                        "LoggerFactory is not a Logback LoggerContext but Logback is on "
-                                + "the classpath. Either remove Logback or the competing "
-                                + "implementation (%s loaded from %s). If you are using "
-                                + "WebLogic you will need to add 'org.slf4j' to "
-                                + "prefer-application-packages in WEB-INF/weblogic.xml",
-                        factory.getClass(), getLocation(factory)));
+            String.format(
+                "LoggerFactory is not a Logback LoggerContext but Logback is on "
+                    + "the classpath. Either remove Logback or the competing "
+                    + "implementation (%s loaded from %s). If you are using "
+                    + "WebLogic you will need to add 'org.slf4j' to "
+                    + "prefer-application-packages in WEB-INF/weblogic.xml",
+                factory.getClass(), getLocation(factory)));
         return (LoggerContext) factory;
     }
 

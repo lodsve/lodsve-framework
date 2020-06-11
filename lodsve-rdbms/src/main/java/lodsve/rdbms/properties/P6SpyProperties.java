@@ -17,8 +17,8 @@
 
 package lodsve.rdbms.properties;
 
+import lodsve.core.autoproperties.relaxedbind.annotations.ConfigurationProperties;
 import lodsve.core.io.support.LodsveResourceLoader;
-import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.core.io.Resource;

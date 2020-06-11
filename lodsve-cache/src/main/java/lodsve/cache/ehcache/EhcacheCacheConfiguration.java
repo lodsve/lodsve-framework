@@ -19,7 +19,7 @@ package lodsve.cache.ehcache;
 
 import lodsve.cache.properties.CacheProperties;
 import lodsve.cache.properties.EhcacheCache;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
+import lodsve.core.autoproperties.relaxedbind.annotations.EnableConfigurationProperties;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.config.CacheConfiguration;
 import org.springframework.beans.factory.ObjectProvider;

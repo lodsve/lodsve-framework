@@ -19,8 +19,8 @@ package lodsve.rdbms.configuration;
 
 import com.google.common.collect.Maps;
 import com.p6spy.engine.spy.P6DataSource;
+import lodsve.core.autoproperties.Profiles;
 import lodsve.core.bean.BeanRegisterUtils;
-import lodsve.core.properties.Profiles;
 import lodsve.rdbms.Constants;
 import lodsve.rdbms.annotations.DataSourceProvider;
 import lodsve.rdbms.dynamic.DynamicDataSource;
@@ -91,8 +91,8 @@ public class DataSourceBeanDefinitionRegistrar implements ImportBeanDefinitionRe
 
     private static class DataSourceBean {
         private String defaultDataSourceKey;
-        private Map<String, BeanDefinition> beanDefinitions;
-        private List<String> dataSourceNames;
+        private final Map<String, BeanDefinition> beanDefinitions;
+        private final List<String> dataSourceNames;
 
         DataSourceBean(String[] dataSources) {
             beanDefinitions = new HashMap<>(dataSources.length);

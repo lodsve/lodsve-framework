@@ -20,7 +20,7 @@ package lodsve.rdbms.p6spy;
 import com.p6spy.engine.common.P6Util;
 import com.p6spy.engine.spy.P6ModuleManager;
 import com.p6spy.engine.spy.option.P6OptionsSource;
-import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
+import lodsve.core.autoproperties.relaxedbind.RelaxedBindFactory;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.rdbms.properties.P6SpyProperties;
 import org.springframework.core.io.Resource;

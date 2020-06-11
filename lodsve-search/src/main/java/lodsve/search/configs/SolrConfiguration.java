@@ -17,8 +17,8 @@
 
 package lodsve.search.configs;
 
+import lodsve.core.autoproperties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.condition.ConditionalOnMissingBean;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.utils.StringUtils;
 import lodsve.search.engine.SearchEngine;
 import lodsve.search.engine.SolrSearchEngine;

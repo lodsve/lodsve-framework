@@ -17,9 +17,9 @@
 
 package lodsve.core.exception;
 
+import lodsve.core.autoproperties.Env;
+import lodsve.core.autoproperties.message.ResourceBundleHolder;
 import lodsve.core.io.support.LodsvePathMatchingResourcePatternResolver;
-import lodsve.core.properties.Env;
-import lodsve.core.properties.message.ResourceBundleHolder;
 import lodsve.core.utils.PropertyPlaceholderHelper;
 import lodsve.core.utils.ResourceUtils;
 import lodsve.core.utils.StringUtils;
@@ -58,7 +58,7 @@ public class ExceptionAdvice {
     /**
      * 加载了所有的资源文件信息.
      */
-    private ResourceBundleHolder resourceBundleHolder = new ResourceBundleHolder();
+    private final ResourceBundleHolder resourceBundleHolder = new ResourceBundleHolder();
 
     @PostConstruct
     public void init() {

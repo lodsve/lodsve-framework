@@ -17,7 +17,7 @@
 
 package lodsve.mongodb.properties;
 
-import lodsve.core.properties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.autoproperties.relaxedbind.annotations.ConfigurationProperties;
 import lombok.Getter;
 import lombok.Setter;
 

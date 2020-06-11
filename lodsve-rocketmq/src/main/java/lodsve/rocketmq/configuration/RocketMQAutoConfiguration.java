@@ -18,11 +18,11 @@
 package lodsve.rocketmq.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lodsve.core.autoproperties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.condition.ConditionalOnBean;
 import lodsve.core.condition.ConditionalOnClass;
 import lodsve.core.condition.ConditionalOnMissingBean;
 import lodsve.core.condition.ConditionalOnProperty;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.rocketmq.core.RocketMQTemplate;
 import org.apache.rocketmq.client.MQAdmin;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;

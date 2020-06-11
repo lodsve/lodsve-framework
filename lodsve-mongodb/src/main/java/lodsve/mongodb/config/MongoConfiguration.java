@@ -17,7 +17,7 @@
 
 package lodsve.mongodb.config;
 
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
+import lodsve.core.autoproperties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.mongodb.Constants;
 import lodsve.mongodb.core.MongoRepositoryBeanPostProcessor;
 import lodsve.mongodb.properties.MongoProperties;

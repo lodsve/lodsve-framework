@@ -17,16 +17,16 @@
 
 package lodsve.core.configuration;
 
+import lodsve.core.autoproperties.Env;
+import lodsve.core.autoproperties.Ini;
+import lodsve.core.autoproperties.message.DefaultResourceBundleMessageSource;
+import lodsve.core.autoproperties.message.ResourceBundleHolder;
+import lodsve.core.autoproperties.profile.ProfileInitializer;
+import lodsve.core.autoproperties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.condition.ConditionalOnClass;
 import lodsve.core.context.ApplicationContextListener;
 import lodsve.core.event.EventExecutor;
 import lodsve.core.event.EventPublisher;
-import lodsve.core.properties.Env;
-import lodsve.core.properties.Ini;
-import lodsve.core.properties.message.DefaultResourceBundleMessageSource;
-import lodsve.core.properties.message.ResourceBundleHolder;
-import lodsve.core.properties.profile.ProfileInitializer;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
@@ -48,8 +48,8 @@ import java.util.concurrent.ExecutorService;
 @Configuration
 @EnableConfigurationProperties(ApplicationProperties.class)
 @ComponentScan({
-        "lodsve.core.exception",
-        "lodsve.core.properties"
+    "lodsve.core.exception",
+    "lodsve.core.autoproperties"
 })
 public class LodsveCoreConfiguration {
     private final ApplicationProperties applicationProperties;

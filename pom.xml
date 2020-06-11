@@ -44,8 +44,6 @@
         <module>lodsve-cache</module>
         <!-- 基础 -->
         <module>lodsve-core</module>
-        <!-- fastdfs -->
-        <module>lodsve-dfs</module>
         <!-- bom -->
         <module>lodsve-framework-bom</module>
         <!-- mongodb -->

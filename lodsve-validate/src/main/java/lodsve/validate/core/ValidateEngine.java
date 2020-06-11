@@ -17,7 +17,7 @@
 
 package lodsve.validate.core;
 
-import lodsve.core.properties.Profiles;
+import lodsve.core.autoproperties.Profiles;
 import lodsve.core.utils.ObjectUtils;
 import lodsve.core.utils.StringUtils;
 import lodsve.validate.annotations.ValidateEntity;
@@ -61,7 +61,7 @@ public class ValidateEngine implements InitializingBean {
     /**
      * 是否开启验证引擎?默认是开启
      */
-    private boolean openValidate = Profiles.getProfile("validator");
+    private final boolean openValidate = Profiles.getProfile("validator");
     /**
      * key-value(注解名称-beanHandler)
      */

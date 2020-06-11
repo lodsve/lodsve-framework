@@ -19,7 +19,7 @@ package lodsve.cache.memcached;
 
 import lodsve.cache.properties.CacheProperties;
 import lodsve.cache.properties.MemcachedConfig;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
+import lodsve.core.autoproperties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.utils.NumberUtils;
 import net.spy.memcached.MemcachedClient;
 import org.springframework.beans.factory.ObjectProvider;

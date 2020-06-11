@@ -17,7 +17,7 @@
 
 package lodsve.web.utils;
 
-import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
+import lodsve.core.autoproperties.relaxedbind.RelaxedBindFactory;
 import lodsve.web.mvc.properties.ServerProperties;
 import org.springframework.web.WebApplicationInitializer;
 

@@ -17,8 +17,8 @@
 
 package lodsve.core.relaxedbind;
 
-import lodsve.core.properties.env.Configuration;
-import lodsve.core.properties.env.PropertiesConfiguration;
+import lodsve.core.autoproperties.env.Configuration;
+import lodsve.core.autoproperties.env.PropertiesConfiguration;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.BeanWrapper;

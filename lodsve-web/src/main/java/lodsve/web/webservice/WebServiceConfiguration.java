@@ -17,9 +17,9 @@
 
 package lodsve.web.webservice;
 
+import lodsve.core.autoproperties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.condition.ConditionalOnClass;
 import lodsve.core.condition.ConditionalOnWebApplication;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.web.webservice.properties.WebServiceProperties;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.context.annotation.Bean;

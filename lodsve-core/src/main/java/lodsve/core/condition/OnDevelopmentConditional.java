@@ -17,7 +17,7 @@
 
 package lodsve.core.condition;
 
-import lodsve.core.properties.Env;
+import lodsve.core.autoproperties.Env;
 import lodsve.core.utils.StringUtils;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.ConfigurationCondition;

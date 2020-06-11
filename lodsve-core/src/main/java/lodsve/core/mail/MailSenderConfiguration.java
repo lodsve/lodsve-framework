@@ -17,10 +17,10 @@
 
 package lodsve.core.mail;
 
+import lodsve.core.autoproperties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.condition.ConditionalOnClass;
 import lodsve.core.condition.ConditionalOnMissingBean;
 import lodsve.core.configuration.MailProperties;
-import lodsve.core.properties.relaxedbind.annotations.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

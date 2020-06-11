@@ -18,7 +18,7 @@
 package lodsve.rdbms.pool;
 
 import com.google.common.collect.Maps;
-import lodsve.core.properties.relaxedbind.RelaxedBindFactory;
+import lodsve.core.autoproperties.relaxedbind.RelaxedBindFactory;
 import lodsve.core.utils.BeanMapper;
 import lodsve.rdbms.properties.PoolSetting;
 import lodsve.rdbms.properties.RdbmsProperties;
