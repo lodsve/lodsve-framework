@@ -104,8 +104,7 @@
                     <execution>
                         <phase>generate-sources</phase>
                         <goals>
-                            <goal>remove</goal>
-                            <goal>format</goal>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -123,7 +122,14 @@
                         <exclude>.github/**</exclude>
                         <exclude>.mvn/**</exclude>
                         <exclude>**/spring.factories</exclude>
+                        <exclude>**/*.txt</exclude>
                     </excludes>
+                    <includes>
+                        <include>**/src/main/java/**/*.java</include>
+                        <include>**/src/main/java/**/*.xml</include>
+                        <include>**/src/test/java/**/*.java</include>
+                        <include>**/src/test/java/**/*.xml</include>
+                    </includes>
                     <strictCheck>true</strictCheck>
                     <mapping>
                         <java>SLASHSTAR_STYLE</java>
