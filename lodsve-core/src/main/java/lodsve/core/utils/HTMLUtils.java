@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core.utils;
 
 import org.apache.html.dom.HTMLDocumentImpl;
@@ -54,7 +53,7 @@ public class HTMLUtils {
     private static final Logger logger = LoggerFactory.getLogger(HTMLUtils.class);
     private static final String DEFAULT_ENCODING = "utf-8";
 
-    private static DOMFragmentParser fragmentParser = new DOMFragmentParser();
+    private static final DOMFragmentParser fragmentParser = new DOMFragmentParser();
     private static final Pattern XML_PATTERN = Pattern.compile("(?s)<xml>(.*?)</xml>", Pattern.CASE_INSENSITIVE);
     private static final Pattern STYLE_PATTERN = Pattern.compile("(?s)<style[^>]*>(.*?)</style>", Pattern.CASE_INSENSITIVE);
     private static final Pattern SCRIPT_PATTERN = Pattern.compile("(?s)<script[^>]*>(.*?)</script>", Pattern.CASE_INSENSITIVE);
@@ -286,9 +285,7 @@ public class HTMLUtils {
         if (node.getNodeType() == Node.TEXT_NODE) {
             sb.append(node.getNodeValue());
         } else if ("script".equals(node.getNodeName().toLowerCase())) {
-            sb.append("");
         } else if ("style".equals(node.getNodeName().toLowerCase())) {
-            sb.append("");
         } else {
             NodeList nodeList = node.getChildNodes();
 
@@ -398,7 +395,7 @@ public class HTMLUtils {
             String tmp = stringWriter.getBuffer().toString();
 
             return StringUtils.remove(StringUtils.remove(StringUtils.remove(StringUtils.remove(tmp, "<HTML>"),
-                    "<BODY>"), "</HTML>"), "</BODY>");
+                "<BODY>"), "</HTML>"), "</BODY>");
         } catch (TransformerConfigurationException e) {
             e.printStackTrace();
         } catch (TransformerException e) {
@@ -531,7 +528,7 @@ public class HTMLUtils {
                     tmp.append(src.substring(lastPos));
                     lastPos = src.length();
                 } else {
-                    tmp.append(src.substring(lastPos, pos));
+                    tmp.append(src, lastPos, pos);
                     lastPos = pos;
                 }
             }

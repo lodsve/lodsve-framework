@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core.event;
 
 import lodsve.core.event.annotations.AsyncEvent;
@@ -43,7 +42,7 @@ public class EventExecutor implements InitializingBean {
      */
     private static final Logger logger = LoggerFactory.getLogger(EventExecutor.class);
 
-    private ExecutorService executorService;
+    private final ExecutorService executorService;
     @Autowired(required = false)
     private List<EventListener> eventListeners;
 
@@ -59,7 +58,7 @@ public class EventExecutor implements InitializingBean {
     /**
      * 事件class类型 --> 中文描述
      */
-    private Map<Class<? extends BaseEvent>, String> operationEvents = new HashMap<>();
+    private final Map<Class<? extends BaseEvent>, String> operationEvents = new HashMap<>();
 
     private final Object REGISTER_LOCK_OBJECT = new Object();
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core.context;
 
 import org.springframework.beans.BeansException;
@@ -31,7 +30,7 @@ import java.util.*;
  * @date 2012-3-8 下午09:56:58
  */
 public class ApplicationHelper {
-    private static ApplicationHelper instance = new ApplicationHelper();
+    private static final ApplicationHelper instance = new ApplicationHelper();
 
     private String rootPath;
 

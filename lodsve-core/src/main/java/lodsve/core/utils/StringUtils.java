@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core.utils;
 
 import org.apache.commons.codec.binary.Base64;
@@ -22,7 +21,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.util.Assert;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -114,7 +113,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         String result = null;
 
         if (isNotBlank(baseString)) {
-            result = new String(Base64.decodeBase64(baseString.getBytes(Charset.forName("UTF-8").displayName())));
+            result = new String(Base64.decodeBase64(baseString.getBytes(StandardCharsets.UTF_8.displayName())));
         }
 
         return result;
@@ -152,7 +151,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         StringBuffer buffer = new StringBuffer();
         int pos = 0, i;
         for (i = strcontent.indexOf(oldstr, pos); i >= 0; i = strcontent
-                .indexOf(oldstr, pos)) {
+            .indexOf(oldstr, pos)) {
             buffer.append(strcontent, pos, i);
             buffer.append(newstr);
             pos = i + len;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core.logback;
 
 import ch.qos.logback.classic.Level;
@@ -38,7 +37,7 @@ import java.util.Map;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  */
 public class LogbackConfigurator {
-    private LoggerContext context;
+    private final LoggerContext context;
 
     LogbackConfigurator(LoggerContext context) {
         Assert.notNull(context, "Context must not be null");
@@ -59,7 +58,7 @@ public class LogbackConfigurator {
         Assert.hasLength(conversionWord, "Conversion word must not be empty");
         Assert.notNull(converterClass, "Converter class must not be null");
         Map<String, String> registry = (Map<String, String>) this.context
-                .getObject(CoreConstants.PATTERN_RULE_REGISTRY);
+            .getObject(CoreConstants.PATTERN_RULE_REGISTRY);
         if (registry == null) {
             registry = new HashMap<>();
             this.context.putObject(CoreConstants.PATTERN_RULE_REGISTRY, registry);

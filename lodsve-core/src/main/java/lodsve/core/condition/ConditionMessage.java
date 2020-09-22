@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core.condition;
 
 import org.springframework.util.Assert;
@@ -34,7 +33,7 @@ import java.util.*;
  */
 public final class ConditionMessage {
 
-    private String message;
+    private final String message;
 
     private ConditionMessage() {
         this(null);
@@ -139,7 +138,7 @@ public final class ConditionMessage {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !ConditionMessage.class.isInstance(obj)) {
+        if (obj == null || !(obj instanceof ConditionMessage)) {
             return false;
         }
         if (obj == this) {
@@ -348,7 +347,7 @@ public final class ConditionMessage {
                 return new ConditionMessage(ConditionMessage.this, this.condition);
             }
             return new ConditionMessage(ConditionMessage.this, this.condition
-                    + (StringUtils.isEmpty(this.condition) ? "" : " ") + reason);
+                + (StringUtils.isEmpty(this.condition) ? "" : " ") + reason);
         }
 
     }
@@ -408,7 +407,7 @@ public final class ConditionMessage {
          */
         public ConditionMessage items(Style style, Object... items) {
             return items(style,
-                    items == null ? (Collection<?>) null : Arrays.asList(items));
+                items == null ? null : Arrays.asList(items));
         }
 
         /**
@@ -437,14 +436,14 @@ public final class ConditionMessage {
             StringBuilder message = new StringBuilder(this.reason);
             items = style.applyTo(items);
             if ((this.condition == null || items.size() <= 1)
-                    && StringUtils.hasLength(this.singular)) {
+                && StringUtils.hasLength(this.singular)) {
                 message.append(" " + this.singular);
             } else if (StringUtils.hasLength(this.plural)) {
                 message.append(" " + this.plural);
             }
             if (items != null && !items.isEmpty()) {
                 message.append(
-                        " " + StringUtils.collectionToDelimitedString(items, ", "));
+                    " " + StringUtils.collectionToDelimitedString(items, ", "));
             }
             return this.condition.because(message.toString());
         }

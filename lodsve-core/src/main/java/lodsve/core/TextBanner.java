@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core;
 
 import lodsve.core.configuration.BannerConfig;
@@ -33,7 +32,7 @@ import java.util.List;
  * @date 2018-1-18-0018 10:06
  */
 public class TextBanner implements Banner {
-    private Resource resource;
+    private final Resource resource;
 
     TextBanner(Resource resource) {
         Assert.notNull(resource, "Text file must not be null");

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core.condition;
 
 import org.apache.commons.logging.Log;
@@ -80,7 +79,7 @@ final class BeanTypeRegistry implements SmartInitializingSingleton {
         Assert.isInstanceOf(DefaultListableBeanFactory.class, beanFactory);
         DefaultListableBeanFactory listableBeanFactory = (DefaultListableBeanFactory) beanFactory;
         Assert.isTrue(listableBeanFactory.isAllowEagerClassLoading(),
-                "Bean factory must allow eager class loading");
+            "Bean factory must allow eager class loading");
         if (!listableBeanFactory.containsLocalBean(BEAN_NAME)) {
             BeanDefinition bd = new RootBeanDefinition(BeanTypeRegistry.class);
             bd.getConstructorArgumentValues().addIndexedArgumentValue(0, beanFactory);
@@ -126,7 +125,7 @@ final class BeanTypeRegistry implements SmartInitializingSingleton {
         Set<String> matches = new LinkedHashSet<String>();
         for (Map.Entry<String, Class<?>> entry : this.beanTypes.entrySet()) {
             if (entry.getValue() != null && AnnotationUtils
-                    .findAnnotation(entry.getValue(), annotation) != null) {
+                .findAnnotation(entry.getValue(), annotation) != null) {
                 matches.add(entry.getKey());
             }
         }
@@ -152,15 +151,15 @@ final class BeanTypeRegistry implements SmartInitializingSingleton {
         try {
             String factoryName = BeanFactory.FACTORY_BEAN_PREFIX + name;
             RootBeanDefinition beanDefinition = (RootBeanDefinition) this.beanFactory
-                    .getMergedBeanDefinition(name);
+                .getMergedBeanDefinition(name);
             if (!beanDefinition.isAbstract()
-                    && !requiresEagerInit(beanDefinition.getFactoryBeanName())) {
+                && !requiresEagerInit(beanDefinition.getFactoryBeanName())) {
                 if (this.beanFactory.isFactoryBean(factoryName)) {
                     Class<?> factoryBeanGeneric = getFactoryBeanGeneric(this.beanFactory,
-                            beanDefinition, name);
+                        beanDefinition, name);
                     this.beanTypes.put(name, factoryBeanGeneric);
                     this.beanTypes.put(factoryName,
-                            this.beanFactory.getType(factoryName));
+                        this.beanFactory.getType(factoryName));
                 } else {
                     this.beanTypes.put(name, this.beanFactory.getType(name));
                 }
@@ -182,7 +181,7 @@ final class BeanTypeRegistry implements SmartInitializingSingleton {
 
     private boolean requiresEagerInit(String factoryBeanName) {
         return (factoryBeanName != null && this.beanFactory.isFactoryBean(factoryBeanName)
-                && !this.beanFactory.containsSingleton(factoryBeanName));
+            && !this.beanFactory.containsSingleton(factoryBeanName));
     }
 
     private void updateTypesIfNecessary() {
@@ -218,9 +217,9 @@ final class BeanTypeRegistry implements SmartInitializingSingleton {
 
     private Class<?> doGetFactoryBeanGeneric(ConfigurableListableBeanFactory beanFactory,
                                              BeanDefinition definition, String name)
-            throws Exception, ClassNotFoundException, LinkageError {
+        throws Exception, LinkageError {
         if (StringUtils.hasLength(definition.getFactoryBeanName())
-                && StringUtils.hasLength(definition.getFactoryMethodName())) {
+            && StringUtils.hasLength(definition.getFactoryMethodName())) {
             return getConfigurationClassFactoryBeanGeneric(beanFactory, definition, name);
         }
         if (StringUtils.hasLength(definition.getBeanClassName())) {
@@ -230,15 +229,15 @@ final class BeanTypeRegistry implements SmartInitializingSingleton {
     }
 
     private Class<?> getConfigurationClassFactoryBeanGeneric(
-            ConfigurableListableBeanFactory beanFactory, BeanDefinition definition,
-            String name) throws Exception {
+        ConfigurableListableBeanFactory beanFactory, BeanDefinition definition,
+        String name) throws Exception {
         Method method = getFactoryMethod(beanFactory, definition);
         Class<?> generic = ResolvableType.forMethodReturnType(method)
-                .as(FactoryBean.class).resolveGeneric();
+            .as(FactoryBean.class).resolveGeneric();
         if ((generic == null || generic.equals(Object.class))
-                && definition.hasAttribute(FACTORY_BEAN_OBJECT_TYPE)) {
+            && definition.hasAttribute(FACTORY_BEAN_OBJECT_TYPE)) {
             generic = getTypeFromAttribute(
-                    definition.getAttribute(FACTORY_BEAN_OBJECT_TYPE));
+                definition.getAttribute(FACTORY_BEAN_OBJECT_TYPE));
         }
         return generic;
     }
@@ -247,16 +246,16 @@ final class BeanTypeRegistry implements SmartInitializingSingleton {
                                     BeanDefinition definition) throws Exception {
         if (definition instanceof AnnotatedBeanDefinition) {
             MethodMetadata factoryMethodMetadata = ((AnnotatedBeanDefinition) definition)
-                    .getFactoryMethodMetadata();
+                .getFactoryMethodMetadata();
             if (factoryMethodMetadata instanceof StandardMethodMetadata) {
                 return ((StandardMethodMetadata) factoryMethodMetadata)
-                        .getIntrospectedMethod();
+                    .getIntrospectedMethod();
             }
         }
         BeanDefinition factoryDefinition = beanFactory
-                .getBeanDefinition(definition.getFactoryBeanName());
+            .getBeanDefinition(definition.getFactoryBeanName());
         Class<?> factoryClass = ClassUtils.forName(factoryDefinition.getBeanClassName(),
-                beanFactory.getBeanClassLoader());
+            beanFactory.getBeanClassLoader());
         return getFactoryMethod(definition, factoryClass);
     }
 
@@ -277,13 +276,13 @@ final class BeanTypeRegistry implements SmartInitializingSingleton {
     private Method[] getCandidateFactoryMethods(BeanDefinition definition,
                                                 Class<?> factoryClass) {
         return shouldConsiderNonPublicMethods(definition)
-                ? ReflectionUtils.getAllDeclaredMethods(factoryClass)
-                : factoryClass.getMethods();
+            ? ReflectionUtils.getAllDeclaredMethods(factoryClass)
+            : factoryClass.getMethods();
     }
 
     private boolean shouldConsiderNonPublicMethods(BeanDefinition definition) {
         return (definition instanceof AbstractBeanDefinition)
-                && ((AbstractBeanDefinition) definition).isNonPublicAccessAllowed();
+            && ((AbstractBeanDefinition) definition).isNonPublicAccessAllowed();
     }
 
     private boolean hasMatchingParameterTypes(Method candidate, Method current) {
@@ -291,22 +290,22 @@ final class BeanTypeRegistry implements SmartInitializingSingleton {
     }
 
     private Class<?> getDirectFactoryBeanGeneric(
-            ConfigurableListableBeanFactory beanFactory, BeanDefinition definition,
-            String name) throws ClassNotFoundException, LinkageError {
+        ConfigurableListableBeanFactory beanFactory, BeanDefinition definition,
+        String name) throws ClassNotFoundException, LinkageError {
         Class<?> factoryBeanClass = ClassUtils.forName(definition.getBeanClassName(),
-                beanFactory.getBeanClassLoader());
+            beanFactory.getBeanClassLoader());
         Class<?> generic = ResolvableType.forClass(factoryBeanClass).as(FactoryBean.class)
-                .resolveGeneric();
+            .resolveGeneric();
         if ((generic == null || generic.equals(Object.class))
-                && definition.hasAttribute(FACTORY_BEAN_OBJECT_TYPE)) {
+            && definition.hasAttribute(FACTORY_BEAN_OBJECT_TYPE)) {
             generic = getTypeFromAttribute(
-                    definition.getAttribute(FACTORY_BEAN_OBJECT_TYPE));
+                definition.getAttribute(FACTORY_BEAN_OBJECT_TYPE));
         }
         return generic;
     }
 
     private Class<?> getTypeFromAttribute(Object attribute)
-            throws ClassNotFoundException, LinkageError {
+        throws ClassNotFoundException, LinkageError {
         if (attribute instanceof Class<?>) {
             return (Class<?>) attribute;
         }

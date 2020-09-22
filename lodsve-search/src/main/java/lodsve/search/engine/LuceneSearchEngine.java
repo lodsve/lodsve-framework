@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.search.engine;
 
 import lodsve.core.utils.StringUtils;
@@ -61,11 +60,11 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
     /**
      * 索引存放路径
      */
-    private String indexPath;
+    private final String indexPath;
     /**
      * 分词器
      */
-    private Analyzer analyzer;
+    private final Analyzer analyzer;
 
     public LuceneSearchEngine(String indexPath, Analyzer analyzer, String htmlPrefix, String htmlSuffix) {
         super.setHtmlPrefix(htmlPrefix);
@@ -119,7 +118,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         beans = mergerBaseSearchBean(beans);
         if (beans == null || beans.isEmpty()) {
             logger.debug("given search beans is empty!");
-            return new PageImpl<>(Collections.<BaseSearchBean>emptyList(), null, 0);
+            return new PageImpl<>(Collections.emptyList(), null, 0);
         }
 
         IndexReader[] readers = new IndexReader[beans.size()];
@@ -141,7 +140,7 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
             //要进行检索的字段
             String[] doSearchFields = bean.getDoSearchFields();
             if (doSearchFields == null || doSearchFields.length == 0) {
-                return new PageImpl<>(Collections.<BaseSearchBean>emptyList(), null, 0);
+                return new PageImpl<>(Collections.emptyList(), null, 0);
             }
 
             //默认字段
@@ -155,9 +154,9 @@ public class LuceneSearchEngine extends AbstractSearchEngine {
         }
 
         Query query = MultiFieldQueryParser.parse(
-                queryValue.toArray(new String[queryValue.size()]),
-                fieldNames.toArray(new String[fieldNames.size()]),
-                flags.toArray(new BooleanClause.Occur[flags.size()]), analyzer);
+            queryValue.toArray(new String[queryValue.size()]),
+            fieldNames.toArray(new String[fieldNames.size()]),
+            flags.toArray(new BooleanClause.Occur[flags.size()]), analyzer);
 
         logger.debug("make query string is '{}'!", query.toString());
 

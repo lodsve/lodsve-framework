@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.test.mock.memcached;
 
 import com.thimbleware.jmemcached.CacheImpl;
@@ -41,7 +40,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  */
 public final class JMemcachedServer {
 
-    private static Logger logger = LoggerFactory.getLogger(JMemcachedServer.class);
+    private static final Logger logger = LoggerFactory.getLogger(JMemcachedServer.class);
 
     private static final long DEFAULT_STARTUP_TIMEOUT = 10000;
     private static final int DEFAULT_STORAGE_CAPACITY = 1000;
@@ -58,7 +57,7 @@ public final class JMemcachedServer {
             @Override
             public void run() {
                 CacheStorage<Key, LocalCacheElement> storage = ConcurrentLinkedHashMap.create(ConcurrentLinkedHashMap
-                        .EvictionPolicy.FIFO, DEFAULT_STORAGE_CAPACITY, DEFAULT_STORAGE_MEMORY_CAPACITY);
+                    .EvictionPolicy.FIFO, DEFAULT_STORAGE_CAPACITY, DEFAULT_STORAGE_MEMORY_CAPACITY);
                 memcacheDaemon = new MemCacheDaemon<>();
                 memcacheDaemon.setCache(new CacheImpl(storage));
                 memcacheDaemon.setAddr(new InetSocketAddress(host, port));

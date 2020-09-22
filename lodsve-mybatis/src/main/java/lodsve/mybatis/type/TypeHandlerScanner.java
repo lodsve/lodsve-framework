@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.mybatis.type;
 
 import com.google.common.collect.Lists;
@@ -51,8 +50,8 @@ public class TypeHandlerScanner {
     private static final Logger logger = LoggerFactory.getLogger(TypeHandlerScanner.class);
 
     private static final String DEFAULT_RESOURCE_PATTERN = "**/*.class";
-    private ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
-    private MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(this.resourcePatternResolver);
+    private final ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+    private final MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(this.resourcePatternResolver);
     private final List<TypeFilter> includeFilters = new LinkedList<>();
     private final ClassPool pool;
 
@@ -136,7 +135,7 @@ public class TypeHandlerScanner {
 
     private List<String> getEnumClasses(String basePackage) throws IOException {
         String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +
-                ClassUtils.convertClassNameToResourcePath(basePackage) + "/" + DEFAULT_RESOURCE_PATTERN;
+            ClassUtils.convertClassNameToResourcePath(basePackage) + "/" + DEFAULT_RESOURCE_PATTERN;
 
         Resource[] resources = resourcePatternResolver.getResources(packageSearchPath);
         List<String> classes = new ArrayList<>(resources.length);

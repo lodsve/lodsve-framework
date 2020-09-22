@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core.utils;
 
 import org.dom4j.Document;
@@ -36,6 +35,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -247,7 +247,7 @@ public final class XmlUtils {
 
     public static Map<String, String> parse(InputStream body) {
         try {
-            InputSource source = new InputSource(new InputStreamReader(body, "UTF-8"));
+            InputSource source = new InputSource(new InputStreamReader(body, StandardCharsets.UTF_8));
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             org.w3c.dom.Document document = dbf.newDocumentBuilder().parse(source);
             NodeList childNodes = document.getElementsByTagName("xml").item(0).getChildNodes();

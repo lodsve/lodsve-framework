@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core.condition;
 
 import lodsve.core.autoproperties.Env;
@@ -44,7 +43,7 @@ public class OnDevelopmentConditional extends SpringBootCondition implements Con
             isDevMode = Env.getBoolean("application.dev-mode", null);
         }
 
-        isDevMode = null == isDevMode ? false : isDevMode;
+        isDevMode = null != isDevMode && isDevMode;
 
         if (!isDevMode) {
             return ConditionOutcome.noMatch("this is not dev-mode!");

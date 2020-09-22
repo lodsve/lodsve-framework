@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core.condition;
 
 import org.springframework.context.annotation.Condition;
@@ -33,80 +32,78 @@ import javax.naming.NamingException;
  * {@link Condition} that checks for JNDI locations.
  *
  * @author Phillip Webb
- * @since 1.2.0
  * @see ConditionalOnJndi
+ * @since 1.2.0
  */
 @Order(Ordered.LOWEST_PRECEDENCE - 20)
 class OnJndiCondition extends SpringBootCondition {
 
-	@Override
-	public ConditionOutcome getMatchOutcome(ConditionContext context,
-			AnnotatedTypeMetadata metadata) {
-		AnnotationAttributes annotationAttributes = AnnotationAttributes.fromMap(
-				metadata.getAnnotationAttributes(ConditionalOnJndi.class.getName()));
-		String[] locations = annotationAttributes.getStringArray("value");
-		try {
-			return getMatchOutcome(locations);
-		}
-		catch (NoClassDefFoundError ex) {
-			return ConditionOutcome
-					.noMatch(ConditionMessage.forCondition(ConditionalOnJndi.class)
-							.because("JNDI class not found"));
-		}
-	}
+    @Override
+    public ConditionOutcome getMatchOutcome(ConditionContext context,
+                                            AnnotatedTypeMetadata metadata) {
+        AnnotationAttributes annotationAttributes = AnnotationAttributes.fromMap(
+            metadata.getAnnotationAttributes(ConditionalOnJndi.class.getName()));
+        String[] locations = annotationAttributes.getStringArray("value");
+        try {
+            return getMatchOutcome(locations);
+        } catch (NoClassDefFoundError ex) {
+            return ConditionOutcome
+                .noMatch(ConditionMessage.forCondition(ConditionalOnJndi.class)
+                    .because("JNDI class not found"));
+        }
+    }
 
-	private ConditionOutcome getMatchOutcome(String[] locations) {
-		if (!isJndiAvailable()) {
-			return ConditionOutcome
-					.noMatch(ConditionMessage.forCondition(ConditionalOnJndi.class)
-							.notAvailable("JNDI environment"));
-		}
-		if (locations.length == 0) {
-			return ConditionOutcome.match(ConditionMessage
-					.forCondition(ConditionalOnJndi.class).available("JNDI environment"));
-		}
-		JndiLocator locator = getJndiLocator(locations);
-		String location = locator.lookupFirstLocation();
-		String details = "(" + StringUtils.arrayToCommaDelimitedString(locations) + ")";
-		if (location != null) {
-			return ConditionOutcome
-					.match(ConditionMessage.forCondition(ConditionalOnJndi.class, details)
-							.foundExactly("\"" + location + "\""));
-		}
-		return ConditionOutcome
-				.noMatch(ConditionMessage.forCondition(ConditionalOnJndi.class, details)
-						.didNotFind("any matching JNDI location").atAll());
-	}
+    private ConditionOutcome getMatchOutcome(String[] locations) {
+        if (!isJndiAvailable()) {
+            return ConditionOutcome
+                .noMatch(ConditionMessage.forCondition(ConditionalOnJndi.class)
+                    .notAvailable("JNDI environment"));
+        }
+        if (locations.length == 0) {
+            return ConditionOutcome.match(ConditionMessage
+                .forCondition(ConditionalOnJndi.class).available("JNDI environment"));
+        }
+        JndiLocator locator = getJndiLocator(locations);
+        String location = locator.lookupFirstLocation();
+        String details = "(" + StringUtils.arrayToCommaDelimitedString(locations) + ")";
+        if (location != null) {
+            return ConditionOutcome
+                .match(ConditionMessage.forCondition(ConditionalOnJndi.class, details)
+                    .foundExactly("\"" + location + "\""));
+        }
+        return ConditionOutcome
+            .noMatch(ConditionMessage.forCondition(ConditionalOnJndi.class, details)
+                .didNotFind("any matching JNDI location").atAll());
+    }
 
-	protected boolean isJndiAvailable() {
-		return JndiLocatorDelegate.isDefaultJndiEnvironmentAvailable();
-	}
+    protected boolean isJndiAvailable() {
+        return JndiLocatorDelegate.isDefaultJndiEnvironmentAvailable();
+    }
 
-	protected JndiLocator getJndiLocator(String[] locations) {
-		return new JndiLocator(locations);
-	}
+    protected JndiLocator getJndiLocator(String[] locations) {
+        return new JndiLocator(locations);
+    }
 
-	protected static class JndiLocator extends JndiLocatorSupport {
+    protected static class JndiLocator extends JndiLocatorSupport {
 
-		private String[] locations;
+        private final String[] locations;
 
-		public JndiLocator(String[] locations) {
-			this.locations = locations;
-		}
+        public JndiLocator(String[] locations) {
+            this.locations = locations;
+        }
 
-		public String lookupFirstLocation() {
-			for (String location : this.locations) {
-				try {
-					lookup(location);
-					return location;
-				}
-				catch (NamingException ex) {
-					// Swallow and continue
-				}
-			}
-			return null;
-		}
+        public String lookupFirstLocation() {
+            for (String location : this.locations) {
+                try {
+                    lookup(location);
+                    return location;
+                } catch (NamingException ex) {
+                    // Swallow and continue
+                }
+            }
+            return null;
+        }
 
-	}
+    }
 
 }

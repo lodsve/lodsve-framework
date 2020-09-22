@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core.json;
 
 import org.junit.Assert;
@@ -27,12 +26,12 @@ import org.junit.Test;
  * @date 2017-12-28-0028 15:26
  */
 public class JsonUtilsTest {
-    private Demo demo = new Demo(1L, "demo");
-    private String json = "{\"id\":1,\"name\":\"demo\"}";
-    private String jsonFormat = "{\n" +
-            "   \"id\":1,\n" +
-            "   \"name\":\"demo\"\n" +
-            "}";
+    private final Demo demo = new Demo(1L, "demo");
+    private final String json = "{\"id\":1,\"name\":\"demo\"}";
+    private final String jsonFormat = "{\n" +
+        "   \"id\":1,\n" +
+        "   \"name\":\"demo\"\n" +
+        "}";
 
     @Test
     public void testJackson() {

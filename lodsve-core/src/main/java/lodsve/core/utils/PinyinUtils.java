@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core.utils;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
@@ -39,7 +38,8 @@ public class PinyinUtils {
     /**
      * 私有化构造器
      */
-    private PinyinUtils(){}
+    private PinyinUtils() {
+    }
 
     public static String getPinyin(String src) throws Exception {
         return generate(getPinyinList(src, null, false, false));
@@ -62,7 +62,7 @@ public class PinyinUtils {
     }
 
     public static String getSingleShortPinyin(String src) throws Exception {
-        if(StringUtils.isBlank(src)){
+        if (StringUtils.isBlank(src)) {
             return src;
         }
         return generate(getPinyinList(src, null, true, true));
@@ -168,9 +168,7 @@ public class PinyinUtils {
     private static String[] removeRepeat(String[] parray) {
         Set<String> set = new HashSet<>();
         for (String py : parray) {
-            if (!set.contains(py)) {
-                set.add(py);
-            }
+            set.add(py);
         }
         return set.toArray(new String[set.size()]);
     }

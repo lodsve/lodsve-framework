@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.web.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,46 +55,46 @@ public class RestUtilsTest {
         baseUrl = "http://localhost:" + port;
 
         mockServer.when(HttpRequest.request().withPath("/demo/1")).respond(
-                HttpResponse
-                        .response()
-                        .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
-                                new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
-                                new Header("Content-Length", "250")).withBody("{\"pkId\":1,\"userName\":\"孙昊\",\"sex\":{\"code\":\"0\",\"title\":\"性别不详\"}}"));
+            HttpResponse
+                .response()
+                .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
+                    new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
+                    new Header("Content-Length", "250")).withBody("{\"pkId\":1,\"userName\":\"孙昊\",\"sex\":{\"code\":\"0\",\"title\":\"性别不详\"}}"));
 
         mockServer.when(HttpRequest.request().withPath("/demo/void")).respond(
-                HttpResponse
-                        .response()
-                        .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
-                                new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
-                                new Header("Content-Length", "250")));
+            HttpResponse
+                .response()
+                .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
+                    new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
+                    new Header("Content-Length", "250")));
 
         mockServer.when(HttpRequest.request().withPath("/demo/save").withMethod("POST")).respond(
-                HttpResponse
-                        .response()
-                        .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
-                                new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
-                                new Header("Content-Length", "250")).withBody("2"));
+            HttpResponse
+                .response()
+                .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
+                    new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
+                    new Header("Content-Length", "250")).withBody("2"));
 
         mockServer.when(HttpRequest.request().withPath("/demo/head/12").withMethod("HEAD")).respond(
-                HttpResponse
-                        .response()
-                        .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
-                                new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
-                                new Header("Content-Length", "250"), new Header("result", "successed")));
+            HttpResponse
+                .response()
+                .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
+                    new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
+                    new Header("Content-Length", "250"), new Header("result", "successed")));
 
         mockServer.when(HttpRequest.request().withPath("/demo/put").withMethod("PUT").withBody("{\"pkId\":1,\"userName\":\"sunhao\"}")).respond(
-                HttpResponse
-                        .response()
-                        .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
-                                new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
-                                new Header("Content-Length", "250")));
+            HttpResponse
+                .response()
+                .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
+                    new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
+                    new Header("Content-Length", "250")));
 
         mockServer.when(HttpRequest.request().withPath("/demo/options").withMethod("OPTIONS")).respond(
-                HttpResponse
-                        .response()
-                        .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
-                                new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
-                                new Header("Content-Length", "250"), new Header("Allow", "POST")));
+            HttpResponse
+                .response()
+                .withHeaders(new Header("Content-Type", "application/json;charset=UTF-8"),
+                    new Header("Content-Language", "zh-CN"), new Header("Server", "Apache-Coyote/1.1"),
+                    new Header("Content-Length", "250"), new Header("Allow", "POST")));
 
         WebMvcConfiguration configuration = new WebMvcConfiguration();
         ObjectMapper objectMapper = configuration.objectMapper();
@@ -180,7 +179,7 @@ public class RestUtilsTest {
      */
     @Test
     public void post3() {
-        Long id = RestUtils.post(baseUrl + "/demo/save", new Demo(2L, "sunhao"), Long.class, Collections.<String, Object>emptyMap());
+        Long id = RestUtils.post(baseUrl + "/demo/save", new Demo(2L, "sunhao"), Long.class, Collections.emptyMap());
         Assert.assertEquals(2L, id.longValue());
     }
 
@@ -224,7 +223,7 @@ public class RestUtilsTest {
      */
     @Test
     public void put1() {
-        RestUtils.put(baseUrl + "/demo/put", new Demo(1L, "sunhao"), Collections.<String, Object>emptyMap());
+        RestUtils.put(baseUrl + "/demo/put", new Demo(1L, "sunhao"), Collections.emptyMap());
     }
 
     /**
@@ -261,7 +260,7 @@ public class RestUtilsTest {
      */
     @Test
     public void options() {
-        Set<HttpMethod> methods = RestUtils.options(baseUrl + "/demo/options", new Object[0]);
+        Set<HttpMethod> methods = RestUtils.options(baseUrl + "/demo/options");
         Assert.assertTrue(methods.contains(HttpMethod.POST));
     }
 
@@ -270,7 +269,7 @@ public class RestUtilsTest {
      */
     @Test
     public void options1() {
-        Set<HttpMethod> methods = RestUtils.options(baseUrl + "/demo/options", Collections.<String, Object>emptyMap());
+        Set<HttpMethod> methods = RestUtils.options(baseUrl + "/demo/options", Collections.emptyMap());
         Assert.assertTrue(methods.contains(HttpMethod.POST));
     }
 

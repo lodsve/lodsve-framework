@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.rocketmq.configuration;
 
 import lodsve.rocketmq.annotations.RocketMQTransactionListener;
@@ -41,11 +40,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author 孙昊(Hulk)
  */
 public class RocketMQTransactionAnnotationProcessor
-        implements BeanPostProcessor, Ordered, BeanFactoryAware {
+    implements BeanPostProcessor, Ordered, BeanFactoryAware {
     private final static Logger log = LoggerFactory.getLogger(RocketMQTransactionAnnotationProcessor.class);
     private final Set<Class<?>> nonProcessedClasses = Collections.newSetFromMap(new ConcurrentHashMap<Class<?>, Boolean>(64));
     private BeanFactory beanFactory;
-    private TransactionHandlerRegistry transactionHandlerRegistry;
+    private final TransactionHandlerRegistry transactionHandlerRegistry;
 
     public RocketMQTransactionAnnotationProcessor(TransactionHandlerRegistry transactionHandlerRegistry) {
         this.transactionHandlerRegistry = transactionHandlerRegistry;
@@ -84,7 +83,7 @@ public class RocketMQTransactionAnnotationProcessor
     }
 
     private void processTransactionListenerAnnotation(RocketMQTransactionListener listener, Object bean)
-            throws MQClientException {
+        throws MQClientException {
         if (transactionHandlerRegistry == null) {
             throw new MQClientException("Bad usage of @RocketMQTransactionListener, the class must work with RocketMQTemplate", null);
         }

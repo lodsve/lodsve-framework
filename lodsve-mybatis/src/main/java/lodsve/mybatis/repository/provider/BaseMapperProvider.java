@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.mybatis.repository.provider;
 
 import lodsve.core.utils.StringUtils;
@@ -41,9 +40,9 @@ import java.util.Map;
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  */
 public class BaseMapperProvider {
-    private XMLLanguageDriver languageDriver = new XMLLanguageDriver();
-    private Map<String, Method> methodMap = new HashMap<>();
-    private Class<?> mapperClass;
+    private final XMLLanguageDriver languageDriver = new XMLLanguageDriver();
+    private final Map<String, Method> methodMap = new HashMap<>();
+    private final Class<?> mapperClass;
 
     public BaseMapperProvider(Class<?> mapperClass) {
         this.mapperClass = mapperClass;

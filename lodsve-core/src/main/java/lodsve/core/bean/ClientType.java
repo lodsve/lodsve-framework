@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.core.bean;
 
 /**
@@ -29,10 +28,11 @@ public enum ClientType implements Codeable {
     WEIXIN("103", "微信"),
     QQ("104", "QQ"),
     ALIPAY("105", "支付宝"),
-    APP("106", "客户端"),;
+    APP("106", "客户端"),
+    ;
 
-    private String code;
-    private String title;
+    private final String code;
+    private final String title;
 
     ClientType(String code, String title) {
         this.code = code;

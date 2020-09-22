@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.mybatis.utils.format;
 
 import java.util.*;
@@ -94,8 +93,8 @@ public class SqlFormatter {
         String lastToken;
         String token;
         String lcToken;
-        private LinkedList<Integer> parenCounts = new LinkedList<>();
-        private LinkedList<Boolean> afterByOrFromOrSelects = new LinkedList<>();
+        private final LinkedList<Integer> parenCounts = new LinkedList<>();
+        private final LinkedList<Boolean> afterByOrFromOrSelects = new LinkedList<>();
 
         FormatProcess(String sql) {
             tokens = new StringTokenizer(sql, "()+*/-=<>'`\"[]," + WHITESPACE, true);
@@ -105,7 +104,7 @@ public class SqlFormatter {
             final char begin = tok.charAt(0);
             final boolean isIdentifier = Character.isJavaIdentifierStart(begin) || '"' == begin;
             return isIdentifier && !LOGICAL.contains(tok) && !END_CLAUSES.contains(tok) && !QUANTIFIERS.contains(tok)
-                    && !DML.contains(tok) && !MISC.contains(tok);
+                && !DML.contains(tok) && !MISC.contains(tok);
         }
 
         private static boolean isWhitespace(String token) {

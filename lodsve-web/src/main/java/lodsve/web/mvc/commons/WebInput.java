@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.web.mvc.commons;
 
 import lodsve.core.bean.Constants;
@@ -71,7 +70,7 @@ public class WebInput {
      * session的默认生命周期，是20分钟
      */
     private static final Integer DEFAULT_SESSION_LIFE = 20 * 60 * 1000;
-    private HttpServletRequest request;
+    private final HttpServletRequest request;
 
     public WebInput(HttpServletRequest request) {
         this.request = request;
@@ -93,7 +92,7 @@ public class WebInput {
         int result = 0;
         try {
             result = this.request.getParameter(name) == null ? defaultValue
-                    : Integer.parseInt(this.request.getParameter(name));
+                : Integer.parseInt(this.request.getParameter(name));
         } catch (NumberFormatException e) {
             return defaultValue;
         }
@@ -105,7 +104,7 @@ public class WebInput {
         Integer result = defaultValue;
         try {
             result = this.request.getParameter(name) != null ?
-                    Integer.valueOf(this.request.getParameter(name)) : defaultValue;
+                Integer.valueOf(this.request.getParameter(name)) : defaultValue;
         } catch (NumberFormatException e) {
             return defaultValue;
         }

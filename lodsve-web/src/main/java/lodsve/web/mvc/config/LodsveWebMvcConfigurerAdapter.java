@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.web.mvc.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,9 +44,9 @@ import java.util.List;
  * @date 15/8/15 下午1:22
  */
 public class LodsveWebMvcConfigurerAdapter implements WebMvcConfigurer {
-    private ServerProperties properties;
-    private ApplicationProperties applicationProperties;
-    private ObjectMapper objectMapper;
+    private final ServerProperties properties;
+    private final ApplicationProperties applicationProperties;
+    private final ObjectMapper objectMapper;
 
     public LodsveWebMvcConfigurerAdapter(ServerProperties properties, ApplicationProperties applicationProperties, ObjectMapper objectMapper) {
         this.properties = properties;
@@ -83,22 +82,22 @@ public class LodsveWebMvcConfigurerAdapter implements WebMvcConfigurer {
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.favorPathExtension(true)
-                .favorParameter(true)
-                .parameterName("mediaType")
-                .ignoreAcceptHeader(true)
-                .useRegisteredExtensionsOnly(true)
-                .defaultContentType(MediaType.APPLICATION_JSON)
-                .mediaType("xml", MediaType.APPLICATION_XML)
-                .mediaType("json", MediaType.APPLICATION_JSON)
-                .mediaType("html", MediaType.TEXT_HTML);
+            .favorParameter(true)
+            .parameterName("mediaType")
+            .ignoreAcceptHeader(true)
+            .useRegisteredExtensionsOnly(true)
+            .defaultContentType(MediaType.APPLICATION_JSON)
+            .mediaType("xml", MediaType.APPLICATION_XML)
+            .mediaType("json", MediaType.APPLICATION_JSON)
+            .mediaType("html", MediaType.TEXT_HTML);
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         CorsRegistration corsRegistration = registry.addMapping("/**")
-                .allowedHeaders("X-requested-with", "x-auth-token", "Content-Type")
-                .allowedMethods("POST", "GET", "OPTIONS", "DELETE")
-                .exposedHeaders("x-auth-token");
+            .allowedHeaders("X-requested-with", "x-auth-token", "Content-Type")
+            .allowedMethods("POST", "GET", "OPTIONS", "DELETE")
+            .exposedHeaders("x-auth-token");
         if (applicationProperties.isDevMode()) {
             corsRegistration.allowedOrigins("*");
         } else {

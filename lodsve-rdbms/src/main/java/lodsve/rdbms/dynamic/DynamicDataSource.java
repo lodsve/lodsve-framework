@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.rdbms.dynamic;
 
 import com.google.common.collect.Maps;
@@ -40,8 +39,8 @@ import java.util.Map;
  */
 public class DynamicDataSource extends AbstractRoutingDataSource implements BeanFactoryAware {
     private static final Logger logger = LoggerFactory.getLogger(DynamicDataSource.class);
-    private List<String> dataSourceBeans;
-    private String defaultDataSource;
+    private final List<String> dataSourceBeans;
+    private final String defaultDataSource;
     private BeanFactory beanFactory;
 
     public DynamicDataSource(List<String> dataSourceBeans, String defaultDataSource) {

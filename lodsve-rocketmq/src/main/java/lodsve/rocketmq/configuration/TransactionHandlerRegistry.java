@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.rocketmq.configuration;
 
 import io.netty.util.internal.ConcurrentSet;
@@ -26,7 +25,7 @@ import java.util.Set;
 
 public class TransactionHandlerRegistry implements DisposableBean {
     private final Set<String> listenerContainers = new ConcurrentSet<>();
-    private RocketMQTemplate rocketMQTemplate;
+    private final RocketMQTemplate rocketMQTemplate;
 
     public TransactionHandlerRegistry(RocketMQTemplate template) {
         this.rocketMQTemplate = template;
@@ -40,9 +39,9 @@ public class TransactionHandlerRegistry implements DisposableBean {
     public void registerTransactionHandler(TransactionHandler handler) throws MQClientException {
         if (listenerContainers.contains(handler.getName())) {
             throw new MQClientException(-1,
-                    String
-                            .format("The transaction name [%s] has been defined in TransactionListener [%s]", handler.getName(),
-                                    handler.getBeanName()));
+                String
+                    .format("The transaction name [%s] has been defined in TransactionListener [%s]", handler.getName(),
+                        handler.getBeanName()));
         }
         listenerContainers.add(handler.getName());
 

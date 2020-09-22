@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.rocketmq.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,11 +50,11 @@ public class ListenerContainerConfiguration implements ApplicationContextAware, 
 
     private ConfigurableApplicationContext applicationContext;
 
-    private AtomicLong counter = new AtomicLong(0);
+    private final AtomicLong counter = new AtomicLong(0);
 
-    private RocketMQProperties rocketMQProperties;
+    private final RocketMQProperties rocketMQProperties;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     public ListenerContainerConfiguration(ObjectMapper rocketMQMessageObjectMapper, RocketMQProperties rocketMQProperties) {
         this.objectMapper = rocketMQMessageObjectMapper;
@@ -87,13 +86,13 @@ public class ListenerContainerConfiguration implements ApplicationContextAware, 
         validate(annotation);
 
         String containerBeanName = String.format("%s_%s", DefaultRocketMQListenerContainer.class.getName(),
-                counter.incrementAndGet());
+            counter.incrementAndGet());
         GenericApplicationContext genericApplicationContext = (GenericApplicationContext) applicationContext;
 
         genericApplicationContext.registerBean(containerBeanName, DefaultRocketMQListenerContainer.class,
-                () -> createRocketMQListenerContainer(bean, annotation));
+            () -> createRocketMQListenerContainer(bean, annotation));
         DefaultRocketMQListenerContainer container = genericApplicationContext.getBean(containerBeanName,
-                DefaultRocketMQListenerContainer.class);
+            DefaultRocketMQListenerContainer.class);
         if (!container.isRunning()) {
             try {
                 container.start();
@@ -121,9 +120,9 @@ public class ListenerContainerConfiguration implements ApplicationContextAware, 
 
     private void validate(RocketMQMessageListener annotation) {
         if (annotation.consumeMode() == ConsumeMode.ORDERLY &&
-                annotation.messageModel() == MessageModel.BROADCASTING) {
+            annotation.messageModel() == MessageModel.BROADCASTING) {
             throw new BeanDefinitionValidationException(
-                    "Bad annotation definition in @RocketMQMessageListener, messageModel BROADCASTING does not support ORDERLY message!");
+                "Bad annotation definition in @RocketMQMessageListener, messageModel BROADCASTING does not support ORDERLY message!");
         }
     }
 }

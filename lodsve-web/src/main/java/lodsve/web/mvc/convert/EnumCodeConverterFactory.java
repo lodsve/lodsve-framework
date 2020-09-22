@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Sun.Hao(https://www.crazy-coder.cn/)
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,8 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lodsve.web.mvc.convert;
 
 import lodsve.core.bean.Codeable;
@@ -48,8 +47,8 @@ public class EnumCodeConverterFactory implements ConverterFactory<String, Enum<?
     }
 
     private class ValueToEnum<T extends Enum<T> & Codeable> implements Converter<String, T> {
-        private T[] enums;
-        private Class<T> enumType;
+        private final T[] enums;
+        private final Class<T> enumType;
 
         private ValueToEnum(Class<T> enumType) {
             this.enumType = enumType;
