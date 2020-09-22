@@ -24,10 +24,10 @@ import org.springframework.util.Assert;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -70,7 +70,11 @@ public class EncryptUtils {
     public static String encodeBase64(String plainText) {
         Assert.hasText(plainText);
 
-        return new String(Base64.encodeBase64(plainText.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
+        try {
+            return new String(Base64.encodeBase64(plainText.getBytes("utf-8")), "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.error(e.getMessage(), e);
+        }
 
         return StringUtils.EMPTY;
     }
@@ -84,7 +88,11 @@ public class EncryptUtils {
     public static String decodeBase64(String cipherText) {
         Assert.hasText(cipherText);
 
-        return new String(Base64.decodeBase64(cipherText.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
+        try {
+            return new String(Base64.decodeBase64(cipherText.getBytes("utf-8")), "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.error(e.getMessage(), e);
+        }
 
         return StringUtils.EMPTY;
     }
