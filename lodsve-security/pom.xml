@@ -22,15 +22,19 @@
     <!-- 配置父 -->
     <parent>
         <groupId>com.lodsve</groupId>
-        <artifactId>lodsve-framework</artifactId>
+        <artifactId>lodsve-dependencies</artifactId>
         <version>2.7.7-SNAPSHOT</version>
-        <relativePath>../</relativePath>
+        <relativePath>../lodsve-dependencies</relativePath>
     </parent>
 
     <artifactId>lodsve-security</artifactId>
     <packaging>jar</packaging>
     <name>lodsve security</name>
     <description>简单的安全校验</description>
+
+    <properties>
+        <main.user.dir>${project.basedir}/..</main.user.dir>
+    </properties>
 
     <dependencies>
         <!-- required dependency -->

@@ -24,13 +24,17 @@
         <groupId>com.lodsve</groupId>
         <artifactId>lodsve-framework</artifactId>
         <version>2.7.7-SNAPSHOT</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>lodsve-framework-bom</artifactId>
     <packaging>pom</packaging>
     <name>lodsve framework bom</name>
     <description>Lodsve Framework (Bill of Materials)</description>
+
+    <properties>
+        <main.user.dir>${project.basedir}/..</main.user.dir>
+    </properties>
 
     <dependencyManagement>
         <dependencies>

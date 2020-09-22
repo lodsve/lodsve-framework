@@ -22,19 +22,22 @@
     <!-- 配置父 -->
     <parent>
         <groupId>com.lodsve</groupId>
-        <artifactId>lodsve-dependencies</artifactId>
-        <version>4</version>
+        <artifactId>lodsve-parent</artifactId>
+        <version>6</version>
     </parent>
 
     <artifactId>lodsve-framework</artifactId>
     <version>2.7.7-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <inceptionYear>2009</inceptionYear>
     <name>lodsve framework</name>
     <description>工具类集合，封装了一系列开源项目，使更好更方便的进行Java Web开发</description>
     <url>https://github.com/lodsve/lodsve-framework</url>
 
     <properties>
         <github.repository.url>https://maven.pkg.github.com/lodsve/lodsve-framework</github.repository.url>
+        <main.user.dir>${project.basedir}</main.user.dir>
+        <maven.copyright.plugin.version>3.0</maven.copyright.plugin.version>
     </properties>
 
     <modules>
@@ -44,6 +47,8 @@
         <module>lodsve-cache</module>
         <!-- 基础 -->
         <module>lodsve-core</module>
+        <!-- 依赖管理 -->
+        <module>lodsve-dependencies</module>
         <!-- bom -->
         <module>lodsve-framework-bom</module>
         <!-- mongodb -->
@@ -86,4 +91,43 @@
         <developerConnection>scm:git:git@github.com:lodsve/lodsve-framework.git</developerConnection>
         <url>https://github.com/lodsve/lodsve-framework</url>
     </scm>
+
+    <build>
+        <plugins>
+            <!-- copyright header -->
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${maven.copyright.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>remove</goal>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <quiet>false</quiet>
+                    <header>${main.user.dir}/.mvn/HEADER</header>
+                    <excludes>
+                        <exclude>*.sh</exclude>
+                        <exclude>.gitignore</exclude>
+                        <exclude>**/*.md</exclude>
+                        <exclude>.editorconfig</exclude>
+                        <exclude>.travis.yml</exclude>
+                        <exclude>CHANGELOG.md</exclude>
+                        <exclude>LICENSE</exclude>
+                        <exclude>.github/**</exclude>
+                        <exclude>.mvn/**</exclude>
+                    </excludes>
+                    <strictCheck>true</strictCheck>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

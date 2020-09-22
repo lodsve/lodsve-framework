@@ -22,15 +22,19 @@
     <!-- 配置父 -->
     <parent>
         <groupId>com.lodsve</groupId>
-        <artifactId>lodsve-framework</artifactId>
+        <artifactId>lodsve-dependencies</artifactId>
         <version>2.7.7-SNAPSHOT</version>
-        <relativePath>../</relativePath>
+        <relativePath>../lodsve-dependencies</relativePath>
     </parent>
 
     <artifactId>lodsve-rabbitmq</artifactId>
     <packaging>jar</packaging>
     <name>lodsve rabbitmq</name>
     <description>RabbitMQ相关封装</description>
+
+    <properties>
+        <main.user.dir>${project.basedir}/..</main.user.dir>
+    </properties>
 
     <dependencies>
         <!-- required dependency -->
