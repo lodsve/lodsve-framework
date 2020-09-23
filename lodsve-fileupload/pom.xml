@@ -28,10 +28,10 @@
         <relativePath>../lodsve-dependencies</relativePath>
     </parent>
 
-    <artifactId>lodsve-rocketmq</artifactId>
+    <artifactId>lodsve-fileupload</artifactId>
     <packaging>jar</packaging>
-    <name>lodsve rocketmq</name>
-    <description>RocketMQ component</description>
+    <name>lodsve fileupload</name>
+    <description>Upload file to oss/aws s3/...</description>
 
     <properties>
         <main.user.dir>${project.basedir}/..</main.user.dir>
@@ -39,20 +39,13 @@
 
     <dependencies>
         <!-- required dependency -->
-        <dependency>
-            <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-messaging</artifactId>
-        </dependency>
+        <!-- optional dependency -->
 
-        <!-- lodsve -->
+        <!-- test -->
         <dependency>
-            <groupId>com.lodsve</groupId>
-            <artifactId>lodsve-core</artifactId>
-            <version>${project.version}</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

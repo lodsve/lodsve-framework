@@ -31,7 +31,7 @@
     <artifactId>lodsve-scripts</artifactId>
     <packaging>jar</packaging>
     <name>lodsve scripts</name>
-    <description>跟脚本语言相关的</description>
+    <description>Script language support</description>
 
     <properties>
         <main.user.dir>${project.basedir}/..</main.user.dir>

@@ -31,7 +31,7 @@
     <artifactId>lodsve-rdbms</artifactId>
     <packaging>jar</packaging>
     <name>lodsve rdbms</name>
-    <description>关系型数据库数据源</description>
+    <description>DataSource for RDBMS</description>
 
     <properties>
         <main.user.dir>${project.basedir}/..</main.user.dir>

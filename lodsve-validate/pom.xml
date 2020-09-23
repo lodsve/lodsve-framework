@@ -31,7 +31,7 @@
     <artifactId>lodsve-validate</artifactId>
     <packaging>jar</packaging>
     <name>lodsve validate</name>
-    <description>后端校验</description>
+    <description>Validate engine via Spring AOP</description>
 
     <properties>
         <main.user.dir>${project.basedir}/..</main.user.dir>

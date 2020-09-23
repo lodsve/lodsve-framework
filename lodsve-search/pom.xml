@@ -31,7 +31,7 @@
     <artifactId>lodsve-search</artifactId>
     <packaging>jar</packaging>
     <name>lodsve search</name>
-    <description>搜索引擎相关封装</description>
+    <description>Search component(solr/lucene)</description>
 
     <properties>
         <main.user.dir>${project.basedir}/..</main.user.dir>

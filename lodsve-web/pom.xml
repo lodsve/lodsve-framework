@@ -31,7 +31,7 @@
     <artifactId>lodsve-web</artifactId>
     <packaging>jar</packaging>
     <name>lodsve web</name>
-    <description>spring-mvc和swagger相关封装</description>
+    <description>Spring MVC expand(include swagger)</description>
 
     <properties>
         <main.user.dir>${project.basedir}/..</main.user.dir>

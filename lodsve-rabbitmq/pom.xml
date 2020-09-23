@@ -31,7 +31,7 @@
     <artifactId>lodsve-rabbitmq</artifactId>
     <packaging>jar</packaging>
     <name>lodsve rabbitmq</name>
-    <description>RabbitMQ相关封装</description>
+    <description>RabbitMQ component</description>
 
     <properties>
         <main.user.dir>${project.basedir}/..</main.user.dir>

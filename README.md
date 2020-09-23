@@ -18,24 +18,28 @@ My development tools, it encapsulates some open source projects, and better faci
 ## Simple Introduction
 1. Base on some open source framework. It encapsulates some classes and methods to make more convenient for developers.
 2. It consists of the following modules:
-    - lodsve-3rd
-    - lodsve-cache
-    - lodsve-core
-    - lodsve-dependencies
-    - lodsve-framework-bom
-    - lodsve-mongodb
-    - lodsve-mybatis
-    - lodsve-rabbitmq
-    - lodsve-rdbms
-    - lodsve-redis
-    - lodsve-rocketmq
-    - lodsve-scripts
-    - lodsve-search
-    - lodsve-security
-    - lodsve-test
-    - lodsve-validate
-    - lodsve-web
-    - lodsve-wechat
+
+    | Module | Description |
+    | :--- | :--- |
+    | lodsve-3rd | Customized third-party packages |
+    | lodsve-cache | Cache management for ehcache/memcache/oscache/redis/... |
+    | lodsve-core | Basic and core package |
+    | lodsve-dependencies | Lodsve Dependencies Management |
+    | lodsve-fileupload | Upload file to oss/aws s3/... |
+    | lodsve-framework-bom | Lodsve Framework (Bill of Materials) |
+    | lodsve-mongodb | Connect to MongoDB |
+    | lodsve-mybatis | Mybatis component(mybatis common DAO/type handler) |
+    | lodsve-rabbitmq | RabbitMQ component |
+    | lodsve-rdbms | DataSource for RDBMS |
+    | lodsve-redis | Redis component |
+    | lodsve-rocketmq | RocketMQ component |
+    | lodsve-scripts | Script language support |
+    | lodsve-search | Search component(solr/lucene) |
+    | lodsve-security | Authentication and certification For Spring MVC |
+    | lodsve-test | Spring unit test expand(mock and db unit test) |
+    | lodsve-validate | Validate engine via Spring AOP |
+    | lodsve-web | Spring MVC expand(include swagger) |
+    | lodsve-wechat | WeChat SDK |
 
 ## How To Use
 

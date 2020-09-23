@@ -31,7 +31,7 @@
     <artifactId>lodsve-test</artifactId>
     <packaging>jar</packaging>
     <name>lodsve test</name>
-    <description>单元测试</description>
+    <description>Spring unit test expand(mock and db unit test)</description>
 
     <properties>
         <main.user.dir>${project.basedir}/..</main.user.dir>

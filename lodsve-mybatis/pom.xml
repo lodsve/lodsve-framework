@@ -31,7 +31,7 @@
     <artifactId>lodsve-mybatis</artifactId>
     <packaging>jar</packaging>
     <name>lodsve mybatis</name>
-    <description>mybatis相关封装</description>
+    <description>Mybatis component(mybatis common DAO/type handler)</description>
 
     <properties>
         <main.user.dir>${project.basedir}/..</main.user.dir>

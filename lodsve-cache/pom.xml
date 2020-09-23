@@ -31,7 +31,7 @@
     <artifactId>lodsve-cache</artifactId>
     <packaging>jar</packaging>
     <name>lodsve cache</name>
-    <description>缓存</description>
+    <description>Cache management for ehcache/memcache/oscache/redis/...</description>
 
     <properties>
         <main.user.dir>${project.basedir}/..</main.user.dir>

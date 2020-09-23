@@ -31,7 +31,7 @@
     <artifactId>lodsve-core</artifactId>
     <packaging>jar</packaging>
     <name>lodsve core</name>
-    <description>基础包</description>
+    <description>Basic and core package</description>
 
     <properties>
         <main.user.dir>${project.basedir}/..</main.user.dir>

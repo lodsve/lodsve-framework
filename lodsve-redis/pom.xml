@@ -31,7 +31,7 @@
     <artifactId>lodsve-redis</artifactId>
     <packaging>jar</packaging>
     <name>lodsve redis</name>
-    <description>redis相关封装</description>
+    <description>Redis component</description>
 
     <properties>
         <main.user.dir>${project.basedir}/..</main.user.dir>

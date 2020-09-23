@@ -31,7 +31,7 @@
     <artifactId>lodsve-security</artifactId>
     <packaging>jar</packaging>
     <name>lodsve security</name>
-    <description>简单的安全校验</description>
+    <description>Authentication and certification For Spring MVC</description>
 
     <properties>
         <main.user.dir>${project.basedir}/..</main.user.dir>
