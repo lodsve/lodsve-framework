@@ -911,17 +911,4 @@
             <!-- other languages end -->
         </dependencies>
     </dependencyManagement>
-
-    <!-- issue -->
-    <issueManagement>
-        <system>Github Issue</system>
-        <url>https://github.com/lodsve/lodsve-dependencies/issues</url>
-    </issueManagement>
-
-    <!-- 代码库 -->
-    <scm>
-        <connection>scm:git:git@github.com:lodsve/lodsve-dependencies.git</connection>
-        <developerConnection>scm:git:git@github.com:lodsve/lodsve-dependencies.git</developerConnection>
-        <url>https://github.com/lodsve/lodsve-dependencies</url>
-    </scm>
 </project>

@@ -140,4 +140,66 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release-third-party</id>
+            <!-- 第三方发布仓库 -->
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>third-party-snapshots</id>
+                    <name>Third Party SNAPSHOTS</name>
+                    <url>${third.party.snapshots.repository.url}</url>
+                </snapshotRepository>
+
+                <repository>
+                    <id>third-party-releases</id>
+                    <name>Third Party releases</name>
+                    <url>${third.party.releases.repository.url}</url>
+                </repository>
+            </distributionManagement>
+            <build>
+                <plugins>
+                    <!-- 生成javadoc的插件 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven.javadoc.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadoc</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <show>public</show>
+                            <aggregate>true</aggregate>
+                            <charset>${project.build.sourceEncoding}</charset>
+                            <encoding>${project.build.sourceEncoding}</encoding>
+                            <docencoding>${project.build.sourceEncoding}</docencoding>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                    </plugin>
+                    <!-- 生成源代码的插件 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven.source.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
