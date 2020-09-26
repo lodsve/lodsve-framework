@@ -63,9 +63,9 @@
 
         <!-- test -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <groupId>com.lodsve</groupId>
+            <artifactId>lodsve-test</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

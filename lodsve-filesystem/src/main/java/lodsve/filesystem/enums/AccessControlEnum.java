@@ -14,41 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lodsve.filesystem.bean;
-
-import lombok.Data;
-import lombok.ToString;
-
-import java.io.Serializable;
+package lodsve.filesystem.enums;
 
 /**
- * 上传图片返回DTO.
+ * OSS权限控制枚举.
  *
  * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  */
-@Data
-@ToString
-public class Result implements Serializable {
+public enum AccessControlEnum {
     /**
-     * 文件唯一标识
+     * 继承Bucket	文件遵循存储空间的访问权限。
      */
-    private String objectName;
+    DEFAULT,
     /**
-     * Object生成时会创建相应的ETag (entity tag) ，ETag用于标示一个Object的内容。
-     * 1. 对于PutObject请求创建的Object，ETag值是其内容的MD5值。
-     * 2. 对于其他方式创建的Object，ETag值是其内容的UUID。
+     * 私有	文件的拥有者和授权用户有该文件的读写权限，其他用户没有权限操作该文件。
      */
-    private String etag;
+    PRIVATE,
     /**
-     * 文件名
+     * 公共读	文件的拥有者和授权用户有该文件的读写权限，其他用户只有文件的读权限。请谨慎使用该权限。
      */
-    private String fileName;
+    PUBLIC_READ,
     /**
-     * 文件md5值
+     * 公共读写	所有用户都有该文件的读写权限。请谨慎使用该权限。
      */
-    private String md5;
-    /**
-     * 上传结果
-     */
-    private Boolean result;
+    PUBLIC_READ_WRITE
 }

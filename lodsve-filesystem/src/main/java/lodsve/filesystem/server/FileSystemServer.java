@@ -1,3 +1,19 @@
+/*
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package lodsve.filesystem.server;
 
 import lodsve.core.utils.EncryptUtils;
@@ -5,6 +21,7 @@ import lodsve.core.utils.RandomUtils;
 import lodsve.core.utils.Snowflake;
 import lodsve.filesystem.bean.FileBean;
 import lodsve.filesystem.bean.Result;
+import lodsve.filesystem.enums.AccessControlEnum;
 import lodsve.filesystem.enums.FileTypeEnum;
 import lodsve.filesystem.handler.FileSystemHandler;
 import org.apache.commons.io.FilenameUtils;
@@ -44,17 +61,6 @@ public class FileSystemServer {
     }
 
     /**
-     * 创建文件夹
-     *
-     * @param folder 模拟文件夹名如"qj_nanjing/"
-     * @return 文件夹名
-     */
-    public String createFolder(String folder) {
-        Assert.hasText(folder, "文件夹名称不能为空！");
-        return fileSystemHandler.createFolder(folder);
-    }
-
-    /**
      * 根据objectName删除服务器上的文件,objectName指上传时指定的folder+fileName
      *
      * @param objectName folder+fileName 如"platform/test.txt"
@@ -81,18 +87,31 @@ public class FileSystemServer {
      * @return FileDTO 返回文件服务器中的一些参数
      */
     public Result uploadFile(File file, String folder) {
-        return uploadFile(file, folder, false);
+        return uploadFile(file, folder, AccessControlEnum.DEFAULT, false);
     }
 
     /**
      * 上传至文件服务器，具体使用哪个文件服务器，由platform.file-system.type来决定<p/>
      *
-     * @param file         上传文件
-     * @param folder       文件夹名 如"qj_nanjing/"
-     * @param validatorMd5 是否校验md5,如果校验,则返回md5值
+     * @param file          上传文件
+     * @param folder        文件夹名 如"qj_nanjing/"
+     * @param accessControl 文件访问权限，详见{@link AccessControlEnum}
+     * @return FileDTO 返回文件服务器中的一些参数
+     */
+    public Result uploadFile(File file, String folder, AccessControlEnum accessControl) {
+        return uploadFile(file, folder, accessControl, false);
+    }
+
+    /**
+     * 上传至文件服务器，具体使用哪个文件服务器，由platform.file-system.type来决定<p/>
+     *
+     * @param file          上传文件
+     * @param folder        文件夹名 如"qj_nanjing/"
+     * @param accessControl 文件访问权限，详见{@link AccessControlEnum}
+     * @param validatorMd5  是否校验md5,如果校验,则返回md5值
      * @return FileDTO 返回oss返回的对象
      */
-    public Result uploadFile(File file, String folder, boolean validatorMd5) {
+    public Result uploadFile(File file, String folder, AccessControlEnum accessControl, boolean validatorMd5) {
         Assert.notNull(file, "上传文件不能为空!");
         Assert.notNull(file.getName(), "上传文件格式不对!");
 
@@ -104,6 +123,7 @@ public class FileSystemServer {
             bean.setFileSize(file.length());
             bean.setContent(new FileInputStream(file));
             bean.setContentType(getContentType(fileName));
+            bean.setAccessControl(null == accessControl ? AccessControlEnum.DEFAULT : accessControl);
             if (!StringUtils.endsWith(folder, File.separator)) {
                 folder = folder + File.separator;
             }
@@ -211,8 +231,9 @@ public class FileSystemServer {
      *
      * @param objectName folder+fileName 如"platform/test.txt"
      * @return 下载的文件路径
+     * @throws IOException 创建目录失败
      */
-    public String downloadFileForStream(String objectName) {
+    public String downloadFileForStream(String objectName) throws IOException {
         return fileSystemHandler.downloadFileForStream(objectName);
     }
 }

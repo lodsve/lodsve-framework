@@ -1,3 +1,19 @@
+/*
+ * Copyright © 2009 Sun.Hao(https://www.crazy-coder.cn/)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package lodsve.filesystem.handler;
 
 import com.aliyun.oss.common.utils.BinaryUtil;
@@ -8,17 +24,20 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.util.SdkHttpUtils;
 import lodsve.filesystem.bean.FileBean;
 import lodsve.filesystem.bean.Result;
+import lodsve.filesystem.enums.AccessControlEnum;
 import lodsve.filesystem.properties.FileSystemProperties;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -74,9 +93,12 @@ public class AmazonS3FileSystemHandler extends AbstractFileSystemHandler {
         // 如果没有扩展名则填默认值application/octet-stream
         objectMetadata.setContentType(file.getContentType());
         objectMetadata.setContentDisposition("attachment;filename=\"" + SdkHttpUtils.urlEncode(fileName, false) + "\"");
+        // 设置访问权限
+        AccessControlEnum accessControl = file.getAccessControl();
         try {
             // 上传文件 (上传文件流的形式) 并设置未公开
-            PutObjectRequest putObjectRequest = new PutObjectRequest(properties.getBucketName(), file.getFinalFileName(), content, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(properties.getBucketName(), file.getFinalFileName(), content, objectMetadata)
+                .withCannedAcl(evalAccessControlValue(file.getAccessControl()));
             PutObjectResult putResult = amazonS3Client.putObject(putObjectRequest);
 
             // 解析结果
@@ -89,22 +111,6 @@ public class AmazonS3FileSystemHandler extends AbstractFileSystemHandler {
             logger.error("上传亚马逊云S3服务器异常." + e.getMessage(), e);
             throw e;
         }
-    }
-
-    @Override
-    public String createFolder(String folder) {
-        // 文件夹名
-        // 判断文件夹是否存在，不存在则创建
-        if (!amazonS3Client.doesObjectExist(properties.getBucketName(), folder)) {
-            // 创建文件夹
-            PutObjectRequest putObjectRequest = new PutObjectRequest(properties.getBucketName(), folder, new ByteArrayInputStream(new byte[0]), null).withCannedAcl(CannedAccessControlList.PublicRead);
-            amazonS3Client.putObject(putObjectRequest);
-            logger.info("创建文件夹成功");
-            // 得到文件夹名
-            S3Object object = amazonS3Client.getObject(properties.getBucketName(), folder);
-            return object.getKey();
-        }
-        return folder;
     }
 
     @Override
@@ -157,6 +163,20 @@ public class AmazonS3FileSystemHandler extends AbstractFileSystemHandler {
             .withCredentials(new AWSStaticCredentialsProvider(credentials))
             .withClientConfiguration(awsClientConfiguration)
             .build();
-        amazonS3Client.setBucketAcl(properties.getBucketName(), CannedAccessControlList.PublicRead);
+    }
+
+    private CannedAccessControlList evalAccessControlValue(AccessControlEnum accessControlEnum) {
+        accessControlEnum = (null == accessControlEnum ? AccessControlEnum.DEFAULT : accessControlEnum);
+        switch (accessControlEnum) {
+            case PRIVATE:
+                return CannedAccessControlList.Private;
+            case PUBLIC_READ:
+                return CannedAccessControlList.PublicRead;
+            case PUBLIC_READ_WRITE:
+                return CannedAccessControlList.PublicReadWrite;
+            case DEFAULT:
+            default:
+                return CannedAccessControlList.BucketOwnerFullControl;
+        }
     }
 }
