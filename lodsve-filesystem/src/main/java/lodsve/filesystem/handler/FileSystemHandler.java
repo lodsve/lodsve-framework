@@ -2,15 +2,17 @@ package lodsve.filesystem.handler;
 
 import lodsve.filesystem.bean.FileBean;
 import lodsve.filesystem.bean.Result;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 
 import java.io.IOException;
 
 /**
  * 文件上传、下载操作.
  *
- * @author <a href="mailto:sun.hao278@iwhalecloud.com">sunhao(sun.hao278@iwhalecloud.com)</a>
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  */
-public interface FileSystemHandler {
+public interface FileSystemHandler extends InitializingBean, DisposableBean {
     /**
      * 文件上传
      *
@@ -44,29 +46,29 @@ public interface FileSystemHandler {
     boolean isExist(String objectName);
 
     /**
-     * 获取文件URL(私有桶),fileKey指上传返回值中的key
+     * 获取文件URL(私有桶),objectName指上传返回值中的objectName
      *
-     * @param fileKey 返回值中的key
+     * @param objectName 返回值中的objectName
      * @return 返回文件URL
      */
-    String getUrl(String fileKey);
+    String getUrl(String objectName);
 
     /**
-     * 获取文件URL(私有桶),fileKey指上传返回值中的key
+     * 获取文件URL(私有桶),objectName指上传返回值中的objectName
      *
-     * @param fileKey    返回值中的key
+     * @param objectName 返回值中的objectName
      * @param expireTime 失效时间，单位（毫秒）
      * @return 返回文件URL
      */
-    String getUrl(String fileKey, Long expireTime);
+    String getUrl(String objectName, Long expireTime);
 
     /**
-     * 获取文件URL(共有桶),fileKey指上传返回值中的key
+     * 获取文件URL(共有桶),objectName指上传返回值中的objectName
      *
-     * @param fileKey 返回值中的key
+     * @param objectName 返回值中的objectName
      * @return 返回文件URL
      */
-    String getOpenUrl(String fileKey);
+    String getOpenUrl(String objectName);
 
     /**
      * 流式下载文件,objectName指上传时指定的folder+fileName

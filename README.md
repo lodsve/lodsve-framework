@@ -25,7 +25,7 @@ My development tools, it encapsulates some open source projects, and better faci
     | lodsve-cache | Cache management for ehcache/memcache/oscache/redis/... |
     | lodsve-core | Basic and core package |
     | lodsve-dependencies | Lodsve Dependencies Management |
-    | lodsve-fileupload | Upload file to oss/aws s3/... |
+    | lodsve-filesystem | Manage oss/aws s3/... |
     | lodsve-framework-bom | Lodsve Framework (Bill of Materials) |
     | lodsve-mongodb | Connect to MongoDB |
     | lodsve-mybatis | Mybatis component(mybatis common DAO/type handler) |

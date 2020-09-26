@@ -51,7 +51,7 @@
         <!-- 依赖管理 -->
         <module>lodsve-dependencies</module>
         <!-- 文件上传 -->
-        <module>lodsve-fileupload</module>
+        <module>lodsve-filesystem</module>
         <!-- bom -->
         <module>lodsve-framework-bom</module>
         <!-- mongodb -->

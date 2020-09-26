@@ -2,12 +2,14 @@ package lodsve.filesystem.properties;
 
 import com.aliyun.oss.common.comm.Protocol;
 import lodsve.core.autoproperties.relaxedbind.annotations.ConfigurationProperties;
+import lodsve.core.autoproperties.relaxedbind.annotations.Required;
+import lodsve.filesystem.enums.FileSystemTypeEnum;
 import lombok.Data;
 
 /**
  * 文件上传组件配置.
  *
- * @author <a href="mailto:sun.hao278@iwhalecloud.com">sunhao(sun.hao278@iwhalecloud.com)</a>
+ * @author <a href="mailto:sunhao.java@gmail.com">sunhao(sunhao.java@gmail.com)</a>
  */
 @ConfigurationProperties(prefix = "lodsve.file-system")
 @Data
@@ -19,14 +21,17 @@ public class FileSystemProperties {
     /**
      * accessKeyId
      */
+    @Required
     private String accessKeyId;
     /**
      * accessKeySecret
      */
+    @Required
     private String accessKeySecret;
     /**
      * 使用的桶名称
      */
+    @Required
     private String bucketName;
     /**
      * 临时文件路径，本地
@@ -46,20 +51,6 @@ public class FileSystemProperties {
     private ClientExtendProperties client = new ClientExtendProperties();
 
     /**
-     * 使用的文件存储类型
-     */
-    public static enum FileSystemTypeEnum {
-        /**
-         * 亚马逊云存储
-         */
-        AWS,
-        /**
-         * 阿里云存储
-         */
-        OSS
-    }
-
-    /**
      * AWS基本服務端屬性.
      */
     @Data
@@ -67,6 +58,7 @@ public class FileSystemProperties {
         /**
          * 区域
          */
+        @Required
         private String region;
     }
 
@@ -78,6 +70,7 @@ public class FileSystemProperties {
         /**
          * 上传目标地址
          */
+        @Required
         private String endpoint;
     }
 
