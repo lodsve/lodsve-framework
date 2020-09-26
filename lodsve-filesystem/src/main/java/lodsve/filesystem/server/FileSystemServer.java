@@ -63,7 +63,7 @@ public class FileSystemServer {
     /**
      * 根据objectName删除服务器上的文件,objectName指上传时指定的folder+fileName
      *
-     * @param objectName folder+fileName 如"platform/test.txt"
+     * @param objectName folder+fileName 如"test/test.txt"
      */
     public void deleteFile(String objectName) {
         fileSystemHandler.deleteFile(objectName);
@@ -72,7 +72,7 @@ public class FileSystemServer {
     /**
      * 判断文件是否存在,objectName指上传时指定的folder+fileName
      *
-     * @param objectName folder+fileName 如"platform/test.txt"
+     * @param objectName folder+fileName 如"test/test.txt"
      * @return 文件是否存在
      */
     public boolean isExist(String objectName) {
@@ -80,10 +80,10 @@ public class FileSystemServer {
     }
 
     /**
-     * 上传至文件服务器，具体使用哪个文件服务器，由platform.file-system.type来决定<p/>
+     * 上传至文件服务器，具体使用哪个文件服务器，由lodsve.file-system.type来决定<p/>
      *
      * @param file   上传文件
-     * @param folder 文件夹名 如"qj_nanjing/"
+     * @param folder 文件夹名 如"lodsve-framework/"
      * @return FileDTO 返回文件服务器中的一些参数
      */
     public Result uploadFile(File file, String folder) {
@@ -91,10 +91,10 @@ public class FileSystemServer {
     }
 
     /**
-     * 上传至文件服务器，具体使用哪个文件服务器，由platform.file-system.type来决定<p/>
+     * 上传至文件服务器，具体使用哪个文件服务器，由lodsve.file-system.type来决定<p/>
      *
      * @param file          上传文件
-     * @param folder        文件夹名 如"qj_nanjing/"
+     * @param folder        文件夹名 如"lodsve-framework/"
      * @param accessControl 文件访问权限，详见{@link AccessControlEnum}
      * @return FileDTO 返回文件服务器中的一些参数
      */
@@ -103,10 +103,10 @@ public class FileSystemServer {
     }
 
     /**
-     * 上传至文件服务器，具体使用哪个文件服务器，由platform.file-system.type来决定<p/>
+     * 上传至文件服务器，具体使用哪个文件服务器，由lodsve.file-system.type来决定<p/>
      *
      * @param file          上传文件
-     * @param folder        文件夹名 如"qj_nanjing/"
+     * @param folder        文件夹名 如"lodsve-framework/"
      * @param accessControl 文件访问权限，详见{@link AccessControlEnum}
      * @param validatorMd5  是否校验md5,如果校验,则返回md5值
      * @return FileDTO 返回oss返回的对象
@@ -229,7 +229,7 @@ public class FileSystemServer {
     /**
      * 流式下载文件,objectName指上传时指定的folder+fileName
      *
-     * @param objectName folder+fileName 如"platform/test.txt"
+     * @param objectName folder+fileName 如"test/test.txt"
      * @return 下载的文件路径
      * @throws IOException 创建目录失败
      */

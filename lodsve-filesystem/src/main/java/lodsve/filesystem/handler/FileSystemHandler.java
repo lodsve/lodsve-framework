@@ -41,14 +41,14 @@ public interface FileSystemHandler extends InitializingBean, DisposableBean {
     /**
      * 根据objectName删除服务器上的文件,objectName指上传时指定的folder+fileName
      *
-     * @param objectName folder+fileName 如"platform/test.txt"
+     * @param objectName folder+fileName 如"test/test.txt"
      */
     void deleteFile(String objectName);
 
     /**
      * 判断文件是否存在,objectName指上传时指定的folder+fileName
      *
-     * @param objectName folder+fileName 如"platform/test.txt"
+     * @param objectName folder+fileName 如"test/test.txt"
      * @return 是否存在
      */
     boolean isExist(String objectName);
@@ -81,7 +81,7 @@ public interface FileSystemHandler extends InitializingBean, DisposableBean {
     /**
      * 流式下载文件,objectName指上传时指定的folder+fileName
      *
-     * @param objectName folder+fileName 如"platform/test.txt"
+     * @param objectName folder+fileName 如"test/test.txt"
      * @return 下载的文件路径
      * @throws IOException 创建目录失败
      */

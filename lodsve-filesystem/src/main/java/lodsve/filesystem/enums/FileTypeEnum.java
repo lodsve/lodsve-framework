@@ -57,7 +57,7 @@ public enum FileTypeEnum {
      */
     private final String fileType;
     /**
-     * 文件后缀对应的context path
+     * 文件后缀对应的content type
      */
     private final String contentType;
 
