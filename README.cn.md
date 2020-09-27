@@ -107,6 +107,11 @@
 ## License
 `Lodsve Framework` 是在 [GNU General Public License][] 的3.0版下发布的。
 
+## 鸣谢
+`Lodsve Framework` 是基于JetBrains IDEA创建的。
+
+![LOGO](.github/JetBrains.png "JetBrains")
+
 [GNU GENERAL PUBLIC LICENSE]: https://opensource.org/licenses/GPL-3.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
 [Blog]: https://www.crazy-coder.cn

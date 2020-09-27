@@ -107,6 +107,11 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 ## License
 The `Lodsve Framework` is released under version 3.0 of the [GNU General Public License][].
 
+## Thanks
+The `Lodsve Framework` was created using awesome JetBrains IDEA.
+
+![LOGO](.github/JetBrains.png "JetBrains")
+
 [GNU GENERAL PUBLIC LICENSE]: https://opensource.org/licenses/GPL-3.0
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
 [Blog]: https://www.crazy-coder.cn
