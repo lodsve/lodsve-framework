@@ -61,12 +61,12 @@
 - `ALPHA` 表示内部版本。
 - `BETA` 意味着仅用于测试。
 
-## Newest version
+## 最新版本号
 现在的最新版本号是： `2.7.6-RELEASE`。
 
 您还可以在Maven Central中找到最新版本：`http://repo1.maven.org/maven2/com/lodsve/lodsve-framework/` 。
 
-## Documentation
+## 文档
 查看使用文档 [reference docs][].
 
 查看master分支的API文档 [Api Docs][].
