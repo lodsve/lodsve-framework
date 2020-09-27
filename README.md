@@ -55,14 +55,14 @@ My development tools, it encapsulates some open source projects, and better faci
 Version No. like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
 
 - `MAJOR` version when I make incompatible API changes,
-- `MINOR` version when I add functionality in a backwards-compatible manner, and
+- `MINOR` version when I add functionality in a backwards-compatible manner
 - `PATCH` version when I make backwards-compatible bug fixes.
 - `RELEASE` means a stable release version.
 - `ALPHA` means internal version.
 - `BETA` means just for testing.
 
 ## Newest version
-Now the newest and stable version is `2.7.1-RELEASE`.
+Now the newest and stable version is `2.7.6-RELEASE`.
 
 You can also find the newest version in maven central: `http://repo1.maven.org/maven2/com/lodsve/lodsve-framework/`.
 
@@ -73,9 +73,6 @@ See the master branch [Api Docs][].
 
 ## Check out sources
 `git clone git@github.com:lodsve/lodsve-framework.git`
-
-## Check out demos
-`git clone git@github.com:lodsve/lodsve-demo.git`
 
 ## Check out the configurations
 `cd lodsve-core/src/main/resources/META-INF/config-template`
