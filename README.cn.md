@@ -108,7 +108,7 @@
 `Lodsve Framework` 是在 [GNU General Public License][] 的3.0版下发布的。
 
 ## 鸣谢
-`Lodsve Framework` 是基于JetBrains IDEA创建的。
+`Lodsve Framework` 是基于[JetBrains IDEA][]创建的。
 
 ![LOGO](.github/JetBrains.png "JetBrains")
 
@@ -119,3 +119,4 @@
 [867885140]: http://wpa.qq.com/msgrd?v=3&uin=867885140&site=qq&menu=yes
 [reference docs]: https://helps.lodsve.com/
 [Api Docs]: https://apidoc.gitee.com/lodsve/lodsve-framework/
+[JetBrains IDEA]: https://www.jetbrains.com/?from=lodsve-framework
