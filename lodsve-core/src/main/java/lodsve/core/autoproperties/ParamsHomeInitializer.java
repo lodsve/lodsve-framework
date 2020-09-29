@@ -21,7 +21,7 @@ import lodsve.core.autoproperties.env.EnvLoader;
 import lodsve.core.autoproperties.ini.IniLoader;
 import lodsve.core.autoproperties.profile.ProfileInitializer;
 import lodsve.core.autoproperties.relaxedbind.RelaxedBindFactory;
-import lodsve.core.configuration.ApplicationProperties;
+import lodsve.core.configuration.properties.ApplicationProperties;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;

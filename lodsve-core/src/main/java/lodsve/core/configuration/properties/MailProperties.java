@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lodsve.core.configuration;
+package lodsve.core.configuration.properties;
 
 import lodsve.core.autoproperties.relaxedbind.annotations.ConfigurationProperties;
 import lodsve.core.autoproperties.relaxedbind.annotations.Required;

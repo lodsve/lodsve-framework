@@ -19,7 +19,7 @@ package lodsve.core;
 import lodsve.core.ansi.AnsiColor;
 import lodsve.core.ansi.AnsiOutput;
 import lodsve.core.ansi.AnsiStyle;
-import lodsve.core.configuration.BannerConfig;
+import lodsve.core.configuration.properties.BannerConfig;
 
 import java.io.PrintStream;
 

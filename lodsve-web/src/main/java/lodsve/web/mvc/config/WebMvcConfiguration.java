@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import lodsve.core.autoproperties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.condition.ConditionalOnClass;
 import lodsve.core.condition.ConditionalOnProperty;
-import lodsve.core.configuration.ApplicationProperties;
+import lodsve.core.configuration.properties.ApplicationProperties;
 import lodsve.web.mvc.debug.DebugRequestAspect;
 import lodsve.web.mvc.json.CodeableEnumDeserializer;
 import lodsve.web.mvc.json.CodeableEnumSerializer;

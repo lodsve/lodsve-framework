@@ -23,6 +23,8 @@ import lodsve.core.autoproperties.message.ResourceBundleHolder;
 import lodsve.core.autoproperties.profile.ProfileInitializer;
 import lodsve.core.autoproperties.relaxedbind.annotations.EnableConfigurationProperties;
 import lodsve.core.condition.ConditionalOnClass;
+import lodsve.core.configuration.properties.ApplicationProperties;
+import lodsve.core.configuration.properties.ThreadConfig;
 import lodsve.core.context.ApplicationContextListener;
 import lodsve.core.event.EventExecutor;
 import lodsve.core.event.EventPublisher;

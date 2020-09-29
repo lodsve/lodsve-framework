@@ -16,7 +16,7 @@
  */
 package lodsve.core;
 
-import lodsve.core.configuration.BannerConfig;
+import lodsve.core.configuration.properties.BannerConfig;
 
 import java.io.PrintStream;
 

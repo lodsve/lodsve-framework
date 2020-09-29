@@ -16,7 +16,7 @@
  */
 package lodsve.core;
 
-import lodsve.core.configuration.BannerConfig;
+import lodsve.core.configuration.properties.BannerConfig;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;

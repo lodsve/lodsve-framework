@@ -17,7 +17,7 @@
 package lodsve.web.mvc.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lodsve.core.configuration.ApplicationProperties;
+import lodsve.core.configuration.properties.ApplicationProperties;
 import lodsve.web.mvc.annotation.resolver.BindDataHandlerMethodArgumentResolver;
 import lodsve.web.mvc.annotation.resolver.ParseDataHandlerMethodArgumentResolver;
 import lodsve.web.mvc.annotation.resolver.WebResourceDataHandlerMethodArgumentResolver;

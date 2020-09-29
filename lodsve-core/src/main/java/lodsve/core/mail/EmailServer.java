@@ -17,7 +17,7 @@
 package lodsve.core.mail;
 
 import com.google.common.collect.Lists;
-import lodsve.core.configuration.MailProperties;
+import lodsve.core.configuration.properties.MailProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;

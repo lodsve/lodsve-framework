@@ -20,7 +20,7 @@ import lodsve.core.condition.ConditionalOnClass;
 import lodsve.core.condition.ConditionalOnJndi;
 import lodsve.core.condition.ConditionalOnMissingBean;
 import lodsve.core.condition.ConditionalOnProperty;
-import lodsve.core.configuration.MailProperties;
+import lodsve.core.configuration.properties.MailProperties;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
