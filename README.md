@@ -10,36 +10,40 @@
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework?ref=badge_shield)
 
 ## lodsve-framework
-My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web development.
+
+My development tools, it encapsulates some open source projects, and better facilitate the conduct of Java Web
+development.
 
 ## What is `lodsve`
+
 `lodsve` is the short of `Let our development of Spring very easy!`.
 
 ## Simple Introduction
+
 1. Base on some open source framework. It encapsulates some classes and methods to make more convenient for developers.
 2. It consists of the following modules:
 
-    | Module | Description |
-    | :--- | :--- |
-    | lodsve-3rd | Customized third-party packages |
-    | lodsve-cache | Cache management for ehcache/memcache/oscache/redis/... |
-    | lodsve-core | Basic and core package |
-    | lodsve-dependencies | Lodsve Dependencies Management |
-    | lodsve-filesystem | Manage oss/aws s3/... |
-    | lodsve-framework-bom | Lodsve Framework (Bill of Materials) |
-    | lodsve-mongodb | Connect to MongoDB |
-    | lodsve-mybatis | Mybatis component(mybatis common DAO/type handler) |
-    | lodsve-rabbitmq | RabbitMQ component |
-    | lodsve-rdbms | DataSource for RDBMS |
-    | lodsve-redis | Redis component |
-    | lodsve-rocketmq | RocketMQ component |
-    | lodsve-scripts | Script language support |
-    | lodsve-search | Search component(solr/lucene) |
-    | lodsve-security | Authentication and certification For Spring MVC |
-    | lodsve-test | Spring unit test expand(mock and db unit test) |
-    | lodsve-validate | Validate engine via Spring AOP |
-    | lodsve-web | Spring MVC expand(include swagger) |
-    | lodsve-wechat | WeChat SDK |
+   | Module | Description |
+                | :--- | :--- |
+   | lodsve-3rd | Customized third-party packages |
+   | lodsve-cache | Cache management for ehcache/memcache/oscache/redis/... |
+   | lodsve-core | Basic and core package |
+   | lodsve-dependencies | Lodsve Dependencies Management |
+   | lodsve-filesystem | Manage oss/aws s3/... |
+   | lodsve-framework-bom | Lodsve Framework (Bill of Materials) |
+   | lodsve-mongodb | Connect to MongoDB |
+   | lodsve-mybatis | Mybatis component(mybatis common DAO/type handler) |
+   | lodsve-rabbitmq | RabbitMQ component |
+   | lodsve-rdbms | DataSource for RDBMS |
+   | lodsve-redis | Redis component |
+   | lodsve-rocketmq | RocketMQ component |
+   | lodsve-scripts | Script language support |
+   | lodsve-search | Search component(solr/lucene) |
+   | lodsve-security | Authentication and certification For Spring MVC |
+   | lodsve-test | Spring unit test expand(mock and db unit test) |
+   | lodsve-validate | Validate engine via Spring AOP |
+   | lodsve-web | Spring MVC expand(include swagger) |
+   | lodsve-wechat | WeChat SDK |
 
 ## How To Use
 
@@ -52,6 +56,7 @@ My development tools, it encapsulates some open source projects, and better faci
     </dependency>
 
 ## About release
+
 Version No. like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
 
 - `MAJOR` version when I make incompatible API changes,
@@ -62,22 +67,27 @@ Version No. like `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
 - `BETA` means just for testing.
 
 ## Newest version
+
 Now the newest and stable version is `2.7.6-RELEASE`.
 
 You can also find the newest version in maven central: `http://repo1.maven.org/maven2/com/lodsve/lodsve-framework/`.
 
 ## Documentation
+
 See the current [reference docs][].
 
 See the master branch [Api Docs][].
 
 ## Check out sources
+
 `git clone git@github.com:lodsve/lodsve-framework.git`
 
 ## Check out the configurations
+
 `cd lodsve-core/src/main/resources/META-INF/config-template`
 
 ## Import sources into your IDE
+
 Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
 > **Note:** Per the prerequisites above, ensure that you have `JDK 8` and `Maven 3.3.X` and `Lombok Plugin` configured properly in your IDE.
 
@@ -97,26 +107,37 @@ Run command `mvn idea:idea` or `mvn eclipse:eclipse` in the root folder.
     - Lombok plugin
 
 ## Change History
+
 [CHANGELOG][]
 
 ## Contact me
+
 1. Email: sunhao.java@gmail.com
 2. QQ: [867885140][]
 3. Blog: [Blog][] [OSChina][]
 
 ## License
-The `Lodsve Framework` is released under version 3.0 of the [GNU General Public License][].
+
+The `Lodsve Framework` is released under version 2.0 of the [Apache License][].
 
 ## Thanks
+
 The `Lodsve Framework` was created using awesome [JetBrains IDEA][].
 
 ![LOGO](.github/JetBrains.png "JetBrains")
 
-[GNU GENERAL PUBLIC LICENSE]: https://opensource.org/licenses/GPL-3.0
+[Apache License]: http://www.apache.org/licenses/LICENSE-2.0
+
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
+
 [Blog]: https://www.crazy-coder.cn
+
 [OSChina]: https://my.oschina.net/sunhaojava
+
 [867885140]: http://wpa.qq.com/msgrd?v=3&uin=867885140&site=qq&menu=yes
+
 [reference docs]: https://helps.lodsve.com/
+
 [Api Docs]: https://apidoc.gitee.com/lodsve/lodsve-framework/
+
 [JetBrains IDEA]: https://www.jetbrains.com/?from=lodsve-framework

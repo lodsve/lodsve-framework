@@ -10,36 +10,39 @@
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Flodsve%2Flodsve-framework?ref=badge_shield)
 
 ## lodsve-framework
+
 我的开发工具，它封装了一些开源项目，并更好地促进了Java Web开发的进行。
 
 ## 什么是`lodsve`
+
 `lodsve` 是 `Let our development of Spring very easy!` 这句话的首字母缩写.
 
 ## 简单的介绍
+
 1. 基于一些开源框架。 它封装了一些类和方法，以使开发人员更加方便。
 2. 包含了以下的模块：
 
-    | 模块 | 描述 |
-    | :--- | :--- |
-    | lodsve-3rd | 自定义的第三方依赖 |
-    | lodsve-cache | 缓存模块，基于ehcache/memcache/oscache/redis等实现 |
-    | lodsve-core | 基础核心包 |
-    | lodsve-dependencies | 依赖及其版本号的维护 |
-    | lodsve-filesystem | 文件上传、下载等，支持阿里云OSS和亚马逊云S3 |
-    | lodsve-framework-bom | Lodsve Framework 的组件清单 |
-    | lodsve-mongodb | 连接 MongoDB 的组件 |
-    | lodsve-mybatis | 扩展mybatis(mybatis 通用DAO/类型处理等) |
-    | lodsve-rabbitmq | 连接 RabbitMQ 的组件 |
-    | lodsve-rdbms | 关系型数据库数据源 |
-    | lodsve-redis | 连接 Redis 的组件 |
-    | lodsve-rocketmq | 连接 RocketMQ 的组件 |
-    | lodsve-scripts | 脚本语言的支持 |
-    | lodsve-search | 全文检索组件(支持solr/lucene) |
-    | lodsve-security | 基于Spring MVC的简单认证、鉴权组件 |
-    | lodsve-test | 对Spring-Test单元测试的简单扩展(mock and db unit test) |
-    | lodsve-validate | 基于Spring AOP的入参校验组件 |
-    | lodsve-web | Spring MVC 扩展(支持 swagger) |
-    | lodsve-wechat | 微信SDK封装 |
+   | 模块 | 描述 |
+             | :--- | :--- |
+   | lodsve-3rd | 自定义的第三方依赖 |
+   | lodsve-cache | 缓存模块，基于ehcache/memcache/oscache/redis等实现 |
+   | lodsve-core | 基础核心包 |
+   | lodsve-dependencies | 依赖及其版本号的维护 |
+   | lodsve-filesystem | 文件上传、下载等，支持阿里云OSS和亚马逊云S3 |
+   | lodsve-framework-bom | Lodsve Framework 的组件清单 |
+   | lodsve-mongodb | 连接 MongoDB 的组件 |
+   | lodsve-mybatis | 扩展mybatis(mybatis 通用DAO/类型处理等) |
+   | lodsve-rabbitmq | 连接 RabbitMQ 的组件 |
+   | lodsve-rdbms | 关系型数据库数据源 |
+   | lodsve-redis | 连接 Redis 的组件 |
+   | lodsve-rocketmq | 连接 RocketMQ 的组件 |
+   | lodsve-scripts | 脚本语言的支持 |
+   | lodsve-search | 全文检索组件(支持solr/lucene) |
+   | lodsve-security | 基于Spring MVC的简单认证、鉴权组件 |
+   | lodsve-test | 对Spring-Test单元测试的简单扩展(mock and db unit test) |
+   | lodsve-validate | 基于Spring AOP的入参校验组件 |
+   | lodsve-web | Spring MVC 扩展(支持 swagger) |
+   | lodsve-wechat | 微信SDK封装 |
 
 ## 如何去使用
 
@@ -52,6 +55,7 @@
     </dependency>
 
 ## 关于发版
+
 版本号格式： `MAJOR.MINOR.PATCH-RELEASE/ALPHA/BETA`.
 
 - `MAJOR`：当做了一些不向后兼容的修改时的版本
@@ -62,22 +66,27 @@
 - `BETA` 意味着仅用于测试。
 
 ## 最新版本号
+
 现在的最新版本号是： `2.7.6-RELEASE`。
 
 您还可以在Maven Central中找到最新版本：`http://repo1.maven.org/maven2/com/lodsve/lodsve-framework/` 。
 
 ## 文档
+
 查看使用文档 [reference docs][].
 
 查看master分支的API文档 [Api Docs][].
 
 ## 检出源码
+
 `git clone git@github.com:lodsve/lodsve-framework.git`
 
 ## 查看配置文件模板
+
 `cd lodsve-core/src/main/resources/META-INF/config-template`
 
 ## 导入到您的IDE中
+
 在项目根目录运行命令 `mvn idea:idea` 或者 `mvn eclipse:eclipse` 。
 > **注意:** 根据上述先决条件，确保已在IDE中正确配置了 `JDK 8`，`Maven 3.3.X` 和 `Lombok插件` 。
 
@@ -97,26 +106,37 @@
     - Lombok plugin
 
 ## 更新历史记录
+
 [CHANGELOG][]
 
 ## 联系我
+
 1. Email: sunhao.java@gmail.com
 2. QQ: [867885140][]
 3. Blog: [Blog][] [OSChina][]
 
 ## License
-`Lodsve Framework` 是在 [GNU General Public License][] 的3.0版下发布的。
+
+`Lodsve Framework` 是在 [Apache License][] 的2.0版本下发布的。
 
 ## 鸣谢
+
 `Lodsve Framework` 是基于[JetBrains IDEA][]创建的。
 
 ![LOGO](.github/JetBrains.png "JetBrains")
 
-[GNU GENERAL PUBLIC LICENSE]: https://opensource.org/licenses/GPL-3.0
+[Apache License]: http://www.apache.org/licenses/LICENSE-2.0
+
 [CHANGELOG]: https://github.com/lodsve/lodsve-framework/blob/master/CHANGELOG.md
+
 [Blog]: https://www.crazy-coder.cn
+
 [OSChina]: https://my.oschina.net/sunhaojava
+
 [867885140]: http://wpa.qq.com/msgrd?v=3&uin=867885140&site=qq&menu=yes
+
 [reference docs]: https://helps.lodsve.com/
+
 [Api Docs]: https://apidoc.gitee.com/lodsve/lodsve-framework/
+
 [JetBrains IDEA]: https://www.jetbrains.com/?from=lodsve-framework
