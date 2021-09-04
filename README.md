@@ -24,7 +24,7 @@ development.
 2. It consists of the following modules:
 
    | Module | Description |
-                | :--- | :--- |
+      | :--- | :--- |
    | lodsve-3rd | Customized third-party packages |
    | lodsve-cache | Cache management for ehcache/memcache/oscache/redis/... |
    | lodsve-core | Basic and core package |

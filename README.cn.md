@@ -23,7 +23,7 @@
 2. 包含了以下的模块：
 
    | 模块 | 描述 |
-             | :--- | :--- |
+      | :--- | :--- |
    | lodsve-3rd | 自定义的第三方依赖 |
    | lodsve-cache | 缓存模块，基于ehcache/memcache/oscache/redis等实现 |
    | lodsve-core | 基础核心包 |
